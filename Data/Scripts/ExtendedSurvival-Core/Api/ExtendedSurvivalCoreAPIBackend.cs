@@ -83,6 +83,42 @@ namespace ExtendedSurvival
 
         }
 
+        [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
+        public class ItemInfo
+        {
+
+            [ProtoMember(1)]
+            public uint ItemId { get; set; }
+
+            [ProtoMember(2)]
+            public ItemExtraInfo ExtraInfo { get; set; }
+
+        }
+
+        [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
+        public class PlanetInfo
+        {
+
+            [ProtoMember(1)]
+            public long EntityId { get; set; }
+
+            [ProtoMember(2)]
+            public bool HasSubtypeName { get; set; }
+
+            [ProtoMember(3)]
+            public string SubtypeName { get; set; }
+
+            [ProtoMember(4)]
+            public string SettingId { get; set; }
+            
+            [ProtoMember(5)]
+            public Vector3D Center { get; set; }
+
+            [ProtoMember(6)]
+            public bool HasWater { get; set; }
+
+        }
+
         public const int MinVersion = 1;
         public const ushort ModHandlerID = 33275;
 
@@ -93,7 +129,13 @@ namespace ExtendedSurvival
             ["AddItemCategory"] = new Action<string>(AddItemCategory),
             ["AddDefinitionToCategory"] = new Action<MyDefinitionId, string>(AddDefinitionToCategory),
             ["AddItemExtraInfo"] = new Action<string>(AddItemExtraInfo),
-            ["AddGasSpoilInfo"] = new Action<string, float, float, Func<Guid, bool>>(AddGasSpoilInfo)
+            ["AddGasSpoilInfo"] = new Action<string, float, float, Func<Guid, bool>>(AddGasSpoilInfo),
+            ["HasItemInObserver"] = new Func<Guid, MyDefinitionId, bool>(HasItemInObserver),
+            ["GetItemAmmountInObserver"] = new Func<Guid, MyDefinitionId, float>(GetItemAmmountInObserver),
+            ["DisposeInventoryObserver"] = new Action<Guid>(DisposeInventoryObserver),
+            ["GetPlanetAtRange"] = new Func<Vector3D, string>(GetPlanetAtRange),
+            ["GetTemperatureInPoint"] = new Func<long, Vector3D, Vector2?>(GetTemperatureInPoint),
+            ["GetItemInfoByGasId"] = new Func<Guid, MyDefinitionId, string>(GetItemInfoByGasId)
         };
 
         public static void BeforeStart()
@@ -145,7 +187,7 @@ namespace ExtendedSurvival
                 }
                 catch (Exception e)
                 {
-                    MyLog.Default.WriteLine("NanobotAPI: " + e);
+                    MyLog.Default.WriteLine("Extended Survival Core API: " + e);
                 }
             }
         }
@@ -153,6 +195,81 @@ namespace ExtendedSurvival
         public static void AddGasSpoilInfo(string gasSubtypeId, float cicleTime, float decayFactor, Func<Guid, bool> checkDelegate)
         {
             MyInventoryObserverProgressController.AddGasSpoilInfo(gasSubtypeId, cicleTime, decayFactor, checkDelegate);
+        }
+
+        public static void DisposeInventoryObserver(Guid observerId)
+        {
+            var observer = MyInventoryObserverProgressController.GetById(observerId.ToUInt128());
+            if (observer != null)
+                observer.Dispose();
+        }
+
+        public static bool HasItemInObserver(Guid observerId, MyDefinitionId itemId)
+        {
+            var observer = MyInventoryObserverProgressController.GetById(observerId.ToUInt128());
+            if (observer != null)
+            {
+                return observer.HasItem(new UniqueEntityId(itemId));
+            }
+            return false;
+        }
+
+        public static float GetItemAmmountInObserver(Guid observerId, MyDefinitionId itemId)
+        {
+            var observer = MyInventoryObserverProgressController.GetById(observerId.ToUInt128());
+            if (observer != null)
+            {
+                return (float)observer.Inventory.GetItemAmount(itemId);
+            }
+            return 0;
+        }
+
+        public static string GetPlanetAtRange(Vector3D position)
+        {
+            var planet = ExtendedSurvivalEntityManager.GetPlanetAtRange(position);
+            if (planet != null)
+            {
+                var planetData = new PlanetInfo()
+                {
+                    EntityId = planet.Entity.EntityId,
+                    Center = planet.Center(),
+                    HasSubtypeName = planet.HasSubtypeName,
+                    SubtypeName = planet.SubtypeName,
+                    HasWater = planet.HasWater(),
+                    SettingId = planet.Setting?.Id
+                };
+                string messageToSend = MyAPIGateway.Utilities.SerializeToXML<PlanetInfo>(planetData);
+                return messageToSend;
+            }
+            return null;
+        }
+
+        public static Vector2? GetTemperatureInPoint(long planetId, Vector3D position)
+        {
+            var planet = ExtendedSurvivalEntityManager.GetPlanetById(planetId);
+            if (planet != null)
+            {
+                float finalTemperature = 0;
+                float temperatureFactor = planet.GetTemperatureInPoint(position, out finalTemperature);
+                return new Vector2(temperatureFactor, finalTemperature);
+            }
+            return null;
+        }
+
+        public static string GetItemInfoByGasId(Guid observerId, MyDefinitionId gasId)
+        {
+            var observer = MyInventoryObserverProgressController.GetById(observerId.ToUInt128());
+            if (observer != null)
+            {
+                var data = observer.GetExtraInfoByGasId(new UniqueEntityId(gasId));
+                if (data != null && data.Any())
+                {
+                    var dataToSend = data.Select(x => new ItemInfo() { ItemId = x.ItemId, ExtraInfo = x.ExtraInfoDefinition }).ToArray();
+                    string messageToSend = MyAPIGateway.Utilities.SerializeToXML<ItemInfo[]>(dataToSend);
+                    return messageToSend;
+                }
+            }
+            return null;
         }
 
     }

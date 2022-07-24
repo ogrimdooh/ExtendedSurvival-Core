@@ -1,4 +1,5 @@
 ﻿using ProtoBuf;
+using Sandbox.Game.Entities;
 using Sandbox.ModAPI;
 using System;
 using System.Collections.Generic;
@@ -81,6 +82,53 @@ namespace ExtendedSurvival
 
         }
 
+        [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
+        public class ItemInfo
+        {
+
+            [ProtoMember(1)]
+            public uint ItemId { get; set; }
+
+            [ProtoMember(2)]
+            public ItemExtraInfo ExtraInfo { get; set; }
+
+        }
+
+        [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
+        public class PlanetInfo
+        {
+
+            [ProtoMember(1)]
+            public long EntityId { get; set; }
+
+            [ProtoMember(2)]
+            public bool HasSubtypeName { get; set; }
+
+            [ProtoMember(3)]
+            public string SubtypeName { get; set; }
+
+            [ProtoMember(4)]
+            public string SettingId { get; set; }
+
+            [ProtoMember(5)]
+            public Vector3D Center { get; set; }
+
+            [ProtoMember(6)]
+            public bool HasWater { get; set; }
+
+            private MyPlanet entity;
+            public MyPlanet Entity 
+            { 
+                get
+                {
+                    if (entity == null)
+                        entity = MyAPIGateway.Entities.GetEntityById(EntityId) as MyPlanet;
+                    return entity;
+                }
+            }
+
+        }
+
         private static ExtendedSurvivalCoreAPI instance;
 
         public static string ModName = "";
@@ -93,10 +141,16 @@ namespace ExtendedSurvival
 
         private static Func<int, string, bool> _VerifyVersion;
         private static Func<IMyEntity, int, Guid> _AddInventoryObserver;
+        private static Action<Guid> _DisposeInventoryObserver;
         private static Action<string> _AddItemCategory;
         private static Action<MyDefinitionId, string> _AddDefinitionToCategory;
         private static Action<string> _AddItemExtraInfo;
         private static Action<string, float, float, Func<Guid, bool>> _AddGasSpoilInfo;
+        private static Func<Guid, MyDefinitionId, bool> _HasItemInObserver;
+        private static Func<Guid, MyDefinitionId, float> _GetItemAmmountInObserver;
+        private static Func<Vector3D, string> _GetPlanetAtRange;
+        private static Func<long, Vector3D, Vector2?> _GetTemperatureInPoint;
+        private static Func<Guid, MyDefinitionId, string> _GetItemInfoByGasId;
 
         /// <summary>
         /// Returns true if the version is compatibile with the API Backend, this is automatically called
@@ -147,6 +201,83 @@ namespace ExtendedSurvival
         public static void AddGasSpoilInfo(string gasSubtypeId, float cicleTime, float decayFactor, Func<Guid, bool> checkDelegate)
         {
             _AddGasSpoilInfo.Invoke(gasSubtypeId, cicleTime, decayFactor, checkDelegate);
+        }
+
+        /// <summary>
+        /// Check if exist a item in the observer
+        /// </summary>
+        public static bool HasItemInObserver(Guid observerId, MyDefinitionId itemId)
+        {
+            var exits = _HasItemInObserver?.Invoke(observerId, itemId);
+            return exits.HasValue ? exits.Value : false;
+        }
+
+        /// <summary>
+        /// Get de ammount of item type in the observer
+        /// </summary>
+        public static float GetItemAmmountInObserver(Guid observerId, MyDefinitionId itemId)
+        {
+            var ammount = _GetItemAmmountInObserver?.Invoke(observerId, itemId);
+            return ammount.HasValue ? ammount.Value : 0;
+        }
+
+        /// <summary>
+        /// Destroy the observer with id informed
+        /// </summary>
+        public static void DisposeInventoryObserver(Guid observerId)
+        {
+            _DisposeInventoryObserver?.Invoke(observerId);
+        }
+
+        /// <summary>
+        /// Get information of closest planet of a position
+        /// </summary>
+        public static PlanetInfo GetPlanetAtRange(Vector3D position)
+        {
+            var data = _GetPlanetAtRange?.Invoke(position);
+            if (!string.IsNullOrEmpty(data))
+            {
+                try
+                {
+                    var planetInfo = MyAPIGateway.Utilities.SerializeFromXML<PlanetInfo>(data);
+                    return planetInfo;
+                }
+                catch (Exception e)
+                {
+                    MyLog.Default.WriteLine("Extended Survival Core API: " + e);
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Get the temperature at position
+        /// </summary>
+        public static Vector2? GetTemperatureInPoint(long planetId, Vector3D position)
+        {
+            var temperature = _GetTemperatureInPoint?.Invoke(planetId, position);
+            return temperature;
+        }
+
+        /// <summary>
+        /// Get a list of itens based in gas Id
+        /// </summary>
+        public static ItemInfo[] GetItemInfoByGasId(Guid observerId, MyDefinitionId gasId)
+        {
+            var data = _GetItemInfoByGasId?.Invoke(observerId, gasId);
+            if (!string.IsNullOrEmpty(data))
+            {
+                try
+                {
+                    var itemInfo = MyAPIGateway.Utilities.SerializeFromXML<ItemInfo[]>(data);
+                    return itemInfo;
+                }
+                catch (Exception e)
+                {
+                    MyLog.Default.WriteLine("Extended Survival Core API: " + e);
+                }
+            }
+            return null;
         }
 
         /// <summary>
@@ -220,6 +351,12 @@ namespace ExtendedSurvival
                         _AddDefinitionToCategory = (Action<MyDefinitionId, string>)ModAPIMethods["AddDefinitionToCategory"];
                         _AddItemExtraInfo = (Action<string>)ModAPIMethods["AddItemExtraInfo"];
                         _AddGasSpoilInfo = (Action<string, float, float, Func<Guid, bool>>)ModAPIMethods["AddGasSpoilInfo"];
+                        _HasItemInObserver = (Func<Guid, MyDefinitionId, bool>)ModAPIMethods["HasItemInObserver"];
+                        _GetItemAmmountInObserver = (Func<Guid, MyDefinitionId, float>)ModAPIMethods["GetItemAmmountInObserver"];
+                        _DisposeInventoryObserver = (Action<Guid>)ModAPIMethods["DisposeInventoryObserver"];
+                        _GetPlanetAtRange = (Func<Vector3D, string>)ModAPIMethods["GetPlanetAtRange"];
+                        _GetTemperatureInPoint = (Func<long, Vector3D, Vector2?>)ModAPIMethods["GetTemperatureInPoint"];
+                        _GetItemInfoByGasId = (Func<Guid, MyDefinitionId, string>)ModAPIMethods["GetItemInfoByGasId"];
 
                         if (m_onRegisteredAction != null)
                             m_onRegisteredAction();

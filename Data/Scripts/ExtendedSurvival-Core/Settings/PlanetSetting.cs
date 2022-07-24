@@ -1,0 +1,51 @@
+﻿using ProtoBuf;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Serialization;
+using VRage.Game;
+
+namespace ExtendedSurvival
+{
+
+    [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
+    public class PlanetSetting
+    {
+
+        [XmlElement]
+        public string Id { get; set; }
+
+        [XmlElement]
+        public int Seed { get; set; }
+
+        [XmlElement]
+        public int Version { get; set; } = 0;
+
+        [XmlElement]
+        public float Multiplier { get; set; } = 1.0f;
+
+        [XmlElement]
+        public AtmosphereSetting Atmosphere { get; set; } = new AtmosphereSetting();
+
+        [XmlElement]
+        public GeothermalSetting Geothermal { get; set; } = new GeothermalSetting();
+
+        [XmlElement]
+        public GravitySetting Gravity { get; set; } = new GravitySetting();
+
+        [XmlElement]
+        public WaterSetting Water { get; set; } = new WaterSetting();
+
+        [XmlElement]
+        public PlanetAnimalSetting Animal { get; set; } = new PlanetAnimalSetting();
+
+        [XmlArray("OreMap"), XmlArrayItem("Ore", typeof(PlanetOreMapEntrySetting))]
+        public List<PlanetOreMapEntrySetting> OreMap { get; set; } = new List<PlanetOreMapEntrySetting>();
+
+        public MyPlanetOreMapping[] GetOreMap()
+        {
+            return OreMap.Select(x => x.GetDefinition()).ToArray();
+        }
+
+    }
+
+}

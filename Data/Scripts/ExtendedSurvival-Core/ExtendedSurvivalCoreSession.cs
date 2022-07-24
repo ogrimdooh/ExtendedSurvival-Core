@@ -14,6 +14,7 @@ namespace ExtendedSurvival
         public HudAPIv2 TextAPI;
 
         public const ushort NETWORK_ID_DEFINITIONS = 40424;
+        public const ushort NETWORK_ID_ENTITYCALLS = 40425;
         public const string CALL_FOR_DEFS = "NEEDDEFS";
 
         protected override void DoInit(MyObjectBuilder_SessionComponent sessionComponent)
