@@ -12,6 +12,7 @@ using Sandbox.Game;
 using VRage.ObjectBuilders;
 using System.Linq;
 using VRage.Utils;
+using VRage.Game.ModAPI;
 
 namespace ExtendedSurvival
 {
@@ -194,14 +195,20 @@ namespace ExtendedSurvival
             ["AddItemExtraInfo"] = new Action<string>(AddItemExtraInfo),
             ["AddGasSpoilInfo"] = new Action<string, float, float, Func<Guid, bool>>(AddGasSpoilInfo),
             ["HasItemInObserver"] = new Func<Guid, MyDefinitionId, bool>(HasItemInObserver),
+            ["HasItemOfCategoryInObserver"] = new Func<Guid, string, bool>(HasItemOfCategoryInObserver),
             ["GetItemAmmountInObserver"] = new Func<Guid, MyDefinitionId, float>(GetItemAmmountInObserver),
             ["DisposeInventoryObserver"] = new Action<Guid>(DisposeInventoryObserver),
             ["GetPlanetAtRange"] = new Func<Vector3D, string>(GetPlanetAtRange),
             ["GetTemperatureInPoint"] = new Func<long, Vector3D, Vector2?>(GetTemperatureInPoint),
             ["GetItemInfoByGasId"] = new Func<Guid, MyDefinitionId, string>(GetItemInfoByGasId),
+            ["GetItemInfoByItemId"] = new Func<Guid, uint, string>(GetItemInfoByItemId),
+            ["GetItemInfoByItemType"] = new Func<Guid, MyDefinitionId, string>(GetItemInfoByItemType),
+            ["GetItemInfoByCategory"] = new Func<Guid, string, string>(GetItemInfoByCategory),
             ["AddTreeDropLoot"] = new Action<string>(AddTreeDropLoot),
             ["GetHandheldGunInfo"] = new Func<long, string>(GetHandheldGunInfo),
-            ["SetInventoryObserverSpoilStatus"] = new Action<Guid, bool>(SetInventoryObserverSpoilStatus)
+            ["SetInventoryObserverSpoilStatus"] = new Action<Guid, bool, bool, float>(SetInventoryObserverSpoilStatus),
+            ["GetUnderwaterCollectors"] = new Func<long, IMySlimBlock[]>(GetUnderwaterCollectors),
+            ["RegisterInventoryObserverUpdateCallback"] = new Action<Guid, Action<Guid, MyInventory, IMyEntity, TimeSpan>>(RegisterInventoryObserverUpdateCallback)
         };
 
         public static void BeforeStart()
@@ -286,6 +293,25 @@ namespace ExtendedSurvival
                 observer.Dispose();
         }
 
+        public static void RegisterInventoryObserverUpdateCallback(Guid observerId, Action<Guid, MyInventory, IMyEntity, TimeSpan> callback)
+        {
+            var observer = MyInventoryObserverProgressController.GetById(observerId.ToUInt128());
+            if (observer != null)
+            {
+                observer.OnAfterUpdate += callback;
+            }
+        }
+
+        public static bool HasItemOfCategoryInObserver(Guid observerId, string category)
+        {
+            var observer = MyInventoryObserverProgressController.GetById(observerId.ToUInt128());
+            if (observer != null)
+            {
+                return observer.HasItemOfCategory(category);
+            }
+            return false;
+        }
+
         public static bool HasItemInObserver(Guid observerId, MyDefinitionId itemId)
         {
             var observer = MyInventoryObserverProgressController.GetById(observerId.ToUInt128());
@@ -354,6 +380,54 @@ namespace ExtendedSurvival
             return null;
         }
 
+        public static string GetItemInfoByItemId(Guid observerId, uint itemId)
+        {
+            var observer = MyInventoryObserverProgressController.GetById(observerId.ToUInt128());
+            if (observer != null)
+            {
+                var data = observer.GetExtraInfo(itemId);
+                if (data != null)
+                {
+                    var dataToSend = new ItemInfo() { ItemId = itemId, ExtraInfo = data.ExtraInfoDefinition };
+                    string messageToSend = MyAPIGateway.Utilities.SerializeToXML<ItemInfo>(dataToSend);
+                    return messageToSend;
+                }
+            }
+            return null;
+        }
+
+        public static string GetItemInfoByItemType(Guid observerId, MyDefinitionId itemType)
+        {
+            var observer = MyInventoryObserverProgressController.GetById(observerId.ToUInt128());
+            if (observer != null)
+            {
+                var data = observer.GetAllExtraInfoByItemType(new UniqueEntityId(itemType));
+                if (data != null && data.Any())
+                {
+                    var dataToSend = data.Select(x => new ItemInfo() { ItemId = x.ItemId, ExtraInfo = x.ExtraInfoDefinition }).ToArray();
+                    string messageToSend = MyAPIGateway.Utilities.SerializeToXML<ItemInfo[]>(dataToSend);
+                    return messageToSend;
+                }
+            }
+            return null;
+        }
+
+        public static string GetItemInfoByCategory(Guid observerId, string category)
+        {
+            var observer = MyInventoryObserverProgressController.GetById(observerId.ToUInt128());
+            if (observer != null)
+            {
+                var data = observer.GetExtraInfoByCategory(category);
+                if (data != null && data.Any())
+                {
+                    var dataToSend = data.Select(x => new ItemInfo() { ItemId = x.ItemId, ExtraInfo = x.ExtraInfoDefinition }).ToArray();
+                    string messageToSend = MyAPIGateway.Utilities.SerializeToXML<ItemInfo[]>(dataToSend);
+                    return messageToSend;
+                }
+            }
+            return null;
+        }
+
         public static string GetHandheldGunInfo(long id)
         {
             var gun = ExtendedSurvivalEntityManager.Instance.GetHandheldGun(id);
@@ -366,13 +440,23 @@ namespace ExtendedSurvival
             return null;
         }
 
-        public static void SetInventoryObserverSpoilStatus(Guid observerId, bool status)
+        public static void SetInventoryObserverSpoilStatus(Guid observerId, bool enabled, bool force, float multiplier)
         {
             var observer = MyInventoryObserverProgressController.GetById(observerId.ToUInt128());
             if (observer != null)
             {
-                observer.SpoilEnabled = status;
+                observer.SpoilEnabled = enabled;
+                observer.ForceSpoil = force;
+                observer.SpoilMultiplier = multiplier;
             }
+        }
+
+        public static IMySlimBlock[] GetUnderwaterCollectors(long gridId)
+        {
+            var grid = ExtendedSurvivalEntityManager.Instance.GetGridByUuid(gridId);
+            if (grid != null)
+                return grid.UnderwaterCollectors;
+            return null;
         }
 
     }

@@ -29,6 +29,8 @@ namespace ExtendedSurvival
 
         private readonly ConcurrentDictionary<uint, MyItemExtraInfo> inventoryExtraInfo = new ConcurrentDictionary<uint, MyItemExtraInfo>();
 
+        public event Action<Guid, MyInventory, IMyEntity, TimeSpan> OnAfterUpdate;
+
         private UInt128 _observerId;
         public UInt128 ObserverId
         {
@@ -52,6 +54,11 @@ namespace ExtendedSurvival
             return Inventory.GetItemAmount(id.DefinitionId) > 0;
         }
 
+        public bool HasItemOfCategory(string category)
+        {
+            return inventoryExtraInfo.Any(x => x.Value.Categories.Contains(category));
+        }
+
         public MyItemExtraInfo GetExtraInfoByItemType(UniqueEntityId entityId)
         {
             if (inventoryExtraInfo.Any(x => x.Value.DefinitionId == entityId))
@@ -70,6 +77,13 @@ namespace ExtendedSurvival
         {
             if (inventoryExtraInfo.Any(x => x.Value.DefinitionId.typeId == typeId))
                 return inventoryExtraInfo.Where(x => x.Value.DefinitionId.typeId == typeId && (subtype == null || x.Value.DefinitionId.subtypeId.ToString().Contains(subtype))).Select(x => x.Value).ToArray();
+            return null;
+        }
+
+        public MyItemExtraInfo[] GetExtraInfoByCategory(string category)
+        {
+            if (inventoryExtraInfo.Any(x => x.Value.Categories.Contains(category)))
+                return inventoryExtraInfo.Where(x => x.Value.Categories.Contains(category)).Select(x => x.Value).ToArray();
             return null;
         }
 
@@ -210,7 +224,7 @@ namespace ExtendedSurvival
 
         protected virtual void OnAfterUpdate100(TimeSpan spendTime)
         {
-
+            OnAfterUpdate?.Invoke(ObserverId.ToGuid(), Inventory, OwnerEntity, spendTime);
         }
 
         public void Dispose()

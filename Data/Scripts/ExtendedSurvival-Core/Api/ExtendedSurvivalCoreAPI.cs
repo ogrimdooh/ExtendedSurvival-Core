@@ -1,4 +1,5 @@
 ﻿using ProtoBuf;
+using Sandbox.Game;
 using Sandbox.Game.Entities;
 using Sandbox.ModAPI;
 using System;
@@ -7,6 +8,7 @@ using System.Linq;
 using VRage;
 using VRage.Game;
 using VRage.Game.Components;
+using VRage.Game.ModAPI;
 using VRage.ModAPI;
 using VRage.ObjectBuilders;
 using VRage.Utils;
@@ -210,13 +212,19 @@ namespace ExtendedSurvival
         private static Action<string> _AddItemExtraInfo;
         private static Action<string, float, float, Func<Guid, bool>> _AddGasSpoilInfo;
         private static Func<Guid, MyDefinitionId, bool> _HasItemInObserver;
+        private static Func<Guid, string, bool> _HasItemOfCategoryInObserver;
         private static Func<Guid, MyDefinitionId, float> _GetItemAmmountInObserver;
         private static Func<Vector3D, string> _GetPlanetAtRange;
         private static Func<long, Vector3D, Vector2?> _GetTemperatureInPoint;
         private static Func<Guid, MyDefinitionId, string> _GetItemInfoByGasId;
+        private static Func<Guid, uint, string> _GetItemInfoByItemId;
+        private static Func<Guid, MyDefinitionId, string> _GetItemInfoByItemType;
+        private static Func<Guid, string, string> _GetItemInfoByCategory;
         private static Action<string> _AddTreeDropLoot;
         private static Func<long, string> _GetHandheldGunInfo;
-        private static Action<Guid, bool> _SetInventoryObserverSpoilStatus;
+        private static Action<Guid, bool, bool, float> _SetInventoryObserverSpoilStatus;
+        private static Func<long, IMySlimBlock[]> _GetUnderwaterCollectors;
+        private static Action<Guid, Action<Guid, MyInventory, IMyEntity, TimeSpan>> _RegisterInventoryObserverUpdateCallback;
 
         /// <summary>
         /// Returns true if the version is compatibile with the API Backend, this is automatically called
@@ -275,6 +283,15 @@ namespace ExtendedSurvival
         public static bool HasItemInObserver(Guid observerId, MyDefinitionId itemId)
         {
             var exits = _HasItemInObserver?.Invoke(observerId, itemId);
+            return exits.HasValue ? exits.Value : false;
+        }
+
+        /// <summary>
+        /// Check if exist a item in the observer of the category
+        /// </summary>
+        public static bool HasItemOfCategoryInObserver(Guid observerId, string category)
+        {
+            var exits = _HasItemOfCategoryInObserver?.Invoke(observerId, category);
             return exits.HasValue ? exits.Value : false;
         }
 
@@ -347,6 +364,69 @@ namespace ExtendedSurvival
         }
 
         /// <summary>
+        /// Get a list of itens based in item id
+        /// </summary>
+        public static ItemInfo GetItemInfoByItemId(Guid observerId, uint itemId)
+        {
+            var data = _GetItemInfoByItemId?.Invoke(observerId, itemId);
+            if (!string.IsNullOrEmpty(data))
+            {
+                try
+                {
+                    var itemInfo = MyAPIGateway.Utilities.SerializeFromXML<ItemInfo>(data);
+                    return itemInfo;
+                }
+                catch (Exception e)
+                {
+                    MyLog.Default.WriteLine("Extended Survival Core API: " + e);
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Get a list of itens based in item type Id
+        /// </summary>
+        public static ItemInfo[] GetItemInfoByItemType(Guid observerId, MyDefinitionId itemType)
+        {
+            var data = _GetItemInfoByItemType?.Invoke(observerId, itemType);
+            if (!string.IsNullOrEmpty(data))
+            {
+                try
+                {
+                    var itemInfo = MyAPIGateway.Utilities.SerializeFromXML<ItemInfo[]>(data);
+                    return itemInfo;
+                }
+                catch (Exception e)
+                {
+                    MyLog.Default.WriteLine("Extended Survival Core API: " + e);
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Get a list of itens based in category name
+        /// </summary>
+        public static ItemInfo[] GetItemInfoByCategory(Guid observerId, string category)
+        {
+            var data = _GetItemInfoByCategory?.Invoke(observerId, category);
+            if (!string.IsNullOrEmpty(data))
+            {
+                try
+                {
+                    var itemInfo = MyAPIGateway.Utilities.SerializeFromXML<ItemInfo[]>(data);
+                    return itemInfo;
+                }
+                catch (Exception e)
+                {
+                    MyLog.Default.WriteLine("Extended Survival Core API: " + e);
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Adiciona um tipo de drop para arvores
         /// </summary>
         public static void AddTreeDropLoot(TreeDropLoot treeDrop)
@@ -376,9 +456,28 @@ namespace ExtendedSurvival
             return null;
         }
 
-        public static void SetInventoryObserverSpoilStatus(Guid observerId, bool status)
+        /// <summary>
+        /// set de inventory observer spoil status
+        /// </summary>
+        public static void SetInventoryObserverSpoilStatus(Guid observerId, bool enabled, bool force = false, float multiplier = 1)
         {
-            _SetInventoryObserverSpoilStatus?.Invoke(observerId, status);
+            _SetInventoryObserverSpoilStatus?.Invoke(observerId, enabled, force, multiplier);
+        }
+
+        /// <summary>
+        /// return a list of underwater collector of a grid
+        /// </summary>
+        public static IMySlimBlock[] GetUnderwaterCollectors(long gridId)
+        {
+            return _GetUnderwaterCollectors?.Invoke(gridId);
+        }
+
+        /// <summary>
+        /// Register a callback method to update of a observer
+        /// </summary>
+        public static void RegisterInventoryObserverUpdateCallback(Guid observerId, Action<Guid, MyInventory, IMyEntity, TimeSpan> callback)
+        {
+            _RegisterInventoryObserverUpdateCallback?.Invoke(observerId, callback);
         }
 
         /// <summary>
@@ -453,14 +552,20 @@ namespace ExtendedSurvival
                         _AddItemExtraInfo = (Action<string>)ModAPIMethods["AddItemExtraInfo"];
                         _AddGasSpoilInfo = (Action<string, float, float, Func<Guid, bool>>)ModAPIMethods["AddGasSpoilInfo"];
                         _HasItemInObserver = (Func<Guid, MyDefinitionId, bool>)ModAPIMethods["HasItemInObserver"];
+                        _HasItemOfCategoryInObserver = (Func<Guid, string, bool>)ModAPIMethods["HasItemOfCategoryInObserver"];
                         _GetItemAmmountInObserver = (Func<Guid, MyDefinitionId, float>)ModAPIMethods["GetItemAmmountInObserver"];
                         _DisposeInventoryObserver = (Action<Guid>)ModAPIMethods["DisposeInventoryObserver"];
                         _GetPlanetAtRange = (Func<Vector3D, string>)ModAPIMethods["GetPlanetAtRange"];
                         _GetTemperatureInPoint = (Func<long, Vector3D, Vector2?>)ModAPIMethods["GetTemperatureInPoint"];
                         _GetItemInfoByGasId = (Func<Guid, MyDefinitionId, string>)ModAPIMethods["GetItemInfoByGasId"];
+                        _GetItemInfoByItemId = (Func<Guid, uint, string>)ModAPIMethods["GetItemInfoByItemId"];
+                        _GetItemInfoByItemType = (Func<Guid, MyDefinitionId, string>)ModAPIMethods["GetItemInfoByItemType"];
+                        _GetItemInfoByCategory = (Func<Guid, string, string>)ModAPIMethods["GetItemInfoByCategory"];
                         _AddTreeDropLoot = (Action<string>)ModAPIMethods["AddTreeDropLoot"];
                         _GetHandheldGunInfo = (Func<long, string>)ModAPIMethods["GetHandheldGunInfo"];
-                        _SetInventoryObserverSpoilStatus = (Action<Guid, bool>)ModAPIMethods["SetInventoryObserverSpoilStatus"];
+                        _SetInventoryObserverSpoilStatus = (Action<Guid, bool, bool, float>)ModAPIMethods["SetInventoryObserverSpoilStatus"];
+                        _GetUnderwaterCollectors = (Func<long, IMySlimBlock[]>)ModAPIMethods["GetUnderwaterCollectors"];
+                        _RegisterInventoryObserverUpdateCallback = (Action<Guid, Action<Guid, MyInventory, IMyEntity, TimeSpan>>)ModAPIMethods["RegisterInventoryObserverUpdateCallback"];
 
                         if (m_onRegisteredAction != null)
                             m_onRegisteredAction();
