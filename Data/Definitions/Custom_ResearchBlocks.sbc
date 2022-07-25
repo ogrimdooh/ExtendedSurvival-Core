@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ResearchBlocks>
+
+    <ResearchBlock xsi:type="ResearchBlock">
+      <Id Type="MyObjectBuilder_Assembler" Subtype="BasicAlchemyBench" />
+      <UnlockedByGroups>
+        <GroupSubtype>0</GroupSubtype>
+      </UnlockedByGroups>
+    </ResearchBlock>
+
+    <ResearchBlock xsi:type="ResearchBlock">
+      <Id Type="MyObjectBuilder_Assembler" Subtype="AlchemyBench" />
+      <UnlockedByGroups>
+        <GroupSubtype>12001</GroupSubtype>
+      </UnlockedByGroups>
+    </ResearchBlock>
+
+    <ResearchBlock xsi:type="ResearchBlock">
+      <Id Type="MyObjectBuilder_Assembler" Subtype="AlchemyBenchIndustrial" />
+      <UnlockedByGroups>
+        <GroupSubtype>12001</GroupSubtype>
+      </UnlockedByGroups>
+    </ResearchBlock>
+
+    <ResearchBlock xsi:type="ResearchBlock">
+      <Id Type="MyObjectBuilder_Assembler" Subtype="BasicGrinder" />
+      <UnlockedByGroups>
+        <GroupSubtype>0</GroupSubtype>
+      </UnlockedByGroups>
+    </ResearchBlock>
+
+    <ResearchBlock xsi:type="ResearchBlock">
+      <Id Type="MyObjectBuilder_Assembler" Subtype="Grinder" />
+      <UnlockedByGroups>
+        <GroupSubtype>12003</GroupSubtype>
+      </UnlockedByGroups>
+    </ResearchBlock>
+
+    <ResearchBlock xsi:type="ResearchBlock">
+      <Id Type="MyObjectBuilder_Assembler" Subtype="GrinderIndustrial" />
+      <UnlockedByGroups>
+        <GroupSubtype>12003</GroupSubtype>
+      </UnlockedByGroups>
+    </ResearchBlock>
+
+  </ResearchBlocks>
+</Definitions>

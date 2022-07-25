@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+  <PhysicalItems>
+    
+    <PhysicalItem>
+      <Id>
+        <TypeId>Ore</TypeId>
+        <SubtypeId>Wood</SubtypeId>
+      </Id>
+      <DisplayName>Wood Logs</DisplayName>
+      <Icon>Textures\GUI\Icons\wood.dds</Icon>
+      <Size>
+        <X>0.072</X>
+        <Y>0.072</Y>
+        <Z>0.072</Z>
+      </Size>
+      <Mass>6</Mass>
+      <Volume>12</Volume>
+      <Model>Models\Ingots\stone_ingot.mwm</Model>
+      <PhysicalMaterial>Wood</PhysicalMaterial>
+      <IconSymbol>Wood</IconSymbol>
+      <CanPlayerOrder>true</CanPlayerOrder>
+    </PhysicalItem>
+    
+    <PhysicalItem>
+      <Id>
+        <TypeId>Ore</TypeId>
+        <SubtypeId>Sawdust</SubtypeId>
+      </Id>
+      <DisplayName>Sawdust</DisplayName>
+      <Icon>Textures\GUI\Icons\sawdust.dds</Icon>
+      <Size>
+        <X>0.072</X>
+        <Y>0.072</Y>
+        <Z>0.072</Z>
+      </Size>
+      <Mass>1</Mass>
+      <Volume>0.25</Volume>
+      <Model>Models\Ingots\stone_ingot.mwm</Model>
+      <PhysicalMaterial>Wood</PhysicalMaterial>
+      <IconSymbol>Wood</IconSymbol>
+      <CanPlayerOrder>true</CanPlayerOrder>
+    </PhysicalItem>
+    
+  </PhysicalItems>
+  
+</Definitions>

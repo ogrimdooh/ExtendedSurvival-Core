@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <CategoryClasses>
+    
+    <Category xsi:type="MyObjectBuilder_GuiBlockCategoryDefinition">
+      <Id>
+        <TypeId>GuiBlockCategoryDefinition</TypeId>
+        <SubtypeId/>
+      </Id>
+      <DisplayName>ES Workstations</DisplayName>
+      <Name>ExtendedSurvivalWorkstations</Name>
+      <ItemIds>
+        <string>Assembler/BasicAlchemyBench</string>
+        <string>Assembler/AlchemyBench</string>
+        <string>Assembler/AlchemyBenchIndustrial</string>
+        <string>Assembler/BasicGrinder</string>
+        <string>Assembler/Grinder</string>
+        <string>Assembler/GrinderIndustrial</string>
+      </ItemIds>
+    </Category>
+    
+  </CategoryClasses>
+</Definitions>

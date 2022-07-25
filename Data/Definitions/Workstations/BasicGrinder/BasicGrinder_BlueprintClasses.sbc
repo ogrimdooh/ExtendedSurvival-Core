@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <BlueprintClasses>
+    <Class>
+      <Id>
+        <TypeId>BlueprintClassDefinition</TypeId>
+        <SubtypeId>BasicGrinder_Blueprints</SubtypeId>
+      </Id>
+      <DisplayName>Grinder</DisplayName>
+      <Description></Description>
+      <Icon>Textures\GUI\Icons\buttons\Gears.dds</Icon>
+      <HighlightIcon>Textures\GUI\Icons\buttons\Gears.dds</HighlightIcon>
+      <FocusIcon>Textures\GUI\Icons\buttons\GearsFocus.dds</FocusIcon>
+      <InputConstraintIcon>Textures\GUI\Icons\filter_ingot.dds</InputConstraintIcon>
+    </Class>
+  </BlueprintClasses>
+  <BlueprintClassEntries>
+
+    <Entry Class="BasicGrinder_Blueprints" BlueprintSubtypeId="GravelToSand_Deconstruction" />
+    <Entry Class="BasicGrinder_Blueprints" BlueprintSubtypeId="WoodLogToSawdust_Disassembly" />
+    
+  </BlueprintClassEntries>
+</Definitions>

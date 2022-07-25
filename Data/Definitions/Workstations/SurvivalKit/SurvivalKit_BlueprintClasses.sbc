@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+  <BlueprintClasses>
+
+    <Class>
+      <Id>
+        <TypeId>BlueprintClassDefinition</TypeId>
+        <SubtypeId>SurvivalKit_Refine_Blueprints</SubtypeId>
+      </Id>
+      <DisplayName>Refine Materials</DisplayName>
+      <Description></Description>
+      <Icon>Textures\GUI\Icons\buttons\BaseCrafting.dds</Icon>
+      <HighlightIcon>Textures\GUI\Icons\buttons\BaseCrafting.dds</HighlightIcon>
+      <FocusIcon>Textures\GUI\Icons\buttons\BaseCraftingFocus.dds</FocusIcon>
+      <InputConstraintIcon>Textures\GUI\Icons\filter_ingot.dds</InputConstraintIcon>
+    </Class>
+    <Class>
+      <Id>
+        <TypeId>BlueprintClassDefinition</TypeId>
+        <SubtypeId>SurvivalKit_Bottles_Blueprints</SubtypeId>
+      </Id>
+      <DisplayName>Basic Bottles</DisplayName>
+      <Description></Description>
+      <Icon>Textures\GUI\Icons\buttons\Bottles.dds</Icon>
+      <HighlightIcon>Textures\GUI\Icons\buttons\Bottles.dds</HighlightIcon>
+      <FocusIcon>Textures\GUI\Icons\buttons\BottlesFocus.dds</FocusIcon>
+      <InputConstraintIcon>Textures\GUI\Icons\filter_ingot.dds</InputConstraintIcon>
+    </Class>
+    <Class>
+      <Id>
+        <TypeId>BlueprintClassDefinition</TypeId>
+        <SubtypeId>SurvivalKit_Alchemy_Blueprints</SubtypeId>
+      </Id>
+      <DisplayName>Basic Alchemy</DisplayName>
+      <Description></Description>
+      <Icon>Textures\GUI\Icons\buttons\Alchemy.dds</Icon>
+      <HighlightIcon>Textures\GUI\Icons\buttons\Alchemy.dds</HighlightIcon>
+      <FocusIcon>Textures\GUI\Icons\buttons\AlchemyFocus.dds</FocusIcon>
+      <InputConstraintIcon>Textures\GUI\Icons\filter_ingot.dds</InputConstraintIcon>
+    </Class>
+    
+  </BlueprintClasses>
+  <BlueprintClassEntries>
+    
+    <Entry Class="SurvivalKit_Refine_Blueprints" BlueprintSubtypeId="GravelToSand_Deconstruction" />
+    
+    <Entry Class="SurvivalKit_Bottles_Blueprints" BlueprintSubtypeId="Flask_Small_Construction" />
+    <Entry Class="SurvivalKit_Alchemy_Blueprints" BlueprintSubtypeId="Water_Flask_Small_Construction" />
+
+  </BlueprintClassEntries>
+</Definitions>

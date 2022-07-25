@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Blueprints>
+
+    <Blueprint>
+      <Id>
+        <TypeId>BlueprintDefinition</TypeId>
+        <SubtypeId>WoodLogToSawdust_Disassembly</SubtypeId>
+      </Id>
+      <DisplayName>Sawdust</DisplayName>
+      <Icon>Textures\GUI\Icons\sawdust.dds</Icon>
+      <Prerequisites>
+        <Item Amount="1" TypeId="Ore" SubtypeId="Wood" />
+      </Prerequisites>
+      <Results>
+        <Item Amount="1.6" TypeId="Ore" SubtypeId="Sawdust" />
+      </Results>
+      <BaseProductionTimeInSeconds>0.48</BaseProductionTimeInSeconds>
+    </Blueprint>
+
+  </Blueprints>
+</Definitions>

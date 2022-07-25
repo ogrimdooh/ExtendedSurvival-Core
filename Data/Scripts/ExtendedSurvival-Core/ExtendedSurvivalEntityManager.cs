@@ -201,34 +201,47 @@ namespace ExtendedSurvival
 
         private void Entities_OnEntityAdd(MyEntity entity)
         {
-            var cubeGrid = entity as IMyCubeGrid;
-            if (cubeGrid != null)
+            try
             {
-                var gridEntity = new GridEntity(cubeGrid);
-                lock (Grids)
+                if (inicialLoadComplete)
                 {
-                    Grids.Add(gridEntity);
+                    string entityName = entity.ToString();
+                    if (WoodChopController.CheckEntityIsATree(entityName, entity))
+                        return;
                 }
-                if (inicialLoadComplete && cubeGrid.IsRespawnGrid)
+                var cubeGrid = entity as IMyCubeGrid;
+                if (cubeGrid != null)
                 {
-                    var playerId = cubeGrid.BigOwners.FirstOrDefault();
-                    if (WaterAPI.Registered)
+                    var gridEntity = new GridEntity(cubeGrid);
+                    lock (Grids)
                     {
-                        // Maybe the wheels are gone xD hahaha
-                        gridEntity.NeedToRecreateWhells = true;                        
+                        Grids.Add(gridEntity);
                     }
+                    if (inicialLoadComplete && cubeGrid.IsRespawnGrid)
+                    {
+                        var playerId = cubeGrid.BigOwners.FirstOrDefault();
+                        if (WaterAPI.Registered)
+                        {
+                            // Maybe the wheels are gone xD hahaha
+                            gridEntity.NeedToRecreateWhells = true;
+                        }
+                    }
+                    return;
                 }
-                return;
-            }
-            var planet = entity as MyPlanet;
-            if (planet != null)
-            {
-                lock (Planets)
+                var planet = entity as MyPlanet;
+                if (planet != null)
                 {
-                    var planetEntity = new PlanetEntity(planet);
-                    Planets.Add(planetEntity);
+                    lock (Planets)
+                    {
+                        var planetEntity = new PlanetEntity(planet);
+                        Planets.Add(planetEntity);
+                    }
+                    return;
                 }
-                return;
+            }
+            catch (Exception ex)
+            {
+                ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
             }
         }
 

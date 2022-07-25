@@ -12,7 +12,7 @@ namespace ExtendedSurvival
     {
 
         private const int CURRENT_VERSION = 1;
-        private const string FILE_NAME = "ExtendedSurvival.Stats.Storage.xml";
+        private const string FILE_NAME = "ExtendedSurvival.Core.Storage.xml";
 
         private static ExtendedSurvivalStorage _instance;
         public static ExtendedSurvivalStorage Instance

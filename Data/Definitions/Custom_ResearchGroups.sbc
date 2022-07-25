@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ResearchGroups>
+    
+    <ResearchGroup xsi:type="ResearchGroup">
+      <Id Type="MyObjectBuilder_ResearchGroupDefinition" Subtype="12001" />
+      <Members>
+        <BlockId Type="MyObjectBuilder_Assembler" Subtype="BasicAlchemyBench" />
+      </Members>
+    </ResearchGroup>
+
+    <ResearchGroup xsi:type="ResearchGroup">
+      <Id Type="MyObjectBuilder_ResearchGroupDefinition" Subtype="12003" />
+      <Members>
+        <BlockId Type="MyObjectBuilder_Assembler" Subtype="BasicGrinder" />
+      </Members>
+    </ResearchGroup>
+
+  </ResearchGroups>
+</Definitions>

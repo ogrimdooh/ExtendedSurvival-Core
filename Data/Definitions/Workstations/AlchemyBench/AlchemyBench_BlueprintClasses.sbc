@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <BlueprintClasses>
+    <Class>
+      <Id>
+        <TypeId>BlueprintClassDefinition</TypeId>
+        <SubtypeId>AlchemyBench_MortarAndPaste_Blueprints</SubtypeId>
+      </Id>
+      <DisplayName>Paste Alchemy</DisplayName>
+      <Description></Description>
+      <Icon>Textures\GUI\Icons\buttons\Mortar.dds</Icon>
+      <HighlightIcon>Textures\GUI\Icons\buttons\Mortar.dds</HighlightIcon>
+      <FocusIcon>Textures\GUI\Icons\buttons\MortarFocus.dds</FocusIcon>
+      <InputConstraintIcon>Textures\GUI\Icons\filter_ingot.dds</InputConstraintIcon>
+    </Class>
+    <Class>
+      <Id>
+        <TypeId>BlueprintClassDefinition</TypeId>
+        <SubtypeId>AlchemyBench_LiquidAlchemy_Blueprints</SubtypeId>
+      </Id>
+      <DisplayName>Liquid Alchemy</DisplayName>
+      <Description></Description>
+      <Icon>Textures\GUI\Icons\buttons\Alchemy.dds</Icon>
+      <HighlightIcon>Textures\GUI\Icons\buttons\Alchemy.dds</HighlightIcon>
+      <FocusIcon>Textures\GUI\Icons\buttons\AlchemyFocus.dds</FocusIcon>
+      <InputConstraintIcon>Textures\GUI\Icons\filter_ingot.dds</InputConstraintIcon>
+    </Class>
+  </BlueprintClasses>
+  <BlueprintClassEntries>
+
+    <Entry Class="AlchemyBench_MortarAndPaste_Blueprints" BlueprintSubtypeId="SawdustToCarbonPowder_Construction" />
+
+    <Entry Class="AlchemyBench_LiquidAlchemy_Blueprints" BlueprintSubtypeId="Water_Flask_Small_Construction" />
+    <Entry Class="AlchemyBench_LiquidAlchemy_Blueprints" BlueprintSubtypeId="Water_Flask_Medium_Construction" />
+    <Entry Class="AlchemyBench_LiquidAlchemy_Blueprints" BlueprintSubtypeId="Water_Flask_Big_Construction" />
+    <Entry Class="AlchemyBench_LiquidAlchemy_Blueprints" BlueprintSubtypeId="SilverSulfadiazine_Construction" />
+    <Entry Class="AlchemyBench_LiquidAlchemy_Blueprints" BlueprintSubtypeId="Polietilenoglicol_Construction" />
+    
+  </BlueprintClassEntries>
+</Definitions>

@@ -122,6 +122,8 @@ namespace ExtendedSurvival
             if (!definitionsChecked)
             {
 
+                AssemblerOverride.TryOverride();
+
                 definitionsChecked = true;
             }
         }

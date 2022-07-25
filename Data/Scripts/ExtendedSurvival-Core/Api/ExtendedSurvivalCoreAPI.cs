@@ -129,6 +129,57 @@ namespace ExtendedSurvival
 
         }
 
+        [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
+        public class TreeDropLoot
+        {
+
+            [ProtoMember(1)]
+            public SerializableDefinitionId ItemId { get; set; }
+
+            [ProtoMember(2)]
+            public float Ammount { get; set; }
+
+            [ProtoMember(3)]
+            public float Chance { get; set; }
+
+            [ProtoMember(4)]
+            public bool AlowMedium { get; set; } = true;
+
+            [ProtoMember(5)]
+            public bool AlowDead { get; set; } = false;
+
+            [ProtoMember(6)]
+            public bool AlowDesert { get; set; } = true;
+
+            [ProtoMember(7)]
+            public bool IsGas { get; set; } = false;
+
+            [ProtoMember(8)]
+            public float GasLevel { get; set; } = 0.3f;
+
+            [ProtoMember(9)]
+            public float MediumReduction { get; set; } = 0.75f;
+
+            [ProtoMember(10)]
+            public float DeadReduction { get; set; } = 0.75f;
+
+            [ProtoMember(11)]
+            public float DesertReduction { get; set; } = 0.75f;
+
+            public TreeDropLoot()
+            {
+
+            }
+
+            public TreeDropLoot(SerializableDefinitionId itemId, float ammount, float chance)
+            {
+                ItemId = itemId;
+                Ammount = ammount;
+                Chance = chance;
+            }
+
+        }
+
         private static ExtendedSurvivalCoreAPI instance;
 
         public static string ModName = "";
@@ -151,6 +202,7 @@ namespace ExtendedSurvival
         private static Func<Vector3D, string> _GetPlanetAtRange;
         private static Func<long, Vector3D, Vector2?> _GetTemperatureInPoint;
         private static Func<Guid, MyDefinitionId, string> _GetItemInfoByGasId;
+        private static Action<string> _AddTreeDropLoot;
 
         /// <summary>
         /// Returns true if the version is compatibile with the API Backend, this is automatically called
@@ -280,6 +332,12 @@ namespace ExtendedSurvival
             return null;
         }
 
+        public static void AddTreeDropLoot(TreeDropLoot treeDrop)
+        {
+            string messageToSend = MyAPIGateway.Utilities.SerializeToXML<TreeDropLoot>(treeDrop);
+            _AddTreeDropLoot?.Invoke(messageToSend);
+        }
+
         /// <summary>
         /// Unregisters the mod
         /// </summary>
@@ -357,6 +415,7 @@ namespace ExtendedSurvival
                         _GetPlanetAtRange = (Func<Vector3D, string>)ModAPIMethods["GetPlanetAtRange"];
                         _GetTemperatureInPoint = (Func<long, Vector3D, Vector2?>)ModAPIMethods["GetTemperatureInPoint"];
                         _GetItemInfoByGasId = (Func<Guid, MyDefinitionId, string>)ModAPIMethods["GetItemInfoByGasId"];
+                        _AddTreeDropLoot = (Action<string>)ModAPIMethods["AddTreeDropLoot"];
 
                         if (m_onRegisteredAction != null)
                             m_onRegisteredAction();

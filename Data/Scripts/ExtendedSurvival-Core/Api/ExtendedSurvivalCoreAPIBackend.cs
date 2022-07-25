@@ -119,6 +119,57 @@ namespace ExtendedSurvival
 
         }
 
+        [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
+        public class TreeDropLoot
+        {
+
+            [ProtoMember(1)]
+            public SerializableDefinitionId ItemId { get; set; }
+
+            [ProtoMember(2)]
+            public float Ammount { get; set; }
+
+            [ProtoMember(3)]
+            public float Chance { get; set; }
+
+            [ProtoMember(4)]
+            public bool AlowMedium { get; set; } = true;
+
+            [ProtoMember(5)]
+            public bool AlowDead { get; set; } = false;
+
+            [ProtoMember(6)]
+            public bool AlowDesert { get; set; } = true;
+
+            [ProtoMember(7)]
+            public bool IsGas { get; set; } = false;
+
+            [ProtoMember(8)]
+            public float GasLevel { get; set; } = 0.3f;
+
+            [ProtoMember(9)]
+            public float MediumReduction { get; set; } = 0.75f;
+
+            [ProtoMember(10)]
+            public float DeadReduction { get; set; } = 0.75f;
+
+            [ProtoMember(11)]
+            public float DesertReduction { get; set; } = 0.75f;
+
+            public TreeDropLoot()
+            {
+
+            }
+
+            public TreeDropLoot(SerializableDefinitionId itemId, float ammount, float chance)
+            {
+                ItemId = itemId;
+                Ammount = ammount;
+                Chance = chance;
+            }
+
+        }
+
         public const int MinVersion = 1;
         public const ushort ModHandlerID = 33275;
 
@@ -135,7 +186,8 @@ namespace ExtendedSurvival
             ["DisposeInventoryObserver"] = new Action<Guid>(DisposeInventoryObserver),
             ["GetPlanetAtRange"] = new Func<Vector3D, string>(GetPlanetAtRange),
             ["GetTemperatureInPoint"] = new Func<long, Vector3D, Vector2?>(GetTemperatureInPoint),
-            ["GetItemInfoByGasId"] = new Func<Guid, MyDefinitionId, string>(GetItemInfoByGasId)
+            ["GetItemInfoByGasId"] = new Func<Guid, MyDefinitionId, string>(GetItemInfoByGasId),
+            ["AddTreeDropLoot"] = new Action<string>(AddTreeDropLoot)
         };
 
         public static void BeforeStart()
@@ -176,6 +228,22 @@ namespace ExtendedSurvival
             MyInventoryObserverProgressController.AddItemToCategory(new UniqueEntityId(id), category);
         }
 
+        public static void AddTreeDropLoot(string value)
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                try
+                {
+                    var treeDrop = MyAPIGateway.Utilities.SerializeFromXML<TreeDropLoot>(value);
+                    WoodChopController.AddTreeDrop(treeDrop);
+                }
+                catch (Exception e)
+                {
+                    MyLog.Default.WriteLine("Extended Survival Core API: " + e);
+                }
+            }
+        }
+
         public static void AddItemExtraInfo(string value)
         {
             if (!string.IsNullOrEmpty(value))
@@ -183,7 +251,7 @@ namespace ExtendedSurvival
                 try
                 {
                     var itemExtraInfo = MyAPIGateway.Utilities.SerializeFromXML<ItemExtraInfo>(value);
-
+                    MyInventoryObserverProgressController.AddItemExtraInfo(itemExtraInfo);
                 }
                 catch (Exception e)
                 {

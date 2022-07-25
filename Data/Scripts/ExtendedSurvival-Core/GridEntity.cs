@@ -116,9 +116,20 @@ namespace ExtendedSurvival
         {
             get
             {
-                var id = new UniqueEntityId(typeof(MyObjectBuilder_OxygenGenerator), "WaterSolidificator");
-                if (_blocksById.ContainsKey(id))
-                    return _blocksById[id];
+                try
+                {
+                    var id = new UniqueEntityId(typeof(MyObjectBuilder_OxygenGenerator), "WaterSolidificator");
+                    if (_blocksById.ContainsKey(id))
+                        return _blocksById[id];
+                }
+                catch (KeyNotFoundException)
+                {
+                    ExtendedSurvivalLogging.Instance.LogWarning(GetType(), "[Id] WaterSolidificator : Not Found");
+                }
+                catch (Exception ex)
+                {
+                    ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
+                }
                 return new List<IMySlimBlock>();
             }
         }
@@ -127,9 +138,20 @@ namespace ExtendedSurvival
         {
             get
             {
-                var id = new UniqueEntityId(typeof(MyObjectBuilder_UpgradeModule), "TurbinePowerOutputModule");
-                if (_blocksById.ContainsKey(id))
-                    return _blocksById[id];
+                try
+                {
+                    var id = new UniqueEntityId(typeof(MyObjectBuilder_UpgradeModule), "TurbinePowerOutputModule");
+                    if (_blocksById.ContainsKey(id))
+                        return _blocksById[id];
+                }
+                catch (KeyNotFoundException)
+                {
+                    ExtendedSurvivalLogging.Instance.LogWarning(GetType(), "[Id] TurbinePowerOutputModule : Not Found");
+                }
+                catch (Exception ex)
+                {
+                    ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
+                }
                 return new List<IMySlimBlock>();
             }
         }
@@ -138,9 +160,20 @@ namespace ExtendedSurvival
         {
             get
             {
-                var id = new UniqueEntityId(typeof(MyObjectBuilder_UpgradeModule), "EnhancedTurbinePowerOutputModule");
-                if (_blocksById.ContainsKey(id))
-                    return _blocksById[id];
+                try
+                {
+                    var id = new UniqueEntityId(typeof(MyObjectBuilder_UpgradeModule), "EnhancedTurbinePowerOutputModule");
+                    if (_blocksById.ContainsKey(id))
+                        return _blocksById[id];
+                }
+                catch (KeyNotFoundException)
+                {
+                    ExtendedSurvivalLogging.Instance.LogWarning(GetType(), "[Id] EnhancedTurbinePowerOutputModule : Not Found");
+                }
+                catch (Exception ex)
+                {
+                    ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
+                }
                 return new List<IMySlimBlock>();
             }
         }
@@ -149,9 +182,20 @@ namespace ExtendedSurvival
         {
             get
             {
-                var id = new UniqueEntityId(typeof(MyObjectBuilder_UpgradeModule), "EliteTurbinePowerOutputModule");
-                if (_blocksById.ContainsKey(id))
-                    return _blocksById[id];
+                try
+                {
+                    var id = new UniqueEntityId(typeof(MyObjectBuilder_UpgradeModule), "EliteTurbinePowerOutputModule");
+                    if (_blocksById.ContainsKey(id))
+                        return _blocksById[id];
+                }
+                catch (KeyNotFoundException)
+                {
+                    ExtendedSurvivalLogging.Instance.LogWarning(GetType(), "[Id] EliteTurbinePowerOutputModule : Not Found");
+                }
+                catch (Exception ex)
+                {
+                    ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
+                }
                 return new List<IMySlimBlock>();
             }
         }
@@ -170,9 +214,20 @@ namespace ExtendedSurvival
         {
             get
             {
-                var id = new UniqueEntityId(typeof(MyObjectBuilder_CargoContainer), "ThermalSource");
-                if (_blocksById.ContainsKey(id))
-                    return _blocksById[id];
+                try
+                {
+                    var id = new UniqueEntityId(typeof(MyObjectBuilder_CargoContainer), "ThermalSource");
+                    if (_blocksById.ContainsKey(id))
+                        return _blocksById[id];
+                }
+                catch (KeyNotFoundException)
+                {
+                    ExtendedSurvivalLogging.Instance.LogWarning(GetType(), "[Id] EliteTurbinePowerOutputModule : Not Found");
+                }
+                catch (Exception ex)
+                {
+                    ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
+                }
                 return new List<IMySlimBlock>();
             }
         }
@@ -181,9 +236,20 @@ namespace ExtendedSurvival
         {
             get
             {
-                var id = new UniqueEntityId(typeof(MyObjectBuilder_CargoContainer), "ThermalOutput");
-                if (_blocksById.ContainsKey(id))
-                    return _blocksById[id];
+                try
+                {
+                    var id = new UniqueEntityId(typeof(MyObjectBuilder_CargoContainer), "ThermalOutput");
+                    if (_blocksById.ContainsKey(id))
+                        return _blocksById[id];
+                }
+                catch (KeyNotFoundException)
+                {
+                    ExtendedSurvivalLogging.Instance.LogWarning(GetType(), "[Id] EliteTurbinePowerOutputModule : Not Found");
+                }
+                catch (Exception ex)
+                {
+                    ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
+                }
                 return new List<IMySlimBlock>();
             }
         }

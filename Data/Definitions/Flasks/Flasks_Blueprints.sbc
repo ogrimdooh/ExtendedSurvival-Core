@@ -1,0 +1,154 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Blueprints>
+
+    <!-- Begin Flasks -->
+    
+    <Blueprint>
+      <Id>
+        <TypeId>BlueprintDefinition</TypeId>
+        <SubtypeId>Flask_Small_Construction</SubtypeId>
+      </Id>
+      <DisplayName>Small Flask</DisplayName>
+      <Icon>Textures\GUI\Icons\frask_small.dds</Icon>
+      <Prerequisites>
+        <Item Amount="0.25" TypeId="Ingot" SubtypeId="Sand" />
+      </Prerequisites>
+      <Results>
+        <Item Amount="1" TypeId="PhysicalObject" SubtypeId="Flask_Small" />
+      </Results>
+      <BaseProductionTimeInSeconds>2.56</BaseProductionTimeInSeconds>
+    </Blueprint>
+    
+    <Blueprint>
+      <Id>
+        <TypeId>BlueprintDefinition</TypeId>
+        <SubtypeId>Flask_Medium_Construction</SubtypeId>
+      </Id>
+      <DisplayName>Medium Flask</DisplayName>
+      <Icon>Textures\GUI\Icons\frask_medium.dds</Icon>
+      <Prerequisites>
+        <Item Amount="0.5" TypeId="Ingot" SubtypeId="Sand" />
+      </Prerequisites>
+      <Results>
+        <Item Amount="1" TypeId="PhysicalObject" SubtypeId="Flask_Medium" />
+      </Results>
+      <BaseProductionTimeInSeconds>3.84</BaseProductionTimeInSeconds>
+    </Blueprint>
+    
+    <Blueprint>
+      <Id>
+        <TypeId>BlueprintDefinition</TypeId>
+        <SubtypeId>Flask_Big_Construction</SubtypeId>
+      </Id>
+      <DisplayName>Big Flask</DisplayName>
+      <Icon>Textures\GUI\Icons\frask_big.dds</Icon>
+      <Prerequisites>
+        <Item Amount="0.75" TypeId="Ingot" SubtypeId="Sand" />
+      </Prerequisites>
+      <Results>
+        <Item Amount="1" TypeId="PhysicalObject" SubtypeId="Flask_Big" />
+      </Results>
+      <BaseProductionTimeInSeconds>5.12</BaseProductionTimeInSeconds>
+    </Blueprint>
+    
+    <!-- End Flasks -->
+    <!-- Begin Water Flasks -->
+    
+    <Blueprint>
+      <Id>
+        <TypeId>BlueprintDefinition</TypeId>
+        <SubtypeId>Water_Flask_Small_Construction</SubtypeId>
+      </Id>
+      <DisplayName>Small Water Flask</DisplayName>
+      <Icon>Textures\GUI\Icons\water_small.dds</Icon>
+      <Prerequisites>
+        <Item Amount="1" TypeId="PhysicalObject" SubtypeId="Flask_Small" />
+        <Item Amount="5" TypeId="Ore" SubtypeId="Ice" />
+      </Prerequisites>
+      <Results>
+        <Item Amount="1" TypeId="ConsumableItem" SubtypeId="Water_Flask_Small" />
+      </Results>
+      <BaseProductionTimeInSeconds>1.28</BaseProductionTimeInSeconds>
+    </Blueprint>
+    
+    <Blueprint>
+      <Id>
+        <TypeId>BlueprintDefinition</TypeId>
+        <SubtypeId>Water_Flask_Medium_Construction</SubtypeId>
+      </Id>
+      <DisplayName>Medium Water Flask</DisplayName>
+      <Icon>Textures\GUI\Icons\water_medium.dds</Icon>
+      <Prerequisites>
+        <Item Amount="1" TypeId="PhysicalObject" SubtypeId="Flask_Medium" />
+        <Item Amount="10" TypeId="Ore" SubtypeId="Ice" />
+      </Prerequisites>
+      <Results>
+        <Item Amount="1" TypeId="ConsumableItem" SubtypeId="Water_Flask_Medium" />
+      </Results>
+      <BaseProductionTimeInSeconds>2.56</BaseProductionTimeInSeconds>
+    </Blueprint>
+    
+    <Blueprint>
+      <Id>
+        <TypeId>BlueprintDefinition</TypeId>
+        <SubtypeId>Water_Flask_Big_Construction</SubtypeId>
+      </Id>
+      <DisplayName>Big Water Flask</DisplayName>
+      <Icon>Textures\GUI\Icons\water_big.dds</Icon>
+      <Prerequisites>
+        <Item Amount="1" TypeId="PhysicalObject" SubtypeId="Flask_Big" />
+        <Item Amount="20" TypeId="Ore" SubtypeId="Ice" />
+      </Prerequisites>
+      <Results>
+        <Item Amount="1" TypeId="ConsumableItem" SubtypeId="Water_Flask_Big" />
+      </Results>
+      <BaseProductionTimeInSeconds>5.12</BaseProductionTimeInSeconds>
+    </Blueprint>
+
+    <!-- End Water Flasks -->
+
+    <!-- Begin Quimical Flasks -->
+
+    <Blueprint>
+      <Id>
+        <TypeId>BlueprintDefinition</TypeId>
+        <SubtypeId>Polietilenoglicol_Construction</SubtypeId>
+      </Id>
+      <DisplayName>Polietilenoglicol</DisplayName>
+      <Icon>Textures\GUI\Icons\polietilenoglicol.dds</Icon>
+      <Prerequisites>
+        <Item Amount="1" TypeId="ConsumableItem" SubtypeId="Water_Flask_Small" />
+        <Item Amount="2.5" TypeId="Ingot" SubtypeId="Carbon" />
+      </Prerequisites>
+      <Results>
+        <Item Amount="1" TypeId="PhysicalObject" SubtypeId="Polietilenoglicol" />
+      </Results>
+      <BaseProductionTimeInSeconds>5.12</BaseProductionTimeInSeconds>
+    </Blueprint>
+
+    <!-- End Quimical Flasks -->
+
+    <!-- Begin Medical Flasks -->
+
+    <Blueprint>
+      <Id>
+        <TypeId>BlueprintDefinition</TypeId>
+        <SubtypeId>SilverSulfadiazine_Construction</SubtypeId>
+      </Id>
+      <DisplayName>Silver Sulfadiazine</DisplayName>
+      <Icon>Textures\GUI\Icons\silver_sulfadiazine.dds</Icon>
+      <Prerequisites>
+        <Item Amount="1" TypeId="ConsumableItem" SubtypeId="Water_Flask_Big" />
+        <Item Amount="5" TypeId="Ingot" SubtypeId="SilverPowder" />
+      </Prerequisites>
+      <Results>
+        <Item Amount="1" TypeId="PhysicalObject" SubtypeId="SilverSulfadiazine" />
+      </Results>
+      <BaseProductionTimeInSeconds>10.24</BaseProductionTimeInSeconds>
+    </Blueprint>
+
+    <!-- End Medical Flasks -->
+        
+  </Blueprints>
+</Definitions>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Blueprints>
+    
+    <Blueprint>
+      <Id>
+        <TypeId>BlueprintDefinition</TypeId>
+        <SubtypeId>SawdustToCarbonPowder_Construction</SubtypeId>
+      </Id>
+      <DisplayName>Carbon Powder</DisplayName>
+      <Icon>Textures\GUI\Icons\powder_carbon.dds</Icon>
+      <Prerequisites>
+        <Item Amount="1" TypeId="Ore" SubtypeId="Sawdust" />
+      </Prerequisites>
+      <Result Amount="0.15" TypeId="Ingot" SubtypeId="Carbon" />
+      <BaseProductionTimeInSeconds>0.5</BaseProductionTimeInSeconds>
+    </Blueprint>
+
+  </Blueprints>
+</Definitions>
