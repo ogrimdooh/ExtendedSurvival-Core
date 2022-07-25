@@ -29,6 +29,7 @@ namespace ExtendedSurvival
         public List<IMyCubeGrid> GridsOnLoad { get; private set; } = new List<IMyCubeGrid>();
         public List<GridEntity> Grids { get; private set; } = new List<GridEntity>();
         public List<PlanetEntity> Planets { get; private set; } = new List<PlanetEntity>();
+        public ConcurrentDictionary<long, HandheldGunEntity> HandheldGuns { get; private set; } = new ConcurrentDictionary<long, HandheldGunEntity>();
         public ConcurrentDictionary<long, IMyPlayer> Players { get; private set; } = new ConcurrentDictionary<long, IMyPlayer>();
 
         private bool inicialLoadComplete = false;
@@ -197,6 +198,12 @@ namespace ExtendedSurvival
                 }
                 return;
             }
+            var handheldGunObj = entity as IMyAutomaticRifleGun;
+            if (handheldGunObj != null)
+            {
+                if (HandheldGuns.ContainsKey(handheldGunObj.EntityId))
+                    HandheldGuns.Remove(handheldGunObj.EntityId);
+            }
         }
 
         private void Entities_OnEntityAdd(MyEntity entity)
@@ -238,11 +245,32 @@ namespace ExtendedSurvival
                     }
                     return;
                 }
+                var handheldGunObj = entity as IMyAutomaticRifleGun;
+                if (handheldGunObj != null)
+                {
+                    if (!HandheldGuns.ContainsKey(handheldGunObj.EntityId))
+                    {
+                        HandheldGuns[handheldGunObj.EntityId] = new HandheldGunEntity(handheldGunObj);
+                        HandheldGuns[handheldGunObj.EntityId].OnReload += ExtendedSurvivalEntityManager_OnReload;
+                    }
+                }
             }
             catch (Exception ex)
             {
                 ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
             }
+        }
+
+        private void ExtendedSurvivalEntityManager_OnReload(HandheldGunEntity sender, int currentAmmo, UniqueEntityId magzineId)
+        {
+
+        }
+
+        public HandheldGunEntity GetHandheldGun(long id)
+        {
+            if (HandheldGuns.ContainsKey(id))
+                return HandheldGuns[id];
+            return null;
         }
 
         public static PlanetEntity GetPlanetAtRange(Vector3D position)

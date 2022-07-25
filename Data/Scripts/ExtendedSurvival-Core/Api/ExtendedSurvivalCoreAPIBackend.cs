@@ -170,6 +170,18 @@ namespace ExtendedSurvival
 
         }
 
+        [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
+        public class HandheldGunInfo
+        {
+
+            [ProtoMember(1)]
+            public long EntityId { get; set; }
+
+            [ProtoMember(2)]
+            public SerializableDefinitionId CurrentAmmoMagazineId { get; set; }
+
+        }
+
         public const int MinVersion = 1;
         public const ushort ModHandlerID = 33275;
 
@@ -187,7 +199,9 @@ namespace ExtendedSurvival
             ["GetPlanetAtRange"] = new Func<Vector3D, string>(GetPlanetAtRange),
             ["GetTemperatureInPoint"] = new Func<long, Vector3D, Vector2?>(GetTemperatureInPoint),
             ["GetItemInfoByGasId"] = new Func<Guid, MyDefinitionId, string>(GetItemInfoByGasId),
-            ["AddTreeDropLoot"] = new Action<string>(AddTreeDropLoot)
+            ["AddTreeDropLoot"] = new Action<string>(AddTreeDropLoot),
+            ["GetHandheldGunInfo"] = new Func<long, string>(GetHandheldGunInfo),
+            ["SetInventoryObserverSpoilStatus"] = new Action<Guid, bool>(SetInventoryObserverSpoilStatus)
         };
 
         public static void BeforeStart()
@@ -338,6 +352,27 @@ namespace ExtendedSurvival
                 }
             }
             return null;
+        }
+
+        public static string GetHandheldGunInfo(long id)
+        {
+            var gun = ExtendedSurvivalEntityManager.Instance.GetHandheldGun(id);
+            if (gun != null)
+            {
+                var dataToSend = new HandheldGunInfo() { EntityId = gun.Entity.EntityId, CurrentAmmoMagazineId = gun.GetCurrentAmmoMagazineId().DefinitionId };
+                string messageToSend = MyAPIGateway.Utilities.SerializeToXML<HandheldGunInfo>(dataToSend);
+                return messageToSend;
+            }
+            return null;
+        }
+
+        public static void SetInventoryObserverSpoilStatus(Guid observerId, bool status)
+        {
+            var observer = MyInventoryObserverProgressController.GetById(observerId.ToUInt128());
+            if (observer != null)
+            {
+                observer.SpoilEnabled = status;
+            }
         }
 
     }

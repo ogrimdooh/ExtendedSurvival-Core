@@ -180,6 +180,18 @@ namespace ExtendedSurvival
 
         }
 
+        [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
+        public class HandheldGunInfo
+        {
+
+            [ProtoMember(1)]
+            public long EntityId { get; set; }
+
+            [ProtoMember(2)]
+            public SerializableDefinitionId CurrentAmmoMagazineId { get; set; }
+
+        }
+
         private static ExtendedSurvivalCoreAPI instance;
 
         public static string ModName = "";
@@ -203,6 +215,8 @@ namespace ExtendedSurvival
         private static Func<long, Vector3D, Vector2?> _GetTemperatureInPoint;
         private static Func<Guid, MyDefinitionId, string> _GetItemInfoByGasId;
         private static Action<string> _AddTreeDropLoot;
+        private static Func<long, string> _GetHandheldGunInfo;
+        private static Action<Guid, bool> _SetInventoryObserverSpoilStatus;
 
         /// <summary>
         /// Returns true if the version is compatibile with the API Backend, this is automatically called
@@ -332,10 +346,39 @@ namespace ExtendedSurvival
             return null;
         }
 
+        /// <summary>
+        /// Adiciona um tipo de drop para arvores
+        /// </summary>
         public static void AddTreeDropLoot(TreeDropLoot treeDrop)
         {
             string messageToSend = MyAPIGateway.Utilities.SerializeToXML<TreeDropLoot>(treeDrop);
             _AddTreeDropLoot?.Invoke(messageToSend);
+        }
+
+        /// <summary>
+        /// Get a list of itens based in gas Id
+        /// </summary>
+        public static HandheldGunInfo GetHandheldGunInfo(long id)
+        {
+            var data = _GetHandheldGunInfo?.Invoke(id);
+            if (!string.IsNullOrEmpty(data))
+            {
+                try
+                {
+                    var itemInfo = MyAPIGateway.Utilities.SerializeFromXML<HandheldGunInfo>(data);
+                    return itemInfo;
+                }
+                catch (Exception e)
+                {
+                    MyLog.Default.WriteLine("Extended Survival Core API: " + e);
+                }
+            }
+            return null;
+        }
+
+        public static void SetInventoryObserverSpoilStatus(Guid observerId, bool status)
+        {
+            _SetInventoryObserverSpoilStatus?.Invoke(observerId, status);
         }
 
         /// <summary>
@@ -416,6 +459,8 @@ namespace ExtendedSurvival
                         _GetTemperatureInPoint = (Func<long, Vector3D, Vector2?>)ModAPIMethods["GetTemperatureInPoint"];
                         _GetItemInfoByGasId = (Func<Guid, MyDefinitionId, string>)ModAPIMethods["GetItemInfoByGasId"];
                         _AddTreeDropLoot = (Action<string>)ModAPIMethods["AddTreeDropLoot"];
+                        _GetHandheldGunInfo = (Func<long, string>)ModAPIMethods["GetHandheldGunInfo"];
+                        _SetInventoryObserverSpoilStatus = (Action<Guid, bool>)ModAPIMethods["SetInventoryObserverSpoilStatus"];
 
                         if (m_onRegisteredAction != null)
                             m_onRegisteredAction();
