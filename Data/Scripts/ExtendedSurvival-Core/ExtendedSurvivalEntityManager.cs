@@ -34,6 +34,18 @@ namespace ExtendedSurvival
 
         private bool inicialLoadComplete = false;
 
+        public bool HasPlanetNeedingWater()
+        {
+            if (!WaterAPI.Registered)
+                return false;
+            return Planets.Any(x => x.Setting != null && x.Setting.Water.Enabled && !x.HasWater());
+        }
+
+        public List<PlanetEntity> GetPlanetNeedingWater()
+        {
+            return Planets.Where(x => x.Setting != null && x.Setting.Water.Enabled && !x.HasWater()).ToList();
+        }
+
         public GridEntity GetGridByUuid(long uuid)
         {
             return Grids.FirstOrDefault(x => x.Entity.EntityId == uuid);
@@ -283,12 +295,12 @@ namespace ExtendedSurvival
             return Instance.Planets.FirstOrDefault(x => x.Entity.EntityId == id);
         }
 
-        public IMyPlayer GetClosestPlayer(Vector3D rPos)
+        public IMyPlayer GetClosestPlayer(Vector3D rPos, MyPromoteLevel level = MyPromoteLevel.None)
         {
             double distanceSqd = double.MaxValue;
             IMyPlayer closest = null;
 
-            foreach (var player in Players.Values)
+            foreach (var player in Players.Values.Where(x=> x.PromoteLevel >= level))
             {
                 if (player?.Character == null || player.Character.IsDead)
                     continue;

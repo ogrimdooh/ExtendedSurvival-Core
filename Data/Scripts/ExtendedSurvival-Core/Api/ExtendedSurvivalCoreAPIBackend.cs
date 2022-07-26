@@ -257,11 +257,16 @@ namespace ExtendedSurvival
                 {
                     var treeDrop = MyAPIGateway.Utilities.SerializeFromXML<TreeDropLoot>(value);
                     WoodChopController.AddTreeDrop(treeDrop);
+                    ExtendedSurvivalLogging.Instance.LogInfo(typeof(ExtendedSurvivalCoreAPIBackend), $"Registred TreeDrop : {treeDrop.ItemId}");
                 }
                 catch (Exception e)
                 {
-                    MyLog.Default.WriteLine("Extended Survival Core API: " + e);
+                    ExtendedSurvivalLogging.Instance.LogError(typeof(ExtendedSurvivalCoreAPIBackend), e);
                 }
+            }
+            else
+            {
+                ExtendedSurvivalLogging.Instance.LogWarning(typeof(ExtendedSurvivalCoreAPIBackend), $"AddTreeDropLoot : value is null");
             }
         }
 
@@ -273,11 +278,16 @@ namespace ExtendedSurvival
                 {
                     var itemExtraInfo = MyAPIGateway.Utilities.SerializeFromXML<ItemExtraInfo>(value);
                     MyInventoryObserverProgressController.AddItemExtraInfo(itemExtraInfo);
+                    ExtendedSurvivalLogging.Instance.LogInfo(typeof(ExtendedSurvivalCoreAPIBackend), $"Registred ItemExtraInfo : {itemExtraInfo.DefinitionId}");
                 }
                 catch (Exception e)
                 {
-                    MyLog.Default.WriteLine("Extended Survival Core API: " + e);
+                    ExtendedSurvivalLogging.Instance.LogError(typeof(ExtendedSurvivalCoreAPIBackend), e);
                 }
+            }
+            else
+            {
+                ExtendedSurvivalLogging.Instance.LogWarning(typeof(ExtendedSurvivalCoreAPIBackend), $"AddItemExtraInfo : value is null");
             }
         }
 

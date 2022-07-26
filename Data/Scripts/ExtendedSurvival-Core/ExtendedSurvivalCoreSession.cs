@@ -1,4 +1,5 @@
-﻿using Sandbox.ModAPI;
+﻿using Sandbox.Game.Entities;
+using Sandbox.ModAPI;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,11 +20,12 @@ namespace ExtendedSurvival
 
         public HudAPIv2 TextAPI;
 
-        public const ushort NETWORK_ID_STATSSYSTEM = 40422;
+        public const ushort NETWORK_ID_CALLCLIENTSYSTEM = 40422;
         public const ushort NETWORK_ID_COMMANDS = 40423;
         public const ushort NETWORK_ID_DEFINITIONS = 40424;
         public const ushort NETWORK_ID_ENTITYCALLS = 40425;
         public const string CALL_FOR_DEFS = "NEEDDEFS";
+        public const string CALL_FOR_WATER = "NEEDWATER";
 
         protected override void DoInit(MyObjectBuilder_SessionComponent sessionComponent)
         {
@@ -33,7 +35,7 @@ namespace ExtendedSurvival
             if (!IsDedicated)
             {
                 MyAPIGateway.Utilities.MessageEntered += OnMessageEntered;
-                MyAPIGateway.Multiplayer.RegisterSecureMessageHandler(NETWORK_ID_STATSSYSTEM, ClientUpdateMsgHandler);
+                MyAPIGateway.Multiplayer.RegisterSecureMessageHandler(NETWORK_ID_CALLCLIENTSYSTEM, ClientUpdateMsgHandler);
             }
 
             if (IsServer)
@@ -62,12 +64,48 @@ namespace ExtendedSurvival
 
         }
 
+        private DateTime lastCallWaterApi = DateTime.Now;
         private void ClientUpdateMsgHandler(ushort netId, byte[] data, ulong steamId, bool fromServer)
         {
             try
             {
-                if (netId != NETWORK_ID_STATSSYSTEM)
+                if (netId != NETWORK_ID_CALLCLIENTSYSTEM)
                     return;
+
+                var message = Encoding.Unicode.GetString(data);
+                var mCommandData = MyAPIGateway.Utilities.SerializeFromXML<Command>(message);
+
+                if (mCommandData.content.Length > 0)
+                {
+
+                    switch (mCommandData.content[0])
+                    {
+                        case CALL_FOR_WATER:
+
+                            if (WaterAPI.Registered)
+                            {
+                                if (!IsDedicated)
+                                {
+                                    if (MyAPIGateway.Session.PromoteLevel >= MyPromoteLevel.Moderator && (DateTime.Now - lastCallWaterApi).TotalMilliseconds > 5000)
+                                    {
+                                        long planetId = long.Parse(mCommandData.content[1]);
+                                        var closestPlanet = MyGamePruningStructure.GetClosestPlanet(MyAPIGateway.Session.Camera.Position);
+                                        if (planetId == closestPlanet.EntityId)
+                                        {
+                                            float waterSize = float.Parse(mCommandData.content[2]);
+                                            WaterAPI.RunCommand("/wcreate");
+                                            WaterAPI.RunCommand($"/wradius {waterSize}");
+                                            WaterAPI.RunCommand("/wrate 0");
+                                            lastCallWaterApi = DateTime.Now;
+                                        }
+                                    }
+                                }
+                            }
+
+                            break;
+                    }
+
+                }
 
             }
             catch (Exception ex)
@@ -288,6 +326,40 @@ namespace ExtendedSurvival
             hudMsg.AliveTime = timeToLive;
             hudMsg.Text = text;
             hudMsg.Show();
+        }
+
+        private void CheckPlanetWaters()
+        {
+            if (ExtendedSurvivalEntityManager.Instance.HasPlanetNeedingWater())
+            {
+                var planets = ExtendedSurvivalEntityManager.Instance.GetPlanetNeedingWater();
+                foreach (var planet in planets)
+                {
+                    var playerToAddWater = ExtendedSurvivalEntityManager.Instance.GetClosestPlayer(planet.Center(), MyPromoteLevel.Moderator);
+                    if (playerToAddWater != null)
+                    {
+                        Command cmd = new Command(0, CALL_FOR_WATER, planet.Entity.EntityId.ToString(), planet.Setting.Water.Size.ToString());
+                        string messageToSend = MyAPIGateway.Utilities.SerializeToXML<Command>(cmd);
+                        MyAPIGateway.Multiplayer.SendMessageTo(
+                            NETWORK_ID_CALLCLIENTSYSTEM,
+                            Encoding.Unicode.GetBytes(messageToSend),
+                            playerToAddWater.SteamUserId
+                        );
+                    }
+                }
+            }
+        }
+
+        protected override void DoUpdate60()
+        {
+            base.DoUpdate60();
+
+            if (MyAPIGateway.Session.IsServer)
+            {
+
+                CheckPlanetWaters();
+
+            }
         }
 
     }
