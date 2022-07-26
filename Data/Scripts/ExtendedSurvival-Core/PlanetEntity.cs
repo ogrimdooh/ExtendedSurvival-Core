@@ -105,60 +105,69 @@ namespace ExtendedSurvival
 
         public float GetTemperatureInPoint(Vector3D worldPoint, out float temperatureValue)
         {
-            Vector2 temperatureRange = new Vector2(0, 45);
-            if (Setting != null)
-                temperatureRange = new Vector2(Setting.Atmosphere.TemperatureRange.X, Setting.Atmosphere.TemperatureRange.Y);
-            var sector = MyAPIGateway.Session.GetSector();
-            Vector3 sunDirection;
-            Vector3.CreateFromAzimuthAndElevation(sector.Environment.SunAzimuth, sector.Environment.SunElevation, out sunDirection);
-            float airInPoint = Entity.GetAirDensity(worldPoint);
-            float airSaturation = MathHelper.Saturate(airInPoint / 0.6f);
-            float distanceFromSurface = (float)Vector3D.Distance(Entity.PositionComp.GetPosition(), worldPoint) / Entity.AverageRadius;
-            float sunLightMultiplier = 1f - (float)Math.Pow(1.0 - ((double)Vector3.Dot(-sunDirection, Vector3.Normalize(worldPoint - Entity.PositionComp.GetPosition())) + 1.0) / 2.0, 0.5);
-            MyTemperatureLevel level = MyTemperatureLevel.Cozy;
-            if (Setting != null)
-                level = (MyTemperatureLevel)Setting.Atmosphere.TemperatureLevel;
-            var weatherComponent = MyAPIGateway.Session.WeatherEffects;
-            var defaultTemperatureAtPoint = LevelToTemperature(level);
-            float temperatureAtSun = MathHelper.Lerp(defaultTemperatureAtPoint.X, defaultTemperatureAtPoint.Y, sunLightMultiplier);            
-            float temperatureInPoint;
-            if (distanceFromSurface < 1.0)
+            temperatureValue = 0;
+            try
             {
-                float distanceFactor = 0.8f;
-                float distanceSaturation = MathHelper.Saturate(distanceFromSurface / distanceFactor);
-                temperatureInPoint = MathHelper.Lerp(temperatureRange.Y, temperatureAtSun, distanceSaturation);
-            }
-            else
-                temperatureInPoint = MathHelper.Lerp(temperatureRange.X, temperatureAtSun, airSaturation);
-            if (temperatureInPoint < temperatureRange.X)
-                temperatureInPoint = temperatureRange.X;
-            if (temperatureInPoint > temperatureRange.Y)
-                temperatureInPoint = temperatureRange.Y;
-            // Weather
-            var wName = weatherComponent.GetWeather(worldPoint);
-            MyWeatherEffectDefinition weatherEffect = MyDefinitionManager.Static.GetWeatherEffect(wName);
-            if (weatherEffect != null)
-            {
-                var tempChangeFactor = Math.Abs(temperatureInPoint / 2);
-                var weatherChangeFactor = weatherComponent.GetTemperatureMultiplier(worldPoint);
-                if (weatherEffect.TemperatureModifier > 1)
+                Vector2 temperatureRange = new Vector2(0, 45);
+                if (Setting != null)
+                    temperatureRange = new Vector2(Setting.Atmosphere.TemperatureRange.X, Setting.Atmosphere.TemperatureRange.Y);
+                var sector = MyAPIGateway.Session.GetSector();
+                Vector3 sunDirection;
+                Vector3.CreateFromAzimuthAndElevation(sector.Environment.SunAzimuth, sector.Environment.SunElevation, out sunDirection);
+                float airInPoint = Entity.GetAirDensity(worldPoint);
+                float airSaturation = MathHelper.Saturate(airInPoint / 0.6f);
+                float distanceFromSurface = (float)Vector3D.Distance(Entity.PositionComp.GetPosition(), worldPoint) / Entity.AverageRadius;
+                float sunLightMultiplier = 1f - (float)Math.Pow(1.0 - ((double)Vector3.Dot(-sunDirection, Vector3.Normalize(worldPoint - Entity.PositionComp.GetPosition())) + 1.0) / 2.0, 0.5);
+                MyTemperatureLevel level = MyTemperatureLevel.Cozy;
+                if (Setting != null)
+                    level = (MyTemperatureLevel)Setting.Atmosphere.TemperatureLevel;
+                var weatherComponent = MyAPIGateway.Session.WeatherEffects;
+                var defaultTemperatureAtPoint = LevelToTemperature(level);
+                float temperatureAtSun = MathHelper.Lerp(defaultTemperatureAtPoint.X, defaultTemperatureAtPoint.Y, sunLightMultiplier);
+                float temperatureInPoint;
+                if (distanceFromSurface < 1.0)
                 {
-                    temperatureInPoint += tempChangeFactor * (weatherChangeFactor - 1);
+                    float distanceFactor = 0.8f;
+                    float distanceSaturation = MathHelper.Saturate(distanceFromSurface / distanceFactor);
+                    temperatureInPoint = MathHelper.Lerp(temperatureRange.Y, temperatureAtSun, distanceSaturation);
                 }
                 else
+                    temperatureInPoint = MathHelper.Lerp(temperatureRange.X, temperatureAtSun, airSaturation);
+                if (temperatureInPoint < temperatureRange.X)
+                    temperatureInPoint = temperatureRange.X;
+                if (temperatureInPoint > temperatureRange.Y)
+                    temperatureInPoint = temperatureRange.Y;
+                // Weather
+                var wName = weatherComponent.GetWeather(worldPoint);
+                MyWeatherEffectDefinition weatherEffect = MyDefinitionManager.Static.GetWeatherEffect(wName);
+                if (weatherEffect != null)
                 {
-                    temperatureInPoint -= tempChangeFactor * (1 - weatherChangeFactor);
+                    var tempChangeFactor = Math.Abs(temperatureInPoint / 2);
+                    var weatherChangeFactor = weatherComponent.GetTemperatureMultiplier(worldPoint);
+                    if (weatherEffect.TemperatureModifier > 1)
+                    {
+                        temperatureInPoint += tempChangeFactor * (weatherChangeFactor - 1);
+                    }
+                    else
+                    {
+                        temperatureInPoint -= tempChangeFactor * (1 - weatherChangeFactor);
+                    }
                 }
+                // UnderWater
+                float depth = 0;
+                if (Setting.Water.Enabled && IsUnderWater(worldPoint, out depth))
+                {
+                    temperatureInPoint += (depth / 10) * Setting.Water.TemperatureFactor;
+                }
+                temperatureValue = temperatureInPoint;
+                var maxTemperature = temperatureRange.Y - temperatureRange.X;
+                return (temperatureValue - temperatureRange.X) / maxTemperature;
             }
-            // UnderWater
-            float depth = 0;
-            if (Setting.Water.Enabled && IsUnderWater(worldPoint, out depth))
+            catch (Exception ex)
             {
-                temperatureInPoint += (depth / 10) * Setting.Water.TemperatureFactor;
+                ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
             }
-            temperatureValue = temperatureInPoint;
-            var maxTemperature = temperatureRange.Y - temperatureRange.X;
-            return (temperatureValue - temperatureRange.X) / maxTemperature;
+            return 0;
         }
 
     }

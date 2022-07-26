@@ -99,6 +99,17 @@ namespace ExtendedSurvival
             }
         }
 
+        public override void SaveData()
+        {
+            base.SaveData();
+
+            if (IsServer)
+            {
+                ExtendedSurvivalSettings.Save();
+                ExtendedSurvivalStorage.Save();
+            }
+        }
+
         public override void LoadData()
         {
             TextAPI = new HudAPIv2();
@@ -122,6 +133,7 @@ namespace ExtendedSurvival
             if (!definitionsChecked)
             {
 
+                PlanetsOverride.SetDefinitions();
                 AssemblerOverride.TryOverride();
 
                 definitionsChecked = true;
