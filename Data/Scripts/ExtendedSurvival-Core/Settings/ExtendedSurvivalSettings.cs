@@ -43,6 +43,9 @@ namespace ExtendedSurvival
         [XmlArray("Planets"), XmlArrayItem("Planet", typeof(PlanetSetting))]
         public List<PlanetSetting> Planets { get; set; } = new List<PlanetSetting>();
 
+        [XmlArray("VoxelMaterials"), XmlArrayItem("VoxelMaterial", typeof(VoxelMaterialSetting))]
+        public List<VoxelMaterialSetting> VoxelMaterials { get; set; } = new List<VoxelMaterialSetting>();
+
         [XmlElement]
         public string IgnorePlanets { get; set; } = "SYSTEMTESTMAP;EARTHLIKEMODEXAMPLE;MARSTUTORIAL;MOONTUTORIAL;EARTHLIKETUTORIAL";
 
@@ -260,6 +263,85 @@ namespace ExtendedSurvival
                         if (bool.TryParse(value, out nightspawn))
                         {
                             info.Animal.NightSpawn.Enabled = nightspawn;
+                            return true;
+                        }
+                        break;
+                }
+            }
+            return false;
+        }
+
+        public VoxelMaterialSetting GetVoxelInfo(string id, bool generateWhenNotExists = true)
+        {
+            if (HasVoxelInfo(id))
+            {
+                var settings = VoxelMaterials.FirstOrDefault(x => x.Id.ToUpper().Trim() == id.ToUpper().Trim());
+                var profile = VoxelMaterialMapProfile.Get(id.ToUpper());
+                if (profile != null && profile.Version > settings.Version)
+                    profile.UpgradeSettings(settings);
+                return settings;
+            }
+            else if (generateWhenNotExists)
+            {
+                return GenerateVoxelInfo(id);
+            }
+            return null;
+        }
+
+        public VoxelMaterialSetting GenerateVoxelInfo(string id, bool force = false)
+        {
+            if (!HasVoxelInfo(id) || force)
+            {
+                var settings = VoxelMaterialMapProfile.Get(id.ToUpper()).BuildSettings(id);
+                if (HasVoxelInfo(id))
+                    VoxelMaterials.RemoveAll(x => x.Id.ToUpper().Trim() == id.ToUpper().Trim());
+                VoxelMaterials.Add(settings);
+                return settings;
+            }
+            return GetVoxelInfo(id, false);
+        }
+
+        public bool HasVoxelInfo(string id)
+        {
+            return VoxelMaterials.Any(x => x.Id.ToUpper().Trim() == id.ToUpper().Trim());
+        }
+
+        public bool SetVoxelConfigValue(string voxel, string name, string value)
+        {
+            var info = GetVoxelInfo(voxel, false);
+            if (info != null)
+            {
+                switch (name)
+                {
+                    case "minedoreratio":
+                        float minedoreratio;
+                        if (float.TryParse(value, out minedoreratio))
+                        {
+                            info.MinedOreRatio = minedoreratio;
+                            return true;
+                        }
+                        break;
+                    case "spawnsfrommeteorites":
+                        bool spawnsfrommeteorites;
+                        if (bool.TryParse(value, out spawnsfrommeteorites))
+                        {
+                            info.SpawnsFromMeteorites = spawnsfrommeteorites;
+                            return true;
+                        }
+                        break;
+                    case "spawnsinasteroids":
+                        bool spawnsinasteroids;
+                        if (bool.TryParse(value, out spawnsinasteroids))
+                        {
+                            info.SpawnsInAsteroids = spawnsinasteroids;
+                            return true;
+                        }
+                        break;
+                    case "asteroidspawnprobabilitymultiplier":
+                        int asteroidspawnprobabilitymultiplier;
+                        if (int.TryParse(value, out asteroidspawnprobabilitymultiplier))
+                        {
+                            info.AsteroidSpawnProbabilityMultiplier = asteroidspawnprobabilitymultiplier;
                             return true;
                         }
                         break;
