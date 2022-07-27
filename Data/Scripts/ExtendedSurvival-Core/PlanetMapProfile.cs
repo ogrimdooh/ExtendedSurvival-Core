@@ -439,7 +439,10 @@ namespace ExtendedSurvival
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Cobalt_01, 2)
+                        GetOreMap(Magnesium_01, 2),
+                        GetOreMap(Cobalt_01, 2),
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2)
                     }
                 }
             },
@@ -464,7 +467,10 @@ namespace ExtendedSurvival
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Cobalt_01, 2)
+                        GetOreMap(Magnesium_01, 2),
+                        GetOreMap(Cobalt_01, 2),
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2)
                     }
                 }
             },
@@ -485,8 +491,12 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Magnesium_01, 2)
+                        GetOreMap(Magnesium_01, 2),
+                        GetOreMap(Cobalt_01, 2),
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2)
                     }
                 }
             },
@@ -509,9 +519,12 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
-                        GetOreMap(Nickel_01, 5),
+                        GetOreMap(Nickel_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Ice_01, 3),
+                        GetOreMap(Magnesium_01, 2),
+                        GetOreMap(Cobalt_01, 2),
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
                         GetOreMap(Platinum_01, 2)
                     }
                 }
@@ -534,8 +547,13 @@ namespace ExtendedSurvival
                     StartBreak = 3,
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
-                        GetOreMap(Iron_02, 5),
+                        GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Magnesium_01, 2),
+                        GetOreMap(Cobalt_01, 2),
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
                         GetOreMap(Platinum_01, 2)
                     }
                 }
@@ -560,7 +578,12 @@ namespace ExtendedSurvival
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
-                        GetOreMap(Uraninite_01, 2)
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Magnesium_01, 2),
+                        GetOreMap(Cobalt_01, 2),
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
+                        GetOreMap(Platinum_01, 2)
                     }
                 }
             },
@@ -583,8 +606,12 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
-                        GetOreMap(Silver_01, 3),
-                        GetOreMap(Gold_01, 3)
+                        GetOreMap(Nickel_01, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
+                        GetOreMap(Platinum_01, 2),
+                        GetOreMap(Uraninite_01, 2)
                     }
                 }
             },
@@ -606,9 +633,13 @@ namespace ExtendedSurvival
                     StartBreak = 2,
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Silver_01, 3),
-                        GetOreMap(Gold_01, 3)
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
+                        GetOreMap(Platinum_01, 2),
+                        GetOreMap(Uraninite_01, 2)
                     }
                 }
             },
@@ -631,8 +662,12 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
-                        GetOreMap(Silver_01, 3),
-                        GetOreMap(Gold_01, 3)
+                        GetOreMap(Nickel_01, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
+                        GetOreMap(Platinum_01, 2),
+                        GetOreMap(Uraninite_01, 2)
                     }
                 }
             },
@@ -655,9 +690,12 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Silver_01, 3),
-                        GetOreMap(Gold_01, 3)
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
+                        GetOreMap(Platinum_01, 2),
+                        GetOreMap(Uraninite_01, 2)
                     }
                 }
             },
@@ -680,8 +718,13 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Uraninite_01, 2)
+                        GetOreMap(Magnesium_01, 2),
+                        GetOreMap(Cobalt_01, 2),
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
+                        GetOreMap(Platinum_01, 2)
                     }
                 }
             },
@@ -718,7 +761,12 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
-                        GetOreMap(Nickel_01, 4)
+                        GetOreMap(Nickel_01, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Magnesium_01, 2),
+                        GetOreMap(Cobalt_01, 2),
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2)
                     }
                 }
             },
@@ -741,7 +789,11 @@ namespace ExtendedSurvival
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
-                        GetOreMap(Silicon_01, 4)
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Magnesium_01, 2),
+                        GetOreMap(Cobalt_01, 2),
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2)
                     }
                 }
             },
@@ -765,7 +817,10 @@ namespace ExtendedSurvival
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Cobalt_01, 2)
+                        GetOreMap(Magnesium_01, 2),
+                        GetOreMap(Cobalt_01, 2),
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2)
                     }
                 }
             },
@@ -787,8 +842,12 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
-                        GetOreMap(Silver_01, 3),
-                        GetOreMap(Gold_01, 3)
+                        GetOreMap(Nickel_01, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
+                        GetOreMap(Platinum_01, 2),
+                        GetOreMap(Uraninite_01, 2)
                     }
                 }
             },
@@ -810,9 +869,12 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
-                        GetOreMap(Nickel_01, 5),
+                        GetOreMap(Nickel_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Ice_01, 3),
+                        GetOreMap(Magnesium_01, 2),
+                        GetOreMap(Cobalt_01, 2),
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
                         GetOreMap(Platinum_01, 2)
                     }
                 }
@@ -835,8 +897,13 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Uraninite_01, 2)
+                        GetOreMap(Magnesium_01, 2),
+                        GetOreMap(Cobalt_01, 2),
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
+                        GetOreMap(Platinum_01, 2)
                     }
                 }
             },
@@ -858,8 +925,11 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
-                        GetOreMap(Silver_01, 3),
-                        GetOreMap(Gold_01, 3),
+                        GetOreMap(Nickel_01, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
+                        GetOreMap(Platinum_01, 2),
                         GetOreMap(Uraninite_01, 2)
                     }
                 }
@@ -882,8 +952,11 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
-                        GetOreMap(Silver_01, 3),
-                        GetOreMap(Gold_01, 3),
+                        GetOreMap(Nickel_01, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
+                        GetOreMap(Platinum_01, 2),
                         GetOreMap(Uraninite_01, 2)
                     }
                 }
@@ -906,9 +979,12 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Silver_01, 3),
-                        GetOreMap(Gold_01, 3)
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
+                        GetOreMap(Platinum_01, 2),
+                        GetOreMap(Uraninite_01, 2)
                     }
                 }
             },
@@ -930,9 +1006,12 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Silver_01, 3),
-                        GetOreMap(Gold_01, 3)
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
+                        GetOreMap(Platinum_01, 2),
+                        GetOreMap(Uraninite_01, 2)
                     }
                 }
             },
@@ -955,7 +1034,11 @@ namespace ExtendedSurvival
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
-                        GetOreMap(Ice_01, 6),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Magnesium_01, 2),
+                        GetOreMap(Cobalt_01, 2),
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
                         GetOreMap(Platinum_01, 2)
                     }
                 }
@@ -978,9 +1061,12 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Silver_01, 3),
-                        GetOreMap(Gold_01, 3)
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
+                        GetOreMap(Platinum_01, 2),
+                        GetOreMap(Uraninite_01, 2)
                     }
                 }
             },
@@ -1002,9 +1088,12 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Silver_01, 3),
-                        GetOreMap(Gold_01, 3)
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
+                        GetOreMap(Platinum_01, 2),
+                        GetOreMap(Uraninite_01, 2)
                     }
                 }
             },
@@ -1026,9 +1115,12 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Silver_01, 3),
-                        GetOreMap(Gold_01, 3)
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
+                        GetOreMap(Platinum_01, 2),
+                        GetOreMap(Uraninite_01, 2)
                     }
                 }
             },
@@ -1050,9 +1142,12 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Silver_01, 3),
-                        GetOreMap(Gold_01, 3)
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
+                        GetOreMap(Platinum_01, 2),
+                        GetOreMap(Uraninite_01, 2)
                     }
                 }
             },
@@ -1074,9 +1169,12 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Silver_01, 3),
-                        GetOreMap(Gold_01, 3)
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
+                        GetOreMap(Platinum_01, 2),
+                        GetOreMap(Uraninite_01, 2)
                     }
                 }
             },
@@ -1098,9 +1196,12 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Silver_01, 3),
-                        GetOreMap(Gold_01, 3)
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
+                        GetOreMap(Platinum_01, 2),
+                        GetOreMap(Uraninite_01, 2)
                     }
                 }
             },
@@ -1122,9 +1223,12 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Silver_01, 3),
-                        GetOreMap(Gold_01, 3)
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
+                        GetOreMap(Platinum_01, 2),
+                        GetOreMap(Uraninite_01, 2)
                     }
                 }
             },
@@ -1146,10 +1250,12 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
-                        GetOreMap(Silicon_01, 4),
                         GetOreMap(Nickel_01, 4),
-                        GetOreMap(Ice_01, 6),
+                        GetOreMap(Silicon_01, 4),
                         GetOreMap(Magnesium_01, 2),
+                        GetOreMap(Cobalt_01, 2),
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
                         GetOreMap(Platinum_01, 2)
                     }
                 }
@@ -1172,9 +1278,12 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Silver_01, 3),
-                        GetOreMap(Gold_01, 3)
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
+                        GetOreMap(Platinum_01, 2),
+                        GetOreMap(Uraninite_01, 2)
                     }
                 }
             },
@@ -1196,9 +1305,12 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Silver_01, 3),
-                        GetOreMap(Gold_01, 3)
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
+                        GetOreMap(Platinum_01, 2),
+                        GetOreMap(Uraninite_01, 2)
                     }
                 }
             },
@@ -1220,9 +1332,12 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Silver_01, 3),
-                        GetOreMap(Gold_01, 3)
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
+                        GetOreMap(Platinum_01, 2),
+                        GetOreMap(Uraninite_01, 2)
                     }
                 }
             },
@@ -1244,9 +1359,12 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Silver_01, 3),
-                        GetOreMap(Gold_01, 3)
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
+                        GetOreMap(Platinum_01, 2),
+                        GetOreMap(Uraninite_01, 2)
                     }
                 }
             },
@@ -1268,9 +1386,12 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Silver_01, 3),
-                        GetOreMap(Gold_01, 3)
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
+                        GetOreMap(Platinum_01, 2),
+                        GetOreMap(Uraninite_01, 2)
                     }
                 }
             },
@@ -1292,9 +1413,11 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
-                        GetOreMap(Silicon_01, 4),
                         GetOreMap(Nickel_01, 4),
-                        GetOreMap(Ice_01, 6),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Magnesium_01, 2),
+                        GetOreMap(Cobalt_01, 2),
+                        GetOreMap(Gold_01, 2),
                         GetOreMap(Silver_01, 2),
                         GetOreMap(Platinum_01, 2)
                     }
@@ -1318,9 +1441,12 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Silver_01, 3),
-                        GetOreMap(Gold_01, 3)
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
+                        GetOreMap(Platinum_01, 2),
+                        GetOreMap(Uraninite_01, 2)
                     }
                 }
             },
@@ -1342,9 +1468,12 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Nickel_01, 3),
-                        GetOreMap(Magnesium_01, 3),
+                        GetOreMap(Magnesium_01, 2),
+                        GetOreMap(Cobalt_01, 2),
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
                         GetOreMap(Platinum_01, 2)
                     }
                 }
@@ -1367,9 +1496,12 @@ namespace ExtendedSurvival
                     Ores = new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Silver_01, 3),
-                        GetOreMap(Gold_01, 3)
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2),
+                        GetOreMap(Platinum_01, 2),
+                        GetOreMap(Uraninite_01, 2)
                     }
                 }
             }

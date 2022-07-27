@@ -63,56 +63,56 @@ namespace ExtendedSurvival
         private static readonly VoxelMaterialProfile COBALT_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
             MinedOreRatio = LEGENDARY_RATIO,
-            SpawnsFromMeteorites = false,
-            SpawnsInAsteroids = false,
+            SpawnsFromMeteorites = true,
+            SpawnsInAsteroids = true,
             AsteroidSpawnProbabilityMultiplier = 1
         };
 
         private static readonly VoxelMaterialProfile GOLD_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
             MinedOreRatio = LEGENDARY_RATIO,
-            SpawnsFromMeteorites = false,
-            SpawnsInAsteroids = false,
+            SpawnsFromMeteorites = true,
+            SpawnsInAsteroids = true,
             AsteroidSpawnProbabilityMultiplier = 1
         };
 
         private static readonly VoxelMaterialProfile SILVER_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
             MinedOreRatio = LEGENDARY_RATIO,
-            SpawnsFromMeteorites = false,
-            SpawnsInAsteroids = false,
+            SpawnsFromMeteorites = true,
+            SpawnsInAsteroids = true,
             AsteroidSpawnProbabilityMultiplier = 1
         };
 
         private static readonly VoxelMaterialProfile PLATINUM_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
             MinedOreRatio = EPIC_RATIO,
-            SpawnsFromMeteorites = false,
-            SpawnsInAsteroids = false,
+            SpawnsFromMeteorites = true,
+            SpawnsInAsteroids = true,
             AsteroidSpawnProbabilityMultiplier = 1
         };
 
         private static readonly VoxelMaterialProfile MAGNEZIUM_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
             MinedOreRatio = LEGENDARY_RATIO,
-            SpawnsFromMeteorites = false,
-            SpawnsInAsteroids = false,
+            SpawnsFromMeteorites = true,
+            SpawnsInAsteroids = true,
             AsteroidSpawnProbabilityMultiplier = 1
         };
 
         private static readonly VoxelMaterialProfile URANITE_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
             MinedOreRatio = EPIC_RATIO,
-            SpawnsFromMeteorites = false,
-            SpawnsInAsteroids = false,
+            SpawnsFromMeteorites = true,
+            SpawnsInAsteroids = true,
             AsteroidSpawnProbabilityMultiplier = 1
         };
 
         private static readonly VoxelMaterialProfile ICE_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
             MinedOreRatio = VERYCOMMON_RATIO,
-            SpawnsFromMeteorites = false,
-            SpawnsInAsteroids = false,
+            SpawnsFromMeteorites = true,
+            SpawnsInAsteroids = true,
             AsteroidSpawnProbabilityMultiplier = 4
         };
 

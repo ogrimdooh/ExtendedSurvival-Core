@@ -242,11 +242,13 @@ namespace ExtendedSurvival
         public static void AddItemCategory(string category)
         {
             MyInventoryObserverProgressController.AddCategory(category);
+            ExtendedSurvivalLogging.Instance.LogInfo(typeof(ExtendedSurvivalCoreAPIBackend), $"Registred ItemCategory : {category}");
         }
 
         public static void AddDefinitionToCategory(MyDefinitionId id, string category)
         {
             MyInventoryObserverProgressController.AddItemToCategory(new UniqueEntityId(id), category);
+            ExtendedSurvivalLogging.Instance.LogInfo(typeof(ExtendedSurvivalCoreAPIBackend), $"Registred Item [{id}] To Category : {category}");
         }
 
         public static void AddTreeDropLoot(string value)
