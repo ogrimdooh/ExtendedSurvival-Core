@@ -46,6 +46,7 @@
     <Entry Class="SurvivalKit_Refine_Blueprints" BlueprintSubtypeId="GravelToSand_Deconstruction" />
     
     <Entry Class="SurvivalKit_Bottles_Blueprints" BlueprintSubtypeId="Flask_Small_Construction" />
+    
     <Entry Class="SurvivalKit_Alchemy_Blueprints" BlueprintSubtypeId="Water_Flask_Small_Construction" />
 
   </BlueprintClassEntries>
