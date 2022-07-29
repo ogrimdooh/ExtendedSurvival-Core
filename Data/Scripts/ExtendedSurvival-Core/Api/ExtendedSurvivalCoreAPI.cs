@@ -8,6 +8,7 @@ using System.Linq;
 using VRage;
 using VRage.Game;
 using VRage.Game.Components;
+using VRage.Game.Entity;
 using VRage.Game.ModAPI;
 using VRage.ModAPI;
 using VRage.ObjectBuilders;
@@ -224,7 +225,14 @@ namespace ExtendedSurvival
         private static Func<long, string> _GetHandheldGunInfo;
         private static Action<Guid, bool, bool, float> _SetInventoryObserverSpoilStatus;
         private static Func<long, IMySlimBlock[]> _GetUnderwaterCollectors;
+        private static Func<long, IMySlimBlock[]> _GetOffwaterCollectors;
+        private static Func<long, List<IMySlimBlock>> _GetWaterSolidificators;
         private static Action<Guid, Action<Guid, MyInventory, IMyEntity, TimeSpan>> _RegisterInventoryObserverUpdateCallback;
+        private static Action<Guid, Action<Guid, MyInventory, MyPhysicalInventoryItem, MyFixedPoint>> _RegisterInventoryObserverAfterContentsAddedCallback;
+        private static Action<Guid, Action<Guid, MyInventory, MyPhysicalInventoryItem, MyFixedPoint>> _RegisterInventoryObserverAfterContentsRemovedCallback;
+        private static Action<Guid, Action<Guid, MyInventory, MyPhysicalInventoryItem, MyFixedPoint>> _RegisterInventoryObserverAfterContentsChangedCallback;
+        private static Func<long, bool> _HasDisassemblyComputer;
+        private static Func<long, bool> _HasAdvancedDisassemblyComputer;
 
         /// <summary>
         /// Returns true if the version is compatibile with the API Backend, this is automatically called
@@ -473,11 +481,69 @@ namespace ExtendedSurvival
         }
 
         /// <summary>
+        /// return a list of offwater collector of a grid
+        /// </summary>
+        public static IMySlimBlock[] GetOffwaterCollectors(long gridId)
+        {
+            return _GetOffwaterCollectors?.Invoke(gridId);
+        }
+
+        /// <summary>
+        /// return a list of water solidificatos of a grid
+        /// </summary>
+        public static List<IMySlimBlock> GetWaterSolidificators(long gridId)
+        {
+            return _GetWaterSolidificators?.Invoke(gridId);
+        }
+
+        /// <summary>
+        /// return true if grid has Disassembly Computer
+        /// </summary>
+        public static bool HasDisassemblyComputer(long gridId)
+        {
+            var value = _HasDisassemblyComputer?.Invoke(gridId);
+            return value.HasValue ? value.Value : false;
+        }
+
+        /// <summary>
+        /// return true if grid has Advanced Disassembly Computer
+        /// </summary>
+        public static bool HasAdvancedDisassemblyComputer(long gridId)
+        {
+            var value = _HasAdvancedDisassemblyComputer?.Invoke(gridId);
+            return value.HasValue ? value.Value : false;
+        }
+
+        /// <summary>
         /// Register a callback method to update of a observer
         /// </summary>
         public static void RegisterInventoryObserverUpdateCallback(Guid observerId, Action<Guid, MyInventory, IMyEntity, TimeSpan> callback)
         {
             _RegisterInventoryObserverUpdateCallback?.Invoke(observerId, callback);
+        }
+
+        /// <summary>
+        /// Register a callback method to after add content of a observer
+        /// </summary>
+        public static void RegisterInventoryObserverAfterContentsAddedCallback(Guid observerId, Action<Guid, MyInventory, MyPhysicalInventoryItem, MyFixedPoint> callback)
+        {
+            _RegisterInventoryObserverAfterContentsAddedCallback?.Invoke(observerId, callback);
+        }
+
+        /// <summary>
+        /// Register a callback method to after remove content of a observer
+        /// </summary>
+        public static void RegisterInventoryObserverAfterContentsRemovedCallback(Guid observerId, Action<Guid, MyInventory, MyPhysicalInventoryItem, MyFixedPoint> callback)
+        {
+            _RegisterInventoryObserverAfterContentsRemovedCallback?.Invoke(observerId, callback);
+        }
+
+        /// <summary>
+        /// Register a callback method to after change content of a observer
+        /// </summary>
+        public static void RegisterInventoryObserverAfterContentsChangedCallback(Guid observerId, Action<Guid, MyInventory, MyPhysicalInventoryItem, MyFixedPoint> callback)
+        {
+            _RegisterInventoryObserverAfterContentsChangedCallback?.Invoke(observerId, callback);
         }
 
         /// <summary>
@@ -565,7 +631,14 @@ namespace ExtendedSurvival
                         _GetHandheldGunInfo = (Func<long, string>)ModAPIMethods["GetHandheldGunInfo"];
                         _SetInventoryObserverSpoilStatus = (Action<Guid, bool, bool, float>)ModAPIMethods["SetInventoryObserverSpoilStatus"];
                         _GetUnderwaterCollectors = (Func<long, IMySlimBlock[]>)ModAPIMethods["GetUnderwaterCollectors"];
+                        _GetOffwaterCollectors = (Func<long, IMySlimBlock[]>)ModAPIMethods["GetOffwaterCollectors"];
+                        _GetWaterSolidificators = (Func<long, List<IMySlimBlock>>)ModAPIMethods["GetWaterSolidificators"];
                         _RegisterInventoryObserverUpdateCallback = (Action<Guid, Action<Guid, MyInventory, IMyEntity, TimeSpan>>)ModAPIMethods["RegisterInventoryObserverUpdateCallback"];
+                        _RegisterInventoryObserverAfterContentsAddedCallback = (Action<Guid, Action<Guid, MyInventory, MyPhysicalInventoryItem, MyFixedPoint>>)ModAPIMethods["RegisterInventoryObserverAfterContentsAddedCallback"];
+                        _RegisterInventoryObserverAfterContentsRemovedCallback = (Action<Guid, Action<Guid, MyInventory, MyPhysicalInventoryItem, MyFixedPoint>>)ModAPIMethods["RegisterInventoryObserverAfterContentsRemovedCallback"];
+                        _RegisterInventoryObserverAfterContentsChangedCallback = (Action<Guid, Action<Guid, MyInventory, MyPhysicalInventoryItem, MyFixedPoint>>)ModAPIMethods["RegisterInventoryObserverAfterContentsChangedCallback"];
+                        _HasDisassemblyComputer = (Func<long, bool>)ModAPIMethods["HasDisassemblyComputer"];
+                        _HasAdvancedDisassemblyComputer = (Func<long, bool>)ModAPIMethods["HasAdvancedDisassemblyComputer"];
 
                         if (m_onRegisteredAction != null)
                             m_onRegisteredAction();

@@ -30,6 +30,10 @@ namespace ExtendedSurvival
         private readonly ConcurrentDictionary<uint, MyItemExtraInfo> inventoryExtraInfo = new ConcurrentDictionary<uint, MyItemExtraInfo>();
 
         public event Action<Guid, MyInventory, IMyEntity, TimeSpan> OnAfterUpdate;
+        public event Action<Guid, MyInventory, MyPhysicalInventoryItem, VRage.MyFixedPoint> OnAfterContentsAdded;
+        public event Action<Guid, MyInventory, MyPhysicalInventoryItem, VRage.MyFixedPoint> OnAfterContentsRemoved;
+        public event Action<Guid, MyInventory, MyPhysicalInventoryItem, VRage.MyFixedPoint> OnAfterContentsChanged;
+
 
         private UInt128 _observerId;
         public UInt128 ObserverId
@@ -148,6 +152,7 @@ namespace ExtendedSurvival
                     Inventory_ContentsAdded(item, ammount);
                 else if (ammount < 0)
                     Inventory_ContentsRemoved(item, ammount * -1);
+                OnAfterContentsChanged?.Invoke(ObserverId.ToGuid(), Inventory, item, ammount);
             }
             catch (Exception ex)
             {
@@ -173,6 +178,7 @@ namespace ExtendedSurvival
                     }
                     OnContentsRemoved?.Invoke(this, item, ammount);
                     AfterContentsRemoved(item, ammount);
+                    OnAfterContentsRemoved?.Invoke(ObserverId.ToGuid(), Inventory, item, ammount);
                 }
             }
             catch (Exception ex)
@@ -196,6 +202,7 @@ namespace ExtendedSurvival
                 }
                 OnContentsAdded?.Invoke(this, item, ammount);
                 AfterContentsAdded(item, ammount);
+                OnAfterContentsAdded?.Invoke(ObserverId.ToGuid(), Inventory, item, ammount);
             }
             catch (Exception ex)
             {

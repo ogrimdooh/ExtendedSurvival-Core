@@ -13,6 +13,7 @@ using VRage.ObjectBuilders;
 using System.Linq;
 using VRage.Utils;
 using VRage.Game.ModAPI;
+using VRage.Game.Entity;
 
 namespace ExtendedSurvival
 {
@@ -208,7 +209,14 @@ namespace ExtendedSurvival
             ["GetHandheldGunInfo"] = new Func<long, string>(GetHandheldGunInfo),
             ["SetInventoryObserverSpoilStatus"] = new Action<Guid, bool, bool, float>(SetInventoryObserverSpoilStatus),
             ["GetUnderwaterCollectors"] = new Func<long, IMySlimBlock[]>(GetUnderwaterCollectors),
-            ["RegisterInventoryObserverUpdateCallback"] = new Action<Guid, Action<Guid, MyInventory, IMyEntity, TimeSpan>>(RegisterInventoryObserverUpdateCallback)
+            ["GetOffwaterCollectors"] = new Func<long, IMySlimBlock[]>(GetOffwaterCollectors),
+            ["GetWaterSolidificators"] = new Func<long, List<IMySlimBlock>>(GetWaterSolidificators),
+            ["RegisterInventoryObserverUpdateCallback"] = new Action<Guid, Action<Guid, MyInventory, IMyEntity, TimeSpan>>(RegisterInventoryObserverUpdateCallback),
+            ["RegisterInventoryObserverAfterContentsAddedCallback"] = new Action<Guid, Action<Guid, MyInventory, MyPhysicalInventoryItem, MyFixedPoint>>(RegisterInventoryObserverAfterContentsAddedCallback),
+            ["RegisterInventoryObserverAfterContentsRemovedCallback"] = new Action<Guid, Action<Guid, MyInventory, MyPhysicalInventoryItem, MyFixedPoint>>(RegisterInventoryObserverAfterContentsRemovedCallback),
+            ["RegisterInventoryObserverAfterContentsChangedCallback"] = new Action<Guid, Action<Guid, MyInventory, MyPhysicalInventoryItem, MyFixedPoint>>(RegisterInventoryObserverAfterContentsChangedCallback),
+            ["HasDisassemblyComputer"] = new Func<long, bool>(HasDisassemblyComputer),
+            ["HasAdvancedDisassemblyComputer"] = new Func<long, bool>(HasAdvancedDisassemblyComputer)
         };
 
         public static void BeforeStart()
@@ -303,6 +311,33 @@ namespace ExtendedSurvival
             var observer = MyInventoryObserverProgressController.GetById(observerId.ToUInt128());
             if (observer != null)
                 observer.Dispose();
+        }
+
+        public static void RegisterInventoryObserverAfterContentsAddedCallback(Guid observerId, Action<Guid, MyInventory, MyPhysicalInventoryItem, MyFixedPoint> callback)
+        {
+            var observer = MyInventoryObserverProgressController.GetById(observerId.ToUInt128());
+            if (observer != null)
+            {
+                observer.OnAfterContentsAdded += callback;
+            }
+        }
+
+        public static void RegisterInventoryObserverAfterContentsRemovedCallback(Guid observerId, Action<Guid, MyInventory, MyPhysicalInventoryItem, MyFixedPoint> callback)
+        {
+            var observer = MyInventoryObserverProgressController.GetById(observerId.ToUInt128());
+            if (observer != null)
+            {
+                observer.OnAfterContentsRemoved += callback;
+            }
+        }
+
+        public static void RegisterInventoryObserverAfterContentsChangedCallback(Guid observerId, Action<Guid, MyInventory, MyPhysicalInventoryItem, MyFixedPoint> callback)
+        {
+            var observer = MyInventoryObserverProgressController.GetById(observerId.ToUInt128());
+            if (observer != null)
+            {
+                observer.OnAfterContentsChanged += callback;
+            }
         }
 
         public static void RegisterInventoryObserverUpdateCallback(Guid observerId, Action<Guid, MyInventory, IMyEntity, TimeSpan> callback)
@@ -469,6 +504,38 @@ namespace ExtendedSurvival
             if (grid != null)
                 return grid.UnderwaterCollectors;
             return null;
+        }
+
+        public static IMySlimBlock[] GetOffwaterCollectors(long gridId)
+        {
+            var grid = ExtendedSurvivalEntityManager.Instance.GetGridByUuid(gridId);
+            if (grid != null)
+                return grid.OffwaterCollectors;
+            return null;
+        }
+
+        public static List<IMySlimBlock> GetWaterSolidificators(long gridId)
+        {
+            var grid = ExtendedSurvivalEntityManager.Instance.GetGridByUuid(gridId);
+            if (grid != null)
+                return grid.WaterSolidificators;
+            return null;
+        }
+
+        public static bool HasDisassemblyComputer(long gridId)
+        {
+            var grid = ExtendedSurvivalEntityManager.Instance.GetGridByUuid(gridId);
+            if (grid != null)
+                return grid.HasDisassemblyComputer;
+            return false;
+        }
+
+        public static bool HasAdvancedDisassemblyComputer(long gridId)
+        {
+            var grid = ExtendedSurvivalEntityManager.Instance.GetGridByUuid(gridId);
+            if (grid != null)
+                return grid.HasAdvancedDisassemblyComputer;
+            return false;
         }
 
     }
