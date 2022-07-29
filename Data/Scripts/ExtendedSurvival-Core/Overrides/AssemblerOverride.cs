@@ -55,7 +55,9 @@ namespace ExtendedSurvival
         {
             if (assemblerDefinition != null)
             {
-                assemblerDefinition.BlueprintClasses.Add(MyDefinitionManager.Static.GetBlueprintClass(ItensConstants.BASICASSEMBLER_BOTTLES_BLUEPRINTS));
+                var bottlesClass = MyDefinitionManager.Static.GetBlueprintClass(ItensConstants.BASICASSEMBLER_BOTTLES_BLUEPRINTS);
+                if (!assemblerDefinition.BlueprintClasses.Contains(bottlesClass))
+                    assemblerDefinition.BlueprintClasses.Add(bottlesClass);
                 assemblerDefinition.LoadPostProcess();
             }
         }
@@ -64,7 +66,9 @@ namespace ExtendedSurvival
         {
             if (assemblerDefinition != null)
             {
-                assemblerDefinition.BlueprintClasses.Add(MyDefinitionManager.Static.GetBlueprintClass(ItensConstants.ASSEMBLER_BOTTLES_BLUEPRINTS));
+                var bottlesClass = MyDefinitionManager.Static.GetBlueprintClass(ItensConstants.ASSEMBLER_BOTTLES_BLUEPRINTS);
+                if (!assemblerDefinition.BlueprintClasses.Contains(bottlesClass))
+                    assemblerDefinition.BlueprintClasses.Add(bottlesClass);
                 assemblerDefinition.LoadPostProcess();
             }
         }
@@ -72,10 +76,16 @@ namespace ExtendedSurvival
         public static void SetUpSurvivalKit(MySurvivalKitDefinition survivalKitDefinition)
         {
             if (survivalKitDefinition != null)
-            {                
-                survivalKitDefinition.BlueprintClasses.Add(MyDefinitionManager.Static.GetBlueprintClass(ItensConstants.SURVIVALKIT_REFINE_BLUEPRINTS));
-                survivalKitDefinition.BlueprintClasses.Add(MyDefinitionManager.Static.GetBlueprintClass(ItensConstants.SURVIVALKIT_BOTTLES_BLUEPRINTS));
-                survivalKitDefinition.BlueprintClasses.Add(MyDefinitionManager.Static.GetBlueprintClass(ItensConstants.SURVIVALKIT_ALCHEMY_BLUEPRINTS));
+            {
+                var refineClass = MyDefinitionManager.Static.GetBlueprintClass(ItensConstants.SURVIVALKIT_REFINE_BLUEPRINTS);
+                if (!survivalKitDefinition.BlueprintClasses.Contains(refineClass))
+                    survivalKitDefinition.BlueprintClasses.Add(refineClass);
+                var bottlesClass = MyDefinitionManager.Static.GetBlueprintClass(ItensConstants.SURVIVALKIT_BOTTLES_BLUEPRINTS);
+                if (!survivalKitDefinition.BlueprintClasses.Contains(bottlesClass))
+                    survivalKitDefinition.BlueprintClasses.Add(bottlesClass);
+                var alchemyClass = MyDefinitionManager.Static.GetBlueprintClass(ItensConstants.SURVIVALKIT_ALCHEMY_BLUEPRINTS);
+                if (!survivalKitDefinition.BlueprintClasses.Contains(alchemyClass))
+                    survivalKitDefinition.BlueprintClasses.Add(alchemyClass);
                 survivalKitDefinition.LoadPostProcess();
             }
         }

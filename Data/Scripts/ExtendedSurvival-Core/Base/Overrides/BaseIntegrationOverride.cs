@@ -158,7 +158,8 @@ namespace ExtendedSurvival
                     var blueprint = MyDefinitionManager.Static.GetBlueprintDefinition(definitionID);
                     if (blueprint != null)
                     {
-                        components.AddBlueprint(blueprint);
+                        if (!components.ContainsBlueprint(blueprint))
+                            components.AddBlueprint(blueprint);
                     }
                     else
                         ExtendedSurvivalLogging.Instance.LogWarning(GetType(), $"Override not found {item} blue print.");
