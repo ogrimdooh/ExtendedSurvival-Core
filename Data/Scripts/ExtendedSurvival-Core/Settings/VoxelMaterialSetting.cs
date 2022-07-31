@@ -11,6 +11,9 @@ namespace ExtendedSurvival
         public string Id { get; set; }
 
         [XmlElement]
+        public bool UsingTechnology { get; set; } = false;
+
+        [XmlElement]
         public int Version { get; set; } = 0;
 
         [XmlElement]

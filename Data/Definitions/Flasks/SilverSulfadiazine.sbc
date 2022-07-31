@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <PhysicalItems>
+
+    <PhysicalItem xsi:type="MyObjectBuilder_PhysicalItemDefinition">
+      <Id>
+        <TypeId>PhysicalObject</TypeId>
+        <SubtypeId>SilverSulfadiazine</SubtypeId>
+      </Id>
+      <DisplayName>Silver Sulfadiazine</DisplayName>
+      <Icon>Textures\GUI\Icons\silver_sulfadiazine.dds</Icon>
+      <Description></Description>
+      <Size>
+        <X>0.14</X>
+        <Y>0.43</Y>
+        <Z>0.14</Z>
+      </Size>
+      <Mass>4.5</Mass>
+      <Volume>1.5</Volume>
+      <Model>Models\Items\PowerKit.mwm</Model>
+      <PhysicalMaterial>Metal</PhysicalMaterial>
+      <MinimalPricePerUnit>150</MinimalPricePerUnit>
+      <MinimumOfferAmount>5</MinimumOfferAmount>
+      <MaximumOfferAmount>50</MaximumOfferAmount>
+      <CanPlayerOrder>true</CanPlayerOrder>
+    </PhysicalItem>
+
+  </PhysicalItems>
+  <Blueprints>
+
+    <Blueprint>
+      <Id>
+        <TypeId>BlueprintDefinition</TypeId>
+        <SubtypeId>SilverSulfadiazine_Construction</SubtypeId>
+      </Id>
+      <DisplayName>Silver Sulfadiazine</DisplayName>
+      <Icon>Textures\GUI\Icons\silver_sulfadiazine.dds</Icon>
+      <Prerequisites>
+        <Item Amount="1" TypeId="ConsumableItem" SubtypeId="Water_Flask_Big" />
+        <Item Amount="5" TypeId="Ingot" SubtypeId="SilverPowder" />
+      </Prerequisites>
+      <Results>
+        <Item Amount="1" TypeId="PhysicalObject" SubtypeId="SilverSulfadiazine" />
+      </Results>
+      <BaseProductionTimeInSeconds>10.24</BaseProductionTimeInSeconds>
+    </Blueprint>
+
+  </Blueprints>
+</Definitions>

@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <PhysicalItems>
+    <PhysicalItem>
+      <Id>
+        <TypeId>Ingot</TypeId>
+        <SubtypeId>SilverPowder</SubtypeId>
+      </Id>
+      <DisplayName>Silver Powder</DisplayName>
+      <Icon>Textures\GUI\Icons\powder_silver.dds</Icon>
+      <Size>
+        <X>0.083</X>
+        <Y>0.083</Y>
+        <Z>0.083</Z>
+      </Size>
+      <Mass>1</Mass>
+      <Volume>0.025</Volume>
+      <Model>Models\Ingots\magnesium_ingot.mwm</Model>
+      <PhysicalMaterial>Metal</PhysicalMaterial>
+      <IconSymbol>Ag</IconSymbol>
+      <MinimumOfferAmount>300</MinimumOfferAmount>
+      <MaximumOfferAmount>3000</MaximumOfferAmount>
+      <MinimumOrderAmount>10</MinimumOrderAmount>
+      <MaximumOrderAmount>200</MaximumOrderAmount>
+      <CanPlayerOrder>true</CanPlayerOrder>
+      <MinimumAcquisitionAmount>10</MinimumAcquisitionAmount>
+      <MaximumAcquisitionAmount>200</MaximumAcquisitionAmount>
+    </PhysicalItem>
+  </PhysicalItems>
+  <Blueprints>
+    <Blueprint>
+      <Id>
+        <TypeId>BlueprintDefinition</TypeId>
+        <SubtypeId>SilverPowder_Deconstruction</SubtypeId>
+      </Id>
+      <DisplayName>Silver Powder</DisplayName>
+      <Icon>Textures\GUI\Icons\powder_silver.dds</Icon>
+      <Prerequisites>
+        <Item Amount="1" TypeId="Ingot" SubtypeId="Silver" />
+      </Prerequisites>
+      <Result Amount="0.6" TypeId="Ingot" SubtypeId="SilverPowder" />
+      <BaseProductionTimeInSeconds>1.28</BaseProductionTimeInSeconds>
+    </Blueprint>
+  </Blueprints>
+</Definitions>

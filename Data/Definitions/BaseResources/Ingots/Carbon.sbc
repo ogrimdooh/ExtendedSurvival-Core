@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <PhysicalItems>
+    <PhysicalItem>
+      <Id>
+        <TypeId>Ingot</TypeId>
+        <SubtypeId>Carbon</SubtypeId>
+      </Id>
+      <DisplayName>Carbon Powder</DisplayName>
+      <Icon>Textures\GUI\Icons\powder_carbon.dds</Icon>
+      <Size>
+        <X>0.048</X>
+        <Y>0.048</Y>
+        <Z>0.048</Z>
+      </Size>
+      <Mass>1</Mass>
+      <Volume>0.05</Volume>
+      <Model>Models\Ingots\cobalt_ingot.mwm</Model>
+      <PhysicalMaterial>Metal</PhysicalMaterial>
+      <IconSymbol>C</IconSymbol>
+      <MinimumOfferAmount>300</MinimumOfferAmount>
+      <MaximumOfferAmount>3000</MaximumOfferAmount>
+      <MinimumOrderAmount>20</MinimumOrderAmount>
+      <MaximumOrderAmount>1000</MaximumOrderAmount>
+      <CanPlayerOrder>true</CanPlayerOrder>
+      <MinimumAcquisitionAmount>100</MinimumAcquisitionAmount>
+      <MaximumAcquisitionAmount>500</MaximumAcquisitionAmount>
+    </PhysicalItem>
+  </PhysicalItems>
+</Definitions>

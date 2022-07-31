@@ -99,9 +99,19 @@ namespace ExtendedSurvival
             return Planets.Any(x => x.Id.ToUpper().Trim() == id.ToUpper().Trim());
         }
 
+        public bool PlanetUsingTecnologyForFirstTime(string id)
+        {
+            return ExtendedSurvivalCoreSession.IsUsingTechnology() && Planets.Any(x => x.Id.ToUpper().Trim() == id.ToUpper().Trim() && !x.UsingTechnology);
+        }
+
+        public bool VoxelUsingTecnologyForFirstTime(string id)
+        {
+            return ExtendedSurvivalCoreSession.IsUsingTechnology() && VoxelMaterials.Any(x => x.Id.ToUpper().Trim() == id.ToUpper().Trim() && !x.UsingTechnology);
+        }
+
         public PlanetSetting GetPlanetInfo(string id, bool generateWhenNotExists = true)
         {
-            if (HasPlanetInfo(id))
+            if (HasPlanetInfo(id) && !PlanetUsingTecnologyForFirstTime(id))
             {
                 var settings = Planets.FirstOrDefault(x => x.Id.ToUpper().Trim() == id.ToUpper().Trim());
                 if (!IgnorePlanets.Split(';').Contains(id.ToUpper()))
@@ -115,7 +125,7 @@ namespace ExtendedSurvival
             else if (generateWhenNotExists)
             {
                 if (!IgnorePlanets.Split(';').Contains(id.ToUpper()))
-                    return GeneratePlanetInfo(id, MyUtils.GetRandomInt(10000000, int.MaxValue), 1.0f, id.ToUpper());
+                    return GeneratePlanetInfo(id, MyUtils.GetRandomInt(10000000, int.MaxValue), 1.0f, id.ToUpper(), true);
             }
             return null;
         }
@@ -273,7 +283,7 @@ namespace ExtendedSurvival
 
         public VoxelMaterialSetting GetVoxelInfo(string id, bool generateWhenNotExists = true)
         {
-            if (HasVoxelInfo(id))
+            if (HasVoxelInfo(id) && !VoxelUsingTecnologyForFirstTime(id))
             {
                 var settings = VoxelMaterials.FirstOrDefault(x => x.Id.ToUpper().Trim() == id.ToUpper().Trim());
                 var profile = VoxelMaterialMapProfile.Get(id.ToUpper());
@@ -283,7 +293,7 @@ namespace ExtendedSurvival
             }
             else if (generateWhenNotExists)
             {
-                return GenerateVoxelInfo(id);
+                return GenerateVoxelInfo(id, true);
             }
             return null;
         }

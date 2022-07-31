@@ -2,6 +2,7 @@
 using Sandbox.ModAPI;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using VRage.Game;
 using VRage.Game.Components;
@@ -13,6 +14,25 @@ namespace ExtendedSurvival
     [MySessionComponentDescriptor(MyUpdateOrder.AfterSimulation)]
     public class ExtendedSurvivalCoreSession : BaseSessionComponent
     {
+
+        public const ulong ES_TECHNOLOGY_MODID = 2842844421;
+        public const ulong ES_STATS_EFFECTS_MODID = 2840924715;
+
+        private static bool? isUsingTechnology = true; // NOT COMMIT
+        public static bool IsUsingTechnology()
+        {
+            if (!isUsingTechnology.HasValue)
+                isUsingTechnology =  MyAPIGateway.Session.Mods.Any(x => x.PublishedFileId == ES_TECHNOLOGY_MODID);
+            return isUsingTechnology.Value;
+        }
+
+        private static bool? isUsingStatsAndEffects = null;
+        public static bool IsUsingStatsAndEffects()
+        {
+            if (!isUsingStatsAndEffects.HasValue)
+                isUsingStatsAndEffects = MyAPIGateway.Session.Mods.Any(x => x.PublishedFileId == ES_STATS_EFFECTS_MODID);
+            return isUsingStatsAndEffects.Value;
+        }
 
         public static ExtendedSurvivalCoreSession Static { get; private set; }
 

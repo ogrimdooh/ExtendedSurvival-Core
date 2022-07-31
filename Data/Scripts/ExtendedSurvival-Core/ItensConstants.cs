@@ -16,6 +16,9 @@ namespace ExtendedSurvival
         public const string SURVIVALKIT_BOTTLES_BLUEPRINTS = "SurvivalKit_Bottles_Blueprints";
         public const string SURVIVALKIT_ALCHEMY_BLUEPRINTS = "SurvivalKit_Alchemy_Blueprints";
 
+        public const string TOXICICE_SUBTYPEID = "ToxicIce";
+        public static readonly UniqueEntityId TOXICICE_ID = new UniqueEntityId(typeof(MyObjectBuilder_Component), TOXICICE_SUBTYPEID);
+
         public const string ICE_SUBTYPEID = "Ice";
         public static readonly UniqueEntityId ICE_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), ICE_SUBTYPEID);
 

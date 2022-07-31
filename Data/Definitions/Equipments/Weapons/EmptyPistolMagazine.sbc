@@ -1,8 +1,6 @@
 <?xml version="1.0"?>
 <Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  
   <Components>
-
     <Component>
       <Id>
         <TypeId>Component</TypeId>
@@ -28,33 +26,21 @@
       <MaximumOrderAmount>2000</MaximumOrderAmount>
       <CanPlayerOrder>true</CanPlayerOrder>
     </Component>
-
-    <Component>
-      <Id>
-        <TypeId>Component</TypeId>
-        <SubtypeId>EmptyRifleMagazine</SubtypeId>
-      </Id>
-      <DisplayName>Empty Rifle Magzine</DisplayName>
-      <Icon>Textures\GUI\Icons\rifle_magzine_empty.dds</Icon>
-      <Size>
-        <X>0.2</X>
-        <Y>0.05</Y>
-        <Z>0.02</Z>
-      </Size>
-      <Mass>0.3</Mass>
-      <Volume>0.2</Volume>
-      <Model>Models\Weapons\Rifle_SemiAuto_Magazine_Warfare.mwm</Model>
-      <PhysicalMaterial>Ammo</PhysicalMaterial>
-      <MaxIntegrity>1</MaxIntegrity>
-      <DropProbability>0.5</DropProbability>
-      <Health>2</Health>
-      <MinimumOfferAmount>10</MinimumOfferAmount>
-      <MaximumOfferAmount>100</MaximumOfferAmount>
-      <MinimumOrderAmount>100</MinimumOrderAmount>
-      <MaximumOrderAmount>2000</MaximumOrderAmount>
-      <CanPlayerOrder>true</CanPlayerOrder>
-    </Component>
-
   </Components>
-  
+  <Blueprints>
+    <Blueprint>
+      <Id>
+        <TypeId>BlueprintDefinition</TypeId>
+        <SubtypeId>EmptyPistolMagazine_Construction</SubtypeId>
+      </Id>
+      <DisplayName>Empty Pistol Magzine</DisplayName>
+      <Icon>Textures\GUI\Icons\pistol_magzine_empty.dds</Icon>
+      <Prerequisites>
+        <Item Amount="0.5" TypeId="Ingot" SubtypeId="Iron" />
+        <Item Amount="0.15" TypeId="Ingot" SubtypeId="Nickel" />
+      </Prerequisites>
+      <Result Amount="1" TypeId="Component" SubtypeId="EmptyPistolMagazine" />
+      <BaseProductionTimeInSeconds>1</BaseProductionTimeInSeconds>
+    </Blueprint>
+  </Blueprints>
 </Definitions>

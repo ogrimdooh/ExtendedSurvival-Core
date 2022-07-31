@@ -236,31 +236,7 @@ namespace ExtendedSurvival
         {
             if (settings != null)
             {
-                if (settings.Version <= 0)
-                {
-                    settings.Animal.Animals = Animal.types.Select(x => new PlanetAnimalEntrySetting() { Id = x }).ToList();
-                }
-                if (settings.Version <= 2)
-                {
-                    settings.OreMap = BuildOresMappings(settings.Seed, settings.Multiplier);
-                    settings.Geothermal = BuildGeothermalSetting();
-                }
-                if (settings.Version <= 3)
-                {
-                    settings.Atmosphere = BuildAtmosphereSetting();
-                    settings.Water = BuildWaterSetting();
-                }
-                if (settings.Version <= 4)
-                {
-                    if (Origin == PlanetOrigin.OtherMod && OriginId == PlanetMapProfile.ATA_MODID)
-                    {
-                        settings = BuildSettings(settings.Id, settings.Seed, settings.Multiplier);
-                    }
-                    else
-                    {
-                        settings.Gravity = BuildGravitySetting();
-                    }
-                }
+                
                 settings.Version = Version;
             }
             return settings;
@@ -271,6 +247,7 @@ namespace ExtendedSurvival
             return new PlanetSetting()
             {
                 Id = id,
+                UsingTechnology = ExtendedSurvivalCoreSession.IsUsingTechnology(),
                 Seed = seed,
                 Multiplier = multiplier,
                 Version = Version,

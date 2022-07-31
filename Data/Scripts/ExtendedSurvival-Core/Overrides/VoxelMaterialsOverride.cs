@@ -13,6 +13,8 @@ namespace ExtendedSurvival
             var definitions = MyDefinitionManager.Static.GetVoxelMaterialDefinitions();
             foreach (var voxel in voxels)
             {
+                if (!ExtendedSurvivalCoreSession.IsUsingTechnology() && VoxelMaterialMapProfile.ESTechnologyVoxels.Contains(voxel))
+                    continue;
                 try
                 {
                     MyVoxelMaterialDefinition definition;
@@ -25,6 +27,10 @@ namespace ExtendedSurvival
                             definition.SpawnsInAsteroids = info.SpawnsInAsteroids;
                             definition.SpawnsFromMeteorites = info.SpawnsFromMeteorites;
                             definition.AsteroidGeneratorSpawnProbabilityMultiplier = info.AsteroidSpawnProbabilityMultiplier;
+                            if (VoxelMaterialMapProfile.ESToxicIce.Contains(voxel))
+                            {
+                                definition.MinedOre = ItensConstants.TOXICICE_SUBTYPEID;
+                            }
                             definition.Postprocess();
                             ExtendedSurvivalLogging.Instance.LogInfo(typeof(PlanetsOverride), $"Override voxel definition : {definition.Id.SubtypeName}");
                         }

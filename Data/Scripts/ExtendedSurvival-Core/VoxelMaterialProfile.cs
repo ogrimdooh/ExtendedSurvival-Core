@@ -19,6 +19,7 @@
             return new VoxelMaterialSetting()
             {
                 Id = id,
+                UsingTechnology = ExtendedSurvivalCoreSession.IsUsingTechnology(),
                 Version = Version,
                 MinedOreRatio = MinedOreRatio,
                 SpawnsFromMeteorites = SpawnsFromMeteorites,

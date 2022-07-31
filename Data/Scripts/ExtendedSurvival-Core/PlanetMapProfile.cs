@@ -17,6 +17,10 @@ namespace ExtendedSurvival
 
         }
 
+        public const ulong EARTHLIKE_ANIMALS_MODID = 2170447225;
+        public const ulong ATA_MODID = 1697074695;
+
+        // Valina
         public const string Iron_02 = "Iron_02";
         public const string Nickel_01 = "Nickel_01";
         public const string Silicon_01 = "Silicon_01";
@@ -28,7 +32,25 @@ namespace ExtendedSurvival
         public const string Uraninite_01 = "Uraninite_01";
         public const string Ice_01 = "Ice_01";
 
-        public const ulong EARTHLIKE_ANIMALS_MODID = 2170447225;
+        // ES Technology
+        public const string Aluminum_01 = "Aluminum_01";
+        public const string Copper_01 = "Copper_01";
+        public const string Lead_01 = "Lead_01";
+        public const string Sulfor_01 = "Sulfor_01";
+        public const string Carbon_01 = "Carbon_01";
+        public const string Potassium_01 = "Potassium_01";
+        public const string Lithium_01 = "Lithium_01";
+
+        public static readonly string[] ESTechnologyOres = new string[] 
+        { 
+            Aluminum_01, 
+            Copper_01, 
+            Lead_01, 
+            Sulfor_01, 
+            Carbon_01,
+            Potassium_01, 
+            Lithium_01 
+        };
 
         public const string DEFAULT_PROFILE = "DEFAULT";
 
@@ -42,8 +64,6 @@ namespace ExtendedSurvival
         public const string DEFAULT_EUROPA = "EUROPA";
         public const string DEFAULT_SPATAT = "SPATAT";
         public const string DEFAULT_TITAN = "TITAN";
-
-        public const ulong ATA_MODID = 1697074695;
 
         public const string ATA_00_SUN = "ATA 00 SUN";
         public const string ATA_01_MERCURY = "ATA 01 MERCURY";
@@ -201,6 +221,7 @@ namespace ExtendedSurvival
 
         private static readonly Dictionary<string, OreType> DEFAULT_ORE_INFO = new Dictionary<string, OreType>()
         {
+            // Vanila
             {
                 Iron_02,
                 new OreType()
@@ -340,6 +361,105 @@ namespace ExtendedSurvival
                         ammount = 3
                     }
                 }
+            },
+            // ES Technology            
+            {
+                Aluminum_01,
+                new OreType()
+                {
+                    Name = Aluminum_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = Aluminum_01,
+                        start = new Vector2I(6, 30),
+                        depth = new Vector2I(4, 10),
+                        ammount = 3
+                    }
+                }
+            },
+            {
+                Copper_01,
+                new OreType()
+                {
+                    Name = Copper_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = Copper_01,
+                        start = new Vector2I(6, 30),
+                        depth = new Vector2I(4, 10),
+                        ammount = 3
+                    }
+                }
+            },
+            {
+                Lead_01,
+                new OreType()
+                {
+                    Name = Lead_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = Lead_01,
+                        start = new Vector2I(15, 50),
+                        depth = new Vector2I(10, 25),
+                        ammount = 3
+                    }
+                }
+            },
+            {
+                Sulfor_01,
+                new OreType()
+                {
+                    Name = Sulfor_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = Sulfor_01,
+                        start = new Vector2I(15, 50),
+                        depth = new Vector2I(10, 25),
+                        ammount = 3
+                    }
+                }
+            },
+            {
+                Carbon_01,
+                new OreType()
+                {
+                    Name = Carbon_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = Carbon_01,
+                        start = new Vector2I(15, 50),
+                        depth = new Vector2I(10, 25),
+                        ammount = 3
+                    }
+                }
+            },
+            {
+                Potassium_01,
+                new OreType()
+                {
+                    Name = Potassium_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = Potassium_01,
+                        start = new Vector2I(20, 60),
+                        depth = new Vector2I(10, 25),
+                        ammount = 3
+                    }
+                }
+            },
+            {
+                Lithium_01,
+                new OreType()
+                {
+                    Name = Lithium_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = Lithium_01,
+                        start = new Vector2I(50, 100),
+                        depth = new Vector2I(15, 30),
+                        ammount = 3
+                    }
+                }
             }
         };
 
@@ -434,7 +554,23 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 5,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
+                        GetOreMap(Aluminum_01, 4),
+                        GetOreMap(Copper_01, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Sulfor_01, 3),
+                        GetOreMap(Carbon_01, 3),
+                        GetOreMap(Potassium_01, 2),
+                        GetOreMap(Cobalt_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -462,7 +598,23 @@ namespace ExtendedSurvival
                     Water = GetWater(true, 1.025f, -0.4f, 0, 0),
                     MaxGroupSize = 5,
                     StartBreak = 5,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
+                        GetOreMap(Aluminum_01, 4),
+                        GetOreMap(Copper_01, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Sulfor_01, 3),
+                        GetOreMap(Carbon_01, 3),
+                        GetOreMap(Potassium_01, 2),
+                        GetOreMap(Cobalt_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -488,7 +640,20 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 3,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Aluminum_01, 5),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Carbon_01, 3),
+                        GetOreMap(Potassium_01, 2),
+                        GetOreMap(Magnesium_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -516,7 +681,22 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 5,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 5),
+                        GetOreMap(Copper_01, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Ice_01, 3),
+                        GetOreMap(Sulfor_01, 3),
+                        GetOreMap(Carbon_01, 3),
+                        GetOreMap(Potassium_01, 2),
+                        GetOreMap(Platinum_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -545,7 +725,20 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 3,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 5),
+                        GetOreMap(Nickel_01, 4),
+                        GetOreMap(Copper_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Sulfor_01, 3),
+                        GetOreMap(Potassium_01, 2),
+                        GetOreMap(Platinum_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -574,7 +767,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 3,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
+                        GetOreMap(Copper_01, 3),
+                        GetOreMap(Sulfor_01, 3),
+                        GetOreMap(Potassium_01, 2),
+                        GetOreMap(Uraninite_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -603,7 +808,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 2,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Copper_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Silver_01, 3),
+                        GetOreMap(Gold_01, 3),
+                        GetOreMap(Lithium_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -631,7 +848,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 2,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Aluminum_01, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Silver_01, 3),
+                        GetOreMap(Gold_01, 3),
+                        GetOreMap(Lithium_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -659,7 +888,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 2,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Aluminum_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Silver_01, 3),
+                        GetOreMap(Gold_01, 3),
+                        GetOreMap(Lithium_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -687,7 +928,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 2,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Silver_01, 3),
+                        GetOreMap(Gold_01, 3),
+                        GetOreMap(Lithium_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -715,7 +968,19 @@ namespace ExtendedSurvival
                     Water = GetWater(true, 1.025f, 0.4f, 0.5f, 0.25f),
                     MaxGroupSize = 5,
                     StartBreak = 3,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Aluminum_01, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Sulfor_01, 3),
+                        GetOreMap(Potassium_01, 2),
+                        GetOreMap(Uraninite_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -758,7 +1023,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 3,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
+                        GetOreMap(Aluminum_01, 4),
+                        GetOreMap(Copper_01, 4),
+                        GetOreMap(Carbon_01, 6),
+                        GetOreMap(Potassium_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -785,7 +1062,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 3,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Sulfor_01, 4),
+                        GetOreMap(Carbon_01, 6),
+                        GetOreMap(Potassium_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -812,7 +1101,23 @@ namespace ExtendedSurvival
                     Water = GetWater(true, 1.025f, -0.4f, 0, 0),
                     MaxGroupSize = 5,
                     StartBreak = 5,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
+                        GetOreMap(Aluminum_01, 4),
+                        GetOreMap(Copper_01, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Sulfor_01, 3),
+                        GetOreMap(Carbon_01, 3),
+                        GetOreMap(Potassium_01, 2),
+                        GetOreMap(Cobalt_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -839,7 +1144,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 2,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Aluminum_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Silver_01, 3),
+                        GetOreMap(Gold_01, 3),
+                        GetOreMap(Lithium_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -866,7 +1183,22 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 5,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 5),
+                        GetOreMap(Copper_01, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Ice_01, 3),
+                        GetOreMap(Sulfor_01, 3),
+                        GetOreMap(Carbon_01, 3),
+                        GetOreMap(Potassium_01, 2),
+                        GetOreMap(Platinum_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -894,7 +1226,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 3,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Aluminum_01, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Sulfor_01, 3),
+                        GetOreMap(Potassium_01, 2),
+                        GetOreMap(Uraninite_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -922,7 +1266,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 2,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Aluminum_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Silver_01, 3),
+                        GetOreMap(Gold_01, 3),
+                        GetOreMap(Uraninite_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -949,7 +1305,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 2,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Aluminum_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Silver_01, 3),
+                        GetOreMap(Gold_01, 3),
+                        GetOreMap(Uraninite_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -976,7 +1344,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 2,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Silver_01, 3),
+                        GetOreMap(Gold_01, 3),
+                        GetOreMap(Lithium_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -1003,7 +1383,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 2,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Silver_01, 3),
+                        GetOreMap(Gold_01, 3),
+                        GetOreMap(Lithium_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -1030,7 +1422,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 3,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Aluminum_01, 4),
+                        GetOreMap(Nickel_01, 4),
+                        GetOreMap(Ice_01, 6),
+                        GetOreMap(Potassium_01, 2),
+                        GetOreMap(Platinum_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -1058,7 +1462,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 2,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Silver_01, 3),
+                        GetOreMap(Gold_01, 3),
+                        GetOreMap(Lithium_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -1085,7 +1501,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 2,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Silver_01, 3),
+                        GetOreMap(Gold_01, 3),
+                        GetOreMap(Lithium_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -1112,7 +1540,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 2,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Silver_01, 3),
+                        GetOreMap(Gold_01, 3),
+                        GetOreMap(Lithium_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -1139,7 +1579,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 2,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Silver_01, 3),
+                        GetOreMap(Gold_01, 3),
+                        GetOreMap(Lithium_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -1166,7 +1618,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 2,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Silver_01, 3),
+                        GetOreMap(Gold_01, 3),
+                        GetOreMap(Lithium_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -1193,7 +1657,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 2,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Silver_01, 3),
+                        GetOreMap(Gold_01, 3),
+                        GetOreMap(Lithium_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -1220,7 +1696,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 2,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Silver_01, 3),
+                        GetOreMap(Gold_01, 3),
+                        GetOreMap(Lithium_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -1247,7 +1735,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 3,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Nickel_01, 4),
+                        GetOreMap(Ice_01, 6),
+                        GetOreMap(Magnesium_01, 2),
+                        GetOreMap(Platinum_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -1275,7 +1775,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 2,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Silver_01, 3),
+                        GetOreMap(Gold_01, 3),
+                        GetOreMap(Lithium_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -1302,7 +1814,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 2,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Silver_01, 3),
+                        GetOreMap(Gold_01, 3),
+                        GetOreMap(Lithium_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -1329,7 +1853,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 2,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Silver_01, 3),
+                        GetOreMap(Gold_01, 3),
+                        GetOreMap(Lithium_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -1356,7 +1892,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 2,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Silver_01, 3),
+                        GetOreMap(Gold_01, 3),
+                        GetOreMap(Lithium_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -1383,7 +1931,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 2,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Silver_01, 3),
+                        GetOreMap(Gold_01, 3),
+                        GetOreMap(Lithium_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -1410,7 +1970,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 3,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Nickel_01, 4),
+                        GetOreMap(Ice_01, 6),
+                        GetOreMap(Silver_01, 2),
+                        GetOreMap(Platinum_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -1438,7 +2010,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 2,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Silver_01, 3),
+                        GetOreMap(Gold_01, 3),
+                        GetOreMap(Lithium_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -1465,7 +2049,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 2,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Nickel_01, 3),
+                        GetOreMap(Aluminum_01, 3),
+                        GetOreMap(Magnesium_01, 3),
+                        GetOreMap(Platinum_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
@@ -1493,7 +2089,19 @@ namespace ExtendedSurvival
                     Water = GetWater(false),
                     MaxGroupSize = 5,
                     StartBreak = 2,
-                    Ores = new List<PlanetProfile.OreMapInfo>()
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Silver_01, 3),
+                        GetOreMap(Gold_01, 3),
+                        GetOreMap(Lithium_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
                     {
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Nickel_01, 4),
