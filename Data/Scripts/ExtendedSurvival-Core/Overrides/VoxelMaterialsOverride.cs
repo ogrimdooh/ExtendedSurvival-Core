@@ -4,6 +4,7 @@ using VRage.Game;
 
 namespace ExtendedSurvival
 {
+
     public class VoxelMaterialsOverride
     {
 

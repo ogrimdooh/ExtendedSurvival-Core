@@ -18,7 +18,7 @@ namespace ExtendedSurvival
         public const ulong ES_TECHNOLOGY_MODID = 2842844421;
         public const ulong ES_STATS_EFFECTS_MODID = 2840924715;
 
-        private static bool? isUsingTechnology = true; // NOT COMMIT
+        private static bool? isUsingTechnology = null;
         public static bool IsUsingTechnology()
         {
             if (!isUsingTechnology.HasValue)

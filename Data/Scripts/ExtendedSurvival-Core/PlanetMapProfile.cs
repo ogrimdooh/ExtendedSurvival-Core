@@ -32,6 +32,9 @@ namespace ExtendedSurvival
         public const string Uraninite_01 = "Uraninite_01";
         public const string Ice_01 = "Ice_01";
 
+        // ES Core
+        public const string StoneIce_01 = "StoneIce_01";
+
         // ES Technology
         public const string Aluminum_01 = "Aluminum_01";
         public const string Copper_01 = "Copper_01";
@@ -358,6 +361,21 @@ namespace ExtendedSurvival
                         type = Uraninite_01,
                         start = new Vector2I(50, 100),
                         depth = new Vector2I(15, 30),
+                        ammount = 3
+                    }
+                }
+            },
+            // ES Core
+            {
+                StoneIce_01,
+                new OreType()
+                {
+                    Name = StoneIce_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = StoneIce_01,
+                        start = new Vector2I(10, 50),
+                        depth = new Vector2I(8, 16),
                         ammount = 3
                     }
                 }
@@ -689,7 +707,7 @@ namespace ExtendedSurvival
                         GetOreMap(Nickel_01, 5),
                         GetOreMap(Copper_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Ice_01, 3),
+                        GetOreMap(StoneIce_01, 3),
                         GetOreMap(Sulfor_01, 3),
                         GetOreMap(Carbon_01, 3),
                         GetOreMap(Potassium_01, 2),
@@ -1191,7 +1209,7 @@ namespace ExtendedSurvival
                         GetOreMap(Nickel_01, 5),
                         GetOreMap(Copper_01, 4),
                         GetOreMap(Silicon_01, 4),
-                        GetOreMap(Ice_01, 3),
+                        GetOreMap(StoneIce_01, 3),
                         GetOreMap(Sulfor_01, 3),
                         GetOreMap(Carbon_01, 3),
                         GetOreMap(Potassium_01, 2),
@@ -1429,7 +1447,7 @@ namespace ExtendedSurvival
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Aluminum_01, 4),
                         GetOreMap(Nickel_01, 4),
-                        GetOreMap(Ice_01, 6),
+                        GetOreMap(StoneIce_01, 6),
                         GetOreMap(Potassium_01, 2),
                         GetOreMap(Platinum_01, 2)
                     }
@@ -1742,7 +1760,7 @@ namespace ExtendedSurvival
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Silicon_01, 4),
                         GetOreMap(Nickel_01, 4),
-                        GetOreMap(Ice_01, 6),
+                        GetOreMap(StoneIce_01, 6),
                         GetOreMap(Magnesium_01, 2),
                         GetOreMap(Platinum_01, 2)
                     }
@@ -1977,7 +1995,7 @@ namespace ExtendedSurvival
                         GetOreMap(Iron_02, 4),
                         GetOreMap(Silicon_01, 4),
                         GetOreMap(Nickel_01, 4),
-                        GetOreMap(Ice_01, 6),
+                        GetOreMap(StoneIce_01, 6),
                         GetOreMap(Silver_01, 2),
                         GetOreMap(Platinum_01, 2)
                     }
