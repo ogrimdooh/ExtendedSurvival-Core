@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <VoxelMaterials>
+    
+    <VoxelMaterial xsi:type="MyObjectBuilder_Dx11VoxelMaterialDefinition">
+      <Id>
+        <TypeId>VoxelMaterialDefinition</TypeId>
+        <SubtypeId>StoneIce_01</SubtypeId>
+      </Id>
+      <MaterialTypeName>Rock</MaterialTypeName>
+      <MinedOre>StoneIce</MinedOre>
+      <MinedOreRatio>1.9</MinedOreRatio>
+      <CanBeHarvested>true</CanBeHarvested>
+      <SpawnsInAsteroids>true</SpawnsInAsteroids>
+      <IsRare>true</IsRare>
+      <SpawnsFromMeteorites>true</SpawnsFromMeteorites>
+      <IsIndestructible>false</IsIndestructible>
+      <ParticleEffect>Collision_Meteor</ParticleEffect>
+      <SpecularPower>21</SpecularPower>
+      <SpecularShininess>0.632</SpecularShininess>
+      <VoxelHandPreview>Textures\Voxels\AlienRockGrass_Thumbnail.dds</VoxelHandPreview>
+      <ColorMetalXZnY>Textures\Voxels\Ice_01_ForAxisXZ_cm.dds</ColorMetalXZnY>
+      <ColorMetalY>Textures\Voxels\Ice_01_ForAxisXZ_cm.dds</ColorMetalY>
+      <NormalGlossXZnY>Textures\Voxels\AlienRockGrass_ng.dds</NormalGlossXZnY>
+      <NormalGlossY>Textures\Voxels\Ice_01_ForAxisXZ_ng.dds</NormalGlossY>
+      <InitialScale>3.8</InitialScale>
+      <ScaleMultiplier>6.5</ScaleMultiplier>
+      <!--QUICK AND DIRTY COPY AND PASTE-->
+      <Far3Distance>2000</Far3Distance>
+      <Far3Color>
+        <X>0.17</X>
+        <Y>0.19</Y>
+        <Z>0.20</Z>
+        <W>1.0</W>
+      </Far3Color>
+      <ColorKey Hex="#28C2DD"/>
+      <LandingEffect>Landing_Jet_Ground_Dust</LandingEffect>
+    </VoxelMaterial>
+    
+  </VoxelMaterials>
+</Definitions>

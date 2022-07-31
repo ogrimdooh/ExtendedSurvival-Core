@@ -4,8 +4,10 @@
   <BlueprintClassEntries>
 
     <Entry Class="Refinery_CommonMetals" BlueprintSubtypeId="ToxicIcePurify" />
+    <Entry Class="Refinery_CommonMetals" BlueprintSubtypeId="StoneIcePurify" />
     <Entry Class="Ingots" BlueprintSubtypeId="ToxicIcePurify" />
-
+    <Entry Class="Ingots" BlueprintSubtypeId="StoneIcePurify" />
+    
   </BlueprintClassEntries>
   
 </Definitions>

@@ -288,7 +288,7 @@ namespace ExtendedSurvival
                 var settings = VoxelMaterials.FirstOrDefault(x => x.Id.ToUpper().Trim() == id.ToUpper().Trim());
                 var profile = VoxelMaterialMapProfile.Get(id.ToUpper());
                 if (profile != null && profile.Version > settings.Version)
-                    profile.UpgradeSettings(settings);
+                    settings = profile.UpgradeSettings(settings);
                 return settings;
             }
             else if (generateWhenNotExists)

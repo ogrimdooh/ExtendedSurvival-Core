@@ -103,8 +103,4 @@
     </Reference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\Definitions\BaseResources\VoxelMaterials\" />
-  </ItemGroup>
-
 </Project>

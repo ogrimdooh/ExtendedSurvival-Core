@@ -45,6 +45,9 @@ namespace ExtendedSurvival
             AlienSnow
         };
 
+        // ES Core
+        public const string StoneIce_01 = "StoneIce_01";
+
         // ES Technology
         public const string Aluminum_01 = "Aluminum_01";
         public const string Copper_01 = "Copper_01";
@@ -65,211 +68,228 @@ namespace ExtendedSurvival
             Lithium_01
         };
 
-        private const float VERYCOMMON_RATIO = 5;
-        private const float COMMON_RATIO = 4;
-        private const float UNCOMMON_RATIO = 3;
-        private const float RARE_RATIO = 2;
-        private const float LEGENDARY_RATIO = 1;
+        private const float VERYCOMMON_RATIO = 3;
+        private const float COMMON_RATIO = 2;
+        private const float UNCOMMON_RATIO = 1.5f;
+        private const float RARE_RATIO = 1;
+        private const float LEGENDARY_RATIO = 0.75f;
         private const float EPIC_RATIO = 0.5f;
+
+        private const int VERYCOMMON_SPAWN = 10;
+        private const int COMMON_SPAWN = 7;
+        private const int UNCOMMON_SPAWN = 5;
+        private const int RARE_SPAWN = 3;
+        private const int LEGENDARY_SPAWN = 2;
+        private const int EPIC_SPAWN = 1;
+        private const int NO_SPAWN = 0;
 
         private static readonly VoxelMaterialProfile IRON_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
-            Version = 0,
+            Version = 1,
             MinedOreRatio = VERYCOMMON_RATIO,
             SpawnsFromMeteorites = true,
             SpawnsInAsteroids = true,
-            AsteroidSpawnProbabilityMultiplier = 10
+            AsteroidSpawnProbabilityMultiplier = VERYCOMMON_SPAWN
         };
 
         private static readonly VoxelMaterialProfile NICKEL_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
-            Version = 0,
+            Version = 1,
             MinedOreRatio = COMMON_RATIO,
             SpawnsFromMeteorites = true,
             SpawnsInAsteroids = true,
-            AsteroidSpawnProbabilityMultiplier = 8
+            AsteroidSpawnProbabilityMultiplier = COMMON_SPAWN
         };
 
         private static readonly VoxelMaterialProfile SILICON_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
-            Version = 0,
+            Version = 1,
             MinedOreRatio = UNCOMMON_RATIO,
             SpawnsFromMeteorites = true,
             SpawnsInAsteroids = true,
-            AsteroidSpawnProbabilityMultiplier = 6
+            AsteroidSpawnProbabilityMultiplier = UNCOMMON_SPAWN
         };
 
         private static readonly VoxelMaterialProfile COBALT_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
-            Version = 0,
+            Version = 1,
             MinedOreRatio = LEGENDARY_RATIO,
             SpawnsFromMeteorites = !ExtendedSurvivalCoreSession.IsUsingTechnology(),
             SpawnsInAsteroids = !ExtendedSurvivalCoreSession.IsUsingTechnology(),
-            AsteroidSpawnProbabilityMultiplier = 1
+            AsteroidSpawnProbabilityMultiplier = EPIC_SPAWN
         };
 
         private static readonly VoxelMaterialProfile GOLD_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
-            Version = 0,
+            Version = 1,
             MinedOreRatio = LEGENDARY_RATIO,
             SpawnsFromMeteorites = !ExtendedSurvivalCoreSession.IsUsingTechnology(),
             SpawnsInAsteroids = !ExtendedSurvivalCoreSession.IsUsingTechnology(),
-            AsteroidSpawnProbabilityMultiplier = 1
+            AsteroidSpawnProbabilityMultiplier = EPIC_SPAWN
         };
 
         private static readonly VoxelMaterialProfile SILVER_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
-            Version = 0,
+            Version = 1,
             MinedOreRatio = LEGENDARY_RATIO,
             SpawnsFromMeteorites = !ExtendedSurvivalCoreSession.IsUsingTechnology(),
             SpawnsInAsteroids = !ExtendedSurvivalCoreSession.IsUsingTechnology(),
-            AsteroidSpawnProbabilityMultiplier = 1
+            AsteroidSpawnProbabilityMultiplier = EPIC_SPAWN
         };
 
         private static readonly VoxelMaterialProfile PLATINUM_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
-            Version = 0,
+            Version = 1,
             MinedOreRatio = EPIC_RATIO,
             SpawnsFromMeteorites = !ExtendedSurvivalCoreSession.IsUsingTechnology(),
             SpawnsInAsteroids = !ExtendedSurvivalCoreSession.IsUsingTechnology(),
-            AsteroidSpawnProbabilityMultiplier = 1
+            AsteroidSpawnProbabilityMultiplier = EPIC_SPAWN
         };
 
         private static readonly VoxelMaterialProfile MAGNEZIUM_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
-            Version = 0,
+            Version = 1,
             MinedOreRatio = LEGENDARY_RATIO,
             SpawnsFromMeteorites = !ExtendedSurvivalCoreSession.IsUsingTechnology(),
             SpawnsInAsteroids = !ExtendedSurvivalCoreSession.IsUsingTechnology(),
-            AsteroidSpawnProbabilityMultiplier = 1
+            AsteroidSpawnProbabilityMultiplier = EPIC_SPAWN
         };
 
         private static readonly VoxelMaterialProfile URANITE_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
-            Version = 0,
+            Version = 1,
             MinedOreRatio = EPIC_RATIO,
             SpawnsFromMeteorites = !ExtendedSurvivalCoreSession.IsUsingTechnology(),
             SpawnsInAsteroids = !ExtendedSurvivalCoreSession.IsUsingTechnology(),
-            AsteroidSpawnProbabilityMultiplier = 1
+            AsteroidSpawnProbabilityMultiplier = EPIC_SPAWN
         };
 
         private static readonly VoxelMaterialProfile ICE_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
-            Version = 0,
+            Version = 1,
             MinedOreRatio = RARE_RATIO,
             SpawnsFromMeteorites = true,
+            SpawnsInAsteroids = false,
+            AsteroidSpawnProbabilityMultiplier = RARE_SPAWN
+        };
+
+        private static readonly VoxelMaterialProfile STONE_ICE_VOXEL_MATERIAL = new VoxelMaterialProfile()
+        {
+            Version = 1,
+            MinedOreRatio = UNCOMMON_RATIO,
+            SpawnsFromMeteorites = true,
             SpawnsInAsteroids = true,
-            AsteroidSpawnProbabilityMultiplier = 4
+            AsteroidSpawnProbabilityMultiplier = RARE_SPAWN
         };
 
         private static readonly VoxelMaterialProfile SNOW_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
-            Version = 0,
-            MinedOreRatio = RARE_RATIO,
+            Version = 1,
+            MinedOreRatio = UNCOMMON_RATIO,
             SpawnsFromMeteorites = false,
             SpawnsInAsteroids = false,
-            AsteroidSpawnProbabilityMultiplier = 0
+            AsteroidSpawnProbabilityMultiplier = NO_SPAWN
         };
 
         private static readonly VoxelMaterialProfile EUROPA_ICE_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
-            Version = 0,
+            Version = 1,
             MinedOreRatio = COMMON_RATIO,
             SpawnsFromMeteorites = false,
-            SpawnsInAsteroids = false,
-            AsteroidSpawnProbabilityMultiplier = 0
+            SpawnsInAsteroids = true,
+            AsteroidSpawnProbabilityMultiplier = EPIC_SPAWN
         };
 
         private static readonly VoxelMaterialProfile ALIEN_ICE_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
-            Version = 0,
+            Version = 1,
             MinedOreRatio = COMMON_RATIO,
             SpawnsFromMeteorites = false,
-            SpawnsInAsteroids = false,
-            AsteroidSpawnProbabilityMultiplier = 0
+            SpawnsInAsteroids = true,
+            AsteroidSpawnProbabilityMultiplier = EPIC_SPAWN
         };
 
         private static readonly VoxelMaterialProfile ALIEN_SNOW_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
-            Version = 0,
-            MinedOreRatio = RARE_RATIO,
+            Version = 1,
+            MinedOreRatio = UNCOMMON_RATIO,
             SpawnsFromMeteorites = false,
             SpawnsInAsteroids = false,
-            AsteroidSpawnProbabilityMultiplier = 0
+            AsteroidSpawnProbabilityMultiplier = NO_SPAWN
         };
 
         private static readonly VoxelMaterialProfile TRITON_ICE_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
-            Version = 0,
-            MinedOreRatio = COMMON_RATIO,
+            Version = 1,
+            MinedOreRatio = RARE_RATIO,
             SpawnsFromMeteorites = false,
             SpawnsInAsteroids = false,
-            AsteroidSpawnProbabilityMultiplier = 0
+            AsteroidSpawnProbabilityMultiplier = NO_SPAWN
         };
 
         // ES Technology
 
         private static readonly VoxelMaterialProfile ALUMINUM_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
-            Version = 0,
+            Version = 1,
             MinedOreRatio = UNCOMMON_RATIO,
             SpawnsFromMeteorites = true,
             SpawnsInAsteroids = true,
-            AsteroidSpawnProbabilityMultiplier = 6
+            AsteroidSpawnProbabilityMultiplier = COMMON_SPAWN
         };
 
         private static readonly VoxelMaterialProfile COPPER_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
-            Version = 0,
+            Version = 1,
             MinedOreRatio = COMMON_RATIO,
             SpawnsFromMeteorites = true,
             SpawnsInAsteroids = true,
-            AsteroidSpawnProbabilityMultiplier = 8
+            AsteroidSpawnProbabilityMultiplier = COMMON_SPAWN
         };
 
         private static readonly VoxelMaterialProfile LEAD_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
-            Version = 0,
+            Version = 1,
             MinedOreRatio = RARE_RATIO,
             SpawnsFromMeteorites = false,
             SpawnsInAsteroids = false,
-            AsteroidSpawnProbabilityMultiplier = 1
+            AsteroidSpawnProbabilityMultiplier = EPIC_SPAWN
         };
 
         private static readonly VoxelMaterialProfile SULFOR_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
-            Version = 0,
+            Version = 1,
             MinedOreRatio = RARE_RATIO,
             SpawnsFromMeteorites = true,
             SpawnsInAsteroids = true,
-            AsteroidSpawnProbabilityMultiplier = 2
+            AsteroidSpawnProbabilityMultiplier = LEGENDARY_SPAWN
         };
 
         private static readonly VoxelMaterialProfile CARBON_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
-            Version = 0,
+            Version = 1,
             MinedOreRatio = RARE_RATIO,
             SpawnsFromMeteorites = true,
             SpawnsInAsteroids = true,
-            AsteroidSpawnProbabilityMultiplier = 2
+            AsteroidSpawnProbabilityMultiplier = LEGENDARY_SPAWN
         };
 
         private static readonly VoxelMaterialProfile POTASSIUM_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
-            Version = 0,
+            Version = 1,
             MinedOreRatio = RARE_RATIO,
             SpawnsFromMeteorites = false,
             SpawnsInAsteroids = false,
-            AsteroidSpawnProbabilityMultiplier = 1
+            AsteroidSpawnProbabilityMultiplier = EPIC_SPAWN
         };
 
         private static readonly VoxelMaterialProfile LITHIUM_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
-            Version = 0,
+            Version = 1,
             MinedOreRatio = LEGENDARY_RATIO,
             SpawnsFromMeteorites = false,
             SpawnsInAsteroids = false,
-            AsteroidSpawnProbabilityMultiplier = 1
+            AsteroidSpawnProbabilityMultiplier = EPIC_SPAWN
         };
 
         private static readonly Dictionary<string, VoxelMaterialProfile> PROFILES = new Dictionary<string, VoxelMaterialProfile>()
@@ -287,13 +307,15 @@ namespace ExtendedSurvival
             { Ice_01.ToUpper(), ICE_VOXEL_MATERIAL },
             { Ice_02.ToUpper(), ICE_VOXEL_MATERIAL },
             { Ice_03.ToUpper(), ICE_VOXEL_MATERIAL },
-            {Snow.ToUpper(), SNOW_VOXEL_MATERIAL },
-            {Ice.ToUpper(), ICE_VOXEL_MATERIAL },
-            {IceEuropa2.ToUpper(), EUROPA_ICE_VOXEL_MATERIAL },
-            {AlienIce.ToUpper(), ALIEN_ICE_VOXEL_MATERIAL },
-            {AlienIce_03.ToUpper(), ALIEN_ICE_VOXEL_MATERIAL },
-            {AlienSnow.ToUpper(), ALIEN_SNOW_VOXEL_MATERIAL },
-            {TritonIce.ToUpper(), TRITON_ICE_VOXEL_MATERIAL },
+            { Snow.ToUpper(), SNOW_VOXEL_MATERIAL },
+            { Ice.ToUpper(), ICE_VOXEL_MATERIAL },
+            { IceEuropa2.ToUpper(), EUROPA_ICE_VOXEL_MATERIAL },
+            { AlienIce.ToUpper(), ALIEN_ICE_VOXEL_MATERIAL },
+            { AlienIce_03.ToUpper(), ALIEN_ICE_VOXEL_MATERIAL },
+            { AlienSnow.ToUpper(), ALIEN_SNOW_VOXEL_MATERIAL },
+            { TritonIce.ToUpper(), TRITON_ICE_VOXEL_MATERIAL },
+            // ES Core
+            { StoneIce_01.ToUpper(), STONE_ICE_VOXEL_MATERIAL },
             // ES Technology
             { Aluminum_01.ToUpper(), ALUMINUM_VOXEL_MATERIAL },
             { Copper_01.ToUpper(), COPPER_VOXEL_MATERIAL },
@@ -326,6 +348,8 @@ namespace ExtendedSurvival
             AlienIce_03,
             AlienSnow,
             TritonIce,
+            // ES Core
+            StoneIce_01,
             // ES Technology
             Aluminum_01,
             Copper_01,

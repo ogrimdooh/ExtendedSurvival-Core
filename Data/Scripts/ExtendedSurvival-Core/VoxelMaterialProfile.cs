@@ -9,9 +9,17 @@
         public bool SpawnsInAsteroids { get; set; }
         public int AsteroidSpawnProbabilityMultiplier { get; set; }
 
-        public void UpgradeSettings(VoxelMaterialSetting settings)
+        public VoxelMaterialSetting UpgradeSettings(VoxelMaterialSetting settings)
         {
-
+            if (settings != null)
+            {
+                if (Version < 1)
+                {
+                    settings = BuildSettings(settings.Id);
+                }
+                settings.Version = Version;
+            }
+            return settings;
         }
 
         public VoxelMaterialSetting BuildSettings(string id)
