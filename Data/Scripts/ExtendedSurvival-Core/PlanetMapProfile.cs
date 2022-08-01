@@ -563,7 +563,8 @@ namespace ExtendedSurvival
                 new PlanetProfile()
                 {
                     Origin = PlanetProfile.PlanetOrigin.NotDefined,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_SPIDERS_01,
                     Geothermal = GetGeothermal(false),
                     Atmosphere = GetAtmosphere(false),
@@ -605,7 +606,8 @@ namespace ExtendedSurvival
                 new PlanetProfile()
                 {
                     Origin = PlanetProfile.PlanetOrigin.Vanila,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = true,
                     ColorInfluence = 15,
                     TargetColor = "#616c83",
                     Animal = DEFAULT_EARTH,
@@ -649,7 +651,8 @@ namespace ExtendedSurvival
                 new PlanetProfile()
                 {
                     Origin = PlanetProfile.PlanetOrigin.Vanila,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_WOLF,
                     Geothermal = GetGeothermal(true, depthMultiplier: 2, rowSizeMultiplier: 2, powerMultiplier: 0.75f),
                     Atmosphere = GetAtmosphere(true, true, 1, 0.9f, 80, 0.5f, 0, 0),
@@ -688,7 +691,8 @@ namespace ExtendedSurvival
                 new PlanetProfile()
                 {
                     Origin = PlanetProfile.PlanetOrigin.Vanila,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     TargetColor = "#616c83",
                     ColorInfluence = 15,
                     Animal = DEFAULT_SPIDERS_02,
@@ -732,7 +736,8 @@ namespace ExtendedSurvival
                 new PlanetProfile()
                 {
                     Origin = PlanetProfile.PlanetOrigin.Vanila,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     TargetColor = "#000000",
                     ColorInfluence = 200,
                     Animal = DEFAULT_SPIDERS_01,
@@ -774,7 +779,8 @@ namespace ExtendedSurvival
                 new PlanetProfile()
                 {
                     Origin = PlanetProfile.PlanetOrigin.ExtendedSurvival,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     ColorInfluence = 100,
                     TargetColor = "#abab9a",
                     Animal = DEFAULT_SPIDERS_01,
@@ -815,7 +821,8 @@ namespace ExtendedSurvival
                 new PlanetProfile()
                 {
                     Origin = PlanetProfile.PlanetOrigin.Vanila,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     ColorInfluence = 15,
                     TargetColor = "#616c83",
                     Animal = DEFAULT_NO_ANIMALS,
@@ -855,7 +862,8 @@ namespace ExtendedSurvival
                 new PlanetProfile()
                 {
                     Origin = PlanetProfile.PlanetOrigin.ExtendedSurvival,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     ColorInfluence = 15,
                     TargetColor = "#616c83",
                     Animal = DEFAULT_NO_ANIMALS,
@@ -895,7 +903,8 @@ namespace ExtendedSurvival
                 new PlanetProfile()
                 {
                     Origin = PlanetProfile.PlanetOrigin.Vanila,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     ColorInfluence = 15,
                     TargetColor = "#FFFFFF",
                     Animal = DEFAULT_NO_ANIMALS,
@@ -935,7 +944,8 @@ namespace ExtendedSurvival
                 new PlanetProfile()
                 {
                     Origin = PlanetProfile.PlanetOrigin.Vanila,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     ColorInfluence = 15,
                     TargetColor = "#616c83",
                     Animal = DEFAULT_NO_ANIMALS,
@@ -975,7 +985,8 @@ namespace ExtendedSurvival
                 new PlanetProfile()
                 {
                     Origin = PlanetProfile.PlanetOrigin.Vanila,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     ColorInfluence = 15,
                     TargetColor = "#616c83",
                     Animal = DEFAULT_SPIDERS_03,
@@ -1017,7 +1028,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(true, depthMultiplier: 0.1f, rowSizeMultiplier: 0.25f, powerMultiplier: 5f),
                     Atmosphere = GetAtmosphere(true, false, 1f, 0, 170, 1000, 2.5f, 5f),
@@ -1032,7 +1044,7 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
                     Animal = DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(true, depthMultiplier: 0.5f, rowSizeMultiplier: 0.5f, powerMultiplier: 1.25f),
                     Atmosphere = GetAtmosphere(true, false, 1f, 0, 15, 5, 0.25f, 0.15f),
@@ -1071,7 +1083,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(true, depthMultiplier: 1f, rowSizeMultiplier: 0.5f, powerMultiplier: 0.75f),
                     Atmosphere = GetAtmosphere(true, false, 1f, 0, 380, 5, 0.5f, 0.05f),
@@ -1110,7 +1123,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_EARTH,
                     Geothermal = GetGeothermal(true),
                     Atmosphere = GetAtmosphere(true, true, 1, 0.9f, 372, 5, 0, 0),
@@ -1153,7 +1167,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(false),
                     Atmosphere = GetAtmosphere(false),
@@ -1192,7 +1207,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_SPIDERS_02,
                     Geothermal = GetGeothermal(true, depthMultiplier: 1.5f, rowSizeMultiplier: 1.25f, powerMultiplier: 0.5f),
                     Atmosphere = GetAtmosphere(true, false, 1f, 0f, 80, 2, 0.25f, 0f),
@@ -1235,7 +1251,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(true, depthMultiplier: 0.75f, rowSizeMultiplier: 0.5f, powerMultiplier: 1.25f),
                     Atmosphere = GetAtmosphere(true, false, 1f, 0f, 580, 5, 0.5f, 0.75f),
@@ -1275,7 +1292,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(false),
                     Atmosphere = GetAtmosphere(false),
@@ -1314,7 +1332,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(false),
                     Atmosphere = GetAtmosphere(false),
@@ -1353,7 +1372,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(false),
                     Atmosphere = GetAtmosphere(false),
@@ -1392,7 +1412,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(false),
                     Atmosphere = GetAtmosphere(false),
@@ -1431,7 +1452,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(false),
                     Atmosphere = GetAtmosphere(true, false, 1f, 0f, 580, 5, 0.15f, 0.05f),
@@ -1471,7 +1493,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(false),
                     Atmosphere = GetAtmosphere(false),
@@ -1510,7 +1533,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(false),
                     Atmosphere = GetAtmosphere(false),
@@ -1549,7 +1573,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(false),
                     Atmosphere = GetAtmosphere(false),
@@ -1588,7 +1613,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(false),
                     Atmosphere = GetAtmosphere(false),
@@ -1627,7 +1653,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(false),
                     Atmosphere = GetAtmosphere(false),
@@ -1666,7 +1693,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(false),
                     Atmosphere = GetAtmosphere(false),
@@ -1705,7 +1733,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(false),
                     Atmosphere = GetAtmosphere(false),
@@ -1744,7 +1773,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(false),
                     Atmosphere = GetAtmosphere(true, false, 1f, 0f, 350, 5, 0.15f, 0.05f),
@@ -1784,7 +1814,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(false),
                     Atmosphere = GetAtmosphere(false),
@@ -1823,7 +1854,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(false),
                     Atmosphere = GetAtmosphere(false),
@@ -1862,7 +1894,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(false),
                     Atmosphere = GetAtmosphere(false),
@@ -1901,7 +1934,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(false),
                     Atmosphere = GetAtmosphere(false),
@@ -1940,7 +1974,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(false),
                     Atmosphere = GetAtmosphere(false),
@@ -1979,7 +2014,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(false),
                     Atmosphere = GetAtmosphere(true, false, 1f, 0f, 350, 5, 0.15f, 0.05f),
@@ -2019,7 +2055,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(false),
                     Atmosphere = GetAtmosphere(false),
@@ -2058,7 +2095,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(false),
                     Atmosphere = GetAtmosphere(true, false, 1f, 0f, 10, 5, 0.15f, 0.05f),
@@ -2098,7 +2136,8 @@ namespace ExtendedSurvival
                 {
                     Origin = PlanetProfile.PlanetOrigin.OtherMod,
                     OriginId = ATA_MODID,
-                    Version = 5,
+                    Version = 6,
+                    RespawnEnabled = false,
                     Animal = DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(false),
                     Atmosphere = GetAtmosphere(false),

@@ -7,39 +7,44 @@
         <SubtypeId>RespawnPlanetPod</SubtypeId>
       </Id>
       <DisplayName>DisplayName_PlanetaryLander</DisplayName>
-      <Icon>Textures\GUI\Icons\RespawnShips\RespawnMoonPod.png</Icon>
+      <Icon>Textures\GUI\Icons\RespawnShips\ESSimpleRespawnPlanetPod.png</Icon>
       <CooldownSeconds>240</CooldownSeconds>
       <Prefab>RespawnMoonPod</Prefab>
       <PlanetTypes>
         <PlanetType>EarthLike</PlanetType>
       </PlanetTypes>
-      <PlanetDeployAltitude>8</PlanetDeployAltitude>
+      <PlanetDeployAltitude>6</PlanetDeployAltitude>
       <UseForPlanetsWithAtmosphere>true</UseForPlanetsWithAtmosphere>
       <HelpTextLocalizationId>RespawnScreeenHelpTextSpawn</HelpTextLocalizationId>
     </Ship>
-    <Ship Enabled="false">
+    <Ship>
       <Id>
         <TypeId>RespawnShipDefinition</TypeId>
         <SubtypeId>RespawnMoonPod</SubtypeId>
       </Id>
       <DisplayName>DisplayName_PlanetaryLander</DisplayName>
-      <Icon>Textures\GUI\Icons\RespawnShips\RespawnMoonPod.png</Icon>
+      <Icon>Textures\GUI\Icons\RespawnShips\ESSimpleRespawnPlanetPod.png</Icon>
       <CooldownSeconds>900</CooldownSeconds>
       <Prefab>RespawnMoonPod</Prefab>
-      <PlanetDeployAltitude>8</PlanetDeployAltitude>
+      <PlanetTypes>
+        <PlanetType>EarthLike</PlanetType>
+      </PlanetTypes>
+      <PlanetDeployAltitude>6</PlanetDeployAltitude>
       <UseForPlanetsWithoutAtmosphere>true</UseForPlanetsWithoutAtmosphere>
       <HelpTextLocalizationId>RespawnScreeenHelpTextSpawn</HelpTextLocalizationId>
     </Ship>
-    <Ship Enabled="false">
+    <Ship>
       <Id>
         <TypeId>RespawnShipDefinition</TypeId>
         <SubtypeId>RespawnSpacePod</SubtypeId>
       </Id>
       <DisplayName>DisplayName_RespawnPodSpace</DisplayName>
-      <Icon>Textures\GUI\Icons\RespawnShips\RespawnSpacePod.png</Icon>
+      <Icon>Textures\GUI\Icons\RespawnShips\ESSimpleRespawnSpacePod.png</Icon>
       <CooldownSeconds>900</CooldownSeconds>
       <Prefab>RespawnSpacePod</Prefab>
-      <UseForSpace>true</UseForSpace>
+      <UseForPlanetsWithAtmosphere>false</UseForPlanetsWithAtmosphere>
+      <UseForPlanetsWithoutAtmosphere>false</UseForPlanetsWithoutAtmosphere>
+      <UseForSpace>false</UseForSpace>
       <HelpTextLocalizationId>RespawnScreeenHelpTextSpaceSpawn</HelpTextLocalizationId>
     </Ship>
   </RespawnShips>

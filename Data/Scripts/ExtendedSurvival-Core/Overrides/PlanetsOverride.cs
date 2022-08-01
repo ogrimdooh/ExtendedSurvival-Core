@@ -1,5 +1,6 @@
 ﻿using Sandbox.Definitions;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using VRage.Game;
 
@@ -50,10 +51,10 @@ namespace ExtendedSurvival
             string[] materialsToRemove = new string[] { VoxelMaterialMapProfile.Snow };
             foreach (var group in definition.MaterialGroups)
             {
-                foreach (var rule in group.MaterialRules.Where(x => x.Layers.Any(y=> materialsToRemove.Contains(y.Material))))
+                foreach (var rule in group.MaterialRules.Where(x => x.Layers.Any(y => materialsToRemove.Contains(y.Material))))
                 {
-                    rule.Layers = rule.Layers.Select(x => new MyPlanetMaterialLayer() 
-                    { 
+                    rule.Layers = rule.Layers.Select(x => new MyPlanetMaterialLayer()
+                    {
                         Material = materialsToRemove.Contains(x.Material) ? VoxelMaterialMapProfile.AlienSnow : x.Material,
                         Depth = x.Depth
                     }).ToArray();
@@ -77,8 +78,17 @@ namespace ExtendedSurvival
             }
         }
 
+        private const string RespawnPlanetPod = "RespawnPlanetPod";
+        private const string RespawnMoonPod = "RespawnMoonPod";
+        private const string RespawnSpacePod = "RespawnSpacePod";
+
+        private static string[] VALID_RESPAWN_SHIPS = new string[] { "ESSimpleRespawnPlanetPod", "ESSimpleRespawnPlanetPod", "ESSimpleSpaceRespawnPod" };
+        private static string[] TECH_VALID_RESPAWN_SHIPS = new string[] { "ESRespawnPlanetPod", "ESRespawnPlanetPod", "ESSpaceRespawnPod" };
+
         public static void SetDefinitions()
         {
+            // Override Planets
+            var respawnPlanets = new List<string>();
             var planets = MyDefinitionManager.Static.GetPlanetsGeneratorsDefinitions();
             foreach (var definition in planets)
             {
@@ -87,6 +97,8 @@ namespace ExtendedSurvival
                     var info = ExtendedSurvivalSettings.Instance.GetPlanetInfo(definition.Id.SubtypeName);
                     if (info != null)
                     {
+                        if (info.RespawnEnabled)
+                            respawnPlanets.Add(definition.Id.SubtypeName);
                         definition.OreMappings = info.GetOreMap();
                         definition.AnimalSpawnInfo = info.Animal.GetDaySpawnDefinition();
                         definition.NightAnimalSpawnInfo = info.Animal.GetNightSpawnDefinition();
@@ -105,6 +117,20 @@ namespace ExtendedSurvival
                     ExtendedSurvivalLogging.Instance.LogError(typeof(PlanetsOverride), ex);
                 }
             }
+            // Override Start Ships
+            var validShips = ExtendedSurvivalCoreSession.IsUsingTechnology() ? TECH_VALID_RESPAWN_SHIPS : VALID_RESPAWN_SHIPS;
+            var planetShip = MyDefinitionManager.Static.GetRespawnShipDefinition(RespawnPlanetPod);
+            planetShip.Prefab = MyDefinitionManager.Static.GetPrefabDefinition(validShips[0]);
+            planetShip.PlanetTypes = respawnPlanets.ToArray();
+            planetShip.Postprocess();
+            var moonShip = MyDefinitionManager.Static.GetRespawnShipDefinition(RespawnMoonPod);
+            moonShip.Prefab = MyDefinitionManager.Static.GetPrefabDefinition(validShips[1]);
+            moonShip.PlanetTypes = respawnPlanets.ToArray();
+            moonShip.Postprocess();
+            var spaceShip = MyDefinitionManager.Static.GetRespawnShipDefinition(RespawnSpacePod);
+            spaceShip.Prefab = MyDefinitionManager.Static.GetPrefabDefinition(validShips[2]);
+            spaceShip.UseForSpace = ExtendedSurvivalSettings.Instance.RespawnSpacePodEnabled;
+            spaceShip.Postprocess();
         }
 
     }

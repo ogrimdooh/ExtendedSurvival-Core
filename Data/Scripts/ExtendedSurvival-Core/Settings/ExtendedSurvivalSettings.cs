@@ -38,7 +38,10 @@ namespace ExtendedSurvival
         public bool DinamicConcreteGridEnabled { get; set; } = false;
 
         [XmlElement]
-        public bool RotEnabled { get; set; }
+        public bool RotEnabled { get; set; } = true;
+
+        [XmlElement]
+        public bool RespawnSpacePodEnabled { get; set; } = false;
 
         [XmlArray("Planets"), XmlArrayItem("Planet", typeof(PlanetSetting))]
         public List<PlanetSetting> Planets { get; set; } = new List<PlanetSetting>();
@@ -276,6 +279,14 @@ namespace ExtendedSurvival
                             return true;
                         }
                         break;
+                    case "respawnenabled":
+                        bool respawnenabled;
+                        if (bool.TryParse(value, out respawnenabled))
+                        {
+                            info.RespawnEnabled = respawnenabled;
+                            return true;
+                        }
+                        break;
                 }
             }
             return false;
@@ -393,6 +404,14 @@ namespace ExtendedSurvival
                     if (bool.TryParse(value, out dinamicconcretegridenabled))
                     {
                         DinamicConcreteGridEnabled = dinamicconcretegridenabled;
+                        return true;
+                    }
+                    break;
+                case "respawnspacepodenabled":
+                    bool respawnspacepodenabled;
+                    if (bool.TryParse(value, out respawnspacepodenabled))
+                    {
+                        RespawnSpacePodEnabled = respawnspacepodenabled;
                         return true;
                     }
                     break;

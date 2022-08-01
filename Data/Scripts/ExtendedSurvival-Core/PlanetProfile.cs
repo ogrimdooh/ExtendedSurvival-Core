@@ -102,6 +102,7 @@ namespace ExtendedSurvival
 
         }
 
+        public bool RespawnEnabled { get; set; }
         public PlanetOrigin Origin { get; set; }
         public ulong OriginId { get; set; }
         public AnimalInfo Animal { get; set; }
@@ -236,7 +237,10 @@ namespace ExtendedSurvival
         {
             if (settings != null)
             {
-                
+                if (settings.Version < 6)
+                {
+                    settings.RespawnEnabled = RespawnEnabled;
+                }
                 settings.Version = Version;
             }
             return settings;
@@ -248,6 +252,7 @@ namespace ExtendedSurvival
             {
                 Id = id,
                 UsingTechnology = ExtendedSurvivalCoreSession.IsUsingTechnology(),
+                RespawnEnabled = RespawnEnabled,
                 Seed = seed,
                 Multiplier = multiplier,
                 Version = Version,
