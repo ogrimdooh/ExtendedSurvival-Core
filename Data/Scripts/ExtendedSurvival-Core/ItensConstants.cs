@@ -16,6 +16,15 @@ namespace ExtendedSurvival
         public const string SURVIVALKIT_BOTTLES_BLUEPRINTS = "SurvivalKit_Bottles_Blueprints";
         public const string SURVIVALKIT_ALCHEMY_BLUEPRINTS = "SurvivalKit_Alchemy_Blueprints";
 
+        public const string SOIL_SUBTYPEID = "Soil";
+        public static readonly UniqueEntityId SOIL_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), SOIL_SUBTYPEID);
+
+        public const string MOONSOIL_SUBTYPEID = "MoonSoil";
+        public static readonly UniqueEntityId MOONSOIL_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), MOONSOIL_SUBTYPEID);
+
+        public const string DESERTSOIL_SUBTYPEID = "DesertSoil";
+        public static readonly UniqueEntityId DESERTSOIL_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), DESERTSOIL_SUBTYPEID);
+
         public const string TOXICICE_SUBTYPEID = "ToxicIce";
         public static readonly UniqueEntityId TOXICICE_ID = new UniqueEntityId(typeof(MyObjectBuilder_Component), TOXICICE_SUBTYPEID);
 

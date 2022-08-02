@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <PhysicalItems>
+
+    <PhysicalItem>
+      <Id>
+        <TypeId>Ore</TypeId>
+        <SubtypeId>DesertSoil</SubtypeId>
+      </Id>
+      <DisplayName>Desert Soil</DisplayName>
+      <Icon>Textures\GUI\Icons\ore_desert_soil.dds</Icon>
+      <Size>
+        <X>0.07</X>
+        <Y>0.07</Y>
+        <Z>0.07</Z>
+      </Size>
+      <Mass>1</Mass>
+      <Volume>0.4</Volume>
+      <Model>Models\Components\Sphere.mwm</Model>
+      <PhysicalMaterial>Stone</PhysicalMaterial>
+      <IconSymbol>Soil</IconSymbol>
+    </PhysicalItem>
+
+  </PhysicalItems>
+  <Blueprints>
+
+    <Blueprint>
+      <Id>
+        <TypeId>BlueprintDefinition</TypeId>
+        <SubtypeId>DesertSoil_Deconstruction</SubtypeId>
+      </Id>
+      <DisplayName>Desert Soil</DisplayName>
+      <Icon>Textures\GUI\Icons\ore_gravel.dds</Icon>
+      <Prerequisites>
+        <Item Amount="1" TypeId="Ore" SubtypeId="DesertSoil" />
+      </Prerequisites>
+      <Results>
+        <Item Amount="0.15" TypeId="Ingot" SubtypeId="Stone" />
+        <Item Amount="0.1" TypeId="Ingot" SubtypeId="Sand" />
+      </Results>
+      <BaseProductionTimeInSeconds>0.24</BaseProductionTimeInSeconds>
+    </Blueprint>
+
+  </Blueprints>
+</Definitions>

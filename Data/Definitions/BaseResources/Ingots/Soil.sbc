@@ -4,10 +4,10 @@
     <PhysicalItem>
       <Id>
         <TypeId>Ingot</TypeId>
-        <SubtypeId>Sand</SubtypeId>
+        <SubtypeId>Soil</SubtypeId>
       </Id>
-      <DisplayName>Sand Powder</DisplayName>
-      <Icon>Textures\GUI\Icons\ore_sand.dds</Icon>
+      <DisplayName>Soil Powder</DisplayName>
+      <Icon>Textures\GUI\Icons\powder_soil.dds</Icon>
       <Size>
         <X>0.072</X>
         <Y>0.072</Y>
@@ -17,7 +17,7 @@
       <Volume>0.2</Volume>
       <Model>Models\Ingots\stone_ingot.mwm</Model>
       <PhysicalMaterial>Metal</PhysicalMaterial>
-      <IconSymbol>Sand</IconSymbol>
+      <IconSymbol>Soil</IconSymbol>
       <CanPlayerOrder>true</CanPlayerOrder>
       <MinimumOfferAmount>300</MinimumOfferAmount>
       <MaximumOfferAmount>3000</MaximumOfferAmount>
@@ -28,22 +28,4 @@
       <MaximumAcquisitionAmount>200</MaximumAcquisitionAmount>
     </PhysicalItem>
   </PhysicalItems>
-  <Blueprints>
-    <Blueprint>
-      <Id>
-        <TypeId>BlueprintDefinition</TypeId>
-        <SubtypeId>GravelToSand_Deconstruction</SubtypeId>
-      </Id>
-      <DisplayName>Sand</DisplayName>
-      <Icon>Textures\GUI\Icons\ore_sand.dds</Icon>
-      <Prerequisites>
-        <Item Amount="5" TypeId="Ingot" SubtypeId="Stone" />
-      </Prerequisites>
-      <Results>
-        <Item Amount="1" TypeId="Ingot" SubtypeId="Sand" />
-      </Results>
-      <Priority>1000</Priority>
-      <BaseProductionTimeInSeconds>0.96</BaseProductionTimeInSeconds>
-    </Blueprint>
-  </Blueprints>
 </Definitions>

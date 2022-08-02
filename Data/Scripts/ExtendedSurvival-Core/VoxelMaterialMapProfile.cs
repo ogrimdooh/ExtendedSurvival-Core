@@ -37,6 +37,75 @@ namespace ExtendedSurvival
         public const string AlienSnow = "AlienSnow";
         public const string TritonIce = "TritonIce";
 
+        public const string Grass = "Grass";
+        public const string GrassBare = "Grass bare";
+        public const string RocksGrass = "Rocks_grass";
+        public const string GrassOld = "Grass_old";
+        public const string GrassOldBare = "Grass_old bare";
+        public const string Grass_02 = "Grass_02";
+        public const string WoodsGrass = "Woods_grass";
+        public const string WoodsGrassBare = "Woods_grass bare";
+        public const string Soil = "Soil";
+        public const string AlienGreenGrass = "AlienGreenGrass";
+        public const string AlienGreenGrassBare = "AlienGreenGrass bare";
+        public const string AlienRockyTerrain = "AlienRockyTerrain";
+        public const string AlienRockGrass = "AlienRockGrass";
+        public const string AlienRockGrassBare = "AlienRockGrass bare";
+        public const string AlienOrangeGrass = "AlienOrangeGrass";
+        public const string AlienOrangeGrassBare = "AlienOrangeGrass bare";
+        public const string AlienYellowGrass = "AlienYellowGrass";
+        public const string AlienYellowGrassBare = "AlienYellowGrass bare";
+        public const string AlienSoil = "AlienSoil";
+        public const string Sand_02 = "Sand_02";
+        public const string MarsSoil = "MarsSoil";
+        public const string AlienSand = "AlienSand";
+        public const string MoonSoil = "MoonSoil";
+        public const string CrackedSoil = "CrackedSoil";
+        public const string DustyRocks = "DustyRocks";
+        public const string DustyRocks2 = "DustyRocks2";
+        public const string DustyRocks3 = "DustyRocks3";
+        public const string PertamSand = "PertamSand";
+
+        public static readonly string[] SoilVoxels = new string[] 
+        {
+            Grass,
+            GrassBare,
+            RocksGrass,
+            GrassOld,
+            GrassOldBare,
+            Grass_02,
+            WoodsGrass,
+            WoodsGrassBare,
+            Soil,
+            AlienGreenGrass,
+            AlienGreenGrassBare,
+            AlienRockyTerrain,
+            AlienRockGrass,
+            AlienRockGrassBare,
+            AlienOrangeGrass,
+            AlienOrangeGrassBare,
+            AlienYellowGrass,
+            AlienYellowGrassBare,
+            AlienSoil
+        };
+
+        public static readonly string[] DesertSoilVoxels = new string[] 
+        {
+            Sand_02,
+            MarsSoil,
+            AlienSand,
+            CrackedSoil,
+            DustyRocks,
+            DustyRocks2,
+            DustyRocks3,
+            PertamSand
+        };
+
+        public static readonly string[] MoomSoilVoxels = new string[] 
+        {
+            MoonSoil
+        };
+
         public static readonly string[] ESToxicIce = new string[] 
         {
             IceEuropa2,
