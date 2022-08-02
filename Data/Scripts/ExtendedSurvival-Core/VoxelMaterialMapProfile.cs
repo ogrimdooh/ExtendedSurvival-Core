@@ -59,6 +59,7 @@ namespace ExtendedSurvival
         public const string Sand_02 = "Sand_02";
         public const string MarsSoil = "MarsSoil";
         public const string AlienSand = "AlienSand";
+        public const string SmallMoonRocks = "SmallMoonRocks";
         public const string MoonSoil = "MoonSoil";
         public const string CrackedSoil = "CrackedSoil";
         public const string DustyRocks = "DustyRocks";
@@ -103,7 +104,8 @@ namespace ExtendedSurvival
 
         public static readonly string[] MoomSoilVoxels = new string[] 
         {
-            MoonSoil
+            MoonSoil,
+            SmallMoonRocks
         };
 
         public static readonly string[] ESToxicIce = new string[] 
@@ -137,20 +139,20 @@ namespace ExtendedSurvival
             Lithium_01
         };
 
-        private const float VERYCOMMON_RATIO = 3;
-        private const float COMMON_RATIO = 2;
-        private const float UNCOMMON_RATIO = 1.5f;
-        private const float RARE_RATIO = 1;
-        private const float LEGENDARY_RATIO = 0.75f;
-        private const float EPIC_RATIO = 0.5f;
+        public const float VERYCOMMON_RATIO = 3;
+        public const float COMMON_RATIO = 2;
+        public const float UNCOMMON_RATIO = 1.5f;
+        public const float RARE_RATIO = 1;
+        public const float LEGENDARY_RATIO = 0.75f;
+        public const float EPIC_RATIO = 0.5f;
 
-        private const int VERYCOMMON_SPAWN = 10;
-        private const int COMMON_SPAWN = 7;
-        private const int UNCOMMON_SPAWN = 5;
-        private const int RARE_SPAWN = 3;
-        private const int LEGENDARY_SPAWN = 2;
-        private const int EPIC_SPAWN = 1;
-        private const int NO_SPAWN = 0;
+        public const int VERYCOMMON_SPAWN = 10;
+        public const int COMMON_SPAWN = 7;
+        public const int UNCOMMON_SPAWN = 5;
+        public const int RARE_SPAWN = 3;
+        public const int LEGENDARY_SPAWN = 2;
+        public const int EPIC_SPAWN = 1;
+        public const int NO_SPAWN = 0;
 
         private static readonly VoxelMaterialProfile IRON_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {

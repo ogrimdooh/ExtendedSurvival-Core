@@ -45,12 +45,12 @@ namespace ExtendedSurvival
                 }
             }
             // Override Soil Voxels
-            SetMinedOre(definitions, VoxelMaterialMapProfile.SoilVoxels, ItensConstants.SOIL_SUBTYPEID);
-            SetMinedOre(definitions, VoxelMaterialMapProfile.DesertSoilVoxels, ItensConstants.DESERTSOIL_SUBTYPEID);
-            SetMinedOre(definitions, VoxelMaterialMapProfile.MoomSoilVoxels, ItensConstants.MOONSOIL_SUBTYPEID);
+            SetMinedOre(definitions, VoxelMaterialMapProfile.SoilVoxels, ItensConstants.SOIL_SUBTYPEID, VoxelMaterialMapProfile.VERYCOMMON_RATIO);
+            SetMinedOre(definitions, VoxelMaterialMapProfile.DesertSoilVoxels, ItensConstants.DESERTSOIL_SUBTYPEID, VoxelMaterialMapProfile.COMMON_RATIO);
+            SetMinedOre(definitions, VoxelMaterialMapProfile.MoomSoilVoxels, ItensConstants.MOONSOIL_SUBTYPEID, VoxelMaterialMapProfile.UNCOMMON_RATIO);
         }
 
-        private static void SetMinedOre(DictionaryValuesReader<string, MyVoxelMaterialDefinition> definitions, string[] targets, string ore)
+        private static void SetMinedOre(DictionaryValuesReader<string, MyVoxelMaterialDefinition> definitions, string[] targets, string ore, float ratio)
         {
             foreach (var voxel in targets)
             {
@@ -60,6 +60,7 @@ namespace ExtendedSurvival
                     if (definitions.TryGetValue(voxel, out definition))
                     {
                         definition.MinedOre = ore;
+                        definition.MinedOreRatio = ratio;
                         definition.Postprocess();
                         ExtendedSurvivalLogging.Instance.LogInfo(typeof(VoxelMaterialsOverride), $"Override voxel definition : {definition.Id.SubtypeName}");
                     }
