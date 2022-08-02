@@ -3,6 +3,10 @@
 
   <BlueprintClassEntries>
     
+    <Entry Class="SmallBasicRefinery_CommonMetals" BlueprintSubtypeId="Soil_Deconstruction" />
+    <Entry Class="SmallBasicRefinery_CommonMetals" BlueprintSubtypeId="MoonSoil_Deconstruction" />
+    <Entry Class="SmallBasicRefinery_CommonMetals" BlueprintSubtypeId="DesertSoil_Deconstruction" />
+
     <Entry Class="BasicRefinery_CommonMetals" BlueprintSubtypeId="ToxicIcePurify" />
     <Entry Class="BasicRefinery_CommonMetals" BlueprintSubtypeId="StoneIcePurify" />
     <Entry Class="BasicRefinery_CommonMetals" BlueprintSubtypeId="Soil_Deconstruction" />
