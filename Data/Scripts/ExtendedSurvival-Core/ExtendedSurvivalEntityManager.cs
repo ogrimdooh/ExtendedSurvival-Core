@@ -371,7 +371,7 @@ namespace ExtendedSurvival
                         }
                     }
                 }
-                if (WaterAPI.Registered)
+                if (WaterAPI.Registered && ExtendedSurvivalSettings.Instance.DisableWaterModFreeIce)
                 {
                     /* Need to stop collector from generate ICE, this function break the water solidificator */
                     lock (Grids)

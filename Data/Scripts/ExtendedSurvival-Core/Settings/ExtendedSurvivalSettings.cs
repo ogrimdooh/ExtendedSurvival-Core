@@ -41,6 +41,9 @@ namespace ExtendedSurvival
         public bool RotEnabled { get; set; } = true;
 
         [XmlElement]
+        public bool DisableWaterModFreeIce { get; set; } = true;
+
+        [XmlElement]
         public bool RespawnSpacePodEnabled { get; set; } = false;
 
         [XmlArray("Planets"), XmlArrayItem("Planet", typeof(PlanetSetting))]
@@ -412,6 +415,14 @@ namespace ExtendedSurvival
                     if (bool.TryParse(value, out respawnspacepodenabled))
                     {
                         RespawnSpacePodEnabled = respawnspacepodenabled;
+                        return true;
+                    }
+                    break;
+                case "disablewatermodfreeice":
+                    bool disablewatermodfreeice;
+                    if (bool.TryParse(value, out disablewatermodfreeice))
+                    {
+                        DisableWaterModFreeIce = disablewatermodfreeice;
                         return true;
                     }
                     break;
