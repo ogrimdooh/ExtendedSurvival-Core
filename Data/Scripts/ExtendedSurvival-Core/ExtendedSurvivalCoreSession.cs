@@ -15,6 +15,9 @@ namespace ExtendedSurvival
     public class ExtendedSurvivalCoreSession : BaseSessionComponent
     {
 
+        public const string ES_TECHNOLOGY_LOCALNAME = "SEExtendedSurvival-Technology";
+        public const string ES_STATS_LOCALNAME = "SEExtendedSurvival-Stats";
+
         public const ulong ES_TECHNOLOGY_MODID = 2842844421;
         public const ulong ES_STATS_EFFECTS_MODID = 2840924715;
 
@@ -22,7 +25,7 @@ namespace ExtendedSurvival
         public static bool IsUsingTechnology()
         {
             if (!isUsingTechnology.HasValue)
-                isUsingTechnology =  MyAPIGateway.Session.Mods.Any(x => x.PublishedFileId == ES_TECHNOLOGY_MODID);
+                isUsingTechnology =  MyAPIGateway.Session.Mods.Any(x => x.PublishedFileId == ES_TECHNOLOGY_MODID || x.Name == ES_TECHNOLOGY_LOCALNAME);
             return isUsingTechnology.Value;
         }
 
@@ -30,7 +33,7 @@ namespace ExtendedSurvival
         public static bool IsUsingStatsAndEffects()
         {
             if (!isUsingStatsAndEffects.HasValue)
-                isUsingStatsAndEffects = MyAPIGateway.Session.Mods.Any(x => x.PublishedFileId == ES_STATS_EFFECTS_MODID);
+                isUsingStatsAndEffects = MyAPIGateway.Session.Mods.Any(x => x.PublishedFileId == ES_STATS_EFFECTS_MODID || x.Name == ES_STATS_LOCALNAME);
             return isUsingStatsAndEffects.Value;
         }
 

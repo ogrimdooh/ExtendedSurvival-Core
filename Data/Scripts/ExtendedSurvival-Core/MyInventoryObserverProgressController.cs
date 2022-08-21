@@ -122,7 +122,7 @@ namespace ExtendedSurvival
                     while (true)
                     {
                         DoUpdateCicle();
-                        MyAPIGateway.Parallel.Sleep(1000);
+                        MyAPIGateway.Parallel?.Sleep(1000);
                     }
                 });
             }
@@ -130,7 +130,7 @@ namespace ExtendedSurvival
 
         protected void DoUpdateCicle()
         {
-            if (MyAPIGateway.Session.IsServer)
+            if (MyAPIGateway.Session != null && MyAPIGateway.Session.IsServer)
             {
                 try
                 {

@@ -20,7 +20,7 @@ namespace ExtendedSurvival
     [MySessionComponentDescriptor(MyUpdateOrder.NoUpdate)]
     public class WaterAPI : MySessionComponentBase
     {
-        public static string ModName = MyAPIGateway.Utilities.GamePaths.ModScopeName.Split('_')[1];
+        public static string ModName = MyAPIGateway.Utilities?.GamePaths.ModScopeName.Split('_')[1];
         public const ushort ModHandlerID = 50271;
         public const int ModAPIVersion = 16;
         public static bool Registered { get; private set; } = false;

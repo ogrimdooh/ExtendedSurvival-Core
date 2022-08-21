@@ -62,7 +62,10 @@ namespace ExtendedSurvival
                     while (true)
                     {
                         CheckAllGrids();
-                        MyAPIGateway.Parallel.Sleep(250);
+                        if (MyAPIGateway.Parallel != null)
+                            MyAPIGateway.Parallel.Sleep(250);
+                        else
+                            break;
                     }
                 });
             }
