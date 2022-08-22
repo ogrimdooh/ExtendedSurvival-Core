@@ -8,7 +8,7 @@ using VRage.Game.ModAPI;
 using VRage.ModAPI;
 using VRage.ObjectBuilders;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     public abstract class BaseInventoryLogicComponent<T> : BaseLogicComponent<T> where T : IMyCubeBlock

@@ -10,7 +10,7 @@ using VRage.Game.Components;
 using VRage.Utils;
 using VRageMath;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
     //Only Include this file in your project
 

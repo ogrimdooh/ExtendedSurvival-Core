@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
     public struct HashCode
     {

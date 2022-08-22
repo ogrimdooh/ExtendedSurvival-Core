@@ -1,7 +1,7 @@
 ﻿using Sandbox.Game.Entities;
 using VRageMath;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
     public static class MyEntityStatExtensions
     {

@@ -3,7 +3,7 @@ using System;
 using VRage.Collections;
 using VRage.Game;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     public class VoxelMaterialsOverride
@@ -35,13 +35,13 @@ namespace ExtendedSurvival
                                 definition.MinedOre = ItensConstants.TOXICICE_SUBTYPEID;
                             }
                             definition.Postprocess();
-                            ExtendedSurvivalLogging.Instance.LogInfo(typeof(VoxelMaterialsOverride), $"Override voxel definition : {definition.Id.SubtypeName}");
+                            ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(VoxelMaterialsOverride), $"Override voxel definition : {definition.Id.SubtypeName}");
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    ExtendedSurvivalLogging.Instance.LogError(typeof(VoxelMaterialsOverride), ex);
+                    ExtendedSurvivalCoreLogging.Instance.LogError(typeof(VoxelMaterialsOverride), ex);
                 }
             }
             // Override Soil Voxels
@@ -62,12 +62,12 @@ namespace ExtendedSurvival
                         definition.MinedOre = ore;
                         definition.MinedOreRatio = ratio;
                         definition.Postprocess();
-                        ExtendedSurvivalLogging.Instance.LogInfo(typeof(VoxelMaterialsOverride), $"Override voxel definition : {definition.Id.SubtypeName}");
+                        ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(VoxelMaterialsOverride), $"Override voxel definition : {definition.Id.SubtypeName}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    ExtendedSurvivalLogging.Instance.LogError(typeof(VoxelMaterialsOverride), ex);
+                    ExtendedSurvivalCoreLogging.Instance.LogError(typeof(VoxelMaterialsOverride), ex);
                 }
             }
         }

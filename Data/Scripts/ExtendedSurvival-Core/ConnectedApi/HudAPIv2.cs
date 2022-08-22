@@ -10,7 +10,7 @@ using VRage.Utils;
 using VRageMath;
 using BlendTypeEnum = VRageRender.MyBillboard.BlendTypeEnum;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
 	public class HudAPIv2

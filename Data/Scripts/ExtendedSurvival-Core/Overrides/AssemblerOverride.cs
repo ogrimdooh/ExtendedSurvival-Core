@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using VRage.Game;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     public sealed class AssemblerOverride : BaseIntegrationModRecipesOverride
@@ -45,8 +45,8 @@ namespace ExtendedSurvival
             }
             catch (Exception ex)
             {
-                ExtendedSurvivalLogging.Instance.LogWarning(GetType(), $"GetBlocks [Error]");
-                ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
+                ExtendedSurvivalCoreLogging.Instance.LogWarning(GetType(), $"GetBlocks [Error]");
+                ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
             }
             return retorno;
         }

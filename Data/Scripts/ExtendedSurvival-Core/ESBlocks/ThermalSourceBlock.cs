@@ -10,7 +10,7 @@ using VRage.Game.Components;
 using VRage.ObjectBuilders;
 using VRageMath;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     [MyEntityComponentDescriptor(typeof(MyObjectBuilder_CargoContainer), false, "ThermalSource")]

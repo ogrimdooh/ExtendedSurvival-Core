@@ -5,7 +5,7 @@ using VRage.Game;
 using VRage.ObjectBuilders;
 using VRage.Utils;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     [ProtoContract]

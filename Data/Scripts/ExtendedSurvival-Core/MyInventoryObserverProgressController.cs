@@ -6,7 +6,7 @@ using System.Linq;
 using VRage.Game;
 using VRage.Game.Components;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
     [MySessionComponentDescriptor(MyUpdateOrder.NoUpdate)]
     public class MyInventoryObserverProgressController : BaseSessionComponent
@@ -117,7 +117,7 @@ namespace ExtendedSurvival
                 Instance = this;
                 var task = MyAPIGateway.Parallel.StartBackground(() =>
                 {
-                    ExtendedSurvivalLogging.Instance.LogInfo(GetType(), $"StartBackground [DoUpdateCicle START]");
+                    ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), $"StartBackground [DoUpdateCicle START]");
                     // Loop Task to Control Skins
                     while (true)
                     {
@@ -151,7 +151,7 @@ namespace ExtendedSurvival
                 }
                 catch (Exception ex)
                 {
-                    ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
+                    ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
                 }
             }
         }

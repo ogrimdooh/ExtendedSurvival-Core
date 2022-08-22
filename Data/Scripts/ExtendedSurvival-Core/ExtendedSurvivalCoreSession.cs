@@ -8,7 +8,7 @@ using VRage.Game;
 using VRage.Game.Components;
 using VRage.Game.ModAPI;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     [MySessionComponentDescriptor(MyUpdateOrder.AfterSimulation)]
@@ -117,8 +117,7 @@ namespace ExtendedSurvival
                                         {
                                             float waterSize = float.Parse(mCommandData.content[2]);
                                             WaterAPI.RunCommand("/wcreate");
-                                            WaterAPI.RunCommand($"/wradius {waterSize}");
-                                            WaterAPI.RunCommand("/wrate 0");
+                                            DelayWaterRunCommand(1500, $"/wradius {waterSize}", "/wrate 0");
                                             lastCallWaterApi = DateTime.Now;
                                         }
                                     }
@@ -133,8 +132,20 @@ namespace ExtendedSurvival
             }
             catch (Exception ex)
             {
-                ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
+                ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
             }
+        }
+
+        private void DelayWaterRunCommand(int millisecondsTimeout, params string[] commands)
+        {
+            var task = MyAPIGateway.Parallel.StartBackground(() =>
+            {
+                MyAPIGateway.Parallel.Sleep(millisecondsTimeout);
+                foreach (var command in commands)
+                {
+                    WaterAPI.RunCommand(command);
+                }
+            });
         }
 
         private const string SETTINGS_COMMAND = "settings";
@@ -223,7 +234,7 @@ namespace ExtendedSurvival
             }
             catch (Exception ex)
             {
-                ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
+                ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
             }
         }
 
@@ -258,7 +269,7 @@ namespace ExtendedSurvival
             }
             catch (Exception ex)
             {
-                ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
+                ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
             }
         }
 
@@ -281,7 +292,7 @@ namespace ExtendedSurvival
             }
             catch (Exception ex)
             {
-                ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
+                ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
             }
         }
 
@@ -315,7 +326,7 @@ namespace ExtendedSurvival
         private bool definitionsChecked = false;
         private void CheckDefinitions()
         {
-            ExtendedSurvivalLogging.Instance.LogInfo(GetType(), $"CheckDefinitions Called");
+            ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), $"CheckDefinitions Called");
             if (!definitionsChecked)
             {
 

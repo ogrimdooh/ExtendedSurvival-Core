@@ -3,7 +3,7 @@ using Sandbox.Game;
 using Sandbox.ModAPI;
 using VRage.Game.Components;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     [MyEntityComponentDescriptor(typeof(MyObjectBuilder_Cockpit), false, "LargeBlockCockpitSeat", "SmallBlockCockpit", "BuggyCockpit", "LargeBlockCockpitIndustrial", "SmallBlockCockpitIndustrial", "DBSmallBlockFighterCockpit", "CockpitOpen", "OpenCockpitLarge", "OpenCockpitSmall", "PassengerSeatLarge", "PassengerSeatSmall", "PassengerSeatSmallNew", "PassengerSeatSmallOffset", "PassengerBench", "RoverCockpit", "SmallBlockStandingCockpit", "LargeBlockStandingCockpit", "LargeBlockCockpit")]

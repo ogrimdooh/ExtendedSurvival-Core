@@ -15,7 +15,7 @@ using System;
 using Sandbox.Game.GameSystems;
 using SpaceEngineers.Game.Entities.Blocks;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     public class GridEntity : EntityBase<IMyCubeGrid>
@@ -124,11 +124,11 @@ namespace ExtendedSurvival
                 }
                 catch (KeyNotFoundException)
                 {
-                    ExtendedSurvivalLogging.Instance.LogWarning(GetType(), "[Id] WaterSolidificator : Not Found");
+                    ExtendedSurvivalCoreLogging.Instance.LogWarning(GetType(), "[Id] WaterSolidificator : Not Found");
                 }
                 catch (Exception ex)
                 {
-                    ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
+                    ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
                 }
                 return new List<IMySlimBlock>();
             }
@@ -146,11 +146,11 @@ namespace ExtendedSurvival
                 }
                 catch (KeyNotFoundException)
                 {
-                    ExtendedSurvivalLogging.Instance.LogWarning(GetType(), "[Id] TurbinePowerOutputModule : Not Found");
+                    ExtendedSurvivalCoreLogging.Instance.LogWarning(GetType(), "[Id] TurbinePowerOutputModule : Not Found");
                 }
                 catch (Exception ex)
                 {
-                    ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
+                    ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
                 }
                 return new List<IMySlimBlock>();
             }
@@ -168,11 +168,11 @@ namespace ExtendedSurvival
                 }
                 catch (KeyNotFoundException)
                 {
-                    ExtendedSurvivalLogging.Instance.LogWarning(GetType(), "[Id] EnhancedTurbinePowerOutputModule : Not Found");
+                    ExtendedSurvivalCoreLogging.Instance.LogWarning(GetType(), "[Id] EnhancedTurbinePowerOutputModule : Not Found");
                 }
                 catch (Exception ex)
                 {
-                    ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
+                    ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
                 }
                 return new List<IMySlimBlock>();
             }
@@ -190,11 +190,11 @@ namespace ExtendedSurvival
                 }
                 catch (KeyNotFoundException)
                 {
-                    ExtendedSurvivalLogging.Instance.LogWarning(GetType(), "[Id] EliteTurbinePowerOutputModule : Not Found");
+                    ExtendedSurvivalCoreLogging.Instance.LogWarning(GetType(), "[Id] EliteTurbinePowerOutputModule : Not Found");
                 }
                 catch (Exception ex)
                 {
-                    ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
+                    ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
                 }
                 return new List<IMySlimBlock>();
             }
@@ -222,11 +222,11 @@ namespace ExtendedSurvival
                 }
                 catch (KeyNotFoundException)
                 {
-                    ExtendedSurvivalLogging.Instance.LogWarning(GetType(), "[Id] EliteTurbinePowerOutputModule : Not Found");
+                    ExtendedSurvivalCoreLogging.Instance.LogWarning(GetType(), "[Id] EliteTurbinePowerOutputModule : Not Found");
                 }
                 catch (Exception ex)
                 {
-                    ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
+                    ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
                 }
                 return new List<IMySlimBlock>();
             }
@@ -244,11 +244,11 @@ namespace ExtendedSurvival
                 }
                 catch (KeyNotFoundException)
                 {
-                    ExtendedSurvivalLogging.Instance.LogWarning(GetType(), "[Id] EliteTurbinePowerOutputModule : Not Found");
+                    ExtendedSurvivalCoreLogging.Instance.LogWarning(GetType(), "[Id] EliteTurbinePowerOutputModule : Not Found");
                 }
                 catch (Exception ex)
                 {
-                    ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
+                    ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
                 }
                 return new List<IMySlimBlock>();
             }
@@ -460,7 +460,7 @@ namespace ExtendedSurvival
         {
             if (!isStatic && HasSkinedBlocks)
             {
-                ExtendedSurvivalLogging.Instance.LogWarning(GetType(), $"OnIsStaticChanged to {isStatic} and HasSkinedBlocks = {HasSkinedBlocks}");
+                ExtendedSurvivalCoreLogging.Instance.LogWarning(GetType(), $"OnIsStaticChanged to {isStatic} and HasSkinedBlocks = {HasSkinedBlocks}");
                 Entity.IsStatic = true;
             }
         }
@@ -555,7 +555,7 @@ namespace ExtendedSurvival
                         _windTurbines[windTurbine.EntityId] = windTurbineBlock;
                     }
                     else
-                        ExtendedSurvivalLogging.Instance.LogInfo(GetType(), $"LoadBlocks WindTurbineBlock not found. ID=[{windTurbine.EntityId}]");
+                        ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), $"LoadBlocks WindTurbineBlock not found. ID=[{windTurbine.EntityId}]");
                 }
             }
             /* TURBINE POWER MODULES */
@@ -570,7 +570,7 @@ namespace ExtendedSurvival
                         _turbinePowerOutputModules[upgradeModule.EntityId] = turbinePowerOutputModule;
                     }
                     else
-                        ExtendedSurvivalLogging.Instance.LogInfo(GetType(), $"LoadBlocks TurbinePowerOutputModuleBlock not found. ID=[{upgradeModule.EntityId}]");
+                        ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), $"LoadBlocks TurbinePowerOutputModuleBlock not found. ID=[{upgradeModule.EntityId}]");
                 }
             }
             CheckThermalConnections();
@@ -657,7 +657,7 @@ namespace ExtendedSurvival
                         _turbinePowerOutputModules[upgradeModule.EntityId] = turbinePowerOutputModule;
                     }
                     else
-                        ExtendedSurvivalLogging.Instance.LogInfo(GetType(), $"LoadBlocks TurbinePowerOutputModuleBlock not found. ID=[{upgradeModule.EntityId}]");
+                        ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), $"LoadBlocks TurbinePowerOutputModuleBlock not found. ID=[{upgradeModule.EntityId}]");
                 }
             }
         }
@@ -676,7 +676,7 @@ namespace ExtendedSurvival
                         _windTurbines[windTurbine.EntityId] = windTurbineBlock;
                     }
                     else
-                        ExtendedSurvivalLogging.Instance.LogInfo(GetType(), $"LoadBlocks WindTurbineBlock not found. ID=[{windTurbine.EntityId}]");
+                        ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), $"LoadBlocks WindTurbineBlock not found. ID=[{windTurbine.EntityId}]");
                 }
             }
         }

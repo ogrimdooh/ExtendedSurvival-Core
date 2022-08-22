@@ -1,6 +1,6 @@
 ﻿using VRage.Utils;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     public static class SkinHelper

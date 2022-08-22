@@ -10,7 +10,7 @@ using VRage.ObjectBuilders;
 using VRage.Utils;
 using VRageMath;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     [MyEntityComponentDescriptor(typeof(MyObjectBuilder_CargoContainer), false, "ThermalOutput")]

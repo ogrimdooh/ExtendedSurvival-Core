@@ -4,7 +4,7 @@ using VRage.Game;
 using VRage.Game.Components;
 using VRage.ModAPI;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     [MyEntityComponentDescriptor(typeof(MyObjectBuilder_CargoContainer), false, "SmallBlockSmallContainer", "SmallBlockMediumContainer", "SmallBlockLargeContainer", "LargeBlockSmallContainer", "LargeBlockLargeContainer", "LargeBlockLargeIndustrialContainer")]

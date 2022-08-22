@@ -6,7 +6,7 @@ using System.Linq;
 using VRage.Game;
 using VRageMath;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     public class PlanetEntity : EntityBase<MyPlanet>
@@ -69,7 +69,7 @@ namespace ExtendedSurvival
             if (!string.IsNullOrEmpty(entity.Generator.Id.SubtypeName))
                 SubtypeName = entity.Generator.Id.SubtypeName;
             else
-                ExtendedSurvivalLogging.Instance.LogInfo(GetType(), $"SubtypeName is null at planet Name:{entity.Name}");
+                ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), $"SubtypeName is null at planet Name:{entity.Name}");
         }
 
         public Vector3D Center()
@@ -165,7 +165,7 @@ namespace ExtendedSurvival
             }
             catch (Exception ex)
             {
-                ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
+                ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
             }
             return 0;
         }

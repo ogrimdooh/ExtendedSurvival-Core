@@ -15,7 +15,7 @@ using VRage.ObjectBuilders;
 using VRage.Utils;
 using VRageMath;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     public class ExtendedSurvivalCoreAPI

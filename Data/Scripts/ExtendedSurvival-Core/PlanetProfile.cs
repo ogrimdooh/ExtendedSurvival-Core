@@ -4,7 +4,7 @@ using System.Linq;
 using VRage.Game;
 using VRageMath;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
     public class PlanetProfile
     {

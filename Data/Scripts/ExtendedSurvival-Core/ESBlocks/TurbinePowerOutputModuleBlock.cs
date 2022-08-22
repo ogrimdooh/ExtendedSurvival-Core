@@ -6,7 +6,7 @@ using VRage.Game.ModAPI;
 using VRage.ObjectBuilders;
 using VRageMath;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     [MyEntityComponentDescriptor(typeof(MyObjectBuilder_UpgradeModule), false, "TurbinePowerOutputModule", "EnhancedTurbinePowerOutputModule", "EliteTurbinePowerOutputModule")]

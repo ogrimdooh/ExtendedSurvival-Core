@@ -5,7 +5,7 @@ using System.Linq;
 using VRage.Game;
 using VRage.Game.ModAPI;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     public static class IMyCharacterExtensions

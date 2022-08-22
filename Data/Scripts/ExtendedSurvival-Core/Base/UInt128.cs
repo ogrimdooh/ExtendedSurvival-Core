@@ -1,7 +1,7 @@
 ﻿using ProtoBuf;
 using System;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     [ProtoContract]

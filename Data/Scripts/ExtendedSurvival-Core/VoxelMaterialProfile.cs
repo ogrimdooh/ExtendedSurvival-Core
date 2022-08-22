@@ -1,4 +1,4 @@
-﻿namespace ExtendedSurvival
+﻿namespace ExtendedSurvival.Core
 {
     public class VoxelMaterialProfile
     {

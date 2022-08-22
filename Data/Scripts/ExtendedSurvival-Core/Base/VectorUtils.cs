@@ -2,7 +2,7 @@
 using VRage.Utils;
 using VRageMath;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
     public static class VectorUtils
     {

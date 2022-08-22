@@ -1,7 +1,7 @@
 ﻿using Sandbox.ModAPI;
 using VRage.Game.ModAPI;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     public static class IMyPlayerExtensions

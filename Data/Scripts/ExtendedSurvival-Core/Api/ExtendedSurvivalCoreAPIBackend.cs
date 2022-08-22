@@ -15,7 +15,7 @@ using VRage.Utils;
 using VRage.Game.ModAPI;
 using VRage.Game.Entity;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
     //Do not include this file in your project modders
     public class ExtendedSurvivalCoreAPIBackend
@@ -250,13 +250,13 @@ namespace ExtendedSurvival
         public static void AddItemCategory(string category)
         {
             MyInventoryObserverProgressController.AddCategory(category);
-            ExtendedSurvivalLogging.Instance.LogInfo(typeof(ExtendedSurvivalCoreAPIBackend), $"Registred ItemCategory : {category}");
+            ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(ExtendedSurvivalCoreAPIBackend), $"Registred ItemCategory : {category}");
         }
 
         public static void AddDefinitionToCategory(MyDefinitionId id, string category)
         {
             MyInventoryObserverProgressController.AddItemToCategory(new UniqueEntityId(id), category);
-            ExtendedSurvivalLogging.Instance.LogInfo(typeof(ExtendedSurvivalCoreAPIBackend), $"Registred Item [{id}] To Category : {category}");
+            ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(ExtendedSurvivalCoreAPIBackend), $"Registred Item [{id}] To Category : {category}");
         }
 
         public static void AddTreeDropLoot(string value)
@@ -267,16 +267,16 @@ namespace ExtendedSurvival
                 {
                     var treeDrop = MyAPIGateway.Utilities.SerializeFromXML<TreeDropLoot>(value);
                     WoodChopController.AddTreeDrop(treeDrop);
-                    ExtendedSurvivalLogging.Instance.LogInfo(typeof(ExtendedSurvivalCoreAPIBackend), $"Registred TreeDrop : {treeDrop.ItemId}");
+                    ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(ExtendedSurvivalCoreAPIBackend), $"Registred TreeDrop : {treeDrop.ItemId}");
                 }
                 catch (Exception e)
                 {
-                    ExtendedSurvivalLogging.Instance.LogError(typeof(ExtendedSurvivalCoreAPIBackend), e);
+                    ExtendedSurvivalCoreLogging.Instance.LogError(typeof(ExtendedSurvivalCoreAPIBackend), e);
                 }
             }
             else
             {
-                ExtendedSurvivalLogging.Instance.LogWarning(typeof(ExtendedSurvivalCoreAPIBackend), $"AddTreeDropLoot : value is null");
+                ExtendedSurvivalCoreLogging.Instance.LogWarning(typeof(ExtendedSurvivalCoreAPIBackend), $"AddTreeDropLoot : value is null");
             }
         }
 
@@ -288,16 +288,16 @@ namespace ExtendedSurvival
                 {
                     var itemExtraInfo = MyAPIGateway.Utilities.SerializeFromXML<ItemExtraInfo>(value);
                     MyInventoryObserverProgressController.AddItemExtraInfo(itemExtraInfo);
-                    ExtendedSurvivalLogging.Instance.LogInfo(typeof(ExtendedSurvivalCoreAPIBackend), $"Registred ItemExtraInfo : {itemExtraInfo.DefinitionId}");
+                    ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(ExtendedSurvivalCoreAPIBackend), $"Registred ItemExtraInfo : {itemExtraInfo.DefinitionId}");
                 }
                 catch (Exception e)
                 {
-                    ExtendedSurvivalLogging.Instance.LogError(typeof(ExtendedSurvivalCoreAPIBackend), e);
+                    ExtendedSurvivalCoreLogging.Instance.LogError(typeof(ExtendedSurvivalCoreAPIBackend), e);
                 }
             }
             else
             {
-                ExtendedSurvivalLogging.Instance.LogWarning(typeof(ExtendedSurvivalCoreAPIBackend), $"AddItemExtraInfo : value is null");
+                ExtendedSurvivalCoreLogging.Instance.LogWarning(typeof(ExtendedSurvivalCoreAPIBackend), $"AddItemExtraInfo : value is null");
             }
         }
 

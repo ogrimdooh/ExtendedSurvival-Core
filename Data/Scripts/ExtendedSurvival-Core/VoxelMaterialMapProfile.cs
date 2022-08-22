@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
     public static class VoxelMaterialMapProfile
     {

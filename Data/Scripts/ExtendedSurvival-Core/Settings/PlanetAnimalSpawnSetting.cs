@@ -2,7 +2,7 @@
 using System.Xml.Serialization;
 using VRageMath;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
     [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
     public class PlanetAnimalSpawnSetting

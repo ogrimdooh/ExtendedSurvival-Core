@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using VRageMath;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     public static class PlanetMapProfile
@@ -60,13 +60,15 @@ namespace ExtendedSurvival
         public const string DEFAULT_EARTHLIKE = "EARTHLIKE";
         public const string DEFAULT_ALIEN = "ALIEN";
         public const string DEFAULT_MARS = "MARS";
-        public const string DEFAULT_OI = "OI";
         public const string DEFAULT_PERTAM = "PERTAM";
         public const string DEFAULT_TRITON = "TRITON";
         public const string DEFAULT_MOON = "MOON";
         public const string DEFAULT_EUROPA = "EUROPA";
-        public const string DEFAULT_SPATAT = "SPATAT";
         public const string DEFAULT_TITAN = "TITAN";
+
+        public const string DEFAULT_OI = "OI";
+        public const string DEFAULT_SPATAT = "SPATAT";
+        public const string DEFAULT_ENITOR = "ENITOR";
 
         public const string ATA_00_SUN = "ATA 00 SUN";
         public const string ATA_01_MERCURY = "ATA 01 MERCURY";
@@ -895,6 +897,45 @@ namespace ExtendedSurvival
                         GetOreMap(Silver_01, 2),
                         GetOreMap(Platinum_01, 2),
                         GetOreMap(Uraninite_01, 2)
+                    }
+                }
+            },
+            {
+                DEFAULT_ENITOR,
+                new PlanetProfile()
+                {
+                    Origin = PlanetProfile.PlanetOrigin.ExtendedSurvival,
+                    Version = 6,
+                    RespawnEnabled = false,
+                    Animal = DEFAULT_WOLF,
+                    Geothermal = GetGeothermal(true),
+                    Atmosphere = GetAtmosphere(true, true, 1, 0.9f, 80, 2, 0.15f, 0.05f),
+                    Gravity = GetGravity(0.95f, 1),
+                    Temperature = GetTemperature(VRage.Game.MyTemperatureLevel.Cozy, 0, 25),
+                    Water = GetWater(true, 1.0125f, -0.4f, 0.15f, 0.05f),
+                    MaxGroupSize = 5,
+                    StartBreak = 5,
+                    Ores =
+                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Lead_01, 3),
+                        GetOreMap(Carbon_01, 3),
+                        GetOreMap(Magnesium_01, 2)
+                    }
+                    :
+                    new List<PlanetProfile.OreMapInfo>()
+                    {
+                        GetOreMap(Iron_02, 4),
+                        GetOreMap(Nickel_01, 4),
+                        GetOreMap(Silicon_01, 4),
+                        GetOreMap(Magnesium_01, 2),
+                        GetOreMap(Cobalt_01, 2),
+                        GetOreMap(Gold_01, 2),
+                        GetOreMap(Silver_01, 2)
                     }
                 }
             },

@@ -2,7 +2,7 @@
 using Sandbox.ModAPI;
 using VRage.ObjectBuilders;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     public abstract class BaseAssemblerBlock : SimpleInventoryLogicComponent<IMyAssembler>

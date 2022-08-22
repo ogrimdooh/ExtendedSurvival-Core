@@ -2,7 +2,7 @@
 using VRage.Game.Components;
 using VRage.ObjectBuilders;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     [MyEntityComponentDescriptor(typeof(MyObjectBuilder_Assembler), false, "BasicAssembler", "LargeAssembler", "LargeAssemblerIndustrial", "AdvancedAssembler", "AdvancedAssemblerIndustrial", "GanymedeBasicAssembler", "GanymedeAssembler")]

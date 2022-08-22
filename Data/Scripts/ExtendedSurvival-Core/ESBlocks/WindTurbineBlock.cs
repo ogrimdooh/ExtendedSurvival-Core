@@ -8,7 +8,7 @@ using VRage.Game.Components;
 using VRage.ModAPI;
 using VRage.ObjectBuilders;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     [MyEntityComponentDescriptor(typeof(MyObjectBuilder_WindTurbine), false, "LargeBlockWindTurbine", "LargeBlockWindTurbineStackable")]

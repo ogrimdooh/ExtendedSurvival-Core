@@ -2,7 +2,7 @@
 using System.Xml.Serialization;
 using VRage.Game;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]

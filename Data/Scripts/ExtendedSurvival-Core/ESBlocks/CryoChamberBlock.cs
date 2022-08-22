@@ -3,7 +3,7 @@ using Sandbox.Game;
 using Sandbox.ModAPI;
 using VRage.Game.Components;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
     [MyEntityComponentDescriptor(typeof(MyObjectBuilder_CryoChamber), false, "LargeBlockCryoChamber", "SmallBlockCryoChamber")]
     public class CryoChamberBlock : SimpleInventoryLogicComponent<IMyCryoChamber>

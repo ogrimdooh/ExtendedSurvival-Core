@@ -7,7 +7,7 @@ using VRage.Game.ObjectBuilders.ComponentSystem;
 using VRage.Utils;
 using VRageMath;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
     public static class DefinitionUtils
     {
@@ -21,7 +21,7 @@ namespace ExtendedSurvival
             }
             catch (Exception ex)
             {
-                ExtendedSurvivalLogging.Instance.LogError(typeof(DefinitionUtils), ex);
+                ExtendedSurvivalCoreLogging.Instance.LogError(typeof(DefinitionUtils), ex);
             }
             return null;
         }
@@ -36,7 +36,7 @@ namespace ExtendedSurvival
             }
             catch (Exception ex)
             {
-                ExtendedSurvivalLogging.Instance.LogError(typeof(DefinitionUtils), ex);
+                ExtendedSurvivalCoreLogging.Instance.LogError(typeof(DefinitionUtils), ex);
             }
             return null;
         }
@@ -49,7 +49,7 @@ namespace ExtendedSurvival
             }
             catch (Exception ex)
             {
-                ExtendedSurvivalLogging.Instance.LogError(typeof(DefinitionUtils), ex);
+                ExtendedSurvivalCoreLogging.Instance.LogError(typeof(DefinitionUtils), ex);
             }
             return null;
         }
@@ -62,7 +62,7 @@ namespace ExtendedSurvival
             }
             catch (Exception ex)
             {
-                ExtendedSurvivalLogging.Instance.LogError(typeof(DefinitionUtils), ex);
+                ExtendedSurvivalCoreLogging.Instance.LogError(typeof(DefinitionUtils), ex);
                 return false;
             }
         }
@@ -75,7 +75,7 @@ namespace ExtendedSurvival
             }
             catch (Exception ex)
             {
-                ExtendedSurvivalLogging.Instance.LogError(typeof(DefinitionUtils), ex);
+                ExtendedSurvivalCoreLogging.Instance.LogError(typeof(DefinitionUtils), ex);
             }
             return null;
         }
@@ -90,7 +90,7 @@ namespace ExtendedSurvival
             }
             catch (Exception ex)
             {
-                ExtendedSurvivalLogging.Instance.LogError(typeof(DefinitionUtils), ex);
+                ExtendedSurvivalCoreLogging.Instance.LogError(typeof(DefinitionUtils), ex);
             }
             return null;
         }
@@ -105,7 +105,7 @@ namespace ExtendedSurvival
             }
             catch (Exception ex)
             {
-                ExtendedSurvivalLogging.Instance.LogError(typeof(DefinitionUtils), ex);
+                ExtendedSurvivalCoreLogging.Instance.LogError(typeof(DefinitionUtils), ex);
             }
             return null;
         }
@@ -137,11 +137,11 @@ namespace ExtendedSurvival
                     lootDefinition.DeselectAll();
                 }
                 else
-                    ExtendedSurvivalLogging.Instance.LogWarning(typeof(DefinitionUtils), $"RemoveItensFromContainer: {lootname} Not Found");
+                    ExtendedSurvivalCoreLogging.Instance.LogWarning(typeof(DefinitionUtils), $"RemoveItensFromContainer: {lootname} Not Found");
             }
             catch (Exception ex)
             {
-                ExtendedSurvivalLogging.Instance.LogError(typeof(DefinitionUtils), ex);
+                ExtendedSurvivalCoreLogging.Instance.LogError(typeof(DefinitionUtils), ex);
             }
         }
 
@@ -175,11 +175,11 @@ namespace ExtendedSurvival
                     lootDefinition.DeselectAll();
                 }
                 else
-                    ExtendedSurvivalLogging.Instance.LogWarning(typeof(DefinitionUtils), $"ReplaceLoot: {lootname} Not Found");
+                    ExtendedSurvivalCoreLogging.Instance.LogWarning(typeof(DefinitionUtils), $"ReplaceLoot: {lootname} Not Found");
             }
             catch (Exception ex)
             {
-                ExtendedSurvivalLogging.Instance.LogError(typeof(DefinitionUtils), ex);
+                ExtendedSurvivalCoreLogging.Instance.LogError(typeof(DefinitionUtils), ex);
             }
         }
 
@@ -194,11 +194,11 @@ namespace ExtendedSurvival
                     botDef.InventoryContainerTypeId = new MyDefinitionId(typeof(MyObjectBuilder_ContainerTypeDefinition), MyStringHash.GetOrCompute(lootname));
                 }
                 else
-                    ExtendedSurvivalLogging.Instance.LogWarning(typeof(DefinitionUtils), $"ChangeBotLoot: botname={botname} Not Found");
+                    ExtendedSurvivalCoreLogging.Instance.LogWarning(typeof(DefinitionUtils), $"ChangeBotLoot: botname={botname} Not Found");
             }
             catch (Exception ex)
             {
-                ExtendedSurvivalLogging.Instance.LogError(typeof(DefinitionUtils), ex);
+                ExtendedSurvivalCoreLogging.Instance.LogError(typeof(DefinitionUtils), ex);
             }
         }
 
@@ -214,11 +214,11 @@ namespace ExtendedSurvival
                     statDef.DefaultValue = values.Z;
                 }
                 else
-                    ExtendedSurvivalLogging.Instance.LogWarning(typeof(DefinitionUtils), $"ChangeStatValue: {statname} Not Found");
+                    ExtendedSurvivalCoreLogging.Instance.LogWarning(typeof(DefinitionUtils), $"ChangeStatValue: {statname} Not Found");
             }
             catch (Exception ex)
             {
-                ExtendedSurvivalLogging.Instance.LogError(typeof(DefinitionUtils), ex);
+                ExtendedSurvivalCoreLogging.Instance.LogError(typeof(DefinitionUtils), ex);
             }
         }
 
@@ -235,14 +235,14 @@ namespace ExtendedSurvival
                         def.Stats.Add(statDef.Id);
                     }
                     else
-                        ExtendedSurvivalLogging.Instance.LogWarning(typeof(DefinitionUtils), $"AddStatToCharacter: statname={statname} Not Found");
+                        ExtendedSurvivalCoreLogging.Instance.LogWarning(typeof(DefinitionUtils), $"AddStatToCharacter: statname={statname} Not Found");
                 }
                 else
-                    ExtendedSurvivalLogging.Instance.LogWarning(typeof(DefinitionUtils), $"AddStatToCharacter: charname={charname} Not Found");
+                    ExtendedSurvivalCoreLogging.Instance.LogWarning(typeof(DefinitionUtils), $"AddStatToCharacter: charname={charname} Not Found");
             }
             catch (Exception ex)
             {
-                ExtendedSurvivalLogging.Instance.LogError(typeof(DefinitionUtils), ex);
+                ExtendedSurvivalCoreLogging.Instance.LogError(typeof(DefinitionUtils), ex);
             }
         }
 

@@ -5,7 +5,7 @@ using VRage;
 using VRage.Game;
 using VRage.ObjectBuilders;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     public abstract class BaseIntegrationOverride
@@ -51,10 +51,10 @@ namespace ExtendedSurvival
                     toBp.Results = newResults.ToArray();
                 }
                 else
-                    ExtendedSurvivalLogging.Instance.LogWarning(GetType(), $"Override not found {to} blue print.");
+                    ExtendedSurvivalCoreLogging.Instance.LogWarning(GetType(), $"Override not found {to} blue print.");
             }
             else
-                ExtendedSurvivalLogging.Instance.LogWarning(GetType(), $"Override not found {from} blue print.");
+                ExtendedSurvivalCoreLogging.Instance.LogWarning(GetType(), $"Override not found {from} blue print.");
         }
 
         protected void CopyBlueprintFormula(string from, string to, float multiplier, bool clearBeforeCopy, UniqueEntityId[] ignoreIds)
@@ -90,10 +90,10 @@ namespace ExtendedSurvival
                     toBp.Prerequisites = newBlueprint.ToArray();
                 }
                 else
-                    ExtendedSurvivalLogging.Instance.LogWarning(GetType(), $"Override not found {to} blue print.");
+                    ExtendedSurvivalCoreLogging.Instance.LogWarning(GetType(), $"Override not found {to} blue print.");
             }
             else
-                ExtendedSurvivalLogging.Instance.LogWarning(GetType(), $"Override not found {from} blue print.");
+                ExtendedSurvivalCoreLogging.Instance.LogWarning(GetType(), $"Override not found {from} blue print.");
         }
 
         public struct FormulaItem
@@ -137,7 +137,7 @@ namespace ExtendedSurvival
                 fromBp.Prerequisites = newBlueprint.ToArray();
             }
             else
-                ExtendedSurvivalLogging.Instance.LogWarning(GetType(), $"Override not found {name} blue print.");
+                ExtendedSurvivalCoreLogging.Instance.LogWarning(GetType(), $"Override not found {name} blue print.");
         }
 
         protected void AddBluePrintToClass(string className, params string[] blueprints)
@@ -162,11 +162,11 @@ namespace ExtendedSurvival
                             components.AddBlueprint(blueprint);
                     }
                     else
-                        ExtendedSurvivalLogging.Instance.LogWarning(GetType(), $"Override not found {item} blue print.");
+                        ExtendedSurvivalCoreLogging.Instance.LogWarning(GetType(), $"Override not found {item} blue print.");
                 }
             }
             else
-                ExtendedSurvivalLogging.Instance.LogWarning(GetType(), $"Override not found {className} blue print class.");
+                ExtendedSurvivalCoreLogging.Instance.LogWarning(GetType(), $"Override not found {className} blue print class.");
         }
 
         protected void RemoveBluePrintFromClass(string classname, params string[] removedComponents)
@@ -189,7 +189,7 @@ namespace ExtendedSurvival
                 }
             }
             else
-                ExtendedSurvivalLogging.Instance.LogWarning(GetType(), $"Override block not found {classname} blue print class.");
+                ExtendedSurvivalCoreLogging.Instance.LogWarning(GetType(), $"Override block not found {classname} blue print class.");
         }
 
     }

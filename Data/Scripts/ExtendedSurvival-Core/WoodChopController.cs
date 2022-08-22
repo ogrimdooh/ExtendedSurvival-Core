@@ -9,7 +9,7 @@ using VRage.Game.Entity;
 using VRageMath;
 using Sandbox.ModAPI;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     public static class WoodChopController

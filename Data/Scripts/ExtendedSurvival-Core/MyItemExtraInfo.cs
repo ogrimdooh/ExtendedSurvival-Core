@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using VRage.Game.Entity;
 using VRage.Game.ModAPI;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     public sealed class MyItemExtraInfo
@@ -96,7 +96,7 @@ namespace ExtendedSurvival
                     }
                     catch (Exception ex)
                     {
-                        ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
+                        ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
                     }
                 }
                 if (extraInfo.AddNewItemWhenSpoil)
@@ -111,7 +111,7 @@ namespace ExtendedSurvival
                     }
                     catch (Exception ex)
                     {
-                        ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
+                        ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
                     }
                 }
                 ConservationTime = extraInfo.StartConservationTime;
@@ -129,7 +129,7 @@ namespace ExtendedSurvival
                     else
                         ConservationTime = TimeSpan.Zero;
                     if (observer.Debug)
-                        ExtendedSurvivalLogging.Instance.LogInfo(GetType(), $"MyItemExtraInfo DoUpdate {DefinitionId} {ConservationTime}");
+                        ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), $"MyItemExtraInfo DoUpdate {DefinitionId} {ConservationTime}");
                     if (ConservationTime == TimeSpan.Zero)
                         DoSpoilRoutine(observer);
                 }
@@ -152,7 +152,7 @@ namespace ExtendedSurvival
                                     DoSpoilRoutine(observer);
                                 }
                                 if (observer.Debug)
-                                    ExtendedSurvivalLogging.Instance.LogInfo(GetType(), $"MyItemExtraInfo DoUpdate {DefinitionId} GasLevel={gasContainer.GasLevel}");
+                                    ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), $"MyItemExtraInfo DoUpdate {DefinitionId} GasLevel={gasContainer.GasLevel}");
                             }
                         }
                     }

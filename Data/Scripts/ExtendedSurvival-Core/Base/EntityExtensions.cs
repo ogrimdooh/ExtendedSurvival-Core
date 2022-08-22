@@ -2,7 +2,7 @@
 using VRage.Game.Components;
 using VRage.ModAPI;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     public static class EntityExtensions

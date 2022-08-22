@@ -1,7 +1,7 @@
 ﻿using VRage.Game;
 using VRage.ObjectBuilders;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
     public static class ObjectBuilderExtensions
     {

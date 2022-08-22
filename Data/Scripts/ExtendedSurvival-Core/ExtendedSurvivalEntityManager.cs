@@ -14,7 +14,7 @@ using Sandbox.ModAPI.Weapons;
 using Sandbox.Game;
 using System.Text;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     [MySessionComponentDescriptor(MyUpdateOrder.NoUpdate)]
@@ -57,7 +57,7 @@ namespace ExtendedSurvival
             {
                 var task = MyAPIGateway.Parallel.StartBackground(() =>
                 {
-                    ExtendedSurvivalLogging.Instance.LogInfo(GetType(), "StartBackground [CheckAllGrids START]");
+                    ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), "StartBackground [CheckAllGrids START]");
                     // Loop Task to Control Skins
                     while (true)
                     {
@@ -80,13 +80,13 @@ namespace ExtendedSurvival
                     RegisterWatcher();
                 if (!IsServer)
                 {
-                    ExtendedSurvivalLogging.Instance.LogInfo(GetType(), $"RegisterSecureMessageHandler EntityCallsMsgHandler");
+                    ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), $"RegisterSecureMessageHandler EntityCallsMsgHandler");
                     MyAPIGateway.Multiplayer.RegisterSecureMessageHandler(ExtendedSurvivalCoreSession.NETWORK_ID_ENTITYCALLS, EntityCallsMsgHandler);
                 }
             }
             catch (Exception ex)
             {
-                ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
+                ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
             }
             base.BeforeStart();
         }
@@ -126,7 +126,7 @@ namespace ExtendedSurvival
             }
             catch (Exception ex)
             {
-                ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
+                ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
             }
         }
 
@@ -272,7 +272,7 @@ namespace ExtendedSurvival
             }
             catch (Exception ex)
             {
-                ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
+                ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
             }
         }
 
@@ -409,13 +409,13 @@ namespace ExtendedSurvival
             }
             catch (Exception ex)
             {
-                ExtendedSurvivalLogging.Instance.LogError(GetType(), ex);
+                ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
             }
         }
 
         private void DoDisableLoginComponent(IMySlimBlock item, string logicName)
         {
-            ExtendedSurvivalLogging.Instance.LogInfo(GetType(), $"FatBlock={item.FatBlock} LogicToDisable={logicName}");
+            ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), $"FatBlock={item.FatBlock} LogicToDisable={logicName}");
             if (item.FatBlock != null)
             {
                 var blockLogic = item.FatBlock.GameLogic;

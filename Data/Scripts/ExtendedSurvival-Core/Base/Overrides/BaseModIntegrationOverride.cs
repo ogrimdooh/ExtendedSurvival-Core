@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
     public abstract class BaseModIntegrationOverride : BaseIntegrationOverride
     {
@@ -24,7 +24,7 @@ namespace ExtendedSurvival
                 OnAfterSetDefinitions();
             }
             else
-                ExtendedSurvivalLogging.Instance.LogInfo(GetType(), $"Override mod not found. ID=[{GetIds(ids)}]");
+                ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), $"Override mod not found. ID=[{GetIds(ids)}]");
         }
 
         private string GetIds(ulong[] ids)

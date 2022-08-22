@@ -1,6 +1,6 @@
 ﻿using VRage.ModAPI;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     public abstract class EntityBase<T> where T : IMyEntity

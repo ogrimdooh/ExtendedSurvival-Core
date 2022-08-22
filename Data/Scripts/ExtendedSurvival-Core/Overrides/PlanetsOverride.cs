@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using VRage.Game;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     public class PlanetsOverride
@@ -109,12 +109,12 @@ namespace ExtendedSurvival
                         definition.SurfaceGravity = info.Gravity.SurfaceGravity;
                         CheckCustomPlanetsDefinitions(definition);
                         definition.Postprocess();
-                        ExtendedSurvivalLogging.Instance.LogInfo(typeof(PlanetsOverride), $"Override planet definition : {definition.Id.SubtypeName}");
+                        ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(PlanetsOverride), $"Override planet definition : {definition.Id.SubtypeName}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    ExtendedSurvivalLogging.Instance.LogError(typeof(PlanetsOverride), ex);
+                    ExtendedSurvivalCoreLogging.Instance.LogError(typeof(PlanetsOverride), ex);
                 }
             }
             // Override Start Ships

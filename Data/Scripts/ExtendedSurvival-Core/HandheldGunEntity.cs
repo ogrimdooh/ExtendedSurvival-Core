@@ -5,7 +5,7 @@ using Sandbox.Game.Entities;
 using VRage.Game.Entity;
 using Sandbox.ModAPI.Weapons;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     public delegate void OnReloadHandheldGunEntity(HandheldGunEntity sender, int currentAmmo, UniqueEntityId magzineId);

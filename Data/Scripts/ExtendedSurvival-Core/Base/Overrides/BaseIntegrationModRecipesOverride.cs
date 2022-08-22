@@ -7,7 +7,7 @@ using VRage.Game;
 using VRage.Game.ObjectBuilders.Definitions;
 using VRage.ObjectBuilders;
 
-namespace ExtendedSurvival
+namespace ExtendedSurvival.Core
 {
 
     public abstract class BaseIntegrationModRecipesOverride : BaseModIntegrationOverride
@@ -31,12 +31,12 @@ namespace ExtendedSurvival
                         group.Postprocess();
                     }
                     else
-                        ExtendedSurvivalLogging.Instance.LogInfo(typeof(BaseIntegrationModRecipesOverride), $"Override BlockVariantGroup not found. ID=[{key}]");
+                        ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(BaseIntegrationModRecipesOverride), $"Override BlockVariantGroup not found. ID=[{key}]");
                 }
                 catch (Exception ex)
                 {
-                    ExtendedSurvivalLogging.Instance.LogWarning(typeof(BaseIntegrationModRecipesOverride), $"Override BlockVariantGroup error. ID=[{key}]");
-                    ExtendedSurvivalLogging.Instance.LogError(typeof(BaseIntegrationModRecipesOverride), ex);
+                    ExtendedSurvivalCoreLogging.Instance.LogWarning(typeof(BaseIntegrationModRecipesOverride), $"Override BlockVariantGroup error. ID=[{key}]");
+                    ExtendedSurvivalCoreLogging.Instance.LogError(typeof(BaseIntegrationModRecipesOverride), ex);
                 }
             }            
         }
@@ -94,7 +94,7 @@ namespace ExtendedSurvival
                 if (blockDefinition != null)
                     SetComponents(blockDefinition, block);
                 else
-                    ExtendedSurvivalLogging.Instance.LogWarning(GetType(), $"Override block not found. ID=[{block}]");
+                    ExtendedSurvivalCoreLogging.Instance.LogWarning(GetType(), $"Override block not found. ID=[{block}]");
             }
             foreach (var component in GetComponents())
             {
@@ -106,10 +106,10 @@ namespace ExtendedSurvival
                     if (compDef != null)
                         SetComponentInfo(compDef, compInfo, component);
                     else
-                        ExtendedSurvivalLogging.Instance.LogWarning(GetType(), $"Override component not found. ID=[{component}]");
+                        ExtendedSurvivalCoreLogging.Instance.LogWarning(GetType(), $"Override component not found. ID=[{component}]");
                 }
                 else
-                    ExtendedSurvivalLogging.Instance.LogWarning(GetType(), $"Override component no info found. ID=[{component}]");
+                    ExtendedSurvivalCoreLogging.Instance.LogWarning(GetType(), $"Override component no info found. ID=[{component}]");
             }
         }
 
@@ -167,7 +167,7 @@ namespace ExtendedSurvival
                 }
             }
             else
-                ExtendedSurvivalLogging.Instance.LogWarning(GetType(), $"Override component no blueprint found. ID=[{component}] BP=[{compInfo.bluePrintName}]");
+                ExtendedSurvivalCoreLogging.Instance.LogWarning(GetType(), $"Override component no blueprint found. ID=[{component}] BP=[{compInfo.bluePrintName}]");
         }
 
         protected virtual void OnAfterSetComponents(MyCubeBlockDefinition blockDefinition, UniqueEntityId block)
@@ -216,7 +216,7 @@ namespace ExtendedSurvival
                 blockDefinition.OwnershipIntegrityRatio = ownershipRatio / maxIntegrity;
             }
             else
-                ExtendedSurvivalLogging.Instance.LogWarning(GetType(), $"Override block no components to set. ID=[{block}]");
+                ExtendedSurvivalCoreLogging.Instance.LogWarning(GetType(), $"Override block no components to set. ID=[{block}]");
             OnAfterSetComponents(blockDefinition, block);
         }
 
