@@ -68,7 +68,7 @@ namespace ExtendedSurvival.Core
             public bool AddNewItemWhenSpoil { get; set; }
 
             [ProtoMember(7)]
-            public TimeSpan StartConservationTime { get; set; } = TimeSpan.Zero;
+            public long StartConservationTime { get; set; } = 0;
 
             [ProtoMember(8)]
             public List<ItemExtraDefinitionAmmountInfo> AddDefinitionId { get; set; } = new List<ItemExtraDefinitionAmmountInfo>();

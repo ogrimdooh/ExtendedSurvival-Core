@@ -59,12 +59,12 @@ namespace ExtendedSurvival.Core
             return null;
         }
 
-        private void LoadExtraInfoDefinition()
+        public void LoadExtraInfoDefinition()
         {
             if (HasExtraInfoDefinition())
             {
                 var extraInfo = GetExtraInfoDefinition();
-                ConservationTime = extraInfo.StartConservationTime;
+                ConservationTime = TimeSpan.FromMilliseconds(extraInfo.StartConservationTime);
                 NeedUpdate = extraInfo.NeedUpdate;
                 NeedConservation = extraInfo.NeedConservation;
             }
@@ -75,7 +75,7 @@ namespace ExtendedSurvival.Core
             if (NeedConservation && HasExtraInfoDefinition())
             {
                 var extraInfo = GetExtraInfoDefinition();
-                ConservationTime = extraInfo.StartConservationTime;
+                ConservationTime = TimeSpan.FromMilliseconds(extraInfo.StartConservationTime);
             }
         }
 
@@ -114,7 +114,7 @@ namespace ExtendedSurvival.Core
                         ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
                     }
                 }
-                ConservationTime = extraInfo.StartConservationTime;
+                ConservationTime = TimeSpan.FromMilliseconds(extraInfo.StartConservationTime);
             });
         }
 

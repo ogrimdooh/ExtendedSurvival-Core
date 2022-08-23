@@ -57,7 +57,16 @@ namespace ExtendedSurvival.Core
         {
             var id = new UniqueEntityId(extraInfo.DefinitionId.TypeId, extraInfo.DefinitionId.SubtypeName);
             if (!MyItemExtraInfo.ContainsKey(id))
+            {
                 MyItemExtraInfo.Add(id, extraInfo);
+                if (MyInventoryObservers.Values.Any(x => x.HasItem(id)))
+                {
+                    foreach (var item in MyInventoryObservers.Values.Where(x => x.HasItem(id)))
+                    {
+                        item.RefreshItemExtraInfo(id);
+                    }
+                }
+            }
         }
 
         public static bool HasItemExtraInfo(UniqueEntityId id)

@@ -44,7 +44,7 @@ namespace ExtendedSurvival.Core
             }
         }
 
-        private DateTime deltaTime = DateTime.Now;
+        private int deltaTime = MyAPIGateway.Session.GameplayFrameCounter;
 
         public MyItemExtraInfo GetExtraInfo(uint itemId)
         {
@@ -56,6 +56,15 @@ namespace ExtendedSurvival.Core
         public bool HasItem(UniqueEntityId id)
         {
             return Inventory.GetItemAmount(id.DefinitionId) > 0;
+        }
+
+        public void RefreshItemExtraInfo(UniqueEntityId id)
+        {
+            if (inventoryExtraInfo.Any(x => x.Value.DefinitionId == id))
+                foreach (var item in inventoryExtraInfo.Where(x => x.Value.DefinitionId == id))
+                {
+                    item.Value.LoadExtraInfoDefinition();
+                }
         }
 
         public bool HasItemOfCategory(string category)
@@ -214,8 +223,8 @@ namespace ExtendedSurvival.Core
         {
             try
             {
-                var spendTime = DateTime.Now - deltaTime;
-                deltaTime = DateTime.Now;
+                var spendTime = TimeSpan.FromMilliseconds((MyAPIGateway.Session.GameplayFrameCounter - deltaTime) * 10);
+                deltaTime = MyAPIGateway.Session.GameplayFrameCounter;
                 var lista = inventoryExtraInfo.Where(x => x.Value.NeedUpdate).Select(x => x.Key).ToArray();
                 foreach (var key in lista)
                 {
