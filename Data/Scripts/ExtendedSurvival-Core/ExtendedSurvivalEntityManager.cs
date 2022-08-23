@@ -28,7 +28,7 @@ namespace ExtendedSurvival.Core
         public List<MyPlanet> PlanetsOnLoad { get; private set; } = new List<MyPlanet>();
         public List<IMyCubeGrid> GridsOnLoad { get; private set; } = new List<IMyCubeGrid>();
         public List<GridEntity> Grids { get; private set; } = new List<GridEntity>();
-        public List<PlanetEntity> Planets { get; private set; } = new List<PlanetEntity>();
+        public ConcurrentDictionary<long, PlanetEntity> Planets { get; private set; } = new ConcurrentDictionary<long, PlanetEntity>();
         public ConcurrentDictionary<long, HandheldGunEntity> HandheldGuns { get; private set; } = new ConcurrentDictionary<long, HandheldGunEntity>();
         public ConcurrentDictionary<long, IMyPlayer> Players { get; private set; } = new ConcurrentDictionary<long, IMyPlayer>();
 
@@ -38,12 +38,12 @@ namespace ExtendedSurvival.Core
         {
             if (!WaterAPI.Registered)
                 return false;
-            return Planets.Any(x => x.Setting != null && x.Setting.Water.Enabled && !x.HasWater());
+            return Planets.Values.Any(x => x.Setting != null && x.Setting.Water.Enabled && !x.HasWater());
         }
 
         public List<PlanetEntity> GetPlanetNeedingWater()
         {
-            return Planets.Where(x => x.Setting != null && x.Setting.Water.Enabled && !x.HasWater()).ToList();
+            return Planets.Values.Where(x => x.Setting != null && x.Setting.Water.Enabled && !x.HasWater()).ToList();
         }
 
         public GridEntity GetGridByUuid(long uuid)
@@ -205,11 +205,11 @@ namespace ExtendedSurvival.Core
                 return;
             }
             var planet = entity as MyPlanet;
-            if (planet != null && Planets.Any(x => x.Entity == planet))
+            if (planet != null && Planets.ContainsKey(planet.EntityId))
             {
                 lock (Planets)
                 {
-                    Planets.RemoveAll(x => x.Entity == planet);
+                    Planets.Remove(planet.EntityId);
                 }
                 return;
             }
@@ -256,7 +256,7 @@ namespace ExtendedSurvival.Core
                     lock (Planets)
                     {
                         var planetEntity = new PlanetEntity(planet);
-                        Planets.Add(planetEntity);
+                        Planets[planet.EntityId] = planetEntity;
                     }
                     return;
                 }
@@ -290,12 +290,14 @@ namespace ExtendedSurvival.Core
 
         public static PlanetEntity GetPlanetAtRange(Vector3D position)
         {
-            return Instance.Planets.OrderBy(x => Vector3D.Distance(position, x.Entity.PositionComp.GetPosition())).FirstOrDefault();
+            return Instance.Planets.Values.OrderBy(x => Vector3D.Distance(position, x.Entity.PositionComp.GetPosition())).FirstOrDefault();
         }
 
         public static PlanetEntity GetPlanetById(long id)
         {
-            return Instance.Planets.FirstOrDefault(x => x.Entity.EntityId == id);
+            if (Instance.Planets.ContainsKey(id))
+                return Instance.Planets[id];
+            return null;
         }
 
         public IMyPlayer GetClosestPlayer(Vector3D rPos, MyPromoteLevel level = MyPromoteLevel.None)
@@ -450,6 +452,19 @@ namespace ExtendedSurvival.Core
                         }
                     }
                 }
+            }
+        }
+
+        public bool HasPlanets()
+        {
+            return Planets.Count > 0;
+        }
+
+        public void ClearAllPlanets()
+        {
+            foreach (var key in Planets.Keys.ToArray())
+            {
+                Planets[key].Entity.Close();
             }
         }
 

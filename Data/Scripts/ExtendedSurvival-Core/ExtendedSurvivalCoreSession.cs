@@ -113,7 +113,7 @@ namespace ExtendedSurvival.Core
                                     {
                                         long planetId = long.Parse(mCommandData.content[1]);
                                         var closestPlanet = MyGamePruningStructure.GetClosestPlanet(MyAPIGateway.Session.Camera.Position);
-                                        if (planetId == closestPlanet.EntityId)
+                                        if (planetId == closestPlanet?.EntityId)
                                         {
                                             float waterSize = float.Parse(mCommandData.content[2]);
                                             WaterAPI.RunCommand("/wcreate");
@@ -153,6 +153,10 @@ namespace ExtendedSurvival.Core
         private const string SETTINGS_COMMAND_PLANET = "planet.settings";
         private const string SETTINGS_COMMAND_OREMAP = "planet.oremap";
         private const string SETTINGS_COMMAND_GEOTHERMAL = "planet.geothermal";
+        private const string SETTINGS_COMMAND_STARSYSTEM = "starsystem";
+
+        private const string SETTINGS_COMMAND_STARSYSTEM_CLEAR = "clear";
+        private const string SETTINGS_COMMAND_STARSYSTEM_CREATE = "create";
 
         private static readonly Dictionary<string, KeyValuePair<int, bool>> VALID_COMMANDS = new Dictionary<string, KeyValuePair<int, bool>>()
         {
@@ -160,7 +164,8 @@ namespace ExtendedSurvival.Core
             { SETTINGS_COMMAND_VOXEL, new KeyValuePair<int, bool>(4, false) },
             { SETTINGS_COMMAND_PLANET, new KeyValuePair<int, bool>(4, false) },
             { SETTINGS_COMMAND_OREMAP, new KeyValuePair<int, bool>(3, true) },
-            { SETTINGS_COMMAND_GEOTHERMAL, new KeyValuePair<int, bool>(3, true) }
+            { SETTINGS_COMMAND_GEOTHERMAL, new KeyValuePair<int, bool>(3, true) },
+            { SETTINGS_COMMAND_STARSYSTEM, new KeyValuePair<int, bool>(1, true) }
         };
 
         private void OnMessageEntered(string messageText, ref bool sendToOthers)
@@ -226,6 +231,66 @@ namespace ExtendedSurvival.Core
                                         optionsGeo.Add(mCommandData.content[i]);
                                     }
                                     ExtendedSurvivalSettings.Instance.ProcessPlanetThermalInfo(mCommandData.content[1], mCommandData.content[2], optionsGeo.ToArray());
+                                    break;
+                                case SETTINGS_COMMAND_STARSYSTEM:
+                                    var optionsStarSystem = new List<string[]>();
+                                    for (int i = 2; i < mCommandData.content.Length; i++)
+                                    {
+                                        optionsStarSystem.Add(mCommandData.content[i].Split('='));
+                                    }
+                                    switch (mCommandData.content[1])
+                                    {
+                                        case SETTINGS_COMMAND_STARSYSTEM_CLEAR:
+                                            ExtendedSurvivalEntityManager.Instance.ClearAllPlanets();
+                                            break;
+                                        case SETTINGS_COMMAND_STARSYSTEM_CREATE:
+                                            var profile = StarSystemController.StarSystemProfile.None;
+                                            if (optionsStarSystem.Any(x => x.Length == 2 && x[0].ToLower() == "profile"))
+                                            {
+                                                var info = optionsStarSystem.FirstOrDefault(x => x.Length == 2 && x[0].ToLower() == "profile");
+                                                var profiles = info[1].Split(',');
+                                                foreach (var profileItem in profiles)
+                                                {
+                                                    switch (profileItem.ToLower())
+                                                    {
+                                                        case "vanilla":
+                                                            profile |= StarSystemController.StarSystemProfile.Vanilla;
+                                                            break;
+                                                        case "extendedsurvival":
+                                                            profile |= StarSystemController.StarSystemProfile.ExtendedSurvival;
+                                                            break;
+                                                        case "ata":
+                                                            profile |= StarSystemController.StarSystemProfile.ATA;
+                                                            break;
+                                                    }
+                                                }
+                                            }
+                                            var generationType = StarSystemController.GenerationType.Random;
+                                            if (optionsStarSystem.Any(x => x.Length == 2 && x[0].ToLower() == "generation"))
+                                            {
+                                                var info = optionsStarSystem.FirstOrDefault(x => x.Length == 2 && x[0].ToLower() == "generation");
+                                                switch (info[1].ToLower())
+                                                {
+                                                    case "random":
+                                                        generationType = StarSystemController.GenerationType.Random;
+                                                        break;
+                                                    case "mapped":
+                                                        generationType = StarSystemController.GenerationType.MappedProfile;
+                                                        break;
+                                                }
+                                            }
+                                            var withSun = !optionsStarSystem.Any(x => x.Length == 1 && x[0].ToLower() == "nosun");
+                                            int count = 5;
+                                            if (optionsStarSystem.Any(x => x.Length == 2 && x[0].ToLower() == "count"))
+                                            {
+                                                var info = optionsStarSystem.FirstOrDefault(x => x.Length == 2 && x[0].ToLower() == "count");
+                                                int finalAmmount = 0;
+                                                if (int.TryParse(info[1], out finalAmmount))
+                                                    count = finalAmmount;
+                                            }
+                                            StarSystemController.ComputeNewStarSystem(profile, generationType, withSun, count);
+                                            break;
+                                    }
                                     break;
                             }
                         }
@@ -341,6 +406,21 @@ namespace ExtendedSurvival.Core
         protected override void UnloadData()
         {
             TextAPI.Close();
+
+            if (!IsDedicated)
+            {
+                MyAPIGateway.Multiplayer.UnregisterSecureMessageHandler(NETWORK_ID_CALLCLIENTSYSTEM, ClientUpdateMsgHandler);
+            }
+
+            if (IsServer)
+            {
+                MyAPIGateway.Multiplayer.UnregisterSecureMessageHandler(NETWORK_ID_COMMANDS, CommandsMsgHandler);
+                MyAPIGateway.Multiplayer.UnregisterSecureMessageHandler(NETWORK_ID_DEFINITIONS, ClientDefinitionsUpdateServerMsgHandler);
+            }
+            else
+            {
+                MyAPIGateway.Multiplayer.UnregisterSecureMessageHandler(NETWORK_ID_DEFINITIONS, ClientDefinitionsUpdateMsgHandler);
+            }
 
             base.UnloadData();
         }

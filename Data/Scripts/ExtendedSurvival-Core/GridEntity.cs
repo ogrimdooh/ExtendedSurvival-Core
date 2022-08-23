@@ -47,7 +47,7 @@ namespace ExtendedSurvival.Core
         {
             get
             {
-                return ExtendedSurvivalEntityManager.Instance.Planets.OrderBy(x => Vector3D.Distance(Entity.PositionComp.GetPosition(), x.Entity.PositionComp.GetPosition())).FirstOrDefault();
+                return ExtendedSurvivalEntityManager.Instance.Planets.Values.OrderBy(x => Vector3D.Distance(Entity.PositionComp.GetPosition(), x.Entity.PositionComp.GetPosition())).FirstOrDefault();
             }
         }
 
@@ -540,7 +540,7 @@ namespace ExtendedSurvival.Core
             if (uniqueId.typeId == typeof(MyObjectBuilder_Collector))
                 _notInitilizedCollectorsBlocks.Add(obj);
             if (uniqueId.typeId == typeof(MyObjectBuilder_Cockpit) && TREADMILL_SUBTYPES.Contains(uniqueId.subtypeId.String))
-                _notInitilizedTreadmillBlocks.Add(obj);
+                _notInitilizedTreadmillBlocks.Add(obj);         
             /* ALL BLOCKS */
             _allBlocks.Add(obj);
             /* WIND TURBINES */

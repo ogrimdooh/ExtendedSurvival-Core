@@ -9,6 +9,16 @@ namespace ExtendedSurvival.Core
     public class PlanetProfile
     {
 
+        public enum PlanetType
+        {
+
+            Planet = 0,
+            Moon = 1,
+            GiantGas = 2,
+            Star = 4
+
+        }
+
         public enum PlanetOrigin
         {
 
@@ -117,6 +127,11 @@ namespace ExtendedSurvival.Core
         public int Version { get; set; }
         public int MaxGroupSize { get; set; } = 0;
         public int StartBreak { get; set; } = 0;
+        public Vector2 SizeRange { get; set; } = new Vector2(30, 60);
+        public PlanetType Type { get; set; } = PlanetType.Planet;
+        public List<string> ParentPlanet { get; set; } = new List<string>();
+        public Vector2I MoonCount { get; set; } = Vector2I.Zero;
+        public int Order { get; set; }
 
         public GravitySetting BuildGravitySetting()
         {
@@ -241,9 +256,22 @@ namespace ExtendedSurvival.Core
                 {
                     settings.RespawnEnabled = RespawnEnabled;
                 }
+                if (settings.Version < 7)
+                {
+                    settings.Type = (int)Type;
+                    settings.Order = Order;
+                    settings.MoonCount = new DocumentedVector2(MoonCount.X, MoonCount.Y, PlanetSetting.MOONCOUNT_INFO);
+                    settings.SizeRange = new DocumentedVector2(SizeRange.X, SizeRange.Y, PlanetSetting.SIZERANGE_INFO);
+                    settings.Parents = GetParents();
+                }
                 settings.Version = Version;
             }
             return settings;
+        }
+
+        public List<PlanetParentEntrySetting> GetParents()
+        {
+            return ParentPlanet.Select(x => new PlanetParentEntrySetting() { Id = x }).ToList();
         }
 
         public PlanetSetting BuildSettings(string id, int seed, float multiplier)
@@ -256,6 +284,11 @@ namespace ExtendedSurvival.Core
                 Seed = seed,
                 Multiplier = multiplier,
                 Version = Version,
+                Type = (int)Type,
+                Order = Order,
+                MoonCount = new DocumentedVector2(MoonCount.X, MoonCount.Y, PlanetSetting.MOONCOUNT_INFO),
+                SizeRange = new DocumentedVector2(SizeRange.X, SizeRange.Y, PlanetSetting.SIZERANGE_INFO),
+                Parents = GetParents(),
                 Geothermal = BuildGeothermalSetting(),
                 Atmosphere = BuildAtmosphereSetting(),
                 Water = BuildWaterSetting(),

@@ -11,6 +11,9 @@ namespace ExtendedSurvival.Core
     public class PlanetSetting
     {
 
+        public const string MOONCOUNT_INFO = "X: Min Ammount. Y: Max Ammount.";
+        public const string SIZERANGE_INFO = "X: Min Size. Y: Max Size.";
+
         [XmlElement]
         public string Id { get; set; }
 
@@ -28,6 +31,21 @@ namespace ExtendedSurvival.Core
 
         [XmlElement]
         public float Multiplier { get; set; } = 1.0f;
+
+        [XmlElement]
+        public int Type { get; set; } = 0;
+
+        [XmlArray("Parents"), XmlArrayItem("Parent", typeof(PlanetParentEntrySetting))]
+        public List<PlanetParentEntrySetting> Parents { get; set; } = new List<PlanetParentEntrySetting>();
+
+        [XmlElement]
+        public DocumentedVector2 MoonCount { get; set; } = new DocumentedVector2(0, 0, MOONCOUNT_INFO);
+
+        [XmlElement]
+        public int Order { get; set; } = 0;
+
+        [XmlElement]
+        public DocumentedVector2 SizeRange { get; set; } = new DocumentedVector2(0, 0, SIZERANGE_INFO);
 
         [XmlElement]
         public AtmosphereSetting Atmosphere { get; set; } = new AtmosphereSetting();

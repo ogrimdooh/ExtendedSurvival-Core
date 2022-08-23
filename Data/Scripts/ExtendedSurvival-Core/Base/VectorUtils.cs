@@ -66,6 +66,11 @@ namespace ExtendedSurvival.Core
             return MyUtils.GetRandomFloat(self.X, self.Y);
         }
 
+        public static int GetRandomInt(this Vector2I self)
+        {
+            return MyUtils.GetRandomInt(self.X, self.Y);
+        }
+
     }
 
 }

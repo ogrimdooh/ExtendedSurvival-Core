@@ -66,13 +66,13 @@ namespace ExtendedSurvival.Core
         {
             switch (definition.Id.SubtypeName.ToUpper())
             {
-                case PlanetMapProfile.DEFAULT_MOON:
+                case VanilaMapProfile.DEFAULT_MOON:
                     ApplyMoonSettings(definition);
                     break;
-                case PlanetMapProfile.DEFAULT_EUROPA:
+                case VanilaMapProfile.DEFAULT_EUROPA:
                     ApplyEuropaSettings(definition);
                     break;
-                case PlanetMapProfile.DEFAULT_MARS:
+                case VanilaMapProfile.DEFAULT_MARS:
                     ApplyMarsSettings(definition);
                     break;
             }
