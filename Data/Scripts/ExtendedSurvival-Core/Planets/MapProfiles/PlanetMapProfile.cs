@@ -537,10 +537,51 @@ namespace ExtendedSurvival.Core
                 ExtendedSurvivalMapProfile.DEFAULT_DOVER,
                 ExtendedSurvivalMapProfile.DOVER
             },
+            // ATA MOD STARS
+            {
+                ATAMapProfile.ATA_STAR_TEST,
+                ATAMapProfile.ATA_STAR_PROFILE
+            },
+            {
+                ATAMapProfile.ATA_STAR_002,
+                ATAMapProfile.ATA_STAR_PROFILE
+            },
+            {
+                ATAMapProfile.ATA_STAR_003,
+                ATAMapProfile.ATA_STAR_PROFILE
+            },
+            {
+                ATAMapProfile.ATA_STAR_005,
+                ATAMapProfile.ATA_STAR_PROFILE
+            },
+            {
+                ATAMapProfile.ATA_STAR_007,
+                ATAMapProfile.ATA_STAR_PROFILE
+            },
+            {
+                ATAMapProfile.ATA_STAR_010,
+                ATAMapProfile.ATA_STAR_PROFILE
+            },
+            {
+                ATAMapProfile.ATA_STAR_022,
+                ATAMapProfile.ATA_STAR_PROFILE
+            },
+            {
+                ATAMapProfile.ATA_STAR_029,
+                ATAMapProfile.ATA_STAR_PROFILE
+            },
+            {
+                ATAMapProfile.ATA_STAR_057,
+                ATAMapProfile.ATA_STAR_PROFILE
+            },
+            {
+                ATAMapProfile.ATA_STAR_147,
+                ATAMapProfile.ATA_STAR_PROFILE
+            },
             // ATA MOD
             {
                 ATAMapProfile.ATA_00_SUN,
-                ATAMapProfile.ATA_00_SUN_PROFILE
+                ATAMapProfile.ATA_SUN_PROFILE
             },
             {
                 ATAMapProfile.ATA_01_MERCURY,

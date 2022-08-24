@@ -194,56 +194,59 @@ namespace ExtendedSurvival.Core
         {
             Random rand = new Random(seed);
             var map = new List<PlanetOreMapEntrySetting>();
-            var finalores = Ores.Select(x => new OreMapInfo() { ammount = Math.Max((int)(x.ammount * multiplier), 1), type = x.type, start = x.start, depth = x.depth }).ToArray();
-            var totalEntries = (byte)Math.Min(finalores.Sum(x => x.ammount), 255);
-            byte intervalo = (byte)(255 / totalEntries);
-            byte value = 0;
-            var count = new Dictionary<string, int>();
-            var oresKeys = finalores.Select(x => x.type).Distinct().ToList();
-            foreach (var item in oresKeys)
+            if (Ores.Any())
             {
-                count.Add(item, 0);
-            }
-            var keyIndex = 0;
-            var internalCount = 0;
-            var incrementBreak = oresKeys.Count;
-            var doInitialBreak = false;
-            for (int i = 0; i < totalEntries; i++)
-            {
-                value += intervalo;
-                var type = oresKeys[keyIndex];
-                count[type]++;
-                var info = finalores.FirstOrDefault(x => x.type == type);
-                if (count[type] >= info.ammount)
-                    oresKeys.Remove(type);
-                map.Add(new PlanetOreMapEntrySetting() 
-                { 
-                    Value = value,
-                    Type = type,
-                    Start = rand.Next(info.start.X, info.start.Y),
-                    Depth = rand.Next(info.depth.X, info.depth.Y),
-                    ColorInfluence = ColorInfluence,
-                    TargetColor = TargetColor
-                });
-                if (oresKeys.Count == 0)
-                    break;
-                if (!oresKeys.Any(x => x == type) || internalCount >= MaxGroupSize || i < StartBreak)
+                var finalores = Ores.Select(x => new OreMapInfo() { ammount = Math.Max((int)(x.ammount * multiplier), 1), type = x.type, start = x.start, depth = x.depth }).ToArray();
+                var totalEntries = (byte)Math.Min(finalores.Sum(x => x.ammount), 255);
+                byte intervalo = (byte)(255 / totalEntries);
+                byte value = 0;
+                var count = new Dictionary<string, int>();
+                var oresKeys = finalores.Select(x => x.type).Distinct().ToList();
+                foreach (var item in oresKeys)
                 {
-                    if (i >= StartBreak && !doInitialBreak)
+                    count.Add(item, 0);
+                }
+                var keyIndex = 0;
+                var internalCount = 0;
+                var incrementBreak = oresKeys.Count;
+                var doInitialBreak = false;
+                for (int i = 0; i < totalEntries; i++)
+                {
+                    value += intervalo;
+                    var type = oresKeys[keyIndex];
+                    count[type]++;
+                    var info = finalores.FirstOrDefault(x => x.type == type);
+                    if (count[type] >= info.ammount)
+                        oresKeys.Remove(type);
+                    map.Add(new PlanetOreMapEntrySetting()
                     {
-                        doInitialBreak = true;
-                        keyIndex = 0;
+                        Value = value,
+                        Type = type,
+                        Start = rand.Next(info.start.X, info.start.Y),
+                        Depth = rand.Next(info.depth.X, info.depth.Y),
+                        ColorInfluence = ColorInfluence,
+                        TargetColor = TargetColor
+                    });
+                    if (oresKeys.Count == 0)
+                        break;
+                    if (!oresKeys.Any(x => x == type) || internalCount >= MaxGroupSize || i < StartBreak)
+                    {
+                        if (i >= StartBreak && !doInitialBreak)
+                        {
+                            doInitialBreak = true;
+                            keyIndex = 0;
+                        }
+                        else
+                        {
+                            keyIndex++;
+                        }
+                        internalCount = 0;
                     }
                     else
-                    {
-                        keyIndex++;
-                    }
-                    internalCount = 0;
+                        internalCount++;
+                    if (keyIndex >= oresKeys.Count)
+                        keyIndex = 0;
                 }
-                else
-                    internalCount++;
-                if (keyIndex >= oresKeys.Count)
-                    keyIndex = 0;
             }
             return map;
         }
@@ -258,11 +261,18 @@ namespace ExtendedSurvival.Core
                 }
                 if (settings.Version < 7)
                 {
-                    settings.Type = (int)Type;
-                    settings.Order = Order;
-                    settings.MoonCount = new DocumentedVector2(MoonCount.X, MoonCount.Y, PlanetSetting.MOONCOUNT_INFO);
-                    settings.SizeRange = new DocumentedVector2(SizeRange.X, SizeRange.Y, PlanetSetting.SIZERANGE_INFO);
-                    settings.Parents = GetParents();
+                    if (Origin == PlanetOrigin.OtherMod && ATAMapProfile.ATA_MOD_IDS.Contains(OriginId))
+                    {
+                        settings = BuildSettings(settings.Id, settings.Seed, settings.Multiplier);
+                    }
+                    else
+                    {
+                        settings.Type = (int)Type;
+                        settings.Order = Order;
+                        settings.MoonCount = new DocumentedVector2(MoonCount.X, MoonCount.Y, PlanetSetting.MOONCOUNT_INFO);
+                        settings.SizeRange = new DocumentedVector2(SizeRange.X, SizeRange.Y, PlanetSetting.SIZERANGE_INFO);
+                        settings.Parents = GetParents();
+                    }
                 }
                 settings.Version = Version;
             }

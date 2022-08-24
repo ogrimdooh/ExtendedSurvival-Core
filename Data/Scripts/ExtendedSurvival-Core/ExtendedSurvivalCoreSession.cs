@@ -279,7 +279,8 @@ namespace ExtendedSurvival.Core
                                                         break;
                                                 }
                                             }
-                                            var withSun = !optionsStarSystem.Any(x => x.Length == 1 && x[0].ToLower() == "nosun");
+                                            var withSun = optionsStarSystem.Any(x => x.Length == 1 && x[0].ToLower() == "withstar");
+                                            var allowDuplicated = optionsStarSystem.Any(x => x.Length == 1 && x[0].ToLower() == "allowduplicated");
                                             int count = 5;
                                             if (optionsStarSystem.Any(x => x.Length == 2 && x[0].ToLower() == "count"))
                                             {
@@ -288,7 +289,15 @@ namespace ExtendedSurvival.Core
                                                 if (int.TryParse(info[1], out finalAmmount))
                                                     count = finalAmmount;
                                             }
-                                            StarSystemController.ComputeNewStarSystem(profile, generationType, withSun, count);
+                                            float distanceMultiplier = 1;
+                                            if (optionsStarSystem.Any(x => x.Length == 2 && x[0].ToLower() == "distancemultiplier"))
+                                            {
+                                                var info = optionsStarSystem.FirstOrDefault(x => x.Length == 2 && x[0].ToLower() == "distancemultiplier");
+                                                float finalDistanceMultiplier = 0;
+                                                if (float.TryParse(info[1], out finalDistanceMultiplier))
+                                                    distanceMultiplier = finalDistanceMultiplier;
+                                            }
+                                            StarSystemController.ComputeNewStarSystem(profile, generationType, withSun, count, allowDuplicated, distanceMultiplier);
                                             break;
                                     }
                                     break;

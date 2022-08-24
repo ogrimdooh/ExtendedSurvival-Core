@@ -33,13 +33,16 @@ namespace ExtendedSurvival.Core
 
         }
 
+        public static readonly Vector2 PLANET_MOON_BUFFER = new Vector2(150f, 300f);
+        public static readonly Vector2 GIANTGAS_MOON_BUFFER = new Vector2(2000f, 2500f);
         public const float KILOMETERS_TO_METERS = 1000f;
         public const float TAU = (float)(Math.PI * 2f);
         public const float SLICE = (float)(Math.PI * 0.5f);
         public const float DEFAULT_INCLINATION = 45f;
         public static readonly Vector2 DEFAULT_PLANETARY_DISTANCE = new Vector2(1500f, 7500f);
+        public const float GAS_GIANT_DISTANCE_MULTIPLIER = 2f;
 
-        public static bool ComputeNewStarSystem(StarSystemProfile profile, GenerationType generationType, bool withStar = true, int itensAmmount = 5, bool allowDuplicated = false)
+        public static bool ComputeNewStarSystem(StarSystemProfile profile, GenerationType generationType, bool withStar, int itensAmmount, bool allowDuplicated, float distanceMultiplier)
         {
             if (!ExtendedSurvivalEntityManager.Instance.HasPlanets())
             {
@@ -121,25 +124,95 @@ namespace ExtendedSurvival.Core
                             break;
                         case GenerationType.Random:
                             query = planets.Where(x => x.Type == (int)PlanetProfile.PlanetType.Planet || x.Type == (int)PlanetProfile.PlanetType.GiantGas).OrderBy(x => GetRandomDouble()).Take(itensAmmount).AsQueryable();
-                            sectors = Math.Min(itensAmmount, query.Count());
+                            var lista = query.ToList();
+                            if (lista.Count < itensAmmount && allowDuplicated)
+                            {
+                                while (lista.Count < itensAmmount)
+                                {
+                                    lista.Add(query.FirstOrDefault());
+                                }
+                            }
+                            if (lista.Any(x => !x.RespawnEnabled))
+                            {
+                                var index = new Vector2I(0, lista.Count - 1).GetRandomInt();
+                                lista[index] = planets.Where(x => x.RespawnEnabled && x.Type == (int)PlanetProfile.PlanetType.Planet).OrderBy(x => GetRandomDouble()).FirstOrDefault();
+                            }
+                            sectors = lista.Count;
+                            query = lista.AsQueryable();
                             break;
                     }
                     sectorSize = TAU / sectors;
                     deviation = 0.25f * sectorSize;
                     eclipticRotation = GetRandomDouble() * TAU;
                     int i = 0;
+                    PlanetSetting lastCreated = null;
                     foreach (var item in query)
                     {
                         var theta = eclipticRotation + sectorSize * i + (GetRandomDouble() * 2 - 1) * deviation;
                         var phi = (GetRandomDouble() * 2 - 1) * DEFAULT_INCLINATION;
                         var minDistanceKm = currentSystemSize;
-                        var maxDistanceKm = minDistanceKm + DEFAULT_PLANETARY_DISTANCE.GetRandom();
+                        var incrementDistance = DEFAULT_PLANETARY_DISTANCE.GetRandom();
+                        if (item.Type == (int)PlanetProfile.PlanetType.GiantGas)
+                        {
+                            incrementDistance *= GAS_GIANT_DISTANCE_MULTIPLIER;
+                        }
+                        if (lastCreated != null && lastCreated.Type == (int)PlanetProfile.PlanetType.GiantGas)
+                        {
+                            incrementDistance *= GAS_GIANT_DISTANCE_MULTIPLIER;
+                        }
+                        var maxDistanceKm = minDistanceKm + incrementDistance;
                         float distance = Range(minDistanceKm, maxDistanceKm);
                         var position = GenerateCelestialBodyPosition(theta, phi, distance);
                         var size = new Vector2(item.SizeRange.X, item.SizeRange.Y).GetRandom() * KILOMETERS_TO_METERS;
                         currentSystemSize = distance + (size / KILOMETERS_TO_METERS);
-                        MyAPIGateway.Session.VoxelMaps.SpawnPlanet(item.Id, size, new Vector2I(1000000, 10000000).GetRandomInt(), position);
+                        var planet = MyAPIGateway.Session.VoxelMaps.SpawnPlanet(item.Id, size, new Vector2I(1000000, 10000000).GetRandomInt(), position) as MyPlanet;
+                        planet.AsteroidName = $"{item.Id} - Planet {i + 1}";                        
                         createdPlanets.Add(item.Id, size / KILOMETERS_TO_METERS);
+                        lastCreated = item;
+                        if (planets.Any(x => x.Type == (int)PlanetProfile.PlanetType.Moon))
+                        {
+                            var moonsToGenerate = new Vector2I((int)item.MoonCount.X, (int)item.MoonCount.Y).GetRandomInt();
+                            if (moonsToGenerate > 0)
+                            {
+                                var validMoons = planets.Where(x => x.Type == (int)PlanetProfile.PlanetType.Moon).ToList();
+                                if (validMoons.Any())
+                                {
+                                    var generatedMoons = new List<PlanetSetting>();
+                                    for (int j = 0; j < moonsToGenerate; j++)
+                                    {
+                                        if (validMoons.Count == 0)
+                                        {
+                                            if (allowDuplicated)
+                                            {
+                                                validMoons.AddRange(generatedMoons);
+                                                generatedMoons.Clear();
+                                            }
+                                            else
+                                                break;
+                                        }
+                                        var moonToCreate = validMoons.Where(x => x.Type == (int)PlanetProfile.PlanetType.Moon && x.Parents.Any(c => c.Id.ToUpper() == item.Id.ToUpper())).OrderBy(x => GetRandomDouble()).FirstOrDefault();
+                                        if (moonToCreate == null)
+                                        {
+                                            moonToCreate = validMoons.Where(x => x.Type == (int)PlanetProfile.PlanetType.Moon && x.Parents.Any(c => c.Id.ToUpper() == item.Id.ToUpper())).OrderBy(x => GetRandomDouble()).FirstOrDefault();
+                                        }
+                                        theta = GetRandomDouble() * TAU;
+                                        phi = (GetRandomDouble() * 2 - 1) * SLICE;
+                                        var moonPos = position;
+                                        var moonDiameter = new Vector2(moonToCreate.SizeRange.X, moonToCreate.SizeRange.Y).GetRandom() * KILOMETERS_TO_METERS;
+                                        incrementDistance = item.Type == (int)PlanetProfile.PlanetType.GiantGas ? GIANTGAS_MOON_BUFFER.GetRandom() : PLANET_MOON_BUFFER.GetRandom();
+                                        minDistanceKm = incrementDistance + (((size * 2) + moonDiameter) / KILOMETERS_TO_METERS);
+                                        maxDistanceKm = minDistanceKm + moonDiameter * 5;
+                                        distance = Range(minDistanceKm, minDistanceKm);
+                                        var moonOffset = GenerateCelestialBodyPosition(theta, phi, distance);
+                                        moonPos += moonOffset;
+                                        var moon = MyAPIGateway.Session.VoxelMaps.SpawnPlanet(moonToCreate.Id, moonDiameter, new Vector2I(1000000, 10000000).GetRandomInt(), moonPos) as MyPlanet;
+                                        moon.AsteroidName = $"{item.Id} - Moon {j + 1} of Planet {i + 1}";
+                                        generatedMoons.Add(moonToCreate);
+                                        validMoons.Remove(moonToCreate);
+                                    }
+                                }
+                            }
+                        }
                         i++;
                     }
                 }
