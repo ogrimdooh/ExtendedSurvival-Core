@@ -536,6 +536,10 @@ namespace ExtendedSurvival.Core
                 ExtendedSurvivalMapProfile.DEFAULT_DOVER,
                 ExtendedSurvivalMapProfile.DOVER
             },
+            {
+                ExtendedSurvivalMapProfile.DEFAULT_TOTHT,
+                ExtendedSurvivalMapProfile.TOTHT
+            },
             // ATA MOD STARS
             {
                 ATAMapProfile.ATA_STAR_TEST,

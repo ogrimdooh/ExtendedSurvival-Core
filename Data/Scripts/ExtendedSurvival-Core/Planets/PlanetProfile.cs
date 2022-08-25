@@ -266,6 +266,8 @@ namespace ExtendedSurvival.Core
                     {
                         settings.Type = (int)Type;
                         settings.SizeRange = new DocumentedVector2(SizeRange.X, SizeRange.Y, PlanetSetting.SIZERANGE_INFO);
+                        settings.Atmosphere = BuildAtmosphereSetting();
+                        settings.Gravity = BuildGravitySetting();
                     }
                 }
                 settings.Version = Version;

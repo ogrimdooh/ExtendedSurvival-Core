@@ -338,7 +338,13 @@ namespace ExtendedSurvival.Core
                             {
                                 foreach (var member in ExtendedSurvivalStorage.Instance.StarSystem.Members)
                                 {
-                                    MyVisualScriptLogicProvider.AddGPSForAll(member.Name, "", member.Position, Color.White);
+                                    var posGps = member.Position;
+                                    if (member.EntityId != 0)
+                                    {
+                                        var Entity = MyAPIGateway.Entities.GetEntityById(member.EntityId);
+                                        posGps = Entity?.PositionComp?.WorldAABB.Center ?? member.Position;
+                                    }
+                                    MyVisualScriptLogicProvider.AddGPSForAll(member.Name, "", posGps, Color.White);
                                 }
                             }
                         }
