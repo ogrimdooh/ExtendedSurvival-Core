@@ -349,8 +349,6 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(true, 1.025f, -0.4f, 0, 0),
             SizeRange = new Vector2(100, 120),
             Type = PlanetProfile.PlanetType.Planet,
-            MoonCount = new Vector2I(1, 1),
-            Order = 1,
             MaxGroupSize = 5,
             StartBreak = 5,
             Ores = EARTHLIKE_ORES
@@ -371,8 +369,6 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(true, 1.025f, 0.4f, 0.5f, 0.25f),
             SizeRange = new Vector2(100, 120),
             Type = PlanetProfile.PlanetType.Planet,
-            MoonCount = new Vector2I(1, 1),
-            Order = 4,
             MaxGroupSize = 5,
             StartBreak = 3,
             Ores = ALIEN_ORES
@@ -393,8 +389,6 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(80, 90),
             Type = PlanetProfile.PlanetType.Planet,
-            MoonCount = new Vector2I(1, 1),
-            Order = 2,
             MaxGroupSize = 5,
             StartBreak = 5,
             Ores = MARS_ORES
@@ -415,8 +409,6 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(100, 120),
             Type = PlanetProfile.PlanetType.Planet,
-            MoonCount = new Vector2I(0, 0),
-            Order = 5,
             MaxGroupSize = 5,
             StartBreak = 3,
             Ores = PERTAM_ORES
@@ -435,8 +427,6 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(100, 120),
             Type = PlanetProfile.PlanetType.Planet,
-            MoonCount = new Vector2I(0, 1),
-            Order = 3,
             MaxGroupSize = 5,
             StartBreak = 3,
             Ores = TRITON_ORES
@@ -459,7 +449,6 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(30, 50),
             Type = PlanetProfile.PlanetType.Moon,
-            ParentPlanet = new List<string>() { DEFAULT_EARTHLIKE, ExtendedSurvivalMapProfile.DEFAULT_DOVER },
             MaxGroupSize = 5,
             StartBreak = 2,
             Ores = MOON_ORES
@@ -480,7 +469,6 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(30, 50),
             Type = PlanetProfile.PlanetType.Moon,
-            ParentPlanet = new List<string>() { DEFAULT_MARS },
             MaxGroupSize = 5,
             StartBreak = 2,
             Ores = EUROPA_ORES
@@ -501,7 +489,6 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(30, 40),
             Type = PlanetProfile.PlanetType.Moon,
-            ParentPlanet = new List<string>() { DEFAULT_ALIEN },
             MaxGroupSize = 5,
             StartBreak = 2,
             Ores = TITAN_ORES

@@ -4,7 +4,6 @@ using VRageMath;
 
 namespace ExtendedSurvival.Core
 {
-
     public static class PlanetMapProfile
     {
 

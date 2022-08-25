@@ -241,63 +241,19 @@ namespace ExtendedSurvival.Core
                                     switch (mCommandData.content[1])
                                     {
                                         case SETTINGS_COMMAND_STARSYSTEM_CLEAR:
-                                            ExtendedSurvivalEntityManager.Instance.ClearAllPlanets();
+                                            StarSystemController.ClearStarSystem();
                                             break;
                                         case SETTINGS_COMMAND_STARSYSTEM_CREATE:
-                                            var profile = StarSystemController.StarSystemProfile.None;
+                                            string profile = StarSystemMapProfile.DEFAULT_PROFILE;
                                             if (optionsStarSystem.Any(x => x.Length == 2 && x[0].ToLower() == "profile"))
                                             {
-                                                var info = optionsStarSystem.FirstOrDefault(x => x.Length == 2 && x[0].ToLower() == "profile");
-                                                var profiles = info[1].Split(',');
-                                                foreach (var profileItem in profiles)
-                                                {
-                                                    switch (profileItem.ToLower())
-                                                    {
-                                                        case "vanilla":
-                                                            profile |= StarSystemController.StarSystemProfile.Vanilla;
-                                                            break;
-                                                        case "extendedsurvival":
-                                                            profile |= StarSystemController.StarSystemProfile.ExtendedSurvival;
-                                                            break;
-                                                        case "ata":
-                                                            profile |= StarSystemController.StarSystemProfile.ATA;
-                                                            break;
-                                                    }
-                                                }
+                                                profile = optionsStarSystem.FirstOrDefault(x => x.Length == 2 && x[0].ToLower() == "profile")[1];
                                             }
-                                            var generationType = StarSystemController.GenerationType.Random;
-                                            if (optionsStarSystem.Any(x => x.Length == 2 && x[0].ToLower() == "generation"))
+                                            var profileInfo = ExtendedSurvivalSettings.Instance.GetStarSystemInfo(profile);
+                                            if (profileInfo != null)
                                             {
-                                                var info = optionsStarSystem.FirstOrDefault(x => x.Length == 2 && x[0].ToLower() == "generation");
-                                                switch (info[1].ToLower())
-                                                {
-                                                    case "random":
-                                                        generationType = StarSystemController.GenerationType.Random;
-                                                        break;
-                                                    case "mapped":
-                                                        generationType = StarSystemController.GenerationType.MappedProfile;
-                                                        break;
-                                                }
+                                                StarSystemController.ComputeNewStarSystem(profileInfo);
                                             }
-                                            var withSun = optionsStarSystem.Any(x => x.Length == 1 && x[0].ToLower() == "withstar");
-                                            var allowDuplicated = optionsStarSystem.Any(x => x.Length == 1 && x[0].ToLower() == "allowduplicated");
-                                            int count = 5;
-                                            if (optionsStarSystem.Any(x => x.Length == 2 && x[0].ToLower() == "count"))
-                                            {
-                                                var info = optionsStarSystem.FirstOrDefault(x => x.Length == 2 && x[0].ToLower() == "count");
-                                                int finalAmmount = 0;
-                                                if (int.TryParse(info[1], out finalAmmount))
-                                                    count = finalAmmount;
-                                            }
-                                            float distanceMultiplier = 1;
-                                            if (optionsStarSystem.Any(x => x.Length == 2 && x[0].ToLower() == "distancemultiplier"))
-                                            {
-                                                var info = optionsStarSystem.FirstOrDefault(x => x.Length == 2 && x[0].ToLower() == "distancemultiplier");
-                                                float finalDistanceMultiplier = 0;
-                                                if (float.TryParse(info[1], out finalDistanceMultiplier))
-                                                    distanceMultiplier = finalDistanceMultiplier;
-                                            }
-                                            StarSystemController.ComputeNewStarSystem(profile, generationType, withSun, count, allowDuplicated, distanceMultiplier);
                                             break;
                                     }
                                     break;

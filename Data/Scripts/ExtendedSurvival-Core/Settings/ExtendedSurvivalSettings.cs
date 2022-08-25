@@ -46,12 +46,18 @@ namespace ExtendedSurvival.Core
         [XmlElement]
         public bool RespawnSpacePodEnabled { get; set; } = false;
 
+        [XmlElement]
+        public bool AutoGenerateStarSystemGps { get; set; } = true;
+
         [XmlArray("Planets"), XmlArrayItem("Planet", typeof(PlanetSetting))]
         public List<PlanetSetting> Planets { get; set; } = new List<PlanetSetting>();
 
         [XmlArray("VoxelMaterials"), XmlArrayItem("VoxelMaterial", typeof(VoxelMaterialSetting))]
         public List<VoxelMaterialSetting> VoxelMaterials { get; set; } = new List<VoxelMaterialSetting>();
 
+        [XmlArray("StarSystems"), XmlArrayItem("StarSystem", typeof(StarSystemSetting))]
+        public List<StarSystemSetting> StarSystems { get; set; } = new List<StarSystemSetting>();
+        
         [XmlElement]
         public string IgnorePlanets { get; set; } = "SYSTEMTESTMAP;EARTHLIKEMODEXAMPLE;MARSTUTORIAL;MOONTUTORIAL;EARTHLIKETUTORIAL";
 
@@ -113,6 +119,34 @@ namespace ExtendedSurvival.Core
         public bool VoxelUsingTecnologyForFirstTime(string id)
         {
             return ExtendedSurvivalCoreSession.IsUsingTechnology() && VoxelMaterials.Any(x => x.Id.ToUpper().Trim() == id.ToUpper().Trim() && !x.UsingTechnology);
+        }
+
+        public bool HasStarSystem(string id)
+        {
+            return StarSystems.Any(x => x.Name.ToUpper().Trim() == id.ToUpper().Trim());
+        }
+
+        public StarSystemSetting GetStarSystemInfo(string id, bool generateWhenNotExists = true)
+        {
+            if (HasStarSystem(id))
+            {
+                var settings = StarSystems.FirstOrDefault(x => x.Name.ToUpper().Trim() == id.ToUpper().Trim());
+                var starProfile = StarSystemMapProfile.Get(settings.Name);
+                if (starProfile != null)
+                    settings = starProfile.UpgradeSettings(settings);
+                return settings;
+            }
+            else if (generateWhenNotExists)
+            {
+                var starProfile = StarSystemMapProfile.Get(id);
+                if (starProfile != null)
+                {
+                    var settings = starProfile.BuildSettings();
+                    StarSystems.Add(settings);
+                    return settings;
+                }
+            }
+            return null;
         }
 
         public PlanetSetting GetPlanetInfo(string id, bool generateWhenNotExists = true)
@@ -423,6 +457,14 @@ namespace ExtendedSurvival.Core
                     if (bool.TryParse(value, out disablewatermodfreeice))
                     {
                         DisableWaterModFreeIce = disablewatermodfreeice;
+                        return true;
+                    }
+                    break;
+                case "autogeneratestarsystemgps":
+                    bool autogeneratestarsystemgps;
+                    if (bool.TryParse(value, out autogeneratestarsystemgps))
+                    {
+                        AutoGenerateStarSystemGps = autogeneratestarsystemgps;
                         return true;
                     }
                     break;

@@ -225,8 +225,6 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(60, 80),
             Type = PlanetProfile.PlanetType.Planet,
-            MoonCount = new Vector2I(0, 0),
-            Order = 1,
             MaxGroupSize = 5,
             StartBreak = 3,
             Ores = OI_ORES
@@ -247,7 +245,6 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(25, 35),
             Type = PlanetProfile.PlanetType.Moon,
-            ParentPlanet = new List<string>() { VanilaMapProfile.DEFAULT_TRITON, DEFAULT_ENITOR },
             MaxGroupSize = 5,
             StartBreak = 2,
             Ores = SPATAT_ORES
@@ -266,8 +263,6 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(true, 1.0125f, -0.4f, 0.15f, 0.05f),
             SizeRange = new Vector2(100, 120),
             Type = PlanetProfile.PlanetType.Planet,
-            MoonCount = new Vector2I(0, 0),
-            Order = 2,
             MaxGroupSize = 5,
             StartBreak = 5,
             Ores = ENITOR_ORES
@@ -286,8 +281,6 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(100, 120),
             Type = PlanetProfile.PlanetType.Planet,
-            MoonCount = new Vector2I(0, 0),
-            Order = 3,
             MaxGroupSize = 5,
             StartBreak = 5,
             Ores = EREMUS_NUBIS_ORES
@@ -306,8 +299,6 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(true, 1.0125f, -0.4f, 0, 0),
             SizeRange = new Vector2(100, 120),
             Type = PlanetProfile.PlanetType.Planet,
-            MoonCount = new Vector2I(1, 1),
-            Order = 4,
             MaxGroupSize = 5,
             StartBreak = 5,
             Ores = DOVER_ORES

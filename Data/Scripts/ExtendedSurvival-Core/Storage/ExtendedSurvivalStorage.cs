@@ -49,7 +49,10 @@ namespace ExtendedSurvival.Core
             }
         }
 
-        [ProtoMember(1), XmlArray("Entities"), XmlArrayItem("Entity", typeof(EntityStorage))]
+        [XmlElement]
+        public StarSystemStorage StarSystem { get; set; } = new StarSystemStorage();
+
+        [XmlArray("Entities"), XmlArrayItem("Entity", typeof(EntityStorage))]
         public List<EntityStorage> Entities;
 
         public EntityStorage GetEntity(long id)

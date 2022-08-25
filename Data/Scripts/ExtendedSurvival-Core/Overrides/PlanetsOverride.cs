@@ -131,6 +131,12 @@ namespace ExtendedSurvival.Core
             spaceShip.Prefab = MyDefinitionManager.Static.GetPrefabDefinition(validShips[2]);
             spaceShip.UseForSpace = ExtendedSurvivalSettings.Instance.RespawnSpacePodEnabled;
             spaceShip.Postprocess();
+            // Check star system saved info
+            var defaultStarProfiles = StarSystemMapProfile.Keys();
+            foreach (var starProfileKey in defaultStarProfiles)
+            {
+                ExtendedSurvivalSettings.Instance.GetStarSystemInfo(starProfileKey);
+            }
         }
 
     }
