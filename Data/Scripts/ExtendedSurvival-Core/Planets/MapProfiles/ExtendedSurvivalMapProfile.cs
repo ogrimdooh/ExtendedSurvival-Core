@@ -12,6 +12,8 @@ namespace ExtendedSurvival.Core
         public const string DEFAULT_EREMUS_NUBIS = "EREMUS NUBIS";
         public const string DEFAULT_DOVER = "DOVER";
         public const string DEFAULT_TOTHT = "TOTHT";
+        public const string DEFAULT_GLEDIUS_NUBIS = "GLEDIUS NUBIS";
+        public const string DEFAULT_CAPUTALIS_NUBIS = "CAPUTALIS NUBIS";
 
         // Ore Maps
         public static readonly List<PlanetProfile.OreMapInfo> OI_ORES =
@@ -209,6 +211,122 @@ namespace ExtendedSurvival.Core
                 null
             );
 
+        public static readonly List<PlanetProfile.OreMapInfo> TOTHT_ORES =
+            ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+            PlanetMapProfile.BuildOreMap(
+                new string[]
+                {
+                    PlanetMapProfile.Iron_02,
+                    PlanetMapProfile.Nickel_01,
+                    PlanetMapProfile.Aluminum_01
+                },
+                new string[]
+                {
+                    PlanetMapProfile.Lead_01,
+                    PlanetMapProfile.Sulfor_01,
+                    PlanetMapProfile.Carbon_01
+                },
+                new string[]
+                {
+                    PlanetMapProfile.Platinum_01,
+                    PlanetMapProfile.Uraninite_01
+                },
+                null
+            ) :
+            PlanetMapProfile.BuildOreMap(
+                new string[]
+                {
+                    PlanetMapProfile.Iron_02,
+                    PlanetMapProfile.Nickel_01,
+                    PlanetMapProfile.Silicon_01
+                },
+                null,
+                new string[]
+                {
+                    PlanetMapProfile.Gold_01,
+                    PlanetMapProfile.Silver_01,
+                    PlanetMapProfile.Platinum_01,
+                    PlanetMapProfile.Uraninite_01
+                },
+                null
+            );
+
+        public static readonly List<PlanetProfile.OreMapInfo> GLEDIUS_NUBIS_ORES =
+            ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+            PlanetMapProfile.BuildOreMap(
+                new string[]
+                {
+                    PlanetMapProfile.Aluminum_01,
+                    PlanetMapProfile.Copper_01
+                },
+                new string[]
+                {
+                    PlanetMapProfile.Lead_01,
+                    PlanetMapProfile.Gold_01,
+                    PlanetMapProfile.Silver_01
+                },
+                new string[]
+                {
+                    PlanetMapProfile.Lithium_01
+                },
+                null
+            ) :
+            PlanetMapProfile.BuildOreMap(
+                new string[]
+                {
+                    PlanetMapProfile.Iron_02,
+                    PlanetMapProfile.Nickel_01,
+                    PlanetMapProfile.Silicon_01
+                },
+                null,
+                new string[]
+                {
+                    PlanetMapProfile.Gold_01,
+                    PlanetMapProfile.Silver_01,
+                    PlanetMapProfile.Platinum_01,
+                    PlanetMapProfile.Uraninite_01
+                },
+                null
+            );
+
+        public static readonly List<PlanetProfile.OreMapInfo> CAPUTALIS_NUBIS_ORES =
+            ExtendedSurvivalCoreSession.IsUsingTechnology() ?
+            PlanetMapProfile.BuildOreMap(
+                new string[]
+                {
+                    PlanetMapProfile.Iron_02,
+                    PlanetMapProfile.Nickel_01
+                },
+                new string[]
+                {
+                    PlanetMapProfile.Lead_01,
+                    PlanetMapProfile.Gold_01,
+                    PlanetMapProfile.Silver_01
+                },
+                new string[]
+                {
+                    PlanetMapProfile.Lithium_01
+                },
+                null
+            ) :
+            PlanetMapProfile.BuildOreMap(
+                new string[]
+                {
+                    PlanetMapProfile.Iron_02,
+                    PlanetMapProfile.Nickel_01,
+                    PlanetMapProfile.Silicon_01
+                },
+                null,
+                new string[]
+                {
+                    PlanetMapProfile.Gold_01,
+                    PlanetMapProfile.Silver_01,
+                    PlanetMapProfile.Platinum_01,
+                    PlanetMapProfile.Uraninite_01
+                },
+                null
+            );
+
         // Planets
 
         public static readonly PlanetProfile OI = new PlanetProfile()
@@ -309,7 +427,7 @@ namespace ExtendedSurvival.Core
         {
             Origin = PlanetProfile.PlanetOrigin.ExtendedSurvival,
             Version = PlanetMapProfile.PROFILE_VERSION,
-            RespawnEnabled = true,
+            RespawnEnabled = false,
             Animal = PlanetMapAnimalsProfile.DEFAULT_SPIDERS_01,
             Geothermal = PlanetMapProfile.GetGeothermal(true),
             Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 1.25f, 0.75f, 120, 6, 0.25f, 0.15f),
@@ -320,7 +438,43 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             MaxGroupSize = 5,
             StartBreak = 5,
-            Ores = DOVER_ORES
+            Ores = TOTHT_ORES
+        };
+
+        public static readonly PlanetProfile GLEDIUS_NUBIS = new PlanetProfile()
+        {
+            Origin = PlanetProfile.PlanetOrigin.ExtendedSurvival,
+            Version = PlanetMapProfile.PROFILE_VERSION,
+            RespawnEnabled = false,
+            Animal = PlanetMapAnimalsProfile.DEFAULT_NO_ANIMALS,
+            Geothermal = PlanetMapProfile.GetGeothermal(false),
+            Atmosphere = PlanetMapProfile.GetAtmosphere(false),
+            Gravity = PlanetMapProfile.GetGravity(0.35f, 2),
+            Temperature = PlanetMapProfile.GetTemperature(VRage.Game.MyTemperatureLevel.ExtremeFreeze, -50, 0),
+            Water = PlanetMapProfile.GetWater(false),
+            SizeRange = new Vector2(25, 35),
+            Type = PlanetProfile.PlanetType.Moon,
+            MaxGroupSize = 5,
+            StartBreak = 5,
+            Ores = GLEDIUS_NUBIS_ORES
+        };
+
+        public static readonly PlanetProfile CAPUTALIS_NUBIS = new PlanetProfile()
+        {
+            Origin = PlanetProfile.PlanetOrigin.ExtendedSurvival,
+            Version = PlanetMapProfile.PROFILE_VERSION,
+            RespawnEnabled = false,
+            Animal = PlanetMapAnimalsProfile.DEFAULT_SPIDERS_02,
+            Geothermal = PlanetMapProfile.GetGeothermal(true),
+            Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 0.3f, 0, 40, 0.5f, 0.5f, 0.25f),
+            Gravity = PlanetMapProfile.GetGravity(0.42f, 2),
+            Temperature = PlanetMapProfile.GetTemperature(VRage.Game.MyTemperatureLevel.Freeze, -10, 10),
+            Water = PlanetMapProfile.GetWater(false),
+            SizeRange = new Vector2(45, 55),
+            Type = PlanetProfile.PlanetType.Moon,
+            MaxGroupSize = 5,
+            StartBreak = 5,
+            Ores = CAPUTALIS_NUBIS_ORES
         };
 
     }

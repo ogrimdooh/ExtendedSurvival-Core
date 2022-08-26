@@ -540,6 +540,14 @@ namespace ExtendedSurvival.Core
                 ExtendedSurvivalMapProfile.DEFAULT_TOTHT,
                 ExtendedSurvivalMapProfile.TOTHT
             },
+            {
+                ExtendedSurvivalMapProfile.DEFAULT_GLEDIUS_NUBIS,
+                ExtendedSurvivalMapProfile.GLEDIUS_NUBIS
+            },
+            {
+                ExtendedSurvivalMapProfile.DEFAULT_CAPUTALIS_NUBIS,
+                ExtendedSurvivalMapProfile.CAPUTALIS_NUBIS
+            },
             // ATA MOD STARS
             {
                 ATAMapProfile.ATA_STAR_TEST,

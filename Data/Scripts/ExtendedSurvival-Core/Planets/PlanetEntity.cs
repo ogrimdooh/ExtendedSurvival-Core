@@ -142,15 +142,16 @@ namespace ExtendedSurvival.Core
                 MyWeatherEffectDefinition weatherEffect = MyDefinitionManager.Static.GetWeatherEffect(wName);
                 if (weatherEffect != null)
                 {
+                    var forceMultiplier = wName.Contains("Heavy") ? 2.0f : 1.0f;
                     var tempChangeFactor = Math.Abs(temperatureInPoint / 2);
                     var weatherChangeFactor = weatherComponent.GetTemperatureMultiplier(worldPoint);
                     if (weatherEffect.TemperatureModifier > 1)
                     {
-                        temperatureInPoint += tempChangeFactor * (weatherChangeFactor - 1);
+                        temperatureInPoint += (tempChangeFactor * (weatherChangeFactor - 1)) * forceMultiplier;
                     }
                     else
                     {
-                        temperatureInPoint -= tempChangeFactor * (1 - weatherChangeFactor);
+                        temperatureInPoint -= (tempChangeFactor * (1 - weatherChangeFactor)) * forceMultiplier;
                     }
                 }
                 // UnderWater
