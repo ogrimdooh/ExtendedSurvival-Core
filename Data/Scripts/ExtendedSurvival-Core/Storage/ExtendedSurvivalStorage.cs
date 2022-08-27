@@ -41,7 +41,7 @@ namespace ExtendedSurvival.Core
         {
             try
             {
-                Save(Instance, FILE_NAME, true);
+                Save<ExtendedSurvivalStorage>(Instance, FILE_NAME, true);
             }
             catch (Exception ex)
             {
@@ -53,7 +53,7 @@ namespace ExtendedSurvival.Core
         public StarSystemStorage StarSystem { get; set; } = new StarSystemStorage();
 
         [XmlArray("Entities"), XmlArrayItem("Entity", typeof(EntityStorage))]
-        public List<EntityStorage> Entities;
+        public List<EntityStorage> Entities { get; set; } = new List<EntityStorage>();
 
         public EntityStorage GetEntity(long id)
         {

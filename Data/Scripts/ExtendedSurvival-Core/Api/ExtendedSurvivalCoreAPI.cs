@@ -233,6 +233,7 @@ namespace ExtendedSurvival.Core
         private static Action<Guid, Action<Guid, MyInventory, MyPhysicalInventoryItem, MyFixedPoint>> _RegisterInventoryObserverAfterContentsChangedCallback;
         private static Func<long, bool> _HasDisassemblyComputer;
         private static Func<long, bool> _HasAdvancedDisassemblyComputer;
+        private static Action<MyDefinitionId, float> _AddExtraStartLoot;
 
         /// <summary>
         /// Returns true if the version is compatibile with the API Backend, this is automatically called
@@ -547,6 +548,14 @@ namespace ExtendedSurvival.Core
         }
 
         /// <summary>
+        /// Added a item to main cargo of start pod
+        /// </summary>
+        public static void AddExtraStartLoot(MyDefinitionId itemType, float ammount)
+        {
+            _AddExtraStartLoot?.Invoke(itemType, ammount);
+        }
+
+        /// <summary>
         /// Unregisters the mod
         /// </summary>
         public void Unregister()
@@ -639,6 +648,7 @@ namespace ExtendedSurvival.Core
                         _RegisterInventoryObserverAfterContentsChangedCallback = (Action<Guid, Action<Guid, MyInventory, MyPhysicalInventoryItem, MyFixedPoint>>)ModAPIMethods["RegisterInventoryObserverAfterContentsChangedCallback"];
                         _HasDisassemblyComputer = (Func<long, bool>)ModAPIMethods["HasDisassemblyComputer"];
                         _HasAdvancedDisassemblyComputer = (Func<long, bool>)ModAPIMethods["HasAdvancedDisassemblyComputer"];
+                        _AddExtraStartLoot = (Action<MyDefinitionId, float>)ModAPIMethods["AddExtraStartLoot"];
 
                         if (m_onRegisteredAction != null)
                             m_onRegisteredAction();

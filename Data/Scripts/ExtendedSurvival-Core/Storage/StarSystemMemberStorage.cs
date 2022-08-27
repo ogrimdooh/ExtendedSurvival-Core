@@ -24,7 +24,7 @@ namespace ExtendedSurvival.Core
         [XmlElement]
         public long EntityId { get; set; }
 
-        [XmlArray("Asteroids"), XmlArrayItem("Id", typeof(EntityStorage))]
+        [XmlArray("Asteroids"), XmlArrayItem("Id", typeof(long))]
         public List<long> Asteroids { get; set; } = new List<long>();
 
     }

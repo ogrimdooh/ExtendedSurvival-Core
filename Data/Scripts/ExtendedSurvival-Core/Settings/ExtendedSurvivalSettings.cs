@@ -87,7 +87,7 @@ namespace ExtendedSurvival.Core
         {
             try
             {
-                Save(Instance, FILE_NAME, true);
+                Save<ExtendedSurvivalSettings>(Instance, FILE_NAME, true);
             }
             catch (Exception ex)
             {

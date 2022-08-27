@@ -216,7 +216,8 @@ namespace ExtendedSurvival.Core
             ["RegisterInventoryObserverAfterContentsRemovedCallback"] = new Action<Guid, Action<Guid, MyInventory, MyPhysicalInventoryItem, MyFixedPoint>>(RegisterInventoryObserverAfterContentsRemovedCallback),
             ["RegisterInventoryObserverAfterContentsChangedCallback"] = new Action<Guid, Action<Guid, MyInventory, MyPhysicalInventoryItem, MyFixedPoint>>(RegisterInventoryObserverAfterContentsChangedCallback),
             ["HasDisassemblyComputer"] = new Func<long, bool>(HasDisassemblyComputer),
-            ["HasAdvancedDisassemblyComputer"] = new Func<long, bool>(HasAdvancedDisassemblyComputer)
+            ["HasAdvancedDisassemblyComputer"] = new Func<long, bool>(HasAdvancedDisassemblyComputer),
+            ["AddExtraStartLoot"] = new Action<MyDefinitionId, float>(AddExtraStartLoot)
         };
 
         public static void BeforeStart()
@@ -231,6 +232,15 @@ namespace ExtendedSurvival.Core
                 return false;
             }
             return true;
+        }
+
+        public static void AddExtraStartLoot(MyDefinitionId itemType, float ammount)
+        {
+            var id = new UniqueEntityId(itemType);
+            if (!ExtendedSurvivalEntityManager.ExtraStartLoot.Keys.Contains(id))
+                ExtendedSurvivalEntityManager.ExtraStartLoot.Add(id, ammount);
+            else
+                ExtendedSurvivalEntityManager.ExtraStartLoot[id] += ammount;
         }
 
         public static Guid AddInventoryObserver(IMyEntity entity, int index)

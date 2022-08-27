@@ -13,6 +13,7 @@ using System.Collections.Concurrent;
 using Sandbox.ModAPI.Weapons;
 using Sandbox.Game;
 using System.Text;
+using Sandbox.Game.GameSystems;
 
 namespace ExtendedSurvival.Core
 {
@@ -21,6 +22,7 @@ namespace ExtendedSurvival.Core
     public class ExtendedSurvivalEntityManager : BaseSessionComponent
     {
 
+        public static Dictionary<UniqueEntityId, float> ExtraStartLoot { get; set; } = new Dictionary<UniqueEntityId, float>();
         public static ExtendedSurvivalEntityManager Instance { get; private set; }
 
         private static readonly Random rnd = new Random();
@@ -173,6 +175,9 @@ namespace ExtendedSurvival.Core
         public void RegisterWatcher()
         {
 
+            ExtraStartLoot.Add(ItensConstants.SEMIAUTOPISTOLITEM_ID, 1);
+            ExtraStartLoot.Add(ItensConstants.PISTOL_SA_MAGZINE_ID, 30);
+
             foreach (var entity in MyEntities.GetEntities())
             {
                 if (entity as IMyCubeGrid != null)
@@ -246,6 +251,32 @@ namespace ExtendedSurvival.Core
                         {
                             // Maybe the wheels are gone xD hahaha
                             gridEntity.NeedToRecreateWhells = true;
+                        }
+                        // Added extra start itens to main cargo
+                        if (ExtraStartLoot.Any())
+                        {
+                            var terminalSystem = MyAPIGateway.TerminalActionsHelper.GetTerminalSystemForGrid(cubeGrid);
+                            var cargoGroup = terminalSystem.GetBlockGroupWithName("Main Cargo");
+                            if (cargoGroup != null)
+                            {
+                                List<IMyTerminalBlock> blocks = new List<IMyTerminalBlock>();
+                                cargoGroup.GetBlocksOfType<IMyCargoContainer>(blocks);
+                                if (blocks.Any())
+                                {
+                                    var cargo = blocks.FirstOrDefault() as IMyCargoContainer;
+                                    if (cargo != null)
+                                    {
+                                        var inventory = cargo.GetInventory();
+                                        if (inventory != null)
+                                        {
+                                            foreach (var item in ExtraStartLoot)
+                                            {
+                                                inventory.AddMaxItems(item.Value, ItensConstants.GetPhysicalObjectBuilder(item.Key));
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                     return;

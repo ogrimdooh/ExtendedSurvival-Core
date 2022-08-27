@@ -12,8 +12,8 @@ namespace ExtendedSurvival.Core
         [XmlElement]
         public long EntityId { get; set; }
 
-        [ProtoMember(1), XmlArray("Storage"), XmlArrayItem("Entry", typeof(EntityStorageValue))]
-        public List<EntityStorageValue> Values;
+        [XmlArray("Storage"), XmlArrayItem("Entry", typeof(EntityStorageValue))]
+        public List<EntityStorageValue> Values { get; set; } = new List<EntityStorageValue>();
 
         public string GetValue(string key)
         {

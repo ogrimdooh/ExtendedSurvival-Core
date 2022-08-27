@@ -55,6 +55,21 @@ namespace ExtendedSurvival.Core
         public const string WOODLOG_SUBTYPEID = "Wood";
         public static readonly UniqueEntityId WOODLOG_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), WOODLOG_SUBTYPEID);
 
+        public const string PISTOL_SA_MAGZINE_SUBTYPEID = "SemiAutoPistolMagazine";
+        public static readonly UniqueEntityId PISTOL_SA_MAGZINE_ID = new UniqueEntityId(typeof(MyObjectBuilder_AmmoMagazine), PISTOL_SA_MAGZINE_SUBTYPEID);
+
+        public const string ANGLEGRINDERITEM_SUBTYPEID = "AngleGrinderItem";
+        public static readonly UniqueEntityId ANGLEGRINDERITEM_ID = new UniqueEntityId(typeof(MyObjectBuilder_PhysicalGunObject), ANGLEGRINDERITEM_SUBTYPEID);
+        
+        public const string HANDDRILLITEM_SUBTYPEID = "HandDrillItem";
+        public static readonly UniqueEntityId HANDDRILLITEM_ID = new UniqueEntityId(typeof(MyObjectBuilder_PhysicalGunObject), HANDDRILLITEM_SUBTYPEID);
+
+        public const string WELDERITEM_SUBTYPEID = "WelderItem";
+        public static readonly UniqueEntityId WELDERITEM_ID = new UniqueEntityId(typeof(MyObjectBuilder_PhysicalGunObject), WELDERITEM_SUBTYPEID);
+
+        public const string SEMIAUTOPISTOLITEM_SUBTYPEID = "SemiAutoPistolItem";
+        public static readonly UniqueEntityId SEMIAUTOPISTOLITEM_ID = new UniqueEntityId(typeof(MyObjectBuilder_PhysicalGunObject), SEMIAUTOPISTOLITEM_SUBTYPEID);
+
         private static ConcurrentDictionary<UniqueEntityId, MyObjectBuilder_Base> BUILDERS_CACHE = new ConcurrentDictionary<UniqueEntityId, MyObjectBuilder_Base>();
 
         public static T GetBuilder<T>(UniqueEntityId id, bool cache = true) where T : MyObjectBuilder_Base

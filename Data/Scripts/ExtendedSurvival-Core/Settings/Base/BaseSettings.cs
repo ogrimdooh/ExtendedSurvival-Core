@@ -17,25 +17,67 @@ namespace ExtendedSurvival.Core
 
         protected static T Load<T>(string fileName, int currentVersion, BaseSettings_Validade<T> validade, BaseSettings_Create<T> create) where T : BaseSettings
         {
-            var world = false;
+            var world = true;
             T settings = null;
             try
             {
                 if (MyAPIGateway.Utilities.FileExistsInWorldStorage(fileName, typeof(T)))
                 {
-                    world = true;
+                    var needToRecreate = true;
                     using (var reader = MyAPIGateway.Utilities.ReadFileInWorldStorage(fileName, typeof(T)))
                     {
-                        settings = GetData<T>(reader.ReadToEnd());
-                        MyLog.Default.WriteLineAndConsole(fileName + ": Loaded from world file.");
+                        var fileData = reader.ReadToEnd();
+                        if (fileData.Length > 0)
+                        {
+                            try
+                            {
+                                settings = GetData<T>(fileData);
+                                MyLog.Default.WriteLineAndConsole(fileName + ": Loaded from world file.");
+                                needToRecreate = false;
+                            }
+                            catch (Exception)
+                            {
+                                MyLog.Default.WriteLineAndConsole(fileName + ": Loaded from world file error.");
+                            }
+                        }
+                    }
+                    if (needToRecreate)
+                    {
+                        settings = create();
+                        settings.Version = currentVersion;
+                        validade(settings);
+                        Save<T>(settings, fileName, world);
+                        MyLog.Default.WriteLineAndConsole(fileName + ": World file recreated.");
                     }
                 }
                 else if (MyAPIGateway.Utilities.FileExistsInLocalStorage(fileName, typeof(T)))
                 {
+                    world = false;
+                    var needToRecreate = true;
                     using (var reader = MyAPIGateway.Utilities.ReadFileInLocalStorage(fileName, typeof(T)))
                     {
-                        settings = GetData<T>(reader.ReadToEnd());
-                        MyLog.Default.WriteLineAndConsole(fileName + ": Loaded from local storage.");
+                        var fileData = reader.ReadToEnd();
+                        if (fileData.Length > 0)
+                        {
+                            try
+                            {
+                                settings = GetData<T>(fileData);
+                                MyLog.Default.WriteLineAndConsole(fileName + ": Loaded from local file.");
+                                needToRecreate = false;
+                            }
+                            catch (Exception)
+                            {
+                                MyLog.Default.WriteLineAndConsole(fileName + ": Loaded from local file error.");
+                            }
+                        }
+                    }
+                    if (needToRecreate)
+                    {
+                        settings = create();
+                        settings.Version = currentVersion;
+                        validade(settings);
+                        Save<T>(settings, fileName, world);
+                        MyLog.Default.WriteLineAndConsole(fileName + ": Local file recreated.");
                     }
                 }
 
@@ -86,16 +128,17 @@ namespace ExtendedSurvival.Core
 
         protected static void Save<T>(T settings, string fileName, bool world) where T : BaseSettings
         {
+            var targetType = typeof(T);
             if (world)
             {
-                using (var writer = MyAPIGateway.Utilities.WriteFileInWorldStorage(fileName, typeof(ExtendedSurvivalSettings)))
+                using (var writer = MyAPIGateway.Utilities.WriteFileInWorldStorage(fileName, targetType))
                 {
                     writer.Write(GetData<T>(settings));
                 }
             }
             else
             {
-                using (var writer = MyAPIGateway.Utilities.WriteFileInLocalStorage(fileName, typeof(ExtendedSurvivalSettings)))
+                using (var writer = MyAPIGateway.Utilities.WriteFileInLocalStorage(fileName, targetType))
                 {
                     writer.Write(GetData<T>(settings));
                 }

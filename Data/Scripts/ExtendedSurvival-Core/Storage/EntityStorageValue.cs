@@ -10,7 +10,7 @@ namespace ExtendedSurvival.Core
         [XmlElement]
         public string Key { get; set; }
 
-        [ProtoMember(1), XmlElement]
+        [XmlElement]
         public string Value { get; set; }
 
     }
