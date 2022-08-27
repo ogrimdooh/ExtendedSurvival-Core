@@ -88,7 +88,7 @@ namespace ExtendedSurvival.Core
                     Density = member.density,
                     Order = member.order,
                     MoonCount = new DocumentedVector2(member.moonCount.X, member.moonCount.Y, StarSystemSetting.TOTALMEMBERS_INFO),
-                    ValidMoons = member.validMoons.Select(x => new ValidMoonEntrySetting() { Id = x }).ToList()
+                    ValidMoons = member.validMoons?.Select(x => new ValidMoonEntrySetting() { Id = x }).ToList() ?? new List<ValidMoonEntrySetting>() { }
                 });
             }
             return members;

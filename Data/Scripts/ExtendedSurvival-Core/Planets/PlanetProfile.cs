@@ -264,10 +264,12 @@ namespace ExtendedSurvival.Core
                     }
                     else
                     {
+                        settings.RespawnEnabled = RespawnEnabled;
                         settings.Type = (int)Type;
                         settings.SizeRange = new DocumentedVector2(SizeRange.X, SizeRange.Y, PlanetSetting.SIZERANGE_INFO);
                         settings.Atmosphere = BuildAtmosphereSetting();
                         settings.Gravity = BuildGravitySetting();
+                        settings.Water = BuildWaterSetting();
                     }
                 }
                 settings.Version = Version;

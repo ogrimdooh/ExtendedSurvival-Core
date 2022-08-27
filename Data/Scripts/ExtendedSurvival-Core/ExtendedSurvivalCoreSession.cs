@@ -252,7 +252,20 @@ namespace ExtendedSurvival.Core
                                             var profileInfo = ExtendedSurvivalSettings.Instance.GetStarSystemInfo(profile);
                                             if (profileInfo != null)
                                             {
-                                                StarSystemController.ComputeNewStarSystem(profileInfo);
+                                                var flags = StarSystemController.GenerationFlags.None;
+                                                if (optionsStarSystem.Any(x => x.Length == 1 && x[0].ToLower() == "nostar"))
+                                                    flags |= StarSystemController.GenerationFlags.NoStar;
+                                                if (optionsStarSystem.Any(x => x.Length == 1 && x[0].ToLower() == "withstar"))
+                                                    flags |= StarSystemController.GenerationFlags.WithStar;
+                                                if (optionsStarSystem.Any(x => x.Length == 1 && x[0].ToLower() == "nobelt"))
+                                                    flags |= StarSystemController.GenerationFlags.NoBelt;
+                                                if (optionsStarSystem.Any(x => x.Length == 1 && x[0].ToLower() == "noring"))
+                                                    flags |= StarSystemController.GenerationFlags.NoRing;
+                                                if (optionsStarSystem.Any(x => x.Length == 1 && x[0].ToLower() == "noasteroids"))
+                                                    flags |= StarSystemController.GenerationFlags.NoAsteroids;
+                                                if (optionsStarSystem.Any(x => x.Length == 1 && x[0].ToLower() == "withasteroids"))
+                                                    flags |= StarSystemController.GenerationFlags.WithAsteroids;
+                                                StarSystemController.ComputeNewStarSystem(profileInfo, flags);
                                             }
                                             break;
                                     }

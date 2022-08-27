@@ -343,7 +343,7 @@ namespace ExtendedSurvival.Core
             Temperature = PlanetMapProfile.GetTemperature(VRage.Game.MyTemperatureLevel.ExtremeHot, 10, 120),
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(55, 75),
-            Type = PlanetProfile.PlanetType.Planet,
+            Type = PlanetProfile.PlanetType.Moon,
             MaxGroupSize = 5,
             StartBreak = 3,
             Ores = OI_ORES

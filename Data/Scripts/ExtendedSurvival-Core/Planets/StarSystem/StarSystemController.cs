@@ -24,6 +24,20 @@ namespace ExtendedSurvival.Core
 
         }
 
+        [Flags]
+        public enum GenerationFlags
+        {
+
+            None = 0,
+            NoStar = 1,
+            WithStar = 2,
+            NoBelt = 4,
+            NoRing = 8,
+            NoAsteroids = 16,
+            WithAsteroids = 32
+
+        }
+
         public static readonly Vector2 PLANET_MOON_BUFFER = new Vector2(150f, 300f);
         public static readonly Vector2 GIANTGAS_MOON_BUFFER = new Vector2(2000f, 2500f);
         public const float KILOMETERS_TO_METERS = 1000f;
@@ -60,7 +74,7 @@ namespace ExtendedSurvival.Core
         }
 
         private static bool CreatingStarSysten = false;
-        public static bool ComputeNewStarSystem(StarSystemSetting profile)
+        public static bool ComputeNewStarSystem(StarSystemSetting profile, GenerationFlags flags = GenerationFlags.None)
         {
             if (!CreatingStarSysten)
             {
@@ -114,14 +128,14 @@ namespace ExtendedSurvival.Core
                         }
                         if (planets.Any())
                         {
-                            if (profile.VanillaAsteroids)
+                            if (!flags.IsFlagSet(GenerationFlags.NoAsteroids) && (profile.VanillaAsteroids || flags.IsFlagSet(GenerationFlags.WithAsteroids)))
                                 MyAPIGateway.Session.SessionSettings.ProceduralDensity = 0.35f;
                             else
                                 MyAPIGateway.Session.SessionSettings.ProceduralDensity = 0;
                             ExtendedSurvivalStorage.Instance.StarSystem.Name = profile.Name;
                             ExtendedSurvivalStorage.Instance.StarSystem.Generated = true;
                             float createdPlanets = 0;
-                            if (profile.WithStar)
+                            if (!flags.IsFlagSet(GenerationFlags.NoStar) && (profile.WithStar || flags.IsFlagSet(GenerationFlags.WithStar)))
                             {
                                 PlanetSetting sunProfile = null;
                                 if (planets.Any(x => x.Type == (int)PlanetProfile.PlanetType.Star))
@@ -177,20 +191,26 @@ namespace ExtendedSurvival.Core
                                             MoonCount = new DocumentedVector2(profile.DefaultMoonCount.X, profile.DefaultMoonCount.Y, StarSystemSetting.TOTALMEMBERS_INFO)
                                         });
                                     }
-                                    for (int k = 0; k < ringAmmounts; k++)
+                                    if (!flags.IsFlagSet(GenerationFlags.NoRing))
                                     {
-                                        var index = new Vector2I(0, members.Count - 1).GetRandomInt();
-                                        members[index].HasRing = true;
-                                    }
-                                    for (int k = 0; k < beltsAmmount; k++)
-                                    {
-                                        var index = new Vector2I(0, members.Count - 1).GetRandomInt();
-                                        members.Insert(index, new SystemMemberSetting()
+                                        for (int k = 0; k < ringAmmounts; k++)
                                         {
-                                            MemberType = (int)StarSystemProfile.MemberType.AsteroidBelt,
-                                            Order = index,
-                                            Density = profile.DefaultDensity
-                                        });
+                                            var index = new Vector2I(0, members.Count - 1).GetRandomInt();
+                                            members[index].HasRing = true;
+                                        }
+                                    }
+                                    if (!flags.IsFlagSet(GenerationFlags.NoBelt))
+                                    {
+                                        for (int k = 0; k < beltsAmmount; k++)
+                                        {
+                                            var index = new Vector2I(0, members.Count - 1).GetRandomInt();
+                                            members.Insert(index, new SystemMemberSetting()
+                                            {
+                                                MemberType = (int)StarSystemProfile.MemberType.AsteroidBelt,
+                                                Order = index,
+                                                Density = profile.DefaultDensity
+                                            });
+                                        }
                                     }
                                     break;
                             }
