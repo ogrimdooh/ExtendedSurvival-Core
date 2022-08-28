@@ -35,7 +35,7 @@
         <SubtypeId>GravelToSand_Deconstruction</SubtypeId>
       </Id>
       <DisplayName>Sand</DisplayName>
-      <Icon>Textures\GUI\Icons\ore_sand.dds</Icon>
+      <Icon>Textures\GUI\Icons\ore_sand_from_gravel.dds</Icon>
       <Prerequisites>
         <Item Amount="5" TypeId="Ingot" SubtypeId="Stone" />
       </Prerequisites>

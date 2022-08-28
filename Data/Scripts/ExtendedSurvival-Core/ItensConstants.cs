@@ -55,6 +55,15 @@ namespace ExtendedSurvival.Core
         public const string WOODLOG_SUBTYPEID = "Wood";
         public static readonly UniqueEntityId WOODLOG_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), WOODLOG_SUBTYPEID);
 
+        public const string LEAF_SUBTYPEID = "Leaf";
+        public static readonly UniqueEntityId LEAF_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), LEAF_SUBTYPEID);
+
+        public const string TWIG_SUBTYPEID = "Twig";
+        public static readonly UniqueEntityId TWIG_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), TWIG_SUBTYPEID);
+
+        public const string BRANCH_SUBTYPEID = "Branch";
+        public static readonly UniqueEntityId BRANCH_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), BRANCH_SUBTYPEID);
+
         public const string PISTOL_SA_MAGZINE_SUBTYPEID = "SemiAutoPistolMagazine";
         public static readonly UniqueEntityId PISTOL_SA_MAGZINE_ID = new UniqueEntityId(typeof(MyObjectBuilder_AmmoMagazine), PISTOL_SA_MAGZINE_SUBTYPEID);
 

@@ -12,7 +12,8 @@ namespace ExtendedSurvival.Core
 
         public static void TryOverride()
         {
-            new AssemblerOverride().SetDefinitions();
+            if (!ExtendedSurvivalCoreSession.IsUsingTechnology())
+                new AssemblerOverride().SetDefinitions();
         }
 
         public const string SurvivalKitLarge = "SurvivalKitLarge";

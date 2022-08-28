@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <PhysicalItems>
+    <PhysicalItem>
+      <Id>
+        <TypeId>Ore</TypeId>
+        <SubtypeId>Branch</SubtypeId>
+      </Id>
+      <DisplayName>Branch</DisplayName>
+      <Icon>Textures\GUI\Icons\branch.dds</Icon>
+      <Size>
+        <X>0.072</X>
+        <Y>0.072</Y>
+        <Z>0.072</Z>
+      </Size>
+      <Mass>2</Mass>
+      <Volume>4</Volume>
+      <Model>Models\Ingots\stone_ingot.mwm</Model>
+      <PhysicalMaterial>Branch</PhysicalMaterial>
+      <IconSymbol>Branch</IconSymbol>
+      <CanPlayerOrder>true</CanPlayerOrder>
+    </PhysicalItem>    
+  </PhysicalItems>
+  <Blueprints>
+    <Blueprint>
+      <Id>
+        <TypeId>BlueprintDefinition</TypeId>
+        <SubtypeId>BranchToSawdust_Disassembly</SubtypeId>
+      </Id>
+      <DisplayName>Sawdust From Branch</DisplayName>
+      <Icon>Textures\GUI\Icons\sawdust_from_branch.dds</Icon>
+      <Prerequisites>
+        <Item Amount="1" TypeId="Ore" SubtypeId="Branch" />
+      </Prerequisites>
+      <Results>
+        <Item Amount="0.26" TypeId="Ore" SubtypeId="Sawdust" />
+      </Results>
+      <BaseProductionTimeInSeconds>0.16</BaseProductionTimeInSeconds>
+    </Blueprint>
+  </Blueprints>
+</Definitions>

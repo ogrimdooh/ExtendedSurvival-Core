@@ -27,8 +27,8 @@
         <TypeId>BlueprintDefinition</TypeId>
         <SubtypeId>WoodLogToSawdust_Disassembly</SubtypeId>
       </Id>
-      <DisplayName>Sawdust</DisplayName>
-      <Icon>Textures\GUI\Icons\sawdust.dds</Icon>
+      <DisplayName>Sawdust From Wood Log</DisplayName>
+      <Icon>Textures\GUI\Icons\sawdust_from_wood.dds</Icon>
       <Prerequisites>
         <Item Amount="1" TypeId="Ore" SubtypeId="Wood" />
       </Prerequisites>

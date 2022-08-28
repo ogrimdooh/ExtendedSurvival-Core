@@ -4,20 +4,20 @@
     <PhysicalItem>
       <Id>
         <TypeId>Ore</TypeId>
-        <SubtypeId>Sawdust</SubtypeId>
+        <SubtypeId>Twig</SubtypeId>
       </Id>
-      <DisplayName>Sawdust</DisplayName>
-      <Icon>Textures\GUI\Icons\sawdust.dds</Icon>
+      <DisplayName>Twig</DisplayName>
+      <Icon>Textures\GUI\Icons\twig.dds</Icon>
       <Size>
         <X>0.072</X>
         <Y>0.072</Y>
         <Z>0.072</Z>
       </Size>
       <Mass>1</Mass>
-      <Volume>0.25</Volume>
+      <Volume>2</Volume>
       <Model>Models\Ingots\stone_ingot.mwm</Model>
-      <PhysicalMaterial>Wood</PhysicalMaterial>
-      <IconSymbol>W.Dust</IconSymbol>
+      <PhysicalMaterial>Twig</PhysicalMaterial>
+      <IconSymbol>Twig</IconSymbol>
       <CanPlayerOrder>true</CanPlayerOrder>
     </PhysicalItem>    
   </PhysicalItems>
@@ -25,15 +25,17 @@
     <Blueprint>
       <Id>
         <TypeId>BlueprintDefinition</TypeId>
-        <SubtypeId>SawdustToCarbonPowder_Construction</SubtypeId>
+        <SubtypeId>TwigToSawdust_Disassembly</SubtypeId>
       </Id>
-      <DisplayName>Carbon Powder From Sawdust</DisplayName>
-      <Icon>Textures\GUI\Icons\powder_carbon_from_sawdust.dds</Icon>
+      <DisplayName>Sawdust From Twig</DisplayName>
+      <Icon>Textures\GUI\Icons\sawdust_from_twig.dds</Icon>
       <Prerequisites>
-        <Item Amount="1" TypeId="Ore" SubtypeId="Sawdust" />
+        <Item Amount="1" TypeId="Ore" SubtypeId="Twig" />
       </Prerequisites>
-      <Result Amount="0.15" TypeId="Ingot" SubtypeId="Carbon" />
-      <BaseProductionTimeInSeconds>0.5</BaseProductionTimeInSeconds>
+      <Results>
+        <Item Amount="0.065" TypeId="Ore" SubtypeId="Sawdust" />
+      </Results>
+      <BaseProductionTimeInSeconds>0.08</BaseProductionTimeInSeconds>
     </Blueprint>
   </Blueprints>
 </Definitions>

@@ -8,11 +8,11 @@
         <TypeId>BlueprintClassDefinition</TypeId>
         <SubtypeId>SurvivalKit_Refine_Blueprints</SubtypeId>
       </Id>
-      <DisplayName>Refine Materials</DisplayName>
+      <DisplayName>Grinder</DisplayName>
       <Description></Description>
-      <Icon>Textures\GUI\Icons\buttons\BaseCrafting.dds</Icon>
-      <HighlightIcon>Textures\GUI\Icons\buttons\BaseCrafting.dds</HighlightIcon>
-      <FocusIcon>Textures\GUI\Icons\buttons\BaseCraftingFocus.dds</FocusIcon>
+      <Icon>Textures\GUI\Icons\buttons\Gears.dds</Icon>
+      <HighlightIcon>Textures\GUI\Icons\buttons\Gears.dds</HighlightIcon>
+      <FocusIcon>Textures\GUI\Icons\buttons\GearsFocus.dds</FocusIcon>
       <InputConstraintIcon>Textures\GUI\Icons\filter_ingot.dds</InputConstraintIcon>
     </Class>
     <Class>

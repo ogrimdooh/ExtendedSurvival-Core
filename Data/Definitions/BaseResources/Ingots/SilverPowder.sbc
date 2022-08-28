@@ -34,7 +34,7 @@
         <SubtypeId>SilverPowder_Deconstruction</SubtypeId>
       </Id>
       <DisplayName>Silver Powder</DisplayName>
-      <Icon>Textures\GUI\Icons\powder_silver.dds</Icon>
+      <Icon>Textures\GUI\Icons\powder_silver_from_ingot.dds</Icon>
       <Prerequisites>
         <Item Amount="1" TypeId="Ingot" SubtypeId="Silver" />
       </Prerequisites>

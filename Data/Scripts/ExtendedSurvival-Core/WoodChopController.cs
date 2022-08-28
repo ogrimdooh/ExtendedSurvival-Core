@@ -15,7 +15,10 @@ namespace ExtendedSurvival.Core
     public static class WoodChopController
     {
 
-        private static readonly float BASE_WOOD_DROP = 200.0f;
+        private static readonly Vector2 BASE_WOOD_DROP = new Vector2(140, 240);
+        private static readonly Vector2 BASE_LEAF_DROP = new Vector2(40, 80);
+        private static readonly Vector2 BASE_TWIG_DROP = new Vector2(30, 60);
+        private static readonly Vector2 BASE_BRANCH_DROP = new Vector2(20, 40);
 
         private static List<ExtendedSurvivalCoreAPIBackend.TreeDropLoot> TREE_DROPS = new List<ExtendedSurvivalCoreAPIBackend.TreeDropLoot>();
 
@@ -55,12 +58,18 @@ namespace ExtendedSurvival.Core
                         lootAmmount.Add(i, TREE_DROPS[i].Ammount);
                 }
 
-                double woodamount = BASE_WOOD_DROP;
+                double woodamount = BASE_WOOD_DROP.GetRandom();
+                double leafamount = BASE_LEAF_DROP.GetRandom();
+                double twigamount = BASE_TWIG_DROP.GetRandom();
+                double branchamount = BASE_BRANCH_DROP.GetRandom();
 
                 var keys = lootAmmount.Keys.ToArray();
                 if (treemodel.Contains("Medium"))
                 {
                     woodamount *= 0.75;
+                    leafamount *= 0.75;
+                    twigamount *= 0.75;
+                    branchamount *= 0.75;
                     foreach (var i in keys)
                     {
                         if (TREE_DROPS[i].AlowMedium)
@@ -71,7 +80,10 @@ namespace ExtendedSurvival.Core
                 }
                 if (treemodel.Contains("Dead"))
                 {
-                    woodamount *= 0.75;
+                    woodamount *= 0.5;
+                    leafamount *= 0;
+                    twigamount *= 1.5;
+                    branchamount *= 1.25;
                     foreach (var i in keys)
                     {
                         if (TREE_DROPS[i].AlowDead)
@@ -83,6 +95,9 @@ namespace ExtendedSurvival.Core
                 if (treemodel.Contains("Desert"))
                 {
                     woodamount *= 0.75;
+                    leafamount *= 0;
+                    twigamount *= 1.25;
+                    branchamount *= 1.125;
                     foreach (var i in keys)
                     {
                         if (TREE_DROPS[i].AlowDesert)
@@ -106,6 +121,24 @@ namespace ExtendedSurvival.Core
                     {
                         MyFixedPoint amountfinal = (int)lootAmmount[i];
                         MyFloatingObjects.Spawn(new MyPhysicalInventoryItem(amountfinal, GetTreeDropLootBuilder(TREE_DROPS[i])), pos + (upp * 14) + (fww * (0.33 * GetRandon(entityName))) + ((rtt * 0.33 * GetRandon(entityName))), fww, upp);
+                    }
+
+                    if (leafamount > 0)
+                    {
+                        MyFixedPoint finalleafamount = (int)(leafamount);
+                        MyFloatingObjects.Spawn(new MyPhysicalInventoryItem(finalleafamount, ItensConstants.GetPhysicalObjectBuilder(ItensConstants.LEAF_ID)), pos + (upp * 14) + (fww * (0.33 * GetRandon(entityName))) + ((rtt * 0.33 * GetRandon(entityName))), fww, upp);
+                    }
+
+                    if (twigamount > 0)
+                    {
+                        MyFixedPoint finaltwigamount = (int)(twigamount);
+                        MyFloatingObjects.Spawn(new MyPhysicalInventoryItem(finaltwigamount, ItensConstants.GetPhysicalObjectBuilder(ItensConstants.TWIG_ID)), pos + (upp * 14) + (fww * (0.33 * GetRandon(entityName))) + ((rtt * 0.33 * GetRandon(entityName))), fww, upp);
+                    }
+
+                    if (branchamount > 0)
+                    {
+                        MyFixedPoint finalbranchamount = (int)(branchamount);
+                        MyFloatingObjects.Spawn(new MyPhysicalInventoryItem(finalbranchamount, ItensConstants.GetPhysicalObjectBuilder(ItensConstants.BRANCH_ID)), pos + (upp * 14) + (fww * (0.33 * GetRandon(entityName))) + ((rtt * 0.33 * GetRandon(entityName))), fww, upp);
                     }
 
                     MyFloatingObjects.Spawn(new MyPhysicalInventoryItem(amount, ItensConstants.GetPhysicalObjectBuilder(ItensConstants.WOODLOG_ID)), pos + (upp * 13) + (fww * (0.33 * GetRandon(entityName))) + ((rtt * 0.33 * GetRandon(entityName))), fww, upp);

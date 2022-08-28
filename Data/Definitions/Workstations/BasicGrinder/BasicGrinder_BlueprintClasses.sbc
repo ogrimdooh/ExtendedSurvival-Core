@@ -18,6 +18,9 @@
 
     <Entry Class="BasicGrinder_Blueprints" BlueprintSubtypeId="GravelToSand_Deconstruction" />
     <Entry Class="BasicGrinder_Blueprints" BlueprintSubtypeId="WoodLogToSawdust_Disassembly" />
+    <Entry Class="BasicGrinder_Blueprints" BlueprintSubtypeId="BranchToSawdust_Disassembly" />
+    <Entry Class="BasicGrinder_Blueprints" BlueprintSubtypeId="TwigToSawdust_Disassembly" />
+    <Entry Class="BasicGrinder_Blueprints" BlueprintSubtypeId="LeafToOrganic_Disassembly" />
     
   </BlueprintClassEntries>
 </Definitions>
