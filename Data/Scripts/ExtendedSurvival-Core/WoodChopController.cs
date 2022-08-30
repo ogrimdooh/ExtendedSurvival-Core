@@ -54,8 +54,8 @@ namespace ExtendedSurvival.Core
 
                 for (int i = 0; i < TREE_DROPS.Count; i++)
                 {
-                    if (rnd.Next(1, 101) <= TREE_DROPS[i].Chance)
-                        lootAmmount.Add(i, TREE_DROPS[i].Ammount);
+                    if (rnd.Next(0, 100) <= TREE_DROPS[i].Chance)
+                        lootAmmount.Add(i, TREE_DROPS[i].Ammount.GetRandom());
                 }
 
                 double woodamount = BASE_WOOD_DROP.GetRandom();

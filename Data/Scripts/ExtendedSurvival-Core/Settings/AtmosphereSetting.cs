@@ -36,9 +36,6 @@ namespace ExtendedSurvival.Core
         public DocumentedVector2 TemperatureRange { get; set; } = new DocumentedVector2(0, 0, TEMPERATURE_RANGE_INFO);
 
         [XmlElement]
-        public bool UseRangeTemperature { get; set; }
-
-        [XmlElement]
         public float ToxicLevel { get; set; } = 0;
 
         [XmlElement]

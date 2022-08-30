@@ -129,7 +129,7 @@ namespace ExtendedSurvival.Core
             public SerializableDefinitionId ItemId { get; set; }
 
             [ProtoMember(2)]
-            public float Ammount { get; set; }
+            public Vector2 Ammount { get; set; }
 
             [ProtoMember(3)]
             public float Chance { get; set; }
@@ -163,7 +163,7 @@ namespace ExtendedSurvival.Core
 
             }
 
-            public TreeDropLoot(SerializableDefinitionId itemId, float ammount, float chance)
+            public TreeDropLoot(SerializableDefinitionId itemId, Vector2 ammount, float chance)
             {
                 ItemId = itemId;
                 Ammount = ammount;

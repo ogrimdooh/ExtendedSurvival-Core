@@ -15,7 +15,7 @@ namespace ExtendedSurvival.Core
 
         }
 
-        public const int PROFILE_VERSION = 7;
+        public const int PROFILE_VERSION = 8;
 
         public const ulong EARTHLIKE_ANIMALS_MODID = 2170447225;
 
@@ -352,13 +352,12 @@ namespace ExtendedSurvival.Core
             };
         }
 
-        public static PlanetProfile.TemperatureInfo GetTemperature(VRage.Game.MyTemperatureLevel level, float min, float max, bool useRangeTemperature = false)
+        public static PlanetProfile.TemperatureInfo GetTemperature(VRage.Game.MyTemperatureLevel level, float min, float max)
         {
             return new PlanetProfile.TemperatureInfo()
             {
                 temperatureLevel = level,
-                temperatureRange = new Vector2(min, max),
-                useRangeTemperature = useRangeTemperature
+                temperatureRange = new Vector2(min, max)
             };
         }
 

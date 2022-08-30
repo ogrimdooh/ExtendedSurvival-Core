@@ -89,7 +89,6 @@ namespace ExtendedSurvival.Core
 
             public MyTemperatureLevel temperatureLevel;
             public Vector2 temperatureRange;
-            public bool useRangeTemperature;
 
         }
 
@@ -164,8 +163,7 @@ namespace ExtendedSurvival.Core
                 ToxicLevel = Atmosphere.toxicLevel,
                 RadiationLevel = Atmosphere.radiationLevel,
                 TemperatureLevel = (int)Temperature.temperatureLevel,
-                TemperatureRange = new DocumentedVector2(Temperature.temperatureRange.X, Temperature.temperatureRange.Y, AtmosphereSetting.TEMPERATURE_RANGE_INFO),
-                UseRangeTemperature = Temperature.useRangeTemperature
+                TemperatureRange = new DocumentedVector2(Temperature.temperatureRange.X, Temperature.temperatureRange.Y, AtmosphereSetting.TEMPERATURE_RANGE_INFO)
             };
         }
 
@@ -271,6 +269,10 @@ namespace ExtendedSurvival.Core
                         settings.Gravity = BuildGravitySetting();
                         settings.Water = BuildWaterSetting();
                     }
+                }
+                if (settings.Version < 8)
+                {
+                    settings.SizeRange = new DocumentedVector2(SizeRange.X, SizeRange.Y, PlanetSetting.SIZERANGE_INFO);
                 }
                 settings.Version = Version;
             }
