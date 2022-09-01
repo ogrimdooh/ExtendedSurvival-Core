@@ -6,7 +6,7 @@
         <TypeId>Assembler</TypeId>
         <SubtypeId>BasicAlchemyBench</SubtypeId>
       </Id>
-      <DisplayName>Basic Alchemy Bench</DisplayName>
+      <DisplayName>Basic Laboratory</DisplayName>
       <Icon>Textures\GUI\Icons\Cubes\basicAssembler.dds</Icon>
       <Description></Description>
       <CubeSize>Large</CubeSize>
