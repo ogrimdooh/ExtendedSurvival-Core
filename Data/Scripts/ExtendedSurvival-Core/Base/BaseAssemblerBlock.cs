@@ -1,5 +1,8 @@
-﻿using Sandbox.Game;
+﻿using Sandbox.Definitions;
+using Sandbox.Game;
 using Sandbox.ModAPI;
+using VRage;
+using VRage.Game.ModAPI;
 using VRage.ObjectBuilders;
 
 namespace ExtendedSurvival.Core
@@ -49,10 +52,61 @@ namespace ExtendedSurvival.Core
 
         protected override void OnInit(MyObjectBuilder_EntityBase objectBuilder)
         {
+            CurrentEntity.StartedProducing += CurrentEntity_StartedProducing;
+            CurrentEntity.StoppedProducing += CurrentEntity_StoppedProducing;
+            CurrentEntity.CurrentProgressChanged += CurrentEntity_CurrentProgressChanged;
             CurrentEntity.CurrentModeChanged += Assembler_CurrentModeChanged;
             CurrentEntity.CurrentStateChanged += Assembler_CurrentStateChanged;
             NeedsUpdate = VRage.ModAPI.MyEntityUpdateEnum.EACH_100TH_FRAME;
             base.OnInit(objectBuilder);
+            CheckQueue();
+        }
+
+        private void CheckQueue()
+        {
+            try
+            {
+                if (CurrentEntity.GetQueue().Count > 0)
+                {
+                    foreach (var queue in CurrentEntity.GetQueue())
+                    {
+                        var blueprint = queue.Blueprint as MyBlueprintDefinitionBase;
+                        foreach (var prerequisites in blueprint.Prerequisites)
+                        {
+                            var amountOnOutput = OutputInventory.GetItemAmount(prerequisites.Id);
+                            if (amountOnOutput > 0)
+                            {
+                                var requiredAmount = queue.Amount * prerequisites.Amount;
+                                if (amountOnOutput < requiredAmount)
+                                {
+                                    requiredAmount = amountOnOutput;
+                                }
+                                var amountAdded = (InputInventory as IMyInventory).AddMaxItems(requiredAmount, ItensConstants.GetPhysicalObjectBuilder(new UniqueEntityId(prerequisites.Id)));
+                                OutputInventory.RemoveItemsOfType(amountAdded, prerequisites.Id);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
+            }
+        }
+
+        protected virtual void CurrentEntity_StoppedProducing()
+        {
+            CheckQueue();
+        }
+
+        protected virtual void CurrentEntity_StartedProducing()
+        {
+
+        }
+
+        protected virtual void CurrentEntity_CurrentProgressChanged(IMyAssembler obj)
+        {
+
         }
 
         private void ResetAssemblerMode()

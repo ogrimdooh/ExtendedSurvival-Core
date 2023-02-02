@@ -40,7 +40,7 @@
       <Icon>Textures\GUI\Icons\water_small.dds</Icon>
       <Prerequisites>
         <Item Amount="1" TypeId="PhysicalObject" SubtypeId="Flask_Small" />
-        <Item Amount="5" TypeId="Ore" SubtypeId="Ice" />
+        <Item Amount="0.1" TypeId="Ore" SubtypeId="Ice" />
       </Prerequisites>
       <Results>
         <Item Amount="1" TypeId="ConsumableItem" SubtypeId="Water_Flask_Small" />
