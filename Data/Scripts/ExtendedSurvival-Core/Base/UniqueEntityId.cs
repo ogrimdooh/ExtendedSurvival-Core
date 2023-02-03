@@ -65,6 +65,14 @@ namespace ExtendedSurvival.Core
             }
         }
 
+        public SerializableDefinitionId SerializableDefinitionId
+        {
+            get
+            {
+                return GetDefinitionId();
+            }
+        }
+
         public UniqueEntityId()
             :base()
         {
