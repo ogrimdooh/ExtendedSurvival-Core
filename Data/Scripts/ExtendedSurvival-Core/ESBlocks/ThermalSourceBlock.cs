@@ -21,11 +21,6 @@ namespace ExtendedSurvival.Core
         private const float MAS_MASS = int.MaxValue;
         private const float MAS_VOLUME = 2.587f;
 
-        public const string PRODUCTION_KEY = "24703B2B-F7EE-4C00-8340-6A6334E70EB2";
-        public const string FINALPRODUCTION_KEY = "1EDEB0E3-69C9-4D44-AA86-3E04C1CAEC86";
-        public const string DEPTH_KEY = "BC9E2338-E17E-4C60-90CB-212ABEB0235B";
-        public const string OTHERSOURCES_KEY = "9CFDE365-9D34-48FC-A404-2FD389D958A7";
-
         public bool IsInStatic
         {
             get
@@ -72,10 +67,10 @@ namespace ExtendedSurvival.Core
             sb.AppendLine(string.Format("Is in Station={0}", IsInStatic));
             if (IsInStatic)
             {
-                sb.AppendLine(string.Format("Depth={0}", GetValue(DEPTH_KEY)));
-                sb.AppendLine(string.Format("Other Sources={0}", GetValue(OTHERSOURCES_KEY)));
-                sb.AppendLine(string.Format("Production={0}", GetValue(PRODUCTION_KEY)));
-                sb.AppendLine(string.Format("Final Production={0}", GetValue(FINALPRODUCTION_KEY)));
+                sb.AppendLine(string.Format("Depth={0}", DEPTH));
+                sb.AppendLine(string.Format("Other Sources={0}", OTHERSOURCES));
+                sb.AppendLine(string.Format("Production={0}", PRODUCTION));
+                sb.AppendLine(string.Format("Final Production={0}", FINALPRODUCTION));
             }
         }
 
@@ -172,21 +167,39 @@ namespace ExtendedSurvival.Core
         public override void CallFromServer(string method, CommandExtraParams extraParams)
         {
             base.CallFromServer(method, extraParams);
-            if (method == "StoreInfoToClient")
+            try
             {
-                foreach (var item in extraParams.extraParams)
+                if (method == "StoreInfoToClient")
                 {
-                    StoreValue(item.id, item.data);
+                    float production = float.Parse(extraParams.extraParams.FirstOrDefault(x => x.id == PRODUCTION_KEY).data);
+                    float finalProduction = float.Parse(extraParams.extraParams.FirstOrDefault(x => x.id == FINALPRODUCTION_KEY).data);
+                    float depth = float.Parse(extraParams.extraParams.FirstOrDefault(x => x.id == DEPTH_KEY).data);
+                    int otherSources = int.Parse(extraParams.extraParams.FirstOrDefault(x => x.id == OTHERSOURCES_KEY).data);
+                    StoreInfoToClient(production, finalProduction, depth, otherSources);
                 }
+            }
+            catch (Exception ex)
+            {
+                ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
             }
         }
 
+        private float PRODUCTION;
+        private float FINALPRODUCTION;
+        private float DEPTH;
+        private int OTHERSOURCES;
+
+        private const string PRODUCTION_KEY = "PRODUCTION";
+        private const string FINALPRODUCTION_KEY = "FINALPRODUCTION";
+        private const string DEPTH_KEY = "DEPTH";
+        private const string OTHERSOURCES_KEY = "OTHERSOURCES";
+
         private void StoreInfoToClient(float production, float finalProduction, float depth, int otherSources)
         {
-            StoreValue(PRODUCTION_KEY, production.ToString());
-            StoreValue(FINALPRODUCTION_KEY, finalProduction.ToString());
-            StoreValue(DEPTH_KEY, depth.ToString());
-            StoreValue(OTHERSOURCES_KEY, otherSources.ToString());
+            PRODUCTION = production;
+            FINALPRODUCTION = finalProduction;
+            DEPTH = depth;
+            OTHERSOURCES = otherSources;
         }
 
         protected void SendStoreInfoToClient()

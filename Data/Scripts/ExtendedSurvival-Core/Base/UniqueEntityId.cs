@@ -14,6 +14,19 @@ namespace ExtendedSurvival.Core
 
         public static readonly UniqueEntityId Empty = new UniqueEntityId();
 
+        private static MyStringHash GetStringHash(string subtypeId)
+        {
+            try
+            {
+                return MyStringHash.Get(subtypeId);
+            }
+            catch (Exception)
+            {
+                ExtendedSurvivalCoreLogging.Instance.LogWarning(typeof(UniqueEntityId), $"SubtypeId : {subtypeId} : Not Found");
+                return MyStringHash.GetOrCompute(subtypeId);
+            }
+        }
+
         public static UniqueEntityId Parse(string id)
         {
             UniqueEntityId output;
@@ -64,7 +77,7 @@ namespace ExtendedSurvival.Core
         }
 
         public UniqueEntityId(MyObjectBuilderType typeId, string subtypeId)
-            : base(typeId, MyStringHash.Get(subtypeId))
+            : base(typeId, GetStringHash(subtypeId))
         {
         }
 
@@ -95,12 +108,24 @@ namespace ExtendedSurvival.Core
 
         public static bool operator ==(UniqueEntityId l, UniqueEntityId r)
         {
-            return l.Equals(r);
+            if (l.IsNotNull())
+            {
+                if (r.IsNotNull())
+                    return l.Equals(r);
+                return false;
+            }
+            return r.IsNull();
         }
 
         public static bool operator !=(UniqueEntityId l, UniqueEntityId r)
         {
-            return !l.Equals(r);
+            if (l.IsNotNull())
+            {
+                if (r.IsNotNull())
+                    return !l.Equals(r);
+                return true;
+            }
+            return r.IsNotNull();
         }
 
     }

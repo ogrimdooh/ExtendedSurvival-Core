@@ -7,6 +7,32 @@ namespace ExtendedSurvival.Core
     public static class UniqueEntityIdExtension
     {
 
+        public static bool IsNull(this UniqueEntityId id)
+        {
+            try
+            {
+                id.GetHashCode();
+                return false;
+            }
+            catch (Exception)
+            {
+                return true;
+            }
+        }
+
+        public static bool IsNotNull(this UniqueEntityId id)
+        {
+            try
+            {
+                id.GetHashCode();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public static T GetDefinition<T>(this UniqueEntityId id) where T : MyDefinitionBase
         {
             try
