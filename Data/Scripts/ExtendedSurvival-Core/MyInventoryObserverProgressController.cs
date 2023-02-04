@@ -17,6 +17,7 @@ namespace ExtendedSurvival.Core
 
             public float CicleTime { get; set; }
             public float DecayFactor { get; set; }
+            public long ToleranceTime { get; set; }
             public Func<Guid, bool> CanDecay { get; set; }
 
         }
@@ -35,10 +36,15 @@ namespace ExtendedSurvival.Core
             return null;
         }
 
-        public static void AddGasSpoilInfo(string gasSubtypeId, float cicleTime, float decayFactor, Func<Guid, bool> checkDelegate)
+        public static void AddGasSpoilInfo(string gasSubtypeId, float cicleTime, float decayFactor, long toleranceTime, Func<Guid, bool> checkDelegate)
         {
             if (!MyGasSpoilInfos.ContainsKey(gasSubtypeId))
-                MyGasSpoilInfos.Add(gasSubtypeId, new GasSpoilInfo() { CicleTime = cicleTime, DecayFactor = decayFactor, CanDecay = checkDelegate });
+                MyGasSpoilInfos.Add(gasSubtypeId, new GasSpoilInfo() { 
+                    CicleTime = cicleTime, 
+                    DecayFactor = decayFactor, 
+                    CanDecay = checkDelegate,
+                    ToleranceTime = toleranceTime
+                });
         }
 
         public static bool HasGasSpoilInfo(string gasSubtypeId)
@@ -119,22 +125,35 @@ namespace ExtendedSurvival.Core
             }
         }
 
+        protected bool canRun;
+        protected ParallelTasks.Task task;
         protected override void DoInit(MyObjectBuilder_SessionComponent sessionComponent)
         {
             if (MyAPIGateway.Session.IsServer)
             {
                 Instance = this;
-                var task = MyAPIGateway.Parallel.StartBackground(() =>
+                canRun = true;
+                task = MyAPIGateway.Parallel.StartBackground(() =>
                 {
                     ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), $"StartBackground [DoUpdateCicle START]");
                     // Loop Task to Control Skins
-                    while (true)
+                    while (canRun)
                     {
                         DoUpdateCicle();
-                        MyAPIGateway.Parallel?.Sleep(1000);
+                        if (MyAPIGateway.Parallel != null)
+                            MyAPIGateway.Parallel.Sleep(1000);
+                        else
+                            break;
                     }
                 });
             }
+        }
+
+        protected override void UnloadData()
+        {
+            base.UnloadData();
+            canRun = false;
+            task.Wait();
         }
 
         protected void DoUpdateCicle()

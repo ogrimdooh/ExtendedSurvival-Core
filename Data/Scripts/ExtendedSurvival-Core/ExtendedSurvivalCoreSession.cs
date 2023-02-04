@@ -105,7 +105,7 @@ namespace ExtendedSurvival.Core
                     {
                         case CALL_FOR_WATER:
 
-                            if (WaterAPI.Registered)
+                            if (WaterModAPI.Registered)
                             {
                                 if (!IsDedicated)
                                 {
@@ -116,7 +116,7 @@ namespace ExtendedSurvival.Core
                                         if (planetId == closestPlanet?.EntityId)
                                         {
                                             float waterSize = float.Parse(mCommandData.content[2]);
-                                            WaterAPI.RunCommand("/wcreate");
+                                            WaterModAPI.RunCommand("/wcreate");
                                             DelayWaterRunCommand(1500, $"/wradius {waterSize}", "/wrate 0");
                                             lastCallWaterApi = DateTime.Now;
                                         }
@@ -143,7 +143,7 @@ namespace ExtendedSurvival.Core
                 MyAPIGateway.Parallel.Sleep(millisecondsTimeout);
                 foreach (var command in commands)
                 {
-                    WaterAPI.RunCommand(command);
+                    WaterModAPI.RunCommand(command);
                 }
             });
         }

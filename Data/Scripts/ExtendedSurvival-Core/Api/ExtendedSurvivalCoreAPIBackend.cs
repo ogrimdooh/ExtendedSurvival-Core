@@ -194,7 +194,7 @@ namespace ExtendedSurvival.Core
             ["AddItemCategory"] = new Action<string>(AddItemCategory),
             ["AddDefinitionToCategory"] = new Action<MyDefinitionId, string>(AddDefinitionToCategory),
             ["AddItemExtraInfo"] = new Action<string>(AddItemExtraInfo),
-            ["AddGasSpoilInfo"] = new Action<string, float, float, Func<Guid, bool>>(AddGasSpoilInfo),
+            ["AddGasSpoilInfo"] = new Action<string, float, float, long, Func<Guid, bool>>(AddGasSpoilInfo),
             ["HasItemInObserver"] = new Func<Guid, MyDefinitionId, bool>(HasItemInObserver),
             ["HasItemOfCategoryInObserver"] = new Func<Guid, string, bool>(HasItemOfCategoryInObserver),
             ["GetItemAmmountInObserver"] = new Func<Guid, MyDefinitionId, float>(GetItemAmmountInObserver),
@@ -311,9 +311,9 @@ namespace ExtendedSurvival.Core
             }
         }
 
-        public static void AddGasSpoilInfo(string gasSubtypeId, float cicleTime, float decayFactor, Func<Guid, bool> checkDelegate)
+        public static void AddGasSpoilInfo(string gasSubtypeId, float cicleTime, float decayFactor, long toleranceTime, Func<Guid, bool> checkDelegate)
         {
-            MyInventoryObserverProgressController.AddGasSpoilInfo(gasSubtypeId, cicleTime, decayFactor, checkDelegate);
+            MyInventoryObserverProgressController.AddGasSpoilInfo(gasSubtypeId, cicleTime, decayFactor, toleranceTime, checkDelegate);
         }
 
         public static void DisposeInventoryObserver(Guid observerId)

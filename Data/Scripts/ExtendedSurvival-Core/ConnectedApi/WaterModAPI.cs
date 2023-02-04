@@ -1,4 +1,5 @@
-﻿using Sandbox.ModAPI;
+﻿using Sandbox.Game.Entities;
+using Sandbox.ModAPI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,54 +8,64 @@ using System.Threading.Tasks;
 using VRage;
 using VRage.Game;
 using VRage.Game.Components;
+using VRage.Game.Entity;
 using VRage.Utils;
 using VRageMath;
 
 namespace ExtendedSurvival.Core
 {
-    //Only Include this file in your project
-
+    //See the steam guide for how to use this
+    //https://steamcommunity.com/sharedfiles/filedetails/?id=2639207010
     /// <summary>
     /// https://github.com/jakarianstudios/SE-Water/blob/master/API/WaterModAPI.cs
     /// </summary>
+
     [MySessionComponentDescriptor(MyUpdateOrder.NoUpdate)]
-    public class WaterAPI : MySessionComponentBase
+    public class WaterModAPI : MySessionComponentBase
     {
-        public static string ModName = MyAPIGateway.Utilities?.GamePaths.ModScopeName.Split('_')[1];
+        public static string ModName = "";
         public const ushort ModHandlerID = 50271;
-        public const int ModAPIVersion = 16;
+        public const int ModAPIVersion = 21;
         public static bool Registered { get; private set; } = false;
 
         private static Dictionary<string, Delegate> ModAPIMethods;
 
         private static Func<int, string, bool> _VerifyVersion;
 
-        private static Func<Vector3D, long?, bool> _IsUnderwater;
-        private static Func<LineD, long?, int> _LineIntersectsWater;
-        private static Action<List<LineD>, ICollection<int>, long?> _LineIntersectsWaterList;
-        private static Func<Vector3D, long?> _GetClosestWater;
-        private static Func<BoundingSphereD, long?, int> _SphereIntersectsWater;
-        private static Action<List<BoundingSphereD>, ICollection<int>, long?> _SphereIntersectsWaterList;
-        private static Func<Vector3D, long?, Vector3D> _GetClosestSurfacePoint;
-        private static Action<List<Vector3D>, ICollection<Vector3D>, long?> _GetClosestSurfacePointList;
-        private static Func<Vector3D, long?, float?> _GetDepth;
+        private static Func<Vector3D, MyPlanet, bool> _IsUnderwater;
+        private static Func<LineD, MyPlanet, int> _LineIntersectsWater;
+        private static Action<List<LineD>, ICollection<int>, MyPlanet> _LineIntersectsWaterList;
+        private static Func<Vector3D, MyPlanet> _GetClosestWater;
+        private static Func<BoundingSphereD, MyPlanet, int> _SphereIntersectsWater;
+        private static Action<List<BoundingSphereD>, ICollection<int>, MyPlanet> _SphereIntersectsWaterList;
+        private static Func<Vector3D, MyPlanet, Vector3D> _GetClosestSurfacePoint;
+        private static Action<List<Vector3D>, ICollection<Vector3D>, MyPlanet> _GetClosestSurfacePointList;
+        private static Func<Vector3D, MyPlanet, float?> _GetDepth;
         private static Action _ForceSync;
         private static Action<string> _RunCommand;
-        private static Func<Vector3D, long?, Vector3D> _GetUpDirection;
-        private static Func<long, bool> _HasWater;
-        private static Func<Vector3D, MyCubeSize, long?, float> _GetBuoyancyMultiplier;
-        private static Func<long, int> _GetCrushDepth;
+        private static Func<Vector3D, MyPlanet, Vector3D> _GetUpDirection;
+        private static Func<MyPlanet, bool> _HasWater;
+        private static Func<Vector3D, MyCubeSize, MyPlanet, float> _GetBuoyancyMultiplier;
+        private static Func<MyPlanet, int> _GetCrushDepth;
 
-        private static Func<long, MyTuple<Vector3D, float, float, float>> _GetPhysicalData;
-        private static Func<long, MyTuple<float, float, float, int>> _GetWaveData;
-        private static Func<long, MyTuple<Vector3D, bool, bool>> _GetRenderData;
-        private static Func<long, MyTuple<float, float>> _GetPhysicsData;
-        private static Func<long, MyTuple<float, float>> _GetTideData;
-        private static Func<long, Vector3D> _GetTideDirection;
+        private static Func<MyPlanet, MyTuple<Vector3D, float, float, float>> _GetPhysicalData;
+        private static Func<MyPlanet, MyTuple<float, float, float, int>> _GetWaveData;
+        private static Func<MyPlanet, MyTuple<Vector3D, bool, bool>> _GetRenderData;
+        private static Func<MyPlanet, MyTuple<float, float>> _GetPhysicsData;
+        private static Func<MyPlanet, MyTuple<float, float>> _GetTideData;
+        private static Func<MyPlanet, Vector3D> _GetTideDirection;
 
         private static Action<Vector3D, float, bool> _CreateSplash;
         private static Action<Vector3D, float> _CreateBubble;
         private static Action<Vector3D, Vector3D, float, int> _CreatePhysicsSplash;
+
+        private static Func<MyEntity, float> _Entity_FluidPressure;
+        private static Func<MyEntity, double> _Entity_FluidDepth;
+        private static Func<MyEntity, Vector3> _Entity_FluidVelocity;
+        private static Func<MyEntity, Vector3> _Entity_BuoyancyForce;
+        private static Func<MyEntity, Vector3D> _Entity_CenterOfBuoyancy;
+        private static Func<MyEntity, Vector3D> _Entity_DragForce;
+        private static Func<MyEntity, float> _Entity_PercentUnderwater;
 
         /// <summary>
         /// Returns true if the version is compatibile with the API Backend, this is automatically called
@@ -64,54 +75,54 @@ namespace ExtendedSurvival.Core
         /// <summary>
         /// Returns true if the provided planet entity ID has water
         /// </summary>
-        public static bool HasWater(long ID) => _HasWater?.Invoke(ID) ?? false;
+        public static bool HasWater(MyPlanet planet) => _HasWater?.Invoke(planet) ?? false;
 
         /// <summary>
         /// Returns true if the position is underwater
         /// </summary>
-        public static bool IsUnderwater(Vector3D Position, long? ID = null) => _IsUnderwater?.Invoke(Position, ID) ?? false;
+        public static bool IsUnderwater(Vector3D Position, MyPlanet ID = null) => _IsUnderwater?.Invoke(Position, ID) ?? false;
 
         /// <summary>
         /// Overwater = 0, ExitsWater = 1, EntersWater = 2, Underwater = 3
         /// </summary>
-        public static int LineIntersectsWater(LineD Line, long? ID = null) => _LineIntersectsWater?.Invoke(Line, ID) ?? 0;
+        public static int LineIntersectsWater(LineD Line, MyPlanet ID = null) => _LineIntersectsWater?.Invoke(Line, ID) ?? 0;
 
         /// <summary>
         /// Overwater = 0, ExitsWater = 1, EntersWater = 2, Underwater = 3
         /// </summary>
-        public static void LineIntersectsWater(List<LineD> Lines, ICollection<int> Intersections, long? ID = null) => _LineIntersectsWaterList?.Invoke(Lines, Intersections, ID);
+        public static void LineIntersectsWater(List<LineD> Lines, ICollection<int> Intersections, MyPlanet ID = null) => _LineIntersectsWaterList?.Invoke(Lines, Intersections, ID);
 
         /// <summary>
         /// Gets the closest water to the provided water
         /// </summary>
-        public static long? GetClosestWater(Vector3D Position) => _GetClosestWater?.Invoke(Position) ?? null;
+        public static MyPlanet GetClosestWater(Vector3D Position) => _GetClosestWater?.Invoke(Position) ?? null;
 
         /// <summary>
         /// Overwater = 0, ExitsWater = 1, EntersWater = 2, Underwater = 3
         /// </summary>
-        public static int SphereIntersectsWater(BoundingSphereD Sphere, long? ID = null) => _SphereIntersectsWater?.Invoke(Sphere, ID) ?? 0;
+        public static int SphereIntersectsWater(BoundingSphereD Sphere, MyPlanet ID = null) => _SphereIntersectsWater?.Invoke(Sphere, ID) ?? 0;
 
         /// <summary>
         /// Overwater = 0, ExitsWater = 1, EntersWater = 2, Underwater = 3
         /// </summary>
-        public static void SphereIntersectsWater(List<BoundingSphereD> Spheres, ICollection<int> Intersections, long? ID = null) => _SphereIntersectsWaterList?.Invoke(Spheres, Intersections, ID);
+        public static void SphereIntersectsWater(List<BoundingSphereD> Spheres, ICollection<int> Intersections, MyPlanet ID = null) => _SphereIntersectsWaterList?.Invoke(Spheres, Intersections, ID);
 
 
         /// <summary>
         /// Returns the closest position on the water surface
         /// </summary>
-        public static Vector3D GetClosestSurfacePoint(Vector3D Position, long? ID = null) => _GetClosestSurfacePoint?.Invoke(Position, ID) ?? Position;
+        public static Vector3D GetClosestSurfacePoint(Vector3D Position, MyPlanet ID = null) => _GetClosestSurfacePoint?.Invoke(Position, ID) ?? Position;
 
         /// <summary>
         /// Returns the closest position on the water surface
         /// </summary>
-        public static void GetClosestSurfacePoint(List<Vector3D> Positions, ICollection<Vector3D> Points, long? ID = null) => _GetClosestSurfacePointList?.Invoke(Positions, Points, ID);
+        public static void GetClosestSurfacePoint(List<Vector3D> Positions, ICollection<Vector3D> Points, MyPlanet ID = null) => _GetClosestSurfacePointList?.Invoke(Positions, Points, ID);
 
 
         /// <summary>
         /// Returns the depth the position is underwater
         /// </summary>
-        public static float? GetDepth(Vector3D Position, long? ID = null) => _GetDepth?.Invoke(Position, ID) ?? null;
+        public static float? GetDepth(Vector3D Position, MyPlanet ID = null) => _GetDepth?.Invoke(Position, ID) ?? null;
 
         /// <summary>
         /// Creates a splash at the provided position
@@ -141,56 +152,123 @@ namespace ExtendedSurvival.Core
         /// <summary>
         /// Gets the up direction at the position
         /// </summary>
-        public static Vector3D GetUpDirection(Vector3D Position, long? ID = null) => _GetUpDirection?.Invoke(Position, ID) ?? Vector3D.Up;
+        public static Vector3D GetUpDirection(Vector3D Position, MyPlanet ID = null) => _GetUpDirection?.Invoke(Position, ID) ?? Vector3D.Up;
 
         /// <summary>
         /// Gets the buoyancy multiplier to help calculate buoyancy of a grid, used in the final calculation of grid buoyancy.
         /// </summary>
-        public static float GetBuoyancyMultiplier(Vector3D Position, MyCubeSize GridSize, long? ID = null) => _GetBuoyancyMultiplier?.Invoke(Position, GridSize, ID) ?? 0;
+        public static float GetBuoyancyMultiplier(Vector3D Position, MyCubeSize GridSize, MyPlanet ID = null) => _GetBuoyancyMultiplier?.Invoke(Position, GridSize, ID) ?? 0;
 
         /// <summary>
-        /// Gets crush depth
+        /// Gets crush damage
         /// </summary>
-        public static int GetCrushDepth(long ID) => _GetCrushDepth?.Invoke(ID) ?? 500;
+        [Obsolete]
+        public static float GetCrushDepth(MyPlanet planet) => _GetCrushDepth?.Invoke(planet) ?? 500;
 
         /// <summary>
         /// Gets position, radius, minimum radius, and maximum radius- in that order.
         /// </summary>
-        public static MyTuple<Vector3D, float, float, float> GetPhysical(long ID) => (MyTuple<Vector3D, float, float, float>)(_GetPhysicalData?.Invoke(ID) ?? null);
+        public static MyTuple<Vector3D, float, float, float> GetPhysical(MyPlanet planet) => (MyTuple<Vector3D, float, float, float>)(_GetPhysicalData?.Invoke(planet) ?? null);
 
         /// <summary>
         /// Gets wave height, wave speed, wave scale, and seed- in that order.
         /// </summary>
-        public static MyTuple<float, float, float, int> GetWaveData(long ID) => (MyTuple<float, float, float, int>)(_GetWaveData?.Invoke(ID) ?? null);
+        public static MyTuple<float, float, float, int> GetWaveData(MyPlanet planet) => (MyTuple<float, float, float, int>)(_GetWaveData?.Invoke(planet) ?? null);
 
         /// <summary>
         /// Gets fog color, transparency toggle, and lighting toggle- in that order.
         /// </summary>
-        public static MyTuple<Vector3D, bool, bool> GetRenderData(long ID) => (MyTuple<Vector3D, bool, bool>)(_GetRenderData?.Invoke(ID) ?? null);
+        public static MyTuple<Vector3D, bool, bool> GetRenderData(MyPlanet planet) => (MyTuple<Vector3D, bool, bool>)(_GetRenderData?.Invoke(planet) ?? null);
 
         /// <summary>
         /// Gets tide height and tide speed- in that order.
         /// </summary>
-        public static MyTuple<float, float> GetTideData(long ID) => (MyTuple<float, float>)(_GetTideData?.Invoke(ID) ?? null);
+        public static MyTuple<float, float> GetTideData(MyPlanet planet) => (MyTuple<float, float>)(_GetTideData?.Invoke(planet) ?? null);
 
         /// <summary>
-        /// Gets tide height and tide speed- in that order.
+        /// Gets density and buoyancy multiplier- in that order.
         /// </summary>
-        public static MyTuple<float, float> GetPhysicsData(long ID) => (MyTuple<float, float>)(_GetPhysicsData?.Invoke(ID) ?? null);
+        public static MyTuple<float, float> GetPhysicsData(MyPlanet planet) => (MyTuple<float, float>)(_GetPhysicsData?.Invoke(planet) ?? null);
 
         /// <summary>
         /// Gets the direction of high tide, from center of the water to the surface
         /// </summary>
-        public static Vector3D GetTideDirection(long ID) => (Vector3D)(_GetTideDirection?.Invoke(ID) ?? null);
+        public static Vector3D GetTideDirection(MyPlanet planet) => (Vector3D)(_GetTideDirection?.Invoke(planet) ?? null);
 
+        /// <summary>
+        /// Gets the hydrostatcic Pressure of the fluid the entity is at. The Unit is kPa (KiloPascals)
+        /// </summary>
+        public static float Entity_FluidPressure(MyEntity entity) => _Entity_FluidPressure?.Invoke(entity) ?? 0;
+
+        /// <summary>
+        /// Depth of the entity in the fluid. Unit is m (Meters) Positive is above water, negative is below water. Returns PositiveInfinity when no water is present
+        /// </summary>
+        public static double Entity_FluidDepth(MyEntity entity) => _Entity_FluidDepth?.Invoke(entity) ?? double.PositiveInfinity;
+
+        /// <summary>
+        /// Velocity of the fluid around the entity (Currents, Wave Oscillation)
+        /// </summary>
+        public static Vector3 Entity_FluidVelocity(MyEntity entity) => _Entity_FluidVelocity?.Invoke(entity) ?? Vector3.Zero;
+
+        /// <summary>
+        /// Force vector for buoyancy. Unit is N (Newtons)
+        /// </summary>
+        public static Vector3 Entity_BuoyancyForce(MyEntity entity) => _Entity_BuoyancyForce?.Invoke(entity) ?? Vector3.Zero;
+
+        /// <summary>
+        /// Center of buoyancy position of the entity in World Space
+        /// </summary>
+        public static Vector3D Entity_CenterOfBuoyancy(MyEntity entity) => _Entity_CenterOfBuoyancy?.Invoke(entity) ?? Vector3D.Zero;
+
+        /// <summary>
+        /// Force vector for drag. Unit is N (Newtons)
+        /// </summary>
+        public static Vector3D Entity_DragForce(MyEntity entity) => _Entity_DragForce?.Invoke(entity) ?? Vector3D.Zero;
+
+        /// <summary>
+        /// Percentage of the entity being underwater where 1 is 100%
+        /// </summary>
+        public static float Entity_PercentUnderwater(MyEntity entity) => _Entity_PercentUnderwater?.Invoke(entity) ?? 0;
+
+        /// <summary>
+        /// Do not use. This is for the session component to register automatically
+        /// </summary>
         public override void LoadData()
         {
-            MyAPIGateway.Utilities.RegisterMessageHandler(ModHandlerID, ModHandler);
+            Register();
         }
 
+        /// <summary>
+        /// Do not use. This is for the session component to unregister automatically
+        /// </summary>
         protected override void UnloadData()
         {
+            Unregister();
+        }
+
+        /// <summary>
+        /// Registers the mod and sets the mod name if it is not already set
+        /// </summary>
+        public void Register()
+        {
+            MyAPIGateway.Utilities.RegisterMessageHandler(ModHandlerID, ModHandler);
+
+            if (ModName == "")
+            {
+                if (MyAPIGateway.Utilities.GamePaths.ModScopeName.Contains("_"))
+                    ModName = MyAPIGateway.Utilities.GamePaths.ModScopeName.Split('_')[1];
+                else
+                    ModName = MyAPIGateway.Utilities.GamePaths.ModScopeName;
+            }
+        }
+
+        /// <summary>
+        /// Unregisters the mod
+        /// </summary>
+        public void Unregister()
+        {
             MyAPIGateway.Utilities.UnregisterMessageHandler(ModHandlerID, ModHandler);
+            Registered = false;
         }
 
         private void ModHandler(object obj)
@@ -203,46 +281,76 @@ namespace ExtendedSurvival.Core
             if (obj is Dictionary<string, Delegate>)
             {
                 ModAPIMethods = (Dictionary<string, Delegate>)obj;
-                _VerifyVersion = (Func<int, string, bool>)ModAPIMethods["VerifyVersion"];
+                _VerifyVersion = TryGetMethod<Func<int, string, bool>>(ModAPIMethods, "VerifyVersion");
 
                 Registered = VerifyVersion(ModAPIVersion, ModName);
+
+                MyLog.Default.WriteLine("Registering WaterAPI for Mod '" + ModName + "'");
 
                 if (Registered)
                 {
                     try
                     {
-                        _IsUnderwater = (Func<Vector3D, long?, bool>)ModAPIMethods["IsUnderwater"];
-                        _GetClosestWater = (Func<Vector3D, long?>)ModAPIMethods["GetClosestWater"];
-                        _SphereIntersectsWater = (Func<BoundingSphereD, long?, int>)ModAPIMethods["SphereIntersectsWater"];
-                        _SphereIntersectsWaterList = (Action<List<BoundingSphereD>, ICollection<int>, long?>)ModAPIMethods["SphereIntersectsWaterList"];
-                        _GetClosestSurfacePoint = (Func<Vector3D, long?, Vector3D>)ModAPIMethods["GetClosestSurfacePoint"];
-                        _GetClosestSurfacePointList = (Action<List<Vector3D>, ICollection<Vector3D>, long?>)ModAPIMethods["GetClosestSurfacePointList"];
-                        _LineIntersectsWater = (Func<LineD, long?, int>)ModAPIMethods["LineIntersectsWater"];
-                        _LineIntersectsWaterList = (Action<List<LineD>, ICollection<int>, long?>)ModAPIMethods["LineIntersectsWaterList"];
-                        _GetDepth = (Func<Vector3D, long?, float?>)ModAPIMethods["GetDepth"];
-                        _CreateSplash = (Action<Vector3D, float, bool>)ModAPIMethods["CreateSplash"];
-                        _CreatePhysicsSplash = (Action<Vector3D, Vector3D, float, int>)ModAPIMethods["CreatePhysicsSplash"];
-                        _CreateBubble = (Action<Vector3D, float>)ModAPIMethods["CreateBubble"];
-                        _ForceSync = (Action)ModAPIMethods["ForceSync"];
-                        _RunCommand = (Action<string>)ModAPIMethods["RunCommand"];
-                        _GetUpDirection = (Func<Vector3D, long?, Vector3D>)ModAPIMethods["GetUpDirection"];
-                        _HasWater = (Func<long, bool>)ModAPIMethods["HasWater"];
-                        _GetBuoyancyMultiplier = (Func<Vector3D, MyCubeSize, long?, float>)ModAPIMethods["GetBuoyancyMultiplier"];
-                        _GetCrushDepth = (Func<long, int>)ModAPIMethods["GetCrushDepth"];
-                        _GetPhysicalData = (Func<long, MyTuple<Vector3D, float, float, float>>)ModAPIMethods["GetPhysicalData"];
-                        _GetWaveData = (Func<long, MyTuple<float, float, float, int>>)ModAPIMethods["GetWaveData"];
-                        _GetRenderData = (Func<long, MyTuple<Vector3D, bool, bool>>)ModAPIMethods["GetRenderData"];
-                        _GetPhysicsData = (Func<long, MyTuple<float, float>>)ModAPIMethods["GetPhysicsData"];
-                        _GetTideData = (Func<long, MyTuple<float, float>>)ModAPIMethods["GetTideData"];
-                        _GetTideDirection = (Func<long, Vector3D>)ModAPIMethods["GetTideDirection"];
+                        _IsUnderwater = TryGetMethod<Func<Vector3D, MyPlanet, bool>>(ModAPIMethods, "IsUnderwater");
+                        _GetClosestWater = TryGetMethod<Func<Vector3D, MyPlanet>>(ModAPIMethods, "GetClosestWater");
+                        _SphereIntersectsWater = TryGetMethod<Func<BoundingSphereD, MyPlanet, int>>(ModAPIMethods, "SphereIntersectsWater");
+                        _SphereIntersectsWaterList = TryGetMethod<Action<List<BoundingSphereD>, ICollection<int>, MyPlanet>>(ModAPIMethods, "SphereIntersectsWaterList");
+                        _GetClosestSurfacePoint = TryGetMethod<Func<Vector3D, MyPlanet, Vector3D>>(ModAPIMethods, "GetClosestSurfacePoint");
+                        _GetClosestSurfacePointList = TryGetMethod<Action<List<Vector3D>, ICollection<Vector3D>, MyPlanet>>(ModAPIMethods, "GetClosestSurfacePointList");
+                        _LineIntersectsWater = TryGetMethod<Func<LineD, MyPlanet, int>>(ModAPIMethods, "LineIntersectsWater");
+                        _LineIntersectsWaterList = TryGetMethod<Action<List<LineD>, ICollection<int>, MyPlanet>>(ModAPIMethods, "LineIntersectsWaterList");
+                        _GetDepth = TryGetMethod<Func<Vector3D, MyPlanet, float?>>(ModAPIMethods, "GetDepth");
+                        _CreateSplash = TryGetMethod<Action<Vector3D, float, bool>>(ModAPIMethods, "CreateSplash");
+                        _CreatePhysicsSplash = TryGetMethod<Action<Vector3D, Vector3D, float, int>>(ModAPIMethods, "CreatePhysicsSplash");
+                        _CreateBubble = TryGetMethod<Action<Vector3D, float>>(ModAPIMethods, "CreateBubble");
+                        _ForceSync = TryGetMethod<Action>(ModAPIMethods, "ForceSync");
+                        _RunCommand = TryGetMethod<Action<string>>(ModAPIMethods, "RunCommand");
+                        _GetUpDirection = TryGetMethod<Func<Vector3D, MyPlanet, Vector3D>>(ModAPIMethods, "GetUpDirection");
+                        _HasWater = TryGetMethod<Func<MyPlanet, bool>>(ModAPIMethods, "HasWater");
+                        _GetBuoyancyMultiplier = TryGetMethod<Func<Vector3D, MyCubeSize, MyPlanet, float>>(ModAPIMethods, "GetBuoyancyMultiplier");
+                        _GetCrushDepth = TryGetMethod<Func<MyPlanet, int>>(ModAPIMethods, "GetCrushDepth");
+                        _GetPhysicalData = TryGetMethod<Func<MyPlanet, MyTuple<Vector3D, float, float, float>>>(ModAPIMethods, "GetPhysicalData");
+                        _GetWaveData = TryGetMethod<Func<MyPlanet, MyTuple<float, float, float, int>>>(ModAPIMethods, "GetWaveData");
+                        _GetRenderData = TryGetMethod<Func<MyPlanet, MyTuple<Vector3D, bool, bool>>>(ModAPIMethods, "GetRenderData");
+                        _GetPhysicsData = TryGetMethod<Func<MyPlanet, MyTuple<float, float>>>(ModAPIMethods, "GetPhysicsData");
+                        _GetTideData = TryGetMethod<Func<MyPlanet, MyTuple<float, float>>>(ModAPIMethods, "GetTideData");
+                        _GetTideDirection = TryGetMethod<Func<MyPlanet, Vector3D>>(ModAPIMethods, "GetTideDirection");
+
+                        _Entity_FluidPressure = TryGetMethod<Func<MyEntity, float>>(ModAPIMethods, "EntityGetFluidPressure");
+                        _Entity_FluidDepth = TryGetMethod<Func<MyEntity, double>>(ModAPIMethods, "EntityGetFluidDepth");
+                        _Entity_FluidVelocity = TryGetMethod<Func<MyEntity, Vector3>>(ModAPIMethods, "EntityGetFluidVelocity");
+                        _Entity_BuoyancyForce = TryGetMethod<Func<MyEntity, Vector3>>(ModAPIMethods, "EntityGetBuoyancyForce");
+                        _Entity_CenterOfBuoyancy = TryGetMethod<Func<MyEntity, Vector3D>>(ModAPIMethods, "EntityGetCenterOfBuoyancy");
+                        _Entity_DragForce = TryGetMethod<Func<MyEntity, Vector3D>>(ModAPIMethods, "EntityGetDragForce");
+                        _Entity_PercentUnderwater = TryGetMethod<Func<MyEntity, float>>(ModAPIMethods, "EntityGetPercentUnderwater");
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         MyAPIGateway.Utilities.ShowMessage("WaterMod", "Mod '" + ModName + "' encountered an error when registering the Water Mod API, see log for more info.");
-                        MyLog.Default.WriteLine(e);
+                        MyLog.Default.WriteLine("WaterMod: " + e);
+
+                        Registered = false;
                     }
                 }
             }
+            else
+            {
+                MyAPIGateway.Utilities.ShowMessage("WaterMod", $"Received a message with completely unrelated content? {obj.GetType()}");
+                MyLog.Default.WriteLine("WaterMod: " + $"Received a message with completely unrelated content? {obj.GetType()}");
+            }
+        }
+
+        private T TryGetMethod<T>(Dictionary<string, Delegate> modContent, string methodName) where T : class
+        {
+            Delegate method;
+            if (modContent.TryGetValue(methodName, out method))
+            {
+                return method as T;
+            }
+
+            MyLog.Default.WriteLine($"WatermMod: API method '{methodName}' not found");
+
+            return null;
         }
     }
 }

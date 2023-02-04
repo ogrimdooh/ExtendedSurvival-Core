@@ -118,6 +118,7 @@ namespace ExtendedSurvival.Core
             });
         }
 
+        private long toleranceTime = 0;
         public void DoUpdate(MyInventoryObserver observer, TimeSpan spendTime)
         {
             if (NeedUpdate)
@@ -149,8 +150,15 @@ namespace ExtendedSurvival.Core
                                 if (gasContainer.GasLevel <= 0)
                                 {
                                     gasContainer.GasLevel = 0;
-                                    DoSpoilRoutine(observer);
+                                    toleranceTime++;
+                                    if (toleranceTime > spoilInfo.ToleranceTime)
+                                    {
+                                        toleranceTime = 0;
+                                        DoSpoilRoutine(observer);
+                                    }
                                 }
+                                else
+                                    toleranceTime = 0;
                                 if (observer.Debug)
                                     ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), $"MyItemExtraInfo DoUpdate {DefinitionId} GasLevel={gasContainer.GasLevel}");
                             }

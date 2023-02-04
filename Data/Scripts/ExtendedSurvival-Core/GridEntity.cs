@@ -55,9 +55,9 @@ namespace ExtendedSurvival.Core
         {
             get
             {
-                if (WaterAPI.Registered && PlanetAtRange.HasWater() && _blocksByType.ContainsKey(typeof(MyObjectBuilder_Collector)))
+                if (WaterModAPI.Registered && PlanetAtRange.HasWater() && _blocksByType.ContainsKey(typeof(MyObjectBuilder_Collector)))
                 {
-                    return _blocksByType[typeof(MyObjectBuilder_Collector)].Where(x=> x.FatBlock != null && WaterAPI.IsUnderwater(x.FatBlock.GetPosition())).ToArray();
+                    return _blocksByType[typeof(MyObjectBuilder_Collector)].Where(x=> x.FatBlock != null && WaterModAPI.IsUnderwater(x.FatBlock.GetPosition())).ToArray();
                 }
                 return new IMySlimBlock[] { };
             }

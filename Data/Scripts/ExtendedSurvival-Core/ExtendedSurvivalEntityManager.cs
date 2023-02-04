@@ -38,7 +38,7 @@ namespace ExtendedSurvival.Core
 
         public bool HasPlanetNeedingWater()
         {
-            if (!WaterAPI.Registered)
+            if (!WaterModAPI.Registered)
                 return false;
             return Planets.Values.Any(x => x.Setting != null && x.Setting.Water.Enabled && !x.HasWater());
         }
@@ -53,15 +53,18 @@ namespace ExtendedSurvival.Core
             return Grids.FirstOrDefault(x => x.Entity.EntityId == uuid);
         }
 
+        protected bool canRun;
+        protected ParallelTasks.Task task;
         protected override void DoInit(MyObjectBuilder_SessionComponent sessionComponent)
         {
             if (MyAPIGateway.Session.IsServer)
             {
-                var task = MyAPIGateway.Parallel.StartBackground(() =>
+                canRun = true;
+                task = MyAPIGateway.Parallel.StartBackground(() =>
                 {
                     ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), "StartBackground [CheckAllGrids START]");
                     // Loop Task to Control Skins
-                    while (true)
+                    while (canRun)
                     {
                         CheckAllGrids();
                         if (MyAPIGateway.Parallel != null)
@@ -136,6 +139,8 @@ namespace ExtendedSurvival.Core
         {
             if (MyAPIGateway.Session.IsServer)
             {
+                canRun = false;
+                task.Wait();
                 Players?.Clear();
                 Players = null;
                 MyVisualScriptLogicProvider.PlayerConnected -= Players_PlayerConnected;
@@ -247,7 +252,7 @@ namespace ExtendedSurvival.Core
                     if (inicialLoadComplete && cubeGrid.IsRespawnGrid)
                     {
                         var playerId = cubeGrid.BigOwners.FirstOrDefault();
-                        if (WaterAPI.Registered)
+                        if (WaterModAPI.Registered)
                         {
                             // Maybe the wheels are gone xD hahaha
                             gridEntity.NeedToRecreateWhells = true;
@@ -407,7 +412,7 @@ namespace ExtendedSurvival.Core
                         }
                     }
                 }
-                if (WaterAPI.Registered && ExtendedSurvivalSettings.Instance.DisableWaterModFreeIce)
+                if (WaterModAPI.Registered && ExtendedSurvivalSettings.Instance.DisableWaterModFreeIce)
                 {
                     /* Need to stop collector from generate ICE, this function break the water solidificator */
                     lock (Grids)

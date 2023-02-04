@@ -79,15 +79,15 @@ namespace ExtendedSurvival.Core
 
         public bool HasWater()
         {
-            return WaterAPI.Registered && WaterAPI.HasWater(Entity.EntityId);
+            return WaterModAPI.Registered && WaterModAPI.HasWater(Entity);
         }
 
         public bool IsUnderWater(Vector3D coords, out float depth)
         {
             depth = 0;
-            if (HasWater() && WaterAPI.IsUnderwater(coords))
+            if (HasWater() && WaterModAPI.IsUnderwater(coords))
             {
-                depth = WaterAPI.GetDepth(coords).Value * -1;
+                depth = WaterModAPI.GetDepth(coords).Value * -1;
                 return depth > 1.5f;
             }
             return false;

@@ -211,7 +211,7 @@ namespace ExtendedSurvival.Core
         private static Action<string> _AddItemCategory;
         private static Action<MyDefinitionId, string> _AddDefinitionToCategory;
         private static Action<string> _AddItemExtraInfo;
-        private static Action<string, float, float, Func<Guid, bool>> _AddGasSpoilInfo;
+        private static Action<string, float, float, long, Func<Guid, bool>> _AddGasSpoilInfo;
         private static Func<Guid, MyDefinitionId, bool> _HasItemInObserver;
         private static Func<Guid, string, bool> _HasItemOfCategoryInObserver;
         private static Func<Guid, MyDefinitionId, float> _GetItemAmmountInObserver;
@@ -281,9 +281,9 @@ namespace ExtendedSurvival.Core
         /// <summary>
         /// Add gas item extra info
         /// </summary>
-        public static void AddGasSpoilInfo(string gasSubtypeId, float cicleTime, float decayFactor, Func<Guid, bool> checkDelegate)
+        public static void AddGasSpoilInfo(string gasSubtypeId, float cicleTime, float decayFactor, long toleranceTime, Func<Guid, bool> checkDelegate)
         {
-            _AddGasSpoilInfo.Invoke(gasSubtypeId, cicleTime, decayFactor, checkDelegate);
+            _AddGasSpoilInfo.Invoke(gasSubtypeId, cicleTime, decayFactor, toleranceTime, checkDelegate);
         }
 
         /// <summary>
@@ -625,7 +625,7 @@ namespace ExtendedSurvival.Core
                         _AddItemCategory = (Action<string>)ModAPIMethods["AddItemCategory"];
                         _AddDefinitionToCategory = (Action<MyDefinitionId, string>)ModAPIMethods["AddDefinitionToCategory"];
                         _AddItemExtraInfo = (Action<string>)ModAPIMethods["AddItemExtraInfo"];
-                        _AddGasSpoilInfo = (Action<string, float, float, Func<Guid, bool>>)ModAPIMethods["AddGasSpoilInfo"];
+                        _AddGasSpoilInfo = (Action<string, float, float, long, Func<Guid, bool>>)ModAPIMethods["AddGasSpoilInfo"];
                         _HasItemInObserver = (Func<Guid, MyDefinitionId, bool>)ModAPIMethods["HasItemInObserver"];
                         _HasItemOfCategoryInObserver = (Func<Guid, string, bool>)ModAPIMethods["HasItemOfCategoryInObserver"];
                         _GetItemAmmountInObserver = (Func<Guid, MyDefinitionId, float>)ModAPIMethods["GetItemAmmountInObserver"];
