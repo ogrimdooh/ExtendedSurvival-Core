@@ -66,23 +66,26 @@ namespace ExtendedSurvival.Core
         {
             try
             {
-                if (CurrentEntity.GetQueue().Count > 0)
+                if (IsServer)
                 {
-                    foreach (var queue in CurrentEntity.GetQueue())
+                    if (CurrentEntity.GetQueue().Count > 0)
                     {
-                        var blueprint = queue.Blueprint as MyBlueprintDefinitionBase;
-                        foreach (var prerequisites in blueprint.Prerequisites)
+                        foreach (var queue in CurrentEntity.GetQueue())
                         {
-                            var amountOnOutput = OutputInventory.GetItemAmount(prerequisites.Id);
-                            if (amountOnOutput > 0)
+                            var blueprint = queue.Blueprint as MyBlueprintDefinitionBase;
+                            foreach (var prerequisites in blueprint.Prerequisites)
                             {
-                                var requiredAmount = queue.Amount * prerequisites.Amount;
-                                if (amountOnOutput < requiredAmount)
+                                var amountOnOutput = OutputInventory.GetItemAmount(prerequisites.Id);
+                                if (amountOnOutput > 0)
                                 {
-                                    requiredAmount = amountOnOutput;
+                                    var requiredAmount = queue.Amount * prerequisites.Amount;
+                                    if (amountOnOutput < requiredAmount)
+                                    {
+                                        requiredAmount = amountOnOutput;
+                                    }
+                                    var amountAdded = (InputInventory as IMyInventory).AddMaxItems(requiredAmount, ItensConstants.GetPhysicalObjectBuilder(new UniqueEntityId(prerequisites.Id)));
+                                    OutputInventory.RemoveItemsOfType(amountAdded, prerequisites.Id);
                                 }
-                                var amountAdded = (InputInventory as IMyInventory).AddMaxItems(requiredAmount, ItensConstants.GetPhysicalObjectBuilder(new UniqueEntityId(prerequisites.Id)));
-                                OutputInventory.RemoveItemsOfType(amountAdded, prerequisites.Id);
                             }
                         }
                     }
