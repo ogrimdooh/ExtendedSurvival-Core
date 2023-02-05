@@ -4,18 +4,21 @@
   <BlueprintClassEntries>
     
     <Entry Class="SmallBasicRefinery_CommonMetals" BlueprintSubtypeId="Soil_Deconstruction" />
+    <Entry Class="SmallBasicRefinery_CommonMetals" BlueprintSubtypeId="AlienSoil_Deconstruction" />    
     <Entry Class="SmallBasicRefinery_CommonMetals" BlueprintSubtypeId="MoonSoil_Deconstruction" />
     <Entry Class="SmallBasicRefinery_CommonMetals" BlueprintSubtypeId="DesertSoil_Deconstruction" />
 
     <Entry Class="BasicRefinery_CommonMetals" BlueprintSubtypeId="ToxicIcePurify" />
     <Entry Class="BasicRefinery_CommonMetals" BlueprintSubtypeId="StoneIcePurify" />
     <Entry Class="BasicRefinery_CommonMetals" BlueprintSubtypeId="Soil_Deconstruction" />
+    <Entry Class="BasicRefinery_CommonMetals" BlueprintSubtypeId="AlienSoil_Deconstruction" />
     <Entry Class="BasicRefinery_CommonMetals" BlueprintSubtypeId="MoonSoil_Deconstruction" />
     <Entry Class="BasicRefinery_CommonMetals" BlueprintSubtypeId="DesertSoil_Deconstruction" />
     
     <Entry Class="CommonMetals" BlueprintSubtypeId="ToxicIcePurify" />
     <Entry Class="CommonMetals" BlueprintSubtypeId="StoneIcePurify" />
     <Entry Class="CommonMetals" BlueprintSubtypeId="Soil_Deconstruction" />
+    <Entry Class="CommonMetals" BlueprintSubtypeId="AlienSoil_Deconstruction" />
     <Entry Class="CommonMetals" BlueprintSubtypeId="MoonSoil_Deconstruction" />
     <Entry Class="CommonMetals" BlueprintSubtypeId="DesertSoil_Deconstruction" />
     

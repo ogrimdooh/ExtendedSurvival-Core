@@ -217,7 +217,8 @@ namespace ExtendedSurvival.Core
             ["RegisterInventoryObserverAfterContentsChangedCallback"] = new Action<Guid, Action<Guid, MyInventory, MyPhysicalInventoryItem, MyFixedPoint>>(RegisterInventoryObserverAfterContentsChangedCallback),
             ["HasDisassemblyComputer"] = new Func<long, bool>(HasDisassemblyComputer),
             ["HasAdvancedDisassemblyComputer"] = new Func<long, bool>(HasAdvancedDisassemblyComputer),
-            ["AddExtraStartLoot"] = new Action<MyDefinitionId, float>(AddExtraStartLoot)
+            ["AddExtraStartLoot"] = new Action<MyDefinitionId, float>(AddExtraStartLoot),
+            ["GetGameTime"] = new Func<long>(GetGameTime)
         };
 
         public static void BeforeStart()
@@ -232,6 +233,13 @@ namespace ExtendedSurvival.Core
                 return false;
             }
             return true;
+        }
+
+        public static long GetGameTime()
+        {
+            if (MyExtendedSurvivalTimeManager.Instance != null)
+                return MyExtendedSurvivalTimeManager.Instance.GameTime;
+            return 0;
         }
 
         public static void AddExtraStartLoot(MyDefinitionId itemType, float ammount)

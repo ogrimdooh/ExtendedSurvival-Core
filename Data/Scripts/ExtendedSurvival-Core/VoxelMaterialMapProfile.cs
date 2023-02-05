@@ -67,17 +67,8 @@ namespace ExtendedSurvival.Core
         public const string DustyRocks3 = "DustyRocks3";
         public const string PertamSand = "PertamSand";
 
-        public static readonly string[] SoilVoxels = new string[] 
+        public static readonly string[] AlienSoilVoxels = new string[]
         {
-            Grass,
-            GrassBare,
-            RocksGrass,
-            GrassOld,
-            GrassOldBare,
-            Grass_02,
-            WoodsGrass,
-            WoodsGrassBare,
-            Soil,
             AlienGreenGrass,
             AlienGreenGrassBare,
             AlienRockyTerrain,
@@ -88,6 +79,19 @@ namespace ExtendedSurvival.Core
             AlienYellowGrass,
             AlienYellowGrassBare,
             AlienSoil
+        };
+
+        public static readonly string[] SoilVoxels = new string[] 
+        {
+            Grass,
+            GrassBare,
+            RocksGrass,
+            GrassOld,
+            GrassOldBare,
+            Grass_02,
+            WoodsGrass,
+            WoodsGrassBare,
+            Soil
         };
 
         public static readonly string[] DesertSoilVoxels = new string[] 

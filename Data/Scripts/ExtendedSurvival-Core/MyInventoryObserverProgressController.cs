@@ -8,6 +8,7 @@ using VRage.Game.Components;
 
 namespace ExtendedSurvival.Core
 {
+
     [MySessionComponentDescriptor(MyUpdateOrder.NoUpdate)]
     public class MyInventoryObserverProgressController : BaseSessionComponent
     {

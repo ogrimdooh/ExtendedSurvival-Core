@@ -45,6 +45,7 @@ namespace ExtendedSurvival.Core
                 }
             }
             // Override Soil Voxels
+            SetMinedOre(definitions, VoxelMaterialMapProfile.AlienSoilVoxels, ItensConstants.ALIENSOIL_SUBTYPEID, VoxelMaterialMapProfile.VERYCOMMON_RATIO);
             SetMinedOre(definitions, VoxelMaterialMapProfile.SoilVoxels, ItensConstants.SOIL_SUBTYPEID, VoxelMaterialMapProfile.VERYCOMMON_RATIO);
             SetMinedOre(definitions, VoxelMaterialMapProfile.DesertSoilVoxels, ItensConstants.DESERTSOIL_SUBTYPEID, VoxelMaterialMapProfile.COMMON_RATIO);
             SetMinedOre(definitions, VoxelMaterialMapProfile.MoomSoilVoxels, ItensConstants.MOONSOIL_SUBTYPEID, VoxelMaterialMapProfile.UNCOMMON_RATIO);

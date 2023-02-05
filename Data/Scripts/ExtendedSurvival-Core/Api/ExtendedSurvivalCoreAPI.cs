@@ -234,6 +234,7 @@ namespace ExtendedSurvival.Core
         private static Func<long, bool> _HasDisassemblyComputer;
         private static Func<long, bool> _HasAdvancedDisassemblyComputer;
         private static Action<MyDefinitionId, float> _AddExtraStartLoot;
+        private static Func<long> _GetGameTime;
 
         /// <summary>
         /// Returns true if the version is compatibile with the API Backend, this is automatically called
@@ -516,6 +517,15 @@ namespace ExtendedSurvival.Core
         }
 
         /// <summary>
+        /// return the game time in MS (only when not paused)
+        /// </summary>
+        public static long GetGameTime()
+        {
+            var value = _GetGameTime?.Invoke();
+            return value.HasValue ? value.Value : 0;
+        }
+
+        /// <summary>
         /// Register a callback method to update of a observer
         /// </summary>
         public static void RegisterInventoryObserverUpdateCallback(Guid observerId, Action<Guid, MyInventory, IMyEntity, TimeSpan> callback)
@@ -649,6 +659,7 @@ namespace ExtendedSurvival.Core
                         _HasDisassemblyComputer = (Func<long, bool>)ModAPIMethods["HasDisassemblyComputer"];
                         _HasAdvancedDisassemblyComputer = (Func<long, bool>)ModAPIMethods["HasAdvancedDisassemblyComputer"];
                         _AddExtraStartLoot = (Action<MyDefinitionId, float>)ModAPIMethods["AddExtraStartLoot"];
+                        _GetGameTime = (Func<long>)ModAPIMethods["GetGameTime"];
 
                         if (m_onRegisteredAction != null)
                             m_onRegisteredAction();
