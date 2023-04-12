@@ -157,7 +157,7 @@ namespace ExtendedSurvival.Core
                     Volume = MAS_VOLUME,
                     InputConstraint = new MyInventoryConstraint("ThermalOutputInventory", null, true)
                 };
-                definition.InputConstraint.Add(ItensConstants.ICE_ID.DefinitionId);
+                definition.InputConstraint.Add(OreConstants.ICE_ID.DefinitionId);
                 _inventory.Init(definition);
                 _inventoryDefined = true;
             }

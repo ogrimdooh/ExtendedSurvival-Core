@@ -32,7 +32,7 @@ namespace ExtendedSurvival.Core
                             definition.AsteroidGeneratorSpawnProbabilityMultiplier = info.AsteroidSpawnProbabilityMultiplier;
                             if (VoxelMaterialMapProfile.ESToxicIce.Contains(voxel))
                             {
-                                definition.MinedOre = ItensConstants.TOXICICE_SUBTYPEID;
+                                definition.MinedOre = OreConstants.TOXICICE_SUBTYPEID;
                             }
                             definition.Postprocess();
                             ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(VoxelMaterialsOverride), $"Override voxel definition : {definition.Id.SubtypeName}");
@@ -45,10 +45,10 @@ namespace ExtendedSurvival.Core
                 }
             }
             // Override Soil Voxels
-            SetMinedOre(definitions, VoxelMaterialMapProfile.AlienSoilVoxels, ItensConstants.ALIENSOIL_SUBTYPEID, VoxelMaterialMapProfile.VERYCOMMON_RATIO);
-            SetMinedOre(definitions, VoxelMaterialMapProfile.SoilVoxels, ItensConstants.SOIL_SUBTYPEID, VoxelMaterialMapProfile.VERYCOMMON_RATIO);
-            SetMinedOre(definitions, VoxelMaterialMapProfile.DesertSoilVoxels, ItensConstants.DESERTSOIL_SUBTYPEID, VoxelMaterialMapProfile.COMMON_RATIO);
-            SetMinedOre(definitions, VoxelMaterialMapProfile.MoomSoilVoxels, ItensConstants.MOONSOIL_SUBTYPEID, VoxelMaterialMapProfile.UNCOMMON_RATIO);
+            SetMinedOre(definitions, VoxelMaterialMapProfile.AlienSoilVoxels, OreConstants.ALIENSOIL_SUBTYPEID, VoxelMaterialMapProfile.VERYCOMMON_RATIO);
+            SetMinedOre(definitions, VoxelMaterialMapProfile.SoilVoxels, OreConstants.SOIL_SUBTYPEID, VoxelMaterialMapProfile.VERYCOMMON_RATIO);
+            SetMinedOre(definitions, VoxelMaterialMapProfile.DesertSoilVoxels, OreConstants.DESERTSOIL_SUBTYPEID, VoxelMaterialMapProfile.COMMON_RATIO);
+            SetMinedOre(definitions, VoxelMaterialMapProfile.MoomSoilVoxels, OreConstants.MOONSOIL_SUBTYPEID, VoxelMaterialMapProfile.UNCOMMON_RATIO);
         }
 
         private static void SetMinedOre(DictionaryValuesReader<string, MyVoxelMaterialDefinition> definitions, string[] targets, string ore, float ratio)

@@ -16,44 +16,8 @@ namespace ExtendedSurvival.Core
         public const string SURVIVALKIT_BOTTLES_BLUEPRINTS = "SurvivalKit_Bottles_Blueprints";
         public const string SURVIVALKIT_ALCHEMY_BLUEPRINTS = "SurvivalKit_Alchemy_Blueprints";
 
-        public const string ALIENSOIL_SUBTYPEID = "AlienSoil";
-        public static readonly UniqueEntityId ALIENSOIL_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), ALIENSOIL_SUBTYPEID);
-
-        public const string SOIL_SUBTYPEID = "Soil";
-        public static readonly UniqueEntityId SOIL_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), SOIL_SUBTYPEID);
-
-        public const string MOONSOIL_SUBTYPEID = "MoonSoil";
-        public static readonly UniqueEntityId MOONSOIL_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), MOONSOIL_SUBTYPEID);
-
-        public const string DESERTSOIL_SUBTYPEID = "DesertSoil";
-        public static readonly UniqueEntityId DESERTSOIL_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), DESERTSOIL_SUBTYPEID);
-
-        public const string TOXICICE_SUBTYPEID = "ToxicIce";
-        public static readonly UniqueEntityId TOXICICE_ID = new UniqueEntityId(typeof(MyObjectBuilder_Component), TOXICICE_SUBTYPEID);
-
-        public const string ICE_SUBTYPEID = "Ice";
-        public static readonly UniqueEntityId ICE_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), ICE_SUBTYPEID);
-
         public const string THERMALGAS_SUBTYPEID = "ThermalGas";
         public static readonly UniqueEntityId THERMALGAS_ID = new UniqueEntityId(typeof(MyObjectBuilder_GasProperties), THERMALGAS_SUBTYPEID);
-
-        public const string FLASK_SMALL_SUBTYPEID = "Flask_Small";
-        public static readonly UniqueEntityId FLASK_SMALL_ID = new UniqueEntityId(typeof(MyObjectBuilder_PhysicalObject), FLASK_SMALL_SUBTYPEID);
-
-        public const string FLASK_MEDIUM_SUBTYPEID = "Flask_Medium";
-        public static readonly UniqueEntityId FLASK_MEDIUM_ID = new UniqueEntityId(typeof(MyObjectBuilder_PhysicalObject), FLASK_MEDIUM_SUBTYPEID);
-
-        public const string FLASK_BIG_SUBTYPEID = "Flask_Big";
-        public static readonly UniqueEntityId FLASK_BIG_ID = new UniqueEntityId(typeof(MyObjectBuilder_PhysicalObject), FLASK_BIG_SUBTYPEID);
-
-        public const string WATER_FLASK_SMALL_SUBTYPEID = "Water_Flask_Small";
-        public static readonly UniqueEntityId WATER_FLASK_SMALL_ID = new UniqueEntityId(typeof(MyObjectBuilder_ConsumableItem), WATER_FLASK_SMALL_SUBTYPEID);
-
-        public const string WATER_FLASK_MEDIUM_SUBTYPEID = "Water_Flask_Medium";
-        public static readonly UniqueEntityId WATER_FLASK_MEDIUM_ID = new UniqueEntityId(typeof(MyObjectBuilder_ConsumableItem), WATER_FLASK_MEDIUM_SUBTYPEID);
-
-        public const string WATER_FLASK_BIG_SUBTYPEID = "Water_Flask_Big";
-        public static readonly UniqueEntityId WATER_FLASK_BIG_ID = new UniqueEntityId(typeof(MyObjectBuilder_ConsumableItem), WATER_FLASK_BIG_SUBTYPEID);
 
         public const string WOODLOG_SUBTYPEID = "Wood";
         public static readonly UniqueEntityId WOODLOG_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), WOODLOG_SUBTYPEID);

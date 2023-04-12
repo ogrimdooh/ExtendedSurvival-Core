@@ -373,11 +373,17 @@ namespace ExtendedSurvival.Core
             if (!definitionsChecked)
             {
 
+                definitionsChecked = true;
+
                 PlanetsOverride.SetDefinitions();
                 VoxelMaterialsOverride.SetDefinitions();
                 AssemblerOverride.TryOverride();
 
-                definitionsChecked = true;
+                RecipientConstants.TryOverrideDefinitions();
+                OreConstants.TryOverrideDefinitions();
+                IngotsConstants.TryOverrideDefinitions();
+                FactionTypeConstants.TryOverrideDefinitions();
+
             }
         }
 

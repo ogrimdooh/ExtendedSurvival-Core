@@ -191,6 +191,7 @@ namespace ExtendedSurvival.Core
         {
             ["VerifyVersion"] = new Func<int, string, bool>(VerifyVersion),
             ["AddInventoryObserver"] = new Func<IMyEntity, int, Guid>(AddInventoryObserver),
+            ["GetInventoryObserver"] = new Func<IMyEntity, int, Guid>(GetInventoryObserver),
             ["AddItemCategory"] = new Action<string>(AddItemCategory),
             ["AddDefinitionToCategory"] = new Action<MyDefinitionId, string>(AddDefinitionToCategory),
             ["AddItemExtraInfo"] = new Action<string>(AddItemExtraInfo),
@@ -249,6 +250,19 @@ namespace ExtendedSurvival.Core
                 ExtendedSurvivalEntityManager.ExtraStartLoot.Add(id, ammount);
             else
                 ExtendedSurvivalEntityManager.ExtraStartLoot[id] += ammount;
+        }
+
+        public static Guid GetInventoryObserver(IMyEntity entity, int index)
+        {
+            if (entity != null)
+            {
+                var observer = MyInventoryObserverProgressController.Get(entity.EntityId, index);
+                if (observer != null)
+                {
+                    return observer.ObserverId.ToGuid();
+                }
+            }
+            return Guid.Empty;
         }
 
         public static Guid AddInventoryObserver(IMyEntity entity, int index)

@@ -207,6 +207,7 @@ namespace ExtendedSurvival.Core
 
         private static Func<int, string, bool> _VerifyVersion;
         private static Func<IMyEntity, int, Guid> _AddInventoryObserver;
+        private static Func<IMyEntity, int, Guid> _GetInventoryObserver;
         private static Action<Guid> _DisposeInventoryObserver;
         private static Action<string> _AddItemCategory;
         private static Action<MyDefinitionId, string> _AddDefinitionToCategory;
@@ -250,6 +251,15 @@ namespace ExtendedSurvival.Core
         public static Guid AddInventoryObserver(IMyEntity entity, int index)
         {
             var observerId = _AddInventoryObserver?.Invoke(entity, index);
+            return observerId.HasValue ? observerId.Value : Guid.Empty;
+        }
+
+        /// <summary>
+        /// Returns the state by Block EntityId
+        /// </summary>
+        public static Guid GetInventoryObserver(IMyEntity entity, int index)
+        {
+            var observerId = _GetInventoryObserver?.Invoke(entity, index);
             return observerId.HasValue ? observerId.Value : Guid.Empty;
         }
 
@@ -632,6 +642,7 @@ namespace ExtendedSurvival.Core
                     try
                     {
                         _AddInventoryObserver = (Func<IMyEntity, int, Guid>)ModAPIMethods["AddInventoryObserver"];
+                        _GetInventoryObserver = (Func<IMyEntity, int, Guid>)ModAPIMethods["GetInventoryObserver"];
                         _AddItemCategory = (Action<string>)ModAPIMethods["AddItemCategory"];
                         _AddDefinitionToCategory = (Action<MyDefinitionId, string>)ModAPIMethods["AddDefinitionToCategory"];
                         _AddItemExtraInfo = (Action<string>)ModAPIMethods["AddItemExtraInfo"];

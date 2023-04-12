@@ -30,6 +30,11 @@ namespace ExtendedSurvival.Core
 
         public static MyInventoryObserverProgressController Instance { get; private set; }
 
+        public static MyInventoryObserver Get(long entityId, int index)
+        {
+            return MyInventoryObservers.Values.FirstOrDefault(x => x.OwnerEntity.EntityId == entityId && x.Inventory.InventoryIdx == index);
+        }
+
         public static MyInventoryObserver GetById(UInt128 uuid)
         {
             if (MyInventoryObservers.ContainsKey(uuid))

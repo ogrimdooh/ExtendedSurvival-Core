@@ -789,7 +789,7 @@ namespace ExtendedSurvival.Core
                     foreach (var source in allSources)
                     {
                         var conveyorSource = (source.FatBlock as IMyCargoContainer);
-                        if (conveyorOutput.GetInventory().CanTransferItemTo(conveyorSource.GetInventory(), ItensConstants.ICE_ID.DefinitionId))
+                        if (conveyorOutput.GetInventory().CanTransferItemTo(conveyorSource.GetInventory(), OreConstants.ICE_ID.DefinitionId))
                             connections.Add(source.FatBlock.EntityId);
                     }
                     _thermalConnections[output.FatBlock.EntityId] = connections.ToArray();
