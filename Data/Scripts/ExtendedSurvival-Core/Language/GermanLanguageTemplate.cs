@@ -129,6 +129,30 @@ namespace ExtendedSurvival.Core
 			#endregion
 			#region RECIPIENTS
 			AddEntry(
+				LanguageEntries.FLASK_SMALL_NAME,
+				"Kleine Flasche"
+			);
+			AddEntry(
+				LanguageEntries.FLASK_SMALL_DESCRIPTION,
+				"Eine kleine Flasche."
+			);
+			AddEntry(
+				LanguageEntries.FLASK_MEDIUM_NAME,
+				"Mittlere Flasche"
+			);
+			AddEntry(
+				LanguageEntries.FLASK_MEDIUM_DESCRIPTION,
+				"Eine mittlere Flasche."
+			);
+			AddEntry(
+				LanguageEntries.FLASK_BIG_NAME,
+				"Große Flasche"
+			);
+			AddEntry(
+				LanguageEntries.FLASK_BIG_DESCRIPTION,
+				"Eine große Flasche."
+			);
+			AddEntry(
 				LanguageEntries.WATER_FLASK_SMALL_NAME,
 				"Kleine Wasserflasche"
 			);
@@ -151,6 +175,22 @@ namespace ExtendedSurvival.Core
 			AddEntry(
 				LanguageEntries.WATER_FLASK_BIG_DESCRIPTION,
 				"Eine große Flasche mit Wasser."
+			);
+			AddEntry(
+				LanguageEntries.POLIETILENOGLICOL_NAME,
+				"Polietilenoglicol"
+			);
+			AddEntry(
+				LanguageEntries.POLIETILENOGLICOL_DESCRIPTION,
+				"Synthetischer Polyether, hydrophil und biokompatibel."
+			);
+			AddEntry(
+				LanguageEntries.SILVERSULFADIAZINE_NAME,
+				"Silber Sulfadiazin"
+			);
+			AddEntry(
+				LanguageEntries.SILVERSULFADIAZINE_DESCRIPTION,
+				"Verbindung auf Silberbasis für medizinische Zwecke."
 			);
 			#endregion
 		}

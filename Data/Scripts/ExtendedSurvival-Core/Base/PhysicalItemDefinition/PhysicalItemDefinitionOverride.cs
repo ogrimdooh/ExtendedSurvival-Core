@@ -8,11 +8,11 @@ namespace ExtendedSurvival.Core
     public static class PhysicalItemDefinitionOverride
     {
 
-        public static void TryOverrideDefinitions<T, K>(Dictionary<UniqueEntityId, T> definitions, Action<T, K> onEndDefinition = null) where T : SimpleDefinition where K : MyPhysicalItemDefinition
+        public static void TryOverrideDefinitions<T, K>(Dictionary<UniqueEntityId, T> definitions, UniqueEntityId targetFactionId, Action<T, K> onEndDefinition = null) where T : SimpleDefinition where K : MyPhysicalItemDefinition
         {
             try
             {
-                var targetFaction = FactionTypeConstants.FACTION_TYPES_DEFINITIONS[FactionTypeConstants.TRADER_ID];
+                var targetFaction = FactionTypeConstants.FACTION_TYPES_DEFINITIONS[targetFactionId];
                 // Override medical definition
                 foreach (var definition in definitions.Keys)
                 {

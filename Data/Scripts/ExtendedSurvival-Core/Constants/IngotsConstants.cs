@@ -28,7 +28,7 @@ namespace ExtendedSurvival.Core
             Name = LanguageProvider.GetEntry(LanguageEntries.SOIL_NAME),
             Description = LanguageProvider.GetEntry(LanguageEntries.SOIL_DESCRIPTION),
             CanPlayerOrder = true,
-            MinimalPricePerUnit = 2,
+            MinimalPricePerUnit = 25,
             OfferAmount = new Vector2I(10000, 30000),
             OrderAmount = new Vector2I(2500, 7500),
             AcquisitionAmount = new Vector2I(5000, 15000),
@@ -42,7 +42,7 @@ namespace ExtendedSurvival.Core
             Name = LanguageProvider.GetEntry(LanguageEntries.SAND_NAME),
             Description = LanguageProvider.GetEntry(LanguageEntries.SAND_DESCRIPTION),
             CanPlayerOrder = true,
-            MinimalPricePerUnit = 4,
+            MinimalPricePerUnit = 50,
             OfferAmount = new Vector2I(10000, 30000),
             OrderAmount = new Vector2I(2500, 7500),
             AcquisitionAmount = new Vector2I(5000, 15000),
@@ -56,7 +56,6 @@ namespace ExtendedSurvival.Core
             Name = LanguageProvider.GetEntry(LanguageEntries.CARBON_NAME),
             Description = LanguageProvider.GetEntry(LanguageEntries.CARBON_DESCRIPTION),
             CanPlayerOrder = true,
-            MinimalPricePerUnit = 16,
             OfferAmount = new Vector2I(1000, 3000),
             OrderAmount = new Vector2I(250, 750),
             AcquisitionAmount = new Vector2I(500, 1500),
@@ -70,7 +69,6 @@ namespace ExtendedSurvival.Core
             Name = LanguageProvider.GetEntry(LanguageEntries.SILVERPOWDER_NAME),
             Description = LanguageProvider.GetEntry(LanguageEntries.SILVERPOWDER_DESCRIPTION),
             CanPlayerOrder = true,
-            MinimalPricePerUnit = 32,
             OfferAmount = new Vector2I(100, 300),
             OrderAmount = new Vector2I(25, 75),
             AcquisitionAmount = new Vector2I(50, 150),
@@ -88,7 +86,7 @@ namespace ExtendedSurvival.Core
 
         public static void TryOverrideDefinitions()
         {
-            PhysicalItemDefinitionOverride.TryOverrideDefinitions<IngotDefinition, MyPhysicalItemDefinition>(INGOTS_DEFINITIONS);
+            PhysicalItemDefinitionOverride.TryOverrideDefinitions<IngotDefinition, MyPhysicalItemDefinition>(INGOTS_DEFINITIONS, FactionTypeConstants.MINER_ID);
         }
 
     }
