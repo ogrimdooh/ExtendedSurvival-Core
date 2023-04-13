@@ -29,6 +29,21 @@
         public const string STONEICE_DESCRIPTION = "STONEICE_DESCRIPTION";
         public const string TOXICICE_NAME = "TOXICICE_NAME";
         public const string TOXICICE_DESCRIPTION = "TOXICICE_DESCRIPTION";
+        public const string WOOD_NAME = "WOOD_NAME";
+        public const string WOOD_DESCRIPTION = "WOOD_DESCRIPTION";
+        public const string TWIG_NAME = "TWIG_NAME";
+        public const string TWIG_DESCRIPTION = "TWIG_DESCRIPTION";
+        public const string SAWDUST_NAME = "SAWDUST_NAME";
+        public const string SAWDUST_DESCRIPTION = "SAWDUST_DESCRIPTION";
+        public const string LEAF_NAME = "LEAF_NAME";
+        public const string LEAF_DESCRIPTION = "LEAF_DESCRIPTION";
+        public const string BRANCH_NAME = "BRANCH_NAME";
+        public const string BRANCH_DESCRIPTION = "BRANCH_DESCRIPTION";
+        public const string SAWDUSTTOCARBONPOWDER_NAME = "SAWDUSTTOCARBONPOWDER_NAME";
+        public const string LEAFTOORGANIC_NAME = "LEAFTOORGANIC_NAME";
+        public const string BRANCHTOSAWDUST_NAME = "BRANCHTOSAWDUST_NAME";
+        public const string TWIGTOSAWDUST_NAME = "TWIGTOSAWDUST_NAME";
+        public const string WOODLOGTOSAWDUST_NAME = "WOODLOGTOSAWDUST_NAME";
 
         /* Ingots */
 

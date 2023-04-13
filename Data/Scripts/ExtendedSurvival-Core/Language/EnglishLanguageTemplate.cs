@@ -126,6 +126,66 @@ namespace ExtendedSurvival.Core
 				LanguageEntries.TOXICICE_DESCRIPTION,
 				"Ice contaminated with organic substances."
 			);
+			AddEntry(
+				LanguageEntries.WOOD_NAME,
+				"Wood Log"
+			);
+			AddEntry(
+				LanguageEntries.WOOD_DESCRIPTION,
+				"It is a simple source of energy and the base material for many other resources."
+			);
+			AddEntry(
+				LanguageEntries.TWIG_NAME,
+				"Twig"
+			);
+			AddEntry(
+				LanguageEntries.TWIG_DESCRIPTION,
+				"Can be used to obtain sawdust."
+			);
+			AddEntry(
+				LanguageEntries.SAWDUST_NAME,
+				"Sawdust"
+			);
+			AddEntry(
+				LanguageEntries.SAWDUST_DESCRIPTION,
+				"Can be used for carbon and latex production."
+			);
+			AddEntry(
+				LanguageEntries.LEAF_NAME,
+				"Leaf"
+			);
+			AddEntry(
+				LanguageEntries.LEAF_DESCRIPTION,
+				"Can be used to obtain organic."
+			);
+			AddEntry(
+				LanguageEntries.BRANCH_NAME,
+				"Branch"
+			);
+			AddEntry(
+				LanguageEntries.BRANCH_DESCRIPTION,
+				"Can be used to obtain sawdust."
+			);
+			AddEntry(
+				LanguageEntries.SAWDUSTTOCARBONPOWDER_NAME,
+				"Carbon Powder From Sawdust"
+			);
+			AddEntry(
+				LanguageEntries.LEAFTOORGANIC_NAME,
+				"Organic From Leaf"
+			);
+			AddEntry(
+				LanguageEntries.BRANCHTOSAWDUST_NAME,
+				"Sawdust From Branch"
+			);
+			AddEntry(
+				LanguageEntries.TWIGTOSAWDUST_NAME,
+				"Sawdust From Twig"
+			);
+			AddEntry(
+				LanguageEntries.WOODLOGTOSAWDUST_NAME,
+				"Sawdust From Wood Log"
+			);
 			#endregion
 			#region RECIPIENTS
 			AddEntry(

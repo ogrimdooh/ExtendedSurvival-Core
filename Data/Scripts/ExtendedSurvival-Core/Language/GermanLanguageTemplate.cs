@@ -126,6 +126,66 @@ namespace ExtendedSurvival.Core
 				LanguageEntries.TOXICICE_DESCRIPTION,
 				"Mit organischen Stoffen kontaminiertes Eis."
 			);
+			AddEntry(
+				LanguageEntries.WOOD_NAME,
+				"Holzstamm"
+			);
+			AddEntry(
+				LanguageEntries.WOOD_DESCRIPTION,
+				"Es ist eine einfache Energiequelle und der Grundstoff für viele andere Ressourcen."
+			);
+			AddEntry(
+				LanguageEntries.TWIG_NAME,
+				"Kleiner Zweig"
+			);
+			AddEntry(
+				LanguageEntries.TWIG_DESCRIPTION,
+				"Kann verwendet werden, um Sägemehl zu erhalten."
+			);
+			AddEntry(
+				LanguageEntries.SAWDUST_NAME,
+				"Sägespäne"
+			);
+			AddEntry(
+				LanguageEntries.SAWDUST_DESCRIPTION,
+				"Kann für die Kohlenstoff- und Latexherstellung verwendet werden."
+			);
+			AddEntry(
+				LanguageEntries.LEAF_NAME,
+				"Blatt"
+			);
+			AddEntry(
+				LanguageEntries.LEAF_DESCRIPTION,
+				"Kann verwendet werden, um Bio zu erhalten."
+			);
+			AddEntry(
+				LanguageEntries.BRANCH_NAME,
+				"Zweig"
+			);
+			AddEntry(
+				LanguageEntries.BRANCH_DESCRIPTION,
+				"Kann verwendet werden, um Sägemehl zu erhalten."
+			);
+			AddEntry(
+				LanguageEntries.SAWDUSTTOCARBONPOWDER_NAME,
+				"Kohlepulver aus Sägemehl"
+			);
+			AddEntry(
+				LanguageEntries.LEAFTOORGANIC_NAME,
+				"Organisch vom Blatt"
+			);
+			AddEntry(
+				LanguageEntries.BRANCHTOSAWDUST_NAME,
+				"Sägemehl vom Zweig"
+			);
+			AddEntry(
+				LanguageEntries.TWIGTOSAWDUST_NAME,
+				"Sägemehl von Kleiner Zweig"
+			);
+			AddEntry(
+				LanguageEntries.WOODLOGTOSAWDUST_NAME,
+				"Sägemehl aus Holzscheit"
+			);
 			#endregion
 			#region RECIPIENTS
 			AddEntry(
