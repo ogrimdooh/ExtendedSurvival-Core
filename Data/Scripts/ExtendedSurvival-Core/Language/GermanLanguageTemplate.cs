@@ -25,6 +25,40 @@ namespace ExtendedSurvival.Core
 			);
 			#endregion
 			#region CUBE_BLOCKS
+			AddEntry(
+				LanguageEntries.CUBEBLOCK_ALCHEMYBENCH_BASIC,
+				"Grundlabor"
+			);
+			AddEntry(
+				LanguageEntries.CUBEBLOCK_ALCHEMYBENCH,
+				"Labor"
+			);
+			AddEntry(
+				LanguageEntries.CUBEBLOCK_ALCHEMYBENCH_INDUSTRIAL,
+				"Industrielles Labor"
+			);
+			AddEntry(
+				LanguageEntries.CUBEBLOCK_ALCHEMYBENCH_DESCRIPTION,
+				"Laborblöcke sind dafür verantwortlich, Substanzen und Erze zu kombinieren, " + Environment.NewLine +
+				"um Medikamente, Metalllegierungen und Munition herzustellen."
+			);
+			AddEntry(
+				LanguageEntries.CUBEBLOCK_GRINDER_BASIC,
+				"Grundlegende Mühle"
+			);
+			AddEntry(
+				LanguageEntries.CUBEBLOCK_GRINDER,
+				"Schleifer"
+			);
+			AddEntry(
+				LanguageEntries.CUBEBLOCK_GRINDER_INDUSTRIAL,
+				"Industrieller Schleifer"
+			);
+			AddEntry(
+				LanguageEntries.CUBEBLOCK_GRINDER_DESCRIPTION,
+				"Grinder Blocks sind für den Abbau von Erzen und das Recycling " + Environment.NewLine +
+				"von Komponenten verantwortlich."
+			);
 
 			#endregion
 			#region INGOTS
@@ -42,7 +76,8 @@ namespace ExtendedSurvival.Core
 			);
 			AddEntry(
 				LanguageEntries.SAND_DESCRIPTION,
-				"Feiner, sauberer Sand kann zur Herstellung von Glas verwendet werden."
+				"Feiner, sauberer Sand kann zur Herstellung von Glas verwendet " + Environment.NewLine +
+				"werden."
 			);
 			AddEntry(
 				LanguageEntries.CARBON_NAME,
@@ -50,7 +85,8 @@ namespace ExtendedSurvival.Core
 			);
 			AddEntry(
 				LanguageEntries.CARBON_DESCRIPTION,
-				"Es kann bei der Herstellung von Metalllegierungen, Munition und Komponenten verwendet werden."
+				"Es kann bei der Herstellung von Metalllegierungen, Munition und " + Environment.NewLine +
+				"Komponenten verwendet werden."
 			);
 			AddEntry(
 				LanguageEntries.SILVERPOWDER_NAME,
@@ -58,7 +94,8 @@ namespace ExtendedSurvival.Core
 			);
 			AddEntry(
 				LanguageEntries.SILVERPOWDER_DESCRIPTION,
-				"Es kann zur Herstellung von Medikamenten und Gesundheitsartikeln verwendet werden."
+				"Es kann zur Herstellung von Medikamenten und Gesundheitsartikeln " + Environment.NewLine +
+				"verwendet werden."
 			);
 			#endregion
 			#region ORES
@@ -100,7 +137,8 @@ namespace ExtendedSurvival.Core
 			);
 			AddEntry(
 				LanguageEntries.ORGANIC_DESCRIPTION,
-				"Es kann bei der Herstellung von Biokraftstoffen und mit großer Anwendung in der Landwirtschaft verwendet werden."
+				"Es kann bei der Herstellung von Biokraftstoffen und mit großer " + Environment.NewLine +
+				"Anwendung in der Landwirtschaft verwendet werden."
 			);
 			AddEntry(
 				LanguageEntries.ICE_NAME,
@@ -132,7 +170,8 @@ namespace ExtendedSurvival.Core
 			);
 			AddEntry(
 				LanguageEntries.WOOD_DESCRIPTION,
-				"Es ist eine einfache Energiequelle und der Grundstoff für viele andere Ressourcen."
+				"Es ist eine einfache Energiequelle und der Grundstoff für " + Environment.NewLine +
+				"viele andere Ressourcen."
 			);
 			AddEntry(
 				LanguageEntries.TWIG_NAME,
@@ -148,7 +187,8 @@ namespace ExtendedSurvival.Core
 			);
 			AddEntry(
 				LanguageEntries.SAWDUST_DESCRIPTION,
-				"Kann für die Kohlenstoff- und Latexherstellung verwendet werden."
+				"Kann für die Kohlenstoff- und Latexherstellung verwendet " + Environment.NewLine +
+				"werden."
 			);
 			AddEntry(
 				LanguageEntries.LEAF_NAME,

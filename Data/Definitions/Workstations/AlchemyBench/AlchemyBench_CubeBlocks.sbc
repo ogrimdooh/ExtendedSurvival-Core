@@ -7,7 +7,7 @@
         <SubtypeId>AlchemyBench</SubtypeId>
       </Id>
       <DisplayName>Laboratory</DisplayName>
-      <Icon>Textures\GUI\Icons\Cubes\assembler.dds</Icon>
+      <Icon>Textures\GUI\Icons\cubes\Laboratory.dds</Icon>
       <Description></Description>
       <CubeSize>Large</CubeSize>
       <GuiVisible>false</GuiVisible>
@@ -76,7 +76,7 @@
         <SubtypeId>AlchemyBenchIndustrial</SubtypeId>
       </Id>
       <DisplayName>Industrial Alchemy Bench</DisplayName>
-      <Icon>Textures\GUI\Icons\Cubes\AdvancedAssemblerIndustrial.dds</Icon>
+      <Icon>Textures\GUI\Icons\cubes\IndustrialLaboratory.dds</Icon>
       <Description></Description>
       <CubeSize>Large</CubeSize>
       <GuiVisible>false</GuiVisible>

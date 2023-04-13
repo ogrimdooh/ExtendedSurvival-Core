@@ -378,7 +378,7 @@ namespace ExtendedSurvival.Core
                 PlanetsOverride.SetDefinitions();
                 VoxelMaterialsOverride.SetDefinitions();
                 AssemblerOverride.TryOverride();
-
+                DescriptionBlocksOverride.TryOverride();
                 RecipientConstants.TryOverrideDefinitions();
                 OreConstants.TryOverrideDefinitions();
                 IngotsConstants.TryOverrideDefinitions();

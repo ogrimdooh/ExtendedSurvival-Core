@@ -7,7 +7,7 @@
         <SubtypeId>BasicAlchemyBench</SubtypeId>
       </Id>
       <DisplayName>Basic Laboratory</DisplayName>
-      <Icon>Textures\GUI\Icons\Cubes\basicAssembler.dds</Icon>
+      <Icon>Textures\GUI\Icons\cubes\BasicLaboratory.dds</Icon>
       <Description></Description>
       <CubeSize>Large</CubeSize>
       <GuiVisible>false</GuiVisible>

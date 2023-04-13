@@ -7,7 +7,7 @@
         <SubtypeId>Grinder</SubtypeId>
       </Id>
       <DisplayName>Grinder</DisplayName>
-      <Icon>Textures\GUI\Icons\Cubes\assembler.dds</Icon>
+      <Icon>Textures\GUI\Icons\cubes\Grinder.dds</Icon>
       <Description></Description>
       <CubeSize>Large</CubeSize>
       <GuiVisible>false</GuiVisible>
@@ -75,7 +75,7 @@
         <SubtypeId>GrinderIndustrial</SubtypeId>
       </Id>
       <DisplayName>Industrial Grinder</DisplayName>
-      <Icon>Textures\GUI\Icons\Cubes\AdvancedAssemblerIndustrial.dds</Icon>
+      <Icon>Textures\GUI\Icons\cubes\IndustrialGrinder.dds</Icon>
       <Description></Description>
       <CubeSize>Large</CubeSize>
       <GuiVisible>false</GuiVisible>

@@ -25,6 +25,40 @@ namespace ExtendedSurvival.Core
 			);
 			#endregion
 			#region CUBE_BLOCKS
+			AddEntry(
+				LanguageEntries.CUBEBLOCK_ALCHEMYBENCH_BASIC,
+				"Basic Laboratory"
+			);
+			AddEntry(
+				LanguageEntries.CUBEBLOCK_ALCHEMYBENCH,
+				"Laboratory"
+			);
+			AddEntry(
+				LanguageEntries.CUBEBLOCK_ALCHEMYBENCH_INDUSTRIAL,
+				"Industrial Laboratory"
+			);
+			AddEntry(
+				LanguageEntries.CUBEBLOCK_ALCHEMYBENCH_DESCRIPTION,
+				"Laboratory blocks are responsible for combining substances and " + Environment.NewLine +
+				"ores to produce medicines, metal alloys and ammunition."
+			);
+			AddEntry(
+				LanguageEntries.CUBEBLOCK_GRINDER_BASIC,
+				"Basic Grinder"
+			);
+			AddEntry(
+				LanguageEntries.CUBEBLOCK_GRINDER,
+				"Grinder"
+			);
+			AddEntry(
+				LanguageEntries.CUBEBLOCK_GRINDER_INDUSTRIAL,
+				"Industrial Grinder"
+			);
+			AddEntry(
+				LanguageEntries.CUBEBLOCK_GRINDER_DESCRIPTION,
+				"Grinder blocks are responsible for deconstructing ores and " + Environment.NewLine +
+				"recycling components."
+			);
 
 			#endregion
 			#region INGOTS
@@ -50,7 +84,8 @@ namespace ExtendedSurvival.Core
 			);
 			AddEntry(
 				LanguageEntries.CARBON_DESCRIPTION,
-				"It can be used in the manufacture of metal alloys, ammunition and components."
+				"It can be used in the manufacture of metal alloys, " + Environment.NewLine +
+				"ammunition and components."
 			);
 			AddEntry(
 				LanguageEntries.SILVERPOWDER_NAME,
@@ -58,7 +93,8 @@ namespace ExtendedSurvival.Core
 			);
 			AddEntry(
 				LanguageEntries.SILVERPOWDER_DESCRIPTION,
-				"It can be used in manufacturing medicine and health items."
+				"It can be used in manufacturing medicine and health " + Environment.NewLine +
+				"items."
 			);
 			#endregion
 			#region ORES
@@ -100,7 +136,8 @@ namespace ExtendedSurvival.Core
 			);
 			AddEntry(
 				LanguageEntries.ORGANIC_DESCRIPTION,
-				"It can be used in the manufacture of biofuels and with great application in agriculture."
+				"It can be used in the manufacture of biofuels and " + Environment.NewLine +
+				"with great application in agriculture."
 			);
 			AddEntry(
 				LanguageEntries.ICE_NAME,
@@ -132,7 +169,8 @@ namespace ExtendedSurvival.Core
 			);
 			AddEntry(
 				LanguageEntries.WOOD_DESCRIPTION,
-				"It is a simple source of energy and the base material for many other resources."
+				"It is a simple source of energy and the base material " + Environment.NewLine +
+				"for many other resources."
 			);
 			AddEntry(
 				LanguageEntries.TWIG_NAME,

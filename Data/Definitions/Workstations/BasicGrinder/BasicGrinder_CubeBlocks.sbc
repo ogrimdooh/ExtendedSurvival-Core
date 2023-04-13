@@ -7,7 +7,7 @@
         <SubtypeId>BasicGrinder</SubtypeId>
       </Id>
       <DisplayName>Basic Grinder</DisplayName>
-      <Icon>Textures\GUI\Icons\Cubes\basicAssembler.dds</Icon>
+      <Icon>Textures\GUI\Icons\cubes\BasicGrinder.dds</Icon>
       <Description></Description>
       <CubeSize>Large</CubeSize>
       <GuiVisible>false</GuiVisible>

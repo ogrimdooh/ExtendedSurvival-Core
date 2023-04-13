@@ -5,7 +5,7 @@
     <BlockVariantGroup>
       <Id Type="MyObjectBuilder_BlockVariantGroup" Subtype="AlchemyBenchGroup" />
       <DisplayName>Alchemy Bench Blocks</DisplayName>
-      <Icon>Textures\GUI\Icons\Cubes\basicAssembler.dds</Icon>
+      <Icon>Textures\GUI\Icons\cubes\BasicLaboratory.dds</Icon>
       <Description></Description>
       <Blocks>
         <Block Type="MyObjectBuilder_Assembler" Subtype="BasicAlchemyBench" />
@@ -17,7 +17,7 @@
     <BlockVariantGroup>
       <Id Type="MyObjectBuilder_BlockVariantGroup" Subtype="GrinderGroup" />
       <DisplayName>Grinder Blocks</DisplayName>
-      <Icon>Textures\GUI\Icons\Cubes\basicAssembler.dds</Icon>
+      <Icon>Textures\GUI\Icons\cubes\BasicGrinder.dds</Icon>
       <Description></Description>
       <Blocks>
         <Block Type="MyObjectBuilder_Assembler" Subtype="BasicGrinder" />
