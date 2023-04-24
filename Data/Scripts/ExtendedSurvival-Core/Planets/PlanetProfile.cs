@@ -122,7 +122,7 @@ namespace ExtendedSurvival.Core
         public WaterInfo Water { get; set; }
         public List<OreMapInfo> Ores { get; set; } = new List<OreMapInfo>();
         public string TargetColor { get; set; }
-        public float ColorInfluence { get; set; }
+        public Vector2I ColorInfluence { get; set; } = Vector2I.Zero;
         public int Version { get; set; }
         public int MaxGroupSize { get; set; } = 0;
         public int StartBreak { get; set; } = 0;
@@ -185,13 +185,25 @@ namespace ExtendedSurvival.Core
                 return new GeothermalSetting() { Enabled = false };
         }
 
-        private List<PlanetOreMapEntrySetting> BuildOresMappings(int seed, float multiplier)
+        private List<PlanetOreMapEntrySetting> BuildOresMappings(int seed, float multiplier, float deep, string[] addOres = null, string[] removeOres = null)
         {
             Random rand = new Random(seed);
             var map = new List<PlanetOreMapEntrySetting>();
-            if (Ores.Any())
+            var calcOres = Ores.ToList();
+            if (removeOres != null && removeOres.Length > 0)
             {
-                var finalores = Ores.Select(x => new OreMapInfo() { ammount = Math.Max((int)(x.ammount * multiplier), 1), type = x.type, start = x.start, depth = x.depth }).ToArray();
+                calcOres.RemoveAll(x => removeOres.Contains(x.type));
+            }
+            if (addOres != null && addOres.Length > 0)
+            {
+                foreach (var ore in addOres)
+                {
+                    calcOres.Add(PlanetMapProfile.GetOreMap(ore));
+                }
+            }
+            if (calcOres.Any())
+            {
+                var finalores = calcOres.Select(x => new OreMapInfo() { ammount = Math.Max((int)(x.ammount * multiplier), 1), type = x.type, start = x.start, depth = x.depth }).ToArray();
                 var totalEntries = (byte)Math.Min(finalores.Sum(x => x.ammount), 255);
                 byte intervalo = (byte)(255 / totalEntries);
                 byte value = 0;
@@ -217,9 +229,9 @@ namespace ExtendedSurvival.Core
                     {
                         Value = value,
                         Type = type,
-                        Start = rand.Next(info.start.X, info.start.Y),
-                        Depth = rand.Next(info.depth.X, info.depth.Y),
-                        ColorInfluence = ColorInfluence,
+                        Start = new Vector2I(info.start.X, info.start.Y).GetRandom() * deep,
+                        Depth = new Vector2I(info.depth.X, info.depth.Y).GetRandom() * deep,
+                        ColorInfluence = ColorInfluence.GetRandom(),
                         TargetColor = TargetColor
                     });
                     if (oresKeys.Count == 0)
@@ -249,38 +261,20 @@ namespace ExtendedSurvival.Core
         public PlanetSetting UpgradeSettings(PlanetSetting settings)
         {
             if (settings != null)
-            {
-                if (settings.Version < 6)
+            {                
+                if (settings.Version <= 8)
                 {
-                    settings.RespawnEnabled = RespawnEnabled;
-                }
-                if (settings.Version < 7)
-                {
-                    if (Origin == PlanetOrigin.OtherMod && ATAMapProfile.ATA_MOD_IDS.Contains(OriginId))
-                    {
-                        settings = BuildSettings(settings.Id, settings.Seed, settings.Multiplier);
-                    }
-                    else
-                    {
-                        settings.RespawnEnabled = RespawnEnabled;
-                        settings.Type = (int)Type;
-                        settings.SizeRange = new DocumentedVector2(SizeRange.X, SizeRange.Y, PlanetSetting.SIZERANGE_INFO);
-                        settings.Atmosphere = BuildAtmosphereSetting();
-                        settings.Gravity = BuildGravitySetting();
-                        settings.Water = BuildWaterSetting();
-                    }
-                }
-                if (settings.Version < 8)
-                {
-                    settings.SizeRange = new DocumentedVector2(SizeRange.X, SizeRange.Y, PlanetSetting.SIZERANGE_INFO);
+                    settings = BuildSettings(settings.Id, settings.Seed, settings.Multiplier, settings.DeepMultiplier, settings.AddedOres?.Split(','), settings.RemovedOres?.Split(','));
                 }
                 settings.Version = Version;
             }
             return settings;
         }
 
-        public PlanetSetting BuildSettings(string id, int seed, float multiplier)
+        public PlanetSetting BuildSettings(string id, int seed, float multiplier, float deep, string[] addOres = null, string[] removeOres = null)
         {
+            var validOresToAdd = PlanetMapProfile.FilterValidOres(addOres);
+            var validOresToRemove = PlanetMapProfile.FilterValidOres(removeOres);
             return new PlanetSetting()
             {
                 Id = id,
@@ -288,6 +282,9 @@ namespace ExtendedSurvival.Core
                 RespawnEnabled = RespawnEnabled,
                 Seed = seed,
                 Multiplier = multiplier,
+                DeepMultiplier = deep,
+                AddedOres = string.Join(",", validOresToAdd),
+                RemovedOres = string.Join(",", validOresToRemove),
                 Version = Version,
                 Type = (int)Type,
                 SizeRange = new DocumentedVector2(SizeRange.X, SizeRange.Y, PlanetSetting.SIZERANGE_INFO),
@@ -313,7 +310,7 @@ namespace ExtendedSurvival.Core
                         WaveCount = Animal.night.waveCount
                     }
                 },
-                OreMap = BuildOresMappings(seed, multiplier)
+                OreMap = BuildOresMappings(seed, multiplier, deep, PlanetMapProfile.GetValidOreKeys(validOresToAdd), PlanetMapProfile.GetValidOreKeys(validOresToRemove))
             };
         }
 

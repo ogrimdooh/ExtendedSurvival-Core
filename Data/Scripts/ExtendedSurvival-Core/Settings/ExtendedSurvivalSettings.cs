@@ -165,27 +165,68 @@ namespace ExtendedSurvival.Core
             else if (generateWhenNotExists)
             {
                 if (!IgnorePlanets.Split(';').Contains(id.ToUpper()))
-                    return GeneratePlanetInfo(id, MyUtils.GetRandomInt(10000000, int.MaxValue), 1.0f, id.ToUpper(), true);
+                    return GeneratePlanetInfo(id, MyUtils.GetRandomInt(10000000, int.MaxValue), 1.0f, 1.0f, id.ToUpper(), true);
             }
             return null;
         }
 
-        public PlanetSetting GeneratePlanetInfo(string id, int seed, float multiplier, string profile, bool force = false, bool generateAll = true)
+        [Flags]
+        public enum GenerateFlags
+        {
+
+            None = 0,
+            Atmosphere = 1 << 1,
+            Geothermal = 1 << 2,
+            Gravity = 1 << 3,
+            Water = 1 << 4,
+            Animal = 1 << 5,
+            OreMap = 1 << 6,
+            All = Atmosphere | Geothermal | Gravity | Water | Animal | OreMap
+
+        }
+
+        public PlanetSetting GeneratePlanetInfo(string id, int seed, float multiplier, float deep, string profile, bool force = false, GenerateFlags replaceFlag = GenerateFlags.All, string[] addOres = null, string[] removeOres = null)
         {
             if (!HasPlanetInfo(id) || force)
             {
-                var settings = PlanetMapProfile.Get(profile).BuildSettings(id, seed, multiplier);
+                var settings = PlanetMapProfile.Get(profile).BuildSettings(id, seed, multiplier, deep, addOres, removeOres);
                 if (HasPlanetInfo(id))
                 {
-                    if (!generateAll)
+                    var atSet = Planets.FirstOrDefault(x => x.Id.ToUpper().Trim() == id.ToUpper().Trim());
+                    if ((GenerateFlags.Atmosphere & replaceFlag) != 0)
                     {
-                        var atSet = Planets.FirstOrDefault(x => x.Id.ToUpper().Trim() == id.ToUpper().Trim());
-                        settings.Animal = atSet.Animal;
-                        settings.Geothermal = atSet.Geothermal;
+                        atSet.Atmosphere = settings.Atmosphere;
                     }
-                    Planets.RemoveAll(x => x.Id.ToUpper().Trim() == id.ToUpper().Trim());
+                    if ((GenerateFlags.Geothermal & replaceFlag) != 0)
+                    {
+                        atSet.Geothermal = settings.Geothermal;
+                    }
+                    if ((GenerateFlags.Gravity & replaceFlag) != 0)
+                    {
+                        atSet.Gravity = settings.Gravity;
+                    }
+                    if ((GenerateFlags.Animal & replaceFlag) != 0)
+                    {
+                        atSet.Animal = settings.Animal;
+                    }
+                    if ((GenerateFlags.Water & replaceFlag) != 0)
+                    {
+                        atSet.Water = settings.Water;
+                    }
+                    if ((GenerateFlags.OreMap & replaceFlag) != 0)
+                    {
+                        atSet.Seed = settings.Seed;
+                        atSet.Multiplier = settings.Multiplier;
+                        atSet.DeepMultiplier = settings.DeepMultiplier;
+                        atSet.AddedOres = settings.AddedOres;
+                        atSet.RemovedOres = settings.RemovedOres;
+                        atSet.OreMap = settings.OreMap;
+                    }
                 }
-                Planets.Add(settings);
+                else
+                {
+                    Planets.Add(settings);
+                }
                 return settings;
             }
             return GetPlanetInfo(id, false);
@@ -255,7 +296,10 @@ namespace ExtendedSurvival.Core
                     case "generate":
                         int seed = MyUtils.GetRandomInt(10000000, int.MaxValue);
                         float multiplier = 1.0f;
+                        float deep = 1.0f;
                         string profile = planet.ToUpper();
+                        string[] addOres = new string[0];
+                        string[] removeOres = new string[0];
                         foreach (var item in options)
                         {
                             if (item.Contains("="))
@@ -279,14 +323,27 @@ namespace ExtendedSurvival.Core
                                                 multiplier = infomultiplier;
                                             }
                                             break;
+                                        case "deep":
+                                            float infodeep;
+                                            if (float.TryParse(parts[1], out infodeep))
+                                            {
+                                                deep = infodeep;
+                                            }
+                                            break;
                                         case "profile":
                                             profile = parts[1].ToUpper().Trim();
+                                            break;
+                                        case "add":
+                                            addOres = parts[1].ToUpper().Split(',');
+                                            break;
+                                        case "remove":
+                                            removeOres = parts[1].ToUpper().Split(',');
                                             break;
                                     }
                                 }
                             }
                         }
-                        GeneratePlanetInfo(info.Id, seed, multiplier, profile, true, false);
+                        GeneratePlanetInfo(info.Id, seed, multiplier, deep, profile, true, GenerateFlags.OreMap, addOres, removeOres);
                         return true;
                 }
             }

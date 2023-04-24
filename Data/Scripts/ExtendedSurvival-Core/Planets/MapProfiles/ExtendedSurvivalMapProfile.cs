@@ -22,19 +22,23 @@ namespace ExtendedSurvival.Core
                 new string[]
                 {
                     PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01
+                    PlanetMapProfile.Nickel_01,
+                    PlanetMapProfile.Zinc_01
                 },
                 new string[]
                 {
                     PlanetMapProfile.Copper_01,
-                    PlanetMapProfile.Sulfor_01
+                    PlanetMapProfile.Sulfur_01
                 },
                 new string[]
                 {
                     PlanetMapProfile.Potassium_01,
                     PlanetMapProfile.Uraninite_01
                 },
-                null
+                new string[]
+                {
+                    PlanetMapProfile.Iridium_01
+                }
             ) :
             PlanetMapProfile.BuildOreMap(
                 new string[]
@@ -73,7 +77,10 @@ namespace ExtendedSurvival.Core
                 {
                     PlanetMapProfile.Lithium_01
                 },
-                null
+                new string[]
+                {
+                    PlanetMapProfile.Mercury_01
+                }
             ) :
             PlanetMapProfile.BuildOreMap(
                 new string[]
@@ -111,7 +118,10 @@ namespace ExtendedSurvival.Core
                 {
                     PlanetMapProfile.Magnesium_01
                 },
-                null
+                new string[]
+                {
+                    PlanetMapProfile.Beryllium_01
+                }
             ) :
             PlanetMapProfile.BuildOreMap(
                 new string[]
@@ -143,13 +153,16 @@ namespace ExtendedSurvival.Core
                 new string[]
                 {
                     PlanetMapProfile.Lead_01,
-                    PlanetMapProfile.Sulfor_01
+                    PlanetMapProfile.Sulfur_01
                 },
                 new string[]
                 {
                     PlanetMapProfile.Cobalt_01
                 },
-                null
+                new string[]
+                {
+                    PlanetMapProfile.Tungsten_01
+                }
             ) :
             PlanetMapProfile.BuildOreMap(
                 new string[]
@@ -178,20 +191,25 @@ namespace ExtendedSurvival.Core
                     PlanetMapProfile.Nickel_01,
                     PlanetMapProfile.Aluminum_01,
                     PlanetMapProfile.Copper_01,
-                    PlanetMapProfile.Silicon_01
+                    PlanetMapProfile.Silicon_01,
+                    PlanetMapProfile.Zinc_01
                 },
                 new string[]
                 {
-                    PlanetMapProfile.Lead_01,
-                    PlanetMapProfile.Sulfor_01,
+                    PlanetMapProfile.Sulfur_01,
                     PlanetMapProfile.Carbon_01
                 },
                 new string[]
                 {
-                    PlanetMapProfile.Potassium_01,
+                    PlanetMapProfile.Lead_01,
+                    PlanetMapProfile.Potassium_01
+                },
+                new string[]
+                {
                     PlanetMapProfile.Cobalt_01
                 },
-                null
+                multiplierCommon: 0.5f,
+                multiplierLegendary: 1.25f
             ) :
             PlanetMapProfile.BuildOreMap(
                 new string[]
@@ -223,7 +241,7 @@ namespace ExtendedSurvival.Core
                 new string[]
                 {
                     PlanetMapProfile.Lead_01,
-                    PlanetMapProfile.Sulfor_01,
+                    PlanetMapProfile.Sulfur_01,
                     PlanetMapProfile.Carbon_01
                 },
                 new string[]
@@ -231,7 +249,11 @@ namespace ExtendedSurvival.Core
                     PlanetMapProfile.Platinum_01,
                     PlanetMapProfile.Uraninite_01
                 },
-                null
+                new string[]
+                {
+                    PlanetMapProfile.Titanium_01,
+                    PlanetMapProfile.Plutonium_01
+                }
             ) :
             PlanetMapProfile.BuildOreMap(
                 new string[]
@@ -269,7 +291,10 @@ namespace ExtendedSurvival.Core
                 {
                     PlanetMapProfile.Lithium_01
                 },
-                null
+                new string[]
+                {
+                    PlanetMapProfile.Mercury_01
+                }
             ) :
             PlanetMapProfile.BuildOreMap(
                 new string[]
@@ -307,7 +332,10 @@ namespace ExtendedSurvival.Core
                 {
                     PlanetMapProfile.Lithium_01
                 },
-                null
+                new string[]
+                {
+                    PlanetMapProfile.Mercury_01
+                }
             ) :
             PlanetMapProfile.BuildOreMap(
                 new string[]
@@ -334,7 +362,7 @@ namespace ExtendedSurvival.Core
             Origin = PlanetProfile.PlanetOrigin.ExtendedSurvival,
             Version = PlanetMapProfile.PROFILE_VERSION,
             RespawnEnabled = false,
-            ColorInfluence = 100,
+            ColorInfluence = new Vector2I(0, 100),
             TargetColor = "#abab9a",
             Animal = PlanetMapAnimalsProfile.DEFAULT_SPIDERS_01,
             Geothermal = PlanetMapProfile.GetGeothermal(true, depthMultiplier: 1.5f, rowSizeMultiplier: 1.25f, powerMultiplier: 0.5f),
@@ -354,7 +382,7 @@ namespace ExtendedSurvival.Core
             Origin = PlanetProfile.PlanetOrigin.ExtendedSurvival,
             Version = PlanetMapProfile.PROFILE_VERSION,
             RespawnEnabled = false,
-            ColorInfluence = 15,
+            ColorInfluence = new Vector2I(0, 15),
             TargetColor = "#616c83",
             Animal = PlanetMapAnimalsProfile.DEFAULT_NO_ANIMALS,
             Geothermal = PlanetMapProfile.GetGeothermal(false),

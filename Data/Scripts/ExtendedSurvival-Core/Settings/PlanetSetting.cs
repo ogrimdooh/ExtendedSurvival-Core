@@ -32,7 +32,16 @@ namespace ExtendedSurvival.Core
         public float Multiplier { get; set; } = 1.0f;
 
         [XmlElement]
+        public float DeepMultiplier { get; set; } = 1.0f;
+
+        [XmlElement]
         public int Type { get; set; } = 0;
+
+        [XmlElement]
+        public string AddedOres { get; set; }
+
+        [XmlElement]
+        public string RemovedOres { get; set; }
 
         [XmlElement]
         public DocumentedVector2 SizeRange { get; set; } = new DocumentedVector2(0, 0, SIZERANGE_INFO);

@@ -127,20 +127,34 @@ namespace ExtendedSurvival.Core
         public const string Aluminum_01 = "Aluminum_01";
         public const string Copper_01 = "Copper_01";
         public const string Lead_01 = "Lead_01";
-        public const string Sulfor_01 = "Sulfor_01";
+        public const string Sulfur_01 = "Sulfur_01";
         public const string Carbon_01 = "Carbon_01";
         public const string Potassium_01 = "Potassium_01";
         public const string Lithium_01 = "Lithium_01";
+        public const string Zinc_01 = "Zinc_01";
+        public const string Iridium_01 = "Iridium_01";
+        public const string Titanium_01 = "Titanium_01";
+        public const string Mercury_01 = "Mercury_01";
+        public const string Beryllium_01 = "Beryllium_01";
+        public const string Tungsten_01 = "Tungsten_01";
+        public const string Plutonium_01 = "Plutonium_01";
 
         public static readonly string[] ESTechnologyVoxels = new string[]
         {
             Aluminum_01,
             Copper_01,
             Lead_01,
-            Sulfor_01,
+            Sulfur_01,
             Carbon_01,
             Potassium_01,
-            Lithium_01
+            Lithium_01,
+            Zinc_01,
+            Iridium_01,
+            Titanium_01,
+            Mercury_01,
+            Beryllium_01,
+            Tungsten_01,
+            Plutonium_01
         };
 
         public const float VERYCOMMON_RATIO = 3;
@@ -149,6 +163,7 @@ namespace ExtendedSurvival.Core
         public const float RARE_RATIO = 1;
         public const float LEGENDARY_RATIO = 0.75f;
         public const float EPIC_RATIO = 0.5f;
+        public const float DIVINE_RATIO = 0.25f;
 
         public const int VERYCOMMON_SPAWN = 10;
         public const int COMMON_SPAWN = 7;
@@ -313,6 +328,15 @@ namespace ExtendedSurvival.Core
             AsteroidSpawnProbabilityMultiplier = COMMON_SPAWN
         };
 
+        private static readonly VoxelMaterialProfile ZINC_VOXEL_MATERIAL = new VoxelMaterialProfile()
+        {
+            Version = 1,
+            MinedOreRatio = COMMON_RATIO,
+            SpawnsFromMeteorites = true,
+            SpawnsInAsteroids = true,
+            AsteroidSpawnProbabilityMultiplier = COMMON_SPAWN
+        };
+
         private static readonly VoxelMaterialProfile COPPER_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
             Version = 1,
@@ -331,7 +355,7 @@ namespace ExtendedSurvival.Core
             AsteroidSpawnProbabilityMultiplier = EPIC_SPAWN
         };
 
-        private static readonly VoxelMaterialProfile SULFOR_VOXEL_MATERIAL = new VoxelMaterialProfile()
+        private static readonly VoxelMaterialProfile SULFUR_VOXEL_MATERIAL = new VoxelMaterialProfile()
         {
             Version = 1,
             MinedOreRatio = RARE_RATIO,
@@ -367,6 +391,60 @@ namespace ExtendedSurvival.Core
             AsteroidSpawnProbabilityMultiplier = EPIC_SPAWN
         };
 
+        private static readonly VoxelMaterialProfile MERCURY_VOXEL_MATERIAL = new VoxelMaterialProfile()
+        {
+            Version = 1,
+            MinedOreRatio = DIVINE_RATIO,
+            SpawnsFromMeteorites = false,
+            SpawnsInAsteroids = false,
+            AsteroidSpawnProbabilityMultiplier = EPIC_SPAWN
+        };
+
+        private static readonly VoxelMaterialProfile PLUTONIUM_VOXEL_MATERIAL = new VoxelMaterialProfile()
+        {
+            Version = 1,
+            MinedOreRatio = DIVINE_RATIO,
+            SpawnsFromMeteorites = false,
+            SpawnsInAsteroids = false,
+            AsteroidSpawnProbabilityMultiplier = EPIC_SPAWN
+        };
+
+        private static readonly VoxelMaterialProfile TITANIUM_VOXEL_MATERIAL = new VoxelMaterialProfile()
+        {
+            Version = 1,
+            MinedOreRatio = EPIC_RATIO,
+            SpawnsFromMeteorites = false,
+            SpawnsInAsteroids = false,
+            AsteroidSpawnProbabilityMultiplier = EPIC_SPAWN
+        };
+
+        private static readonly VoxelMaterialProfile TUNGSTEN_VOXEL_MATERIAL = new VoxelMaterialProfile()
+        {
+            Version = 1,
+            MinedOreRatio = LEGENDARY_RATIO,
+            SpawnsFromMeteorites = false,
+            SpawnsInAsteroids = false,
+            AsteroidSpawnProbabilityMultiplier = EPIC_SPAWN
+        };
+
+        private static readonly VoxelMaterialProfile IRIDIUM_VOXEL_MATERIAL = new VoxelMaterialProfile()
+        {
+            Version = 1,
+            MinedOreRatio = LEGENDARY_RATIO,
+            SpawnsFromMeteorites = false,
+            SpawnsInAsteroids = false,
+            AsteroidSpawnProbabilityMultiplier = EPIC_SPAWN
+        };
+
+        private static readonly VoxelMaterialProfile BERYLLIUM_VOXEL_MATERIAL = new VoxelMaterialProfile()
+        {
+            Version = 1,
+            MinedOreRatio = EPIC_RATIO,
+            SpawnsFromMeteorites = false,
+            SpawnsInAsteroids = false,
+            AsteroidSpawnProbabilityMultiplier = EPIC_SPAWN
+        };
+
         private static readonly Dictionary<string, VoxelMaterialProfile> PROFILES = new Dictionary<string, VoxelMaterialProfile>()
         {
             { Iron_01.ToUpper(), IRON_VOXEL_MATERIAL },
@@ -395,10 +473,17 @@ namespace ExtendedSurvival.Core
             { Aluminum_01.ToUpper(), ALUMINUM_VOXEL_MATERIAL },
             { Copper_01.ToUpper(), COPPER_VOXEL_MATERIAL },
             { Lead_01.ToUpper(), LEAD_VOXEL_MATERIAL },
-            { Sulfor_01.ToUpper(), SULFOR_VOXEL_MATERIAL },
+            { Sulfur_01.ToUpper(), SULFUR_VOXEL_MATERIAL },
             { Carbon_01.ToUpper(), CARBON_VOXEL_MATERIAL },
             { Potassium_01.ToUpper(), POTASSIUM_VOXEL_MATERIAL },
-            { Lithium_01.ToUpper(), LITHIUM_VOXEL_MATERIAL }
+            { Lithium_01.ToUpper(), LITHIUM_VOXEL_MATERIAL },
+            { Zinc_01.ToUpper(), ZINC_VOXEL_MATERIAL },
+            { Iridium_01.ToUpper(), IRIDIUM_VOXEL_MATERIAL },
+            { Titanium_01.ToUpper(), TITANIUM_VOXEL_MATERIAL },
+            { Mercury_01.ToUpper(), MERCURY_VOXEL_MATERIAL },
+            { Beryllium_01.ToUpper(), BERYLLIUM_VOXEL_MATERIAL },
+            { Tungsten_01.ToUpper(), TUNGSTEN_VOXEL_MATERIAL },
+            { Plutonium_01.ToUpper(), PLUTONIUM_VOXEL_MATERIAL }
         };
 
         private static readonly List<string> ValidVoxels = new List<string>()
@@ -429,10 +514,17 @@ namespace ExtendedSurvival.Core
             Aluminum_01,
             Copper_01,
             Lead_01,
-            Sulfor_01,
+            Sulfur_01,
             Carbon_01,
             Potassium_01,
-            Lithium_01
+            Lithium_01,
+            Zinc_01,
+            Iridium_01,
+            Titanium_01,
+            Mercury_01,
+            Beryllium_01,
+            Tungsten_01,
+            Plutonium_01
         };
 
         public static string[] GetNames()
