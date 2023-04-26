@@ -118,9 +118,11 @@ namespace ExtendedSurvival.Core
             {
                 try
                 {
-                    var id = new UniqueEntityId(typeof(MyObjectBuilder_OxygenGenerator), "WaterSolidificator");
-                    if (_blocksById.ContainsKey(id))
-                        return _blocksById[id];
+                    var type = typeof(MyObjectBuilder_OxygenGenerator);
+                    var id = new UniqueEntityId(type, "WaterSolidificator");
+                    var id2 = new UniqueEntityId(type, "LargeWaterSolidificator");
+                    if (_blocksById.ContainsKey(id) || _blocksById.ContainsKey(id2))
+                        return _blocksByType[type].Where(x => x.BlockDefinition.Id.SubtypeName == "WaterSolidificator" || x.BlockDefinition.Id.SubtypeName == "LargeWaterSolidificator").ToList();
                 }
                 catch (KeyNotFoundException)
                 {
