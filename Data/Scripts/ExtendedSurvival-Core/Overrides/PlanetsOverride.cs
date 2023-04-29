@@ -120,17 +120,26 @@ namespace ExtendedSurvival.Core
             // Override Start Ships
             var validShips = ExtendedSurvivalCoreSession.IsUsingTechnology() ? TECH_VALID_RESPAWN_SHIPS : VALID_RESPAWN_SHIPS;
             var planetShip = MyDefinitionManager.Static.GetRespawnShipDefinition(RespawnPlanetPod);
-            planetShip.Prefab = MyDefinitionManager.Static.GetPrefabDefinition(validShips[0]);
-            planetShip.PlanetTypes = respawnPlanets.ToArray();
-            planetShip.Postprocess();
+            if (planetShip != null)
+            {
+                planetShip.Prefab = MyDefinitionManager.Static.GetPrefabDefinition(validShips[0]);
+                planetShip.PlanetTypes = respawnPlanets.ToArray();
+                planetShip.Postprocess();
+            }
             var moonShip = MyDefinitionManager.Static.GetRespawnShipDefinition(RespawnMoonPod);
-            moonShip.Prefab = MyDefinitionManager.Static.GetPrefabDefinition(validShips[1]);
-            moonShip.PlanetTypes = respawnPlanets.ToArray();
-            moonShip.Postprocess();
+            if (moonShip != null)
+            {
+                moonShip.Prefab = MyDefinitionManager.Static.GetPrefabDefinition(validShips[1]);
+                moonShip.PlanetTypes = respawnPlanets.ToArray();
+                moonShip.Postprocess();
+            }
             var spaceShip = MyDefinitionManager.Static.GetRespawnShipDefinition(RespawnSpacePod);
-            spaceShip.Prefab = MyDefinitionManager.Static.GetPrefabDefinition(validShips[2]);
-            spaceShip.UseForSpace = ExtendedSurvivalSettings.Instance.RespawnSpacePodEnabled;
-            spaceShip.Postprocess();
+            if (spaceShip != null)
+            {
+                spaceShip.Prefab = MyDefinitionManager.Static.GetPrefabDefinition(validShips[2]);
+                spaceShip.UseForSpace = ExtendedSurvivalSettings.Instance.RespawnSpacePodEnabled;
+                spaceShip.Postprocess();
+            }
             // Check star system saved info
             var defaultStarProfiles = StarSystemMapProfile.Keys();
             foreach (var starProfileKey in defaultStarProfiles)

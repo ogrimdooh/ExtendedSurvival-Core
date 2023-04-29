@@ -42,7 +42,7 @@ namespace ExtendedSurvival.Core
                 {
                     PlanetMapProfile.Cobalt_01
                 },
-                multiplierCommon: 0.5f,
+                multiplierCommon: 0.75f,
                 multiplierLegendary: 1.25f
             ) :
             PlanetMapProfile.BuildOreMap(
