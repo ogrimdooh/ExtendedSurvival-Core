@@ -42,7 +42,7 @@ namespace ExtendedSurvival.Core
                 {
                     PlanetMapProfile.Cobalt_01
                 },
-                multiplierCommon: 0.75f,
+                multiplierCommon: 0.5f,
                 multiplierLegendary: 1.25f
             ) :
             PlanetMapProfile.BuildOreMap(
@@ -377,7 +377,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(true, 1.03f, -0.4f, 0, 0),
             SizeRange = new Vector2(55, 75),
             Type = PlanetProfile.PlanetType.Planet,
-            MaxGroupSize = 4,
+            MaxGroupSize = 2,
             StartBreak = 6,
             Ores = EARTHLIKE_ORES
         };
@@ -397,7 +397,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(true, 1.03f, 0.4f, 0.5f, 0.25f),
             SizeRange = new Vector2(50, 70),
             Type = PlanetProfile.PlanetType.Planet,
-            MaxGroupSize = 4,
+            MaxGroupSize = 2,
             StartBreak = 3,
             Ores = ALIEN_ORES
         };
@@ -417,7 +417,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(45, 55),
             Type = PlanetProfile.PlanetType.Planet,
-            MaxGroupSize = 4,
+            MaxGroupSize = 2,
             StartBreak = 4,
             Ores = MARS_ORES
         };
@@ -437,7 +437,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(65, 85),
             Type = PlanetProfile.PlanetType.Planet,
-            MaxGroupSize = 4,
+            MaxGroupSize = 2,
             StartBreak = 3,
             Ores = PERTAM_ORES
         };
@@ -455,7 +455,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(55, 65),
             Type = PlanetProfile.PlanetType.Planet,
-            MaxGroupSize = 4,
+            MaxGroupSize = 2,
             StartBreak = 3,
             Ores = TRITON_ORES
         };
@@ -477,7 +477,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(30, 50),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 4,
+            MaxGroupSize = 2,
             StartBreak = 3,
             Ores = MOON_ORES
         };
@@ -497,7 +497,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(25, 45),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 4,
+            MaxGroupSize = 2,
             StartBreak = 2,
             Ores = EUROPA_ORES
         };
@@ -517,7 +517,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(30, 40),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 4,
+            MaxGroupSize = 2,
             StartBreak = 2,
             Ores = TITAN_ORES
         };

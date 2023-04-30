@@ -49,6 +49,9 @@ namespace ExtendedSurvival.Core
         [XmlElement]
         public bool AutoGenerateStarSystemGps { get; set; } = true;
 
+        [XmlElement]
+        public int DropContainerDeployHeight { get; set; } = 1000;
+
         [XmlArray("Planets"), XmlArrayItem("Planet", typeof(PlanetSetting))]
         public List<PlanetSetting> Planets { get; set; } = new List<PlanetSetting>();
 
@@ -525,6 +528,14 @@ namespace ExtendedSurvival.Core
                         return true;
                     }
                     break;
+                case "dropcontainerdeployheight":
+                    int dropcontainerdeployheight;
+                    if (int.TryParse(value, out dropcontainerdeployheight))
+                    {
+                        DropContainerDeployHeight = Math.Min(Math.Max(dropcontainerdeployheight, 200), 2000);
+                        return true;
+                    }
+                    break;                    
             }
             return false;
         }

@@ -15,7 +15,7 @@ namespace ExtendedSurvival.Core
 
         }
 
-        public const int PROFILE_VERSION = 9;
+        public const int PROFILE_VERSION = 10;
 
         public const ulong EARTHLIKE_ANIMALS_MODID = 2170447225;
 

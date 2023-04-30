@@ -383,6 +383,7 @@ namespace ExtendedSurvival.Core
                 OreConstants.TryOverrideDefinitions();
                 IngotsConstants.TryOverrideDefinitions();
                 FactionTypeConstants.TryOverrideDefinitions();
+                DropContainersOverride.TryOverride();
 
             }
         }

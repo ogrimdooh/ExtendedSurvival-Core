@@ -30,8 +30,8 @@ namespace ExtendedSurvival.Core
 
         private List<IMySlimBlock> _allBlocks;
 
-        private ConcurrentDictionary<MyObjectBuilderType, List<IMySlimBlock>> _blocksByType;
-        private ConcurrentDictionary<UniqueEntityId, List<IMySlimBlock>> _blocksById;
+        public ConcurrentDictionary<MyObjectBuilderType, List<IMySlimBlock>> _blocksByType { get; private set; }
+        public ConcurrentDictionary<UniqueEntityId, List<IMySlimBlock>> _blocksById { get; private set; }
 
         private ConcurrentDictionary<long, ThermalSourceBlock> _thermalSources = new ConcurrentDictionary<long, ThermalSourceBlock>();
         private ConcurrentDictionary<long, ThermalOutputBlock> _thermalOutputs = new ConcurrentDictionary<long, ThermalOutputBlock>();

@@ -265,6 +265,10 @@ namespace ExtendedSurvival.Core
                 if (settings.Version <= 8)
                 {
                     settings = BuildSettings(settings.Id, settings.Seed, settings.Multiplier, settings.DeepMultiplier, settings.AddedOres?.Split(','), settings.RemovedOres?.Split(','));
+                } else if (settings.Version <= 9)
+                {
+                    var tmpSettings = BuildSettings(settings.Id, settings.Seed, settings.Multiplier, settings.DeepMultiplier, settings.AddedOres?.Split(','), settings.RemovedOres?.Split(','));
+                    settings.OreMap = tmpSettings.OreMap;
                 }
                 settings.Version = Version;
             }

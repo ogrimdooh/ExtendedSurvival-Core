@@ -46,6 +46,9 @@ namespace ExtendedSurvival.Core
         public const string SEMIAUTOPISTOLITEM_SUBTYPEID = "SemiAutoPistolItem";
         public static readonly UniqueEntityId SEMIAUTOPISTOLITEM_ID = new UniqueEntityId(typeof(MyObjectBuilder_PhysicalGunObject), SEMIAUTOPISTOLITEM_SUBTYPEID);
 
+        public const string CANVAS_SUBTYPEID = "Canvas";
+        public static readonly UniqueEntityId CANVAS_ID = new UniqueEntityId(typeof(MyObjectBuilder_Component), CANVAS_SUBTYPEID);
+
         private static ConcurrentDictionary<UniqueEntityId, MyObjectBuilder_Base> BUILDERS_CACHE = new ConcurrentDictionary<UniqueEntityId, MyObjectBuilder_Base>();
 
         public static T GetBuilder<T>(UniqueEntityId id, bool cache = true) where T : MyObjectBuilder_Base

@@ -14,6 +14,8 @@ using Sandbox.ModAPI.Weapons;
 using Sandbox.Game;
 using System.Text;
 using Sandbox.Game.GameSystems;
+using Sandbox.Common.ObjectBuilders;
+using Sandbox.Game.World;
 
 namespace ExtendedSurvival.Core
 {
@@ -153,12 +155,24 @@ namespace ExtendedSurvival.Core
 
         public void Players_PlayerConnected(long playerId)
         {
-            UpdatePlayerList();
+            var tempPlayers = new List<IMyPlayer>();
+            MyAPIGateway.Players.GetPlayers(tempPlayers, (p) => { return p.IdentityId == playerId; });
+            if (tempPlayers.Any())
+            {
+                if (tempPlayers[0].IsValidPlayer())
+                {
+
+                    Players[playerId] = tempPlayers[0];
+                }
+            }
         }
 
         public void Players_PlayerDisconnected(long playerId)
         {
-            UpdatePlayerList();
+            if (Players.ContainsKey(playerId))
+            {
+                Players.Remove(playerId);
+            }
         }
 
         public void UpdatePlayerList()
@@ -173,7 +187,9 @@ namespace ExtendedSurvival.Core
                     continue;
 
                 if (p.IsValidPlayer())
+                {
                     Players[p.IdentityId] = p;
+                }
             }
         }
 
@@ -249,34 +265,62 @@ namespace ExtendedSurvival.Core
                     {
                         Grids.Add(gridEntity);
                     }
-                    if (inicialLoadComplete && cubeGrid.IsRespawnGrid)
+                    if (inicialLoadComplete)
                     {
-                        var playerId = cubeGrid.BigOwners.FirstOrDefault();
-                        if (WaterModAPI.Registered)
+                        if (cubeGrid.IsRespawnGrid)
                         {
-                            // Maybe the wheels are gone xD hahaha
-                            gridEntity.NeedToRecreateWhells = true;
-                        }
-                        // Added extra start itens to main cargo
-                        if (ExtraStartLoot.Any())
-                        {
-                            var terminalSystem = MyAPIGateway.TerminalActionsHelper.GetTerminalSystemForGrid(cubeGrid);
-                            var cargoGroup = terminalSystem.GetBlockGroupWithName("Main Cargo");
-                            if (cargoGroup != null)
+                            var playerId = cubeGrid.BigOwners.FirstOrDefault();
+                            if (WaterModAPI.Registered)
                             {
-                                List<IMyTerminalBlock> blocks = new List<IMyTerminalBlock>();
-                                cargoGroup.GetBlocksOfType<IMyCargoContainer>(blocks);
-                                if (blocks.Any())
+                                // Maybe the wheels are gone xD hahaha
+                                gridEntity.NeedToRecreateWhells = true;
+                            }
+                            // Added extra start itens to main cargo
+                            if (ExtraStartLoot.Any())
+                            {
+                                var terminalSystem = MyAPIGateway.TerminalActionsHelper.GetTerminalSystemForGrid(cubeGrid);
+                                var cargoGroup = terminalSystem.GetBlockGroupWithName("Main Cargo");
+                                if (cargoGroup != null)
                                 {
-                                    var cargo = blocks.FirstOrDefault() as IMyCargoContainer;
-                                    if (cargo != null)
+                                    List<IMyTerminalBlock> blocks = new List<IMyTerminalBlock>();
+                                    cargoGroup.GetBlocksOfType<IMyCargoContainer>(blocks);
+                                    if (blocks.Any())
                                     {
-                                        var inventory = cargo.GetInventory();
-                                        if (inventory != null)
+                                        var cargo = blocks.FirstOrDefault() as IMyCargoContainer;
+                                        if (cargo != null)
                                         {
-                                            foreach (var item in ExtraStartLoot)
+                                            var inventory = cargo.GetInventory();
+                                            if (inventory != null)
                                             {
-                                                inventory.AddMaxItems(item.Value, ItensConstants.GetPhysicalObjectBuilder(item.Key));
+                                                foreach (var item in ExtraStartLoot)
+                                                {
+                                                    inventory.AddMaxItems(item.Value, ItensConstants.GetPhysicalObjectBuilder(item.Key));
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else if (DropContainersOverride.DropContainerPrefabs.Contains(gridEntity.Entity.DisplayName))
+                        {
+                            if (gridEntity._blocksByType.ContainsKey(typeof(MyObjectBuilder_Parachute)))
+                            {
+                                foreach (var parachuteBlock in gridEntity._blocksByType[typeof(MyObjectBuilder_Parachute)])
+                                {
+                                    var parachuteInventory = parachuteBlock.FatBlock?.GetInventory();
+                                    if (parachuteInventory != null)
+                                    {
+                                        var canvasAmount = parachuteInventory.GetItemAmount(ItensConstants.CANVAS_ID.DefinitionId);
+                                        if (canvasAmount == 0)
+                                        {
+                                            if (gridEntity.Entity.GridSizeEnum == MyCubeSize.Large)
+                                            {
+                                                parachuteInventory.AddMaxItems(5f, ItensConstants.GetPhysicalObjectBuilder(ItensConstants.CANVAS_ID));
+                                            }
+                                            else
+                                            {
+                                                parachuteInventory.AddMaxItems(1f, ItensConstants.GetPhysicalObjectBuilder(ItensConstants.CANVAS_ID));
                                             }
                                         }
                                     }

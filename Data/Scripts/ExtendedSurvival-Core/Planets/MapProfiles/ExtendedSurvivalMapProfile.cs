@@ -372,7 +372,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(55, 75),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 5,
+            MaxGroupSize = 2,
             StartBreak = 3,
             Ores = OI_ORES
         };
@@ -392,7 +392,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(25, 35),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 5,
+            MaxGroupSize = 2,
             StartBreak = 2,
             Ores = SPATAT_ORES
         };
@@ -410,8 +410,8 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(true, 1.0125f, -0.4f, 0.15f, 0.05f),
             SizeRange = new Vector2(50, 70),
             Type = PlanetProfile.PlanetType.Planet,
-            MaxGroupSize = 5,
-            StartBreak = 5,
+            MaxGroupSize = 2,
+            StartBreak = 3,
             Ores = ENITOR_ORES
         };
 
@@ -428,8 +428,8 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(60, 80),
             Type = PlanetProfile.PlanetType.Planet,
-            MaxGroupSize = 5,
-            StartBreak = 5,
+            MaxGroupSize = 2,
+            StartBreak = 3,
             Ores = EREMUS_NUBIS_ORES
         };
 
@@ -446,8 +446,8 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(true, 1.0135f, -0.4f, 0, 0),
             SizeRange = new Vector2(55, 75),
             Type = PlanetProfile.PlanetType.Planet,
-            MaxGroupSize = 5,
-            StartBreak = 5,
+            MaxGroupSize = 2,
+            StartBreak = 6,
             Ores = DOVER_ORES
         };
 
@@ -464,8 +464,8 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(100, 120),
             Type = PlanetProfile.PlanetType.Planet,
-            MaxGroupSize = 5,
-            StartBreak = 5,
+            MaxGroupSize = 2,
+            StartBreak = 3,
             Ores = TOTHT_ORES
         };
 
@@ -482,8 +482,8 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(25, 35),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 5,
-            StartBreak = 5,
+            MaxGroupSize = 2,
+            StartBreak = 2,
             Ores = GLEDIUS_NUBIS_ORES
         };
 
@@ -500,8 +500,8 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(45, 55),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 5,
-            StartBreak = 5,
+            MaxGroupSize = 2,
+            StartBreak = 2,
             Ores = CAPUTALIS_NUBIS_ORES
         };
 
