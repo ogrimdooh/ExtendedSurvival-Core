@@ -152,7 +152,7 @@ namespace ExtendedSurvival.Core
                         type = Iron_02,
                         start = new Vector2I(4, 20),
                         depth = new Vector2I(4, 10),
-                        ammount = COMMON_SPAWN
+                        rarity = PlanetProfile.OreRarity.Common
                     }
                 }
             },
@@ -166,7 +166,7 @@ namespace ExtendedSurvival.Core
                         type = Nickel_01,
                         start = new Vector2I(6, 30),
                         depth = new Vector2I(4, 10),
-                        ammount = UNCOMMON_SPAWN
+                        rarity = PlanetProfile.OreRarity.Common
                     }
                 }
             },
@@ -180,7 +180,7 @@ namespace ExtendedSurvival.Core
                         type = Silicon_01,
                         start = new Vector2I(8, 40),
                         depth = new Vector2I(6, 15),
-                        ammount = UNCOMMON_SPAWN
+                        rarity = PlanetProfile.OreRarity.Common
                     }
                 }
             },
@@ -194,7 +194,7 @@ namespace ExtendedSurvival.Core
                         type = Ice_01,
                         start = new Vector2I(10, 50),
                         depth = new Vector2I(8, 16),
-                        ammount = COMMON_SPAWN
+                        rarity = PlanetProfile.OreRarity.Common
                     }
                 }
             },
@@ -208,7 +208,7 @@ namespace ExtendedSurvival.Core
                         type = Cobalt_01,
                         start = new Vector2I(50, 100),
                         depth = new Vector2I(15, 30),
-                        ammount = RARE_SPAWN
+                        rarity = PlanetProfile.OreRarity.Rare
                     }
                 }
             },
@@ -222,7 +222,7 @@ namespace ExtendedSurvival.Core
                         type = Gold_01,
                         start = new Vector2I(30, 60),
                         depth = new Vector2I(10, 20),
-                        ammount = UNCOMMON_SPAWN
+                        rarity = PlanetProfile.OreRarity.Rare
                     }
                 }
             },
@@ -236,7 +236,7 @@ namespace ExtendedSurvival.Core
                         type = Silver_01,
                         start = new Vector2I(30, 60),
                         depth = new Vector2I(10, 20),
-                        ammount = UNCOMMON_SPAWN
+                        rarity = PlanetProfile.OreRarity.Rare
                     }
                 }
             },
@@ -250,7 +250,7 @@ namespace ExtendedSurvival.Core
                         type = Platinum_01,
                         start = new Vector2I(50, 100),
                         depth = new Vector2I(15, 30),
-                        ammount = RARE_SPAWN
+                        rarity = PlanetProfile.OreRarity.Rare
                     }
                 }
             },
@@ -264,7 +264,7 @@ namespace ExtendedSurvival.Core
                         type = Magnesium_01,
                         start = new Vector2I(50, 100),
                         depth = new Vector2I(15, 30),
-                        ammount = RARE_SPAWN
+                        rarity = PlanetProfile.OreRarity.Rare
                     }
                 }
             },
@@ -278,7 +278,7 @@ namespace ExtendedSurvival.Core
                         type = Uraninite_01,
                         start = new Vector2I(50, 100),
                         depth = new Vector2I(15, 30),
-                        ammount = RARE_SPAWN
+                        rarity = PlanetProfile.OreRarity.Rare
                     }
                 }
             },
@@ -293,7 +293,7 @@ namespace ExtendedSurvival.Core
                         type = StoneIce_01,
                         start = new Vector2I(10, 50),
                         depth = new Vector2I(8, 16),
-                        ammount = COMMON_SPAWN
+                        rarity = PlanetProfile.OreRarity.Common
                     }
                 }
             },
@@ -308,7 +308,7 @@ namespace ExtendedSurvival.Core
                         type = Aluminum_01,
                         start = new Vector2I(6, 30),
                         depth = new Vector2I(4, 10),
-                        ammount = UNCOMMON_SPAWN
+                        rarity = PlanetProfile.OreRarity.Common
                     }
                 }
             },
@@ -322,7 +322,7 @@ namespace ExtendedSurvival.Core
                         type = Copper_01,
                         start = new Vector2I(6, 30),
                         depth = new Vector2I(4, 10),
-                        ammount = UNCOMMON_SPAWN
+                        rarity = PlanetProfile.OreRarity.Common
                     }
                 }
             },
@@ -336,7 +336,7 @@ namespace ExtendedSurvival.Core
                         type = Lead_01,
                         start = new Vector2I(15, 50),
                         depth = new Vector2I(10, 25),
-                        ammount = RARE_SPAWN
+                        rarity = PlanetProfile.OreRarity.Uncommon
                     }
                 }
             },
@@ -350,7 +350,7 @@ namespace ExtendedSurvival.Core
                         type = Sulfur_01,
                         start = new Vector2I(15, 50),
                         depth = new Vector2I(10, 25),
-                        ammount = UNCOMMON_SPAWN
+                        rarity = PlanetProfile.OreRarity.Uncommon
                     }
                 }
             },
@@ -364,7 +364,7 @@ namespace ExtendedSurvival.Core
                         type = Carbon_01,
                         start = new Vector2I(15, 50),
                         depth = new Vector2I(10, 25),
-                        ammount = UNCOMMON_SPAWN
+                        rarity = PlanetProfile.OreRarity.Uncommon
                     }
                 }
             },
@@ -378,7 +378,7 @@ namespace ExtendedSurvival.Core
                         type = Potassium_01,
                         start = new Vector2I(20, 60),
                         depth = new Vector2I(10, 25),
-                        ammount = RARE_SPAWN
+                        rarity = PlanetProfile.OreRarity.Uncommon
                     }
                 }
             },
@@ -392,7 +392,7 @@ namespace ExtendedSurvival.Core
                         type = Lithium_01,
                         start = new Vector2I(50, 100),
                         depth = new Vector2I(15, 30),
-                        ammount = RARE_SPAWN
+                        rarity = PlanetProfile.OreRarity.Rare
                     }
                 }
             },
@@ -406,7 +406,7 @@ namespace ExtendedSurvival.Core
                         type = Zinc_01,
                         start = new Vector2I(6, 30),
                         depth = new Vector2I(4, 10),
-                        ammount = UNCOMMON_SPAWN
+                        rarity = PlanetProfile.OreRarity.Common
                     }
                 }
             },
@@ -420,7 +420,7 @@ namespace ExtendedSurvival.Core
                         type = Iridium_01,
                         start = new Vector2I(50, 100),
                         depth = new Vector2I(15, 30),
-                        ammount = RARE_SPAWN
+                        rarity = PlanetProfile.OreRarity.Epic
                     }
                 }
             },
@@ -434,7 +434,7 @@ namespace ExtendedSurvival.Core
                         type = Titanium_01,
                         start = new Vector2I(50, 100),
                         depth = new Vector2I(15, 30),
-                        ammount = RARE_SPAWN
+                        rarity = PlanetProfile.OreRarity.Epic
                     }
                 }
             },
@@ -448,7 +448,7 @@ namespace ExtendedSurvival.Core
                         type = Mercury_01,
                         start = new Vector2I(50, 100),
                         depth = new Vector2I(15, 30),
-                        ammount = RARE_SPAWN
+                        rarity = PlanetProfile.OreRarity.Epic
                     }
                 }
             },
@@ -462,7 +462,7 @@ namespace ExtendedSurvival.Core
                         type = Beryllium_01,
                         start = new Vector2I(50, 100),
                         depth = new Vector2I(15, 30),
-                        ammount = RARE_SPAWN
+                        rarity = PlanetProfile.OreRarity.Epic
                     }
                 }
             },
@@ -476,7 +476,7 @@ namespace ExtendedSurvival.Core
                         type = Tungsten_01,
                         start = new Vector2I(50, 100),
                         depth = new Vector2I(15, 30),
-                        ammount = RARE_SPAWN
+                        rarity = PlanetProfile.OreRarity.Epic
                     }
                 }
             },
@@ -490,7 +490,7 @@ namespace ExtendedSurvival.Core
                         type = Plutonium_01,
                         start = new Vector2I(50, 100),
                         depth = new Vector2I(15, 30),
-                        ammount = RARE_SPAWN
+                        rarity = PlanetProfile.OreRarity.Epic
                     }
                 }
             }
@@ -554,7 +554,7 @@ namespace ExtendedSurvival.Core
             };
         }
 
-        public static PlanetProfile.OreMapInfo GetOreMap(string type, float ammountMultiplier = 1f)
+        public static PlanetProfile.OreMapInfo GetOreMap(string type, PlanetProfile.OreRarity rarity = PlanetProfile.OreRarity.None)
         {
             OreType baseInfo = null;
             if (DEFAULT_ORE_INFO.ContainsKey(type))
@@ -566,39 +566,39 @@ namespace ExtendedSurvival.Core
                 type = baseInfo.DefaultInfo.type,
                 start = baseInfo.DefaultInfo.start,
                 depth = baseInfo.DefaultInfo.depth,
-                ammount = (int)(baseInfo.DefaultInfo.ammount * ammountMultiplier)
+                rarity = rarity == PlanetProfile.OreRarity.None ? baseInfo.DefaultInfo.rarity : rarity
             };
         }
-
-        public static List<PlanetProfile.OreMapInfo> BuildOreMap(string[] common, string[] uncommon, string[] rare, string[] legendary, float multiplierCommon = 1f, float multiplierUncommon = 1f, float multiplierRare = 1f, float multiplierLegendary = 1f)
+    
+        public static List<PlanetProfile.OreMapInfo> BuildOreMap(string[] common, string[] uncommon, string[] rare, string[] epic)
         {
             var retorno = new List<PlanetProfile.OreMapInfo>();
             if (common != null && common.Any())
             {
                 foreach (var item in common)
                 {
-                    retorno.Add(GetOreMap(item, COMMON_MULTIPLIER_SPAWN * multiplierCommon));
+                    retorno.Add(GetOreMap(item, PlanetProfile.OreRarity.Common));
                 }
             }
             if (uncommon != null && uncommon.Any())
             {
                 foreach (var item in uncommon)
                 {
-                    retorno.Add(GetOreMap(item, UNCOMMON_MULTIPLIER_SPAWN * multiplierUncommon));
+                    retorno.Add(GetOreMap(item, PlanetProfile.OreRarity.Uncommon));
                 }
             }
             if (rare != null && rare.Any())
             {
                 foreach (var item in rare)
                 {
-                    retorno.Add(GetOreMap(item, RARE_MULTIPLIER_SPAWN * multiplierRare));
+                    retorno.Add(GetOreMap(item, PlanetProfile.OreRarity.Rare));
                 }
             }
-            if (legendary != null && legendary.Any())
+            if (epic != null && epic.Any())
             {
-                foreach (var item in legendary)
+                foreach (var item in epic)
                 {
-                    retorno.Add(GetOreMap(item, LEGENDARY_MULTIPLIER_SPAWN * multiplierLegendary));
+                    retorno.Add(GetOreMap(item, PlanetProfile.OreRarity.Epic));
                 }
             }
             return retorno;
@@ -628,27 +628,28 @@ namespace ExtendedSurvival.Core
                     ExtendedSurvivalCoreSession.IsUsingTechnology() ?
                     new List<PlanetProfile.OreMapInfo>()
                     {
-                        GetOreMap(Iron_02, 4),
-                        GetOreMap(Nickel_01, 4),
-                        GetOreMap(Aluminum_01, 4),
-                        GetOreMap(Copper_01, 4),
-                        GetOreMap(Silicon_01, 4),
-                        GetOreMap(Lead_01, 3),
-                        GetOreMap(Sulfur_01, 3),
-                        GetOreMap(Carbon_01, 3),
-                        GetOreMap(Potassium_01, 2),
-                        GetOreMap(Cobalt_01, 2)
+                        GetOreMap(Iron_02),
+                        GetOreMap(Nickel_01),
+                        GetOreMap(Aluminum_01),
+                        GetOreMap(Copper_01),
+                        GetOreMap(Silicon_01),
+                        GetOreMap(Zinc_01),
+                        GetOreMap(Lead_01),
+                        GetOreMap(Sulfur_01),
+                        GetOreMap(Carbon_01),
+                        GetOreMap(Potassium_01),
+                        GetOreMap(Cobalt_01)
                     }
                     :
                     new List<PlanetProfile.OreMapInfo>()
                     {
-                        GetOreMap(Iron_02, 4),
-                        GetOreMap(Nickel_01, 4),
-                        GetOreMap(Silicon_01, 4),
-                        GetOreMap(Magnesium_01, 2),
-                        GetOreMap(Cobalt_01, 2),
-                        GetOreMap(Gold_01, 2),
-                        GetOreMap(Silver_01, 2)
+                        GetOreMap(Iron_02),
+                        GetOreMap(Nickel_01),
+                        GetOreMap(Silicon_01),
+                        GetOreMap(Magnesium_01),
+                        GetOreMap(Cobalt_01),
+                        GetOreMap(Gold_01),
+                        GetOreMap(Silver_01)
                     }
                 }
             },

@@ -207,9 +207,7 @@ namespace ExtendedSurvival.Core
                 new string[]
                 {
                     PlanetMapProfile.Cobalt_01
-                },
-                multiplierCommon: 0.5f,
-                multiplierLegendary: 1.25f
+                }
             ) :
             PlanetMapProfile.BuildOreMap(
                 new string[]
