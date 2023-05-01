@@ -122,6 +122,7 @@ namespace ExtendedSurvival.Core
             var planetShip = MyDefinitionManager.Static.GetRespawnShipDefinition(RespawnPlanetPod);
             if (planetShip != null)
             {
+                planetShip.PlanetDeployAltitude = ExtendedSurvivalSettings.Instance.PlanetDeployAltitude;
                 planetShip.Prefab = MyDefinitionManager.Static.GetPrefabDefinition(validShips[0]);
                 planetShip.PlanetTypes = respawnPlanets.ToArray();
                 planetShip.Postprocess();
@@ -129,6 +130,7 @@ namespace ExtendedSurvival.Core
             var moonShip = MyDefinitionManager.Static.GetRespawnShipDefinition(RespawnMoonPod);
             if (moonShip != null)
             {
+                moonShip.PlanetDeployAltitude = ExtendedSurvivalSettings.Instance.MoonDeployAltitude;
                 moonShip.Prefab = MyDefinitionManager.Static.GetPrefabDefinition(validShips[1]);
                 moonShip.PlanetTypes = respawnPlanets.ToArray();
                 moonShip.Postprocess();
