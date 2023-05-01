@@ -1,6 +1,7 @@
 ﻿using ProtoBuf;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
@@ -168,7 +169,8 @@ namespace ExtendedSurvival.Core
             else if (generateWhenNotExists)
             {
                 if (!IgnorePlanets.Split(';').Contains(id.ToUpper()))
-                    return GeneratePlanetInfo(id, MyUtils.GetRandomInt(10000000, int.MaxValue), 1.0f, id.ToUpper(), true);
+                    return GeneratePlanetInfo(id, MyUtils.GetRandomInt(10000000, int.MaxValue), 1.0f, id.ToUpper(), true, GenerateFlags.All,
+                        null, null, false, null, null);
             }
             return null;
         }
@@ -188,11 +190,14 @@ namespace ExtendedSurvival.Core
 
         }
 
-        public PlanetSetting GeneratePlanetInfo(string id, int seed, float deep, string profile, bool force = false, GenerateFlags replaceFlag = GenerateFlags.All, string[] addOres = null, string[] removeOres = null)
+        public PlanetSetting GeneratePlanetInfo(string id, int seed, float deep, string profile, bool force, 
+            GenerateFlags replaceFlag, string[] addOres, string[] removeOres,  bool clearOresBeforeAdd, string targetColor, 
+            Vector2I? colorInfluence)
         {
             if (!HasPlanetInfo(id) || force)
             {
-                var settings = PlanetMapProfile.Get(profile).BuildSettings(id, seed, deep, addOres, removeOres);
+                var settings = PlanetMapProfile.Get(profile).BuildSettings(id, seed, deep, addOres, removeOres, clearOresBeforeAdd, 
+                    targetColor, colorInfluence);
                 if (HasPlanetInfo(id))
                 {
                     var atSet = Planets.FirstOrDefault(x => x.Id.ToUpper().Trim() == id.ToUpper().Trim());
@@ -219,6 +224,10 @@ namespace ExtendedSurvival.Core
                     if ((GenerateFlags.OreMap & replaceFlag) != 0)
                     {
                         atSet.Seed = settings.Seed;
+                        atSet.ClearOresBeforeAdd = settings.ClearOresBeforeAdd;
+                        atSet.TargetColor = settings.TargetColor;
+                        atSet.UseColorInfluence = settings.UseColorInfluence;
+                        atSet.ColorInfluence = settings.ColorInfluence;
                         atSet.DeepMultiplier = settings.DeepMultiplier;
                         atSet.AddedOres = settings.AddedOres;
                         atSet.RemovedOres = settings.RemovedOres;
@@ -301,43 +310,98 @@ namespace ExtendedSurvival.Core
                         string profile = planet.ToUpper();
                         string[] addOres = new string[0];
                         string[] removeOres = new string[0];
+                        bool clearOresBeforeAdd = false;
+                        string targetColor = null;
+                        Vector2I? colorInfluence = null;
                         foreach (var item in options)
                         {
-                            if (item.Contains("="))
+                            var parts = item.Split('=');
+                            switch (parts[0].ToLower())
                             {
-                                var parts = item.Split('=');
-                                if (parts.Length == 2)
-                                {
-                                    switch (parts[0].ToLower())
+                                case "seed":
+                                    if (parts.Length >= 2)
                                     {
-                                        case "seed":
-                                            int infoseed;
-                                            if (int.TryParse(parts[1], out infoseed))
-                                            {
-                                                seed = infoseed;
-                                            }
-                                            break;
-                                        case "deep":
-                                            float infodeep;
-                                            if (float.TryParse(parts[1], out infodeep))
-                                            {
-                                                deep = infodeep;
-                                            }
-                                            break;
-                                        case "profile":
-                                            profile = parts[1].ToUpper().Trim();
-                                            break;
-                                        case "add":
-                                            addOres = parts[1].ToUpper().Split(',');
-                                            break;
-                                        case "remove":
-                                            removeOres = parts[1].ToUpper().Split(',');
-                                            break;
+                                        int infoseed;
+                                        if (int.TryParse(parts[1], out infoseed))
+                                        {
+                                            seed = infoseed;
+                                        }
                                     }
-                                }
+                                    break;
+                                case "deep":
+                                    if (parts.Length >= 2)
+                                    {
+                                        float infodeep;
+                                        if (float.TryParse(parts[1], out infodeep))
+                                        {
+                                            deep = infodeep;
+                                        }
+                                    }
+                                    break;
+                                case "profile":
+                                    if (parts.Length >= 2)
+                                        profile = parts[1].ToUpper().Trim();
+                                    break;
+                                case "add":
+                                    if (parts.Length >= 2)
+                                        addOres = parts[1].ToUpper().Split(',');
+                                    break;
+                                case "remove":
+                                    if (parts.Length >= 2)
+                                        removeOres = parts[1].ToUpper().Split(',');
+                                    break;
+                                case "clear":
+                                    clearOresBeforeAdd = true;
+                                    break;
+                                case "targetcolor":
+                                    if (parts.Length >= 2)
+                                    {
+                                        try
+                                        {
+                                            string colorcode = parts[1];
+                                            colorcode = colorcode.TrimStart('#');
+                                            Color col;
+                                            if (colorcode.Length == 6)
+                                            {
+                                                col = new Color(
+                                                    int.Parse(colorcode.Substring(0, 2), NumberStyles.HexNumber),
+                                                    int.Parse(colorcode.Substring(2, 2), NumberStyles.HexNumber),
+                                                    int.Parse(colorcode.Substring(4, 2), NumberStyles.HexNumber),
+                                                    255
+                                                );
+                                                targetColor = parts[1];
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
+                                        }
+                                    }
+                                    break;
+                                case "colorinfluence":
+                                    if (parts.Length >= 2)
+                                    {
+                                        var influenceRange = parts[1].ToUpper().Split('|');
+                                        if (influenceRange.Length >= 2)
+                                        {
+                                            int influenceFrom, influenceTo;
+                                            if (int.TryParse(influenceRange[0], out influenceFrom) &&
+                                                int.TryParse(influenceRange[1], out influenceTo))
+                                            {
+                                                if (influenceFrom <= influenceTo &&
+                                                    influenceFrom >= 0 && influenceTo >= 0 &&
+                                                    influenceFrom <= 255 && influenceTo <= 255)
+                                                {
+                                                    colorInfluence = new Vector2I(influenceFrom, influenceTo);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    break;
                             }
                         }
-                        GeneratePlanetInfo(info.Id, seed, deep, profile, true, GenerateFlags.OreMap, addOres, removeOres);
+                        GeneratePlanetInfo(info.Id, seed, deep, profile, true, GenerateFlags.OreMap, addOres, removeOres, 
+                            clearOresBeforeAdd, targetColor, colorInfluence);
                         return true;
                 }
             }

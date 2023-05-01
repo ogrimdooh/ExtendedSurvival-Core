@@ -222,6 +222,23 @@ namespace ExtendedSurvival.Core
                                     {
                                         options.Add(mCommandData.content[i]);
                                     }
+                                    if (mCommandData.content[1] == "$")
+                                    {
+                                        var playerId = MyAPIGateway.Players.TryGetIdentityId(steamId);
+                                        IMyPlayer player = null;
+                                        if (ExtendedSurvivalEntityManager.Instance.Players.TryGetValue(playerId, out player))
+                                        {
+                                            var playerPos = player.Character?.PositionComp?.GetPosition();
+                                            if (playerPos != null)
+                                            {
+                                                var planet = ExtendedSurvivalEntityManager.GetPlanetAtRange(playerPos.Value);
+                                                if (planet != null)
+                                                {
+                                                    mCommandData.content[1] = planet.SubtypeName;
+                                                }
+                                            }
+                                        }
+                                    }
                                     ExtendedSurvivalSettings.Instance.ProcessPlanetOreMap(mCommandData.content[1], mCommandData.content[2], options.ToArray());
                                     break;
                                 case SETTINGS_COMMAND_GEOTHERMAL:

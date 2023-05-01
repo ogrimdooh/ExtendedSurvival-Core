@@ -196,7 +196,8 @@ namespace ExtendedSurvival.Core
                 return new GeothermalSetting() { Enabled = false };
         }
 
-        private List<PlanetOreMapEntrySetting> BuildOresMappings(int seed, float deep, string[] addOres = null, string[] removeOres = null)
+        private List<PlanetOreMapEntrySetting> BuildOresMappings(int seed, float deep, string[] addOres, string[] removeOres, 
+            bool clearOresBeforeAdd, string targetColor, Vector2I? colorInfluence)
         {
             var maxEntries = 220;
             var maxFinalEntries = 30;
@@ -204,7 +205,11 @@ namespace ExtendedSurvival.Core
             Random rand = new Random(seed);
             var map = new List<PlanetOreMapEntrySetting>();
             var calcOres = Ores.ToList();
-            if (removeOres != null && removeOres.Length > 0)
+            if (clearOresBeforeAdd)
+            {
+                calcOres.Clear();
+            }
+            else if (removeOres != null && removeOres.Length > 0)
             {
                 calcOres.RemoveAll(x => removeOres.Contains(x.type));
             }
@@ -216,20 +221,31 @@ namespace ExtendedSurvival.Core
                 }
             }
 
-            if (calcOres.Count < 12)
+            var colorToUse = TargetColor;
+            if (!string.IsNullOrWhiteSpace(targetColor))
             {
-                int i = 0;
-                while (calcOres.Count < 12)
-                {
-                    calcOres.Add(PlanetMapProfile.GetOreMap(calcOres[i].type));
-                    i++;
-                    if (i >= calcOres.Count)
-                        i = 0;
-                }
+                if (targetColor == "NULL")
+                    colorToUse = "";
+                else
+                    colorToUse = targetColor;
             }
 
+            var influenceToUse = colorInfluence.HasValue ? colorInfluence.Value : ColorInfluence;
+            
             if (calcOres.Any())
             {
+
+                if (calcOres.Count < 12)
+                {
+                    int i = 0;
+                    while (calcOres.Count < 12)
+                    {
+                        calcOres.Add(PlanetMapProfile.GetOreMap(calcOres[i].type));
+                        i++;
+                        if (i >= calcOres.Count)
+                            i = 0;
+                    }
+                }
 
                 var oresByRarity = calcOres.GroupBy(x => x.rarity).ToDictionary(x => x.Key, y => y.ToList());
                 // add common start entries
@@ -244,8 +260,8 @@ namespace ExtendedSurvival.Core
                             Type = ore.type,
                             Start = new Vector2I(ore.start.X, ore.start.Y).GetRandom() * deep,
                             Depth = new Vector2I(ore.depth.X, ore.depth.Y).GetRandom() * deep,
-                            ColorInfluence = ColorInfluence.GetRandom(),
-                            TargetColor = TargetColor
+                            ColorInfluence = influenceToUse.GetRandom(),
+                            TargetColor = colorToUse
                         });
                         i++;
                     }
@@ -266,8 +282,8 @@ namespace ExtendedSurvival.Core
                                 Type = ore.type,
                                 Start = new Vector2I(ore.start.X, ore.start.Y).GetRandom() * deep,
                                 Depth = new Vector2I(ore.depth.X, ore.depth.Y).GetRandom() * deep,
-                                ColorInfluence = ColorInfluence.GetRandom(),
-                                TargetColor = TargetColor
+                                ColorInfluence = influenceToUse.GetRandom(),
+                                TargetColor = colorToUse
                             });
                         }
                     }
@@ -288,8 +304,8 @@ namespace ExtendedSurvival.Core
                                 Type = ore.type,
                                 Start = new Vector2I(ore.start.X, ore.start.Y).GetRandom() * deep,
                                 Depth = new Vector2I(ore.depth.X, ore.depth.Y).GetRandom() * deep,
-                                ColorInfluence = ColorInfluence.GetRandom(),
-                                TargetColor = TargetColor
+                                ColorInfluence = influenceToUse.GetRandom(),
+                                TargetColor = colorToUse
                             });
                         }
                     }
@@ -310,8 +326,8 @@ namespace ExtendedSurvival.Core
                                 Type = ore.type,
                                 Start = new Vector2I(ore.start.X, ore.start.Y).GetRandom() * deep,
                                 Depth = new Vector2I(ore.depth.X, ore.depth.Y).GetRandom() * deep,
-                                ColorInfluence = ColorInfluence.GetRandom(),
-                                TargetColor = TargetColor
+                                ColorInfluence = influenceToUse.GetRandom(),
+                                TargetColor = colorToUse
                             });
                         }
                     }
@@ -332,8 +348,8 @@ namespace ExtendedSurvival.Core
                                 Type = ore.type,
                                 Start = new Vector2I(ore.start.X, ore.start.Y).GetRandom() * deep,
                                 Depth = new Vector2I(ore.depth.X, ore.depth.Y).GetRandom() * deep,
-                                ColorInfluence = ColorInfluence.GetRandom(),
-                                TargetColor = TargetColor
+                                ColorInfluence = influenceToUse.GetRandom(),
+                                TargetColor = colorToUse
                             });
                         }
                     }
@@ -354,8 +370,8 @@ namespace ExtendedSurvival.Core
                                 Type = ore.type,
                                 Start = new Vector2I(ore.start.X, ore.start.Y).GetRandom() * deep,
                                 Depth = new Vector2I(ore.depth.X, ore.depth.Y).GetRandom() * deep,
-                                ColorInfluence = ColorInfluence.GetRandom(),
-                                TargetColor = TargetColor
+                                ColorInfluence = influenceToUse.GetRandom(),
+                                TargetColor = colorToUse
                             });
                         }
                     }
@@ -376,8 +392,8 @@ namespace ExtendedSurvival.Core
                                 Type = ore.type,
                                 Start = new Vector2I(ore.start.X, ore.start.Y).GetRandom() * deep,
                                 Depth = new Vector2I(ore.depth.X, ore.depth.Y).GetRandom() * deep,
-                                ColorInfluence = ColorInfluence.GetRandom(),
-                                TargetColor = TargetColor
+                                ColorInfluence = influenceToUse.GetRandom(),
+                                TargetColor = colorToUse
                             });
                         }
                     }
@@ -410,10 +426,14 @@ namespace ExtendedSurvival.Core
             {                
                 if (settings.Version <= 8)
                 {
-                    settings = BuildSettings(settings.Id, settings.Seed, settings.DeepMultiplier, settings.AddedOres?.Split(','), settings.RemovedOres?.Split(','));
-                } else if (settings.Version <= 9)
+                    settings = BuildSettings(settings.Id, settings.Seed, settings.DeepMultiplier, settings.AddedOres?.Split(','), 
+                        settings.RemovedOres?.Split(','), settings.ClearOresBeforeAdd, settings.TargetColor,
+                        settings.UseColorInfluence ? (Vector2I?)settings.ColorInfluence.ToVector2I() : null);
+                } else if (settings.Version <= 10)
                 {
-                    var tmpSettings = BuildSettings(settings.Id, settings.Seed, settings.DeepMultiplier, settings.AddedOres?.Split(','), settings.RemovedOres?.Split(','));
+                    var tmpSettings = BuildSettings(settings.Id, settings.Seed, settings.DeepMultiplier, settings.AddedOres?.Split(','), 
+                        settings.RemovedOres?.Split(','), settings.ClearOresBeforeAdd, settings.TargetColor,
+                        settings.UseColorInfluence ? (Vector2I?)settings.ColorInfluence.ToVector2I() : null);
                     settings.OreMap = tmpSettings.OreMap;
                 }
                 settings.Version = Version;
@@ -421,7 +441,8 @@ namespace ExtendedSurvival.Core
             return settings;
         }
 
-        public PlanetSetting BuildSettings(string id, int seed, float deep, string[] addOres = null, string[] removeOres = null)
+        public PlanetSetting BuildSettings(string id, int seed, float deep, string[] addOres, string[] removeOres, bool clearOresBeforeAdd, 
+            string targetColor, Vector2I? colorInfluence)
         {
             var validOresToAdd = PlanetMapProfile.FilterValidOres(addOres);
             var validOresToRemove = PlanetMapProfile.FilterValidOres(removeOres);
@@ -434,6 +455,12 @@ namespace ExtendedSurvival.Core
                 DeepMultiplier = deep,
                 AddedOres = string.Join(",", validOresToAdd),
                 RemovedOres = string.Join(",", validOresToRemove),
+                ClearOresBeforeAdd = clearOresBeforeAdd,
+                UseColorInfluence = colorInfluence.HasValue,
+                ColorInfluence = colorInfluence.HasValue ? 
+                    new DocumentedVector2(colorInfluence.Value.X, colorInfluence.Value.Y, PlanetSetting.INFLUENCERANGE_INFO) :
+                    new DocumentedVector2(0, 0, PlanetSetting.INFLUENCERANGE_INFO),
+                TargetColor = targetColor,
                 Version = Version,
                 Type = (int)Type,
                 SizeRange = new DocumentedVector2(SizeRange.X, SizeRange.Y, PlanetSetting.SIZERANGE_INFO),
@@ -459,7 +486,8 @@ namespace ExtendedSurvival.Core
                         WaveCount = Animal.night.waveCount
                     }
                 },
-                OreMap = BuildOresMappings(seed, deep, PlanetMapProfile.GetValidOreKeys(validOresToAdd), PlanetMapProfile.GetValidOreKeys(validOresToRemove))
+                OreMap = BuildOresMappings(seed, deep, PlanetMapProfile.GetValidOreKeys(validOresToAdd), 
+                PlanetMapProfile.GetValidOreKeys(validOresToRemove), clearOresBeforeAdd, targetColor, colorInfluence)
             };
         }
 

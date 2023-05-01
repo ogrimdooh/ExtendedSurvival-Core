@@ -12,6 +12,7 @@ namespace ExtendedSurvival.Core
     {
 
         public const string SIZERANGE_INFO = "X: Min Size. Y: Max Size.";
+        public const string INFLUENCERANGE_INFO = "X: Min Influence. Y: Max Influence.";
 
         [XmlElement]
         public string Id { get; set; }
@@ -39,6 +40,18 @@ namespace ExtendedSurvival.Core
 
         [XmlElement]
         public string RemovedOres { get; set; }
+
+        [XmlElement]
+        public bool ClearOresBeforeAdd { get; set; }
+
+        [XmlElement]
+        public string TargetColor { get; set; }
+
+        [XmlElement]
+        public bool UseColorInfluence { get; set; }
+
+        [XmlElement]
+        public DocumentedVector2 ColorInfluence { get; set; } = new DocumentedVector2(0, 0, INFLUENCERANGE_INFO);
 
         [XmlElement]
         public DocumentedVector2 SizeRange { get; set; } = new DocumentedVector2(0, 0, SIZERANGE_INFO);
