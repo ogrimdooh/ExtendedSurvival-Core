@@ -168,7 +168,7 @@ namespace ExtendedSurvival.Core
             else if (generateWhenNotExists)
             {
                 if (!IgnorePlanets.Split(';').Contains(id.ToUpper()))
-                    return GeneratePlanetInfo(id, MyUtils.GetRandomInt(10000000, int.MaxValue), 1.0f, 1.0f, id.ToUpper(), true);
+                    return GeneratePlanetInfo(id, MyUtils.GetRandomInt(10000000, int.MaxValue), 1.0f, id.ToUpper(), true);
             }
             return null;
         }
@@ -188,11 +188,11 @@ namespace ExtendedSurvival.Core
 
         }
 
-        public PlanetSetting GeneratePlanetInfo(string id, int seed, float multiplier, float deep, string profile, bool force = false, GenerateFlags replaceFlag = GenerateFlags.All, string[] addOres = null, string[] removeOres = null)
+        public PlanetSetting GeneratePlanetInfo(string id, int seed, float deep, string profile, bool force = false, GenerateFlags replaceFlag = GenerateFlags.All, string[] addOres = null, string[] removeOres = null)
         {
             if (!HasPlanetInfo(id) || force)
             {
-                var settings = PlanetMapProfile.Get(profile).BuildSettings(id, seed, multiplier, deep, addOres, removeOres);
+                var settings = PlanetMapProfile.Get(profile).BuildSettings(id, seed, deep, addOres, removeOres);
                 if (HasPlanetInfo(id))
                 {
                     var atSet = Planets.FirstOrDefault(x => x.Id.ToUpper().Trim() == id.ToUpper().Trim());
@@ -219,7 +219,6 @@ namespace ExtendedSurvival.Core
                     if ((GenerateFlags.OreMap & replaceFlag) != 0)
                     {
                         atSet.Seed = settings.Seed;
-                        atSet.Multiplier = settings.Multiplier;
                         atSet.DeepMultiplier = settings.DeepMultiplier;
                         atSet.AddedOres = settings.AddedOres;
                         atSet.RemovedOres = settings.RemovedOres;
@@ -298,7 +297,6 @@ namespace ExtendedSurvival.Core
                 {
                     case "generate":
                         int seed = MyUtils.GetRandomInt(10000000, int.MaxValue);
-                        float multiplier = 1.0f;
                         float deep = 1.0f;
                         string profile = planet.ToUpper();
                         string[] addOres = new string[0];
@@ -317,13 +315,6 @@ namespace ExtendedSurvival.Core
                                             if (int.TryParse(parts[1], out infoseed))
                                             {
                                                 seed = infoseed;
-                                            }
-                                            break;
-                                        case "multiplier":
-                                            float infomultiplier;
-                                            if (float.TryParse(parts[1], out infomultiplier))
-                                            {
-                                                multiplier = infomultiplier;
                                             }
                                             break;
                                         case "deep":
@@ -346,7 +337,7 @@ namespace ExtendedSurvival.Core
                                 }
                             }
                         }
-                        GeneratePlanetInfo(info.Id, seed, multiplier, deep, profile, true, GenerateFlags.OreMap, addOres, removeOres);
+                        GeneratePlanetInfo(info.Id, seed, deep, profile, true, GenerateFlags.OreMap, addOres, removeOres);
                         return true;
                 }
             }

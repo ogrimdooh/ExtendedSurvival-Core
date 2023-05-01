@@ -29,9 +29,6 @@ namespace ExtendedSurvival.Core
         public int Version { get; set; } = 0;
 
         [XmlElement]
-        public float Multiplier { get; set; } = 1.0f;
-
-        [XmlElement]
         public float DeepMultiplier { get; set; } = 1.0f;
 
         [XmlElement]

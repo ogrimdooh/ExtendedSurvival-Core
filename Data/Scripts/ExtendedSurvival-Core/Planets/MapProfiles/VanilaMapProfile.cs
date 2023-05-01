@@ -426,7 +426,7 @@ namespace ExtendedSurvival.Core
             Version = PlanetMapProfile.PROFILE_VERSION,
             RespawnEnabled = false,
             TargetColor = "#000000",
-            ColorInfluence = new Vector2I(0, 200),
+            ColorInfluence = new Vector2I(200, 200),
             Animal = PlanetMapAnimalsProfile.DEFAULT_SPIDERS_01,
             Geothermal = PlanetMapProfile.GetGeothermal(true, powerMultiplier: 0.75f),
             Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 1, 0.8f, 80, 2, 0.05f, 0),

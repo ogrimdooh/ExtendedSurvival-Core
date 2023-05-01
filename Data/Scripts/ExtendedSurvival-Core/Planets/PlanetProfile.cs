@@ -196,7 +196,7 @@ namespace ExtendedSurvival.Core
                 return new GeothermalSetting() { Enabled = false };
         }
 
-        private List<PlanetOreMapEntrySetting> BuildOresMappings(int seed, float multiplier, float deep, string[] addOres = null, string[] removeOres = null)
+        private List<PlanetOreMapEntrySetting> BuildOresMappings(int seed, float deep, string[] addOres = null, string[] removeOres = null)
         {
             var maxEntries = 220;
             var maxFinalEntries = 30;
@@ -215,6 +215,19 @@ namespace ExtendedSurvival.Core
                     calcOres.Add(PlanetMapProfile.GetOreMap(ore));
                 }
             }
+
+            if (calcOres.Count < 12)
+            {
+                int i = 0;
+                while (calcOres.Count < 12)
+                {
+                    calcOres.Add(PlanetMapProfile.GetOreMap(calcOres[i].type));
+                    i++;
+                    if (i >= calcOres.Count)
+                        i = 0;
+                }
+            }
+
             if (calcOres.Any())
             {
 
@@ -397,10 +410,10 @@ namespace ExtendedSurvival.Core
             {                
                 if (settings.Version <= 8)
                 {
-                    settings = BuildSettings(settings.Id, settings.Seed, settings.Multiplier, settings.DeepMultiplier, settings.AddedOres?.Split(','), settings.RemovedOres?.Split(','));
+                    settings = BuildSettings(settings.Id, settings.Seed, settings.DeepMultiplier, settings.AddedOres?.Split(','), settings.RemovedOres?.Split(','));
                 } else if (settings.Version <= 9)
                 {
-                    var tmpSettings = BuildSettings(settings.Id, settings.Seed, settings.Multiplier, settings.DeepMultiplier, settings.AddedOres?.Split(','), settings.RemovedOres?.Split(','));
+                    var tmpSettings = BuildSettings(settings.Id, settings.Seed, settings.DeepMultiplier, settings.AddedOres?.Split(','), settings.RemovedOres?.Split(','));
                     settings.OreMap = tmpSettings.OreMap;
                 }
                 settings.Version = Version;
@@ -408,7 +421,7 @@ namespace ExtendedSurvival.Core
             return settings;
         }
 
-        public PlanetSetting BuildSettings(string id, int seed, float multiplier, float deep, string[] addOres = null, string[] removeOres = null)
+        public PlanetSetting BuildSettings(string id, int seed, float deep, string[] addOres = null, string[] removeOres = null)
         {
             var validOresToAdd = PlanetMapProfile.FilterValidOres(addOres);
             var validOresToRemove = PlanetMapProfile.FilterValidOres(removeOres);
@@ -418,7 +431,6 @@ namespace ExtendedSurvival.Core
                 UsingTechnology = ExtendedSurvivalCoreSession.IsUsingTechnology(),
                 RespawnEnabled = RespawnEnabled,
                 Seed = seed,
-                Multiplier = multiplier,
                 DeepMultiplier = deep,
                 AddedOres = string.Join(",", validOresToAdd),
                 RemovedOres = string.Join(",", validOresToRemove),
@@ -447,7 +459,7 @@ namespace ExtendedSurvival.Core
                         WaveCount = Animal.night.waveCount
                     }
                 },
-                OreMap = BuildOresMappings(seed, multiplier, deep, PlanetMapProfile.GetValidOreKeys(validOresToAdd), PlanetMapProfile.GetValidOreKeys(validOresToRemove))
+                OreMap = BuildOresMappings(seed, deep, PlanetMapProfile.GetValidOreKeys(validOresToAdd), PlanetMapProfile.GetValidOreKeys(validOresToRemove))
             };
         }
 
