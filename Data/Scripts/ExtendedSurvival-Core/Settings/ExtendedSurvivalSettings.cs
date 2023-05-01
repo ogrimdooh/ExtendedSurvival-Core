@@ -243,6 +243,393 @@ namespace ExtendedSurvival.Core
             return GetPlanetInfo(id, false);
         }
 
+        public bool ProcessPlanetGravityInfo(string planet, string name, params string[] options)
+        {
+            var info = GetPlanetInfo(planet, false);
+            if (info != null)
+            {
+                switch (name)
+                {
+                    case "copy":
+                        if (options.Any())
+                        {
+                            string profile = options[0].ToUpper();
+                            var copyProfile = PlanetMapProfile.Get(profile);
+                            if (copyProfile != null)
+                            {
+                                info.Gravity = copyProfile.BuildGravitySetting();
+                            }
+                        }
+                        break;
+                    case "set":
+                        if (options.Count() == 2)
+                        {
+                            switch (options[0].ToLower())
+                            {
+                                case "surfacegravity":
+                                    float surfacegravity = 0;
+                                    if (float.TryParse(options[1], out surfacegravity))
+                                    {
+                                        info.Gravity.SurfaceGravity = surfacegravity;
+                                    }
+                                    break;
+                                case "gravityfalloffpower":
+                                    float gravityfalloffpower = 0;
+                                    if (float.TryParse(options[1], out gravityfalloffpower))
+                                    {
+                                        info.Gravity.GravityFalloffPower = gravityfalloffpower;
+                                    }
+                                    break;
+                            }
+                        }
+                        break;
+                }
+            }
+            return false;
+        }
+
+        public bool ProcessPlanetAtmosphereInfo(string planet, string name, params string[] options)
+        {
+            var info = GetPlanetInfo(planet, false);
+            if (info != null)
+            {
+                switch (name)
+                {
+                    case "copy":
+                        if (options.Any())
+                        {
+                            string profile = options[0].ToUpper();
+                            var copyProfile = PlanetMapProfile.Get(profile);
+                            if (copyProfile != null)
+                            {
+                                info.Atmosphere = copyProfile.BuildAtmosphereSetting();
+                            }
+                        }
+                        break;
+                    case "set":
+                        if (options.Count() == 2)
+                        {
+                            switch (options[0].ToLower())
+                            {
+                                case "enabled":
+                                    bool enabled = false;
+                                    if (bool.TryParse(options[1], out enabled))
+                                    {
+                                        info.Atmosphere.Enabled = enabled;
+                                    }
+                                    break;
+                                case "breathable":
+                                    bool breathable = false;
+                                    if (bool.TryParse(options[1], out breathable))
+                                    {
+                                        info.Atmosphere.Breathable = breathable;
+                                    }
+                                    break;
+                                case "oxygendensity":
+                                    float oxygendensity = 0;
+                                    if (float.TryParse(options[1], out oxygendensity) && oxygendensity >= 0 && oxygendensity <= 1)
+                                    {
+                                        info.Atmosphere.OxygenDensity = oxygendensity;
+                                    }
+                                    break;
+                                case "density":
+                                    float density = 0;
+                                    if (float.TryParse(options[1], out density) && density >= 0 && density <= 1)
+                                    {
+                                        info.Atmosphere.Density = density;
+                                    }
+                                    break;
+                                case "limitaltitude":
+                                    float limitaltitude = 0;
+                                    if (float.TryParse(options[1], out limitaltitude))
+                                    {
+                                        info.Atmosphere.LimitAltitude = limitaltitude;
+                                    }
+                                    break;
+                                case "maxwindspeed":
+                                    float maxwindspeed = 0;
+                                    if (float.TryParse(options[1], out maxwindspeed))
+                                    {
+                                        info.Atmosphere.MaxWindSpeed = maxwindspeed;
+                                    }
+                                    break;
+                                case "temperaturelevel":
+                                    int temperaturelevel = 0;
+                                    if (int.TryParse(options[1], out temperaturelevel) && 
+                                        temperaturelevel >= 0 && temperaturelevel <= 4)
+                                    {
+                                        info.Atmosphere.TemperatureLevel = temperaturelevel;
+                                    }
+                                    break;
+                                case "temperaturerange":
+                                    var temperaturerange = options[1].Split('|');
+                                    if (temperaturerange.Length >= 2)
+                                    {
+                                        float temperaturerange_from = 0;
+                                        float temperaturerange_to = 0;
+                                        if (float.TryParse(temperaturerange[0], out temperaturerange_from) &&
+                                            float.TryParse(temperaturerange[1], out temperaturerange_to))
+                                        {
+                                            if (temperaturerange_from <= temperaturerange_to)
+                                            {
+                                                info.Atmosphere.TemperatureRange.X = temperaturerange_from;
+                                                info.Atmosphere.TemperatureRange.Y = temperaturerange_to;
+                                            }
+                                        }
+                                    }
+                                    break;
+                                case "toxiclevel":
+                                    float toxiclevel = 0;
+                                    if (float.TryParse(options[1], out toxiclevel))
+                                    {
+                                        info.Atmosphere.ToxicLevel = toxiclevel;
+                                    }
+                                    break;
+                                case "radiationlevel":
+                                    float radiationlevel = 0;
+                                    if (float.TryParse(options[1], out radiationlevel))
+                                    {
+                                        info.Atmosphere.RadiationLevel = radiationlevel;
+                                    }
+                                    break;
+                            }
+                        }
+                        break;
+                }
+            }
+            return false;
+        }
+
+        public bool ProcessPlanetAnimalsInfo(string planet, string name, params string[] options)
+        {
+            var info = GetPlanetInfo(planet, false);
+            if (info != null)
+            {
+                switch (name)
+                {
+                    case "copy":
+                        if (options.Any())
+                        {
+                            string profile = options[0].ToUpper();
+                            var copyProfile = PlanetMapProfile.Get(profile);
+                            if (copyProfile != null)
+                            {
+                                info.Animal = copyProfile.BuildAnimalsSetting();
+                            }
+                        }
+                        break;
+                    case "add":
+                        if (PlanetMapAnimalsProfile.ValidAnimals.ContainsKey(options[0]))
+                        {
+                            var targetBodToAdd = PlanetMapAnimalsProfile.ValidAnimals[options[0]];
+                            if (!info.Animal.Animals.Any(x => x.Id == targetBodToAdd))
+                            {
+                                info.Animal.Animals.Add(new PlanetAnimalEntrySetting() { Id = targetBodToAdd });
+                            }
+                        }
+                        break;
+                    case "remove":
+                        if (PlanetMapAnimalsProfile.ValidAnimals.ContainsKey(options[0]))
+                        {
+                            var targetBodToRemove = PlanetMapAnimalsProfile.ValidAnimals[options[0]];
+                            if (info.Animal.Animals.Any(x => x.Id == targetBodToRemove))
+                            {
+                                info.Animal.Animals.RemoveAll(x => x.Id == targetBodToRemove);
+                            }
+                        }
+                        break;
+                    case "clear":
+                        info.Animal.Animals.Clear();
+                        break;
+                    case "set":
+                        if (options.Count() == 2)
+                        {
+                            switch (options[0].ToLower())
+                            {
+                                case "dayspawn.enabled":
+                                    bool dayspawnenabled = false;
+                                    if (bool.TryParse(options[1], out dayspawnenabled))
+                                    {
+                                        info.Animal.DaySpawn.Enabled = dayspawnenabled;
+                                    }
+                                    break;
+                                case "dayspawn.spawndelay":
+                                    var dayspawnspawndelay = options[1].Split('|');
+                                    if (dayspawnspawndelay.Length >= 2)
+                                    {
+                                        int dayspawnspawndelay_from = 0;
+                                        int dayspawnspawndelay_to = 0;
+                                        if (int.TryParse(dayspawnspawndelay[0], out dayspawnspawndelay_from) &&
+                                            int.TryParse(dayspawnspawndelay[1], out dayspawnspawndelay_to))
+                                        {
+                                            if (dayspawnspawndelay_from <= dayspawnspawndelay_to)
+                                            {
+                                                info.Animal.DaySpawn.SpawnDelay = new Vector2I(dayspawnspawndelay_from, dayspawnspawndelay_to);
+                                            }
+                                        }
+                                    }
+                                    break;
+                                case "dayspawn.spawndist":
+                                    var dayspawnspawndist = options[1].Split('|');
+                                    if (dayspawnspawndist.Length >= 2)
+                                    {
+                                        int dayspawnspawndist_from = 0;
+                                        int dayspawnspawndist_to = 0;
+                                        if (int.TryParse(dayspawnspawndist[0], out dayspawnspawndist_from) &&
+                                            int.TryParse(dayspawnspawndist[1], out dayspawnspawndist_to))
+                                        {
+                                            if (dayspawnspawndist_from <= dayspawnspawndist_to)
+                                            {
+                                                info.Animal.DaySpawn.SpawnDist = new Vector2I(dayspawnspawndist_from, dayspawnspawndist_to);
+                                            }
+                                        }
+                                    }
+                                    break;
+                                case "dayspawn.wavecount":
+                                    var dayspawnwavecount = options[1].Split('|');
+                                    if (dayspawnwavecount.Length >= 2)
+                                    {
+                                        int dayspawnwavecount_from = 0;
+                                        int dayspawnwavecount_to = 0;
+                                        if (int.TryParse(dayspawnwavecount[0], out dayspawnwavecount_from) &&
+                                            int.TryParse(dayspawnwavecount[1], out dayspawnwavecount_to))
+                                        {
+                                            if (dayspawnwavecount_from <= dayspawnwavecount_to)
+                                            {
+                                                info.Animal.DaySpawn.WaveCount = new Vector2I(dayspawnwavecount_from, dayspawnwavecount_to);
+                                            }
+                                        }
+                                    }
+                                    break;
+                                case "nightspawn.enabled":
+                                    bool nightspawnenabled = false;
+                                    if (bool.TryParse(options[1], out nightspawnenabled))
+                                    {
+                                        info.Animal.NightSpawn.Enabled = nightspawnenabled;
+                                    }
+                                    break;
+                                case "nightspawn.spawndelay":
+                                    var nightspawnspawndelay = options[1].Split('|');
+                                    if (nightspawnspawndelay.Length >= 2)
+                                    {
+                                        int nightspawnspawndelay_from = 0;
+                                        int nightspawnspawndelay_to = 0;
+                                        if (int.TryParse(nightspawnspawndelay[0], out nightspawnspawndelay_from) &&
+                                            int.TryParse(nightspawnspawndelay[1], out nightspawnspawndelay_to))
+                                        {
+                                            if (nightspawnspawndelay_from <= nightspawnspawndelay_to)
+                                            {
+                                                info.Animal.NightSpawn.SpawnDelay = new Vector2I(nightspawnspawndelay_from, nightspawnspawndelay_to);
+                                            }
+                                        }
+                                    }
+                                    break;
+                                case "nightspawn.spawndist":
+                                    var nightspawnspawndist = options[1].Split('|');
+                                    if (nightspawnspawndist.Length >= 2)
+                                    {
+                                        int nightspawnspawndist_from = 0;
+                                        int nightspawnspawndist_to = 0;
+                                        if (int.TryParse(nightspawnspawndist[0], out nightspawnspawndist_from) &&
+                                            int.TryParse(nightspawnspawndist[1], out nightspawnspawndist_to))
+                                        {
+                                            if (nightspawnspawndist_from <= nightspawnspawndist_to)
+                                            {
+                                                info.Animal.NightSpawn.SpawnDist = new Vector2I(nightspawnspawndist_from, nightspawnspawndist_to);
+                                            }
+                                        }
+                                    }
+                                    break;
+                                case "nightspawn.wavecount":
+                                    var nightspawnwavecount = options[1].Split('|');
+                                    if (nightspawnwavecount.Length >= 2)
+                                    {
+                                        int nightspawnwavecount_from = 0;
+                                        int nightspawnwavecount_to = 0;
+                                        if (int.TryParse(nightspawnwavecount[0], out nightspawnwavecount_from) &&
+                                            int.TryParse(nightspawnwavecount[1], out nightspawnwavecount_to))
+                                        {
+                                            if (nightspawnwavecount_from <= nightspawnwavecount_to)
+                                            {
+                                                info.Animal.NightSpawn.WaveCount = new Vector2I(nightspawnwavecount_from, nightspawnwavecount_to);
+                                            }
+                                        }
+                                    }
+                                    break;
+                            }
+                        }
+                        break;
+                }
+            }
+            return false;
+        }
+
+        public bool ProcessPlanetWaterInfo(string planet, string name, params string[] options)
+        {
+            var info = GetPlanetInfo(planet, false);
+            if (info != null)
+            {
+                switch (name)
+                {
+                    case "copy":
+                        if (options.Any())
+                        {
+                            string profile = options[0].ToUpper();
+                            var copyProfile = PlanetMapProfile.Get(profile);
+                            if (copyProfile != null)
+                            {
+                                info.Water = copyProfile.BuildWaterSetting();
+                            }
+                        }
+                        break;
+                    case "set":
+                        if (options.Count() == 2)
+                        {
+                            switch (options[0].ToLower())
+                            {
+                                case "enabled":
+                                    bool enabled = false;
+                                    if (bool.TryParse(options[1], out enabled))
+                                    {
+                                        info.Water.Enabled = enabled;
+                                    }
+                                    break;
+                                case "size":
+                                    float size = 0;
+                                    if (float.TryParse(options[1], out size))
+                                    {
+                                        info.Water.Size = size;
+                                    }
+                                    break;
+                                case "temperaturefactor":
+                                    float temperaturefactor = 0;
+                                    if (float.TryParse(options[1], out temperaturefactor))
+                                    {
+                                        info.Water.TemperatureFactor = temperaturefactor;
+                                    }
+                                    break;
+                                case "toxiclevel":
+                                    float toxiclevel = 0;
+                                    if (float.TryParse(options[1], out toxiclevel))
+                                    {
+                                        info.Water.ToxicLevel = toxiclevel;
+                                    }
+                                    break;
+                                case "radiationlevel":
+                                    float radiationlevel = 0;
+                                    if (float.TryParse(options[1], out radiationlevel))
+                                    {
+                                        info.Water.RadiationLevel = radiationlevel;
+                                    }
+                                    break;
+                            }
+                        }
+                        break;
+                }
+            }
+            return false;
+        }
+
         public bool ProcessPlanetThermalInfo(string planet, string name, params string[] options)
         {
             var info = GetPlanetInfo(planet, false);
@@ -415,28 +802,24 @@ namespace ExtendedSurvival.Core
             {
                 switch (name)
                 {
-                    case "dayspawn.enabled":
-                        bool dayspawn;
-                        if (bool.TryParse(value, out dayspawn))
-                        {
-                            info.Animal.DaySpawn.Enabled = dayspawn;
-                            return true;
-                        }
-                        break;
-                    case "nightspawn.enabled":
-                        bool nightspawn;
-                        if (bool.TryParse(value, out nightspawn))
-                        {
-                            info.Animal.NightSpawn.Enabled = nightspawn;
-                            return true;
-                        }
-                        break;
                     case "respawnenabled":
                         bool respawnenabled;
                         if (bool.TryParse(value, out respawnenabled))
                         {
                             info.RespawnEnabled = respawnenabled;
                             return true;
+                        }
+                        break;
+                    case "type":
+                        int type;
+                        if (int.TryParse(value, out type))
+                        {
+                            int[] validValues = new int[] { 0, 1, 2, 4 };
+                            if (validValues.Contains(type))
+                            {
+                                info.Type = type;
+                                return true;
+                            }
                         }
                         break;
                 }

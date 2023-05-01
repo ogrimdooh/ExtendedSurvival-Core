@@ -441,6 +441,28 @@ namespace ExtendedSurvival.Core
             return settings;
         }
 
+        public PlanetAnimalSetting BuildAnimalsSetting()
+        {
+            return new PlanetAnimalSetting()
+            {
+                Animals = Animal.types.Select(x => new PlanetAnimalEntrySetting() { Id = x }).ToList(),
+                DaySpawn = new PlanetAnimalSpawnSetting()
+                {
+                    Enabled = Animal.day.enabled,
+                    SpawnDelay = Animal.day.spawnDelay,
+                    SpawnDist = Animal.day.spawnDist,
+                    WaveCount = Animal.day.waveCount
+                },
+                NightSpawn = new PlanetAnimalSpawnSetting()
+                {
+                    Enabled = Animal.night.enabled,
+                    SpawnDelay = Animal.night.spawnDelay,
+                    SpawnDist = Animal.night.spawnDist,
+                    WaveCount = Animal.night.waveCount
+                }
+            };
+        }
+
         public PlanetSetting BuildSettings(string id, int seed, float deep, string[] addOres, string[] removeOres, bool clearOresBeforeAdd, 
             string targetColor, Vector2I? colorInfluence)
         {
@@ -468,24 +490,7 @@ namespace ExtendedSurvival.Core
                 Atmosphere = BuildAtmosphereSetting(),
                 Water = BuildWaterSetting(),
                 Gravity = BuildGravitySetting(),
-                Animal = new PlanetAnimalSetting()
-                {
-                    Animals = Animal.types.Select(x => new PlanetAnimalEntrySetting() { Id = x }).ToList(),
-                    DaySpawn = new PlanetAnimalSpawnSetting()
-                    {
-                        Enabled = Animal.day.enabled,
-                        SpawnDelay = Animal.day.spawnDelay,
-                        SpawnDist = Animal.day.spawnDist,
-                        WaveCount = Animal.day.waveCount
-                    },
-                    NightSpawn = new PlanetAnimalSpawnSetting()
-                    {
-                        Enabled = Animal.night.enabled,
-                        SpawnDelay = Animal.night.spawnDelay,
-                        SpawnDist = Animal.night.spawnDist,
-                        WaveCount = Animal.night.waveCount
-                    }
-                },
+                Animal = BuildAnimalsSetting(),
                 OreMap = BuildOresMappings(seed, deep, PlanetMapProfile.GetValidOreKeys(validOresToAdd), 
                 PlanetMapProfile.GetValidOreKeys(validOresToRemove), clearOresBeforeAdd, targetColor, colorInfluence)
             };

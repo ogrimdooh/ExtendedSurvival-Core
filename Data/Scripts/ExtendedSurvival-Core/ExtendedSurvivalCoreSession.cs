@@ -153,6 +153,10 @@ namespace ExtendedSurvival.Core
         private const string SETTINGS_COMMAND_PLANET = "planet.settings";
         private const string SETTINGS_COMMAND_OREMAP = "planet.oremap";
         private const string SETTINGS_COMMAND_GEOTHERMAL = "planet.geothermal";
+        private const string SETTINGS_COMMAND_ATMOSPHERE = "planet.atmosphere";
+        private const string SETTINGS_COMMAND_GRAVITY = "planet.gravity";
+        private const string SETTINGS_COMMAND_WATER = "planet.water";
+        private const string SETTINGS_COMMAND_ANIMALS = "planet.animals";
         private const string SETTINGS_COMMAND_STARSYSTEM = "starsystem";
 
         private const string SETTINGS_COMMAND_STARSYSTEM_CLEAR = "clear";
@@ -165,6 +169,10 @@ namespace ExtendedSurvival.Core
             { SETTINGS_COMMAND_PLANET, new KeyValuePair<int, bool>(4, false) },
             { SETTINGS_COMMAND_OREMAP, new KeyValuePair<int, bool>(3, true) },
             { SETTINGS_COMMAND_GEOTHERMAL, new KeyValuePair<int, bool>(3, true) },
+            { SETTINGS_COMMAND_ATMOSPHERE, new KeyValuePair<int, bool>(3, true) },
+            { SETTINGS_COMMAND_GRAVITY, new KeyValuePair<int, bool>(3, true) },
+            { SETTINGS_COMMAND_WATER, new KeyValuePair<int, bool>(3, true) },
+            { SETTINGS_COMMAND_ANIMALS, new KeyValuePair<int, bool>(3, true) },
             { SETTINGS_COMMAND_STARSYSTEM, new KeyValuePair<int, bool>(1, true) }
         };
 
@@ -192,6 +200,25 @@ namespace ExtendedSurvival.Core
             }
         }
 
+        private string TryToGetNearPlanet(ulong steamId, string nullReturn)
+        {
+            var playerId = MyAPIGateway.Players.TryGetIdentityId(steamId);
+            IMyPlayer player = null;
+            if (ExtendedSurvivalEntityManager.Instance.Players.TryGetValue(playerId, out player))
+            {
+                var playerPos = player.Character?.PositionComp?.GetPosition();
+                if (playerPos != null)
+                {
+                    var planet = ExtendedSurvivalEntityManager.GetPlanetAtRange(playerPos.Value);
+                    if (planet != null)
+                    {
+                        return planet.SubtypeName;
+                    }
+                }
+            }
+            return nullReturn;
+        }
+
         private void CommandsMsgHandler(ushort netId, byte[] data, ulong steamId, bool fromServer)
         {
             try
@@ -211,6 +238,10 @@ namespace ExtendedSurvival.Core
                                     ExtendedSurvivalSettings.Instance.SetConfigValue(mCommandData.content[1], mCommandData.content[2]);
                                     break;
                                 case SETTINGS_COMMAND_PLANET:
+                                    if (mCommandData.content[1] == "$")
+                                    {
+                                        mCommandData.content[1] = TryToGetNearPlanet(steamId, mCommandData.content[1]);
+                                    }
                                     ExtendedSurvivalSettings.Instance.SetPlanetConfigValue(mCommandData.content[1], mCommandData.content[2], mCommandData.content[3]);
                                     break;
                                 case SETTINGS_COMMAND_VOXEL:
@@ -224,20 +255,7 @@ namespace ExtendedSurvival.Core
                                     }
                                     if (mCommandData.content[1] == "$")
                                     {
-                                        var playerId = MyAPIGateway.Players.TryGetIdentityId(steamId);
-                                        IMyPlayer player = null;
-                                        if (ExtendedSurvivalEntityManager.Instance.Players.TryGetValue(playerId, out player))
-                                        {
-                                            var playerPos = player.Character?.PositionComp?.GetPosition();
-                                            if (playerPos != null)
-                                            {
-                                                var planet = ExtendedSurvivalEntityManager.GetPlanetAtRange(playerPos.Value);
-                                                if (planet != null)
-                                                {
-                                                    mCommandData.content[1] = planet.SubtypeName;
-                                                }
-                                            }
-                                        }
+                                        mCommandData.content[1] = TryToGetNearPlanet(steamId, mCommandData.content[1]);
                                     }
                                     ExtendedSurvivalSettings.Instance.ProcessPlanetOreMap(mCommandData.content[1], mCommandData.content[2], options.ToArray());
                                     break;
@@ -247,7 +265,59 @@ namespace ExtendedSurvival.Core
                                     {
                                         optionsGeo.Add(mCommandData.content[i]);
                                     }
+                                    if (mCommandData.content[1] == "$")
+                                    {
+                                        mCommandData.content[1] = TryToGetNearPlanet(steamId, mCommandData.content[1]);
+                                    }
                                     ExtendedSurvivalSettings.Instance.ProcessPlanetThermalInfo(mCommandData.content[1], mCommandData.content[2], optionsGeo.ToArray());
+                                    break;
+                                case SETTINGS_COMMAND_ATMOSPHERE:
+                                    var optionsAtm = new List<string>();
+                                    for (int i = 3; i < mCommandData.content.Length; i++)
+                                    {
+                                        optionsAtm.Add(mCommandData.content[i]);
+                                    }
+                                    if (mCommandData.content[1] == "$")
+                                    {
+                                        mCommandData.content[1] = TryToGetNearPlanet(steamId, mCommandData.content[1]);
+                                    }
+                                    ExtendedSurvivalSettings.Instance.ProcessPlanetAtmosphereInfo(mCommandData.content[1], mCommandData.content[2], optionsAtm.ToArray());
+                                    break;
+                                case SETTINGS_COMMAND_GRAVITY:
+                                    var optionsGvt = new List<string>();
+                                    for (int i = 3; i < mCommandData.content.Length; i++)
+                                    {
+                                        optionsGvt.Add(mCommandData.content[i]);
+                                    }
+                                    if (mCommandData.content[1] == "$")
+                                    {
+                                        mCommandData.content[1] = TryToGetNearPlanet(steamId, mCommandData.content[1]);
+                                    }
+                                    ExtendedSurvivalSettings.Instance.ProcessPlanetGravityInfo(mCommandData.content[1], mCommandData.content[2], optionsGvt.ToArray());
+                                    break;
+                                case SETTINGS_COMMAND_WATER:
+                                    var optionsWt = new List<string>();
+                                    for (int i = 3; i < mCommandData.content.Length; i++)
+                                    {
+                                        optionsWt.Add(mCommandData.content[i]);
+                                    }
+                                    if (mCommandData.content[1] == "$")
+                                    {
+                                        mCommandData.content[1] = TryToGetNearPlanet(steamId, mCommandData.content[1]);
+                                    }
+                                    ExtendedSurvivalSettings.Instance.ProcessPlanetWaterInfo(mCommandData.content[1], mCommandData.content[2], optionsWt.ToArray());
+                                    break;
+                                case SETTINGS_COMMAND_ANIMALS:
+                                    var optionsAnm = new List<string>();
+                                    for (int i = 3; i < mCommandData.content.Length; i++)
+                                    {
+                                        optionsAnm.Add(mCommandData.content[i]);
+                                    }
+                                    if (mCommandData.content[1] == "$")
+                                    {
+                                        mCommandData.content[1] = TryToGetNearPlanet(steamId, mCommandData.content[1]);
+                                    }
+                                    ExtendedSurvivalSettings.Instance.ProcessPlanetAnimalsInfo(mCommandData.content[1], mCommandData.content[2], optionsAnm.ToArray());
                                     break;
                                 case SETTINGS_COMMAND_STARSYSTEM:
                                     var optionsStarSystem = new List<string[]>();

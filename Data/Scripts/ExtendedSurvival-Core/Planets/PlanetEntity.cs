@@ -67,7 +67,9 @@ namespace ExtendedSurvival.Core
             : base(entity)
         {
             if (!string.IsNullOrEmpty(entity.Generator.Id.SubtypeName))
+            {
                 SubtypeName = entity.Generator.Id.SubtypeName;
+            }
             else
                 ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), $"SubtypeName is null at planet Name:{entity.Name}");
         }
