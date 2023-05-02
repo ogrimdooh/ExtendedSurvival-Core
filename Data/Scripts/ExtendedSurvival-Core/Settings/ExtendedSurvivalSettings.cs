@@ -65,6 +65,9 @@ namespace ExtendedSurvival.Core
         [XmlArray("VoxelMaterials"), XmlArrayItem("VoxelMaterial", typeof(VoxelMaterialSetting))]
         public List<VoxelMaterialSetting> VoxelMaterials { get; set; } = new List<VoxelMaterialSetting>();
 
+        [XmlArray("MaterialModifiers"), XmlArrayItem("MaterialModifier", typeof(VoxelMaterialModifierSetting))]
+        public List<VoxelMaterialModifierSetting> MaterialModifiers { get; set; } = new List<VoxelMaterialModifierSetting>();
+        
         [XmlArray("StarSystems"), XmlArrayItem("StarSystem", typeof(StarSystemSetting))]
         public List<StarSystemSetting> StarSystems { get; set; } = new List<StarSystemSetting>();
         
@@ -121,6 +124,11 @@ namespace ExtendedSurvival.Core
             return Planets.Any(x => x.Id.ToUpper().Trim() == id.ToUpper().Trim());
         }
 
+        public bool HasMaterialModifierInfo(string id)
+        {
+            return MaterialModifiers.Any(x => x.Id.ToUpper().Trim() == id.ToUpper().Trim());
+        }
+
         public bool PlanetUsingTecnologyForFirstTime(string id)
         {
             return ExtendedSurvivalCoreSession.IsUsingTechnology() && Planets.Any(x => x.Id.ToUpper().Trim() == id.ToUpper().Trim() && !x.UsingTechnology);
@@ -134,6 +142,29 @@ namespace ExtendedSurvival.Core
         public bool HasStarSystem(string id)
         {
             return StarSystems.Any(x => x.Name.ToUpper().Trim() == id.ToUpper().Trim());
+        }
+
+        public VoxelMaterialModifierSetting GetMaterialModifierInfo(string id, bool generateWhenNotExists = true)
+        {
+            if (HasMaterialModifierInfo(id))
+            {
+                var settings = MaterialModifiers.FirstOrDefault(x => x.Id.ToUpper().Trim() == id.ToUpper().Trim());
+                var starProfile = VoxelMaterialModifierMapProfile.Get(settings.Id);
+                if (starProfile != null)
+                    settings = starProfile.UpgradeSettings(settings);
+                return settings;
+            }
+            else if (generateWhenNotExists)
+            {
+                var starProfile = VoxelMaterialModifierMapProfile.Get(id);
+                if (starProfile != null)
+                {
+                    var settings = starProfile.BuildSettings(id);
+                    MaterialModifiers.Add(settings);
+                    return settings;
+                }
+            }
+            return null;
         }
 
         public StarSystemSetting GetStarSystemInfo(string id, bool generateWhenNotExists = true)

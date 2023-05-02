@@ -4,6 +4,7 @@ using VRageMath;
 
 namespace ExtendedSurvival.Core
 {
+
     public static class PlanetMapProfile
     {
 
@@ -20,6 +21,7 @@ namespace ExtendedSurvival.Core
         public const ulong EARTHLIKE_ANIMALS_MODID = 2170447225;
 
         // Valina
+        public const string Iron_01 = "Iron_01";
         public const string Iron_02 = "Iron_02";
         public const string Nickel_01 = "Nickel_01";
         public const string Silicon_01 = "Silicon_01";

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using VRage.Game;
+using VRage.Utils;
 
 namespace ExtendedSurvival.Core
 {
@@ -106,7 +107,7 @@ namespace ExtendedSurvival.Core
                         definition.HasAtmosphere = info.Atmosphere.Enabled;
                         definition.Atmosphere = info.Atmosphere.GetAtmosphere();
                         definition.GravityFalloffPower = info.Gravity.GravityFalloffPower;
-                        definition.SurfaceGravity = info.Gravity.SurfaceGravity;
+                        definition.SurfaceGravity = info.Gravity.SurfaceGravity;                        
                         CheckCustomPlanetsDefinitions(definition);
                         definition.Postprocess();
                         ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(PlanetsOverride), $"Override planet definition : {definition.Id.SubtypeName}");
@@ -115,6 +116,25 @@ namespace ExtendedSurvival.Core
                 catch (Exception ex)
                 {
                     ExtendedSurvivalCoreLogging.Instance.LogError(typeof(PlanetsOverride), ex);
+                }
+            }
+            // Override VoxelMaterialModifierDefinition
+            var modifiers = MyDefinitionManager.Static.GetAllDefinitions<MyVoxelMaterialModifierDefinition>();
+            if (modifiers != null && modifiers.Any())
+            {
+                foreach (var modifier in modifiers)
+                {
+                    if (VoxelMaterialModifierMapProfile.IGNORE_LIST.Contains(modifier.Id.SubtypeName))
+                        continue;
+                    var info = ExtendedSurvivalSettings.Instance.GetMaterialModifierInfo(modifier.Id.SubtypeName);
+                    if (info != null)
+                    {
+                        var options = info.BuildOptions();
+                        modifier.Options = new MyDiscreteSampler<VoxelMapChange>(((IEnumerable<MyVoxelMapModifierOption>)options).Select<MyVoxelMapModifierOption, VoxelMapChange>((Func<MyVoxelMapModifierOption, VoxelMapChange>)(x => new VoxelMapChange()
+                        {
+                            Changes = x.Changes == null ? (Dictionary<byte, byte>)null : ((IEnumerable<MyVoxelMapModifierChange>)x.Changes).ToDictionary<MyVoxelMapModifierChange, byte, byte>((Func<MyVoxelMapModifierChange, byte>)(y => MyDefinitionManager.Static.GetVoxelMaterialDefinition(y.From).Index), (Func<MyVoxelMapModifierChange, byte>)(y => MyDefinitionManager.Static.GetVoxelMaterialDefinition(y.To).Index))
+                        })), ((IEnumerable<MyVoxelMapModifierOption>)options).Select<MyVoxelMapModifierOption, float>((Func<MyVoxelMapModifierOption, float>)(x => x.Chance)));
+                    }
                 }
             }
             // Override Start Ships
