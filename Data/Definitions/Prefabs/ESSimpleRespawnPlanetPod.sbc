@@ -2520,7 +2520,7 @@
               <Enabled>true</Enabled>
               <AnyoneCanUse>false</AnyoneCanUse>
               <AutoDeploy>true</AutoDeploy>
-              <DeployHeight>503.29068</DeployHeight>
+              <DeployHeight>500</DeployHeight>
             </MyObjectBuilder_CubeBlock>
             <MyObjectBuilder_CubeBlock xsi:type="MyObjectBuilder_CubeBlock">
               <SubtypeName>HalfSlopeArmorBlock</SubtypeName>
