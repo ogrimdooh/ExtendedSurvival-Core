@@ -8,6 +8,7 @@ using Sandbox.Game.Entities;
 using VRage.Game.Entity;
 using VRageMath;
 using Sandbox.ModAPI;
+using Sandbox.Engine.Voxels;
 
 namespace ExtendedSurvival.Core
 {

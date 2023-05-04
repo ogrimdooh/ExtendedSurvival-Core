@@ -1061,7 +1061,8 @@ namespace ExtendedSurvival.Core
             Temperature = PlanetMapProfile.GetTemperature(VRage.Game.MyTemperatureLevel.ExtremeHot, 1250, 5600),
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(120, 120),
-            Type = PlanetProfile.PlanetType.Star
+            Type = PlanetProfile.PlanetType.Star,
+            MeteorImpact = new PlanetProfile.MeteorImpactInfo() { enabled = false }
         };
 
         public static readonly PlanetProfile ATA_SUN_PROFILE = new PlanetProfile()
@@ -1077,7 +1078,8 @@ namespace ExtendedSurvival.Core
             Temperature = PlanetMapProfile.GetTemperature(VRage.Game.MyTemperatureLevel.ExtremeHot, 1250, 5600),
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(40, 40),
-            Type = PlanetProfile.PlanetType.Star
+            Type = PlanetProfile.PlanetType.Star,
+            MeteorImpact = new PlanetProfile.MeteorImpactInfo() { enabled = false }
         };
 
         //Planets
@@ -1096,7 +1098,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             MaxGroupSize = 2,
             StartBreak = 4,
-            Ores = ATA_01_MERCURY_ORES
+            Ores = ATA_01_MERCURY_ORES,
+            MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
 
         public static readonly PlanetProfile ATA_02_VENUS_PROFILE = new PlanetProfile() 
@@ -1115,7 +1118,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             MaxGroupSize = 2,
             StartBreak = 4,
-            Ores = ATA_02_VENUS_ORES
+            Ores = ATA_02_VENUS_ORES,
+            MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
 
         public static readonly PlanetProfile ATA_03_EARTH_PROFILE = new PlanetProfile() 
@@ -1134,7 +1138,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             MaxGroupSize = 2,
             StartBreak = 6,
-            Ores = ATA_03_EARTH_ORES
+            Ores = ATA_03_EARTH_ORES,
+            MeteorImpact = VanilaMapProfile.EARTHLIKE_METEOR
         };
 
         public static readonly PlanetProfile ATA_03_MOON_PROFILE = new PlanetProfile() 
@@ -1153,7 +1158,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             MaxGroupSize = 2,
             StartBreak = 2,
-            Ores = ATA_03_MOON_ORES
+            Ores = ATA_03_MOON_ORES,
+            MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
 
         public static readonly PlanetProfile ATA_04_MARS_PROFILE = new PlanetProfile() 
@@ -1172,7 +1178,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             MaxGroupSize = 2,
             StartBreak = 4,
-            Ores = ATA_04_MARS_ORES
+            Ores = ATA_04_MARS_ORES,
+            MeteorImpact = VanilaMapProfile.MARS_METEOR
         };
 
         public static readonly PlanetProfile ATA_05_JUPITER_PROFILE = new PlanetProfile() 
@@ -1190,7 +1197,8 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(120, 120),
             Type = PlanetProfile.PlanetType.GiantGas,
             MaxGroupSize = 2,
-            StartBreak = 3
+            StartBreak = 3,
+            MeteorImpact = new PlanetProfile.MeteorImpactInfo() { enabled = false }
         };
 
         public static readonly PlanetProfile ATA_05_CALLISTO_PROFILE = new PlanetProfile() 
@@ -1209,7 +1217,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             MaxGroupSize = 2,
             StartBreak = 2,
-            Ores = ATA_05_CALLISTO_ORES
+            Ores = ATA_05_CALLISTO_ORES,
+            MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
 
         public static readonly PlanetProfile ATA_05_GANYMEDE_PROFILE = new PlanetProfile() 
@@ -1228,7 +1237,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             MaxGroupSize = 2,
             StartBreak = 2,
-            Ores = ATA_05_GANYMEDE_ORES
+            Ores = ATA_05_GANYMEDE_ORES,
+            MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
 
         public static readonly PlanetProfile ATA_05_EUROPA_PROFILE = new PlanetProfile() 
@@ -1247,7 +1257,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             MaxGroupSize = 2,
             StartBreak = 2,
-            Ores = ATA_05_EUROPA_ORES
+            Ores = ATA_05_EUROPA_ORES,
+            MeteorImpact = VanilaMapProfile.EUROPA_METEOR
         };
 
         public static readonly PlanetProfile ATA_05_IO_PROFILE = new PlanetProfile() 
@@ -1266,7 +1277,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             MaxGroupSize = 2,
             StartBreak = 2,
-            Ores = ATA_05_IO_ORES
+            Ores = ATA_05_IO_ORES,
+            MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
 
         public static readonly PlanetProfile ATA_06_SATURN_PROFILE = new PlanetProfile() 
@@ -1284,7 +1296,8 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(120, 120),
             Type = PlanetProfile.PlanetType.GiantGas,
             MaxGroupSize = 2,
-            StartBreak = 3
+            StartBreak = 3,
+            MeteorImpact = new PlanetProfile.MeteorImpactInfo() { enabled = false }
         };
 
         public static readonly PlanetProfile ATA_06_IAPETUS_PROFILE = new PlanetProfile() 
@@ -1303,7 +1316,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             MaxGroupSize = 2,
             StartBreak = 2,
-            Ores = ATA_06_IAPETUS_ORES
+            Ores = ATA_06_IAPETUS_ORES,
+            MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
 
         public static readonly PlanetProfile ATA_06_TITAN_PROFILE = new PlanetProfile() 
@@ -1322,7 +1336,8 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(35, 55),
             MaxGroupSize = 2,
             StartBreak = 2,
-            Ores = ATA_06_TITAN_ORES
+            Ores = ATA_06_TITAN_ORES,
+            MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
 
         public static readonly PlanetProfile ATA_06_RHEA_PROFILE = new PlanetProfile() 
@@ -1341,7 +1356,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             MaxGroupSize = 2,
             StartBreak = 2,
-            Ores = ATA_06_RHEA_ORES
+            Ores = ATA_06_RHEA_ORES,
+            MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
 
         public static readonly PlanetProfile ATA_06_DIONE_PROFILE = new PlanetProfile() 
@@ -1360,7 +1376,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             MaxGroupSize = 2,
             StartBreak = 2,
-            Ores = ATA_06_DIONE_ORES
+            Ores = ATA_06_DIONE_ORES,
+            MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
 
         public static readonly PlanetProfile ATA_06_TETHYS_PROFILE = new PlanetProfile() 
@@ -1379,7 +1396,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             MaxGroupSize = 2,
             StartBreak = 2,
-            Ores = ATA_06_TETHYS_ORES
+            Ores = ATA_06_TETHYS_ORES,
+            MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
 
         public static readonly PlanetProfile ATA_06_ENCELADUS_PROFILE = new PlanetProfile() 
@@ -1398,7 +1416,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             MaxGroupSize = 2,
             StartBreak = 2,
-            Ores = ATA_06_ENCELADUS_ORES
+            Ores = ATA_06_ENCELADUS_ORES,
+            MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
 
         public static readonly PlanetProfile ATA_06_MIMAS_PROFILE = new PlanetProfile() 
@@ -1417,7 +1436,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             MaxGroupSize = 2,
             StartBreak = 2,
-            Ores = ATA_06_MIMAS_ORES
+            Ores = ATA_06_MIMAS_ORES,
+            MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
 
         public static readonly PlanetProfile ATA_07_URANUS_PROFILE = new PlanetProfile() 
@@ -1435,7 +1455,8 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(120, 120),
             Type = PlanetProfile.PlanetType.GiantGas,
             MaxGroupSize = 2,
-            StartBreak = 3
+            StartBreak = 3,
+            MeteorImpact = new PlanetProfile.MeteorImpactInfo() { enabled = false }
         };
 
         public static readonly PlanetProfile ATA_07_OBREON_PROFILE = new PlanetProfile() 
@@ -1454,7 +1475,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             MaxGroupSize = 2,
             StartBreak = 2,
-            Ores = ATA_07_OBREON_ORES
+            Ores = ATA_07_OBREON_ORES,
+            MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
 
         public static readonly PlanetProfile ATA_07_TITANIA_PROFILE = new PlanetProfile() 
@@ -1473,7 +1495,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             MaxGroupSize = 2,
             StartBreak = 2,
-            Ores = ATA_07_TITANIA_ORES
+            Ores = ATA_07_TITANIA_ORES,
+            MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
 
         public static readonly PlanetProfile ATA_07_UMBRIEL_PROFILE = new PlanetProfile() 
@@ -1492,7 +1515,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             MaxGroupSize = 2,
             StartBreak = 2,
-            Ores = ATA_07_UMBRIEL_ORES
+            Ores = ATA_07_UMBRIEL_ORES,
+            MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
 
         public static readonly PlanetProfile ATA_07_ARIEL_PROFILE = new PlanetProfile()
@@ -1511,7 +1535,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             MaxGroupSize = 2,
             StartBreak = 2,
-            Ores = ATA_07_ARIEL_ORES
+            Ores = ATA_07_ARIEL_ORES,
+            MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
 
         public static readonly PlanetProfile ATA_07_MIRANDA_PROFILE = new PlanetProfile() 
@@ -1530,7 +1555,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             MaxGroupSize = 2,
             StartBreak = 2,
-            Ores = ATA_07_MIRANDA_ORES
+            Ores = ATA_07_MIRANDA_ORES,
+            MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
 
         public static readonly PlanetProfile ATA_08_NEPTUNE_PROFILE = new PlanetProfile() 
@@ -1548,7 +1574,8 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(120, 120),
             Type = PlanetProfile.PlanetType.GiantGas,
             MaxGroupSize = 2,
-            StartBreak = 3
+            StartBreak = 3,
+            MeteorImpact = new PlanetProfile.MeteorImpactInfo() { enabled = false }
         };
         public static readonly PlanetProfile ATA_08_TRITON_PROFILE = new PlanetProfile() 
         {
@@ -1566,7 +1593,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             MaxGroupSize = 2,
             StartBreak = 2,
-            Ores = ATA_08_TRITON_ORES
+            Ores = ATA_08_TRITON_ORES,
+            MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
         public static readonly PlanetProfile ATA_09_PLUTO_PROFILE = new PlanetProfile() 
         {
@@ -1584,7 +1612,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             MaxGroupSize = 2,
             StartBreak = 2,
-            Ores = ATA_09_PLUTO_ORES
+            Ores = ATA_09_PLUTO_ORES,
+            MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
         public static readonly PlanetProfile ATA_09_CHARON_PROFILE = new PlanetProfile() 
         {
@@ -1602,7 +1631,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             MaxGroupSize = 2,
             StartBreak = 2,
-            Ores = ATA_09_CHARON_ORES
+            Ores = ATA_09_CHARON_ORES,
+            MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
 
     }

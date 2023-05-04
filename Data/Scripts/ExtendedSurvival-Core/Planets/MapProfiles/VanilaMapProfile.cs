@@ -358,6 +358,148 @@ namespace ExtendedSurvival.Core
                 null
             );
 
+        public static readonly PlanetProfile.MeteorImpactInfo EARTHLIKE_METEOR = new PlanetProfile.MeteorImpactInfo()
+        {
+            enabled = true,
+            chanceToSpawn = 0.15f,
+            stones = new PlanetProfile.MeteorStonesInfo[] { 
+                new PlanetProfile.MeteorStonesInfo()
+                {
+                    groupId = "SnowCoverageIronCore",
+                    modifierId = "EarthSnowArea",
+                    chanceToSpawn = 0.25f
+                },
+                new PlanetProfile.MeteorStonesInfo()
+                {
+                    groupId = "StoneCoverageIronCore",
+                    modifierId = "EarthForestArea",
+                    chanceToSpawn = 0.5f
+                },
+                new PlanetProfile.MeteorStonesInfo()
+                {
+                    groupId = "StoneCoverageIronCore",
+                    modifierId = "EarthDesertArea",
+                    chanceToSpawn = 0.25f
+                }
+            }
+        };
+
+        public static readonly PlanetProfile.MeteorImpactInfo ALIEN_METEOR = new PlanetProfile.MeteorImpactInfo()
+        {
+            enabled = true,
+            chanceToSpawn = 0.15f,
+            stones = new PlanetProfile.MeteorStonesInfo[] {
+                new PlanetProfile.MeteorStonesInfo()
+                {
+                    groupId = "SnowCoverageIronCore",
+                    modifierId = "AlienIcelandArea",
+                    chanceToSpawn = 0.25f
+                },
+                new PlanetProfile.MeteorStonesInfo()
+                {
+                    groupId = "StoneCoverageIronCore",
+                    modifierId = "AlienForestArea",
+                    chanceToSpawn = 0.5f
+                },
+                new PlanetProfile.MeteorStonesInfo()
+                {
+                    groupId = "StoneCoverageIronCore",
+                    modifierId = "AlienDesertArea",
+                    chanceToSpawn = 0.25f
+                }
+            }
+        };
+
+        public static readonly PlanetProfile.MeteorImpactInfo MARS_METEOR = new PlanetProfile.MeteorImpactInfo()
+        {
+            enabled = true,
+            chanceToSpawn = 0.15f,
+            stones = new PlanetProfile.MeteorStonesInfo[] {
+                new PlanetProfile.MeteorStonesInfo()
+                {
+                    groupId = "StoneCoverageIronCore",
+                    modifierId = "Mars",
+                    chanceToSpawn = 1f
+                }
+            }
+        };
+
+        public static readonly PlanetProfile.MeteorImpactInfo PERTAN_METEOR = new PlanetProfile.MeteorImpactInfo()
+        {
+            enabled = true,
+            chanceToSpawn = 0.15f,
+            stones = new PlanetProfile.MeteorStonesInfo[] {
+                new PlanetProfile.MeteorStonesInfo()
+                {
+                    groupId = "StoneCoverageIronCore",
+                    modifierId = "EarthDesertArea",
+                    chanceToSpawn = 1f
+                }
+            }
+        };
+
+        public static readonly PlanetProfile.MeteorImpactInfo TRITON_METEOR = new PlanetProfile.MeteorImpactInfo()
+        {
+            enabled = true,
+            chanceToSpawn = 0.15f,
+            stones = new PlanetProfile.MeteorStonesInfo[] {
+                new PlanetProfile.MeteorStonesInfo()
+                {
+                    groupId = "SnowCoverageIronCore",
+                    modifierId = "EarthSnowArea",
+                    chanceToSpawn = 1f
+                }
+            }
+        };
+
+        public static readonly PlanetProfile.MeteorImpactInfo MOON_METEOR = new PlanetProfile.MeteorImpactInfo()
+        {
+            enabled = true,
+            chanceToSpawn = 0.15f,
+            stones = new PlanetProfile.MeteorStonesInfo[] {
+                new PlanetProfile.MeteorStonesInfo()
+                {
+                    groupId = "StoneCoverageIronCore",
+                    modifierId = "Moon",
+                    chanceToSpawn = 0.75f
+                },
+                new PlanetProfile.MeteorStonesInfo()
+                {
+                    groupId = "SnowCoverageIronCore",
+                    modifierId = "Moon",
+                    chanceToSpawn = 0.25f
+                }
+            }
+        };
+
+        public static readonly PlanetProfile.MeteorImpactInfo EUROPA_METEOR = new PlanetProfile.MeteorImpactInfo()
+        {
+            enabled = true,
+            chanceToSpawn = 0.15f,
+            stones = new PlanetProfile.MeteorStonesInfo[] {
+                new PlanetProfile.MeteorStonesInfo()
+                {
+                    groupId = "SnowCoverageIronCore",
+                    modifierId = "Europa",
+                    chanceToSpawn = 1f
+                }
+            }
+        };
+
+        public static readonly PlanetProfile.MeteorImpactInfo TITAN_METEOR = new PlanetProfile.MeteorImpactInfo()
+        {
+            enabled = true,
+            chanceToSpawn = 0.15f,
+            stones = new PlanetProfile.MeteorStonesInfo[] {
+                new PlanetProfile.MeteorStonesInfo()
+                {
+                    groupId = "StoneCoverageIronCore",
+                    modifierId = "Mars",
+                    chanceToSpawn = 1f
+                }
+            }
+        };
+
         // Planets
 
         public static readonly PlanetProfile EARTHLIKE = new PlanetProfile()
@@ -377,7 +519,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             MaxGroupSize = 2,
             StartBreak = 6,
-            Ores = EARTHLIKE_ORES
+            Ores = EARTHLIKE_ORES,
+            MeteorImpact = EARTHLIKE_METEOR
         };
 
         public static readonly PlanetProfile ALIEN = new PlanetProfile()
@@ -397,7 +540,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             MaxGroupSize = 2,
             StartBreak = 3,
-            Ores = ALIEN_ORES
+            Ores = ALIEN_ORES,
+            MeteorImpact = ALIEN_METEOR
         };
 
         public static readonly PlanetProfile MARS = new PlanetProfile()
@@ -417,7 +561,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             MaxGroupSize = 2,
             StartBreak = 4,
-            Ores = MARS_ORES
+            Ores = MARS_ORES,
+            MeteorImpact = MARS_METEOR
         };
 
         public static readonly PlanetProfile PERTAM = new PlanetProfile()
@@ -437,7 +582,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             MaxGroupSize = 2,
             StartBreak = 3,
-            Ores = PERTAM_ORES
+            Ores = PERTAM_ORES,
+            MeteorImpact = PERTAN_METEOR
         };
 
         public static readonly PlanetProfile TRITON = new PlanetProfile()
@@ -455,7 +601,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             MaxGroupSize = 2,
             StartBreak = 3,
-            Ores = TRITON_ORES
+            Ores = TRITON_ORES,
+            MeteorImpact = TRITON_METEOR
         };
 
         // Moons
@@ -477,7 +624,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             MaxGroupSize = 2,
             StartBreak = 3,
-            Ores = MOON_ORES
+            Ores = MOON_ORES,
+            MeteorImpact = MOON_METEOR
         };
 
         public static readonly PlanetProfile EUROPA = new PlanetProfile()
@@ -497,7 +645,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             MaxGroupSize = 2,
             StartBreak = 2,
-            Ores = EUROPA_ORES
+            Ores = EUROPA_ORES,
+            MeteorImpact = EUROPA_METEOR
         };
 
         public static readonly PlanetProfile TITAN = new PlanetProfile()
@@ -517,7 +666,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             MaxGroupSize = 2,
             StartBreak = 2,
-            Ores = TITAN_ORES
+            Ores = TITAN_ORES,
+            MeteorImpact = TITAN_METEOR
         };
 
     }

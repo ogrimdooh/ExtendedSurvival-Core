@@ -123,6 +123,24 @@ namespace ExtendedSurvival.Core
 
         }
 
+        public struct MeteorStonesInfo
+        {
+
+            public string groupId;
+            public string modifierId;
+            public float chanceToSpawn;
+
+        }
+
+        public struct MeteorImpactInfo
+        {
+
+            public bool enabled;
+            public float chanceToSpawn;
+            public MeteorStonesInfo[] stones;
+
+        }
+
         public bool RespawnEnabled { get; set; }
         public PlanetOrigin Origin { get; set; }
         public ulong OriginId { get; set; }
@@ -132,6 +150,7 @@ namespace ExtendedSurvival.Core
         public TemperatureInfo Temperature { get; set; }
         public GravityInfo Gravity { get; set; }
         public WaterInfo Water { get; set; }
+        public MeteorImpactInfo MeteorImpact { get; set; }
         public List<OreMapInfo> Ores { get; set; } = new List<OreMapInfo>();
         public string TargetColor { get; set; }
         public Vector2I ColorInfluence { get; set; } = Vector2I.Zero;
@@ -195,6 +214,21 @@ namespace ExtendedSurvival.Core
             }
             else
                 return new GeothermalSetting() { Enabled = false };
+        }
+
+        public PlanetMeteorImpactSetting BuildMeteorImpactSetting()
+        {
+            return new PlanetMeteorImpactSetting()
+            {
+                Enabled = MeteorImpact.enabled,
+                ChanceToSpawn = MeteorImpact.chanceToSpawn,
+                Stones = MeteorImpact.stones.Select(x => new MeteorImpactStoneSetting()
+                {
+                    GroupId = x.groupId,
+                    ModifierId = x.modifierId,
+                    ChanceToSpawn = x.chanceToSpawn
+                }).ToList()
+            };
         }
 
         private List<PlanetOreMapEntrySetting> BuildOresMappings(int seed, float deep, string[] addOres, string[] removeOres, 
@@ -436,6 +470,9 @@ namespace ExtendedSurvival.Core
                         settings.RemovedOres?.Split(','), settings.ClearOresBeforeAdd, settings.TargetColor,
                         settings.UseColorInfluence ? (Vector2I?)settings.ColorInfluence.ToVector2I() : null);
                     settings.OreMap = tmpSettings.OreMap;
+                } else if (settings.Version <= 11)
+                {
+                    settings.MeteorImpact = BuildMeteorImpactSetting();
                 }
                 settings.Version = Version;
             }
@@ -492,6 +529,7 @@ namespace ExtendedSurvival.Core
                 Water = BuildWaterSetting(),
                 Gravity = BuildGravitySetting(),
                 Animal = BuildAnimalsSetting(),
+                MeteorImpact = BuildMeteorImpactSetting(),
                 OreMap = BuildOresMappings(seed, deep, PlanetMapProfile.GetValidOreKeys(validOresToAdd), 
                 PlanetMapProfile.GetValidOreKeys(validOresToRemove), clearOresBeforeAdd, targetColor, colorInfluence)
             };

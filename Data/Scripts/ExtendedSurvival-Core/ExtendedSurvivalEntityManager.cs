@@ -257,6 +257,9 @@ namespace ExtendedSurvival.Core
                     if (WoodChopController.CheckEntityIsATree(entityName, entity))
                         return;
                 }
+                var meteor = entity as IMyMeteor;
+                if (meteor != null)
+                    MeteorImpactController.CheckEntityCanGenerateStone(meteor);
                 var cubeGrid = entity as IMyCubeGrid;
                 if (cubeGrid != null)
                 {

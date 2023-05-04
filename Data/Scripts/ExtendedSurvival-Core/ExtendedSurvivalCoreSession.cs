@@ -1,4 +1,7 @@
-﻿using Sandbox.Game.Entities;
+﻿using Sandbox.Engine.Physics;
+using Sandbox.Game.Entities;
+using Sandbox.Game.GameSystems;
+using Sandbox.Game.World;
 using Sandbox.ModAPI;
 using System;
 using System.Collections.Generic;
@@ -6,7 +9,10 @@ using System.Linq;
 using System.Text;
 using VRage.Game;
 using VRage.Game.Components;
+using VRage.Game.Entity;
 using VRage.Game.ModAPI;
+using VRage.Utils;
+using VRageMath;
 
 namespace ExtendedSurvival.Core
 {
@@ -20,6 +26,14 @@ namespace ExtendedSurvival.Core
 
         public const ulong ES_TECHNOLOGY_MODID = 2842844421;
         public const ulong ES_STATS_EFFECTS_MODID = 2840924715;
+
+        private static bool? isLocalExecution = null;
+        public static bool IsLocalExecution()
+        {
+            if (!isLocalExecution.HasValue)
+                isLocalExecution = MyAPIGateway.Session.Mods.Any(x => x.Name == ES_STATS_LOCALNAME || x.Name == ES_TECHNOLOGY_LOCALNAME);
+            return isLocalExecution.Value;
+        }
 
         private static bool? isUsingTechnology = null;
         public static bool IsUsingTechnology()
@@ -158,6 +172,7 @@ namespace ExtendedSurvival.Core
         private const string SETTINGS_COMMAND_WATER = "planet.water";
         private const string SETTINGS_COMMAND_ANIMALS = "planet.animals";
         private const string SETTINGS_COMMAND_STARSYSTEM = "starsystem";
+        private const string SETTINGS_COMMAND_METEORWAVE = "meteorwave";
 
         private const string SETTINGS_COMMAND_STARSYSTEM_CLEAR = "clear";
         private const string SETTINGS_COMMAND_STARSYSTEM_CREATE = "create";
@@ -173,7 +188,8 @@ namespace ExtendedSurvival.Core
             { SETTINGS_COMMAND_GRAVITY, new KeyValuePair<int, bool>(3, true) },
             { SETTINGS_COMMAND_WATER, new KeyValuePair<int, bool>(3, true) },
             { SETTINGS_COMMAND_ANIMALS, new KeyValuePair<int, bool>(3, true) },
-            { SETTINGS_COMMAND_STARSYSTEM, new KeyValuePair<int, bool>(1, true) }
+            { SETTINGS_COMMAND_STARSYSTEM, new KeyValuePair<int, bool>(1, true) },
+            { SETTINGS_COMMAND_METEORWAVE, new KeyValuePair<int, bool>(0, true) }
         };
 
         private void OnMessageEntered(string messageText, ref bool sendToOthers)
@@ -355,6 +371,22 @@ namespace ExtendedSurvival.Core
                                                 StarSystemController.ComputeNewStarSystem(profileInfo, flags);
                                             }
                                             break;
+                                    }
+                                    break;
+                                case SETTINGS_COMMAND_METEORWAVE:
+                                    if (IsLocalExecution())
+                                    {
+                                        /* only local execution command - can cause game crash */
+                                        var playerId = MyAPIGateway.Players.TryGetIdentityId(steamId);
+                                        IMyPlayer player = null;
+                                        if (ExtendedSurvivalEntityManager.Instance.Players.TryGetValue(playerId, out player))
+                                        {
+                                            var playerPos = player.Character?.PositionComp?.GetPosition();
+                                            if (playerPos != null)
+                                            {
+                                                MeteorWaveController.CallMeteorWave(new BoundingSphereD(playerPos.Value, 50));
+                                            }
+                                        }
                                     }
                                     break;
                             }

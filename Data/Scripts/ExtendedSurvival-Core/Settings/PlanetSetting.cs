@@ -71,6 +71,9 @@ namespace ExtendedSurvival.Core
         [XmlElement]
         public PlanetAnimalSetting Animal { get; set; } = new PlanetAnimalSetting();
 
+        [XmlElement]
+        public PlanetMeteorImpactSetting MeteorImpact { get; set; } = new PlanetMeteorImpactSetting();
+
         [XmlArray("OreMap"), XmlArrayItem("Ore", typeof(PlanetOreMapEntrySetting))]
         public List<PlanetOreMapEntrySetting> OreMap { get; set; } = new List<PlanetOreMapEntrySetting>();
 

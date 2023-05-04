@@ -353,6 +353,136 @@ namespace ExtendedSurvival.Core
                 null
             );
 
+        public static readonly PlanetProfile.MeteorImpactInfo OI_METEOR = new PlanetProfile.MeteorImpactInfo()
+        {
+            enabled = true,
+            chanceToSpawn = 0.15f,
+            stones = new PlanetProfile.MeteorStonesInfo[] {
+                new PlanetProfile.MeteorStonesInfo()
+                {
+                    groupId = "Stones",
+                    modifierId = "Oi",
+                    chanceToSpawn = 1f
+                }
+            }
+        };
+
+        public static readonly PlanetProfile.MeteorImpactInfo SPATAT_METEOR = new PlanetProfile.MeteorImpactInfo()
+        {
+            enabled = true,
+            chanceToSpawn = 0.15f,
+            stones = new PlanetProfile.MeteorStonesInfo[] {
+                new PlanetProfile.MeteorStonesInfo()
+                {
+                    groupId = "Stones",
+                    modifierId = "Spatat",
+                    chanceToSpawn = 1f
+                }
+            }
+        };
+
+        public static readonly PlanetProfile.MeteorImpactInfo TOTHT_METEOR = new PlanetProfile.MeteorImpactInfo()
+        {
+            enabled = true,
+            chanceToSpawn = 0.15f,
+            stones = new PlanetProfile.MeteorStonesInfo[] {
+                new PlanetProfile.MeteorStonesInfo()
+                {
+                    groupId = "StoneCoverageIronCore",
+                    modifierId = "EarthDesertArea",
+                    chanceToSpawn = 1f
+                }
+            }
+        };
+
+        public static readonly PlanetProfile.MeteorImpactInfo GLEDIUS_NUBIS_METEOR = new PlanetProfile.MeteorImpactInfo()
+        {
+            enabled = true,
+            chanceToSpawn = 0.15f,
+            stones = new PlanetProfile.MeteorStonesInfo[] {
+                new PlanetProfile.MeteorStonesInfo()
+                {
+                    groupId = "SnowCoverageIronCore",
+                    modifierId = "Europa",
+                    chanceToSpawn = 1f
+                }
+            }
+        };
+
+        public static readonly PlanetProfile.MeteorImpactInfo EREMUS_NUBIS_METEOR = new PlanetProfile.MeteorImpactInfo()
+        {
+            enabled = true,
+            chanceToSpawn = 0.15f,
+            stones = new PlanetProfile.MeteorStonesInfo[] {
+                new PlanetProfile.MeteorStonesInfo()
+                {
+                    groupId = "StoneCoverageIronCore",
+                    modifierId = "Mars",
+                    chanceToSpawn = 1f
+                }
+            }
+        };
+
+        public static readonly PlanetProfile.MeteorImpactInfo ENITOR_METEOR = new PlanetProfile.MeteorImpactInfo()
+        {
+            enabled = true,
+            chanceToSpawn = 0.15f,
+            stones = new PlanetProfile.MeteorStonesInfo[] {
+                new PlanetProfile.MeteorStonesInfo()
+                {
+                    groupId = "StoneCoverageIronCore",
+                    modifierId = "AlienDesertArea",
+                    chanceToSpawn = 1f
+                }
+            }
+        };
+
+        public static readonly PlanetProfile.MeteorImpactInfo DOVER_METEOR = new PlanetProfile.MeteorImpactInfo()
+        {
+            enabled = true,
+            chanceToSpawn = 0.15f,
+            stones = new PlanetProfile.MeteorStonesInfo[] {
+                new PlanetProfile.MeteorStonesInfo()
+                {
+                    groupId = "SnowCoverageIronCore",
+                    modifierId = "EarthSnowArea",
+                    chanceToSpawn = 0.25f
+                },
+                new PlanetProfile.MeteorStonesInfo()
+                {
+                    groupId = "StoneCoverageIronCore",
+                    modifierId = "EarthForestArea",
+                    chanceToSpawn = 0.5f
+                },
+                new PlanetProfile.MeteorStonesInfo()
+                {
+                    groupId = "StoneCoverageIronCore",
+                    modifierId = "EarthDesertArea",
+                    chanceToSpawn = 0.25f
+                }
+            }
+        };
+
+        public static readonly PlanetProfile.MeteorImpactInfo CAPUTALIS_NUBIS_METEOR = new PlanetProfile.MeteorImpactInfo()
+        {
+            enabled = true,
+            chanceToSpawn = 0.15f,
+            stones = new PlanetProfile.MeteorStonesInfo[] {
+                new PlanetProfile.MeteorStonesInfo()
+                {
+                    groupId = "StoneCoverageIronCore",
+                    modifierId = "Moon",
+                    chanceToSpawn = 0.75f
+                },
+                new PlanetProfile.MeteorStonesInfo()
+                {
+                    groupId = "SnowCoverageIronCore",
+                    modifierId = "Moon",
+                    chanceToSpawn = 0.25f
+                }
+            }
+        };
+
         // Planets
 
         public static readonly PlanetProfile OI = new PlanetProfile()
@@ -372,7 +502,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             MaxGroupSize = 2,
             StartBreak = 3,
-            Ores = OI_ORES
+            Ores = OI_ORES,
+            MeteorImpact = OI_METEOR
         };
 
         public static readonly PlanetProfile SPATAT = new PlanetProfile()
@@ -392,7 +523,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             MaxGroupSize = 2,
             StartBreak = 2,
-            Ores = SPATAT_ORES
+            Ores = SPATAT_ORES,
+            MeteorImpact = SPATAT_METEOR
         };
 
         public static readonly PlanetProfile ENITOR = new PlanetProfile()
@@ -410,7 +542,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             MaxGroupSize = 2,
             StartBreak = 3,
-            Ores = ENITOR_ORES
+            Ores = ENITOR_ORES,
+            MeteorImpact = ENITOR_METEOR
         };
 
         public static readonly PlanetProfile EREMUS_NUBIS = new PlanetProfile()
@@ -428,7 +561,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             MaxGroupSize = 2,
             StartBreak = 3,
-            Ores = EREMUS_NUBIS_ORES
+            Ores = EREMUS_NUBIS_ORES,
+            MeteorImpact = EREMUS_NUBIS_METEOR
         };
 
         public static readonly PlanetProfile DOVER = new PlanetProfile()
@@ -446,7 +580,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             MaxGroupSize = 2,
             StartBreak = 6,
-            Ores = DOVER_ORES
+            Ores = DOVER_ORES,
+            MeteorImpact = DOVER_METEOR
         };
 
         public static readonly PlanetProfile TOTHT = new PlanetProfile()
@@ -464,7 +599,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             MaxGroupSize = 2,
             StartBreak = 3,
-            Ores = TOTHT_ORES
+            Ores = TOTHT_ORES,
+            MeteorImpact = TOTHT_METEOR
         };
 
         public static readonly PlanetProfile GLEDIUS_NUBIS = new PlanetProfile()
@@ -482,7 +618,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             MaxGroupSize = 2,
             StartBreak = 2,
-            Ores = GLEDIUS_NUBIS_ORES
+            Ores = GLEDIUS_NUBIS_ORES,
+            MeteorImpact = GLEDIUS_NUBIS_METEOR
         };
 
         public static readonly PlanetProfile CAPUTALIS_NUBIS = new PlanetProfile()
@@ -500,7 +637,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             MaxGroupSize = 2,
             StartBreak = 2,
-            Ores = CAPUTALIS_NUBIS_ORES
+            Ores = CAPUTALIS_NUBIS_ORES,
+            MeteorImpact = CAPUTALIS_NUBIS_METEOR
         };
 
     }
