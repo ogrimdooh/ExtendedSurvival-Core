@@ -14,7 +14,7 @@ namespace ExtendedSurvival.Core
         public const string EXTENDEDSURVIVAL_COMPLETE_PROFILE = "VANILLAES";
         public const string ATA_PROFILE = "ATA";
 
-        private static readonly Dictionary<string, StarSystemProfile> SYSTEMS_PROFILES = new Dictionary<string, StarSystemProfile>()
+        public static readonly Dictionary<string, StarSystemProfile> SYSTEMS_PROFILES = new Dictionary<string, StarSystemProfile>()
         {
             {
                 DEFAULT_PROFILE,
@@ -432,11 +432,11 @@ namespace ExtendedSurvival.Core
             return SYSTEMS_PROFILES.Keys.ToArray();
         }
 
-        public static StarSystemProfile Get(string key)
+        public static StarSystemProfile Get(string key, bool nullIfNotFound = false)
         {
             if (SYSTEMS_PROFILES.ContainsKey(key))
                 return SYSTEMS_PROFILES[key];
-            return SYSTEMS_PROFILES[DEFAULT_PROFILE];
+            return nullIfNotFound ? null : SYSTEMS_PROFILES[DEFAULT_PROFILE];
         }
 
     }

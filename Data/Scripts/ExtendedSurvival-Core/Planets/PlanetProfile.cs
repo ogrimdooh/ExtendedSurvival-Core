@@ -470,7 +470,7 @@ namespace ExtendedSurvival.Core
                         settings.RemovedOres?.Split(','), settings.ClearOresBeforeAdd, settings.TargetColor,
                         settings.UseColorInfluence ? (Vector2I?)settings.ColorInfluence.ToVector2I() : null);
                     settings.OreMap = tmpSettings.OreMap;
-                } else if (settings.Version <= 11)
+                } else if (settings.Version <= 12)
                 {
                     settings.MeteorImpact = BuildMeteorImpactSetting();
                 }

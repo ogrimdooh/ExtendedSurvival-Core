@@ -16,7 +16,7 @@ namespace ExtendedSurvival.Core
 
         }
 
-        public const int PROFILE_VERSION = 12;
+        public const int PROFILE_VERSION = 13;
 
         public const ulong EARTHLIKE_ANIMALS_MODID = 2170447225;
 
@@ -626,6 +626,7 @@ namespace ExtendedSurvival.Core
                     Type = PlanetProfile.PlanetType.Planet,
                     MaxGroupSize = 5,
                     StartBreak = 5,
+                    MeteorImpact = VanilaMapProfile.EARTHLIKE_METEOR,
                     Ores =
                     ExtendedSurvivalCoreSession.IsUsingTechnology() ?
                     new List<PlanetProfile.OreMapInfo>()

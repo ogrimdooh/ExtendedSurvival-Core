@@ -13,9 +13,12 @@ namespace ExtendedSurvival.Core
         {
 
             None = 0,
-            Vanilla = 1,
-            ExtendedSurvival = 2,
-            ATA = 4
+
+            Vanilla = 1 << 1,
+            ExtendedSurvival = 1 << 2,
+            ATA = 1 << 3,
+
+            All = Vanilla | ExtendedSurvival | ATA
 
         }
 

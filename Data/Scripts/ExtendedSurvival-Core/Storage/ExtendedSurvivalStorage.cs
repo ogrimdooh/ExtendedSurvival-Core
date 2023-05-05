@@ -31,9 +31,15 @@ namespace ExtendedSurvival.Core
             return res;
         }
 
+        private static ExtendedSurvivalStorage Upgrade(ExtendedSurvivalStorage settings)
+        {
+
+            return settings;
+        }
+
         public static ExtendedSurvivalStorage Load()
         {
-            _instance = Load(FILE_NAME, CURRENT_VERSION, Validate, () => { return new ExtendedSurvivalStorage(); });
+            _instance = Load(FILE_NAME, CURRENT_VERSION, Validate, () => { return new ExtendedSurvivalStorage(); }, Upgrade);
             return _instance;
         }
 

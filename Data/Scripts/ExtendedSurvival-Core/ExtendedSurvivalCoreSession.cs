@@ -352,7 +352,7 @@ namespace ExtendedSurvival.Core
                                             {
                                                 profile = optionsStarSystem.FirstOrDefault(x => x.Length == 2 && x[0].ToLower() == "profile")[1];
                                             }
-                                            var profileInfo = ExtendedSurvivalSettings.Instance.GetStarSystemInfo(profile);
+                                            var profileInfo = ExtendedSurvivalSettings.Instance.GetStarSystemInfo(profile, false);
                                             if (profileInfo != null)
                                             {
                                                 var flags = StarSystemController.GenerationFlags.None;

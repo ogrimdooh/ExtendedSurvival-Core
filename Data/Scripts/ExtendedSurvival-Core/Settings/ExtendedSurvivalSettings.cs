@@ -15,7 +15,7 @@ namespace ExtendedSurvival.Core
     public class ExtendedSurvivalSettings : BaseSettings
     {
 
-        private const int CURRENT_VERSION = 1;
+        private const int CURRENT_VERSION = 2;
         private const string FILE_NAME = "ExtendedSurvival.Core.Settings.xml";
 
         private static ExtendedSurvivalSettings _instance;
@@ -83,9 +83,19 @@ namespace ExtendedSurvival.Core
             return res;
         }
 
+        private static ExtendedSurvivalSettings Upgrade(ExtendedSurvivalSettings settings)
+        {
+            if (settings.Version < 2)
+            {
+                var keys = StarSystemMapProfile.SYSTEMS_PROFILES.Keys.Select(x => x.ToUpper()).ToArray();
+                settings.StarSystems.RemoveAll(x => keys.Contains(x.Name.ToUpper()));
+            }
+            return settings;
+        }
+
         public static ExtendedSurvivalSettings Load()
         {
-            _instance = Load(FILE_NAME, CURRENT_VERSION, Validate, () => { return new ExtendedSurvivalSettings(); });
+            _instance = Load(FILE_NAME, CURRENT_VERSION, Validate, () => { return new ExtendedSurvivalSettings(); }, Upgrade);
             return _instance;
         }
 
@@ -175,7 +185,7 @@ namespace ExtendedSurvival.Core
             if (HasStarSystem(id))
             {
                 var settings = StarSystems.FirstOrDefault(x => x.Name.ToUpper().Trim() == id.ToUpper().Trim());
-                var starProfile = StarSystemMapProfile.Get(settings.Name);
+                var starProfile = StarSystemMapProfile.Get(settings.Name, true);
                 if (starProfile != null)
                     settings = starProfile.UpgradeSettings(settings);
                 return settings;

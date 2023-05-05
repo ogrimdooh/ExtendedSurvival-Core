@@ -10,12 +10,13 @@ namespace ExtendedSurvival.Core
     {
 
         protected delegate bool BaseSettings_Validade<T>(T settings) where T : BaseSettings;
+        protected delegate T BaseSettings_Upgrade<T>(T settings) where T : BaseSettings;
         protected delegate T BaseSettings_Create<T>() where T : BaseSettings;
 
         [XmlElement]
         public int Version { get; set; }
 
-        protected static T Load<T>(string fileName, int currentVersion, BaseSettings_Validade<T> validade, BaseSettings_Create<T> create) where T : BaseSettings
+        protected static T Load<T>(string fileName, int currentVersion, BaseSettings_Validade<T> validade, BaseSettings_Create<T> create, BaseSettings_Upgrade<T> upgrade) where T : BaseSettings
         {
             var world = true;
             T settings = null;
@@ -87,7 +88,7 @@ namespace ExtendedSurvival.Core
                     if (settings.Version < currentVersion)
                     {
                         MyLog.Default.WriteLineAndConsole(string.Format(fileName + ": Settings have old version: {0} update to {1}", settings.Version, currentVersion));
-
+                        settings = upgrade(settings);
                         adjusted = true;
                         settings.Version = currentVersion;
                     }
