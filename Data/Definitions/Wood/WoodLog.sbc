@@ -36,6 +36,7 @@
         <Item Amount="1.6" TypeId="Ore" SubtypeId="Sawdust" />
       </Results>
       <BaseProductionTimeInSeconds>0.48</BaseProductionTimeInSeconds>
+      <IsPrimary>true</IsPrimary>
     </Blueprint>
   </Blueprints>
 </Definitions>

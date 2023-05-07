@@ -21,9 +21,9 @@ namespace ExtendedSurvival.Core
         private static readonly Vector2 BASE_TWIG_DROP = new Vector2(30, 60);
         private static readonly Vector2 BASE_BRANCH_DROP = new Vector2(20, 40);
 
-        private static List<ExtendedSurvivalCoreAPIBackend.TreeDropLoot> TREE_DROPS = new List<ExtendedSurvivalCoreAPIBackend.TreeDropLoot>();
+        private static List<TreeDropLoot> TREE_DROPS = new List<TreeDropLoot>();
 
-        private static MyObjectBuilder_PhysicalObject GetTreeDropLootBuilder(ExtendedSurvivalCoreAPIBackend.TreeDropLoot treeDrop)
+        private static MyObjectBuilder_PhysicalObject GetTreeDropLootBuilder(TreeDropLoot treeDrop)
         {
             if (treeDrop.IsGas)
                 return ItensConstants.GetGasContainerBuilder(new UniqueEntityId(treeDrop.ItemId), treeDrop.GasLevel);
@@ -31,7 +31,7 @@ namespace ExtendedSurvival.Core
                 return ItensConstants.GetPhysicalObjectBuilder(new UniqueEntityId(treeDrop.ItemId));
         }
 
-        public static void AddTreeDrop(ExtendedSurvivalCoreAPIBackend.TreeDropLoot treeDrop)
+        public static void AddTreeDrop(TreeDropLoot treeDrop)
         {
             if (!TREE_DROPS.Any(x => x.ItemId.TypeId == treeDrop.ItemId.TypeId && x.ItemId.SubtypeId == treeDrop.ItemId.SubtypeId))
                 TREE_DROPS.Add(treeDrop);

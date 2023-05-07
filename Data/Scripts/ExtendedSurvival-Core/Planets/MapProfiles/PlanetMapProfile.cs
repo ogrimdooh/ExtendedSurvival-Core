@@ -61,6 +61,41 @@ namespace ExtendedSurvival.Core
         public const int RARE_MULTIPLIER_SPAWN = 1;
         public const int LEGENDARY_MULTIPLIER_SPAWN = 1;
 
+        public static readonly string[] AllValidOres = new string[]
+        {
+            "IRON",
+            "NICKEL",
+            "SILICON",
+            "COBALT",
+            "GOLD",
+            "SILVER",
+            "PLATINUM",
+            "MAGNESIUM",
+            "URANIUM",
+            "ICE",
+            "STONEICE",
+            "ALUMINUM",
+            "COPPER",
+            "LEAD",
+            "SULFUR",
+            "CARBON",
+            "POTASSIUM",
+            "LITHIUM",
+            "ZINC",
+            "IRIDIUM",
+            "TITANIUM",
+            "MERCURY",
+            "BERYLLIUM",
+            "TUNGSTEN",
+            "PLUTONIUM",
+            "TOXICICE",
+            "SOIL",
+            "MOONSOIL",
+            "DESERTSOIL",
+            "ALIENSOIL",
+            "STONE"
+        };
+
         public static readonly string[] ESTechnologyOres = new string[] 
         { 
             Aluminum_01, 

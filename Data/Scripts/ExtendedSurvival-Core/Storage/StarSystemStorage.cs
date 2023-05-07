@@ -4,6 +4,7 @@ using System.Xml.Serialization;
 
 namespace ExtendedSurvival.Core
 {
+
     [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
     public class StarSystemStorage
     {
@@ -13,6 +14,9 @@ namespace ExtendedSurvival.Core
 
         [XmlElement]
         public bool Generated { get; set; }
+
+        [XmlElement]
+        public long ComercialTick { get; set; }
 
         [XmlArray("Members"), XmlArrayItem("Member", typeof(StarSystemMemberStorage))]
         public List<StarSystemMemberStorage> Members { get; set; } = new List<StarSystemMemberStorage>();

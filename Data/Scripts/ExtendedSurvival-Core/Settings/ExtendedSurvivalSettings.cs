@@ -15,6 +15,7 @@ namespace ExtendedSurvival.Core
     public class ExtendedSurvivalSettings : BaseSettings
     {
 
+        public const string FACTIONRANGE_INFO = "X: Min Amount. Y: Max Amount.";
         private const int CURRENT_VERSION = 2;
         private const string FILE_NAME = "ExtendedSurvival.Core.Settings.xml";
 
@@ -28,6 +29,9 @@ namespace ExtendedSurvival.Core
                 return _instance;
             }
         }
+
+        [XmlElement]
+        public bool Debug { get; set; } = false;
 
         [XmlElement]
         public bool DinamicWoodGridEnabled { get; set; } = false;
@@ -49,6 +53,9 @@ namespace ExtendedSurvival.Core
 
         [XmlElement]
         public bool AutoGenerateStarSystemGps { get; set; } = true;
+
+        [XmlElement]
+        public DocumentedVector2 TradeFactionsAmount { get; set; } = new DocumentedVector2(10, 20, FACTIONRANGE_INFO);
 
         [XmlElement]
         public int PlanetDeployAltitude { get; set; } = 6;

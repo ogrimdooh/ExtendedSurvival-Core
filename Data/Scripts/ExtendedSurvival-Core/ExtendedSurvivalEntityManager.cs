@@ -32,6 +32,7 @@ namespace ExtendedSurvival.Core
         public List<MyPlanet> PlanetsOnLoad { get; private set; } = new List<MyPlanet>();
         public List<IMyCubeGrid> GridsOnLoad { get; private set; } = new List<IMyCubeGrid>();
         public List<GridEntity> Grids { get; private set; } = new List<GridEntity>();
+        public List<MySafeZone> SafeZones { get; private set; } = new List<MySafeZone>();
         public ConcurrentDictionary<long, PlanetEntity> Planets { get; private set; } = new ConcurrentDictionary<long, PlanetEntity>();
         public ConcurrentDictionary<long, HandheldGunEntity> HandheldGuns { get; private set; } = new ConcurrentDictionary<long, HandheldGunEntity>();
         public ConcurrentDictionary<long, IMyPlayer> Players { get; private set; } = new ConcurrentDictionary<long, IMyPlayer>();
@@ -57,6 +58,7 @@ namespace ExtendedSurvival.Core
 
         protected bool canRun;
         protected ParallelTasks.Task task;
+        protected ParallelTasks.Task taskStations;
         protected override void DoInit(MyObjectBuilder_SessionComponent sessionComponent)
         {
             if (MyAPIGateway.Session.IsServer)
@@ -71,6 +73,19 @@ namespace ExtendedSurvival.Core
                         CheckAllGrids();
                         if (MyAPIGateway.Parallel != null)
                             MyAPIGateway.Parallel.Sleep(250);
+                        else
+                            break;
+                    }
+                });
+                taskStations = MyAPIGateway.Parallel.StartBackground(() =>
+                {
+                    ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), "StartBackground [SpaceStationController START]");
+                    // Loop Task to Control Skins
+                    while (canRun)
+                    {
+                        SpaceStationController.DoCycle();
+                        if (MyAPIGateway.Parallel != null)
+                            MyAPIGateway.Parallel.Sleep(1000);
                         else
                             break;
                     }
@@ -196,9 +211,10 @@ namespace ExtendedSurvival.Core
         public void RegisterWatcher()
         {
 
-            ExtraStartLoot.Add(ItensConstants.SEMIAUTOPISTOLITEM_ID, 1);
+            ExtraStartLoot.Add(ItensConstants.SEMIAUTOPISTOL_ID, 1);
             ExtraStartLoot.Add(ItensConstants.PISTOL_SA_MAGZINE_ID, 30);
 
+            MyEntities.SafeAreasSelectable = true;
             foreach (var entity in MyEntities.GetEntities())
             {
                 if (entity as IMyCubeGrid != null)
@@ -221,6 +237,14 @@ namespace ExtendedSurvival.Core
 
         private void Entities_OnEntityRemove(MyEntity entity)
         {
+            var safeZone = entity as MySafeZone;
+            if (safeZone != null && SafeZones.Any(x => x.EntityId == safeZone.EntityId))
+            {
+                lock (SafeZones)
+                {
+                    SafeZones.RemoveAll(x => x.EntityId == safeZone.EntityId);
+                }
+            }
             var cubeGrid = entity as IMyCubeGrid;
             if (cubeGrid != null && Grids.Any(x => x.Entity == cubeGrid))
             {
@@ -260,6 +284,14 @@ namespace ExtendedSurvival.Core
                 var meteor = entity as IMyMeteor;
                 if (meteor != null)
                     MeteorImpactController.CheckEntityCanGenerateStone(meteor);
+                var safeZone = entity as MySafeZone;
+                if (safeZone != null)
+                {
+                    lock (SafeZones)
+                    {
+                        SafeZones.Add(safeZone);
+                    }
+                }
                 var cubeGrid = entity as IMyCubeGrid;
                 if (cubeGrid != null)
                 {
@@ -383,6 +415,53 @@ namespace ExtendedSurvival.Core
             return null;
         }
 
+        public static GridEntity GetGridById(long id)
+        {
+            if (Instance.Grids.Any(x => x.Entity.EntityId == id))
+                return Instance.Grids.FirstOrDefault(x => x.Entity.EntityId == id);
+            return null;
+        }
+
+        public static MySafeZone GetSafeZoneById(long id)
+        {
+            if (Instance.SafeZones.Any(x => x.EntityId == id))
+                return Instance.SafeZones.FirstOrDefault(x => x.EntityId == id);
+            return null;
+        }
+
+        public GridEntity FirstGridInRange(Vector3D rPos, float maxDistance, params long[] ignoreList)
+        {
+            return Grids.FirstOrDefault(x => 
+                x.Entity != null && 
+                !ignoreList.Contains(x.Entity.EntityId) && 
+                Vector3D.Distance(x.Entity.GetPosition(), rPos) <= maxDistance
+            );
+        }
+
+        public bool AnyGridInRange(Vector3D rPos, float maxDistance, params long[] ignoreList)
+        {
+            return FirstGridInRange(rPos, maxDistance, ignoreList) != null;
+        }
+
+        public IMyPlayer FirstPlayerInRange(Vector3D rPos, float maxDistance, params long[] ignoreList)
+        {
+            return Players.Values.FirstOrDefault(x => 
+                x.Character != null &&
+                !ignoreList.Contains(x.IdentityId) &&
+                Vector3D.Distance(x.Character.GetPosition(), rPos) <= maxDistance
+            );
+        }
+
+        public bool AnyPlayerInRange(Vector3D rPos, float maxDistance, params long[] ignoreList)
+        {
+            return FirstPlayerInRange(rPos, maxDistance, ignoreList) != null;
+        }
+
+        public bool AnyInRange(Vector3D rPos, float maxDistance, params long[] ignoreList)
+        {
+            return AnyPlayerInRange(rPos, maxDistance, ignoreList) || AnyGridInRange(rPos, maxDistance, ignoreList);
+        }
+
         public IMyPlayer GetClosestPlayer(Vector3D rPos, MyPromoteLevel level = MyPromoteLevel.None)
         {
             double distanceSqd = double.MaxValue;
@@ -393,7 +472,7 @@ namespace ExtendedSurvival.Core
                 if (player?.Character == null || player.Character.IsDead)
                     continue;
 
-                var d = Vector3D.DistanceSquared(player.Character.PositionComp.WorldAABB.Center, rPos);
+                var d = Vector3D.Distance(player.Character.GetPosition(), rPos);
                 if (d < distanceSqd)
                 {
                     closest = player;

@@ -18,182 +18,220 @@ using VRageMath;
 namespace ExtendedSurvival.Core
 {
 
-    public class ExtendedSurvivalCoreAPI
+    public enum FactionType
     {
 
-        [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
-        public class ItemExtraDefinitionAmmountInfo
+        Miner = 0,
+        Lumber = 1,
+        Shipyard = 2,
+        Armory = 3,
+        Trader = 4,
+        Farming = 5,
+        Livestock = 6,
+        Market = 7
+
+    }
+
+    public enum ItemRarity
+    {
+
+        Common = 0,
+        Uncommon = 1,
+        Normal = 2,
+        Rare = 3,
+        Epic = 4
+
+    }
+
+    [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
+    public class StationShopItemInfo
+    {
+
+        public SerializableDefinitionId Id { get; set; }
+        public ItemRarity Rarity { get; set; }
+        public FactionType[] TargetFactions { get; set; }
+        public bool CanBuy { get; set; }
+        public bool CanSell { get; set; }
+        public bool CanOrder { get; set; }
+
+    }
+
+    [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
+    public class ItemExtraDefinitionAmmountInfo
+    {
+
+        [ProtoMember(1)]
+        public SerializableDefinitionId DefinitionId { get; set; }
+
+        [ProtoMember(2)]
+        public float Ammount { get; set; }
+
+    }
+
+    [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
+    public class ItemExtraCustomAttributeInfo
+    {
+
+        [ProtoMember(1)]
+        public string Key { get; set; }
+
+        [ProtoMember(2)]
+        public string Value { get; set; }
+
+    }
+
+    [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
+    public class ItemExtraInfo
+    {
+
+        [ProtoMember(1)]
+        public SerializableDefinitionId DefinitionId { get; set; }
+
+        [ProtoMember(2)]
+        public bool NeedUpdate { get; set; }
+
+        [ProtoMember(3)]
+        public bool NeedConservation { get; set; }
+
+        [ProtoMember(4)]
+        public bool RemoveWhenSpoil { get; set; }
+
+        [ProtoMember(5)]
+        public float RemoveAmmount { get; set; }
+
+        [ProtoMember(6)]
+        public bool AddNewItemWhenSpoil { get; set; }
+
+        [ProtoMember(7)]
+        public long StartConservationTime { get; set; } = 0;
+
+        [ProtoMember(8)]
+        public List<ItemExtraDefinitionAmmountInfo> AddDefinitionId { get; set; } = new List<ItemExtraDefinitionAmmountInfo>();
+
+        [ProtoMember(9)]
+        public List<ItemExtraCustomAttributeInfo> CustomAttributes { get; set; } = new List<ItemExtraCustomAttributeInfo>();
+
+        public string GetCustomAttributes(string key)
         {
-
-            [ProtoMember(1)]
-            public SerializableDefinitionId DefinitionId { get; set; }
-
-            [ProtoMember(2)]
-            public float Ammount { get; set; }
-
+            if (CustomAttributes.Any(x => x.Key == key))
+                return CustomAttributes.FirstOrDefault(x => x.Key == key).Value;
+            return null;
         }
 
-        [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
-        public class ItemExtraCustomAttributeInfo
+    }
+
+    [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
+    public class ItemInfo
+    {
+
+        [ProtoMember(1)]
+        public uint ItemId { get; set; }
+
+        [ProtoMember(2)]
+        public ItemExtraInfo ExtraInfo { get; set; }
+
+    }
+
+    [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
+    public class PlanetInfo
+    {
+
+        [ProtoMember(1)]
+        public long EntityId { get; set; }
+
+        [ProtoMember(2)]
+        public bool HasSubtypeName { get; set; }
+
+        [ProtoMember(3)]
+        public string SubtypeName { get; set; }
+
+        [ProtoMember(4)]
+        public string SettingId { get; set; }
+
+        [ProtoMember(5)]
+        public Vector3D Center { get; set; }
+
+        [ProtoMember(6)]
+        public bool HasWater { get; set; }
+
+        private MyPlanet entity;
+        public MyPlanet Entity
         {
-
-            [ProtoMember(1)]
-            public string Key { get; set; }
-
-            [ProtoMember(2)]
-            public string Value { get; set; }
-
-        }
-
-        [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
-        public class ItemExtraInfo
-        {
-
-            [ProtoMember(1)]
-            public SerializableDefinitionId DefinitionId { get; set; }
-
-            [ProtoMember(2)]
-            public bool NeedUpdate { get; set; }
-
-            [ProtoMember(3)]
-            public bool NeedConservation { get; set; }
-
-            [ProtoMember(4)]
-            public bool RemoveWhenSpoil { get; set; }
-
-            [ProtoMember(5)]
-            public float RemoveAmmount { get; set; }
-
-            [ProtoMember(6)]
-            public bool AddNewItemWhenSpoil { get; set; }
-
-            [ProtoMember(7)]
-            public long StartConservationTime { get; set; } = 0;
-
-            [ProtoMember(8)]
-            public List<ItemExtraDefinitionAmmountInfo> AddDefinitionId { get; set; } = new List<ItemExtraDefinitionAmmountInfo>();
-
-            [ProtoMember(9)]
-            public List<ItemExtraCustomAttributeInfo> CustomAttributes { get; set; } = new List<ItemExtraCustomAttributeInfo>();
-
-            public string GetCustomAttributes(string key)
+            get
             {
-                if (CustomAttributes.Any(x => x.Key == key))
-                    return CustomAttributes.FirstOrDefault(x => x.Key == key).Value;
-                return null;
+                if (entity == null)
+                    entity = MyAPIGateway.Entities.GetEntityById(EntityId) as MyPlanet;
+                return entity;
             }
-
         }
 
-        [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
-        public class ItemInfo
+    }
+
+    [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
+    public class TreeDropLoot
+    {
+
+        [ProtoMember(1)]
+        public SerializableDefinitionId ItemId { get; set; }
+
+        [ProtoMember(2)]
+        public Vector2 Ammount { get; set; }
+
+        [ProtoMember(3)]
+        public float Chance { get; set; }
+
+        [ProtoMember(4)]
+        public bool AlowMedium { get; set; } = true;
+
+        [ProtoMember(5)]
+        public bool AlowDead { get; set; } = false;
+
+        [ProtoMember(6)]
+        public bool AlowDesert { get; set; } = true;
+
+        [ProtoMember(7)]
+        public bool IsGas { get; set; } = false;
+
+        [ProtoMember(8)]
+        public float GasLevel { get; set; } = 0.3f;
+
+        [ProtoMember(9)]
+        public float MediumReduction { get; set; } = 0.75f;
+
+        [ProtoMember(10)]
+        public float DeadReduction { get; set; } = 0.75f;
+
+        [ProtoMember(11)]
+        public float DesertReduction { get; set; } = 0.75f;
+
+        public TreeDropLoot()
         {
 
-            [ProtoMember(1)]
-            public uint ItemId { get; set; }
-
-            [ProtoMember(2)]
-            public ItemExtraInfo ExtraInfo { get; set; }
-
         }
 
-        [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
-        public class PlanetInfo
+        public TreeDropLoot(SerializableDefinitionId itemId, Vector2 ammount, float chance)
         {
-
-            [ProtoMember(1)]
-            public long EntityId { get; set; }
-
-            [ProtoMember(2)]
-            public bool HasSubtypeName { get; set; }
-
-            [ProtoMember(3)]
-            public string SubtypeName { get; set; }
-
-            [ProtoMember(4)]
-            public string SettingId { get; set; }
-
-            [ProtoMember(5)]
-            public Vector3D Center { get; set; }
-
-            [ProtoMember(6)]
-            public bool HasWater { get; set; }
-
-            private MyPlanet entity;
-            public MyPlanet Entity 
-            { 
-                get
-                {
-                    if (entity == null)
-                        entity = MyAPIGateway.Entities.GetEntityById(EntityId) as MyPlanet;
-                    return entity;
-                }
-            }
-
+            ItemId = itemId;
+            Ammount = ammount;
+            Chance = chance;
         }
 
-        [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
-        public class TreeDropLoot
-        {
+    }
 
-            [ProtoMember(1)]
-            public SerializableDefinitionId ItemId { get; set; }
+    [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
+    public class HandheldGunInfo
+    {
 
-            [ProtoMember(2)]
-            public Vector2 Ammount { get; set; }
+        [ProtoMember(1)]
+        public long EntityId { get; set; }
 
-            [ProtoMember(3)]
-            public float Chance { get; set; }
+        [ProtoMember(2)]
+        public SerializableDefinitionId CurrentAmmoMagazineId { get; set; }
 
-            [ProtoMember(4)]
-            public bool AlowMedium { get; set; } = true;
+    }
 
-            [ProtoMember(5)]
-            public bool AlowDead { get; set; } = false;
-
-            [ProtoMember(6)]
-            public bool AlowDesert { get; set; } = true;
-
-            [ProtoMember(7)]
-            public bool IsGas { get; set; } = false;
-
-            [ProtoMember(8)]
-            public float GasLevel { get; set; } = 0.3f;
-
-            [ProtoMember(9)]
-            public float MediumReduction { get; set; } = 0.75f;
-
-            [ProtoMember(10)]
-            public float DeadReduction { get; set; } = 0.75f;
-
-            [ProtoMember(11)]
-            public float DesertReduction { get; set; } = 0.75f;
-
-            public TreeDropLoot()
-            {
-
-            }
-
-            public TreeDropLoot(SerializableDefinitionId itemId, Vector2 ammount, float chance)
-            {
-                ItemId = itemId;
-                Ammount = ammount;
-                Chance = chance;
-            }
-
-        }
-
-        [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
-        public class HandheldGunInfo
-        {
-
-            [ProtoMember(1)]
-            public long EntityId { get; set; }
-
-            [ProtoMember(2)]
-            public SerializableDefinitionId CurrentAmmoMagazineId { get; set; }
-
-        }
+    public class ExtendedSurvivalCoreAPI
+    {
 
         private static ExtendedSurvivalCoreAPI instance;
 
@@ -236,6 +274,9 @@ namespace ExtendedSurvival.Core
         private static Func<long, bool> _HasAdvancedDisassemblyComputer;
         private static Action<MyDefinitionId, float> _AddExtraStartLoot;
         private static Func<long> _GetGameTime;
+        private static Func<string, bool> _AddItemToShop;
+        private static Func<MyDefinitionId, int, bool> _ChangeItemRarity;
+        private static Action<ulong> _MarkAsAllItensLoaded;
 
         /// <summary>
         /// Returns true if the version is compatibile with the API Backend, this is automatically called
@@ -447,12 +488,37 @@ namespace ExtendedSurvival.Core
         }
 
         /// <summary>
-        /// Adiciona um tipo de drop para arvores
+        /// Adds a drop type for trees
         /// </summary>
         public static void AddTreeDropLoot(TreeDropLoot treeDrop)
         {
             string messageToSend = MyAPIGateway.Utilities.SerializeToXML<TreeDropLoot>(treeDrop);
             _AddTreeDropLoot?.Invoke(messageToSend);
+        }
+
+        /// <summary>
+        /// Adds an item to be used at trading stations
+        /// </summary>
+        public static bool AddItemToShop(StationShopItemInfo info)
+        {
+            string messageToSend = MyAPIGateway.Utilities.SerializeToXML<StationShopItemInfo>(info);
+            return _AddItemToShop?.Invoke(messageToSend) ?? false;
+        }
+
+        /// <summary>
+        /// Call after add all itens you want in the station to calculate base trade values
+        /// </summary>
+        public static void MarkAsAllItensLoaded(ulong modId)
+        {
+            _MarkAsAllItensLoaded?.Invoke(modId);
+        }
+
+        /// <summary>
+        /// Change a rarity of item to be used at trading stations
+        /// </summary>
+        public static bool ChangeItemRarity(MyDefinitionId id, ItemRarity rarity)
+        {
+            return _ChangeItemRarity?.Invoke(id, (int)rarity) ?? false;
         }
 
         /// <summary>
@@ -671,6 +737,9 @@ namespace ExtendedSurvival.Core
                         _HasAdvancedDisassemblyComputer = (Func<long, bool>)ModAPIMethods["HasAdvancedDisassemblyComputer"];
                         _AddExtraStartLoot = (Action<MyDefinitionId, float>)ModAPIMethods["AddExtraStartLoot"];
                         _GetGameTime = (Func<long>)ModAPIMethods["GetGameTime"];
+                        _AddItemToShop = (Func<string, bool>)ModAPIMethods["AddItemToShop"];
+                        _ChangeItemRarity = (Func<MyDefinitionId, int, bool>)ModAPIMethods["ChangeItemRarity"];
+                        _MarkAsAllItensLoaded = (Action<ulong>)ModAPIMethods["MarkAsAllItensLoaded"];
 
                         if (m_onRegisteredAction != null)
                             m_onRegisteredAction();

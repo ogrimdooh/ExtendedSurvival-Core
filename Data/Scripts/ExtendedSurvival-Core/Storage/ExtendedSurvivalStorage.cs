@@ -58,8 +58,29 @@ namespace ExtendedSurvival.Core
         [XmlElement]
         public StarSystemStorage StarSystem { get; set; } = new StarSystemStorage();
 
+        [XmlArray("Factions"), XmlArrayItem("Faction", typeof(FactionStorage))]
+        public List<FactionStorage> Factions { get; set; } = new List<FactionStorage>();
+
+        [XmlArray("PlayersMappedToFactions"), XmlArrayItem("Id", typeof(long))]
+        public List<long> PlayersMappedToFactions { get; set; } = new List<long>();
+
+        [XmlArray("FactionsMappedToFactions"), XmlArrayItem("Id", typeof(long))]
+        public List<long> FactionsMappedToFactions { get; set; } = new List<long>();
+
         [XmlArray("Entities"), XmlArrayItem("Entity", typeof(EntityStorage))]
         public List<EntityStorage> Entities { get; set; } = new List<EntityStorage>();
+
+        public FactionStorage GetFaction(long id)
+        {
+            if (Factions.Any(x => x.FactionId == id))
+                return Factions.FirstOrDefault(x => x.FactionId == id);
+            var storage = new FactionStorage() { FactionId = id };
+            lock (Factions)
+            {
+                Factions.Add(storage);
+            }
+            return storage;
+        }
 
         public EntityStorage GetEntity(long id)
         {
@@ -89,6 +110,15 @@ namespace ExtendedSurvival.Core
                 lock (Entities)
                 {
                     Entities.RemoveAll(x => x.EntityId == id);
+                }
+        }
+
+        public void RemoveFaction(long id)
+        {
+            if (Factions.Any(x => x.FactionId == id))
+                lock (Factions)
+                {
+                    Factions.RemoveAll(x => x.FactionId == id);
                 }
         }
 

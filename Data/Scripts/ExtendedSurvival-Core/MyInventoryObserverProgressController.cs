@@ -25,7 +25,7 @@ namespace ExtendedSurvival.Core
 
         private static readonly Dictionary<string, GasSpoilInfo> MyGasSpoilInfos = new Dictionary<string, GasSpoilInfo>();
         private static readonly Dictionary<string, List<UniqueEntityId>> MyItemCategories = new Dictionary<string, List<UniqueEntityId>>();
-        private static readonly Dictionary<UniqueEntityId, ExtendedSurvivalCoreAPIBackend.ItemExtraInfo> MyItemExtraInfo = new Dictionary<UniqueEntityId, ExtendedSurvivalCoreAPIBackend.ItemExtraInfo>();
+        private static readonly Dictionary<UniqueEntityId, ItemExtraInfo> MyItemExtraInfo = new Dictionary<UniqueEntityId, ItemExtraInfo>();
         private static readonly Dictionary<UInt128, MyInventoryObserver> MyInventoryObservers = new Dictionary<UInt128, MyInventoryObserver>();
 
         public static MyInventoryObserverProgressController Instance { get; private set; }
@@ -65,7 +65,7 @@ namespace ExtendedSurvival.Core
             return null;
         }
 
-        public static void AddItemExtraInfo(ExtendedSurvivalCoreAPIBackend.ItemExtraInfo extraInfo)
+        public static void AddItemExtraInfo(ItemExtraInfo extraInfo)
         {
             var id = new UniqueEntityId(extraInfo.DefinitionId.TypeId, extraInfo.DefinitionId.SubtypeName);
             if (!MyItemExtraInfo.ContainsKey(id))
@@ -86,7 +86,7 @@ namespace ExtendedSurvival.Core
             return MyItemExtraInfo.ContainsKey(id);
         }
 
-        public static ExtendedSurvivalCoreAPIBackend.ItemExtraInfo GetItemExtraInfo(UniqueEntityId id)
+        public static ItemExtraInfo GetItemExtraInfo(UniqueEntityId id)
         {
             if (HasItemExtraInfo(id))
                 return MyItemExtraInfo[id];

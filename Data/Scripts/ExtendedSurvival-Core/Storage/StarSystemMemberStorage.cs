@@ -5,6 +5,7 @@ using VRageMath;
 
 namespace ExtendedSurvival.Core
 {
+
     [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
     public class StarSystemMemberStorage
     {
@@ -26,6 +27,9 @@ namespace ExtendedSurvival.Core
 
         [XmlArray("Asteroids"), XmlArrayItem("Id", typeof(long))]
         public List<long> Asteroids { get; set; } = new List<long>();
+
+        [XmlArray("Stations"), XmlArrayItem("Station", typeof(StarSystemMemberStationStorage))]
+        public List<StarSystemMemberStationStorage> Stations { get; set; } = new List<StarSystemMemberStationStorage>();
 
     }
 

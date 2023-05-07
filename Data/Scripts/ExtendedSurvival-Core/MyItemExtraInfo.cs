@@ -23,7 +23,7 @@ namespace ExtendedSurvival.Core
         public float LastAmmount { get; set; }
         public List<string> Categories { get; set; } = new List<string>();
 
-        public ExtendedSurvivalCoreAPIBackend.ItemExtraInfo ExtraInfoDefinition
+        public ItemExtraInfo ExtraInfoDefinition
         {
             get
             {
@@ -52,7 +52,7 @@ namespace ExtendedSurvival.Core
             return MyInventoryObserverProgressController.HasItemExtraInfo(DefinitionId);
         }
 
-        private ExtendedSurvivalCoreAPIBackend.ItemExtraInfo GetExtraInfoDefinition()
+        private ItemExtraInfo GetExtraInfoDefinition()
         {
             if (HasExtraInfoDefinition())
                 return MyInventoryObserverProgressController.GetItemExtraInfo(DefinitionId);

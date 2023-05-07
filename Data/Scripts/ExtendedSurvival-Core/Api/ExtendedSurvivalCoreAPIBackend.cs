@@ -21,169 +21,6 @@ namespace ExtendedSurvival.Core
     public class ExtendedSurvivalCoreAPIBackend
     {
 
-        [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
-        public class ItemExtraDefinitionAmmountInfo
-        {
-
-            [ProtoMember(1)]
-            public SerializableDefinitionId DefinitionId { get; set; }
-
-            [ProtoMember(2)]
-            public float Ammount { get; set; }
-
-        }
-
-        [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
-        public class ItemExtraCustomAttributeInfo
-        {
-
-            [ProtoMember(1)]
-            public string Key { get; set; }
-
-            [ProtoMember(2)]
-            public string Value { get; set; }
-
-        }
-
-        [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
-        public class ItemExtraInfo
-        {
-
-            [ProtoMember(1)]
-            public SerializableDefinitionId DefinitionId { get; set; }
-
-            [ProtoMember(2)]
-            public bool NeedUpdate { get; set; }
-
-            [ProtoMember(3)]
-            public bool NeedConservation { get; set; }
-
-            [ProtoMember(4)]
-            public bool RemoveWhenSpoil { get; set; }
-
-            [ProtoMember(5)]
-            public float RemoveAmmount { get; set; }
-
-            [ProtoMember(6)]
-            public bool AddNewItemWhenSpoil { get; set; }
-
-            [ProtoMember(7)]
-            public long StartConservationTime { get; set; } = 0;
-
-            [ProtoMember(8)]
-            public List<ItemExtraDefinitionAmmountInfo> AddDefinitionId { get; set; } = new List<ItemExtraDefinitionAmmountInfo>();
-
-            [ProtoMember(9)]
-            public List<ItemExtraCustomAttributeInfo> CustomAttributes { get; set; } = new List<ItemExtraCustomAttributeInfo>();
-
-            public string GetCustomAttributes(string key)
-            {
-                if (CustomAttributes.Any(x => x.Key == key))
-                    return CustomAttributes.FirstOrDefault(x => x.Key == key).Value;
-                return null;
-            }
-
-        }
-
-        [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
-        public class ItemInfo
-        {
-
-            [ProtoMember(1)]
-            public uint ItemId { get; set; }
-
-            [ProtoMember(2)]
-            public ItemExtraInfo ExtraInfo { get; set; }
-
-        }
-
-        [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
-        public class PlanetInfo
-        {
-
-            [ProtoMember(1)]
-            public long EntityId { get; set; }
-
-            [ProtoMember(2)]
-            public bool HasSubtypeName { get; set; }
-
-            [ProtoMember(3)]
-            public string SubtypeName { get; set; }
-
-            [ProtoMember(4)]
-            public string SettingId { get; set; }
-            
-            [ProtoMember(5)]
-            public Vector3D Center { get; set; }
-
-            [ProtoMember(6)]
-            public bool HasWater { get; set; }
-
-        }
-
-        [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
-        public class TreeDropLoot
-        {
-
-            [ProtoMember(1)]
-            public SerializableDefinitionId ItemId { get; set; }
-
-            [ProtoMember(2)]
-            public Vector2 Ammount { get; set; }
-
-            [ProtoMember(3)]
-            public float Chance { get; set; }
-
-            [ProtoMember(4)]
-            public bool AlowMedium { get; set; } = true;
-
-            [ProtoMember(5)]
-            public bool AlowDead { get; set; } = false;
-
-            [ProtoMember(6)]
-            public bool AlowDesert { get; set; } = true;
-
-            [ProtoMember(7)]
-            public bool IsGas { get; set; } = false;
-
-            [ProtoMember(8)]
-            public float GasLevel { get; set; } = 0.3f;
-
-            [ProtoMember(9)]
-            public float MediumReduction { get; set; } = 0.75f;
-
-            [ProtoMember(10)]
-            public float DeadReduction { get; set; } = 0.75f;
-
-            [ProtoMember(11)]
-            public float DesertReduction { get; set; } = 0.75f;
-
-            public TreeDropLoot()
-            {
-
-            }
-
-            public TreeDropLoot(SerializableDefinitionId itemId, Vector2 ammount, float chance)
-            {
-                ItemId = itemId;
-                Ammount = ammount;
-                Chance = chance;
-            }
-
-        }
-
-        [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
-        public class HandheldGunInfo
-        {
-
-            [ProtoMember(1)]
-            public long EntityId { get; set; }
-
-            [ProtoMember(2)]
-            public SerializableDefinitionId CurrentAmmoMagazineId { get; set; }
-
-        }
-
         public const int MinVersion = 1;
         public const ushort ModHandlerID = 33275;
 
@@ -219,7 +56,10 @@ namespace ExtendedSurvival.Core
             ["HasDisassemblyComputer"] = new Func<long, bool>(HasDisassemblyComputer),
             ["HasAdvancedDisassemblyComputer"] = new Func<long, bool>(HasAdvancedDisassemblyComputer),
             ["AddExtraStartLoot"] = new Action<MyDefinitionId, float>(AddExtraStartLoot),
-            ["GetGameTime"] = new Func<long>(GetGameTime)
+            ["GetGameTime"] = new Func<long>(GetGameTime),
+            ["AddItemToShop"] = new Func<string, bool>(AddItemToShop),
+            ["ChangeItemRarity"] = new Func<MyDefinitionId, int, bool>(ChangeItemRarity),
+            ["MarkAsAllItensLoaded"] = new Action<ulong>(MarkAsAllItensLoaded)
         };
 
         public static void BeforeStart()
@@ -289,6 +129,37 @@ namespace ExtendedSurvival.Core
         {
             MyInventoryObserverProgressController.AddItemToCategory(new UniqueEntityId(id), category);
             ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(ExtendedSurvivalCoreAPIBackend), $"Registred Item [{id}] To Category : {category}");
+        }
+
+        public static bool ChangeItemRarity(MyDefinitionId id, int rarity)
+        {
+            return SpaceStationController.ChangeItemRarity(new UniqueEntityId(id), (ItemRarity)rarity);
+        }
+
+        public static void MarkAsAllItensLoaded(ulong modId)
+        {
+            SpaceStationController.MarkAsAllItensLoaded(modId);
+        }
+
+        public static bool AddItemToShop(string value)
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                try
+                {
+                    var info = MyAPIGateway.Utilities.SerializeFromXML<StationShopItemInfo>(value);
+                    return SpaceStationController.AddItemToShop(new UniqueEntityId(info.Id), info.Rarity, info.CanBuy, info.CanSell, info.CanOrder, info.TargetFactions);
+                }
+                catch (Exception e)
+                {
+                    ExtendedSurvivalCoreLogging.Instance.LogError(typeof(ExtendedSurvivalCoreAPIBackend), e);
+                }
+            }
+            else
+            {
+                ExtendedSurvivalCoreLogging.Instance.LogWarning(typeof(ExtendedSurvivalCoreAPIBackend), $"AddItemToShop : value is null");
+            }
+            return false;
         }
 
         public static void AddTreeDropLoot(string value)
