@@ -205,6 +205,9 @@ namespace ExtendedSurvival.Core
         public const string COMPUTER_SUBTYPEID = "Computer";
         public static readonly UniqueEntityId COMPUTER_ID = new UniqueEntityId(typeof(MyObjectBuilder_Component), COMPUTER_SUBTYPEID);
 
+        public const string BULLETPROOFGLASS_SUBTYPEID = "BulletproofGlass";
+        public static readonly UniqueEntityId BULLETPROOFGLASS_ID = new UniqueEntityId(typeof(MyObjectBuilder_Component), BULLETPROOFGLASS_SUBTYPEID);
+
         public const string RADIO_COMP_SUBTYPEID = "RadioCommunication";
         public static readonly UniqueEntityId RADIO_COMP_ID = new UniqueEntityId(typeof(MyObjectBuilder_Component), RADIO_COMP_SUBTYPEID);
 
@@ -228,6 +231,9 @@ namespace ExtendedSurvival.Core
 
         public const string MEDICAL_SUBTYPEID = "Medical";
         public static readonly UniqueEntityId MEDICAL_ID = new UniqueEntityId(typeof(MyObjectBuilder_Component), MEDICAL_SUBTYPEID);
+
+        public const string SUPERCONDUCTOR_SUBTYPEID = "Superconductor";
+        public static readonly UniqueEntityId SUPERCONDUCTOR_ID = new UniqueEntityId(typeof(MyObjectBuilder_Component), SUPERCONDUCTOR_SUBTYPEID);
 
         public const string CONSTRUCTION_SUBTYPEID = "Construction";
         public static readonly UniqueEntityId CONSTRUCTION_ID = new UniqueEntityId(typeof(MyObjectBuilder_Component), CONSTRUCTION_SUBTYPEID);

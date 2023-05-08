@@ -169,7 +169,7 @@ namespace ExtendedSurvival.Core
                     new StationPrefabInfo("Economy_Outpost_7"),
                     new StationPrefabInfo("Economy_Outpost_8"),
                     new StationPrefabInfo("Economy_Outpost_9"),
-                    new StationPrefabInfo("Economy_MiningStation_2", upIncrement: 4.5f)
+                    new StationPrefabInfo("Economy_MiningStation_2", upIncrement: 8.0f)
                 }
             },
             {
@@ -184,8 +184,7 @@ namespace ExtendedSurvival.Core
                     new StationPrefabInfo("Economy_Outpost_6"),
                     new StationPrefabInfo("Economy_Outpost_7"),
                     new StationPrefabInfo("Economy_Outpost_8"),
-                    new StationPrefabInfo("Economy_Outpost_9"),
-                    new StationPrefabInfo("Economy_MiningStation_2", upIncrement: 4.5f)
+                    new StationPrefabInfo("Economy_Outpost_9")
                 }
             },
             {
@@ -413,6 +412,7 @@ namespace ExtendedSurvival.Core
             /* Check other mods */
             // Trader
             AddItemToShop(ItensConstants.STEELPLATE_ID, ItemRarity.Common, true, true, true, FactionType.Trader);
+            AddItemToShop(ItensConstants.BULLETPROOFGLASS_ID, ItemRarity.Common, true, true, true, FactionType.Trader);
             AddItemToShop(ItensConstants.INTERIORPLATE_ID, ItemRarity.Common, true, true, true, FactionType.Trader);
             AddItemToShop(ItensConstants.CONSTRUCTION_ID, ItemRarity.Common, true, true, true, FactionType.Trader);
             AddItemToShop(ItensConstants.GIRDER_ID, ItemRarity.Common, true, true, true, FactionType.Trader);
@@ -426,6 +426,7 @@ namespace ExtendedSurvival.Core
             AddItemToShop(ItensConstants.DETECTOR_ID, ItemRarity.Normal, true, true, true, FactionType.Trader);
             AddItemToShop(ItensConstants.POWERCELL_ID, ItemRarity.Normal, true, true, true, FactionType.Trader);
             AddItemToShop(ItensConstants.MEDICAL_ID, ItemRarity.Rare, true, true, true, FactionType.Trader);
+            AddItemToShop(ItensConstants.SUPERCONDUCTOR_ID, ItemRarity.Rare, true, true, true, FactionType.Trader);
             AddItemToShop(ItensConstants.REACTOR_ID, ItemRarity.Epic, true, true, true, FactionType.Trader);
             AddItemToShop(ItensConstants.THRUST_ID, ItemRarity.Epic, true, true, true, FactionType.Trader);
             // Market
