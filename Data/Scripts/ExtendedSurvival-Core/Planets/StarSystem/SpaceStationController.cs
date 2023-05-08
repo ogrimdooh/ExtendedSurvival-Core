@@ -212,6 +212,14 @@ namespace ExtendedSurvival.Core
                     new StationPrefabInfo("Economy_SpaceStation_5")
                 }
             }
+        }; 
+
+        public static readonly Dictionary<StationType, string> STATION_TYPE_NAME = new Dictionary<StationType, string>()
+        {
+            { StationType.MiningStation, "Mining Station" },
+            { StationType.Outpost, "Outpost" },
+            { StationType.OrbitalStation, "Orbital Station" },
+            { StationType.SpaceStation, "Space Station" }
         };
 
         private static readonly Dictionary<FactionType, string> FACTION_PREFIX = new Dictionary<FactionType, string>()
@@ -356,14 +364,14 @@ namespace ExtendedSurvival.Core
             // Miner
             AddItemToShop(ItensConstants.IRON_ORE_ID, ItemRarity.Common, true, true, true, FactionType.Miner);
             AddItemToShop(ItensConstants.IRON_INGOT_ID, ItemRarity.Common, true, true, true, FactionType.Miner);
-            AddItemToShop(ItensConstants.NICKEL_ORE_ID, ItemRarity.Normal, true, true, true, FactionType.Miner);
-            AddItemToShop(ItensConstants.NICKEL_INGOT_ID, ItemRarity.Normal, true, true, true, FactionType.Miner);
-            AddItemToShop(ItensConstants.SILICON_ORE_ID, ItemRarity.Normal, true, true, true, FactionType.Miner);
-            AddItemToShop(ItensConstants.SILICON_INGOT_ID, ItemRarity.Normal, true, true, true, FactionType.Miner);
-            AddItemToShop(ItensConstants.COBALT_ORE_ID, ItemRarity.Uncommon, true, true, true, FactionType.Miner);
-            AddItemToShop(ItensConstants.COBALT_INGOT_ID, ItemRarity.Uncommon, true, true, true, FactionType.Miner);
-            AddItemToShop(ItensConstants.MAGNESIUM_ORE_ID, ItemRarity.Uncommon, true, true, true, FactionType.Miner);
-            AddItemToShop(ItensConstants.MAGNESIUM_INGOT_ID, ItemRarity.Uncommon, true, true, true, FactionType.Miner);
+            AddItemToShop(ItensConstants.NICKEL_ORE_ID, ItemRarity.Uncommon, true, true, true, FactionType.Miner);
+            AddItemToShop(ItensConstants.NICKEL_INGOT_ID, ItemRarity.Uncommon, true, true, true, FactionType.Miner);
+            AddItemToShop(ItensConstants.SILICON_ORE_ID, ItemRarity.Uncommon, true, true, true, FactionType.Miner);
+            AddItemToShop(ItensConstants.SILICON_INGOT_ID, ItemRarity.Uncommon, true, true, true, FactionType.Miner);
+            AddItemToShop(ItensConstants.COBALT_ORE_ID, ItemRarity.Normal, true, true, true, FactionType.Miner);
+            AddItemToShop(ItensConstants.COBALT_INGOT_ID, ItemRarity.Normal, true, true, true, FactionType.Miner);
+            AddItemToShop(ItensConstants.MAGNESIUM_ORE_ID, ItemRarity.Normal, true, true, true, FactionType.Miner);
+            AddItemToShop(ItensConstants.MAGNESIUM_INGOT_ID, ItemRarity.Normal, true, true, true, FactionType.Miner);
             AddItemToShop(ItensConstants.GOLD_ORE_ID, ItemRarity.Rare, true, true, true, FactionType.Miner);
             AddItemToShop(ItensConstants.GOLD_INGOT_ID, ItemRarity.Rare, true, true, true, FactionType.Miner);
             AddItemToShop(ItensConstants.SILVER_ORE_ID, ItemRarity.Rare, true, true, true, FactionType.Miner);
@@ -435,10 +443,18 @@ namespace ExtendedSurvival.Core
             AddItemToShop(ItensConstants.ANGLEGRINDER4ITEM_ID, ItemRarity.Epic, true, true, true, FactionType.Market);
             AddItemToShop(ItensConstants.OXYGENBOTTLE_ID, ItemRarity.Normal, true, true, true, FactionType.Market);
             AddItemToShop(ItensConstants.HYDROGENBOTTLE_ID, ItemRarity.Normal, true, true, true, FactionType.Market);
+            AddItemToShop(RecipientConstants.WATER_FLASK_SMALL_ID, ItemRarity.Uncommon, true, true, true, FactionType.Market);
+            AddItemToShop(RecipientConstants.WATER_FLASK_MEDIUM_ID, ItemRarity.Normal, true, true, true, FactionType.Market);
+            AddItemToShop(RecipientConstants.WATER_FLASK_BIG_ID, ItemRarity.Rare, true, true, true, FactionType.Market);
+            AddItemToShop(RecipientConstants.POLIETILENOGLICOL_ID, ItemRarity.Rare, true, true, true, FactionType.Market);
+            AddItemToShop(RecipientConstants.SILVERSULFADIAZINE_ID, ItemRarity.Epic, true, true, true, FactionType.Market);
             // Shipyard
             /* Need to check how to do this! */
             // Trader & Market
-            AddItemToShop(ItensConstants.ZONECHIP_ID, ItemRarity.Normal, true, true, true, FactionType.Trader, FactionType.Market);
+            AddItemToShop(ItensConstants.ZONECHIP_ID, ItemRarity.Rare, true, true, true, FactionType.Trader, FactionType.Market);
+            AddItemToShop(RecipientConstants.FLASK_SMALL_ID, ItemRarity.Uncommon, true, true, true, FactionType.Trader, FactionType.Market);
+            AddItemToShop(RecipientConstants.FLASK_MEDIUM_ID, ItemRarity.Normal, true, true, true, FactionType.Trader, FactionType.Market);
+            AddItemToShop(RecipientConstants.FLASK_BIG_ID, ItemRarity.Rare, true, true, true, FactionType.Trader, FactionType.Market);
             // Trader & Market & Shipyard
             AddItemToShop(ItensConstants.CANVAS_ID, ItemRarity.Normal, true, true, true, FactionType.Trader, FactionType.Market, FactionType.Shipyard);
             SelfLoaded = true;

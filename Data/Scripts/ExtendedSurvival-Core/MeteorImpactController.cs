@@ -21,17 +21,7 @@ namespace ExtendedSurvival.Core
         {
             if (ExtendedSurvivalSettings.Instance.MeteorImpact.Enabled)
             {
-                var position = meteor.GetPosition();
-                var planet = ExtendedSurvivalEntityManager.GetPlanetAtRange(position);
-                if (planet != null && planet.Setting.MeteorImpact.Enabled)
-                {
-                    float naturalGravityInterference;
-                    Vector3 naturalGravity = MyAPIGateway.Physics.CalculateNaturalGravityAt(position, out naturalGravityInterference);
-                    if (naturalGravityInterference != 0)
-                    {
-                        meteor.OnMarkForClose += MeteorImpactHandler;
-                    }
-                }
+                meteor.OnMarkForClose += MeteorImpactHandler;
             }
         }
 
@@ -47,6 +37,10 @@ namespace ExtendedSurvival.Core
                 float altitudeSqr = (float)Vector3D.DistanceSquared(position, surfacePoint);
                 float naturalGravityInterference;
                 Vector3 naturalGravity = MyAPIGateway.Physics.CalculateNaturalGravityAt(position, out naturalGravityInterference);
+
+                if (naturalGravityInterference == 0)
+                    return;
+
                 float maxSpawnAltitudeSqr = (float)Math.Pow(MAX_SPAWN_ALTITUDE, 2);
 
                 if (naturalGravity.LengthSquared() > 0 && altitudeSqr > maxSpawnAltitudeSqr)

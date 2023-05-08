@@ -502,6 +502,11 @@ namespace ExtendedSurvival.Core
                                                 SpaceStationController.StationType.MiningStation :
                                                 SpaceStationController.StationType.Outpost;
 
+                                            if (MyUtils.GetRandomFloat(0, 1) <= 0.4f)
+                                            {
+                                                staType = SpaceStationController.StationType.OrbitalStation;
+                                            }
+
                                             var prefabName = SpaceStationController.VALID_PREFABS[staType].OrderBy(x => GetRandomDouble()).FirstOrDefault();
 
                                             var surfacePos = planet.Entity.GetClosestSurfacePointGlobal(targetPos);
@@ -515,12 +520,24 @@ namespace ExtendedSurvival.Core
                                                 surfaceUpPos = tmpF;
                                             }
 
+                                            if (staType == SpaceStationController.StationType.OrbitalStation)
+                                            {
+
+                                                float naturalGravityInterference;
+                                                do
+                                                {
+                                                    surfacePos += surfaceUpPos * 50;
+                                                    Vector3 naturalGravity = MyAPIGateway.Physics.CalculateNaturalGravityAt(surfacePos, out naturalGravityInterference);
+                                                } while (naturalGravityInterference != 0);
+                                                
+                                            }
+
                                             var staSize = staSizes.OrderBy(x => GetRandomDouble()).FirstOrDefault();
 
                                             var stationName = "";
                                             do
                                             {
-                                                stationName = $"{factionData.Tag} - Station: {SpaceStationController.GetStationName()}";
+                                                stationName = $"{factionData.Tag} - {SpaceStationController.STATION_TYPE_NAME[staType]}: {SpaceStationController.GetStationName()}";
                                             } while (ExtendedSurvivalStorage.Instance.StarSystem.Members.Any(x => x.Stations.Any(y => y.Name == stationName)));
 
                                             var staStored = new StarSystemMemberStationStorage()
