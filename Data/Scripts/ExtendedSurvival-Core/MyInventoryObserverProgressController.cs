@@ -112,6 +112,11 @@ namespace ExtendedSurvival.Core
 
         public static void AddMyInventoryObserver(MyInventoryObserver block)
         {
+            var ids = ExtendedSurvivalStorage.Instance.StarSystem.GetStationsContainersIds();
+            if (ids.Contains(block.OwnerEntity.EntityId))
+            {
+                block.SpoilEnabled = false;
+            }
             lock (MyInventoryObservers)
             {
                 if (!MyInventoryObservers.ContainsKey(block.ObserverId))

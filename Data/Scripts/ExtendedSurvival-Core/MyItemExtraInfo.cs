@@ -134,7 +134,7 @@ namespace ExtendedSurvival.Core
                     if (ConservationTime == TimeSpan.Zero)
                         DoSpoilRoutine(observer);
                 }
-                if (IsGasContainer && MyInventoryObserverProgressController.HasGasSpoilInfo(GasDefinitionId.subtypeId.String))
+                if (IsGasContainer && observer.SpoilEnabled && MyInventoryObserverProgressController.HasGasSpoilInfo(GasDefinitionId.subtypeId.String))
                 {
                     var spoilInfo = MyInventoryObserverProgressController.GetGasSpoilInfo(GasDefinitionId.subtypeId.String);
                     if (spoilInfo.CanDecay == null || spoilInfo.CanDecay.Invoke(observer.ObserverId.ToGuid()))

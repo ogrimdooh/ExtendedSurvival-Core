@@ -45,6 +45,9 @@ namespace ExtendedSurvival.Core
         public long SafeZoneEntityId { get; set; }
 
         [XmlElement]
+        public long CargoContainerEntityId { get; set; }
+
+        [XmlElement]
         public int StationType { get; set; }
 
         [XmlElement]

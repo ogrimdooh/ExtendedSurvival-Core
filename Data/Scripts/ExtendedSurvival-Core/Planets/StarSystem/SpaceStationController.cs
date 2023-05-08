@@ -229,7 +229,7 @@ namespace ExtendedSurvival.Core
             { FactionType.Trader, "T" },
             { FactionType.Armory, "A" },
             { FactionType.Farming, "F" },
-            { FactionType.Livestock, "L" },
+            { FactionType.Livestock, "V" },
             { FactionType.Market, "K" },
         };
 
@@ -449,6 +449,7 @@ namespace ExtendedSurvival.Core
             AddItemToShop(RecipientConstants.WATER_FLASK_BIG_ID, ItemRarity.Rare, true, true, true, FactionType.Market);
             AddItemToShop(RecipientConstants.POLIETILENOGLICOL_ID, ItemRarity.Rare, true, true, true, FactionType.Market);
             AddItemToShop(RecipientConstants.SILVERSULFADIAZINE_ID, ItemRarity.Epic, true, true, true, FactionType.Market);
+            AddItemToShop(ItensConstants.MEDKIT_ID, ItemRarity.Rare, true, true, true, FactionType.Market);
             // Shipyard
             /* Need to check how to do this! */
             // Trader & Market
@@ -951,6 +952,7 @@ namespace ExtendedSurvival.Core
                                                         safeZone.Close();
                                                     station.StationEntityId = 0;
                                                     station.SafeZoneEntityId = 0;
+                                                    station.CargoContainerEntityId = 0;
                                                 }
                                             }
                                             catch (Exception ex)
@@ -1073,6 +1075,17 @@ namespace ExtendedSurvival.Core
             var entity = ExtendedSurvivalEntityManager.GetGridById(station.StationEntityId);
             if (entity != null)
             {
+                if (entity._blocksByType.ContainsKey(typeof(MyObjectBuilder_OxygenGenerator)))
+                {
+                    foreach (var block in entity._blocksByType[typeof(MyObjectBuilder_OxygenGenerator)])
+                    {
+                         var o2Generator = block.FatBlock as IMyGasGenerator;
+                        if (o2Generator != null)
+                        {
+                            o2Generator.Enabled = false;
+                        }
+                    }
+                }
                 if (entity._blocksById.ContainsKey(STOREBLOCK_ID) && entity._blocksById.ContainsKey(LARGEBLOCKLARGECONTAINER_ID))
                 {
                     var storeBlock = entity._blocksById[STOREBLOCK_ID].FirstOrDefault().FatBlock as IMyStoreBlock;
@@ -1082,6 +1095,12 @@ namespace ExtendedSurvival.Core
                         var inventory = cargoContainer.GetInventory();
                         if (inventory != null)
                         {
+                            station.CargoContainerEntityId = cargoContainer.EntityId;
+                            var observer = MyInventoryObserverProgressController.Get(cargoContainer.EntityId, 0);
+                            if (observer != null)
+                            {
+                                observer.SpoilEnabled = false;
+                            }
                             inventory.Clear();
                             // Clear the store
                             List<IMyStoreItem> items = new List<IMyStoreItem>();
