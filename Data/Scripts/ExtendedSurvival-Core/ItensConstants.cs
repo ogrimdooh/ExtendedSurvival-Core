@@ -262,6 +262,9 @@ namespace ExtendedSurvival.Core
         public const string MEDKIT_SUBTYPEID = "Medkit";
         public static readonly UniqueEntityId MEDKIT_ID = new UniqueEntityId(typeof(MyObjectBuilder_ConsumableItem), MEDKIT_SUBTYPEID);
 
+        public const string DATAPAD_SUBTYPEID = "Datapad";
+        public static readonly UniqueEntityId DATAPAD_ID = new UniqueEntityId(typeof(MyObjectBuilder_Datapad), DATAPAD_SUBTYPEID);
+
         private static ConcurrentDictionary<UniqueEntityId, MyObjectBuilder_Base> BUILDERS_CACHE = new ConcurrentDictionary<UniqueEntityId, MyObjectBuilder_Base>();
 
         public static T GetBuilder<T>(UniqueEntityId id, bool cache = true) where T : MyObjectBuilder_Base
@@ -276,6 +279,14 @@ namespace ExtendedSurvival.Core
         public static MyObjectBuilder_PhysicalObject GetPhysicalObjectBuilder(UniqueEntityId id)
         {
             return GetBuilder<MyObjectBuilder_PhysicalObject>(id);
+        }
+
+        public static MyObjectBuilder_Datapad GetDatapadObjectBuilder(UniqueEntityId id, string name, string data)
+        {
+            var builder = GetBuilder<MyObjectBuilder_Datapad>(id, false);
+            builder.Name = name;
+            builder.Data = data;
+            return builder;
         }
 
         public static MyObjectBuilder_GasContainerObject GetGasContainerBuilder(UniqueEntityId id, float gasLevel = 0)

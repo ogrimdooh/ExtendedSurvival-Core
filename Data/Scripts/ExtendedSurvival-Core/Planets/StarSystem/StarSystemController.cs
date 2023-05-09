@@ -87,7 +87,10 @@ namespace ExtendedSurvival.Core
                             station.SafeZoneEntityId = 0;
                         }
                     }
-                    MyVisualScriptLogicProvider.RemoveGPSForAll(station.Name);
+                    if (ExtendedSurvivalSettings.Instance.AutoGenerateTradeStationsGps)
+                    {
+                        MyVisualScriptLogicProvider.RemoveGPSForAll(station.Name);
+                    }
                 }
                 if (ExtendedSurvivalSettings.Instance.AutoGenerateStarSystemGps)
                 {
@@ -362,7 +365,7 @@ namespace ExtendedSurvival.Core
                                                 ExtendedSurvivalStorage.Instance.StarSystem.Members.Add(new StarSystemMemberStorage()
                                                 {
                                                     EntityId = 0,
-                                                    Name = $"Ring of Planet {member.Name}",
+                                                    Name = $"Planet {p + 1} - Ring",
                                                     Position = ringPosition,
                                                     MemberType = (int)StarSystemProfile.MemberType.AsteroidBelt,
                                                     ItemType = 0,
@@ -383,7 +386,7 @@ namespace ExtendedSurvival.Core
                                         ExtendedSurvivalStorage.Instance.StarSystem.Members.Add(new StarSystemMemberStorage()
                                         {
                                             EntityId = 0,
-                                            Name = (!string.IsNullOrWhiteSpace(member.Name) ? $"{member.Name} - " : "") + $"Asteroid Belt {p + 1}",
+                                            Name = (!string.IsNullOrWhiteSpace(member.Name) ? $"{member.Name} - " : "") + $"Asteroid Belt {b + 1}",
                                             Position = beltPosition,
                                             MemberType = (int)StarSystemProfile.MemberType.AsteroidBelt,
                                             ItemType = 0,
@@ -572,7 +575,10 @@ namespace ExtendedSurvival.Core
                                                     member.Stations.Add(staStored);
                                                     factionData.Stations.Add(staStored.Id);
 
-                                                    MyVisualScriptLogicProvider.AddGPSForAll(staStored.Name, $"Station size: {staSize}.", surfacePos, Color.Yellow);
+                                                    if (ExtendedSurvivalSettings.Instance.AutoGenerateTradeStationsGps)
+                                                    {
+                                                        MyVisualScriptLogicProvider.AddGPSForAll(staStored.Name, $"Station size: {staSize}.", surfacePos, Color.Yellow);
+                                                    }
 
                                                 }
 

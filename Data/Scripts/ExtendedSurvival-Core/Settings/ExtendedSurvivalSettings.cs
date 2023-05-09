@@ -54,6 +54,9 @@ namespace ExtendedSurvival.Core
         [XmlElement]
         public bool AutoGenerateStarSystemGps { get; set; } = true;
 
+        [XmlElement] 
+        public bool AutoGenerateTradeStationsGps { get; set; } = false;
+
         [XmlElement]
         public DocumentedVector2 TradeFactionsAmount { get; set; } = new DocumentedVector2(10, 20, FACTIONRANGE_INFO);
 

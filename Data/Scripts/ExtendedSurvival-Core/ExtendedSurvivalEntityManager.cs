@@ -365,6 +365,20 @@ namespace ExtendedSurvival.Core
                                                 {
                                                     inventory.AddMaxItems(item.Value, ItensConstants.GetPhysicalObjectBuilder(item.Key));
                                                 }
+                                                if (ExtendedSurvivalStorage.Instance.StarSystem.Generated)
+                                                {
+                                                    var stations = ExtendedSurvivalStorage.Instance.StarSystem.GetAllStations();
+                                                    if (stations.Any())
+                                                    {
+                                                        var targetPos = cubeGrid.GetPosition();
+                                                        var stationPos = stations.OrderBy(x => Vector3D.Distance(x.Position, targetPos)).FirstOrDefault();
+                                                        var data = 
+                                                            "Some Merchant keeps bragging about some really good deals at a station he has been visiting but would not spill the details. " + Environment.NewLine +
+                                                            "However, I happened to 'stumble' on his navigation computer during my maintenance shift and this position kept popping up. Go see if there is any truth in what that merchant said." + Environment.NewLine + Environment.NewLine +
+                                                            $"GPS:{stationPos.Name.Replace(":","")}:{stationPos.Position.X}:{stationPos.Position.Y}:{stationPos.Position.Z}:#FF75C9F1:";
+                                                        inventory.AddMaxItems(1f, ItensConstants.GetDatapadObjectBuilder(ItensConstants.DATAPAD_ID, stationPos.Name, data));
+                                                    }
+                                                }
                                             }
                                         }
                                     }

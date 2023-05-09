@@ -2,6 +2,7 @@
 using Sandbox.Common.ObjectBuilders.Definitions;
 using Sandbox.Definitions;
 using Sandbox.Game.Entities;
+using Sandbox.Game.Entities.Blocks;
 using Sandbox.ModAPI;
 using System;
 using System.Collections.Concurrent;
@@ -958,6 +959,7 @@ namespace ExtendedSurvival.Core
                                         {
                                             try
                                             {
+                                                SaveStationStoreChange(station);
                                                 var entity = ExtendedSurvivalEntityManager.GetGridById(station.StationEntityId);
                                                 if (entity != null)
                                                 {
@@ -985,6 +987,46 @@ namespace ExtendedSurvival.Core
             catch (Exception ex)
             {
                 ExtendedSurvivalCoreLogging.Instance.LogError(typeof(SpaceStationController), ex);
+            }
+        }
+
+        public static void SaveStations()
+        {
+            var stations = ExtendedSurvivalStorage.Instance.StarSystem.GetStations();
+            foreach (var station in stations)
+            {
+                SaveStationStoreChange(station);
+            }
+        }
+
+        public static void SaveStationStoreChange(StarSystemMemberStationStorage station)
+        {
+            var entity = ExtendedSurvivalEntityManager.GetGridById(station.StationEntityId);
+            if (entity != null)
+            {
+                if (entity._blocksById.ContainsKey(STOREBLOCK_ID))
+                {
+                    var storeBlock = entity._blocksById[STOREBLOCK_ID].FirstOrDefault().FatBlock as IMyStoreBlock;
+                    if (storeBlock != null)
+                    {
+                        List<IMyStoreItem> items = new List<IMyStoreItem>();
+                        storeBlock.GetStoreItems(items);
+                        var checkList = station.ShopItems.ToArray();
+                        foreach (var item in checkList)
+                        {
+                            var targetSoreType = item.IsSelling ? StoreItemTypes.Offer : StoreItemTypes.Order;
+                            var query = items.Where(x => x.Item.HasValue && (MyDefinitionId)x.Item.Value == item.Id && x.StoreItemType == targetSoreType);
+                            if (query.Any() && query.First().Amount > 0)
+                            {
+                                item.Amount = query.First().Amount;
+                            }
+                            else
+                            {
+                                station.ShopItems.Remove(item);
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -1099,7 +1141,28 @@ namespace ExtendedSurvival.Core
                          var o2Generator = block.FatBlock as IMyGasGenerator;
                         if (o2Generator != null)
                         {
-                            o2Generator.Enabled = false;
+                            var inventory = o2Generator.GetInventory();
+                            if (inventory != null)
+                            {
+                                var maxToAdd = (float)inventory.MaxVolume * 1000f / 0.35f;
+                                inventory.AddMaxItems(maxToAdd, ItensConstants.GetPhysicalObjectBuilder(OreConstants.ICE_ID));
+                                o2Generator.Enabled = true;
+                            }
+                            else
+                            {
+                                o2Generator.Enabled = false;
+                            }
+                        }
+                    }
+                }
+                if (entity._blocksByType.ContainsKey(typeof(MyObjectBuilder_BatteryBlock)))
+                {
+                    foreach (var block in entity._blocksByType[typeof(MyObjectBuilder_BatteryBlock)])
+                    {
+                        var battery = block.FatBlock as MyBatteryBlock;
+                        if (battery != null)
+                        {
+                            battery.CurrentStoredPower = battery.MaxStoredPower;
                         }
                     }
                 }

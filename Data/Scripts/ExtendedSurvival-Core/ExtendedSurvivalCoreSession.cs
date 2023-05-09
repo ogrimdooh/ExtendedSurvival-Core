@@ -464,6 +464,7 @@ namespace ExtendedSurvival.Core
 
             if (IsServer)
             {
+                SpaceStationController.SaveStations();
                 ExtendedSurvivalSettings.Save();
                 ExtendedSurvivalStorage.Save();
             }
