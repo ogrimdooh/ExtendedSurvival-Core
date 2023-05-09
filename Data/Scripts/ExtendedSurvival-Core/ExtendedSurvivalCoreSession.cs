@@ -176,6 +176,8 @@ namespace ExtendedSurvival.Core
 
         private const string SETTINGS_COMMAND_STARSYSTEM_CLEAR = "clear";
         private const string SETTINGS_COMMAND_STARSYSTEM_CREATE = "create";
+        private const string SETTINGS_COMMAND_STARSYSTEM_COMPLETE = "complete";
+        private const string SETTINGS_COMMAND_STARSYSTEM_RECREATESTATIONS = "recreatestation";
 
         private static readonly Dictionary<string, KeyValuePair<int, bool>> VALID_COMMANDS = new Dictionary<string, KeyValuePair<int, bool>>()
         {
@@ -343,6 +345,12 @@ namespace ExtendedSurvival.Core
                                     }
                                     switch (mCommandData.content[1])
                                     {
+                                        case SETTINGS_COMMAND_STARSYSTEM_RECREATESTATIONS:
+                                            StarSystemController.RecreateStations();
+                                            break;
+                                        case SETTINGS_COMMAND_STARSYSTEM_COMPLETE:
+                                            StarSystemController.CompleteStarSystem();
+                                            break;
                                         case SETTINGS_COMMAND_STARSYSTEM_CLEAR:
                                             StarSystemController.ClearStarSystem();
                                             break;
