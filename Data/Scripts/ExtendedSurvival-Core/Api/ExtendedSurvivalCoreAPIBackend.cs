@@ -148,7 +148,7 @@ namespace ExtendedSurvival.Core
                 try
                 {
                     var info = MyAPIGateway.Utilities.SerializeFromXML<StationShopItemInfo>(value);
-                    return SpaceStationController.AddItemToShop(new UniqueEntityId(info.Id), info.Rarity, info.CanBuy, info.CanSell, info.CanOrder, info.TargetFactions);
+                    return SpaceStationController.AddItemToShop(new UniqueEntityId(info.Id), info.Rarity, info.CanBuy, info.CanSell, info.CanOrder, info.ForceMinimalPrice, info.TargetFactions);
                 }
                 catch (Exception e)
                 {

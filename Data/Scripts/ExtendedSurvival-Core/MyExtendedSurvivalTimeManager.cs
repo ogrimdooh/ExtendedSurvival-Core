@@ -38,6 +38,17 @@ namespace ExtendedSurvival.Core
                         {
                             frameCounter = MyAPIGateway.Session.GameplayFrameCounter;
                             GameTime += TIME_INTERVAL;
+                            if (ExtendedSurvivalStorage.Instance != null && ExtendedSurvivalSettings.Instance != null && ExtendedSurvivalStorage.Instance.StarSystem.Generated)
+                            {
+                                // Comercial Time
+                                ExtendedSurvivalStorage.Instance.StarSystem.ComercialCountdown += TIME_INTERVAL;
+                                var targetValue = ExtendedSurvivalSettings.Instance.TradeStations.ComercialCycle * 1000;
+                                if (ExtendedSurvivalStorage.Instance.StarSystem.ComercialCountdown >= targetValue)
+                                {
+                                    ExtendedSurvivalStorage.Instance.StarSystem.ComercialCountdown -= targetValue;
+                                    ExtendedSurvivalStorage.Instance.StarSystem.ComercialTick++;
+                                }
+                            }
                         }
                     }
                 });

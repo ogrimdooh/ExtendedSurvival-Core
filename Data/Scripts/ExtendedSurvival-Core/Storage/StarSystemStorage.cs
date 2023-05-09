@@ -5,7 +5,6 @@ using System.Linq;
 
 namespace ExtendedSurvival.Core
 {
-
     [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
     public class StarSystemStorage
     {
@@ -19,6 +18,9 @@ namespace ExtendedSurvival.Core
         [XmlElement]
         public long ComercialTick { get; set; }
 
+        [XmlElement]
+        public long ComercialCountdown { get; set; }
+
         [XmlArray("Members"), XmlArrayItem("Member", typeof(StarSystemMemberStorage))]
         public List<StarSystemMemberStorage> Members { get; set; } = new List<StarSystemMemberStorage>();
 
@@ -28,6 +30,16 @@ namespace ExtendedSurvival.Core
             foreach (var member in Members.Where(x => x.Stations.Any(y => y.CargoContainerEntityId != 0)))
             {
                 ids.AddRange(member.Stations.Where(y => y.CargoContainerEntityId != 0).Select(y => y.CargoContainerEntityId));
+            }
+            return ids.ToArray();
+        }
+
+        public StarSystemMemberStationStorage[] GetStations()
+        {
+            var ids = new List<StarSystemMemberStationStorage>();
+            foreach (var member in Members.Where(x => x.Stations.Any(y => y.CargoContainerEntityId != 0)))
+            {
+                ids.AddRange(member.Stations.Where(y => y.StationEntityId != 0));
             }
             return ids.ToArray();
         }

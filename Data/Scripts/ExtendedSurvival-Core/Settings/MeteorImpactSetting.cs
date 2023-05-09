@@ -13,6 +13,9 @@ namespace ExtendedSurvival.Core
         [XmlElement]
         public float DistanceToSpawn { get; set; } = 2500.0f;
 
+        [XmlElement]
+        public long StoneLifeTime { get; set; } = 3600;
+
     }
 
 }

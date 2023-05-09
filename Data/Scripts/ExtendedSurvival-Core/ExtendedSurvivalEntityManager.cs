@@ -33,6 +33,7 @@ namespace ExtendedSurvival.Core
         public List<IMyCubeGrid> GridsOnLoad { get; private set; } = new List<IMyCubeGrid>();
         public List<GridEntity> Grids { get; private set; } = new List<GridEntity>();
         public List<MySafeZone> SafeZones { get; private set; } = new List<MySafeZone>();
+        public ConcurrentDictionary<long, IMyVoxelMap> VoxelMaps { get; private set; } = new ConcurrentDictionary<long, IMyVoxelMap>();
         public ConcurrentDictionary<long, PlanetEntity> Planets { get; private set; } = new ConcurrentDictionary<long, PlanetEntity>();
         public ConcurrentDictionary<long, HandheldGunEntity> HandheldGuns { get; private set; } = new ConcurrentDictionary<long, HandheldGunEntity>();
         public ConcurrentDictionary<long, IMyPlayer> Players { get; private set; } = new ConcurrentDictionary<long, IMyPlayer>();
@@ -59,6 +60,7 @@ namespace ExtendedSurvival.Core
         protected bool canRun;
         protected ParallelTasks.Task task;
         protected ParallelTasks.Task taskStations;
+        protected ParallelTasks.Task taskStones;
         protected override void DoInit(MyObjectBuilder_SessionComponent sessionComponent)
         {
             if (MyAPIGateway.Session.IsServer)
@@ -84,8 +86,27 @@ namespace ExtendedSurvival.Core
                     while (canRun)
                     {
                         SpaceStationController.DoCycle();
+                        CheckTradeStations();
                         if (MyAPIGateway.Parallel != null)
                             MyAPIGateway.Parallel.Sleep(1000);
+                        else
+                            break;
+                    }
+                });
+                taskStones = MyAPIGateway.Parallel.StartBackground(() =>
+                {
+                    ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), "StartBackground [MeteorStonesController START]");
+                    while (MyExtendedSurvivalTimeManager.Instance == null)
+                    {
+                        MyAPIGateway.Parallel.Sleep(100);
+                    }
+                    _lastCheckMeteorStones = MyExtendedSurvivalTimeManager.Instance.GameTime;
+                    // Loop Task to Control Skins
+                    while (canRun)
+                    {
+                        CheckMeteorStones();
+                        if (MyAPIGateway.Parallel != null)
+                            MyAPIGateway.Parallel.Sleep(10000);
                         else
                             break;
                     }
@@ -263,6 +284,15 @@ namespace ExtendedSurvival.Core
                 }
                 return;
             }
+            var voxelMap = entity as IMyVoxelMap;
+            if (voxelMap != null && VoxelMaps.ContainsKey(voxelMap.EntityId))
+            {
+                lock (VoxelMaps)
+                {
+                    VoxelMaps.Remove(voxelMap.EntityId);
+                }
+                return;
+            }
             var handheldGunObj = entity as IMyAutomaticRifleGun;
             if (handheldGunObj != null)
             {
@@ -283,7 +313,10 @@ namespace ExtendedSurvival.Core
                 }
                 var meteor = entity as IMyMeteor;
                 if (meteor != null)
+                {
                     MeteorImpactController.CheckEntityCanGenerateStone(meteor);
+                    return;
+                }
                 var safeZone = entity as MySafeZone;
                 if (safeZone != null)
                 {
@@ -291,6 +324,7 @@ namespace ExtendedSurvival.Core
                     {
                         SafeZones.Add(safeZone);
                     }
+                    return;
                 }
                 var cubeGrid = entity as IMyCubeGrid;
                 if (cubeGrid != null)
@@ -375,6 +409,15 @@ namespace ExtendedSurvival.Core
                     }
                     return;
                 }
+                var voxelMap = entity as IMyVoxelMap;
+                if (voxelMap != null)
+                {
+                    lock (VoxelMaps)
+                    {
+                        VoxelMaps[voxelMap.EntityId] = voxelMap;
+                    }
+                    return;
+                }
                 var handheldGunObj = entity as IMyAutomaticRifleGun;
                 if (handheldGunObj != null)
                 {
@@ -383,6 +426,7 @@ namespace ExtendedSurvival.Core
                         HandheldGuns[handheldGunObj.EntityId] = new HandheldGunEntity(handheldGunObj);
                         HandheldGuns[handheldGunObj.EntityId].OnReload += ExtendedSurvivalEntityManager_OnReload;
                     }
+                    return;
                 }
             }
             catch (Exception ex)
@@ -481,6 +525,61 @@ namespace ExtendedSurvival.Core
             }
 
             return closest;
+        }
+
+        private long _lastCheckMeteorStones;
+        private void CheckMeteorStones()
+        {
+            var timePass = MyExtendedSurvivalTimeManager.Instance.GameTime - _lastCheckMeteorStones;
+            _lastCheckMeteorStones = MyExtendedSurvivalTimeManager.Instance.GameTime;
+            if (ExtendedSurvivalStorage.Instance != null && ExtendedSurvivalStorage.Instance.StarSystem.Generated)
+            {
+                foreach (var stone in ExtendedSurvivalStorage.Instance.MeteorImpact.Stones)
+                {
+                    stone.Life -= timePass;
+                }
+                if (ExtendedSurvivalStorage.Instance.MeteorImpact.Stones.Any(x => x.Life <= 0))
+                {
+                    var lista = ExtendedSurvivalStorage.Instance.MeteorImpact.Stones.Where(x => x.Life <= 0).ToList();
+                    foreach (var stone in lista)
+                    {
+                        var remove = true;
+                        var stoneEntity = VoxelMaps.ContainsKey(stone.EntityId) ? VoxelMaps[stone.EntityId] : null;
+                        if (stoneEntity != null)
+                        {
+                            if (AnyInRange(stoneEntity.PositionComp.GetPosition(), SpaceStationController.SPAWN_DISTANCE))
+                            {
+                                remove = false;
+                                stone.Life = ExtendedSurvivalSettings.Instance.MeteorImpact.StoneLifeTime * 1000;
+                            }
+                        }
+                        if (remove)
+                        {
+                            ExtendedSurvivalStorage.Instance.MeteorImpact.Stones.Remove(stone);
+                            if (stoneEntity != null)
+                                stoneEntity.Close();
+                        }
+                    }
+                }
+            }
+        }
+
+        private void CheckTradeStations()
+        {
+            if (ExtendedSurvivalStorage.Instance != null && ExtendedSurvivalStorage.Instance.StarSystem.Generated)
+            {
+                var stations = ExtendedSurvivalStorage.Instance.StarSystem.GetStations();
+                if (stations.Any())
+                {
+                    for (int i = 0; i < stations.Length; i++)
+                    {
+                        if (stations[i].ComercialTick != ExtendedSurvivalStorage.Instance.StarSystem.ComercialTick)
+                        {
+                            SpaceStationController.DoBuildShopItens(stations[i]);
+                        }
+                    }
+                }
+            }
         }
 
         private void CheckAllGrids()

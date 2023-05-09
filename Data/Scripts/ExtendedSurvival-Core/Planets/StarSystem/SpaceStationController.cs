@@ -1,4 +1,5 @@
 ﻿using Sandbox.Common.ObjectBuilders;
+using Sandbox.Common.ObjectBuilders.Definitions;
 using Sandbox.Definitions;
 using Sandbox.Game.Entities;
 using Sandbox.ModAPI;
@@ -52,6 +53,7 @@ namespace ExtendedSurvival.Core
 
             public UniqueEntityId Id { get; set; }
             public MyPhysicalItemDefinition Definition { get; set; }
+            public bool ForceMinimalPrice { get; set; }
 
             public bool IsLoaded { get; set; }
             public bool IsBlueprintChecked { get; set; }
@@ -104,6 +106,7 @@ namespace ExtendedSurvival.Core
         };
 
         public static readonly Vector2 ORE_INGOT_AMOUNT_MULTIPLIER = new Vector2(100, 200);
+        public static readonly Vector2 GASCONTAINER_AMOUNT_MULTIPLIER = new Vector2(0.15f, 0.35f);
 
         public static readonly Dictionary<StationLevel, StationItensAmountProfile> STATION_ITENS_PROFILE = new Dictionary<StationLevel, StationItensAmountProfile>()
         {
@@ -499,6 +502,11 @@ namespace ExtendedSurvival.Core
 
         public static bool AddItemToShop(UniqueEntityId id, ItemRarity rarity, bool canBuy, bool canSell, bool canOrder, params FactionType[] targetFactions)
         {
+            return AddItemToShop(id, rarity, canBuy, canSell, canOrder, false, targetFactions);
+        }
+
+        public static bool AddItemToShop(UniqueEntityId id, ItemRarity rarity, bool canBuy, bool canSell, bool canOrder, bool forceMinimalPrice, params FactionType[] targetFactions)
+        {
             if (!SHOP_ITENS.ContainsKey(id))
             {
                 if (targetFactions != null && targetFactions.Any())
@@ -513,6 +521,7 @@ namespace ExtendedSurvival.Core
                             CanBuy = canBuy,
                             CanSell = canSell,
                             CanOrder = canOrder,
+                            ForceMinimalPrice = forceMinimalPrice,
                             TargetFactions = targetFactions,
                             Definition = def
                         };
@@ -563,18 +572,21 @@ namespace ExtendedSurvival.Core
             while (queryBaseItemBlueprint.Any())
             {
                 var itemToCheck = queryBaseItemBlueprint.FirstOrDefault();
-                var idToFind = itemToCheck.Key.DefinitionId;
-                var isBaseOre = idToFind.TypeId == typeof(MyObjectBuilder_Ore) && PlanetMapProfile.AllValidOres.Contains(idToFind.SubtypeName.ToUpper());
-                if (!isBaseOre)
+                if (!itemToCheck.Value.ForceMinimalPrice)
                 {
-                    var queryBlueprint = bluePrints.Where(x => x.Results.Any(y => y.Id == idToFind) && !x.Prerequisites.Any(y => y.Id == idToFind));
-                    if (queryBlueprint.Any())
+                    var idToFind = itemToCheck.Key.DefinitionId;
+                    var isBaseOre = idToFind.TypeId == typeof(MyObjectBuilder_Ore) && PlanetMapProfile.AllValidOres.Contains(idToFind.SubtypeName.ToUpper());
+                    if (!isBaseOre)
                     {
-                        var bluePrintsToChouse = queryBlueprint.OrderBy(x => x.Results.Count()).ToList();
-                        if (bluePrintsToChouse.Any(x => x.IsPrimary))
-                            itemToCheck.Value.RecipeBlueprint = bluePrintsToChouse.Where(x => x.IsPrimary).FirstOrDefault();
-                        else
-                            itemToCheck.Value.RecipeBlueprint = bluePrintsToChouse.FirstOrDefault();
+                        var queryBlueprint = bluePrints.Where(x => x.Results.Any(y => y.Id == idToFind) && !x.Prerequisites.Any(y => y.Id == idToFind));
+                        if (queryBlueprint.Any())
+                        {
+                            var bluePrintsToChouse = queryBlueprint.OrderBy(x => x.Results.Count()).ToList();
+                            if (bluePrintsToChouse.Any(x => x.IsPrimary))
+                                itemToCheck.Value.RecipeBlueprint = bluePrintsToChouse.Where(x => x.IsPrimary).FirstOrDefault();
+                            else
+                                itemToCheck.Value.RecipeBlueprint = bluePrintsToChouse.FirstOrDefault();
+                        }
                     }
                 }
                 itemToCheck.Value.IsBlueprintChecked = true;
@@ -620,18 +632,21 @@ namespace ExtendedSurvival.Core
                     while (queryItemBlueprint.Any())
                     {
                         var itemToCheck = queryItemBlueprint.FirstOrDefault();
-                        var idToFind = itemToCheck.Key.DefinitionId;
-                        var isBaseOre = idToFind.TypeId == typeof(MyObjectBuilder_Ore) && PlanetMapProfile.AllValidOres.Contains(idToFind.SubtypeName.ToUpper());
-                        if (!isBaseOre)
+                        if (!itemToCheck.Value.ForceMinimalPrice)
                         {
-                            var queryBlueprint = bluePrints.Where(x => x.Results.Any(y => y.Id == idToFind) && !x.Prerequisites.Any(y => y.Id == idToFind));
-                            if (queryBlueprint.Any())
+                            var idToFind = itemToCheck.Key.DefinitionId;
+                            var isBaseOre = idToFind.TypeId == typeof(MyObjectBuilder_Ore) && PlanetMapProfile.AllValidOres.Contains(idToFind.SubtypeName.ToUpper());
+                            if (!isBaseOre)
                             {
-                                var bluePrintsToChouse = queryBlueprint.OrderBy(x => x.Results.Count()).ToList();
-                                if (bluePrintsToChouse.Any(x => x.IsPrimary))
-                                    itemToCheck.Value.RecipeBlueprint = bluePrintsToChouse.Where(x => x.IsPrimary).FirstOrDefault();
-                                else
-                                    itemToCheck.Value.RecipeBlueprint = bluePrintsToChouse.FirstOrDefault();
+                                var queryBlueprint = bluePrints.Where(x => x.Results.Any(y => y.Id == idToFind) && !x.Prerequisites.Any(y => y.Id == idToFind));
+                                if (queryBlueprint.Any())
+                                {
+                                    var bluePrintsToChouse = queryBlueprint.OrderBy(x => x.Results.Count()).ToList();
+                                    if (bluePrintsToChouse.Any(x => x.IsPrimary))
+                                        itemToCheck.Value.RecipeBlueprint = bluePrintsToChouse.Where(x => x.IsPrimary).FirstOrDefault();
+                                    else
+                                        itemToCheck.Value.RecipeBlueprint = bluePrintsToChouse.FirstOrDefault();
+                                }
                             }
                         }
                         itemToCheck.Value.IsBlueprintChecked = true;
@@ -797,7 +812,7 @@ namespace ExtendedSurvival.Core
             {
                 ExtendedSurvivalCoreLogging.Instance.LogWarning(typeof(SpaceStationController), $"GetBluePrintValue: {baseDef.Id} : Avoid stack overflow, maybe recipes got conflicted!");
             }
-            ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(SpaceStationController), $"GetBluePrintValue: {baseDef.Id} : VALUE = {baseValue}");
+            ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(SpaceStationController), $"GetBluePrintValue: {baseDef.Id} : BASE VALUE = {baseValue}");
             return Math.Max(baseValue, 1);
         }
 
@@ -977,10 +992,12 @@ namespace ExtendedSurvival.Core
         {
             if (id.TypeId == typeof(MyObjectBuilder_Ore) || id.TypeId == typeof(MyObjectBuilder_Ingot))
                 return baseValue * ORE_INGOT_AMOUNT_MULTIPLIER.GetRandom();
+            if (id.TypeId == typeof(MyObjectBuilder_GasContainerObject) || id.TypeId == typeof(MyObjectBuilder_OxygenContainerObject))
+                return baseValue * GASCONTAINER_AMOUNT_MULTIPLIER.GetRandom();
             return baseValue;
         }
 
-        private static void DoBuildShopItens(StarSystemMemberStationStorage station)
+        public static void DoBuildShopItens(StarSystemMemberStationStorage station)
         {
             var faction = ExtendedSurvivalStorage.Instance.GetFaction(station.FactionId);
             if (faction != null)

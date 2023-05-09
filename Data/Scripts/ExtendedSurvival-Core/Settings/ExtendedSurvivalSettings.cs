@@ -67,6 +67,9 @@ namespace ExtendedSurvival.Core
         public int DropContainerDeployHeight { get; set; } = 1000;
 
         [XmlElement]
+        public TradeStationSetting TradeStations { get; set; } = new TradeStationSetting();
+
+        [XmlElement]
         public MeteorImpactSetting MeteorImpact { get; set; } = new MeteorImpactSetting();
 
         [XmlArray("Planets"), XmlArrayItem("Planet", typeof(PlanetSetting))]

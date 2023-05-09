@@ -54,6 +54,9 @@ namespace ExtendedSurvival.Core
                 ExtendedSurvivalCoreLogging.Instance.LogError(typeof(ExtendedSurvivalSettings), ex);
             }
         }
+        
+        [XmlElement]
+        public MeteorImpactStorage MeteorImpact { get; set; } = new MeteorImpactStorage();
 
         [XmlElement]
         public StarSystemStorage StarSystem { get; set; } = new StarSystemStorage();

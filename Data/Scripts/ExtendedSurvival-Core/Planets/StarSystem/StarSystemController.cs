@@ -97,6 +97,8 @@ namespace ExtendedSurvival.Core
             ExtendedSurvivalStorage.Instance.StarSystem.Members.Clear();
             ExtendedSurvivalStorage.Instance.StarSystem.Name = "";
             ExtendedSurvivalStorage.Instance.StarSystem.Generated = false;
+            ExtendedSurvivalStorage.Instance.StarSystem.ComercialTick = 0;
+            ExtendedSurvivalStorage.Instance.StarSystem.ComercialCountdown = 0;
             foreach (var faction in ExtendedSurvivalStorage.Instance.Factions)
             {
                 MyAPIGateway.Session.Factions.RemoveFaction(faction.FactionId);
@@ -405,76 +407,86 @@ namespace ExtendedSurvival.Core
                                     MyVisualScriptLogicProvider.AddGPSForAll(member.Name, "", posGps, Color.White);
                                 }
                             }
-                            // Try to move stations to generated planets
-                            if (!ExtendedSurvivalStorage.Instance.Factions.Any())
-                            {
-                                var factionTypes = Enum.GetValues(typeof(FactionType)).Cast<FactionType>().ToList();
-                                if (!ExtendedSurvivalCoreSession.IsUsingStatsAndEffects())
-                                {
-                                    factionTypes.Remove(FactionType.Farming);
-                                    factionTypes.Remove(FactionType.Livestock);
-                                }                                
-                                var factionToGenerate = ExtendedSurvivalSettings.Instance.TradeFactionsAmount.ToVector2I().GetRandomInt();
-                                var f = 0;
-                                for (int i = 0; i < factionToGenerate; i++)
-                                {
-                                    var tag = "";
-                                    var name = "";
-                                    do
-                                    {
-                                        name = SpaceStationController.GetFactionName(factionTypes[f], out tag);
-                                    }
-                                    while (MyAPIGateway.Session.Factions.FactionTagExists(tag));
-                                    var desc = SpaceStationController.GetFactionDesc(factionTypes[f]) + Environment.NewLine + $"Operation type: {factionTypes[f]}.";
-                                    MyAPIGateway.Session.Factions.CreateNPCFaction(tag, name, desc, "");
-                                    var faction = MyAPIGateway.Session.Factions.TryGetFactionByTag(tag);
-                                    faction.RequestChangeBalance(long.MaxValue);
-                                    var factionStore = ExtendedSurvivalStorage.Instance.GetFaction(faction.FactionId);
-                                    factionStore.FactionType = (int)factionTypes[f];
-                                    factionStore.Name = name;
-                                    factionStore.Tag = tag;
-                                    f++;
-                                    if (f >= factionTypes.Count)
-                                        f = 0;
-                                }
-                                // Set peace to all in the system
-                                var ids = MyAPIGateway.Session.Factions.Factions.Keys.Where(x => ExtendedSurvivalStorage.Instance.Factions.Any(y => y.FactionId == x)).ToArray();
-                                var playerFacIds = MyAPIGateway.Session.Factions.Factions.Where(x => MyAPIGateway.Players.TryGetSteamId(x.Value.FounderId) != 0).Select(x => x.Key).ToArray();
-                                List<IMyIdentity> identities = new List<IMyIdentity>();
-                                MyAPIGateway.Players.GetAllIdentites(identities, x => MyAPIGateway.Players.TryGetSteamId(x.IdentityId) != 0);                                
-                                for (int i = 0; i < ids.Length; i++)
-                                {
-                                    for (int j = 0; j < ids.Length; j++)
-                                    {
-                                        if (i != j)
-                                        {
-                                            MyAPIGateway.Session.Factions.SetReputation(i, j, 1000);
-                                        }
-                                    }
-                                    foreach (var pId in playerFacIds)
-                                    {
-                                        MyAPIGateway.Session.Factions.SetReputation(i, pId, 1000);
-                                    }
-                                    foreach (var player in identities)
-                                    {
-                                        MyAPIGateway.Session.Factions.SetReputationBetweenPlayerAndFaction(player.IdentityId, i, 1000);
-                                    }
-                                }
-                                ExtendedSurvivalStorage.Instance.PlayersMappedToFactions.Clear();
-                                ExtendedSurvivalStorage.Instance.PlayersMappedToFactions.AddRange(identities.Select(x => x.IdentityId));
-                                ExtendedSurvivalStorage.Instance.FactionsMappedToFactions.Clear();
-                                ExtendedSurvivalStorage.Instance.FactionsMappedToFactions.AddRange(playerFacIds);
-                            }
 
-                            var staSizes = Enum.GetValues(typeof(SpaceStationController.StationLevel)).Cast<SpaceStationController.StationLevel>().ToList();
-                            foreach (var member in ExtendedSurvivalStorage.Instance.StarSystem.Members)
+                            // Try to move stations to generated planets
+                            MyAPIGateway.Parallel.StartBackground(() =>
                             {
-                                if (member.MemberType == (int)StarSystemProfile.MemberType.Planet)
+                                try
                                 {
-                                    var planet = ExtendedSurvivalEntityManager.GetPlanetById(member.EntityId);
-                                    if (planet != null)
+
+                                    if (!ExtendedSurvivalStorage.Instance.Factions.Any())
                                     {
-                                        var targetCoords = new List<Vector3D>
+                                        var factionTypes = Enum.GetValues(typeof(FactionType)).Cast<FactionType>().ToList();
+                                        if (!ExtendedSurvivalCoreSession.IsUsingStatsAndEffects())
+                                        {
+                                            factionTypes.Remove(FactionType.Farming);
+                                            factionTypes.Remove(FactionType.Livestock);
+                                        }
+                                        var factionToGenerate = ExtendedSurvivalSettings.Instance.TradeFactionsAmount.ToVector2I().GetRandomInt();
+                                        var f = 0;
+                                        for (int i = 0; i < factionToGenerate; i++)
+                                        {
+                                            var tag = "";
+                                            var name = "";
+                                            do
+                                            {
+                                                name = SpaceStationController.GetFactionName(factionTypes[f], out tag);
+                                            }
+                                            while (MyAPIGateway.Session.Factions.FactionTagExists(tag));
+                                            var desc = SpaceStationController.GetFactionDesc(factionTypes[f]) + Environment.NewLine + $"Operation type: {factionTypes[f]}.";
+
+                                            MyAPIGateway.Session.Factions.CreateNPCFaction(tag, name, desc, "");
+                                            while (!MyAPIGateway.Session.Factions.FactionTagExists(tag))
+                                                MyAPIGateway.Parallel.Sleep(100);
+
+                                            var faction = MyAPIGateway.Session.Factions.TryGetFactionByTag(tag);
+                                            faction.RequestChangeBalance(long.MaxValue);
+                                            var factionStore = ExtendedSurvivalStorage.Instance.GetFaction(faction.FactionId);
+                                            factionStore.FactionType = (int)factionTypes[f];
+                                            factionStore.Name = name;
+                                            factionStore.Tag = tag;
+                                            f++;
+                                            if (f >= factionTypes.Count)
+                                                f = 0;
+                                        }
+                                        // Set peace to all in the system
+                                        var ids = MyAPIGateway.Session.Factions.Factions.Keys.Where(x => ExtendedSurvivalStorage.Instance.Factions.Any(y => y.FactionId == x)).ToArray();
+                                        var playerFacIds = MyAPIGateway.Session.Factions.Factions.Where(x => MyAPIGateway.Players.TryGetSteamId(x.Value.FounderId) != 0).Select(x => x.Key).ToArray();
+                                        List<IMyIdentity> identities = new List<IMyIdentity>();
+                                        MyAPIGateway.Players.GetAllIdentites(identities, x => MyAPIGateway.Players.TryGetSteamId(x.IdentityId) != 0);
+                                        for (int i = 0; i < ids.Length; i++)
+                                        {
+                                            for (int j = 0; j < ids.Length; j++)
+                                            {
+                                                if (i != j)
+                                                {
+                                                    MyAPIGateway.Session.Factions.SetReputation(i, j, 1000);
+                                                }
+                                            }
+                                            foreach (var pId in playerFacIds)
+                                            {
+                                                MyAPIGateway.Session.Factions.SetReputation(i, pId, 1000);
+                                            }
+                                            foreach (var player in identities)
+                                            {
+                                                MyAPIGateway.Session.Factions.SetReputationBetweenPlayerAndFaction(player.IdentityId, i, 1000);
+                                            }
+                                        }
+                                        ExtendedSurvivalStorage.Instance.PlayersMappedToFactions.Clear();
+                                        ExtendedSurvivalStorage.Instance.PlayersMappedToFactions.AddRange(identities.Select(x => x.IdentityId));
+                                        ExtendedSurvivalStorage.Instance.FactionsMappedToFactions.Clear();
+                                        ExtendedSurvivalStorage.Instance.FactionsMappedToFactions.AddRange(playerFacIds);
+                                    }
+
+                                    var staSizes = Enum.GetValues(typeof(SpaceStationController.StationLevel)).Cast<SpaceStationController.StationLevel>().ToList();
+                                    foreach (var member in ExtendedSurvivalStorage.Instance.StarSystem.Members)
+                                    {
+                                        if (member.MemberType == (int)StarSystemProfile.MemberType.Planet)
+                                        {
+                                            var planet = ExtendedSurvivalEntityManager.GetPlanetById(member.EntityId);
+                                            if (planet != null)
+                                            {
+                                                var targetCoords = new List<Vector3D>
                                         {
                                             planet.Entity.PositionComp.GetPosition() + (planet.Entity.WorldMatrix.Up * 5),
                                             planet.Entity.PositionComp.GetPosition() + (planet.Entity.WorldMatrix.Down * 5),
@@ -484,89 +496,98 @@ namespace ExtendedSurvival.Core
                                             planet.Entity.PositionComp.GetPosition() + (planet.Entity.WorldMatrix.Backward * 5)
                                         };
 
-                                        var totalToGenerate = new Vector2I(1, 6).GetRandomInt();
-                                        while (targetCoords.Count > totalToGenerate)
-                                        {
-                                            targetCoords.Remove(targetCoords.OrderBy(x => GetRandomDouble()).FirstOrDefault());
-                                        }
-
-                                        foreach (var targetPos in targetCoords)
-                                        {
-
-                                            var minStaCount = ExtendedSurvivalStorage.Instance.Factions.Min(x => x.Stations.Count);
-                                            var factionIds = ExtendedSurvivalStorage.Instance.Factions.Where(x => x.Stations.Count == minStaCount).Select(x => x.FactionId).ToList();
-                                            var targetFaction = factionIds.OrderBy(x => GetRandomDouble()).FirstOrDefault();
-                                            var factionData = ExtendedSurvivalStorage.Instance.GetFaction(targetFaction);
-
-                                            var staType = factionData.FactionType == (int)FactionType.Miner ?
-                                                SpaceStationController.StationType.MiningStation :
-                                                SpaceStationController.StationType.Outpost;
-
-                                            if (MyUtils.GetRandomFloat(0, 1) <= 0.4f)
-                                            {
-                                                staType = SpaceStationController.StationType.OrbitalStation;
-                                            }
-
-                                            var prefabName = SpaceStationController.VALID_PREFABS[staType].OrderBy(x => GetRandomDouble()).FirstOrDefault();
-
-                                            var surfacePos = planet.Entity.GetClosestSurfacePointGlobal(targetPos);
-                                            var surfaceUpPos = planet.UpAtPosition(surfacePos);
-                                            var surfaceRandomForward = RandomPerpendicular(surfaceUpPos);
-
-                                            if (prefabName.swapUpToFoward)
-                                            {
-                                                var tmpF = surfaceRandomForward;
-                                                surfaceRandomForward = surfaceUpPos;
-                                                surfaceUpPos = tmpF;
-                                            }
-
-                                            if (staType == SpaceStationController.StationType.OrbitalStation)
-                                            {
-
-                                                float naturalGravityInterference;
-                                                do
+                                                var totalToGenerate = new Vector2I(1, 6).GetRandomInt();
+                                                while (targetCoords.Count > totalToGenerate)
                                                 {
-                                                    surfacePos += surfaceUpPos * 50;
-                                                    Vector3 naturalGravity = MyAPIGateway.Physics.CalculateNaturalGravityAt(surfacePos, out naturalGravityInterference);
-                                                } while (naturalGravityInterference != 0);
-                                                
+                                                    targetCoords.Remove(targetCoords.OrderBy(x => GetRandomDouble()).FirstOrDefault());
+                                                }
+
+                                                foreach (var targetPos in targetCoords)
+                                                {
+
+                                                    var minStaCount = ExtendedSurvivalStorage.Instance.Factions.Min(x => x.Stations.Count);
+                                                    var factionIds = ExtendedSurvivalStorage.Instance.Factions.Where(x => x.Stations.Count == minStaCount).Select(x => x.FactionId).ToList();
+                                                    var targetFaction = factionIds.OrderBy(x => GetRandomDouble()).FirstOrDefault();
+                                                    var factionData = ExtendedSurvivalStorage.Instance.GetFaction(targetFaction);
+
+                                                    var staType = factionData.FactionType == (int)FactionType.Miner ?
+                                                        SpaceStationController.StationType.MiningStation :
+                                                        SpaceStationController.StationType.Outpost;
+
+                                                    if (MyUtils.GetRandomFloat(0, 1) <= 0.4f)
+                                                    {
+                                                        staType = SpaceStationController.StationType.OrbitalStation;
+                                                    }
+
+                                                    var prefabName = SpaceStationController.VALID_PREFABS[staType].OrderBy(x => GetRandomDouble()).FirstOrDefault();
+
+                                                    var surfacePos = planet.Entity.GetClosestSurfacePointGlobal(targetPos);
+                                                    var surfaceUpPos = planet.UpAtPosition(surfacePos);
+                                                    var surfaceRandomForward = RandomPerpendicular(surfaceUpPos);
+
+                                                    if (prefabName.swapUpToFoward)
+                                                    {
+                                                        var tmpF = surfaceRandomForward;
+                                                        surfaceRandomForward = surfaceUpPos;
+                                                        surfaceUpPos = tmpF;
+                                                    }
+
+                                                    if (staType == SpaceStationController.StationType.OrbitalStation)
+                                                    {
+
+                                                        float naturalGravityInterference;
+                                                        do
+                                                        {
+                                                            surfacePos += surfaceUpPos * 50;
+                                                            Vector3 naturalGravity = MyAPIGateway.Physics.CalculateNaturalGravityAt(surfacePos, out naturalGravityInterference);
+                                                        } while (naturalGravityInterference != 0);
+
+                                                    }
+
+                                                    var staSize = staSizes.OrderBy(x => GetRandomDouble()).FirstOrDefault();
+
+                                                    var stationName = "";
+                                                    do
+                                                    {
+                                                        stationName = $"{factionData.Tag} - {SpaceStationController.STATION_TYPE_NAME[staType]}: {SpaceStationController.GetStationName()}";
+                                                    } while (ExtendedSurvivalStorage.Instance.StarSystem.Members.Any(x => x.Stations.Any(y => y.Name == stationName)));
+
+                                                    var staStored = new StarSystemMemberStationStorage()
+                                                    {
+                                                        Id = MyUtils.GetRandomLong(),
+                                                        Name = stationName,
+                                                        FactionId = targetFaction,
+                                                        Position = surfacePos,
+                                                        Up = surfaceUpPos,
+                                                        Foward = surfaceRandomForward,
+                                                        StationType = (int)staType,
+                                                        StationLevel = (int)staSize,
+                                                        HasAtmosphere = planet.Setting.Atmosphere.Enabled && planet.Setting.Atmosphere.Density > 0,
+                                                        StationEntityId = 0,
+                                                        PrefabName = prefabName.name,
+                                                        PrefabUpIncrement = prefabName.upIncrement,
+                                                        ComercialTick = 0,
+                                                        FirstContact = false
+                                                    };
+                                                    member.Stations.Add(staStored);
+                                                    factionData.Stations.Add(staStored.Id);
+
+                                                    MyVisualScriptLogicProvider.AddGPSForAll(staStored.Name, $"Station size: {staSize}.", surfacePos, Color.Yellow);
+
+                                                }
+
                                             }
-
-                                            var staSize = staSizes.OrderBy(x => GetRandomDouble()).FirstOrDefault();
-
-                                            var stationName = "";
-                                            do
-                                            {
-                                                stationName = $"{factionData.Tag} - {SpaceStationController.STATION_TYPE_NAME[staType]}: {SpaceStationController.GetStationName()}";
-                                            } while (ExtendedSurvivalStorage.Instance.StarSystem.Members.Any(x => x.Stations.Any(y => y.Name == stationName)));
-
-                                            var staStored = new StarSystemMemberStationStorage()
-                                            {
-                                                Id = MyUtils.GetRandomLong(),
-                                                Name = stationName,
-                                                FactionId = targetFaction,
-                                                Position = surfacePos,
-                                                Up = surfaceUpPos,
-                                                Foward = surfaceRandomForward,
-                                                StationType = (int)staType,
-                                                StationLevel = (int)staSize,
-                                                HasAtmosphere = planet.Setting.Atmosphere.Enabled && planet.Setting.Atmosphere.Density > 0,
-                                                StationEntityId = 0,
-                                                PrefabName = prefabName.name,
-                                                PrefabUpIncrement = prefabName.upIncrement,
-                                                ComercialTick = 0,
-                                                FirstContact = false
-                                            };
-                                            member.Stations.Add(staStored);
-                                            factionData.Stations.Add(staStored.Id);
-
-                                            MyVisualScriptLogicProvider.AddGPSForAll(staStored.Name, $"Station size: {staSize}.", surfacePos, Color.Yellow);
-
                                         }
-
                                     }
+
                                 }
-                            }
+                                catch (Exception ex)
+                                {
+                                    ExtendedSurvivalCoreLogging.Instance.LogError(typeof(StarSystemController), ex);
+                                }
+
+                            });
+
                         }
                     }
 

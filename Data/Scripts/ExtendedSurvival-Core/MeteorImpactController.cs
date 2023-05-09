@@ -9,6 +9,8 @@ using VRage.Game.ModAPI;
 using VRage.Utils;
 using Sandbox.Definitions;
 using VRage.Voxels;
+using Sandbox.Game.Entities;
+using VRage.Game.Entity;
 
 namespace ExtendedSurvival.Core
 {
@@ -111,6 +113,12 @@ namespace ExtendedSurvival.Core
                         stone.Save = true;
                         var matrix = transform.GetMatrix();
                         stone.PositionComp.SetWorldMatrix(ref matrix);
+                        
+                        ExtendedSurvivalStorage.Instance.MeteorImpact.Stones.Add(new MeteorStoneStorage()
+                        {
+                            EntityId = stone.EntityId,
+                            Life = ExtendedSurvivalSettings.Instance.MeteorImpact.StoneLifeTime * 1000
+                        }); 
                     }
                 }
             }
