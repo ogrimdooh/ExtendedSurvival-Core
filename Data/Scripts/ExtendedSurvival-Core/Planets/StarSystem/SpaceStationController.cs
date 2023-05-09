@@ -8,10 +8,12 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using VRage;
 using VRage.Collections;
 using VRage.Game;
 using VRage.Game.ModAPI;
 using VRage.Game.ObjectBuilders.Definitions;
+using VRage.ObjectBuilders;
 using VRage.Utils;
 using VRageMath;
 
@@ -75,26 +77,86 @@ namespace ExtendedSurvival.Core
 
         }
 
+        [Flags]
+        public enum StationPrefabFlag
+        {
+
+            None = 0,
+            Rover = 1 << 1,
+            IonThruster = 1 << 2,
+            H2Thruster = 1 << 3,
+            AtmThruster = 1 << 4,
+            LargeGrid = 1 << 5,
+            SmallGrid = 1 << 6,
+            Reactor = 1 << 7,
+            JumpDrive = 1 << 8
+
+        }
+
+        [Flags]
+        public enum StationPrefabCategory
+        {
+
+            None = 0,
+            Tiny = 1 << 1,
+            Small = 1 << 2,
+            Medium = 1 << 3,
+            Big = 1 << 4,
+            Huge = 1 << 5,
+
+            TinyToMedium = Tiny | Small | Medium,
+            TinyToBig = Tiny | Small | Medium | Big,
+            All = Tiny | Small | Medium | Big | Huge
+
+        }
+
+        public class StationPrefabItem
+        {
+
+            public string PrefabName { get; set; }
+            public MyPrefabDefinition Definition { get; set; }
+
+            public bool IsLoaded { get; set; }
+            public StationPrefabFlag Flags { get; set; }
+            public StationPrefabCategory Category { get; set; }
+            public long BlockCount { get; set; }
+            public long TotalPCU { get; set; }
+
+            public bool IsValid { get; set; }
+            public float BaseValue { get; set; }
+
+        }
+
         public struct StationItensAmountProfile
         {
 
+            public Vector2I PrefabsCount;
             public Vector2I SellItensCount;
             public Vector2I BuyItensCount;
             public ItemRarity[] CanSellRarity;
 
         }
 
+        public struct StationPrefabFilter
+        {
+
+            public StationPrefabFlag excludeFlags;
+            public StationPrefabFlag requiredFlags;
+            public StationPrefabCategory validCategories;
+
+        }
+
         public static readonly ConcurrentDictionary<UniqueEntityId, StationShopItem> SHOP_ITENS = new ConcurrentDictionary<UniqueEntityId, StationShopItem>();
         public static readonly ConcurrentDictionary<UniqueEntityId, BaseMaterialItem> BASE_ITENS = new ConcurrentDictionary<UniqueEntityId, BaseMaterialItem>();
 
-        // PG = 12,21 * 4,54 (5-1)
+        // PG = 35 * 2.25 (5-1)
         public static readonly Dictionary<PlanetProfile.OreRarity, float> BASE_ORE_VALUE = new Dictionary<PlanetProfile.OreRarity, float>()
         {
-            { PlanetProfile.OreRarity.None, 12.21f },
-            { PlanetProfile.OreRarity.Common, 55.43f },
-            { PlanetProfile.OreRarity.Uncommon, 251.66f },
-            { PlanetProfile.OreRarity.Rare, 1142.57f },
-            { PlanetProfile.OreRarity.Epic, 5187.27f }
+            { PlanetProfile.OreRarity.None, 35f },
+            { PlanetProfile.OreRarity.Common, 78.75f },
+            { PlanetProfile.OreRarity.Uncommon, 177.1875f },
+            { PlanetProfile.OreRarity.Rare, 398.671875f },
+            { PlanetProfile.OreRarity.Epic, 897.01171875f }
         };
 
         public static readonly Dictionary<ItemRarity, Vector2> ITEM_RARITY_AMOUNT = new Dictionary<ItemRarity, Vector2>()
@@ -109,12 +171,88 @@ namespace ExtendedSurvival.Core
         public static readonly Vector2 ORE_INGOT_AMOUNT_MULTIPLIER = new Vector2(100, 200);
         public static readonly Vector2 GASCONTAINER_AMOUNT_MULTIPLIER = new Vector2(0.15f, 0.35f);
 
+        public static readonly Dictionary<KeyValuePair<StationType, StationLevel>, StationPrefabFilter> STATION_PREFAB_FILTERS = new Dictionary<KeyValuePair<StationType, StationLevel>, StationPrefabFilter>
+        {
+            {
+                new KeyValuePair<StationType, StationLevel>(StationType.Outpost, StationLevel.Small),
+                new StationPrefabFilter()
+                {
+                    validCategories = StationPrefabCategory.TinyToMedium,
+                    excludeFlags = StationPrefabFlag.Reactor | StationPrefabFlag.JumpDrive
+                }
+            },
+            {
+                new KeyValuePair<StationType, StationLevel>(StationType.Outpost, StationLevel.Medium),
+                new StationPrefabFilter()
+                {
+                    validCategories = StationPrefabCategory.TinyToMedium,
+                    excludeFlags = StationPrefabFlag.JumpDrive
+                }
+            },
+            {
+                new KeyValuePair<StationType, StationLevel>(StationType.Outpost, StationLevel.Large),
+                new StationPrefabFilter()
+                {
+                    validCategories = StationPrefabCategory.All
+                }
+            },
+            {
+                new KeyValuePair<StationType, StationLevel>(StationType.OrbitalStation, StationLevel.Small),
+                new StationPrefabFilter()
+                {
+                    validCategories = StationPrefabCategory.TinyToMedium,
+                    excludeFlags = StationPrefabFlag.Rover | StationPrefabFlag.Reactor | StationPrefabFlag.JumpDrive
+                }
+            },
+            {
+                new KeyValuePair<StationType, StationLevel>(StationType.OrbitalStation, StationLevel.Medium),
+                new StationPrefabFilter()
+                {
+                    validCategories = StationPrefabCategory.TinyToMedium,
+                    excludeFlags = StationPrefabFlag.Rover | StationPrefabFlag.JumpDrive
+                }
+            },
+            {
+                new KeyValuePair<StationType, StationLevel>(StationType.OrbitalStation, StationLevel.Large),
+                new StationPrefabFilter()
+                {
+                    validCategories = StationPrefabCategory.All,
+                    excludeFlags = StationPrefabFlag.Rover
+                }
+            },
+            {
+                new KeyValuePair<StationType, StationLevel>(StationType.SpaceStation, StationLevel.Small),
+                new StationPrefabFilter()
+                {
+                    validCategories = StationPrefabCategory.TinyToMedium,
+                    excludeFlags = StationPrefabFlag.Rover | StationPrefabFlag.Reactor | StationPrefabFlag.JumpDrive
+                }
+            },
+            {
+                new KeyValuePair<StationType, StationLevel>(StationType.SpaceStation, StationLevel.Medium),
+                new StationPrefabFilter()
+                {
+                    validCategories = StationPrefabCategory.TinyToMedium,
+                    excludeFlags = StationPrefabFlag.Rover | StationPrefabFlag.JumpDrive
+                }
+            },
+            {
+                new KeyValuePair<StationType, StationLevel>(StationType.SpaceStation, StationLevel.Large),
+                new StationPrefabFilter()
+                {
+                    validCategories = StationPrefabCategory.All,
+                    excludeFlags = StationPrefabFlag.Rover
+                }
+            }
+        };
+
         public static readonly Dictionary<StationLevel, StationItensAmountProfile> STATION_ITENS_PROFILE = new Dictionary<StationLevel, StationItensAmountProfile>()
         {
-            { 
+            {
                 StationLevel.Small,
                 new StationItensAmountProfile()
                 {
+                    PrefabsCount = new Vector2I(2, 4),
                     BuyItensCount = new Vector2I(5, 10),
                     SellItensCount = new Vector2I(5, 10),
                     CanSellRarity = new ItemRarity[] { ItemRarity.Common, ItemRarity.Uncommon, ItemRarity.Normal }
@@ -124,6 +262,7 @@ namespace ExtendedSurvival.Core
                 StationLevel.Medium,
                 new StationItensAmountProfile()
                 {
+                    PrefabsCount = new Vector2I(3, 6),
                     BuyItensCount = new Vector2I(10, 15),
                     SellItensCount = new Vector2I(10, 15),
                     CanSellRarity = new ItemRarity[] { ItemRarity.Common, ItemRarity.Uncommon, ItemRarity.Normal, ItemRarity.Rare }
@@ -133,6 +272,7 @@ namespace ExtendedSurvival.Core
                 StationLevel.Large,
                 new StationItensAmountProfile()
                 {
+                    PrefabsCount = new Vector2I(4, 8),
                     BuyItensCount = new Vector2I(15, 20),
                     SellItensCount = new Vector2I(15, 20),
                     CanSellRarity = new ItemRarity[] { ItemRarity.Common, ItemRarity.Uncommon, ItemRarity.Normal, ItemRarity.Rare, ItemRarity.Epic }
@@ -215,7 +355,51 @@ namespace ExtendedSurvival.Core
                     new StationPrefabInfo("Economy_SpaceStation_5")
                 }
             }
-        }; 
+        };
+
+        public static readonly string[] PREFABS_TO_SELL = new string[] 
+        {
+            "ATV-Survivor",
+            "Fighter2",
+            "MinerSmallShip",
+            "Civic Hauler",
+            "Cursor",
+            "Buddy Miner",
+            "Atmo Constructor",
+            "Scout Miner",
+            "Solar Scout",
+            "Aggressive Miner",
+            "Gerbil Miner",
+            "Ion Constructor",
+            "Kite Miner",
+            "Ion Light Scout",
+            "Ion Tug Ship",
+            "Turtle Miner",
+            "U-92 Patrol Craft",
+            "Lunar Scout mk.4",
+            "LCC-3 Freighter",
+            "Burstfire Bomber",
+            "Hydro Scout Rover",
+            "Lunar Scout mk.2",
+            "T-Ion Fade",
+            "Blue Ambassador Explorer",
+            "Red Cruiser",
+            "Rescue Rover 1",
+            "TT-15 Freighter",
+            "RespawnSpacePod",
+            "RespawnShip",
+            "B-980 Hauler",
+            "TT-420 Freighter",
+            "J-Class Courier",
+            "B-60 Bulk Freighter",
+            "H-01 Prospector",
+            "H-01 Sapper",
+            "PV-4 Buggy",
+            "MiniMerchant",
+            "Cargo Shuttle"
+        };
+
+        public static readonly ConcurrentDictionary<string, StationPrefabItem> LOADED_PREFABS_TO_SELL = new ConcurrentDictionary<string, StationPrefabItem>();
 
         public static readonly Dictionary<StationType, string> STATION_TYPE_NAME = new Dictionary<StationType, string>()
         {
@@ -463,6 +647,11 @@ namespace ExtendedSurvival.Core
             AddItemToShop(RecipientConstants.FLASK_BIG_ID, ItemRarity.Rare, true, true, true, FactionType.Trader, FactionType.Market);
             // Trader & Market & Shipyard
             AddItemToShop(ItensConstants.CANVAS_ID, ItemRarity.Normal, true, true, true, FactionType.Trader, FactionType.Market, FactionType.Shipyard);
+            // Add prefabs
+            foreach (var item in PREFABS_TO_SELL)
+            {
+                AddPrefabToShop(item);
+            }
             SelfLoaded = true;
             MarkAsAllItensLoaded(0);
         }
@@ -498,6 +687,29 @@ namespace ExtendedSurvival.Core
                 return true;
             }
             ExtendedSurvivalCoreLogging.Instance.LogWarning(typeof(SpaceStationController), $"ChangeItemRarity: Item {id.DefinitionId} not found.");
+            return false;
+        }
+
+        public static bool AddPrefabToShop(string prefabName)
+        {
+            if (!LOADED_PREFABS_TO_SELL.ContainsKey(prefabName))
+            {                
+                var def = MyDefinitionManager.Static.GetPrefabDefinition(prefabName);
+                if (def != null)
+                {
+                    LOADED_PREFABS_TO_SELL[prefabName] = new StationPrefabItem()
+                    {
+                        PrefabName = prefabName,
+                        Definition = def
+                    };
+                    return true;
+                }
+                else
+                {
+                    ExtendedSurvivalCoreLogging.Instance.LogWarning(typeof(SpaceStationController), $"AddPrefabToShop: Prefab {prefabName} has no definition.");
+                }
+            }
+            ExtendedSurvivalCoreLogging.Instance.LogWarning(typeof(SpaceStationController), $"AddPrefabToShop: Prefab {prefabName} already registered.");
             return false;
         }
 
@@ -695,13 +907,158 @@ namespace ExtendedSurvival.Core
                     DoLoadByType(query, typeof(MyObjectBuilder_Ingot));
                     DoLoadByType(queryBaseItens, typeof(MyObjectBuilder_Ingot));
                     DoLoadByType(query);
+                    LoadPrefabsToSell();
                 }
-
             }
             catch (Exception ex)
             {
                 ExtendedSurvivalCoreLogging.Instance.LogError(typeof(SpaceStationController), ex);
             }
+        }
+
+        private static void LoadPrefabsToSell()
+        {
+            try
+            {
+                // Filter not loaded
+                var query = LOADED_PREFABS_TO_SELL.Where(x => !x.Value.IsLoaded);
+                if (query.Any())
+                {
+                    while (query.Any())
+                    {
+                        var prefabToCheck = query.FirstOrDefault().Value;
+                        foreach (var grid in prefabToCheck.Definition.CubeGrids)
+                        {
+                            switch (grid.GridSizeEnum)
+                            {
+                                case MyCubeSize.Large:
+                                    prefabToCheck.Flags |= StationPrefabFlag.LargeGrid;
+                                    break;
+                                case MyCubeSize.Small:
+                                    prefabToCheck.Flags |= StationPrefabFlag.SmallGrid;
+                                    break;
+                            }
+                            prefabToCheck.BlockCount += grid.CubeBlocks.Count;
+                            prefabToCheck.TotalPCU += grid.CubeBlocks.Sum(x => MyDefinitionManager.Static.GetCubeBlockDefinition(x.GetId()).PCU);
+                            if (grid.CubeBlocks.Any(x => x.TypeId == typeof(MyObjectBuilder_Reactor)))
+                                prefabToCheck.Flags |= StationPrefabFlag.Reactor;
+                            if (grid.CubeBlocks.Any(x => x.TypeId == typeof(MyObjectBuilder_JumpDrive)))
+                                prefabToCheck.Flags |= StationPrefabFlag.JumpDrive;
+                            if (grid.CubeBlocks.Any(x => x.TypeId == typeof(MyObjectBuilder_MotorSuspension)))
+                                prefabToCheck.Flags |= StationPrefabFlag.Rover;
+                            if (grid.CubeBlocks.Any(x => x.TypeId == typeof(MyObjectBuilder_Thrust)))
+                            {
+                                if (grid.CubeBlocks.Any(x => x.TypeId == typeof(MyObjectBuilder_Thrust) && IsAtmThruster(MyDefinitionManager.Static.GetCubeBlockDefinition(x.GetId()))))
+                                    prefabToCheck.Flags |= StationPrefabFlag.AtmThruster;
+                                if (grid.CubeBlocks.Any(x => x.TypeId == typeof(MyObjectBuilder_Thrust) && IsH2Thruster(MyDefinitionManager.Static.GetCubeBlockDefinition(x.GetId()))))
+                                    prefabToCheck.Flags |= StationPrefabFlag.H2Thruster;
+                                if (grid.CubeBlocks.Any(x => x.TypeId == typeof(MyObjectBuilder_Thrust) && IsIonThruster(MyDefinitionManager.Static.GetCubeBlockDefinition(x.GetId()))))
+                                    prefabToCheck.Flags |= StationPrefabFlag.IonThruster;
+                            }
+                        }
+                        if (prefabToCheck.Flags.IsFlagSet(StationPrefabFlag.SmallGrid) && !prefabToCheck.Flags.IsFlagSet(StationPrefabFlag.LargeGrid))
+                        {
+                            if (prefabToCheck.BlockCount > 3000)
+                                prefabToCheck.Category = StationPrefabCategory.Huge;
+                            else if (prefabToCheck.BlockCount >= 1000 && prefabToCheck.BlockCount < 3000)
+                                prefabToCheck.Category = StationPrefabCategory.Big;
+                            else if (prefabToCheck.BlockCount >= 500 && prefabToCheck.BlockCount < 1000)
+                                prefabToCheck.Category = StationPrefabCategory.Medium;
+                            else if (prefabToCheck.BlockCount >= 250 && prefabToCheck.BlockCount < 500)
+                                prefabToCheck.Category = StationPrefabCategory.Small;
+                            else
+                                prefabToCheck.Category = StationPrefabCategory.Tiny;
+                        } 
+                        else 
+                        {
+                            if (prefabToCheck.BlockCount > 1500)
+                                prefabToCheck.Category = StationPrefabCategory.Huge;
+                            else if (prefabToCheck.BlockCount >= 750 && prefabToCheck.BlockCount < 1500)
+                                prefabToCheck.Category = StationPrefabCategory.Big;
+                            else if (prefabToCheck.BlockCount >= 300 && prefabToCheck.BlockCount < 750)
+                                prefabToCheck.Category = StationPrefabCategory.Medium;
+                            else if (prefabToCheck.BlockCount >= 100 && prefabToCheck.BlockCount < 300)
+                                prefabToCheck.Category = StationPrefabCategory.Small;
+                            else
+                                prefabToCheck.Category = StationPrefabCategory.Tiny;
+                        }
+                        prefabToCheck.IsValid = prefabToCheck.Flags.IsFlagSet(StationPrefabFlag.Rover) ||
+                            prefabToCheck.Flags.IsFlagSet(StationPrefabFlag.AtmThruster) ||
+                            prefabToCheck.Flags.IsFlagSet(StationPrefabFlag.H2Thruster) ||
+                            prefabToCheck.Flags.IsFlagSet(StationPrefabFlag.IonThruster);
+                        if (prefabToCheck.IsValid)
+                        {
+                            foreach (var grid in prefabToCheck.Definition.CubeGrids)
+                            {
+                                foreach (var block in grid.CubeBlocks)
+                                {
+                                    prefabToCheck.BaseValue += GetCubeBlockBaseValue(block.GetId());
+                                }
+                            }
+                        }
+                        prefabToCheck.IsLoaded = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExtendedSurvivalCoreLogging.Instance.LogError(typeof(SpaceStationController), ex);
+            }
+        }
+
+        private static readonly ConcurrentDictionary<MyDefinitionId, float> _blockValues = new ConcurrentDictionary<MyDefinitionId, float>();
+        private static float GetCubeBlockBaseValue(MyDefinitionId blockId)
+        {
+            if (_blockValues.ContainsKey(blockId))
+                return _blockValues[blockId];
+            var def = MyDefinitionManager.Static.GetCubeBlockDefinition(blockId);
+            float value = 0;
+            if (def != null)
+            {
+                var components = def.Components.GroupBy(x => x.Definition.Id).ToDictionary(x => x.Key, x => x.Sum(y => y.Count));
+                foreach (var compId in components.Keys)
+                {
+                    var itemCalculated = GetItemInfo(new UniqueEntityId(compId));
+                    if (itemCalculated != null)
+                    {
+                        value += itemCalculated.BaseValue * components[compId];
+                    }
+                }
+            }
+            _blockValues[blockId] = value;
+            return Math.Max(value, 1);
+        }
+
+        private static bool IsAtmThruster(MyCubeBlockDefinition blockDef)
+        {
+            var thrusterDef = blockDef as MyThrustDefinition;
+            if (thrusterDef != null)
+            {
+                var useFuel = thrusterDef.FuelConverter != null && !thrusterDef.FuelConverter.FuelId.IsNull();
+                return thrusterDef.NeedsAtmosphereForInfluence && !useFuel;
+            }
+            return false;
+        }
+
+        private static bool IsH2Thruster(MyCubeBlockDefinition blockDef)
+        {
+            var thrusterDef = blockDef as MyThrustDefinition;
+            if (thrusterDef != null)
+            {
+                return thrusterDef.FuelConverter != null && !thrusterDef.FuelConverter.FuelId.IsNull();
+            }
+            return false;
+        }
+
+        private static bool IsIonThruster(MyCubeBlockDefinition blockDef)
+        {
+            var thrusterDef = blockDef as MyThrustDefinition;
+            if (thrusterDef != null)
+            {
+                var useFuel = thrusterDef.FuelConverter != null && !thrusterDef.FuelConverter.FuelId.IsNull();
+                return !thrusterDef.NeedsAtmosphereForInfluence && !useFuel;
+            }
+            return false;
         }
 
         private static void DoLoadByType<T>(IEnumerable<KeyValuePair<UniqueEntityId, T>> baseQuery, Type filter = null) where T : BaseMaterialItem
@@ -817,6 +1174,14 @@ namespace ExtendedSurvival.Core
             return Math.Max(baseValue, 1);
         }
 
+        private static BaseMaterialItem GetItemInfo(UniqueEntityId id)
+        {
+            BaseMaterialItem item = GetAndCalcItemInfo(id);
+            if (item == null)
+                item = GetAndCalcBaseItemInfo(id);
+            return item;
+        }
+
         private static BaseMaterialItem GetAndCalcBaseItemInfo(UniqueEntityId id)
         {
             if (BASE_ITENS.ContainsKey(id))
@@ -913,23 +1278,16 @@ namespace ExtendedSurvival.Core
                                                         {
                                                             grid.IsStatic = true;
                                                             station.StationEntityId = grid.EntityId;
-                                                            var safeDef = new MyObjectBuilder_SafeZone();
-                                                            safeDef.EntityId = 0;
-                                                            safeDef.PositionAndOrientation = new VRage.MyPositionAndOrientation(station.Position, station.Up, station.Foward);
-                                                            safeDef.Radius = 150;
-                                                            safeDef.AccessTypeFactions = MySafeZoneAccess.Blacklist;
-                                                            safeDef.AccessTypePlayers = MySafeZoneAccess.Blacklist;
-                                                            safeDef.AccessTypeFloatingObjects = MySafeZoneAccess.Blacklist;
-                                                            safeDef.AccessTypeGrids = MySafeZoneAccess.Blacklist;
-                                                            safeDef.Factions = new long[] { };
-                                                            safeDef.Players = new long[] { };
-                                                            safeDef.Entities = new long[] { };
-                                                            safeDef.Enabled = true;
-                                                            safeDef.Shape = MySafeZoneShape.Sphere;
-                                                            var safeZone = new MySafeZone();
-                                                            safeZone.Init(safeDef);
+                                                            var safeZone = MySessionComponentSafeZones.CrateSafeZone(
+                                                                MatrixD.CreateWorld(station.Position, station.Up, station.Foward),
+                                                                MySafeZoneShape.Sphere,
+                                                                MySafeZoneAccess.Blacklist,
+                                                                new long[] { },
+                                                                new long[] { },
+                                                                75,
+                                                                true
+                                                            );
                                                             station.SafeZoneEntityId = safeZone.EntityId;
-                                                            MyEntities.Add(safeZone, false);
                                                             if (!station.FirstContact || 
                                                                 station.ComercialTick < ExtendedSurvivalStorage.Instance.StarSystem.ComercialTick ||
                                                                 !station.ShopItems.Any())
@@ -1012,18 +1370,41 @@ namespace ExtendedSurvival.Core
                         List<IMyStoreItem> items = new List<IMyStoreItem>();
                         storeBlock.GetStoreItems(items);
                         var checkList = station.ShopItems.ToArray();
-                        foreach (var item in checkList)
+                        try
                         {
-                            var targetSoreType = item.IsSelling ? StoreItemTypes.Offer : StoreItemTypes.Order;
-                            var query = items.Where(x => x.Item.HasValue && (MyDefinitionId)x.Item.Value == item.Id && x.StoreItemType == targetSoreType);
-                            if (query.Any() && query.First().Amount > 0)
+                            foreach (var item in checkList)
                             {
-                                item.Amount = query.First().Amount;
+                                var targetSoreType = item.IsSelling ? StoreItemTypes.Offer : StoreItemTypes.Order;
+                                var query = items.Where(x => x.Item.HasValue && (MyDefinitionId)x.Item.Value == item.Id && x.StoreItemType == targetSoreType);
+                                if (query.Any() && query.First().Amount > 0)
+                                {
+                                    item.Amount = query.First().Amount;
+                                }
+                                else
+                                {
+                                    station.ShopItems.Remove(item);
+                                }
                             }
-                            else
+                        }
+                        catch (Exception ex)
+                        {
+                            ExtendedSurvivalCoreLogging.Instance.LogError(typeof(SpaceStationController), ex);
+                        }
+                        try
+                        {
+                            var checkPrefabList = station.ShopPrefabs.ToArray();
+                            foreach (var item in checkPrefabList)
                             {
-                                station.ShopItems.Remove(item);
+                                var query = items.Where(x => x.PrefabName == item.PrefabName);
+                                if (!query.Any() || query.First().Amount <= 0)
+                                {
+                                    station.ShopPrefabs.Remove(item);
+                                }
                             }
+                        }
+                        catch (Exception ex)
+                        {
+                            ExtendedSurvivalCoreLogging.Instance.LogError(typeof(SpaceStationController), ex);
                         }
                     }
                 }
@@ -1121,12 +1502,97 @@ namespace ExtendedSurvival.Core
                         }
                     }
                 }
+                if (factionType == FactionType.Shipyard)
+                {
+                    var prefabsToSell = STATION_ITENS_PROFILE[stationLevel].PrefabsCount.GetRandomInt();
+                    var prefabsQuery = LOADED_PREFABS_TO_SELL.Values.Where(x => x.IsValid && CheckPrefabCanGoInStation(station, x));
+                    if (prefabsQuery.Any())
+                    {
+                        if (prefabsQuery.Count() <= prefabsToSell)
+                        {
+                            foreach (var item in prefabsQuery)
+                            {
+                                station.ShopPrefabs.Add(new StarSystemStationShopPrefabStorage()
+                                {
+                                    PrefabName = item.PrefabName,
+                                    Price = item.BaseValue
+                                });
+                            }
+                        }
+                        else
+                        {
+                            while (station.ShopPrefabs.Count < prefabsToSell)
+                            {
+                                var itemToUse = prefabsQuery.Where(x => !station.ShopPrefabs.Any(y => y.PrefabName == x.PrefabName)).OrderBy(x => GetRandomDouble()).FirstOrDefault();
+                                if (itemToUse == null)
+                                    break;
+                                station.ShopPrefabs.Add(new StarSystemStationShopPrefabStorage() 
+                                {
+                                    PrefabName = itemToUse.PrefabName,
+                                    Price = itemToUse.BaseValue
+                                });
+                            }
+                        }
+                    }
+                }
             }
             station.ComercialTick = ExtendedSurvivalStorage.Instance.StarSystem.ComercialTick;
             if (station.StationEntityId != 0)
             {
                 DoApplyItensToGrid(station);
             }
+        }
+
+        private static bool CheckPrefabCanGoInStation(StarSystemMemberStationStorage station, StationPrefabItem prefab)
+        {
+            var stationLevel = (StationLevel)station.StationLevel;
+            var stationType = (StationType)station.StationType;
+            switch (stationType)
+            {
+                case StationType.MiningStation:
+                case StationType.Outpost:
+                    if (!station.HasAtmosphere && 
+                        !prefab.Flags.IsFlagSet(StationPrefabFlag.Rover) && 
+                        !prefab.Flags.IsFlagSet(StationPrefabFlag.H2Thruster) && 
+                        !prefab.Flags.IsFlagSet(StationPrefabFlag.IonThruster))
+                        return false; /* no atm and is not a rover and only thusters are atm */
+                    if (station.HasAtmosphere &&
+                        !prefab.Flags.IsFlagSet(StationPrefabFlag.Rover) &&
+                        !prefab.Flags.IsFlagSet(StationPrefabFlag.H2Thruster) &&
+                        !prefab.Flags.IsFlagSet(StationPrefabFlag.AtmThruster))
+                        return false; /* atm and is not a rover and only thusters are ion */
+                    break;
+                case StationType.OrbitalStation:
+                case StationType.SpaceStation:
+                    if (prefab.Flags.IsFlagSet(StationPrefabFlag.Rover))
+                        return false; /* no rover in space */
+                    break;
+            }
+            var keyFilter = new KeyValuePair<StationType, StationLevel>(stationType, stationLevel);
+            if (STATION_PREFAB_FILTERS.ContainsKey(keyFilter))
+            {
+                if (!STATION_PREFAB_FILTERS[keyFilter].validCategories.IsFlagSet(prefab.Category))
+                    return false; /* mapped category flag */
+                if (STATION_PREFAB_FILTERS[keyFilter].excludeFlags != StationPrefabFlag.None)
+                {
+                    foreach (var flag in STATION_PREFAB_FILTERS[keyFilter].excludeFlags.GetFlags())
+                    {
+                        if (prefab.Flags.IsFlagSet(flag))
+                            return false; /* mapped excluded flag */
+                    }
+                }
+                if (STATION_PREFAB_FILTERS[keyFilter].requiredFlags != StationPrefabFlag.None)
+                {
+                    foreach (var flag in STATION_PREFAB_FILTERS[keyFilter].requiredFlags.GetFlags())
+                    {
+                        if (!prefab.Flags.IsFlagSet(flag))
+                            return false; /* mapped required flag */
+                    }
+                }                
+            }
+            else
+                return false;
+            return true;
         }
 
         private static void DoApplyItensToGrid(StarSystemMemberStationStorage station)
@@ -1204,6 +1670,16 @@ namespace ExtendedSurvival.Core
                                     storeBlock.InsertStoreItem(item);
                                 }
                                 
+                            }
+                            // Add Prefabs to sell
+                            foreach (var prefab in station.ShopPrefabs)
+                            {
+                                if (LOADED_PREFABS_TO_SELL.ContainsKey(prefab.PrefabName))
+                                {
+                                    var def = LOADED_PREFABS_TO_SELL[prefab.PrefabName];
+                                    var item = storeBlock.CreateStoreItem(prefab.PrefabName, 1, (int)def.BaseValue, (int)def.TotalPCU);
+                                    storeBlock.InsertStoreItem(item);
+                                }
                             }
                         }
                     }

@@ -87,12 +87,12 @@ namespace ExtendedSurvival.Core
                             station.SafeZoneEntityId = 0;
                         }
                     }
-                    if (ExtendedSurvivalSettings.Instance.AutoGenerateTradeStationsGps)
+                    if (ExtendedSurvivalSettings.Instance.StarSystemConfiguration.AutoGenerateTradeStationsGps)
                     {
                         MyVisualScriptLogicProvider.RemoveGPSForAll(station.Name);
                     }
                 }
-                if (ExtendedSurvivalSettings.Instance.AutoGenerateStarSystemGps)
+                if (ExtendedSurvivalSettings.Instance.StarSystemConfiguration.AutoGenerateStarSystemGps)
                 {
                     MyVisualScriptLogicProvider.RemoveGPSForAll(item.Name);
                 }
@@ -109,6 +109,12 @@ namespace ExtendedSurvival.Core
             ExtendedSurvivalStorage.Instance.Factions.Clear();
             ExtendedSurvivalStorage.Instance.PlayersMappedToFactions.Clear();
             ExtendedSurvivalStorage.Instance.FactionsMappedToFactions.Clear();
+            foreach (var item in ExtendedSurvivalStorage.Instance.MeteorImpact.Stones)
+            {
+                if (ExtendedSurvivalEntityManager.Instance.VoxelMaps.ContainsKey(item.EntityId))
+                    ExtendedSurvivalEntityManager.Instance.VoxelMaps[item.EntityId].Close();
+            }
+            ExtendedSurvivalStorage.Instance.MeteorImpact.Stones.Clear();
         }
 
         private static bool CreatingStarSysten = false;
@@ -397,7 +403,7 @@ namespace ExtendedSurvival.Core
                                         break;
                                 }
                             }
-                            if (ExtendedSurvivalSettings.Instance.AutoGenerateStarSystemGps)
+                            if (ExtendedSurvivalSettings.Instance.StarSystemConfiguration.AutoGenerateStarSystemGps)
                             {
                                 foreach (var member in ExtendedSurvivalStorage.Instance.StarSystem.Members)
                                 {
@@ -425,7 +431,7 @@ namespace ExtendedSurvival.Core
                                             factionTypes.Remove(FactionType.Farming);
                                             factionTypes.Remove(FactionType.Livestock);
                                         }
-                                        var factionToGenerate = ExtendedSurvivalSettings.Instance.TradeFactionsAmount.ToVector2I().GetRandomInt();
+                                        var factionToGenerate = ExtendedSurvivalSettings.Instance.TradeStations.TradeFactionsAmount.ToVector2I().GetRandomInt();
                                         var f = 0;
                                         for (int i = 0; i < factionToGenerate; i++)
                                         {
@@ -535,6 +541,8 @@ namespace ExtendedSurvival.Core
                                                         surfaceUpPos = tmpF;
                                                     }
 
+                                                    var staSize = staSizes.OrderBy(x => GetRandomDouble()).FirstOrDefault();
+
                                                     if (staType == SpaceStationController.StationType.OrbitalStation)
                                                     {
 
@@ -545,9 +553,13 @@ namespace ExtendedSurvival.Core
                                                             Vector3 naturalGravity = MyAPIGateway.Physics.CalculateNaturalGravityAt(surfacePos, out naturalGravityInterference);
                                                         } while (naturalGravityInterference != 0);
 
-                                                    }
+                                                        surfacePos += surfaceUpPos * 100;
 
-                                                    var staSize = staSizes.OrderBy(x => GetRandomDouble()).FirstOrDefault();
+                                                        /* no orbital station are small */
+                                                        if (staSize == SpaceStationController.StationLevel.Small)
+                                                            staSize = SpaceStationController.StationLevel.Medium;
+
+                                                    }
 
                                                     var stationName = "";
                                                     do
@@ -565,7 +577,9 @@ namespace ExtendedSurvival.Core
                                                         Foward = surfaceRandomForward,
                                                         StationType = (int)staType,
                                                         StationLevel = (int)staSize,
-                                                        HasAtmosphere = planet.Setting.Atmosphere.Enabled && planet.Setting.Atmosphere.Density > 0,
+                                                        HasAtmosphere = planet.Setting.Atmosphere.Enabled && 
+                                                            planet.Setting.Atmosphere.Density >= 0.6f &&
+                                                            planet.Setting.Atmosphere.LimitAltitude >= 1,
                                                         StationEntityId = 0,
                                                         PrefabName = prefabName.name,
                                                         PrefabUpIncrement = prefabName.upIncrement,
@@ -575,7 +589,7 @@ namespace ExtendedSurvival.Core
                                                     member.Stations.Add(staStored);
                                                     factionData.Stations.Add(staStored.Id);
 
-                                                    if (ExtendedSurvivalSettings.Instance.AutoGenerateTradeStationsGps)
+                                                    if (ExtendedSurvivalSettings.Instance.StarSystemConfiguration.AutoGenerateTradeStationsGps)
                                                     {
                                                         MyVisualScriptLogicProvider.AddGPSForAll(staStored.Name, $"Station size: {staSize}.", surfacePos, Color.Yellow);
                                                     }

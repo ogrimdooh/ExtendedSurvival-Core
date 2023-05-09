@@ -15,7 +15,6 @@ namespace ExtendedSurvival.Core
     public class ExtendedSurvivalSettings : BaseSettings
     {
 
-        public const string FACTIONRANGE_INFO = "X: Min Amount. Y: Max Amount.";
         private const int CURRENT_VERSION = 2;
         private const string FILE_NAME = "ExtendedSurvival.Core.Settings.xml";
 
@@ -52,15 +51,6 @@ namespace ExtendedSurvival.Core
         public bool RespawnSpacePodEnabled { get; set; } = false;
 
         [XmlElement]
-        public bool AutoGenerateStarSystemGps { get; set; } = true;
-
-        [XmlElement] 
-        public bool AutoGenerateTradeStationsGps { get; set; } = false;
-
-        [XmlElement]
-        public DocumentedVector2 TradeFactionsAmount { get; set; } = new DocumentedVector2(10, 20, FACTIONRANGE_INFO);
-
-        [XmlElement]
         public int PlanetDeployAltitude { get; set; } = 6;
 
         [XmlElement]
@@ -83,7 +73,10 @@ namespace ExtendedSurvival.Core
 
         [XmlArray("MaterialModifiers"), XmlArrayItem("MaterialModifier", typeof(VoxelMaterialModifierSetting))]
         public List<VoxelMaterialModifierSetting> MaterialModifiers { get; set; } = new List<VoxelMaterialModifierSetting>();
-        
+
+        [XmlElement]
+        public StarSystemGlobalSetting StarSystemConfiguration { get; set; } = new StarSystemGlobalSetting();
+
         [XmlArray("StarSystems"), XmlArrayItem("StarSystem", typeof(StarSystemSetting))]
         public List<StarSystemSetting> StarSystems { get; set; } = new List<StarSystemSetting>();
         
@@ -1021,11 +1014,11 @@ namespace ExtendedSurvival.Core
                         return true;
                     }
                     break;
-                case "autogeneratestarsystemgps":
-                    bool autogeneratestarsystemgps;
-                    if (bool.TryParse(value, out autogeneratestarsystemgps))
+                case "starsystemconfiguration.autogeneratestarsystemgps":
+                    bool starsystemconfigurationautogeneratestarsystemgps;
+                    if (bool.TryParse(value, out starsystemconfigurationautogeneratestarsystemgps))
                     {
-                        AutoGenerateStarSystemGps = autogeneratestarsystemgps;
+                        StarSystemConfiguration.AutoGenerateStarSystemGps = starsystemconfigurationautogeneratestarsystemgps;
                         return true;
                     }
                     break;
