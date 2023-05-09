@@ -107,8 +107,6 @@ namespace ExtendedSurvival.Core
                 MyAPIGateway.Session.Factions.RemoveFaction(faction.FactionId);
             }
             ExtendedSurvivalStorage.Instance.Factions.Clear();
-            ExtendedSurvivalStorage.Instance.PlayersMappedToFactions.Clear();
-            ExtendedSurvivalStorage.Instance.FactionsMappedToFactions.Clear();
             foreach (var item in ExtendedSurvivalStorage.Instance.MeteorImpact.Stones)
             {
                 if (ExtendedSurvivalEntityManager.Instance.VoxelMaps.ContainsKey(item.EntityId))
@@ -458,33 +456,6 @@ namespace ExtendedSurvival.Core
                                             if (f >= factionTypes.Count)
                                                 f = 0;
                                         }
-                                        // Set peace to all in the system
-                                        var ids = MyAPIGateway.Session.Factions.Factions.Keys.Where(x => ExtendedSurvivalStorage.Instance.Factions.Any(y => y.FactionId == x)).ToArray();
-                                        var playerFacIds = MyAPIGateway.Session.Factions.Factions.Where(x => MyAPIGateway.Players.TryGetSteamId(x.Value.FounderId) != 0).Select(x => x.Key).ToArray();
-                                        List<IMyIdentity> identities = new List<IMyIdentity>();
-                                        MyAPIGateway.Players.GetAllIdentites(identities, x => MyAPIGateway.Players.TryGetSteamId(x.IdentityId) != 0);
-                                        for (int i = 0; i < ids.Length; i++)
-                                        {
-                                            for (int j = 0; j < ids.Length; j++)
-                                            {
-                                                if (i != j)
-                                                {
-                                                    MyAPIGateway.Session.Factions.SetReputation(i, j, 1000);
-                                                }
-                                            }
-                                            foreach (var pId in playerFacIds)
-                                            {
-                                                MyAPIGateway.Session.Factions.SetReputation(i, pId, 1000);
-                                            }
-                                            foreach (var player in identities)
-                                            {
-                                                MyAPIGateway.Session.Factions.SetReputationBetweenPlayerAndFaction(player.IdentityId, i, 1000);
-                                            }
-                                        }
-                                        ExtendedSurvivalStorage.Instance.PlayersMappedToFactions.Clear();
-                                        ExtendedSurvivalStorage.Instance.PlayersMappedToFactions.AddRange(identities.Select(x => x.IdentityId));
-                                        ExtendedSurvivalStorage.Instance.FactionsMappedToFactions.Clear();
-                                        ExtendedSurvivalStorage.Instance.FactionsMappedToFactions.AddRange(playerFacIds);
                                     }
 
                                     var staSizes = Enum.GetValues(typeof(SpaceStationController.StationLevel)).Cast<SpaceStationController.StationLevel>().ToList();
@@ -577,8 +548,11 @@ namespace ExtendedSurvival.Core
                                                         Foward = surfaceRandomForward,
                                                         StationType = (int)staType,
                                                         StationLevel = (int)staSize,
-                                                        HasAtmosphere = planet.Setting.Atmosphere.Enabled && 
-                                                            planet.Setting.Atmosphere.Density >= 0.6f &&
+                                                        WithAtmosphere = planet.Setting.Atmosphere.Enabled && 
+                                                            planet.Setting.Atmosphere.Density > 0 &&
+                                                            planet.Setting.Atmosphere.LimitAltitude >= 1,
+                                                        LowAtmosphereDensity = planet.Setting.Atmosphere.Enabled &&
+                                                            planet.Setting.Atmosphere.Density <= 0.5 &&
                                                             planet.Setting.Atmosphere.LimitAltitude >= 1,
                                                         StationEntityId = 0,
                                                         PrefabName = prefabName.name,

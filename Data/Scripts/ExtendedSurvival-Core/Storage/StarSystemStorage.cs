@@ -49,7 +49,7 @@ namespace ExtendedSurvival.Core
         public StarSystemMemberStationStorage[] GetStations()
         {
             var ids = new List<StarSystemMemberStationStorage>();
-            foreach (var member in Members.Where(x => x.Stations.Any(y => y.CargoContainerEntityId != 0)))
+            foreach (var member in Members.Where(x => x.Stations.Any(y => y.StationEntityId != 0)))
             {
                 ids.AddRange(member.Stations.Where(y => y.StationEntityId != 0));
             }

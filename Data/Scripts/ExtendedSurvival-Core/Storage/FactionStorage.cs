@@ -20,9 +20,18 @@ namespace ExtendedSurvival.Core
         [XmlElement]
         public int FactionType { get; set; }
 
+        [XmlElement]
+        public bool FirstCheck { get; set; }
+
         [XmlArray("Stations"), XmlArrayItem("Id", typeof(long))]
         public List<long> Stations { get; set; } = new List<long>();
-        
+
+        [XmlArray("PlayersMapped"), XmlArrayItem("Id", typeof(long))]
+        public List<long> PlayersMapped { get; set; } = new List<long>();
+
+        [XmlArray("FactionsMapped"), XmlArrayItem("Id", typeof(long))]
+        public List<long> FactionsMapped { get; set; } = new List<long>();
+
     }
 
 }

@@ -149,14 +149,14 @@ namespace ExtendedSurvival.Core
         public static readonly ConcurrentDictionary<UniqueEntityId, StationShopItem> SHOP_ITENS = new ConcurrentDictionary<UniqueEntityId, StationShopItem>();
         public static readonly ConcurrentDictionary<UniqueEntityId, BaseMaterialItem> BASE_ITENS = new ConcurrentDictionary<UniqueEntityId, BaseMaterialItem>();
 
-        // PG = 35 * 2.25 (5-1)
+        // PG = 15 * 2.25 (5-1)
         public static readonly Dictionary<PlanetProfile.OreRarity, float> BASE_ORE_VALUE = new Dictionary<PlanetProfile.OreRarity, float>()
         {
-            { PlanetProfile.OreRarity.None, 35f },
-            { PlanetProfile.OreRarity.Common, 78.75f },
-            { PlanetProfile.OreRarity.Uncommon, 177.1875f },
-            { PlanetProfile.OreRarity.Rare, 398.671875f },
-            { PlanetProfile.OreRarity.Epic, 897.01171875f }
+            { PlanetProfile.OreRarity.None, 15f },
+            { PlanetProfile.OreRarity.Common, 33.75f },
+            { PlanetProfile.OreRarity.Uncommon, 75.94f },
+            { PlanetProfile.OreRarity.Rare, 170.86f },
+            { PlanetProfile.OreRarity.Epic, 384.43f }
         };
 
         public static readonly Dictionary<ItemRarity, Vector2> ITEM_RARITY_AMOUNT = new Dictionary<ItemRarity, Vector2>()
@@ -340,8 +340,8 @@ namespace ExtendedSurvival.Core
                     new StationPrefabInfo("Economy_OrbitalStation_3"),
                     new StationPrefabInfo("Economy_OrbitalStation_4"),
                     new StationPrefabInfo("Economy_OrbitalStation_5"),
-                    new StationPrefabInfo("Economy_OrbitalStation_6"),
-                    new StationPrefabInfo("Economy_OrbitalStation_7")
+                    new StationPrefabInfo("Economy_OrbitalStation_6")//,
+                    //new StationPrefabInfo("Economy_OrbitalStation_7") has no cargo container
                 }
             },
             {
@@ -992,11 +992,32 @@ namespace ExtendedSurvival.Core
                             {
                                 foreach (var block in grid.CubeBlocks)
                                 {
+                                    if (block.TypeId == typeof(MyObjectBuilder_BatteryBlock))
+                                    {
+                                        var blockDef = block as MyObjectBuilder_BatteryBlock;
+                                        if (blockDef != null)
+                                        {
+                                            if (_blockMaxStoredPower.ContainsKey(block.GetId()))
+                                            {
+                                                blockDef.CurrentStoredPower = _blockMaxStoredPower[block.GetId()];
+                                            }
+                                            else
+                                            {
+                                                var def = MyDefinitionManager.Static.GetCubeBlockDefinition(block.GetId()) as MyBatteryBlockDefinition;
+                                                if (def != null)
+                                                {
+                                                    _blockMaxStoredPower[block.GetId()] = def.MaxStoredPower;
+                                                    blockDef.CurrentStoredPower = _blockMaxStoredPower[block.GetId()];
+                                                }
+                                            }
+                                        }
+                                    }
                                     prefabToCheck.BaseValue += GetCubeBlockBaseValue(block.GetId());
                                 }
                             }
                         }
                         prefabToCheck.IsLoaded = true;
+                        ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(SpaceStationController), $"LoadPrefabsToSell: {prefabToCheck.PrefabName} : BASE VALUE = {prefabToCheck.BaseValue}");
                     }
                 }
             }
@@ -1006,6 +1027,7 @@ namespace ExtendedSurvival.Core
             }
         }
 
+        private static readonly ConcurrentDictionary<MyDefinitionId, float> _blockMaxStoredPower = new ConcurrentDictionary<MyDefinitionId, float>();
         private static readonly ConcurrentDictionary<MyDefinitionId, float> _blockValues = new ConcurrentDictionary<MyDefinitionId, float>();
         private static float GetCubeBlockBaseValue(MyDefinitionId blockId)
         {
@@ -1256,6 +1278,7 @@ namespace ExtendedSurvival.Core
                                             try
                                             {
                                                 station.IsSpawning = true;
+                                                var stationType = (StationType)station.StationType;
                                                 var faction = MyAPIGateway.Session.Factions.TryGetFactionById(station.FactionId);
                                                 var options = SpawningOptions.UseOnlyWorldMatrix | SpawningOptions.SetAuthorship;
                                                 var gridListDummy = new List<IMyCubeGrid>();
@@ -1284,7 +1307,7 @@ namespace ExtendedSurvival.Core
                                                                 MySafeZoneAccess.Blacklist,
                                                                 new long[] { },
                                                                 new long[] { },
-                                                                75,
+                                                                stationType == StationType.OrbitalStation || stationType == StationType.SpaceStation ? 100 : 75,
                                                                 true
                                                             );
                                                             station.SafeZoneEntityId = safeZone.EntityId;
@@ -1551,12 +1574,12 @@ namespace ExtendedSurvival.Core
             {
                 case StationType.MiningStation:
                 case StationType.Outpost:
-                    if (!station.HasAtmosphere && 
+                    if ((!station.WithAtmosphere || station.LowAtmosphereDensity) && 
                         !prefab.Flags.IsFlagSet(StationPrefabFlag.Rover) && 
                         !prefab.Flags.IsFlagSet(StationPrefabFlag.H2Thruster) && 
                         !prefab.Flags.IsFlagSet(StationPrefabFlag.IonThruster))
-                        return false; /* no atm and is not a rover and only thusters are atm */
-                    if (station.HasAtmosphere &&
+                        return false; /* no hight density atm and is not a rover and only thusters are atm */
+                    if (station.WithAtmosphere &&
                         !prefab.Flags.IsFlagSet(StationPrefabFlag.Rover) &&
                         !prefab.Flags.IsFlagSet(StationPrefabFlag.H2Thruster) &&
                         !prefab.Flags.IsFlagSet(StationPrefabFlag.AtmThruster))
@@ -1566,6 +1589,10 @@ namespace ExtendedSurvival.Core
                 case StationType.SpaceStation:
                     if (prefab.Flags.IsFlagSet(StationPrefabFlag.Rover))
                         return false; /* no rover in space */
+                    if (!prefab.Flags.IsFlagSet(StationPrefabFlag.H2Thruster) &&
+                        !prefab.Flags.IsFlagSet(StationPrefabFlag.IonThruster) &&
+                        prefab.Flags.IsFlagSet(StationPrefabFlag.AtmThruster))
+                        return false; /* is space and only thusters are atm */
                     break;
             }
             var keyFilter = new KeyValuePair<StationType, StationLevel>(stationType, stationLevel);
@@ -1595,28 +1622,54 @@ namespace ExtendedSurvival.Core
             return true;
         }
 
-        private static void DoApplyItensToGrid(StarSystemMemberStationStorage station)
+        public static void DoCheckStationGrid(StarSystemMemberStationStorage station, GridEntity entity, bool onlyIfNoPower = false)
         {
-            var entity = ExtendedSurvivalEntityManager.GetGridById(station.StationEntityId);
+            if (entity == null)
+                entity = ExtendedSurvivalEntityManager.GetGridById(station.StationEntityId);
             if (entity != null)
             {
+                if (onlyIfNoPower && entity.Entity.ResourceDistributor.ResourceState != MyResourceStateEnum.NoPower)
+                    return;
                 if (entity._blocksByType.ContainsKey(typeof(MyObjectBuilder_OxygenGenerator)))
                 {
                     foreach (var block in entity._blocksByType[typeof(MyObjectBuilder_OxygenGenerator)])
                     {
-                         var o2Generator = block.FatBlock as IMyGasGenerator;
+                        var o2Generator = block.FatBlock as IMyGasGenerator;
                         if (o2Generator != null)
                         {
                             var inventory = o2Generator.GetInventory();
                             if (inventory != null)
                             {
-                                var maxToAdd = (float)inventory.MaxVolume * 1000f / 0.35f;
-                                inventory.AddMaxItems(maxToAdd, ItensConstants.GetPhysicalObjectBuilder(OreConstants.ICE_ID));
+                                var maxToAdd = ((float)inventory.MaxVolume * 1000f / 0.35f) - 1;
+                                var amount = (float)inventory.GetItemAmount(ItensConstants.ICE_ID.DefinitionId);
+                                inventory.AddMaxItems(maxToAdd - amount, ItensConstants.GetPhysicalObjectBuilder(OreConstants.ICE_ID));
                                 o2Generator.Enabled = true;
                             }
                             else
                             {
                                 o2Generator.Enabled = false;
+                            }
+                        }
+                    }
+                }
+                if (entity._blocksByType.ContainsKey(typeof(MyObjectBuilder_Reactor)))
+                {
+                    foreach (var block in entity._blocksByType[typeof(MyObjectBuilder_Reactor)])
+                    {
+                        var reactor = block.FatBlock as IMyReactor;
+                        if (reactor != null)
+                        {
+                            var inventory = reactor.GetInventory();
+                            if (inventory != null)
+                            {
+                                var maxToAdd = ((float)inventory.MaxVolume * 1000f / 0.125f) - 1;
+                                var amount = (float)inventory.GetItemAmount(ItensConstants.URANIUM_INGOT_ID.DefinitionId);
+                                inventory.AddMaxItems(maxToAdd - amount, ItensConstants.GetPhysicalObjectBuilder(ItensConstants.URANIUM_INGOT_ID));
+                                reactor.Enabled = true;
+                            }
+                            else
+                            {
+                                reactor.Enabled = false;
                             }
                         }
                     }
@@ -1632,6 +1685,15 @@ namespace ExtendedSurvival.Core
                         }
                     }
                 }
+            }
+        }
+
+        private static void DoApplyItensToGrid(StarSystemMemberStationStorage station)
+        {
+            var entity = ExtendedSurvivalEntityManager.GetGridById(station.StationEntityId);
+            if (entity != null)
+            {
+                DoCheckStationGrid(station, entity);
                 if (entity._blocksById.ContainsKey(STOREBLOCK_ID) && entity._blocksById.ContainsKey(LARGEBLOCKLARGECONTAINER_ID))
                 {
                     var storeBlock = entity._blocksById[STOREBLOCK_ID].FirstOrDefault().FatBlock as IMyStoreBlock;

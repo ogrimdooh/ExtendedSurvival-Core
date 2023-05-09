@@ -62,6 +62,7 @@ namespace ExtendedSurvival.Core
         protected ParallelTasks.Task task;
         protected ParallelTasks.Task taskStations;
         protected ParallelTasks.Task taskStones;
+        protected ParallelTasks.Task taskFactions;
         protected override void DoInit(MyObjectBuilder_SessionComponent sessionComponent)
         {
             if (MyAPIGateway.Session.IsServer)
@@ -106,6 +107,19 @@ namespace ExtendedSurvival.Core
                     while (canRun)
                     {
                         CheckMeteorStones();
+                        if (MyAPIGateway.Parallel != null)
+                            MyAPIGateway.Parallel.Sleep(10000);
+                        else
+                            break;
+                    }
+                });
+                taskFactions = MyAPIGateway.Parallel.StartBackground(() =>
+                {
+                    ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), "StartBackground [CheckFactions START]");
+                    // Loop Task to Control Skins
+                    while (canRun)
+                    {
+                        CheckFactions();
                         if (MyAPIGateway.Parallel != null)
                             MyAPIGateway.Parallel.Sleep(10000);
                         else
@@ -180,6 +194,9 @@ namespace ExtendedSurvival.Core
             {
                 canRun = false;
                 task.Wait();
+                taskFactions.Wait();
+                taskStations.Wait();
+                taskStones.Wait();
                 Players?.Clear();
                 Players = null;
                 MyVisualScriptLogicProvider.PlayerConnected -= Players_PlayerConnected;
@@ -567,58 +584,142 @@ namespace ExtendedSurvival.Core
             return closest;
         }
 
-        private long _lastCheckMeteorStones;
-        private void CheckMeteorStones()
+        private void CheckFactions()
         {
-            var timePass = MyExtendedSurvivalTimeManager.Instance.GameTime - _lastCheckMeteorStones;
-            _lastCheckMeteorStones = MyExtendedSurvivalTimeManager.Instance.GameTime;
-            if (ExtendedSurvivalStorage.Instance != null && ExtendedSurvivalStorage.Instance.StarSystem.Generated)
+            try
             {
-                foreach (var stone in ExtendedSurvivalStorage.Instance.MeteorImpact.Stones)
+                var factions = ExtendedSurvivalStorage.Instance.Factions.ToArray();
+                var playerFacIds = MyAPIGateway.Session.Factions.Factions.Where(x => MyAPIGateway.Players.TryGetSteamId(x.Value.FounderId) != 0).Select(x => x.Key).ToArray();
+                List<IMyIdentity> identities = new List<IMyIdentity>();
+                MyAPIGateway.Players.GetAllIdentites(identities, x => MyAPIGateway.Players.TryGetSteamId(x.IdentityId) != 0);
+                for (int i = 0; i < factions.Length; i++)
                 {
-                    stone.Life -= timePass;
-                }
-                if (ExtendedSurvivalStorage.Instance.MeteorImpact.Stones.Any(x => x.Life <= 0))
-                {
-                    var lista = ExtendedSurvivalStorage.Instance.MeteorImpact.Stones.Where(x => x.Life <= 0).ToList();
-                    foreach (var stone in lista)
+                    var faction = factions[i];
+                    if (faction != null)
                     {
-                        var remove = true;
-                        var stoneEntity = VoxelMaps.ContainsKey(stone.EntityId) ? VoxelMaps[stone.EntityId] : null;
-                        if (stoneEntity != null)
+                        var gameFaction = MyAPIGateway.Session.Factions.TryGetFactionById(faction.FactionId);
+                        if (gameFaction != null)
                         {
-                            if (AnyInRange(stoneEntity.PositionComp.GetPosition(), SpaceStationController.SPAWN_DISTANCE))
+                            if (!faction.FirstCheck)
                             {
-                                remove = false;
-                                stone.Life = ExtendedSurvivalSettings.Instance.MeteorImpact.StoneLifeTime * 1000;
+                                // Set peace to others neutrals
+                                var othersIds = factions.Where(x => x.FactionId != faction.FactionId).Select(x => x.FactionId).ToArray();
+                                for (int j = 0; j < othersIds.Length; j++)
+                                {   
+                                    var targetFaction = MyAPIGateway.Session.Factions.TryGetFactionById(othersIds[j]);
+                                    if (targetFaction != null)
+                                    {
+                                        var reputation = MyAPIGateway.Session.Factions.GetReputationBetweenFactions(gameFaction.FactionId, targetFaction.FactionId);
+                                        if (reputation < 0)
+                                            MyAPIGateway.Session.Factions.SetReputation(gameFaction.FactionId, targetFaction.FactionId, 0);
+                                    }
+                                }
+                                faction.FirstCheck = true;
                             }
-                        }
-                        if (remove)
-                        {
-                            ExtendedSurvivalStorage.Instance.MeteorImpact.Stones.Remove(stone);
-                            if (stoneEntity != null)
-                                stoneEntity.Close();
+                            // Set peace to player factions not mapped
+                            var notMappedPlayerFactions = playerFacIds.Where(x => !faction.FactionsMapped.Contains(x)).ToArray();
+                            if (notMappedPlayerFactions.Any())
+                            {
+                                for (int j = 0; j < notMappedPlayerFactions.Length; j++)
+                                {
+                                    var targetFaction = MyAPIGateway.Session.Factions.TryGetFactionById(notMappedPlayerFactions[j]);
+                                    if (targetFaction != null)
+                                    {
+                                        var reputation = MyAPIGateway.Session.Factions.GetReputationBetweenFactions(gameFaction.FactionId, targetFaction.FactionId);
+                                        if (reputation < 0)
+                                            MyAPIGateway.Session.Factions.SetReputation(gameFaction.FactionId, targetFaction.FactionId, 0);
+                                        faction.FactionsMapped.Add(notMappedPlayerFactions[j]);
+                                    }
+                                }
+                            }
+                            // Set peace to players not mapped
+                            var notMappedPlayers = identities.Where(x => !faction.PlayersMapped.Contains(x.IdentityId)).ToArray();
+                            if (notMappedPlayers.Any())
+                            {
+                                for (int j = 0; j < notMappedPlayers.Length; j++)
+                                {
+                                    var reputation = MyAPIGateway.Session.Factions.GetReputationBetweenPlayerAndFaction(notMappedPlayers[j].IdentityId, gameFaction.FactionId);
+                                    if (reputation < 0)
+                                        MyAPIGateway.Session.Factions.SetReputationBetweenPlayerAndFaction(notMappedPlayers[j].IdentityId, gameFaction.FactionId, 0);
+                                    faction.PlayersMapped.Add(notMappedPlayers[j].IdentityId);
+                                }
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
+            }
+        }
+
+        private long _lastCheckMeteorStones;
+        private void CheckMeteorStones()
+        {
+            try
+            {
+                var timePass = MyExtendedSurvivalTimeManager.Instance.GameTime - _lastCheckMeteorStones;
+                _lastCheckMeteorStones = MyExtendedSurvivalTimeManager.Instance.GameTime;
+                if (ExtendedSurvivalStorage.Instance != null && ExtendedSurvivalStorage.Instance.StarSystem.Generated)
+                {
+                    foreach (var stone in ExtendedSurvivalStorage.Instance.MeteorImpact.Stones)
+                    {
+                        stone.Life -= timePass;
+                    }
+                    if (ExtendedSurvivalStorage.Instance.MeteorImpact.Stones.Any(x => x.Life <= 0))
+                    {
+                        var lista = ExtendedSurvivalStorage.Instance.MeteorImpact.Stones.Where(x => x.Life <= 0).ToList();
+                        foreach (var stone in lista)
+                        {
+                            var remove = true;
+                            var stoneEntity = VoxelMaps.ContainsKey(stone.EntityId) ? VoxelMaps[stone.EntityId] : null;
+                            if (stoneEntity != null)
+                            {
+                                if (AnyInRange(stoneEntity.PositionComp.GetPosition(), SpaceStationController.SPAWN_DISTANCE))
+                                {
+                                    remove = false;
+                                    stone.Life = ExtendedSurvivalSettings.Instance.MeteorImpact.StoneLifeTime * 1000;
+                                }
+                            }
+                            if (remove)
+                            {
+                                ExtendedSurvivalStorage.Instance.MeteorImpact.Stones.Remove(stone);
+                                if (stoneEntity != null)
+                                    stoneEntity.Close();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
             }
         }
 
         private void CheckTradeStations()
         {
-            if (ExtendedSurvivalStorage.Instance != null && ExtendedSurvivalStorage.Instance.StarSystem.Generated)
+            try
             {
-                var stations = ExtendedSurvivalStorage.Instance.StarSystem.GetStations();
-                if (stations.Any())
+                if (ExtendedSurvivalStorage.Instance != null && ExtendedSurvivalStorage.Instance.StarSystem.Generated)
                 {
-                    for (int i = 0; i < stations.Length; i++)
+                    var stations = ExtendedSurvivalStorage.Instance.StarSystem.GetStations();
+                    if (stations.Any())
                     {
-                        if (stations[i].ComercialTick != ExtendedSurvivalStorage.Instance.StarSystem.ComercialTick)
+                        for (int i = 0; i < stations.Length; i++)
                         {
-                            SpaceStationController.DoBuildShopItens(stations[i]);
+                            if (stations[i].ComercialTick != ExtendedSurvivalStorage.Instance.StarSystem.ComercialTick)
+                            {
+                                SpaceStationController.DoBuildShopItens(stations[i]);
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
             }
         }
 

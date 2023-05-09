@@ -55,7 +55,10 @@ namespace ExtendedSurvival.Core
         public int StationLevel { get; set; }
 
         [XmlElement]
-        public bool HasAtmosphere { get; set; }
+        public bool WithAtmosphere { get; set; }
+
+        [XmlElement]
+        public bool LowAtmosphereDensity { get; set; }
 
         [XmlElement]
         public long ComercialTick { get; set; }

@@ -64,12 +64,6 @@ namespace ExtendedSurvival.Core
         [XmlArray("Factions"), XmlArrayItem("Faction", typeof(FactionStorage))]
         public List<FactionStorage> Factions { get; set; } = new List<FactionStorage>();
 
-        [XmlArray("PlayersMappedToFactions"), XmlArrayItem("Id", typeof(long))]
-        public List<long> PlayersMappedToFactions { get; set; } = new List<long>();
-
-        [XmlArray("FactionsMappedToFactions"), XmlArrayItem("Id", typeof(long))]
-        public List<long> FactionsMappedToFactions { get; set; } = new List<long>();
-
         [XmlArray("Entities"), XmlArrayItem("Entity", typeof(EntityStorage))]
         public List<EntityStorage> Entities { get; set; } = new List<EntityStorage>();
 
