@@ -88,7 +88,15 @@ namespace ExtendedSurvival.Core
                     {
                         MyVisualScriptLogicProvider.AddGPSForAll(member.Name, "", member.Position, Color.White);
                     }
-                    CreateStationToPlanet(member);
+                    try
+                    {
+                        ExtendedSurvivalEntityManager.Instance.FactionsLocked = true;
+                        CreateStationToPlanet(member);
+                    }
+                    finally
+                    {
+                        ExtendedSurvivalEntityManager.Instance.FactionsLocked = false;
+                    }
                 }
             }
         }
@@ -238,6 +246,15 @@ namespace ExtendedSurvival.Core
                             {
                                 case StarSystemProfile.ProfileType.Mapped:
                                     members = profile.Members;
+                                    if (flags.IsFlagSet(GenerationFlags.NoRing) && members.Any(x => x.HasRing))
+                                        foreach (var item in members.Where(x => x.HasRing))
+                                        {
+                                            item.HasRing = false;
+                                        }
+                                    if (flags.IsFlagSet(GenerationFlags.NoBelt) && members.Any(x => x.MemberType == (int)StarSystemProfile.MemberType.AsteroidBelt))
+                                    {
+                                        members.RemoveAll(x => x.MemberType == (int)StarSystemProfile.MemberType.AsteroidBelt);
+                                    }
                                     break;
                                 case StarSystemProfile.ProfileType.Random:
                                     int itensAmmount = new Vector2I((int)profile.TotalMembers.X, (int)profile.TotalMembers.Y).GetRandomInt();
@@ -448,7 +465,7 @@ namespace ExtendedSurvival.Core
                                         var Entity = MyAPIGateway.Entities.GetEntityById(member.EntityId);
                                         posGps = Entity?.PositionComp?.WorldAABB.Center ?? member.Position;
                                     }
-                                    MyVisualScriptLogicProvider.AddGPSForAll(member.Name, "", posGps, Color.White);
+                                    MyVisualScriptLogicProvider.AddGPSForAll(member.Name, "", posGps, Color.MediumPurple);
                                 }
                             }
 
@@ -656,7 +673,7 @@ namespace ExtendedSurvival.Core
 
                         if (ExtendedSurvivalSettings.Instance.StarSystemConfiguration.AutoGenerateTradeStationsGps)
                         {
-                            MyVisualScriptLogicProvider.AddGPSForAll(staStored.Name, $"Station size: {staSize}.", surfacePos, Color.Yellow);
+                            MyVisualScriptLogicProvider.AddGPSForAll(staStored.Name, $"Station size: {staSize}.", surfacePos, Color.DarkOrange);
                         }
 
                     }
@@ -671,17 +688,25 @@ namespace ExtendedSurvival.Core
         {
             try
             {
-
-                foreach (var member in ExtendedSurvivalStorage.Instance.StarSystem.Members)
+                ExtendedSurvivalEntityManager.Instance.FactionsLocked = true;
+                try
                 {
-                    CreateStationToPlanet(member);
-                }
 
+                    foreach (var member in ExtendedSurvivalStorage.Instance.StarSystem.Members)
+                    {
+                        CreateStationToPlanet(member);
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    ExtendedSurvivalCoreLogging.Instance.LogError(typeof(StarSystemController), ex);
+                }
             }
-            catch (Exception ex)
+            finally
             {
-                ExtendedSurvivalCoreLogging.Instance.LogError(typeof(StarSystemController), ex);
-            }
+                ExtendedSurvivalEntityManager.Instance.FactionsLocked = false;
+            }            
         }
 
         public static Vector3D RandomPerpendicular(Vector3D referenceDir)

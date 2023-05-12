@@ -90,7 +90,7 @@ namespace ExtendedSurvival.Core
                         SpaceStationController.DoCycle();
                         CheckTradeStations();
                         if (MyAPIGateway.Parallel != null)
-                            MyAPIGateway.Parallel.Sleep(1000);
+                            MyAPIGateway.Parallel.Sleep(2500);
                         else
                             break;
                     }
@@ -119,7 +119,8 @@ namespace ExtendedSurvival.Core
                     // Loop Task to Control Skins
                     while (canRun)
                     {
-                        CheckFactions();
+                        if (!FactionsLocked)
+                            CheckFactions();
                         if (MyAPIGateway.Parallel != null)
                             MyAPIGateway.Parallel.Sleep(10000);
                         else
@@ -128,6 +129,8 @@ namespace ExtendedSurvival.Core
                 });
             }
         }
+
+        public bool FactionsLocked { get; set; } = false;
 
         public override void BeforeStart()
         {
@@ -532,11 +535,14 @@ namespace ExtendedSurvival.Core
 
         public GridEntity FirstGridInRange(Vector3D rPos, float maxDistance, params long[] ignoreList)
         {
-            return Grids.FirstOrDefault(x => 
-                x.Entity != null && 
-                !ignoreList.Contains(x.Entity.EntityId) && 
-                Vector3D.Distance(x.Entity.GetPosition(), rPos) <= maxDistance
-            );
+            lock (Grids)
+            {
+                return Grids.FirstOrDefault(x =>
+                    x.Entity != null &&
+                    !ignoreList.Contains(x.Entity.EntityId) &&
+                    Vector3D.Distance(x.Entity.GetPosition(), rPos) <= maxDistance
+                );
+            }
         }
 
         public bool AnyGridInRange(Vector3D rPos, float maxDistance, params long[] ignoreList)
@@ -546,11 +552,14 @@ namespace ExtendedSurvival.Core
 
         public IMyPlayer FirstPlayerInRange(Vector3D rPos, float maxDistance, params long[] ignoreList)
         {
-            return Players.Values.FirstOrDefault(x => 
-                x.Character != null &&
-                !ignoreList.Contains(x.IdentityId) &&
-                Vector3D.Distance(x.Character.GetPosition(), rPos) <= maxDistance
-            );
+            lock (Players)
+            {
+                return Players.Values.FirstOrDefault(x =>
+                    x.Character != null &&
+                    !ignoreList.Contains(x.IdentityId) &&
+                    Vector3D.Distance(x.Character.GetPosition(), rPos) <= maxDistance
+                );
+            }
         }
 
         public bool AnyPlayerInRange(Vector3D rPos, float maxDistance, params long[] ignoreList)

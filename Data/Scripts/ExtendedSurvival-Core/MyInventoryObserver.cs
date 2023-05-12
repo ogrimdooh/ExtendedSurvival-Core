@@ -23,16 +23,16 @@ namespace ExtendedSurvival.Core
         public bool ForceSpoil { get; set; } = false;
         public float SpoilMultiplier { get; set; } = 1.0f;
 
-        public event Action<MyInventoryObserver, MyPhysicalInventoryItem, VRage.MyFixedPoint> OnContentsAdded;
-        public event Action<MyInventoryObserver, MyPhysicalInventoryItem, VRage.MyFixedPoint> OnContentsRemoved;
-        public event Action<MyInventoryObserver, MyPhysicalInventoryItem, VRage.MyFixedPoint> OnContentsChanged;
+        public Action<MyInventoryObserver, MyPhysicalInventoryItem, VRage.MyFixedPoint> OnContentsAdded;
+        public Action<MyInventoryObserver, MyPhysicalInventoryItem, VRage.MyFixedPoint> OnContentsRemoved;
+        public Action<MyInventoryObserver, MyPhysicalInventoryItem, VRage.MyFixedPoint> OnContentsChanged;
 
         private readonly ConcurrentDictionary<uint, MyItemExtraInfo> inventoryExtraInfo = new ConcurrentDictionary<uint, MyItemExtraInfo>();
 
-        public event Action<Guid, MyInventory, IMyEntity, TimeSpan> OnAfterUpdate;
-        public event Action<Guid, MyInventory, MyPhysicalInventoryItem, VRage.MyFixedPoint> OnAfterContentsAdded;
-        public event Action<Guid, MyInventory, MyPhysicalInventoryItem, VRage.MyFixedPoint> OnAfterContentsRemoved;
-        public event Action<Guid, MyInventory, MyPhysicalInventoryItem, VRage.MyFixedPoint> OnAfterContentsChanged;
+        public Action<Guid, MyInventory, IMyEntity, TimeSpan> OnAfterUpdate;
+        public Action<Guid, MyInventory, MyPhysicalInventoryItem, VRage.MyFixedPoint> OnAfterContentsAdded;
+        public Action<Guid, MyInventory, MyPhysicalInventoryItem, VRage.MyFixedPoint> OnAfterContentsRemoved;
+        public Action<Guid, MyInventory, MyPhysicalInventoryItem, VRage.MyFixedPoint> OnAfterContentsChanged;
 
 
         private UInt128 _observerId;

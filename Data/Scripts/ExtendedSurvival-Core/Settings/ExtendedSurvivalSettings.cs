@@ -966,6 +966,14 @@ namespace ExtendedSurvival.Core
         {
             switch (name)
             {
+                case "debug":
+                    bool debug;
+                    if (bool.TryParse(value, out debug))
+                    {
+                        Debug = debug;
+                        return true;
+                    }
+                    break;
                 case "rotenabled":
                     bool rotfoodenabled;
                     if (bool.TryParse(value, out rotfoodenabled))

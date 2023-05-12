@@ -221,7 +221,7 @@ namespace ExtendedSurvival.Core
             var observer = MyInventoryObserverProgressController.GetById(observerId.ToUInt128());
             if (observer != null)
             {
-                observer.OnAfterContentsAdded += callback;
+                observer.OnAfterContentsAdded = callback;
             }
         }
 
@@ -230,7 +230,7 @@ namespace ExtendedSurvival.Core
             var observer = MyInventoryObserverProgressController.GetById(observerId.ToUInt128());
             if (observer != null)
             {
-                observer.OnAfterContentsRemoved += callback;
+                observer.OnAfterContentsRemoved = callback;
             }
         }
 
@@ -239,7 +239,7 @@ namespace ExtendedSurvival.Core
             var observer = MyInventoryObserverProgressController.GetById(observerId.ToUInt128());
             if (observer != null)
             {
-                observer.OnAfterContentsChanged += callback;
+                observer.OnAfterContentsChanged = callback;
             }
         }
 
@@ -248,7 +248,7 @@ namespace ExtendedSurvival.Core
             var observer = MyInventoryObserverProgressController.GetById(observerId.ToUInt128());
             if (observer != null)
             {
-                observer.OnAfterUpdate += callback;
+                observer.OnAfterUpdate = callback;
             }
         }
 

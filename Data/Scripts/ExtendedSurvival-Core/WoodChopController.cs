@@ -108,7 +108,7 @@ namespace ExtendedSurvival.Core
                     }
                 }
 
-                MyFixedPoint amount = (int)(woodamount / 5.0);
+                MyFixedPoint amount = (MyFixedPoint)(woodamount / 5.0);
 
                 Vector3D upp = obj.WorldMatrix.Up;
                 Vector3D fww = obj.WorldMatrix.Forward;
@@ -120,25 +120,27 @@ namespace ExtendedSurvival.Core
 
                     foreach (var i in lootAmmount.Keys)
                     {
-                        MyFixedPoint amountfinal = (int)lootAmmount[i];
+                        MyFixedPoint amountfinal = (MyFixedPoint)lootAmmount[i];
+                        if (TREE_DROPS[i].IsGas || TREE_DROPS[i].ItemId.TypeId == typeof(MyObjectBuilder_ConsumableItem))
+                            amountfinal = (int)amountfinal;
                         MyFloatingObjects.Spawn(new MyPhysicalInventoryItem(amountfinal, GetTreeDropLootBuilder(TREE_DROPS[i])), pos + (upp * 14) + (fww * (0.33 * GetRandon(entityName))) + ((rtt * 0.33 * GetRandon(entityName))), fww, upp);
                     }
 
                     if (leafamount > 0)
                     {
-                        MyFixedPoint finalleafamount = (int)(leafamount);
+                        MyFixedPoint finalleafamount = (MyFixedPoint)(leafamount);
                         MyFloatingObjects.Spawn(new MyPhysicalInventoryItem(finalleafamount, ItensConstants.GetPhysicalObjectBuilder(ItensConstants.LEAF_ID)), pos + (upp * 14) + (fww * (0.33 * GetRandon(entityName))) + ((rtt * 0.33 * GetRandon(entityName))), fww, upp);
                     }
 
                     if (twigamount > 0)
                     {
-                        MyFixedPoint finaltwigamount = (int)(twigamount);
+                        MyFixedPoint finaltwigamount = (MyFixedPoint)(twigamount);
                         MyFloatingObjects.Spawn(new MyPhysicalInventoryItem(finaltwigamount, ItensConstants.GetPhysicalObjectBuilder(ItensConstants.TWIG_ID)), pos + (upp * 14) + (fww * (0.33 * GetRandon(entityName))) + ((rtt * 0.33 * GetRandon(entityName))), fww, upp);
                     }
 
                     if (branchamount > 0)
                     {
-                        MyFixedPoint finalbranchamount = (int)(branchamount);
+                        MyFixedPoint finalbranchamount = (MyFixedPoint)(branchamount);
                         MyFloatingObjects.Spawn(new MyPhysicalInventoryItem(finalbranchamount, ItensConstants.GetPhysicalObjectBuilder(ItensConstants.BRANCH_ID)), pos + (upp * 14) + (fww * (0.33 * GetRandon(entityName))) + ((rtt * 0.33 * GetRandon(entityName))), fww, upp);
                     }
 
