@@ -83,8 +83,16 @@ namespace ExtendedSurvival.Core
         private const string RespawnMoonPod = "RespawnMoonPod";
         private const string RespawnSpacePod = "RespawnSpacePod";
 
-        private static string[] VALID_RESPAWN_SHIPS = new string[] { "ESSimpleRespawnPlanetPod", "ESSimpleRespawnPlanetPod", "ESSimpleSpaceRespawnPod" };
-        private static string[] TECH_VALID_RESPAWN_SHIPS = new string[] { "ESRespawnPlanetPod", "ESRespawnPlanetPod", "ESSpaceRespawnPod" };
+        public const string ESSimpleRespawnPlanetPod = "ESSimpleRespawnPlanetPod";
+        public const string ESSimpleSpaceRespawnPod = "ESSimpleSpaceRespawnPod";
+        public const string ESRespawnPlanetPod = "ESRespawnPlanetPod";
+        public const string ESSpaceRespawnPod = "ESSpaceRespawnPod";
+
+        private static string[] VALID_RESPAWN_SHIPS = new string[] { ESSimpleRespawnPlanetPod, ESSimpleRespawnPlanetPod, ESSimpleSpaceRespawnPod };
+        private static string[] TECH_VALID_RESPAWN_SHIPS = new string[] { ESRespawnPlanetPod, ESRespawnPlanetPod, ESSpaceRespawnPod };
+
+        // Need to disable EMM start ships to avoid no valid starts
+        private static string[] TARGET_RESPAWN_SHIPS_TO_DISABLE = new string[] { "Range_Runner_Respawncar", "Little_Bird_Respawnship", "Ibis_Respawnship", "M3_Miner_Respawnship" };
 
         public static void SetDefinitions()
         {
@@ -145,6 +153,7 @@ namespace ExtendedSurvival.Core
                 planetShip.PlanetDeployAltitude = ExtendedSurvivalSettings.Instance.PlanetDeployAltitude;
                 planetShip.Prefab = MyDefinitionManager.Static.GetPrefabDefinition(validShips[0]);
                 planetShip.PlanetTypes = respawnPlanets.ToArray();
+                planetShip.Icons = new string[] { GetCustomIcon(planetShip.Context, validShips[0]) };
                 planetShip.Postprocess();
             }
             var moonShip = MyDefinitionManager.Static.GetRespawnShipDefinition(RespawnMoonPod);
@@ -153,6 +162,7 @@ namespace ExtendedSurvival.Core
                 moonShip.PlanetDeployAltitude = ExtendedSurvivalSettings.Instance.MoonDeployAltitude;
                 moonShip.Prefab = MyDefinitionManager.Static.GetPrefabDefinition(validShips[1]);
                 moonShip.PlanetTypes = respawnPlanets.ToArray();
+                moonShip.Icons = new string[] { GetCustomIcon(planetShip.Context, validShips[1]) };
                 moonShip.Postprocess();
             }
             var spaceShip = MyDefinitionManager.Static.GetRespawnShipDefinition(RespawnSpacePod);
@@ -160,7 +170,18 @@ namespace ExtendedSurvival.Core
             {
                 spaceShip.Prefab = MyDefinitionManager.Static.GetPrefabDefinition(validShips[2]);
                 spaceShip.UseForSpace = ExtendedSurvivalSettings.Instance.RespawnSpacePodEnabled;
+                spaceShip.Icons = new string[] { GetCustomIcon(planetShip.Context, validShips[2]) };
                 spaceShip.Postprocess();
+            }
+            foreach (var item in TARGET_RESPAWN_SHIPS_TO_DISABLE)
+            {
+                var spaceShipToDisable = MyDefinitionManager.Static.GetRespawnShipDefinition(item);
+                if (spaceShipToDisable != null)
+                {
+                    spaceShipToDisable.UseForSpace = false;
+                    spaceShipToDisable.PlanetTypes = new string[] { };
+                    spaceShipToDisable.Postprocess();
+                }
             }
             // Check star system saved info
             var defaultStarProfiles = StarSystemMapProfile.Keys();
@@ -168,6 +189,32 @@ namespace ExtendedSurvival.Core
             {
                 ExtendedSurvivalSettings.Instance.GetStarSystemInfo(starProfileKey);
             }
+        }
+
+        private static readonly Dictionary<string, BaseIntegrationModRecipesOverride.ExternalModCustomIcon> Blocks_CustomIcon = new Dictionary<string, BaseIntegrationModRecipesOverride.ExternalModCustomIcon>()
+        {
+            { ESSimpleRespawnPlanetPod, new BaseIntegrationModRecipesOverride.ExternalModCustomIcon("Textures\\GUI\\Icons\\RespawnShips\\ESSimpleRespawnPlanetPod.png", false) },
+            { ESSimpleSpaceRespawnPod, new BaseIntegrationModRecipesOverride.ExternalModCustomIcon("Textures\\GUI\\Icons\\RespawnShips\\ESSimpleRespawnSpacePod.png", false) },
+            { ESRespawnPlanetPod, new BaseIntegrationModRecipesOverride.ExternalModCustomIcon("Textures\\GUI\\Icons\\RespawnShips\\ESSimpleRespawnPlanetPod.png", false) },
+            { ESSpaceRespawnPod, new BaseIntegrationModRecipesOverride.ExternalModCustomIcon("Textures\\GUI\\Icons\\RespawnShips\\ESSimpleRespawnSpacePod.png", false) }
+        };
+
+        private static string GetCustomIcon(MyModContext baseContext, string key)
+        {
+            if (Blocks_CustomIcon.ContainsKey(key))
+            {
+                var icon = Blocks_CustomIcon[key].Icon;
+                if (Blocks_CustomIcon[key].SamePath)
+                {
+                    icon = System.IO.Path.Combine(baseContext.ModPath, icon);
+                }
+                else
+                {
+                    icon = System.IO.Path.Combine(BaseIntegrationModRecipesOverride.GetESCoreContext().ModPath, icon);
+                }
+                return icon;
+            }
+            return null;
         }
 
     }

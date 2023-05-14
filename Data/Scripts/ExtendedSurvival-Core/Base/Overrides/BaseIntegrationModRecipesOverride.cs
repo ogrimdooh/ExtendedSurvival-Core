@@ -1,4 +1,5 @@
-﻿using Sandbox.Definitions;
+﻿using Sandbox.Common.ObjectBuilders;
+using Sandbox.Definitions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,49 @@ namespace ExtendedSurvival.Core
     public abstract class BaseIntegrationModRecipesOverride : BaseModIntegrationOverride
     {
 
+        public struct ExternalModCustomIcon
+        {
+
+            public string Icon;
+            public bool SamePath;
+
+            public ExternalModCustomIcon(string icon, bool samePath)
+            {
+                Icon = icon;
+                SamePath = samePath;
+            }
+
+        }
+
+        public struct ExternalModCustomModel
+        {
+
+            public string Model;
+            public bool SamePath;
+            public KeyValuePair<float, string>[] BuildProgressModels;
+
+            public ExternalModCustomModel(string model, bool samePath, params KeyValuePair<float, string>[] buildProgressModels)
+            {
+                Model = model;
+                SamePath = samePath;
+                BuildProgressModels = buildProgressModels;
+            }
+
+        }
+
         private static readonly Dictionary<string, List<SerializableDefinitionId>> BlockVariantGroups = new Dictionary<string, List<SerializableDefinitionId>>();
+
+        private static MyModContext esModTechContext = null;
+        public static MyModContext GetESCoreContext()
+        {
+            if (esModTechContext == null)
+            {
+                var definition = new MyDefinitionId(typeof(MyObjectBuilder_Assembler), AssemblerOverride.BasicGrinder);
+                var blockDefinition = DefinitionUtils.TryGetDefinition<MyCubeBlockDefinition>(definition);
+                esModTechContext = blockDefinition.Context;
+            }
+            return esModTechContext;
+        }
 
         public static void ApplyAllBlockVariantGroups()
         {

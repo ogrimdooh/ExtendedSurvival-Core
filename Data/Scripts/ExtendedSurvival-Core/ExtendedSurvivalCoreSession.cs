@@ -56,6 +56,7 @@ namespace ExtendedSurvival.Core
         private IMyHudNotification hudMsg;
 
         public HudAPIv2 TextAPI;
+        public EasyInventoryAPI EasyInventoryAPI;
 
         public const ushort NETWORK_ID_CALLCLIENTSYSTEM = 40422;
         public const ushort NETWORK_ID_COMMANDS = 40423;
@@ -481,7 +482,11 @@ namespace ExtendedSurvival.Core
         public override void LoadData()
         {
             TextAPI = new HudAPIv2();
-
+            EasyInventoryAPI = new EasyInventoryAPI(() => {
+                EasyInventoryAPI.RegisterEasyFilter("ExtendedSurvival-Stats", (item) => {
+                    return new UniqueEntityId(item).typeId == typeof(MyObjectBuilder_ConsumableItem);
+                });
+            });
             if (IsServer)
             {
 

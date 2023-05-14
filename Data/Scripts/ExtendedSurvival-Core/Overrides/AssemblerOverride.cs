@@ -23,6 +23,8 @@ namespace ExtendedSurvival.Core
         public const string LargeAssembler = "LargeAssembler";
         public const string LargeAssemblerIndustrial = "LargeAssemblerIndustrial";
 
+        public const string BasicGrinder = "BasicGrinder";
+
         protected override ulong[] GetModId()
         {
             return new ulong[] { };
