@@ -207,6 +207,10 @@ namespace ExtendedSurvival.Core
                 MyEntities.OnEntityAdd -= Entities_OnEntityAdd;
                 MyEntities.OnEntityRemove -= Entities_OnEntityRemove;
             }
+            else
+            {
+                MyAPIGateway.Multiplayer.UnregisterSecureMessageHandler(ExtendedSurvivalCoreSession.NETWORK_ID_ENTITYCALLS, EntityCallsMsgHandler);
+            }
             base.UnloadData();
         }
 

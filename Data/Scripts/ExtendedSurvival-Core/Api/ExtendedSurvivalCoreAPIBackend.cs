@@ -49,6 +49,7 @@ namespace ExtendedSurvival.Core
             ["GetUnderwaterCollectors"] = new Func<long, IMySlimBlock[]>(GetUnderwaterCollectors),
             ["GetOffwaterCollectors"] = new Func<long, IMySlimBlock[]>(GetOffwaterCollectors),
             ["GetWaterSolidificators"] = new Func<long, List<IMySlimBlock>>(GetWaterSolidificators),
+            ["GetGridBlocks"] = new Func<long, MyObjectBuilderType, string, List<IMySlimBlock>>(GetGridBlocks),
             ["RegisterInventoryObserverUpdateCallback"] = new Action<Guid, Action<Guid, MyInventory, IMyEntity, TimeSpan>>(RegisterInventoryObserverUpdateCallback),
             ["RegisterInventoryObserverAfterContentsAddedCallback"] = new Action<Guid, Action<Guid, MyInventory, MyPhysicalInventoryItem, MyFixedPoint>>(RegisterInventoryObserverAfterContentsAddedCallback),
             ["RegisterInventoryObserverAfterContentsRemovedCallback"] = new Action<Guid, Action<Guid, MyInventory, MyPhysicalInventoryItem, MyFixedPoint>>(RegisterInventoryObserverAfterContentsRemovedCallback),
@@ -422,6 +423,26 @@ namespace ExtendedSurvival.Core
             var grid = ExtendedSurvivalEntityManager.Instance.GetGridByUuid(gridId);
             if (grid != null)
                 return grid.WaterSolidificators;
+            return null;
+        }
+
+        public static List<IMySlimBlock> GetGridBlocks(long gridId, MyObjectBuilderType type, string subType)
+        {
+            var grid = ExtendedSurvivalEntityManager.Instance.GetGridByUuid(gridId);
+            if (grid != null)
+            {
+                if (!string.IsNullOrEmpty(subType))
+                {
+                    var id = new UniqueEntityId(type, subType);
+                    if (grid._blocksById.ContainsKey(id))
+                        return grid._blocksById[id].ToList();
+                }
+                else
+                {
+                    if (grid._blocksByType.ContainsKey(type))
+                        return grid._blocksByType[type].ToList();
+                }
+            }
             return null;
         }
 

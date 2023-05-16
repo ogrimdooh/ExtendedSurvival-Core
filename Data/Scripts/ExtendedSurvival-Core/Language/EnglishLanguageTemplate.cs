@@ -64,7 +64,7 @@ namespace ExtendedSurvival.Core
 			#region INGOTS
 			AddEntry(
 				LanguageEntries.SOIL_NAME,
-				"Soil"
+				"Soil Powder"
 			);
 			AddEntry(
 				LanguageEntries.SOIL_DESCRIPTION,
