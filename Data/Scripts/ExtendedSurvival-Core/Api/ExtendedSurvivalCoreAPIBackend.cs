@@ -60,7 +60,9 @@ namespace ExtendedSurvival.Core
             ["GetGameTime"] = new Func<long>(GetGameTime),
             ["AddItemToShop"] = new Func<string, bool>(AddItemToShop),
             ["ChangeItemRarity"] = new Func<MyDefinitionId, int, bool>(ChangeItemRarity),
-            ["MarkAsAllItensLoaded"] = new Action<ulong>(MarkAsAllItensLoaded)
+            ["MarkAsAllItensLoaded"] = new Action<ulong>(MarkAsAllItensLoaded),
+            ["IsMarkAsAllItensLoaded"] = new Func<bool>(IsMarkAsAllItensLoaded),
+            ["AddCallBackWhenMarkAsAllItensLoaded"] = new Action<Action>(AddCallBackWhenMarkAsAllItensLoaded)
         };
 
         public static void BeforeStart()
@@ -140,6 +142,16 @@ namespace ExtendedSurvival.Core
         public static void MarkAsAllItensLoaded(ulong modId)
         {
             SpaceStationController.MarkAsAllItensLoaded(modId);
+        }
+
+        public static bool IsMarkAsAllItensLoaded()
+        {
+            return SpaceStationController.IsAllLoaded;
+        }
+
+        public static void AddCallBackWhenMarkAsAllItensLoaded(Action action)
+        {
+            SpaceStationController.OnAllLoaded += action;
         }
 
         public static bool AddItemToShop(string value)

@@ -660,13 +660,15 @@ namespace ExtendedSurvival.Core
         private static bool TechnologyLoaded = false;
         private static bool StatsAndEffectsLoaded = false;
 
-        private static bool IsAllLoaded
+        public static bool IsAllLoaded
         {
             get
             {
                 return SelfLoaded && TechnologyLoaded && StatsAndEffectsLoaded;
             }
         }
+
+        public static event Action OnAllLoaded;
 
         public static void MarkAsAllItensLoaded(ulong modId)
         {
@@ -675,7 +677,11 @@ namespace ExtendedSurvival.Core
             if (!StatsAndEffectsLoaded)
                 StatsAndEffectsLoaded = !ExtendedSurvivalCoreSession.IsUsingStatsAndEffects() || modId == ExtendedSurvivalCoreSession.ES_STATS_EFFECTS_MODID;
             if (IsAllLoaded)
-                DoCalcAllItensInfo();
+            {
+                if (MyAPIGateway.Session.IsServer)
+                    DoCalcAllItensInfo();
+                OnAllLoaded?.Invoke();
+            }
         }
 
         public static bool ChangeItemRarity(UniqueEntityId id, ItemRarity rarity)
