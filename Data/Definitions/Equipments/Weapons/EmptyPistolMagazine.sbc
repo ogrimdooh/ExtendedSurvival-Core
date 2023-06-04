@@ -13,8 +13,8 @@
         <Y>0.05</Y>
         <Z>0.02</Z>
       </Size>
-      <Mass>0.15</Mass>
-      <Volume>0.1</Volume>
+      <Mass>0.125</Mass>
+      <Volume>0.0625</Volume>
       <Model>Models\Weapons\Pistol_Magazine_Warfare.mwm</Model>
       <PhysicalMaterial>Ammo</PhysicalMaterial>
       <MaxIntegrity>1</MaxIntegrity>
@@ -36,11 +36,11 @@
       <DisplayName>Empty Pistol Magzine</DisplayName>
       <Icon>Textures\GUI\Icons\pistol_magzine_empty.dds</Icon>
       <Prerequisites>
-        <Item Amount="0.5" TypeId="Ingot" SubtypeId="Iron" />
-        <Item Amount="0.15" TypeId="Ingot" SubtypeId="Nickel" />
+        <Item Amount="0.1" TypeId="Ingot" SubtypeId="Iron" />
+        <Item Amount="0.025" TypeId="Ingot" SubtypeId="Nickel" />
       </Prerequisites>
       <Result Amount="1" TypeId="Component" SubtypeId="EmptyPistolMagazine" />
-      <BaseProductionTimeInSeconds>1</BaseProductionTimeInSeconds>
+      <BaseProductionTimeInSeconds>0.64</BaseProductionTimeInSeconds>
     </Blueprint>
   </Blueprints>
 </Definitions>
