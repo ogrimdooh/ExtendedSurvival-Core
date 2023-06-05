@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Components>
-    <Component>
+  <PhysicalItems>
+    <PhysicalItem xsi:type="MyObjectBuilder_PhysicalItemDefinition">
       <Id>
-        <TypeId>Component</TypeId>
+        <TypeId>PhysicalObject</TypeId>
         <SubtypeId>EmptyRifleMagazine</SubtypeId>
       </Id>
       <DisplayName>Empty Rifle Magzine</DisplayName>
@@ -17,16 +17,13 @@
       <Volume>0.125</Volume>
       <Model>Models\Weapons\Rifle_SemiAuto_Magazine_Warfare.mwm</Model>
       <PhysicalMaterial>Ammo</PhysicalMaterial>
-      <MaxIntegrity>1</MaxIntegrity>
-      <DropProbability>0.5</DropProbability>
-      <Health>2</Health>
       <MinimumOfferAmount>10</MinimumOfferAmount>
       <MaximumOfferAmount>100</MaximumOfferAmount>
       <MinimumOrderAmount>100</MinimumOrderAmount>
       <MaximumOrderAmount>2000</MaximumOrderAmount>
       <CanPlayerOrder>true</CanPlayerOrder>
-    </Component>
-  </Components>
+    </PhysicalItem>
+  </PhysicalItems>
   <Blueprints>
     <Blueprint>
       <Id>
@@ -39,7 +36,7 @@
         <Item Amount="0.2" TypeId="Ingot" SubtypeId="Iron" />
         <Item Amount="0.05" TypeId="Ingot" SubtypeId="Nickel" />
       </Prerequisites>
-      <Result Amount="1" TypeId="Component" SubtypeId="EmptyRifleMagazine" />
+      <Result Amount="1" TypeId="PhysicalObject" SubtypeId="EmptyRifleMagazine" />
       <BaseProductionTimeInSeconds>0.64</BaseProductionTimeInSeconds>
     </Blueprint>
   </Blueprints>
