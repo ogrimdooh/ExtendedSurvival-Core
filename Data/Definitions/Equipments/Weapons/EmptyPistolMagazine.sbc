@@ -33,7 +33,7 @@
       <DisplayName>Empty Pistol Magzine</DisplayName>
       <Icon>Textures\GUI\Icons\pistol_magzine_empty.dds</Icon>
       <Prerequisites>
-        <Item Amount="0.1" TypeId="Ingot" SubtypeId="Iron" />
+        <Item Amount="0.1" TypeId="Ingot" SubtypeId="Aluminum" />
         <Item Amount="0.025" TypeId="Ingot" SubtypeId="Nickel" />
       </Prerequisites>
       <Result Amount="1" TypeId="PhysicalObject" SubtypeId="EmptyPistolMagazine" />

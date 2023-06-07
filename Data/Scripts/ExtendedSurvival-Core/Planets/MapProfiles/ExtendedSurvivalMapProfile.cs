@@ -575,7 +575,7 @@ namespace ExtendedSurvival.Core
             Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 1, 0.9f, 80, 3, 0, 0),
             Gravity = PlanetMapProfile.GetGravity(1.1f, 4),
             Temperature = PlanetMapProfile.GetTemperature(VRage.Game.MyTemperatureLevel.Cozy, 0, 45),
-            Water = PlanetMapProfile.GetWater(true, 1.0135f, -0.4f, 0, 0),
+            Water = PlanetMapProfile.GetWater(true, 1.01305f, -0.4f, 0, 0),
             SizeRange = new Vector2(55, 75),
             Type = PlanetProfile.PlanetType.Planet,
             MaxGroupSize = 2,
