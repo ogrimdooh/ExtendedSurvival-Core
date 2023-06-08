@@ -226,7 +226,7 @@ namespace ExtendedSurvival.Core
             {
                 if (!IgnorePlanets.Split(';').Contains(id.ToUpper()))
                     return GeneratePlanetInfo(id, MyUtils.GetRandomInt(10000000, int.MaxValue), 1.0f, id.ToUpper(), true, GenerateFlags.All,
-                        null, null, false, null, null);
+                        null, null, false, null, null, null);
             }
             return null;
         }
@@ -248,12 +248,12 @@ namespace ExtendedSurvival.Core
 
         public PlanetSetting GeneratePlanetInfo(string id, int seed, float deep, string profile, bool force, 
             GenerateFlags replaceFlag, string[] addOres, string[] removeOres,  bool clearOresBeforeAdd, string targetColor, 
-            Vector2I? colorInfluence)
+            Vector2I? colorInfluence, PlanetProfile.OreGroupType? groupType)
         {
             if (!HasPlanetInfo(id) || force)
             {
                 var settings = PlanetMapProfile.Get(profile).BuildSettings(id, seed, deep, addOres, removeOres, clearOresBeforeAdd, 
-                    targetColor, colorInfluence);
+                    targetColor, colorInfluence, groupType);
                 if (HasPlanetInfo(id))
                 {
                     var atSet = Planets.FirstOrDefault(x => x.Id.ToUpper().Trim() == id.ToUpper().Trim());
@@ -288,6 +288,7 @@ namespace ExtendedSurvival.Core
                         atSet.AddedOres = settings.AddedOres;
                         atSet.RemovedOres = settings.RemovedOres;
                         atSet.OreMap = settings.OreMap;
+                        atSet.OreGroupType = settings.OreGroupType;
                     }
                 }
                 else
@@ -756,6 +757,7 @@ namespace ExtendedSurvival.Core
                         bool clearOresBeforeAdd = false;
                         string targetColor = null;
                         Vector2I? colorInfluence = null;
+                        PlanetProfile.OreGroupType? groupType = null;
                         foreach (var item in options)
                         {
                             var parts = item.Split('=');
@@ -784,6 +786,19 @@ namespace ExtendedSurvival.Core
                                 case "profile":
                                     if (parts.Length >= 2)
                                         profile = parts[1].ToUpper().Trim();
+                                    break;
+                                case "oregrouptype":
+                                    if (parts.Length >= 2)
+                                    {
+                                        int oregrouptype;
+                                        if (int.TryParse(parts[1], out oregrouptype))
+                                        {
+                                            if (oregrouptype >= 0 && oregrouptype <= 3)
+                                            {
+                                                groupType = (PlanetProfile.OreGroupType)oregrouptype;
+                                            }
+                                        }
+                                    }
                                     break;
                                 case "add":
                                     if (parts.Length >= 2)
@@ -844,7 +859,7 @@ namespace ExtendedSurvival.Core
                             }
                         }
                         GeneratePlanetInfo(info.Id, seed, deep, profile, true, GenerateFlags.OreMap, addOres, removeOres, 
-                            clearOresBeforeAdd, targetColor, colorInfluence);
+                            clearOresBeforeAdd, targetColor, colorInfluence, groupType);
                         return true;
                 }
             }

@@ -1096,8 +1096,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(25, 50),
             Type = PlanetProfile.PlanetType.Planet,
-            MaxGroupSize = 2,
-            StartBreak = 4,
+            GroupType = PlanetProfile.OreGroupType.LargeGroup,
             Ores = ATA_01_MERCURY_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
@@ -1116,8 +1115,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(55, 75),
             Type = PlanetProfile.PlanetType.Planet,
-            MaxGroupSize = 2,
-            StartBreak = 4,
+            GroupType = PlanetProfile.OreGroupType.LargeGroup,
             Ores = ATA_02_VENUS_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
@@ -1136,8 +1134,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(true, 1.025f, -0.4f, 0, 0),
             SizeRange = new Vector2(60, 80),
             Type = PlanetProfile.PlanetType.Planet,
-            MaxGroupSize = 2,
-            StartBreak = 6,
+            GroupType = PlanetProfile.OreGroupType.LargeGroup,
             Ores = ATA_03_EARTH_ORES,
             MeteorImpact = VanilaMapProfile.EARTHLIKE_METEOR
         };
@@ -1156,8 +1153,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(35, 45),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 2,
-            StartBreak = 2,
+            GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = ATA_03_MOON_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
@@ -1176,8 +1172,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(50, 70),
             Type = PlanetProfile.PlanetType.Planet,
-            MaxGroupSize = 2,
-            StartBreak = 4,
+            GroupType = PlanetProfile.OreGroupType.LargeGroup,
             Ores = ATA_04_MARS_ORES,
             MeteorImpact = VanilaMapProfile.MARS_METEOR
         };
@@ -1196,8 +1191,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(120, 120),
             Type = PlanetProfile.PlanetType.GiantGas,
-            MaxGroupSize = 2,
-            StartBreak = 3,
+            GroupType = PlanetProfile.OreGroupType.LargeGroup,
             MeteorImpact = new PlanetProfile.MeteorImpactInfo() { enabled = false }
         };
 
@@ -1215,8 +1209,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(40, 50),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 2,
-            StartBreak = 2,
+            GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = ATA_05_CALLISTO_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
@@ -1235,8 +1228,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(45, 55),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 2,
-            StartBreak = 2,
+            GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = ATA_05_GANYMEDE_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
@@ -1255,8 +1247,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(30, 40),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 2,
-            StartBreak = 2,
+            GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = ATA_05_EUROPA_ORES,
             MeteorImpact = VanilaMapProfile.EUROPA_METEOR
         };
@@ -1275,8 +1266,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(30, 40),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 2,
-            StartBreak = 2,
+            GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = ATA_05_IO_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
@@ -1295,8 +1285,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(120, 120),
             Type = PlanetProfile.PlanetType.GiantGas,
-            MaxGroupSize = 2,
-            StartBreak = 3,
+            GroupType = PlanetProfile.OreGroupType.LargeGroup,
             MeteorImpact = new PlanetProfile.MeteorImpactInfo() { enabled = false }
         };
 
@@ -1314,8 +1303,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(20, 30),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 2,
-            StartBreak = 2,
+            GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = ATA_06_IAPETUS_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
@@ -1334,8 +1322,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             Type = PlanetProfile.PlanetType.Moon,
             SizeRange = new Vector2(35, 55),
-            MaxGroupSize = 2,
-            StartBreak = 2,
+            GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = ATA_06_TITAN_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
@@ -1354,8 +1341,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(20, 30),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 2,
-            StartBreak = 2,
+            GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = ATA_06_RHEA_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
@@ -1374,8 +1360,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(20, 30),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 2,
-            StartBreak = 2,
+            GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = ATA_06_DIONE_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
@@ -1394,8 +1379,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(20, 30),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 2,
-            StartBreak = 2,
+            GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = ATA_06_TETHYS_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
@@ -1414,8 +1398,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(20, 30),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 2,
-            StartBreak = 2,
+            GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = ATA_06_ENCELADUS_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
@@ -1434,8 +1417,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(20, 30),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 2,
-            StartBreak = 2,
+            GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = ATA_06_MIMAS_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
@@ -1454,8 +1436,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(120, 120),
             Type = PlanetProfile.PlanetType.GiantGas,
-            MaxGroupSize = 2,
-            StartBreak = 3,
+            GroupType = PlanetProfile.OreGroupType.LargeGroup,
             MeteorImpact = new PlanetProfile.MeteorImpactInfo() { enabled = false }
         };
 
@@ -1473,8 +1454,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(20, 30),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 2,
-            StartBreak = 2,
+            GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = ATA_07_OBREON_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
@@ -1493,8 +1473,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(20, 30),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 2,
-            StartBreak = 2,
+            GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = ATA_07_TITANIA_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
@@ -1513,8 +1492,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(20, 30),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 2,
-            StartBreak = 2,
+            GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = ATA_07_UMBRIEL_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
@@ -1533,8 +1511,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(20, 30),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 2,
-            StartBreak = 2,
+            GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = ATA_07_ARIEL_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
@@ -1553,8 +1530,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(20, 30),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 2,
-            StartBreak = 2,
+            GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = ATA_07_MIRANDA_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
@@ -1573,8 +1549,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(120, 120),
             Type = PlanetProfile.PlanetType.GiantGas,
-            MaxGroupSize = 2,
-            StartBreak = 3,
+            GroupType = PlanetProfile.OreGroupType.LargeGroup,
             MeteorImpact = new PlanetProfile.MeteorImpactInfo() { enabled = false }
         };
         public static readonly PlanetProfile ATA_08_TRITON_PROFILE = new PlanetProfile() 
@@ -1591,8 +1566,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(35, 50),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 2,
-            StartBreak = 2,
+            GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = ATA_08_TRITON_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
@@ -1610,8 +1584,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(25, 35),
             Type = PlanetProfile.PlanetType.Planet,
-            MaxGroupSize = 2,
-            StartBreak = 2,
+            GroupType = PlanetProfile.OreGroupType.LargeGroup,
             Ores = ATA_09_PLUTO_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR
         };
@@ -1629,8 +1602,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(15, 25),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 2,
-            StartBreak = 2,
+            GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = ATA_09_CHARON_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR
         };

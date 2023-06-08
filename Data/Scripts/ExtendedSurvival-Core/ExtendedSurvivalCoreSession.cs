@@ -102,6 +102,7 @@ namespace ExtendedSurvival.Core
 
         }
 
+        public const char COMMAND_PREFIX = '/';
         private DateTime lastCallWaterApi = DateTime.Now;
         private void ClientUpdateMsgHandler(ushort netId, byte[] data, ulong steamId, bool fromServer)
         {
@@ -131,8 +132,8 @@ namespace ExtendedSurvival.Core
                                         if (planetId == closestPlanet?.EntityId)
                                         {
                                             float waterSize = float.Parse(mCommandData.content[2]);
-                                            WaterModAPI.RunCommand("/wcreate");
-                                            DelayWaterRunCommand(1500, $"/wradius {waterSize}", "/wrate 0");
+                                            WaterModAPI.RunCommand($"{COMMAND_PREFIX}wcreate".Trim());
+                                            DelayWaterRunCommand(1500, $"{COMMAND_PREFIX}wradius {waterSize}".Trim(), $"{COMMAND_PREFIX}wrate 0".Trim());
                                             lastCallWaterApi = DateTime.Now;
                                         }
                                     }
@@ -254,17 +255,26 @@ namespace ExtendedSurvival.Core
                             switch (mCommandData.content[0])
                             {
                                 case SETTINGS_COMMAND:
-                                    ExtendedSurvivalSettings.Instance.SetConfigValue(mCommandData.content[1], mCommandData.content[2]);
+                                    if (ExtendedSurvivalSettings.Instance.SetConfigValue(mCommandData.content[1], mCommandData.content[2]))
+                                    {
+                                        ShowMessage($"[ExtendedSurvivalCore] Config {mCommandData.content[1]} set to {mCommandData.content[2]}.", MyFontEnum.White);
+                                    }
                                     break;
                                 case SETTINGS_COMMAND_PLANET:
                                     if (mCommandData.content[1] == "$")
                                     {
                                         mCommandData.content[1] = TryToGetNearPlanet(steamId, mCommandData.content[1]);
                                     }
-                                    ExtendedSurvivalSettings.Instance.SetPlanetConfigValue(mCommandData.content[1], mCommandData.content[2], mCommandData.content[3]);
+                                    if (ExtendedSurvivalSettings.Instance.SetPlanetConfigValue(mCommandData.content[1], mCommandData.content[2], mCommandData.content[3]))
+                                    {
+                                        ShowMessage($"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_PLANET} executed.", MyFontEnum.White);
+                                    }
                                     break;
                                 case SETTINGS_COMMAND_VOXEL:
-                                    ExtendedSurvivalSettings.Instance.SetVoxelConfigValue(mCommandData.content[1], mCommandData.content[2], mCommandData.content[3]);
+                                    if (ExtendedSurvivalSettings.Instance.SetVoxelConfigValue(mCommandData.content[1], mCommandData.content[2], mCommandData.content[3]))
+                                    {
+                                        ShowMessage($"[ExtendedSurvivalCore] Voxel {mCommandData.content[1]} set config {mCommandData.content[2]} to {mCommandData.content[3]}.", MyFontEnum.White);
+                                    }
                                     break;
                                 case SETTINGS_COMMAND_OREMAP:
                                     var options = new List<string>();
@@ -276,7 +286,10 @@ namespace ExtendedSurvival.Core
                                     {
                                         mCommandData.content[1] = TryToGetNearPlanet(steamId, mCommandData.content[1]);
                                     }
-                                    ExtendedSurvivalSettings.Instance.ProcessPlanetOreMap(mCommandData.content[1], mCommandData.content[2], options.ToArray());
+                                    if (ExtendedSurvivalSettings.Instance.ProcessPlanetOreMap(mCommandData.content[1], mCommandData.content[2], options.ToArray()))
+                                    {
+                                        ShowMessage($"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_OREMAP} executed.", MyFontEnum.White);
+                                    }
                                     break;
                                 case SETTINGS_COMMAND_GEOTHERMAL:
                                     var optionsGeo = new List<string>();
@@ -288,7 +301,10 @@ namespace ExtendedSurvival.Core
                                     {
                                         mCommandData.content[1] = TryToGetNearPlanet(steamId, mCommandData.content[1]);
                                     }
-                                    ExtendedSurvivalSettings.Instance.ProcessPlanetThermalInfo(mCommandData.content[1], mCommandData.content[2], optionsGeo.ToArray());
+                                    if (ExtendedSurvivalSettings.Instance.ProcessPlanetThermalInfo(mCommandData.content[1], mCommandData.content[2], optionsGeo.ToArray()))
+                                    {
+                                        ShowMessage($"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_GEOTHERMAL} executed.", MyFontEnum.White);
+                                    }
                                     break;
                                 case SETTINGS_COMMAND_ATMOSPHERE:
                                     var optionsAtm = new List<string>();
@@ -300,7 +316,10 @@ namespace ExtendedSurvival.Core
                                     {
                                         mCommandData.content[1] = TryToGetNearPlanet(steamId, mCommandData.content[1]);
                                     }
-                                    ExtendedSurvivalSettings.Instance.ProcessPlanetAtmosphereInfo(mCommandData.content[1], mCommandData.content[2], optionsAtm.ToArray());
+                                    if (ExtendedSurvivalSettings.Instance.ProcessPlanetAtmosphereInfo(mCommandData.content[1], mCommandData.content[2], optionsAtm.ToArray()))
+                                    {
+                                        ShowMessage($"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_ATMOSPHERE} executed.", MyFontEnum.White);
+                                    }
                                     break;
                                 case SETTINGS_COMMAND_GRAVITY:
                                     var optionsGvt = new List<string>();
@@ -312,7 +331,10 @@ namespace ExtendedSurvival.Core
                                     {
                                         mCommandData.content[1] = TryToGetNearPlanet(steamId, mCommandData.content[1]);
                                     }
-                                    ExtendedSurvivalSettings.Instance.ProcessPlanetGravityInfo(mCommandData.content[1], mCommandData.content[2], optionsGvt.ToArray());
+                                    if (ExtendedSurvivalSettings.Instance.ProcessPlanetGravityInfo(mCommandData.content[1], mCommandData.content[2], optionsGvt.ToArray()))
+                                    {
+                                        ShowMessage($"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_GRAVITY} executed.", MyFontEnum.White);
+                                    }
                                     break;
                                 case SETTINGS_COMMAND_WATER:
                                     var optionsWt = new List<string>();
@@ -324,7 +346,10 @@ namespace ExtendedSurvival.Core
                                     {
                                         mCommandData.content[1] = TryToGetNearPlanet(steamId, mCommandData.content[1]);
                                     }
-                                    ExtendedSurvivalSettings.Instance.ProcessPlanetWaterInfo(mCommandData.content[1], mCommandData.content[2], optionsWt.ToArray());
+                                    if (ExtendedSurvivalSettings.Instance.ProcessPlanetWaterInfo(mCommandData.content[1], mCommandData.content[2], optionsWt.ToArray()))
+                                    {
+                                        ShowMessage($"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_WATER} executed.", MyFontEnum.White);
+                                    }
                                     break;
                                 case SETTINGS_COMMAND_ANIMALS:
                                     var optionsAnm = new List<string>();
@@ -336,7 +361,10 @@ namespace ExtendedSurvival.Core
                                     {
                                         mCommandData.content[1] = TryToGetNearPlanet(steamId, mCommandData.content[1]);
                                     }
-                                    ExtendedSurvivalSettings.Instance.ProcessPlanetAnimalsInfo(mCommandData.content[1], mCommandData.content[2], optionsAnm.ToArray());
+                                    if (ExtendedSurvivalSettings.Instance.ProcessPlanetAnimalsInfo(mCommandData.content[1], mCommandData.content[2], optionsAnm.ToArray()))
+                                    {
+                                        ShowMessage($"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_ANIMALS} executed.", MyFontEnum.White);
+                                    }
                                     break;
                                 case SETTINGS_COMMAND_STARSYSTEM:
                                     var optionsStarSystem = new List<string[]>();
@@ -377,7 +405,10 @@ namespace ExtendedSurvival.Core
                                                     flags |= StarSystemController.GenerationFlags.NoAsteroids;
                                                 if (optionsStarSystem.Any(x => x.Length == 1 && x[0].ToLower() == "withasteroids"))
                                                     flags |= StarSystemController.GenerationFlags.WithAsteroids;
-                                                StarSystemController.ComputeNewStarSystem(profileInfo, flags);
+                                                if (StarSystemController.ComputeNewStarSystem(profileInfo, flags))
+                                                {
+                                                    ShowMessage($"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_STARSYSTEM} executed.", MyFontEnum.White);
+                                                }
                                             }
                                             break;
                                     }
@@ -548,7 +579,7 @@ namespace ExtendedSurvival.Core
             ExtendedSurvivalCoreAPIBackend.BeforeStart();
         }
 
-        public void ShowMessage(string text, string font = MyFontEnum.Red, int timeToLive = 2000)
+        public void ShowMessage(string text, string font = MyFontEnum.Red, int timeToLive = 5000)
         {
             if (hudMsg == null)
                 hudMsg = MyAPIGateway.Utilities.CreateNotification(string.Empty);

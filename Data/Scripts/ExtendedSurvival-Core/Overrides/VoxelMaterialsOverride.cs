@@ -11,9 +11,16 @@ namespace ExtendedSurvival.Core
 
         public static void SetDefinitions()
         {
+            // Get Definitions
+            var definitions = MyDefinitionManager.Static.GetVoxelMaterialDefinitions();
+            // Override Soils and Toxic Voxels
+            SetMinedOre(definitions, VoxelMaterialMapProfile.MoomSoilVoxels, OreConstants.MOONSOIL_SUBTYPEID, VoxelMaterialMapProfile.UNCOMMON_RATIO);
+            SetMinedOre(definitions, VoxelMaterialMapProfile.AlienSoilVoxels, OreConstants.ALIENSOIL_SUBTYPEID, VoxelMaterialMapProfile.VERYCOMMON_RATIO);
+            SetMinedOre(definitions, VoxelMaterialMapProfile.SoilVoxels, OreConstants.SOIL_SUBTYPEID, VoxelMaterialMapProfile.VERYCOMMON_RATIO);
+            SetMinedOre(definitions, VoxelMaterialMapProfile.DesertSoilVoxels, OreConstants.DESERTSOIL_SUBTYPEID, VoxelMaterialMapProfile.COMMON_RATIO);
+            SetMinedOre(definitions, VoxelMaterialMapProfile.ESToxicIce, OreConstants.TOXICICE_SUBTYPEID, VoxelMaterialMapProfile.COMMON_RATIO);
             // Override Voxels
             var voxels = VoxelMaterialMapProfile.GetNames();
-            var definitions = MyDefinitionManager.Static.GetVoxelMaterialDefinitions();
             foreach (var voxel in voxels)
             {
                 if (!ExtendedSurvivalCoreSession.IsUsingTechnology() && VoxelMaterialMapProfile.ESTechnologyVoxels.Contains(voxel))
@@ -30,10 +37,6 @@ namespace ExtendedSurvival.Core
                             definition.SpawnsInAsteroids = info.SpawnsInAsteroids;
                             definition.SpawnsFromMeteorites = info.SpawnsFromMeteorites;
                             definition.AsteroidGeneratorSpawnProbabilityMultiplier = info.AsteroidSpawnProbabilityMultiplier;
-                            if (VoxelMaterialMapProfile.ESToxicIce.Contains(voxel))
-                            {
-                                definition.MinedOre = OreConstants.TOXICICE_SUBTYPEID;
-                            }
                             definition.Postprocess();
                             ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(VoxelMaterialsOverride), $"Override voxel definition : {definition.Id.SubtypeName}");
                         }
@@ -44,11 +47,6 @@ namespace ExtendedSurvival.Core
                     ExtendedSurvivalCoreLogging.Instance.LogError(typeof(VoxelMaterialsOverride), ex);
                 }
             }
-            // Override Soil Voxels
-            SetMinedOre(definitions, VoxelMaterialMapProfile.AlienSoilVoxels, OreConstants.ALIENSOIL_SUBTYPEID, VoxelMaterialMapProfile.VERYCOMMON_RATIO);
-            SetMinedOre(definitions, VoxelMaterialMapProfile.SoilVoxels, OreConstants.SOIL_SUBTYPEID, VoxelMaterialMapProfile.VERYCOMMON_RATIO);
-            SetMinedOre(definitions, VoxelMaterialMapProfile.DesertSoilVoxels, OreConstants.DESERTSOIL_SUBTYPEID, VoxelMaterialMapProfile.COMMON_RATIO);
-            SetMinedOre(definitions, VoxelMaterialMapProfile.MoomSoilVoxels, OreConstants.MOONSOIL_SUBTYPEID, VoxelMaterialMapProfile.UNCOMMON_RATIO);
         }
 
         private static void SetMinedOre(DictionaryValuesReader<string, MyVoxelMaterialDefinition> definitions, string[] targets, string ore, float ratio)

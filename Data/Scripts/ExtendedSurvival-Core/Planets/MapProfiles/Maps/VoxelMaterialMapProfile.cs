@@ -67,6 +67,13 @@ namespace ExtendedSurvival.Core
         public const string DustyRocks3 = "DustyRocks3";
         public const string PertamSand = "PertamSand";
 
+        // Helios Planets
+        public const string Helios_Sand_02 = "Helios_Sand_02";
+        public const string Helios_Grass = "Helios_Grass";
+        public const string Helios_Grass_old = "Helios_Grass_old";
+        public const string Helios_HighGrass = "Helios_HighGrass";
+        public const string Helios_Lava = "Helios_Lava";
+
         public static readonly string[] AlienSoilVoxels = new string[]
         {
             AlienGreenGrass,
@@ -91,7 +98,10 @@ namespace ExtendedSurvival.Core
             Grass_02,
             WoodsGrass,
             WoodsGrassBare,
-            Soil
+            Soil,
+            Helios_Grass,
+            Helios_Grass_old,
+            Helios_HighGrass
         };
 
         public static readonly string[] DesertSoilVoxels = new string[] 
@@ -103,7 +113,9 @@ namespace ExtendedSurvival.Core
             DustyRocks,
             DustyRocks2,
             DustyRocks3,
-            PertamSand
+            PertamSand,
+            Helios_Sand_02,
+            Helios_Lava
         };
 
         public static readonly string[] MoomSoilVoxels = new string[] 

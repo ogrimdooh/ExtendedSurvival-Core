@@ -500,8 +500,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(55, 75),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 2,
-            StartBreak = 3,
+            GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = OI_ORES,
             MeteorImpact = OI_METEOR
         };
@@ -521,8 +520,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(25, 35),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 2,
-            StartBreak = 2,
+            GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = SPATAT_ORES,
             MeteorImpact = SPATAT_METEOR
         };
@@ -540,8 +538,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(true, 1.0125f, -0.4f, 0.15f, 0.05f),
             SizeRange = new Vector2(50, 70),
             Type = PlanetProfile.PlanetType.Planet,
-            MaxGroupSize = 2,
-            StartBreak = 3,
+            GroupType = PlanetProfile.OreGroupType.LargeGroup,
             Ores = ENITOR_ORES,
             MeteorImpact = ENITOR_METEOR
         };
@@ -559,8 +556,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(60, 80),
             Type = PlanetProfile.PlanetType.Planet,
-            MaxGroupSize = 2,
-            StartBreak = 3,
+            GroupType = PlanetProfile.OreGroupType.LargeGroup,
             Ores = EREMUS_NUBIS_ORES,
             MeteorImpact = EREMUS_NUBIS_METEOR
         };
@@ -578,8 +574,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(true, 1.01305f, -0.4f, 0, 0),
             SizeRange = new Vector2(55, 75),
             Type = PlanetProfile.PlanetType.Planet,
-            MaxGroupSize = 2,
-            StartBreak = 6,
+            GroupType = PlanetProfile.OreGroupType.LargeGroup,
             Ores = DOVER_ORES,
             MeteorImpact = DOVER_METEOR
         };
@@ -597,8 +592,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(100, 120),
             Type = PlanetProfile.PlanetType.Planet,
-            MaxGroupSize = 2,
-            StartBreak = 3,
+            GroupType = PlanetProfile.OreGroupType.LargeGroup,
             Ores = TOTHT_ORES,
             MeteorImpact = TOTHT_METEOR
         };
@@ -616,8 +610,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(25, 35),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 2,
-            StartBreak = 2,
+            GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = GLEDIUS_NUBIS_ORES,
             MeteorImpact = GLEDIUS_NUBIS_METEOR
         };
@@ -635,8 +628,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(45, 55),
             Type = PlanetProfile.PlanetType.Moon,
-            MaxGroupSize = 2,
-            StartBreak = 2,
+            GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = CAPUTALIS_NUBIS_ORES,
             MeteorImpact = CAPUTALIS_NUBIS_METEOR
         };

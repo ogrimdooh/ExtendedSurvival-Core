@@ -16,7 +16,7 @@ namespace ExtendedSurvival.Core
 
         }
 
-        public const int PROFILE_VERSION = 13;
+        public const int PROFILE_VERSION = 14;
 
         public const ulong EARTHLIKE_ANIMALS_MODID = 2170447225;
 
@@ -659,8 +659,7 @@ namespace ExtendedSurvival.Core
                     Water = GetWater(false),
                     SizeRange = new Vector2(50, 70),
                     Type = PlanetProfile.PlanetType.Planet,
-                    MaxGroupSize = 5,
-                    StartBreak = 5,
+                    GroupType = PlanetProfile.OreGroupType.LargeGroup,
                     MeteorImpact = VanilaMapProfile.EARTHLIKE_METEOR,
                     Ores =
                     ExtendedSurvivalCoreSession.IsUsingTechnology() ?
@@ -914,6 +913,15 @@ namespace ExtendedSurvival.Core
             {
                 ATAMapProfile.ATA_09_CHARON,
                 ATAMapProfile.ATA_09_CHARON_PROFILE
+            },
+            // SAMs
+            {
+                SamMapProfile.DEFAULT_HELIOSTERRAFORMED,
+                SamMapProfile.HELIOSTERRAFORMED
+            },
+            {
+                SamMapProfile.DEFAULT_HELIOSTERRAFORMEDWM,
+                SamMapProfile.HELIOSTERRAFORMED
             }
         };
 
