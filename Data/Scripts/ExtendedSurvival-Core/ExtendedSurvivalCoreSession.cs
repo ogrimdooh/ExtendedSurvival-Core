@@ -11,6 +11,7 @@ using VRage.Game;
 using VRage.Game.Components;
 using VRage.Game.Entity;
 using VRage.Game.ModAPI;
+using VRage.Game.ObjectBuilders;
 using VRage.Utils;
 using VRageMath;
 
@@ -613,6 +614,22 @@ namespace ExtendedSurvival.Core
             }
         }
 
+        public Vector3 BaseSunDirection { get; private set; }
+        public Vector3 SunDirectionNormalized { get; private set; }
+        protected void DoUpdateSunDir()
+        {
+            var session = (MyAPIGateway.Session.WeatherEffects as MySessionComponentBase);
+            if (session != null)
+            {
+                var builder = session.GetObjectBuilder() as MyObjectBuilder_SectorWeatherComponent;
+                if (builder != null)
+                {
+                    BaseSunDirection = builder.BaseSunDirection;
+                    SunDirectionNormalized = builder.SunDirectionNormalized;
+                }
+            }
+        }
+
         protected override void DoUpdate60()
         {
             base.DoUpdate60();
@@ -621,6 +638,7 @@ namespace ExtendedSurvival.Core
             {
 
                 CheckPlanetWaters();
+                DoUpdateSunDir();
 
             }
         }

@@ -4,6 +4,8 @@ using Sandbox.ModAPI;
 using System;
 using System.Linq;
 using VRage.Game;
+using VRage.Game.Components;
+using VRage.Game.ObjectBuilders;
 using VRageMath;
 
 namespace ExtendedSurvival.Core
@@ -11,6 +13,8 @@ namespace ExtendedSurvival.Core
 
     public class PlanetEntity : EntityBase<MyPlanet>
     {
+
+        private RelativeToSunPosition relativeToSunPosition = new RelativeToSunPosition();
 
         public static MyTemperatureLevel TemperatureToLevel(float temperature)
         {
@@ -104,7 +108,16 @@ namespace ExtendedSurvival.Core
         {
             return Vector3D.Normalize(coords - Center());
         }
-
+        /*
+        private Vector3 CalculateSunDirection()
+        {
+            var m_speed = 60f * MyAPIGateway.Session.SessionSettings.SunRotationIntervalMinutes;
+            var ElapsedGameTime = MyAPIGateway.Session.GameDateTime - new DateTime(2081, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            Vector3 sunDirection = Vector3.Transform(this.m_baseSunDirection, Matrix.CreateFromAxisAngle(this.m_sunRotationAxis, (double)m_speed > 0.0 ? 6.283186f * ((float)ElapsedGameTime.TotalSeconds / m_speed) : 0.0f));
+            double num = (double)sunDirection.Normalize();
+            return sunDirection;
+        }
+        */
         public float GetTemperatureInPoint(Vector3D worldPoint, out float temperatureValue)
         {
             temperatureValue = 0;
@@ -113,13 +126,12 @@ namespace ExtendedSurvival.Core
                 Vector2 temperatureRange = new Vector2(0, 45);
                 if (Setting != null)
                     temperatureRange = new Vector2(Setting.Atmosphere.TemperatureRange.X, Setting.Atmosphere.TemperatureRange.Y);
-                var sector = MyAPIGateway.Session.GetSector();
-                Vector3 sunDirection;
-                Vector3.CreateFromAzimuthAndElevation(sector.Environment.SunAzimuth, sector.Environment.SunElevation, out sunDirection);
                 float airInPoint = Entity.GetAirDensity(worldPoint);
                 float airSaturation = MathHelper.Saturate(airInPoint / 0.6f);
                 float distanceFromSurface = (float)Vector3D.Distance(Entity.PositionComp.GetPosition(), worldPoint) / Entity.AverageRadius;
-                float sunLightMultiplier = 1f - (float)Math.Pow(1.0 - ((double)Vector3.Dot(-sunDirection, Vector3.Normalize(worldPoint - Entity.PositionComp.GetPosition())) + 1.0) / 2.0, 0.5);
+                float sunLightMultiplier = Vector3.Dot(Vector3.Normalize(worldPoint - Entity.PositionComp.GetPosition()), ExtendedSurvivalCoreSession.Static.SunDirectionNormalized);
+                if (sunLightMultiplier < 0)
+                    sunLightMultiplier = 0;
                 MyTemperatureLevel level = MyTemperatureLevel.Cozy;
                 if (Setting != null)
                     level = (MyTemperatureLevel)Setting.Atmosphere.TemperatureLevel;
@@ -139,6 +151,73 @@ namespace ExtendedSurvival.Core
                     temperatureInPoint = temperatureRange.X;
                 if (temperatureInPoint > temperatureRange.Y)
                     temperatureInPoint = temperatureRange.Y;
+                // Biome
+                var closeSurfacePoint = Entity.GetClosestSurfacePointGlobal(worldPoint);
+                var surfaceMaterial = Entity.GetMaterialAt(ref closeSurfacePoint);
+                if (surfaceMaterial != null)
+                {
+                    var surfaceType = surfaceMaterial.Id.SubtypeName.ToUpper();                    
+                    var isSnow = surfaceType.Contains("SNOW") ||
+                        surfaceType.Contains("ICE");
+                    var tempChangeFactor = Math.Abs(temperatureInPoint / 4);
+                    var temperatureModifier = 0f;
+                    var forceMultiplier = 1f;
+                    if (isSnow)
+                    {
+                        temperatureModifier = 0.6f;
+                    }
+                    else
+                    {
+                        var isMountain = surfaceType.Contains("ROCK") ||
+                            surfaceType.Contains("STONE") ||
+                            surfaceType.Contains("MOUNTAIN");
+                        if (isMountain)
+                        {
+                            temperatureModifier = 0.85f;
+                        }
+                        else
+                        {
+                            var isDesert = surfaceType.Contains("SAND");
+                            if (isDesert)
+                            {
+                                temperatureModifier = 1.25f;
+                            }
+                            else
+                            {
+                                var isOld = surfaceType.Contains("OLD");
+                                if (isOld)
+                                {
+                                    temperatureModifier = 1.05f;
+                                }
+                            }
+                        }
+                    }
+                    if (temperatureModifier > 1)
+                    {
+                        temperatureInPoint += (tempChangeFactor * (temperatureModifier - 1)) * forceMultiplier;
+                    }
+                    else if (temperatureModifier > 0)
+                    {
+                        temperatureInPoint -= (tempChangeFactor * (1 - temperatureModifier)) * forceMultiplier;
+                    }
+                }
+                // Underground
+                if (Entity.IsUnderGround(worldPoint))
+                {
+                    var distanceToSurface = Vector3D.Distance(worldPoint, closeSurfacePoint);
+                    var tempChangeFactor = Math.Abs(temperatureInPoint / 2);
+                    var temperatureModifier = 0f;
+                    var forceMultiplier = 1f;
+                    
+                    if (temperatureModifier > 1)
+                    {
+                        temperatureInPoint += (tempChangeFactor * (temperatureModifier - 1)) * forceMultiplier;
+                    }
+                    else if (temperatureModifier > 0)
+                    {
+                        temperatureInPoint -= (tempChangeFactor * (1 - temperatureModifier)) * forceMultiplier;
+                    }
+                }
                 // Weather
                 var wName = weatherComponent.GetWeather(worldPoint);
                 MyWeatherEffectDefinition weatherEffect = MyDefinitionManager.Static.GetWeatherEffect(wName);
