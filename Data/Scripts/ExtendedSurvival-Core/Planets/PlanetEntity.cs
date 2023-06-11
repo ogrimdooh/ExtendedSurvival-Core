@@ -158,7 +158,7 @@ namespace ExtendedSurvival.Core
                 }
                 // UnderWater
                 float depth = 0;
-                if (Setting.Water.Enabled && IsUnderWater(worldPoint, out depth))
+                if (Setting != null && Setting.Water.Enabled && IsUnderWater(worldPoint, out depth))
                 {
                     temperatureInPoint += (depth / 10) * Setting.Water.TemperatureFactor;
                 }

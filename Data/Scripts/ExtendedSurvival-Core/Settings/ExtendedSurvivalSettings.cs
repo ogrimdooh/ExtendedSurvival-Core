@@ -211,7 +211,7 @@ namespace ExtendedSurvival.Core
 
         public PlanetSetting GetPlanetInfo(string id, bool generateWhenNotExists = true)
         {
-            if (HasPlanetInfo(id) && !PlanetUsingTecnologyForFirstTime(id))
+            if (HasPlanetInfo(id) && (!generateWhenNotExists || !PlanetUsingTecnologyForFirstTime(id)))
             {
                 var settings = Planets.FirstOrDefault(x => x.Id.ToUpper().Trim() == id.ToUpper().Trim());
                 if (!IgnorePlanets.Split(';').Contains(id.ToUpper()))
