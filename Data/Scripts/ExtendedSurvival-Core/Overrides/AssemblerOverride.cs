@@ -96,23 +96,26 @@ namespace ExtendedSurvival.Core
         protected override void OnAfterSetComponents(MyCubeBlockDefinition blockDefinition, UniqueEntityId block)
         {
             base.OnAfterSetComponents(blockDefinition, block);
-            if (blockDefinition.Id.SubtypeName != SurvivalKit && blockDefinition.Id.SubtypeName != SurvivalKitLarge)
+            if (!ExtendedSurvivalCoreSession.IsUsingTechnology() && !ExtendedSurvivalCoreSession.IsUsingStatsAndEffects())
             {
-                var assemblerDefinition = (blockDefinition as MyAssemblerDefinition);
-                switch (assemblerDefinition.Id.SubtypeName)
+                if (blockDefinition.Id.SubtypeName != SurvivalKit && blockDefinition.Id.SubtypeName != SurvivalKitLarge)
                 {
-                    case LargeAssembler:
-                    case LargeAssemblerIndustrial:
-                        SetUpAssembler(assemblerDefinition);
-                        break;
-                    case BasicAssembler:
-                        SetUpBasicAssembler(assemblerDefinition);
-                        break;
+                    var assemblerDefinition = (blockDefinition as MyAssemblerDefinition);
+                    switch (assemblerDefinition.Id.SubtypeName)
+                    {
+                        case LargeAssembler:
+                        case LargeAssemblerIndustrial:
+                            SetUpAssembler(assemblerDefinition);
+                            break;
+                        case BasicAssembler:
+                            SetUpBasicAssembler(assemblerDefinition);
+                            break;
+                    }
                 }
-            }
-            else
-            {
-                SetUpSurvivalKit(blockDefinition as MySurvivalKitDefinition);
+                else
+                {
+                    SetUpSurvivalKit(blockDefinition as MySurvivalKitDefinition);
+                }
             }
         }
 
