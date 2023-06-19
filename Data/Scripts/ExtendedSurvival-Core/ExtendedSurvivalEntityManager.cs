@@ -25,10 +25,20 @@ namespace ExtendedSurvival.Core
     public class ExtendedSurvivalEntityManager : BaseSessionComponent
     {
 
+        public class OnReloadHandheldGun
+        {
+
+            public Action<IMyAutomaticRifleGun, int, MyDefinitionId, IMyInventory> Action { get; set; }
+            public int Priority { get; set; }
+
+        }
+
         public static Dictionary<UniqueEntityId, float> ExtraStartLoot { get; set; } = new Dictionary<UniqueEntityId, float>();
         public static ExtendedSurvivalEntityManager Instance { get; private set; }
 
         private static readonly Random rnd = new Random();
+
+        public static List<OnReloadHandheldGun> ReloadHandheldGun { get; set; } = new List<OnReloadHandheldGun>();
 
         public List<MyPlanet> PlanetsOnLoad { get; private set; } = new List<MyPlanet>();
         public List<IMyCubeGrid> GridsOnLoad { get; private set; } = new List<IMyCubeGrid>();
@@ -63,6 +73,7 @@ namespace ExtendedSurvival.Core
         protected ParallelTasks.Task taskStations;
         protected ParallelTasks.Task taskStones;
         protected ParallelTasks.Task taskFactions;
+        protected ParallelTasks.Task taskGuns;
         protected override void DoInit(MyObjectBuilder_SessionComponent sessionComponent)
         {
             if (MyAPIGateway.Session.IsServer)
@@ -123,6 +134,26 @@ namespace ExtendedSurvival.Core
                             CheckFactions();
                         if (MyAPIGateway.Parallel != null)
                             MyAPIGateway.Parallel.Sleep(10000);
+                        else
+                            break;
+                    }
+                });
+                taskGuns = MyAPIGateway.Parallel.StartBackground(() =>
+                {
+                    ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), "StartBackground [CheckHandGuns START]");
+                    // Loop Task to Control Skins
+                    while (canRun)
+                    {
+                        var keys = HandheldGuns.Keys.ToArray();
+                        for (int i = 0; i < keys.Length; i++)
+                        {
+                            if (HandheldGuns.ContainsKey(keys[i]))
+                            {
+                                HandheldGuns[keys[i]].StoreCurrentAmmo();
+                            }
+                        }
+                        if (MyAPIGateway.Parallel != null)
+                            MyAPIGateway.Parallel.Sleep(25);
                         else
                             break;
                     }
@@ -483,7 +514,6 @@ namespace ExtendedSurvival.Core
                     if (!HandheldGuns.ContainsKey(handheldGunObj.EntityId))
                     {
                         HandheldGuns[handheldGunObj.EntityId] = new HandheldGunEntity(handheldGunObj);
-                        HandheldGuns[handheldGunObj.EntityId].OnReload += ExtendedSurvivalEntityManager_OnReload;
                     }
                     return;
                 }
@@ -497,11 +527,6 @@ namespace ExtendedSurvival.Core
         private static double GetRandomDouble(double max = 1f)
         {
             return MyUtils.GetRandomDouble(0f, max);
-        }
-
-        private void ExtendedSurvivalEntityManager_OnReload(HandheldGunEntity sender, int currentAmmo, UniqueEntityId magzineId)
-        {
-
         }
 
         public HandheldGunEntity GetHandheldGun(long id)

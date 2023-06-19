@@ -14,6 +14,7 @@ using System.Linq;
 using VRage.Utils;
 using VRage.Game.ModAPI;
 using VRage.Game.Entity;
+using Sandbox.ModAPI.Weapons;
 
 namespace ExtendedSurvival.Core
 {
@@ -44,7 +45,8 @@ namespace ExtendedSurvival.Core
             ["GetItemInfoByItemType"] = new Func<Guid, MyDefinitionId, string>(GetItemInfoByItemType),
             ["GetItemInfoByCategory"] = new Func<Guid, string, string>(GetItemInfoByCategory),
             ["AddTreeDropLoot"] = new Action<string>(AddTreeDropLoot),
-            ["GetHandheldGunInfo"] = new Func<long, string>(GetHandheldGunInfo),
+            ["GetHandheldGunInfo"] = new Func<long, KeyValuePair<IMyAutomaticRifleGun, string>?>(GetHandheldGunInfo),
+            ["AddOnHandheldGunReloadCallback"] = new Func<Action<IMyAutomaticRifleGun, int, MyDefinitionId, IMyInventory>, int, bool>(AddOnHandheldGunReloadCallback),
             ["SetInventoryObserverSpoilStatus"] = new Action<Guid, bool, bool, float>(SetInventoryObserverSpoilStatus),
             ["GetUnderwaterCollectors"] = new Func<long, IMySlimBlock[]>(GetUnderwaterCollectors),
             ["GetOffwaterCollectors"] = new Func<long, IMySlimBlock[]>(GetOffwaterCollectors),
@@ -391,14 +393,34 @@ namespace ExtendedSurvival.Core
             return null;
         }
 
-        public static string GetHandheldGunInfo(long id)
+        public static bool AddOnHandheldGunReloadCallback(Action<IMyAutomaticRifleGun, int, MyDefinitionId, IMyInventory> callback, int priority)
+        {
+            if (callback != null)
+            {
+                ExtendedSurvivalEntityManager.ReloadHandheldGun.Add(new ExtendedSurvivalEntityManager.OnReloadHandheldGun()
+                {
+                    Action = callback,
+                    Priority = priority
+                });
+                ExtendedSurvivalEntityManager.ReloadHandheldGun.Sort((x, y) => x.Priority.CompareTo(y.Priority) * -1);
+                return true;
+            }
+            return false;
+        }
+        
+        public static KeyValuePair<IMyAutomaticRifleGun, string>? GetHandheldGunInfo(long id)
         {
             var gun = ExtendedSurvivalEntityManager.Instance.GetHandheldGun(id);
             if (gun != null)
             {
-                var dataToSend = new HandheldGunInfo() { EntityId = gun.Entity.EntityId, CurrentAmmoMagazineId = gun.GetCurrentAmmoMagazineId().DefinitionId };
+                var dataToSend = new HandheldGunInfo() 
+                { 
+                    EntityId = gun.Entity.EntityId, 
+                    CurrentAmmoMagazineId = gun.GetCurrentAmmoMagazineId().DefinitionId,
+                    CurrentMagazineAmmunition = gun.CurrentMagazineAmmunition
+                };
                 string messageToSend = MyAPIGateway.Utilities.SerializeToXML<HandheldGunInfo>(dataToSend);
-                return messageToSend;
+                return new KeyValuePair<IMyAutomaticRifleGun, string>(gun.Entity, messageToSend);
             }
             return null;
         }

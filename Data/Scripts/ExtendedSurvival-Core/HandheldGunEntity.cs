@@ -4,19 +4,17 @@ using Sandbox.Game;
 using Sandbox.Game.Entities;
 using VRage.Game.Entity;
 using Sandbox.ModAPI.Weapons;
+using System.Linq;
+using VRage.Game.ModAPI;
 
 namespace ExtendedSurvival.Core
 {
-
-    public delegate void OnReloadHandheldGunEntity(HandheldGunEntity sender, int currentAmmo, UniqueEntityId magzineId);
 
     public class HandheldGunEntity : EntityBase<IMyAutomaticRifleGun>
     {
 
         private MyInventory AmmoInventory;
-        private int CurrentMagazineAmmunition;
-
-        public event OnReloadHandheldGunEntity OnReload;
+        public int CurrentMagazineAmmunition { get; private set; }
 
         public bool HasInventory
         {
@@ -28,7 +26,7 @@ namespace ExtendedSurvival.Core
 
         public HandheldGunEntity(IMyAutomaticRifleGun entity)
             : base(entity)
-        {
+        {            
             TryToLoadInventory();
         }
 
@@ -49,8 +47,14 @@ namespace ExtendedSurvival.Core
 
         public void StoreCurrentAmmo()
         {
+            if (AmmoInventory == null)
+                TryToLoadInventory();
             if (Entity != null && !Entity.IsReloading)
+            {
                 CurrentMagazineAmmunition = Entity.CurrentMagazineAmmunition;
+                if ((Entity.IsShooting || CurrentMagazineAmmunition == 1) && CurrentMagazineAmmunition > 0)
+                    CurrentMagazineAmmunition -= 1; /* Avoid returning plus one ammo at quik reload */
+            }
         }
 
         public UniqueEntityId GetCurrentAmmoMagazineId()
@@ -63,7 +67,13 @@ namespace ExtendedSurvival.Core
             var removedId = new UniqueEntityId(inventoryItem.Content.TypeId, inventoryItem.Content.SubtypeId);
             if (removedId == GetCurrentAmmoMagazineId() && Entity.IsReloading)
             {
-                OnReload?.Invoke(this, CurrentMagazineAmmunition, removedId);
+                if (ExtendedSurvivalEntityManager.ReloadHandheldGun.Any())
+                {
+                    foreach (var reloadEvent in ExtendedSurvivalEntityManager.ReloadHandheldGun)
+                    {
+                        reloadEvent.Action?.Invoke(Entity, CurrentMagazineAmmunition, Entity.GunBase.CurrentAmmoMagazineId, AmmoInventory);
+                    }
+                }
             }
         }
 
