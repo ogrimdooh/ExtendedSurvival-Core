@@ -74,6 +74,7 @@ namespace ExtendedSurvival.Core
         protected ParallelTasks.Task taskStones;
         protected ParallelTasks.Task taskFactions;
         protected ParallelTasks.Task taskGuns;
+        protected ParallelTasks.Task taskAsteroids;
         protected override void DoInit(MyObjectBuilder_SessionComponent sessionComponent)
         {
             if (MyAPIGateway.Session.IsServer)
@@ -82,7 +83,7 @@ namespace ExtendedSurvival.Core
                 task = MyAPIGateway.Parallel.StartBackground(() =>
                 {
                     ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), "StartBackground [CheckAllGrids START]");
-                    // Loop Task to Control Skins
+                    // Loop CheckAllGrids
                     while (canRun)
                     {
                         CheckAllGrids();
@@ -95,11 +96,24 @@ namespace ExtendedSurvival.Core
                 taskStations = MyAPIGateway.Parallel.StartBackground(() =>
                 {
                     ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), "StartBackground [SpaceStationController START]");
-                    // Loop Task to Control Skins
+                    // Loop CheckTradeStations
                     while (canRun)
                     {
                         SpaceStationController.DoCycle();
                         CheckTradeStations();
+                        if (MyAPIGateway.Parallel != null)
+                            MyAPIGateway.Parallel.Sleep(2500);
+                        else
+                            break;
+                    }
+                });
+                taskAsteroids = MyAPIGateway.Parallel.StartBackground(() =>
+                {
+                    ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), "StartBackground [StarSystemController START]");
+                    // Loop CheckTradeStations
+                    while (canRun)
+                    {
+                        StarSystemController.DoCycle();
                         if (MyAPIGateway.Parallel != null)
                             MyAPIGateway.Parallel.Sleep(2500);
                         else
@@ -114,7 +128,7 @@ namespace ExtendedSurvival.Core
                         MyAPIGateway.Parallel.Sleep(100);
                     }
                     _lastCheckMeteorStones = MyExtendedSurvivalTimeManager.Instance.GameTime;
-                    // Loop Task to Control Skins
+                    // Loop CheckMeteorStones
                     while (canRun)
                     {
                         CheckMeteorStones();
@@ -127,7 +141,7 @@ namespace ExtendedSurvival.Core
                 taskFactions = MyAPIGateway.Parallel.StartBackground(() =>
                 {
                     ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), "StartBackground [CheckFactions START]");
-                    // Loop Task to Control Skins
+                    // Loop CheckFactions
                     while (canRun)
                     {
                         if (!FactionsLocked)
@@ -141,7 +155,7 @@ namespace ExtendedSurvival.Core
                 taskGuns = MyAPIGateway.Parallel.StartBackground(() =>
                 {
                     ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), "StartBackground [CheckHandGuns START]");
-                    // Loop Task to Control Skins
+                    // Loop StoreCurrentAmmo
                     while (canRun)
                     {
                         var keys = HandheldGuns.Keys.ToArray();
@@ -230,6 +244,7 @@ namespace ExtendedSurvival.Core
                 task.Wait();
                 taskFactions.Wait();
                 taskStations.Wait();
+                taskAsteroids.Wait();
                 taskStones.Wait();
                 Players?.Clear();
                 Players = null;
