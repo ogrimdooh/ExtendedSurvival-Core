@@ -1,4 +1,5 @@
 ﻿using Sandbox.Definitions;
+using Sandbox.ModAPI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -88,11 +89,25 @@ namespace ExtendedSurvival.Core
         public const string ESRespawnPlanetPod = "ESRespawnPlanetPod";
         public const string ESSpaceRespawnPod = "ESSpaceRespawnPod";
 
+        public const string ESRespawnPlanetLargePod = "ESRespawnPlanetLargePod";
+        public const string ESSimpleRespawnPlanetLargePod = "ESSimpleRespawnPlanetLargePod";
+
+        public const string ESRespawnPlanetLiftedLargePod = "ESRespawnPlanetLiftedLargePod";
+        public const string ESSimpleRespawnPlanetLiftedLargePod = "ESSimpleRespawnPlanetLiftedLargePod";
+
         private static string[] VALID_RESPAWN_SHIPS = new string[] { ESSimpleRespawnPlanetPod, ESSimpleRespawnPlanetPod, ESSimpleSpaceRespawnPod };
         private static string[] TECH_VALID_RESPAWN_SHIPS = new string[] { ESRespawnPlanetPod, ESRespawnPlanetPod, ESSpaceRespawnPod };
 
+        private static string[] VALID_RESPAWN_LARGE_SHIPS = new string[] { ESSimpleRespawnPlanetLargePod, ESSimpleRespawnPlanetLargePod, ESSimpleSpaceRespawnPod };
+        private static string[] TECH_VALID_RESPAWN_LARGE_SHIPS = new string[] { ESRespawnPlanetLargePod, ESRespawnPlanetLargePod, ESSpaceRespawnPod };
+
+        private static string[] VALID_RESPAWN_LIFTED_LARGE_SHIPS = new string[] { ESSimpleRespawnPlanetLiftedLargePod, ESSimpleRespawnPlanetLiftedLargePod, ESSimpleSpaceRespawnPod };
+        private static string[] TECH_VALID_RESPAWN_LIFTED_LARGE_SHIPS = new string[] { ESRespawnPlanetLiftedLargePod, ESRespawnPlanetLiftedLargePod, ESSpaceRespawnPod };
+
         // Need to disable EMM start ships to avoid no valid starts
         private static string[] TARGET_RESPAWN_SHIPS_TO_DISABLE = new string[] { "Range_Runner_Respawncar", "Little_Bird_Respawnship", "Ibis_Respawnship", "M3_Miner_Respawnship" };
+
+        public const ulong ZLIFTEDWHEELSUSPENSION_MOD_ID = 2727185097;
 
         public static void SetDefinitions()
         {
@@ -147,6 +162,17 @@ namespace ExtendedSurvival.Core
             }
             // Override Start Ships
             var validShips = ExtendedSurvivalCoreSession.IsUsingTechnology() ? TECH_VALID_RESPAWN_SHIPS : VALID_RESPAWN_SHIPS;
+            if (ExtendedSurvivalSettings.Instance.RespawnLargePodEnabled)
+            {
+                if (MyAPIGateway.Session.Mods.Any(x => x.PublishedFileId == ZLIFTEDWHEELSUSPENSION_MOD_ID))
+                {
+                    validShips = ExtendedSurvivalCoreSession.IsUsingTechnology() ? TECH_VALID_RESPAWN_LIFTED_LARGE_SHIPS : VALID_RESPAWN_LIFTED_LARGE_SHIPS;
+                }
+                else
+                {
+                    validShips = ExtendedSurvivalCoreSession.IsUsingTechnology() ? TECH_VALID_RESPAWN_LARGE_SHIPS : VALID_RESPAWN_LARGE_SHIPS;
+                }
+            }
             var planetShip = MyDefinitionManager.Static.GetRespawnShipDefinition(RespawnPlanetPod);
             if (planetShip != null)
             {
@@ -196,7 +222,11 @@ namespace ExtendedSurvival.Core
             { ESSimpleRespawnPlanetPod, new BaseIntegrationModRecipesOverride.ExternalModCustomIcon("Textures\\GUI\\Icons\\RespawnShips\\ESSimpleRespawnPlanetPod.png", false) },
             { ESSimpleSpaceRespawnPod, new BaseIntegrationModRecipesOverride.ExternalModCustomIcon("Textures\\GUI\\Icons\\RespawnShips\\ESSimpleRespawnSpacePod.png", false) },
             { ESRespawnPlanetPod, new BaseIntegrationModRecipesOverride.ExternalModCustomIcon("Textures\\GUI\\Icons\\RespawnShips\\ESSimpleRespawnPlanetPod.png", false) },
-            { ESSpaceRespawnPod, new BaseIntegrationModRecipesOverride.ExternalModCustomIcon("Textures\\GUI\\Icons\\RespawnShips\\ESSimpleRespawnSpacePod.png", false) }
+            { ESSpaceRespawnPod, new BaseIntegrationModRecipesOverride.ExternalModCustomIcon("Textures\\GUI\\Icons\\RespawnShips\\ESSimpleRespawnSpacePod.png", false) },
+            { ESRespawnPlanetLargePod, new BaseIntegrationModRecipesOverride.ExternalModCustomIcon("Textures\\GUI\\Icons\\RespawnShips\\ESRespawnPlanetLargePod.png", false)  },
+            { ESSimpleRespawnPlanetLargePod, new BaseIntegrationModRecipesOverride.ExternalModCustomIcon("Textures\\GUI\\Icons\\RespawnShips\\ESRespawnPlanetLargePod.png", false) },
+            { ESRespawnPlanetLiftedLargePod, new BaseIntegrationModRecipesOverride.ExternalModCustomIcon("Textures\\GUI\\Icons\\RespawnShips\\ESRespawnPlanetLargePod.png", false)  },
+            { ESSimpleRespawnPlanetLiftedLargePod, new BaseIntegrationModRecipesOverride.ExternalModCustomIcon("Textures\\GUI\\Icons\\RespawnShips\\ESRespawnPlanetLargePod.png", false) }
         };
 
         private static string GetCustomIcon(MyModContext baseContext, string key)

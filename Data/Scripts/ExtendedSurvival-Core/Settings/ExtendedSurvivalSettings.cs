@@ -51,6 +51,9 @@ namespace ExtendedSurvival.Core
         public bool RespawnSpacePodEnabled { get; set; } = false;
 
         [XmlElement]
+        public bool RespawnLargePodEnabled { get; set; } = false;
+
+        [XmlElement]
         public int PlanetDeployAltitude { get; set; } = 6;
 
         [XmlElement]
