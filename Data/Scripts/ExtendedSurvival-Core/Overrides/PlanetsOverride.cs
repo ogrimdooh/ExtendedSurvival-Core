@@ -222,7 +222,7 @@ namespace ExtendedSurvival.Core
             { ESSimpleRespawnPlanetPod, new BaseIntegrationModRecipesOverride.ExternalModCustomIcon("Textures\\GUI\\Icons\\RespawnShips\\ESSimpleRespawnPlanetPod.png", false) },
             { ESSimpleSpaceRespawnPod, new BaseIntegrationModRecipesOverride.ExternalModCustomIcon("Textures\\GUI\\Icons\\RespawnShips\\ESSimpleRespawnSpacePod.png", false) },
             { ESRespawnPlanetPod, new BaseIntegrationModRecipesOverride.ExternalModCustomIcon("Textures\\GUI\\Icons\\RespawnShips\\ESSimpleRespawnPlanetPod.png", false) },
-            { ESSpaceRespawnPod, new BaseIntegrationModRecipesOverride.ExternalModCustomIcon("Textures\\GUI\\Icons\\RespawnShips\\ESSimpleRespawnSpacePod.png", false) },
+            { ESSpaceRespawnPod, new BaseIntegrationModRecipesOverride.ExternalModCustomIcon("Textures\\GUI\\Icons\\RespawnShips\\ESRespawnSpacePod.png", false) },
             { ESRespawnPlanetLargePod, new BaseIntegrationModRecipesOverride.ExternalModCustomIcon("Textures\\GUI\\Icons\\RespawnShips\\ESRespawnPlanetLargePod.png", false)  },
             { ESSimpleRespawnPlanetLargePod, new BaseIntegrationModRecipesOverride.ExternalModCustomIcon("Textures\\GUI\\Icons\\RespawnShips\\ESRespawnPlanetLargePod.png", false) },
             { ESRespawnPlanetLiftedLargePod, new BaseIntegrationModRecipesOverride.ExternalModCustomIcon("Textures\\GUI\\Icons\\RespawnShips\\ESRespawnPlanetLargePod.png", false)  },
