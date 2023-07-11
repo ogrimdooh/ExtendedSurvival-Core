@@ -115,6 +115,14 @@ namespace ExtendedSurvival.Core
 				"Raw soil, needs to be processed to be used."
 			);
 			AddEntry(
+				LanguageEntries.ASTEROIDSOIL_NAME,
+				"Asteroid Soil"
+			);
+			AddEntry(
+				LanguageEntries.ASTEROIDSOIL_DESCRIPTION,
+				"Raw soil, needs to be processed to be used."
+			);
+			AddEntry(
 				LanguageEntries.DESERTSOIL_NAME,
 				"Desert Soil"
 			);

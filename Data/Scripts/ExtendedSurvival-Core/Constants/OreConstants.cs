@@ -14,6 +14,9 @@ namespace ExtendedSurvival.Core
         public const string ALIENSOIL_SUBTYPEID = "AlienSoil";
         public static readonly UniqueEntityId ALIENSOIL_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), ALIENSOIL_SUBTYPEID);
 
+        public const string ASTEROIDSOIL_SUBTYPEID = "AsteroidSoil";
+        public static readonly UniqueEntityId ASTEROIDSOIL_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), ASTEROIDSOIL_SUBTYPEID);
+
         public const string DESERTSOIL_SUBTYPEID = "DesertSoil";
         public static readonly UniqueEntityId DESERTSOIL_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), DESERTSOIL_SUBTYPEID);
 
@@ -265,6 +268,48 @@ namespace ExtendedSurvival.Core
             }
         };
 
+        public static readonly OreDefinition ASTEROIDSOIL_DEFINITION = new OreDefinition()
+        {
+            Id = ASTEROIDSOIL_ID,
+            Name = LanguageProvider.GetEntry(LanguageEntries.ASTEROIDSOIL_NAME),
+            Description = LanguageProvider.GetEntry(LanguageEntries.ASTEROIDSOIL_DESCRIPTION),
+            CanPlayerOrder = false,
+            Mass = 1f,
+            Volume = 0.4f,
+            RecipesDefinition = new List<SimpleIngredientRecipeDefinition>()
+            {
+                new SimpleIngredientRecipeDefinition()
+                {
+                    RecipeName = "AsteroidSoil_Deconstruction",
+                    IngredientAmmount = 1,
+                    ProductionTime = 0.48f,
+                    Results = new SimpleIngredientRecipeDefinition.RecipeItem[]
+                    {
+                        new SimpleIngredientRecipeDefinition.RecipeItem()
+                        {
+                            Id = IngotsConstants.GRAVEL_ID,
+                            Ammount = 0.175f
+                        },
+                        new SimpleIngredientRecipeDefinition.RecipeItem()
+                        {
+                            Id = IngotsConstants.SAND_ID,
+                            Ammount = 0.04625f
+                        },
+                        new SimpleIngredientRecipeDefinition.RecipeItem()
+                        {
+                            Id = IngotsConstants.SOIL_ID,
+                            Ammount = 0.0275f
+                        },
+                        new SimpleIngredientRecipeDefinition.RecipeItem()
+                        {
+                            Id = ORGANIC_ID,
+                            Ammount = 0.00125f
+                        }
+                    }
+                }
+            }
+        };
+
         public static readonly OreDefinition DESERTSOIL_DEFINITION = new OreDefinition()
         {
             Id = DESERTSOIL_ID,
@@ -436,6 +481,7 @@ namespace ExtendedSurvival.Core
         {
             { SOIL_ID, SOIL_DEFINITION },
             { ALIENSOIL_ID, ALIENSOIL_DEFINITION },
+            { ASTEROIDSOIL_ID, ASTEROIDSOIL_DEFINITION },
             { DESERTSOIL_ID, DESERTSOIL_DEFINITION },
             { MOONSOIL_ID, MOONSOIL_DEFINITION },
             { ORGANIC_ID, ORGANIC_DEFINITION },

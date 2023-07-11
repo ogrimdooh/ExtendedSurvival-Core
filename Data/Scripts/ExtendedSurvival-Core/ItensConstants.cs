@@ -265,6 +265,36 @@ namespace ExtendedSurvival.Core
         public const string DATAPAD_SUBTYPEID = "Datapad";
         public static readonly UniqueEntityId DATAPAD_ID = new UniqueEntityId(typeof(MyObjectBuilder_Datapad), DATAPAD_SUBTYPEID);
 
+        public const string CHAMPIGNONS_SUBTYPEID = "Champignons";
+        public static readonly UniqueEntityId CHAMPIGNONS_ID = new UniqueEntityId(typeof(MyObjectBuilder_ConsumableItem), CHAMPIGNONS_SUBTYPEID);
+
+        public const string SHIITAKE_SUBTYPEID = "Shiitake";
+        public static readonly UniqueEntityId SHIITAKE_ID = new UniqueEntityId(typeof(MyObjectBuilder_ConsumableItem), SHIITAKE_SUBTYPEID);
+
+        public const string AMANITAMUSCARIA_SUBTYPEID = "AmanitaMuscaria";
+        public static readonly UniqueEntityId AMANITAMUSCARIA_ID = new UniqueEntityId(typeof(MyObjectBuilder_ConsumableItem), AMANITAMUSCARIA_SUBTYPEID);
+
+        public const string BEETROOT_SUBTYPEID = "Beetroot";
+        public static readonly UniqueEntityId BEETROOT_ID = new UniqueEntityId(typeof(MyObjectBuilder_ConsumableItem), BEETROOT_SUBTYPEID);
+
+        public const string CAROOT_SUBTYPEID = "Carrot";
+        public static readonly UniqueEntityId CAROOT_ID = new UniqueEntityId(typeof(MyObjectBuilder_ConsumableItem), CAROOT_SUBTYPEID);
+
+        public const string ARNICA_SUBTYPEID = "Arnica";
+        public static readonly UniqueEntityId ARNICA_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), ARNICA_SUBTYPEID);
+
+        public const string CHAMOMILE_SUBTYPEID = "Chamomile";
+        public static readonly UniqueEntityId CHAMOMILE_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), CHAMOMILE_SUBTYPEID);
+
+        public const string ALOEVERA_SUBTYPEID = "AloeVera";
+        public static readonly UniqueEntityId ALOEVERA_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), ALOEVERA_SUBTYPEID);
+
+        public const string MINT_SUBTYPEID = "Mint";
+        public static readonly UniqueEntityId MINT_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), MINT_SUBTYPEID);
+
+        public const string ERYTHROXYLUM_SUBTYPEID = "Erythroxylum";
+        public static readonly UniqueEntityId ERYTHROXYLUM_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), ERYTHROXYLUM_SUBTYPEID);
+
         private static ConcurrentDictionary<UniqueEntityId, MyObjectBuilder_Base> BUILDERS_CACHE = new ConcurrentDictionary<UniqueEntityId, MyObjectBuilder_Base>();
 
         public static T GetBuilder<T>(UniqueEntityId id, bool cache = true) where T : MyObjectBuilder_Base

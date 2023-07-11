@@ -16,7 +16,7 @@ namespace ExtendedSurvival.Core
 
         }
 
-        public const int PROFILE_VERSION = 14;
+        public const int PROFILE_VERSION = 15;
 
         public const ulong EARTHLIKE_ANIMALS_MODID = 2170447225;
 
@@ -531,6 +531,108 @@ namespace ExtendedSurvival.Core
                     }
                 }
             }
+        };
+
+        public static readonly PlanetProfile.SuperficialMiningInfo EARTH_SUPERFICIAL_MINING = new PlanetProfile.SuperficialMiningInfo()
+        {
+            enabled = true,
+            drops = new PlanetProfile.SuperficialMiningDropInfo[]
+            {
+                new PlanetProfile.SuperficialMiningDropInfo()
+                {
+                    itemId = ItensConstants.CHAMPIGNONS_ID,
+                    ammount = new Vector2(4, 8),
+                    chance = 4,
+                    alowFrac = false,
+                    validSubType = new string[] { "Soil" }
+                },
+                new PlanetProfile.SuperficialMiningDropInfo()
+                {
+                    itemId = ItensConstants.SHIITAKE_ID,
+                    ammount = new Vector2(4, 8),
+                    chance = 4,
+                    alowFrac = false,
+                    validSubType = new string[] { "Soil" }
+                },
+                new PlanetProfile.SuperficialMiningDropInfo()
+                {
+                    itemId = ItensConstants.CAROOT_ID,
+                    ammount = new Vector2(1, 4),
+                    chance = 2,
+                    alowFrac = false,
+                    validSubType = new string[] { "Soil" }
+                },
+                new PlanetProfile.SuperficialMiningDropInfo()
+                {
+                    itemId = ItensConstants.BEETROOT_ID,
+                    ammount = new Vector2(1, 4),
+                    chance = 2,
+                    alowFrac = false,
+                    validSubType = new string[] { "Soil" }
+                },
+                new PlanetProfile.SuperficialMiningDropInfo()
+                {
+                    itemId = ItensConstants.ALOEVERA_ID,
+                    ammount = new Vector2(2, 6),
+                    chance = 5,
+                    alowFrac = true,
+                    validSubType = new string[] { "Soil" }
+                },
+                new PlanetProfile.SuperficialMiningDropInfo()
+                {
+                    itemId = ItensConstants.ERYTHROXYLUM_ID,
+                    ammount = new Vector2(1, 4),
+                    chance = 5,
+                    alowFrac = true,
+                    validSubType = new string[] { "Soil" }
+                },
+                new PlanetProfile.SuperficialMiningDropInfo()
+                {
+                    itemId = ItensConstants.ARNICA_ID,
+                    ammount = new Vector2(1, 4),
+                    chance = 3,
+                    alowFrac = true,
+                    validSubType = new string[] { "Soil" }
+                },
+                new PlanetProfile.SuperficialMiningDropInfo()
+                {
+                    itemId = ItensConstants.CHAMOMILE_ID,
+                    ammount = new Vector2(3, 9),
+                    chance = 3,
+                    alowFrac = true,
+                    validSubType = new string[] { "Soil" }
+                },
+                new PlanetProfile.SuperficialMiningDropInfo()
+                {
+                    itemId = ItensConstants.MINT_ID,
+                    ammount = new Vector2(3, 9),
+                    chance = 3,
+                    alowFrac = true,
+                    validSubType = new string[] { "Soil" }
+                }
+            }
+        };
+
+        public static readonly PlanetProfile.SuperficialMiningInfo ALIEN_SUPERFICIAL_MINING = new PlanetProfile.SuperficialMiningInfo()
+        {
+            enabled = true,
+            drops = new PlanetProfile.SuperficialMiningDropInfo[]
+            {
+                new PlanetProfile.SuperficialMiningDropInfo()
+                {
+                    itemId = ItensConstants.AMANITAMUSCARIA_ID,
+                    ammount = new Vector2(2, 4),
+                    chance = 5,
+                    alowFrac = false,
+                    validSubType = new string[] { "AlienSoil" }
+                }
+            }
+        };
+
+        public static readonly PlanetProfile.SuperficialMiningInfo DISABLE_SUPERFICIAL_MINING = new PlanetProfile.SuperficialMiningInfo()
+        {
+            enabled = false,
+            drops = new PlanetProfile.SuperficialMiningDropInfo[] { }
         };
 
         public static PlanetProfile.AtmosphereInfo GetAtmosphere(bool enabled, bool breathable = false, float density = 0f, float oxygenDensity = 0f, float maxWindSpeed = 0f, float limitAltitude = 0f, float toxicLevel = 0f, float radiationLevel = 0f)

@@ -25,6 +25,8 @@
         public const string SOIL_ORE_DESCRIPTION = "SOIL_ORE_DESCRIPTION";
         public const string ALIENSOIL_NAME = "ALIENSOIL_NAME";
         public const string ALIENSOIL_DESCRIPTION = "ALIENSOIL_DESCRIPTION";
+        public const string ASTEROIDSOIL_NAME = "ASTEROIDSOIL_NAME";
+        public const string ASTEROIDSOIL_DESCRIPTION = "ASTEROIDSOIL_DESCRIPTION";
         public const string DESERTSOIL_NAME = "DESERTSOIL_NAME";
         public const string DESERTSOIL_DESCRIPTION = "DESERTSOIL_DESCRIPTION";
         public const string MOONSOIL_NAME = "MOONSOIL_NAME";

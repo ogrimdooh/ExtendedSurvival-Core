@@ -502,7 +502,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = OI_ORES,
-            MeteorImpact = OI_METEOR
+            MeteorImpact = OI_METEOR,
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
         public static readonly PlanetProfile SPATAT = new PlanetProfile()
@@ -522,7 +523,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = SPATAT_ORES,
-            MeteorImpact = SPATAT_METEOR
+            MeteorImpact = SPATAT_METEOR,
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
         public static readonly PlanetProfile ENITOR = new PlanetProfile()
@@ -540,7 +542,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.LargeGroup,
             Ores = ENITOR_ORES,
-            MeteorImpact = ENITOR_METEOR
+            MeteorImpact = ENITOR_METEOR,
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
         public static readonly PlanetProfile EREMUS_NUBIS = new PlanetProfile()
@@ -558,7 +561,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.LargeGroup,
             Ores = EREMUS_NUBIS_ORES,
-            MeteorImpact = EREMUS_NUBIS_METEOR
+            MeteorImpact = EREMUS_NUBIS_METEOR,
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
         public static readonly PlanetProfile DOVER = new PlanetProfile()
@@ -576,7 +580,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.LargeGroup,
             Ores = DOVER_ORES,
-            MeteorImpact = DOVER_METEOR
+            MeteorImpact = DOVER_METEOR,
+            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING
         };
 
         public static readonly PlanetProfile TOTHT = new PlanetProfile()
@@ -594,7 +599,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.LargeGroup,
             Ores = TOTHT_ORES,
-            MeteorImpact = TOTHT_METEOR
+            MeteorImpact = TOTHT_METEOR,
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
         public static readonly PlanetProfile GLEDIUS_NUBIS = new PlanetProfile()
@@ -612,7 +618,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = GLEDIUS_NUBIS_ORES,
-            MeteorImpact = GLEDIUS_NUBIS_METEOR
+            MeteorImpact = GLEDIUS_NUBIS_METEOR,
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
         public static readonly PlanetProfile CAPUTALIS_NUBIS = new PlanetProfile()
@@ -630,7 +637,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = CAPUTALIS_NUBIS_ORES,
-            MeteorImpact = CAPUTALIS_NUBIS_METEOR
+            MeteorImpact = CAPUTALIS_NUBIS_METEOR,
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
     }

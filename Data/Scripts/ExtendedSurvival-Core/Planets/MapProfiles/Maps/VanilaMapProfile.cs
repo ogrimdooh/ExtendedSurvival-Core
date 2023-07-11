@@ -519,7 +519,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.LargeGroup,
             Ores = EARTHLIKE_ORES,
-            MeteorImpact = EARTHLIKE_METEOR
+            MeteorImpact = EARTHLIKE_METEOR,
+            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING
         };
 
         public static readonly PlanetProfile ALIEN = new PlanetProfile()
@@ -539,7 +540,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.LargeGroup,
             Ores = ALIEN_ORES,
-            MeteorImpact = ALIEN_METEOR
+            MeteorImpact = ALIEN_METEOR,
+            SuperficialMining = PlanetMapProfile.ALIEN_SUPERFICIAL_MINING
         };
 
         public static readonly PlanetProfile MARS = new PlanetProfile()
@@ -559,7 +561,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.LargeGroup,
             Ores = MARS_ORES,
-            MeteorImpact = MARS_METEOR
+            MeteorImpact = MARS_METEOR,
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
         public static readonly PlanetProfile PERTAM = new PlanetProfile()
@@ -579,7 +582,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.LargeGroup,
             Ores = PERTAM_ORES,
-            MeteorImpact = PERTAN_METEOR
+            MeteorImpact = PERTAN_METEOR,
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
         public static readonly PlanetProfile TRITON = new PlanetProfile()
@@ -597,7 +601,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.LargeGroup,
             Ores = TRITON_ORES,
-            MeteorImpact = TRITON_METEOR
+            MeteorImpact = TRITON_METEOR,
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
         // Moons
@@ -619,7 +624,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = MOON_ORES,
-            MeteorImpact = MOON_METEOR
+            MeteorImpact = MOON_METEOR,
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
         public static readonly PlanetProfile EUROPA = new PlanetProfile()
@@ -639,7 +645,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = EUROPA_ORES,
-            MeteorImpact = EUROPA_METEOR
+            MeteorImpact = EUROPA_METEOR,
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
         public static readonly PlanetProfile TITAN = new PlanetProfile()
@@ -659,7 +666,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.SmallGroup,
             Ores = TITAN_ORES,
-            MeteorImpact = TITAN_METEOR
+            MeteorImpact = TITAN_METEOR,
+            SuperficialMining = PlanetMapProfile.ALIEN_SUPERFICIAL_MINING
         };
 
     }

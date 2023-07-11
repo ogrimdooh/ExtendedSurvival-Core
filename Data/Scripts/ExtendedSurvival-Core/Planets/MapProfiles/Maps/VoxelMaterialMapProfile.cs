@@ -132,6 +132,28 @@ namespace ExtendedSurvival.Core
             AlienSnow
         };
 
+        public static readonly string[] SpaceNeeded = new string[] 
+        {
+            /* Vanilla */
+            Iron_01,
+            Iron_02,
+            Nickel_01,
+            Silicon_01,
+            Cobalt_01,
+            Gold_01,
+            Silver_01,
+            /* Extended Survival */
+            Aluminum_01,
+            Copper_01,
+            Zinc_01,
+            Lead_01,
+            Sulfur_01,
+            Carbon_01,
+            Potassium_01,
+            Lithium_01,
+            Mercury_01
+        };
+
         // ES Core
         public const string StoneIce_01 = "StoneIce_01";
 

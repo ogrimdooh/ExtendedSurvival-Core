@@ -77,6 +77,9 @@ namespace ExtendedSurvival.Core
         [XmlElement]
         public PlanetMeteorImpactSetting MeteorImpact { get; set; } = new PlanetMeteorImpactSetting();
 
+        [XmlElement]
+        public SuperficialMiningSetting SuperficialMining { get; set; } = new SuperficialMiningSetting();
+
         [XmlArray("OreMap"), XmlArrayItem("Ore", typeof(PlanetOreMapEntrySetting))]
         public List<PlanetOreMapEntrySetting> OreMap { get; set; } = new List<PlanetOreMapEntrySetting>();
 

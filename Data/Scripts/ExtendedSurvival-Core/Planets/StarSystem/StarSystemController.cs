@@ -764,14 +764,14 @@ namespace ExtendedSurvival.Core
                             if (targetData != null)
                             {
                                 var targetOrientations = new List<Vector3D>
-                            {
-                                stationTarget + (MatrixD.Identity.Up * (targetData.Radius + SAFE_DISTANCE)),
-                                stationTarget + (MatrixD.Identity.Down * (targetData.Radius + SAFE_DISTANCE)),
-                                stationTarget + (MatrixD.Identity.Left * (targetData.Radius + SAFE_DISTANCE)),
-                                stationTarget + (MatrixD.Identity.Right * (targetData.Radius + SAFE_DISTANCE)),
-                                stationTarget + (MatrixD.Identity.Forward * (targetData.Radius + SAFE_DISTANCE)),
-                                stationTarget + (MatrixD.Identity.Backward * (targetData.Radius + SAFE_DISTANCE))
-                            };
+                                {
+                                    stationTarget + (MatrixD.Identity.Up * (targetData.Radius + SAFE_DISTANCE)),
+                                    stationTarget + (MatrixD.Identity.Down * (targetData.Radius + SAFE_DISTANCE)),
+                                    stationTarget + (MatrixD.Identity.Left * (targetData.Radius + SAFE_DISTANCE)),
+                                    stationTarget + (MatrixD.Identity.Right * (targetData.Radius + SAFE_DISTANCE)),
+                                    stationTarget + (MatrixD.Identity.Forward * (targetData.Radius + SAFE_DISTANCE)),
+                                    stationTarget + (MatrixD.Identity.Backward * (targetData.Radius + SAFE_DISTANCE))
+                                };
                                 var stationPos = targetOrientations[new Vector2I(0, 5).GetRandomInt()];
                                 var stationUp = Vector3D.Normalize(stationPos - Vector3D.One);
                                 var stationRandomForward = RandomPerpendicular(stationUp);
@@ -951,7 +951,7 @@ namespace ExtendedSurvival.Core
             return outRange * percent + outMin;
         }
 
-        private static void InvokeOnGameThread(Action action, bool wait = true)
+        public static void InvokeOnGameThread(Action action, bool wait = true)
         {
             bool isExecuting = true;
             MyAPIGateway.Utilities.InvokeOnGameThread(() =>

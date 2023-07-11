@@ -183,7 +183,10 @@ namespace ExtendedSurvival.Core
             {
                 Instance = this;
                 if (MyAPIGateway.Session.IsServer)
+                {
                     RegisterWatcher();
+                    SuperficialMiningController.InitShipDrillCollec();
+                }
                 if (!IsServer)
                 {
                     ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), $"RegisterSecureMessageHandler EntityCallsMsgHandler");
@@ -381,6 +384,11 @@ namespace ExtendedSurvival.Core
                     string entityName = entity.ToString();
                     if (WoodChopController.CheckEntityIsATree(entityName, entity))
                         return;
+                    var floatingObj = entity as MyFloatingObject;
+                    if (floatingObj != null)
+                    {
+                        SuperficialMiningController.CheckEntityIsAFloatingObject(floatingObj);
+                    }
                 }
                 var meteor = entity as IMyMeteor;
                 if (meteor != null)
@@ -414,6 +422,28 @@ namespace ExtendedSurvival.Core
                             {
                                 // Maybe the wheels are gone xD hahaha
                                 gridEntity.NeedToRecreateWhells = true;
+                            }
+                            // Teleport Grid to Belt if Vanila Asteroid Disabled
+                            if (MyAPIGateway.Session.SessionSettings.ProceduralDensity == 0 &&
+                                ExtendedSurvivalStorage.Instance.StarSystem.Generated &&
+                                ExtendedSurvivalStorage.Instance.StarSystem.Members.Any(x => x.MemberType == (int)StarSystemProfile.MemberType.AsteroidBelt) &&
+                                gridEntity.Entity.NaturalGravity == Vector3.Zero /* In Space */)
+                            {
+                                var targetBelt = ExtendedSurvivalStorage.Instance.StarSystem.Members.Where(x => x.MemberType == (int)StarSystemProfile.MemberType.AsteroidBelt).OrderBy(x => GetRandomDouble()).FirstOrDefault();
+                                var targetAsteroid = targetBelt.AsteroidsData.OrderBy(x => GetRandomDouble()).FirstOrDefault();
+                                var targetOrientations = new List<Vector3D>
+                                {
+                                    targetAsteroid.Position + (MatrixD.Identity.Up * (targetAsteroid.Radius + (StarSystemController.SAFE_DISTANCE * 2))),
+                                    targetAsteroid.Position + (MatrixD.Identity.Down * (targetAsteroid.Radius + (StarSystemController.SAFE_DISTANCE * 2))),
+                                    targetAsteroid.Position + (MatrixD.Identity.Left * (targetAsteroid.Radius + (StarSystemController.SAFE_DISTANCE * 2))),
+                                    targetAsteroid.Position + (MatrixD.Identity.Right * (targetAsteroid.Radius + (StarSystemController.SAFE_DISTANCE * 2))),
+                                    targetAsteroid.Position + (MatrixD.Identity.Forward * (targetAsteroid.Radius + (StarSystemController.SAFE_DISTANCE * 2))),
+                                    targetAsteroid.Position + (MatrixD.Identity.Backward * (targetAsteroid.Radius + (StarSystemController.SAFE_DISTANCE * 2)))
+                                };
+                                var startPos = targetOrientations[new Vector2I(0, 5).GetRandomInt()];
+                                gridEntity.Entity.SetPosition(startPos);
+                                gridEntity.NeedTeleport = true;
+                                gridEntity.TargetTeleportPosition = startPos;
                             }
                             // Added extra start itens to main cargo
                             if (ExtraStartLoot.Any())
@@ -493,6 +523,21 @@ namespace ExtendedSurvival.Core
                                                 if (stations.Any())
                                                 {
                                                     var stationPos = stations.OrderBy(x => GetRandomDouble()).FirstOrDefault();
+                                                    if (gridEntity.Entity.NaturalGravity != Vector3.Zero)
+                                                    {
+                                                        if (GetRandomDouble() > 0.5d) /* 50% chance */
+                                                        {
+                                                            var planetInRange = GetPlanetAtRange(gridEntity.Entity.GetPosition());
+                                                            if (planetInRange != null)
+                                                            {
+                                                                var planetMemberData = ExtendedSurvivalStorage.Instance.StarSystem.Members.FirstOrDefault(x => x.EntityId == planetInRange.Entity.EntityId);
+                                                                if (planetMemberData != null)
+                                                                {
+                                                                    stationPos = planetMemberData.Stations.OrderBy(x => GetRandomDouble()).FirstOrDefault();
+                                                                }
+                                                            }
+                                                        }
+                                                    }
                                                     inventory.AddMaxItems(1f, ItensConstants.GetDatapadObjectBuilder(ItensConstants.DATAPAD_ID, stationPos.Name, stationPos.GetDatabadData()));
                                                 }
                                             }
@@ -862,6 +907,22 @@ namespace ExtendedSurvival.Core
                         DoDisableLoginComponent(item, "Treadmill");
                         grid.NotInitilizedTreadmill.Remove(item);
                     }
+                }
+                lock (Grids)
+                {
+                    lista = Grids.Where(x => x.NeedTeleport).ToArray();
+                }
+                for (int i = 0; i < lista.Length; i++)
+                {
+                    var grid = lista[i];
+                    var startPos = grid.TargetTeleportPosition;
+                    var startUp = Vector3D.Normalize(startPos - Vector3D.One);
+                    var startRandomForward = StarSystemController.RandomPerpendicular(startUp);
+                    StarSystemController.InvokeOnGameThread(() =>
+                    {
+                        grid.Entity.Teleport(MatrixD.CreateWorld(startPos, startRandomForward, startUp));
+                        grid.NeedTeleport = false;
+                    });
                 }
             }
             catch (Exception ex)

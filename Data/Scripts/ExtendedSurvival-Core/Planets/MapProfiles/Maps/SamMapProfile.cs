@@ -76,7 +76,8 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.LargeGroup,
             Ores = HELIOSTERRAFORMED_ORES,
-            MeteorImpact = VanilaMapProfile.EARTHLIKE_METEOR
+            MeteorImpact = VanilaMapProfile.EARTHLIKE_METEOR,
+            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING
         };
 
     }

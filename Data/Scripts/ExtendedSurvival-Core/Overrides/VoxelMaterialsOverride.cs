@@ -35,6 +35,10 @@ namespace ExtendedSurvival.Core
                         {
                             definition.MinedOreRatio = info.MinedOreRatio;
                             definition.SpawnsInAsteroids = info.SpawnsInAsteroids;
+                            /* Force spawn in asteroids when respawn in space is enabled */
+                            if (ExtendedSurvivalSettings.Instance.RespawnSpacePodEnabled &&
+                                VoxelMaterialMapProfile.SpaceNeeded.Contains(voxel))
+                                definition.SpawnsInAsteroids = true;
                             definition.SpawnsFromMeteorites = info.SpawnsFromMeteorites;
                             definition.AsteroidGeneratorSpawnProbabilityMultiplier = info.AsteroidSpawnProbabilityMultiplier;
                             definition.Postprocess();

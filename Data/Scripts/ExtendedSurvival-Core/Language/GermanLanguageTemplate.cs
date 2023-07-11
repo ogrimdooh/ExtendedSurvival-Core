@@ -116,6 +116,14 @@ namespace ExtendedSurvival.Core
 				"Roherde, muss verarbeitet werden, um verwendet zu werden."
 			);
 			AddEntry(
+				LanguageEntries.ASTEROIDSOIL_NAME,
+				"Asteroidenboden"
+			);
+			AddEntry(
+				LanguageEntries.ASTEROIDSOIL_DESCRIPTION,
+				"Roherde, muss verarbeitet werden, um verwendet zu werden."
+			);
+			AddEntry(
 				LanguageEntries.DESERTSOIL_NAME,
 				"Wüstenboden"
 			);

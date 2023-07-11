@@ -152,6 +152,25 @@ namespace ExtendedSurvival.Core
 
         }
 
+        public struct SuperficialMiningDropInfo
+        {
+
+            public UniqueEntityId itemId;
+            public Vector2 ammount;
+            public float chance;
+            public bool alowFrac;
+            public string[] validSubType;
+
+        }
+
+        public struct SuperficialMiningInfo
+        {
+
+            public bool enabled;
+            public SuperficialMiningDropInfo[] drops;
+
+        }
+
         public bool RespawnEnabled { get; set; }
         public PlanetOrigin Origin { get; set; }
         public ulong OriginId { get; set; }
@@ -162,6 +181,7 @@ namespace ExtendedSurvival.Core
         public GravityInfo Gravity { get; set; }
         public WaterInfo Water { get; set; }
         public MeteorImpactInfo MeteorImpact { get; set; }
+        public SuperficialMiningInfo SuperficialMining { get; set; }
         public List<OreMapInfo> Ores { get; set; } = new List<OreMapInfo>();
         public string TargetColor { get; set; }
         public Vector2I ColorInfluence { get; set; } = Vector2I.Zero;
@@ -237,6 +257,22 @@ namespace ExtendedSurvival.Core
                     GroupId = x.groupId,
                     ModifierId = x.modifierId,
                     ChanceToSpawn = x.chanceToSpawn
+                }).ToList()
+            };
+        }
+
+        public SuperficialMiningSetting BuildSuperficialMiningSetting()
+        {
+            return new SuperficialMiningSetting()
+            {
+                Enabled = SuperficialMining.enabled,
+                Drops = SuperficialMining.drops.Select(x => new SuperficialMiningDropSetting()
+                {
+                    ItemId = x.itemId.DefinitionId,
+                    Ammount = new DocumentedVector2(x.ammount.X, x.ammount.Y, SuperficialMiningDropSetting.AMMOUNT_RANGE_INFO),
+                    AlowFrac = x.alowFrac,
+                    Chance = x.chance,
+                    ValidSubType = x.validSubType.Select(y => new SuperficialMiningDropValidSubTypeSetting() { Id = y }).ToList()
                 }).ToList()
             };
         }
@@ -590,6 +626,10 @@ namespace ExtendedSurvival.Core
                 {
                     settings.MeteorImpact = BuildMeteorImpactSetting();
                 }
+                if (settings.Version <= 14)
+                {
+                    settings.SuperficialMining = BuildSuperficialMiningSetting();
+                }
                 settings.Version = Version;
             }
             return settings;
@@ -646,6 +686,7 @@ namespace ExtendedSurvival.Core
                 Gravity = BuildGravitySetting(),
                 Animal = BuildAnimalsSetting(),
                 MeteorImpact = BuildMeteorImpactSetting(),
+                SuperficialMining = BuildSuperficialMiningSetting(),
                 OreGroupType = (int)(groupType.HasValue ? groupType.Value : GroupType),
                 OreMap = BuildOresMappings(
                     seed, 
