@@ -431,7 +431,7 @@ namespace ExtendedSurvival.Core
                                                     MemberType = (int)StarSystemProfile.MemberType.AsteroidBelt,
                                                     ItemType = 0,
                                                     NotSpawnAsteroids = asteroids,
-                                                    AsteroidsData = asteroids.Select(x => new AsteroidStorage() { Position = x, Radius = Range(500, 1500) }).ToList()
+                                                    AsteroidsData = asteroids.Select(x => new AsteroidStorage() { Position = x, Radius = Range(350, 1050) }).ToList()
                                                 });
                                                 asteroids = null;
                                             }
@@ -453,7 +453,7 @@ namespace ExtendedSurvival.Core
                                             MemberType = (int)StarSystemProfile.MemberType.AsteroidBelt,
                                             ItemType = 0,
                                             NotSpawnAsteroids = asteroids,
-                                            AsteroidsData = asteroids.Select(x => new AsteroidStorage() { Position = x, Radius = Range(500, 1500) }).ToList()
+                                            AsteroidsData = asteroids.Select(x => new AsteroidStorage() { Position = x, Radius = Range(600, 1800) }).ToList()
                                         });
                                         asteroids = null;
                                         b++;
@@ -972,7 +972,7 @@ namespace ExtendedSurvival.Core
             }
         }
 
-        private static int AsteroidSeed = new Vector2I(1000000, 10000000).GetRandomInt();
+        private static readonly Vector2I AsteroidSeed = new Vector2I(int.MinValue, int.MaxValue);
         private static long CreateAsteroid(Vector3D position, float radius)
         {
             long id = 0;
@@ -981,7 +981,7 @@ namespace ExtendedSurvival.Core
                 Vector3 forward = GetRandomVector(GetRandomDouble(1000) + 1);
                 Vector3 up = GetRandomVector(GetRandomDouble(1000) + 1);
                 MatrixD matrix = MatrixD.CreateWorld(position, forward, up);
-                id = voxelMaps.CreateProceduralVoxelMap(++AsteroidSeed, radius, matrix).EntityId;
+                id = voxelMaps.CreateProceduralVoxelMap(AsteroidSeed.GetRandomInt(), radius, matrix).EntityId;
             });
             return id;
         }

@@ -293,9 +293,6 @@ namespace ExtendedSurvival.Core
 
             foreach (var p in tempPlayers)
             {
-                if (p?.Character == null || p.Character.IsDead)
-                    continue;
-
                 if (p.IsValidPlayer())
                 {
                     Players[p.IdentityId] = p;
