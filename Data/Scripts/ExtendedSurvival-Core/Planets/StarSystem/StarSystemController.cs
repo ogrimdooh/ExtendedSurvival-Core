@@ -1,21 +1,11 @@
-﻿using ObjectBuilders.SafeZone;
+﻿using Sandbox.Definitions;
 using Sandbox.Game;
 using Sandbox.Game.Entities;
-using Sandbox.Game.Multiplayer;
-using Sandbox.Game.Screens.Helpers;
-using Sandbox.Game.World;
 using Sandbox.ModAPI;
-using SpaceEngineers.Game.Entities.Blocks.SafeZone;
-using SpaceEngineers.Game.ModAPI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using VRage.Game;
-using VRage.Game.Factions.Definitions;
-using VRage.Game.ModAPI;
-using VRage.Game.ObjectBuilders.Definitions;
-using VRage.Game.ObjectBuilders.Definitions.Factions;
-using VRage.ObjectBuilders;
+using System.Text;
 using VRage.Utils;
 using VRageMath;
 
@@ -89,7 +79,9 @@ namespace ExtendedSurvival.Core
                     ExtendedSurvivalStorage.Instance.StarSystem.Members.Add(member);
                     if (ExtendedSurvivalSettings.Instance.StarSystemConfiguration.AutoGenerateStarSystemGps)
                     {
-                        MyVisualScriptLogicProvider.AddGPSForAll(member.Name, "", member.Position, Color.White);
+                        StringBuilder sb = new StringBuilder();
+                        DoCompleteInfo(sb, member);
+                        MyVisualScriptLogicProvider.AddGPSForAll(member.Name, sb.ToString(), member.Position, Color.White);
                     }
                     try
                     {
@@ -460,6 +452,10 @@ namespace ExtendedSurvival.Core
                                         break;
                                 }
                             }
+
+                            // Try to move stations to generated planets
+                            CreateStationsToAllPlanets();
+
                             if (ExtendedSurvivalSettings.Instance.StarSystemConfiguration.AutoGenerateStarSystemGps)
                             {
                                 foreach (var member in ExtendedSurvivalStorage.Instance.StarSystem.Members)
@@ -470,17 +466,11 @@ namespace ExtendedSurvival.Core
                                         var Entity = MyAPIGateway.Entities.GetEntityById(member.EntityId);
                                         posGps = Entity?.PositionComp?.WorldAABB.Center ?? member.Position;
                                     }
-                                    MyVisualScriptLogicProvider.AddGPSForAll(member.Name, "", posGps, Color.MediumPurple);
+                                    StringBuilder sb = new StringBuilder();
+                                    DoCompleteInfo(sb, member);
+                                    MyVisualScriptLogicProvider.AddGPSForAll(member.Name, sb.ToString(), posGps, Color.MediumPurple);
                                 }
                             }
-
-                            // Try to move stations to generated planets
-                            MyAPIGateway.Parallel.StartBackground(() =>
-                            {
-
-                                CreateStationsToAllPlanets();
-
-                            });
 
                         }
                     }
@@ -496,6 +486,125 @@ namespace ExtendedSurvival.Core
                 }
             }
             return false;
+        }
+
+        private static void DoCompleteInfo(StringBuilder sb, StarSystemMemberStorage member)
+        {
+            if (ExtendedSurvivalSettings.Instance.StarSystemConfiguration.AddAllInfoToStarSystemGps)
+            {
+                switch ((StarSystemProfile.MemberType)member.MemberType)
+                {
+                    case StarSystemProfile.MemberType.Planet:
+                        var planet = ExtendedSurvivalEntityManager.GetPlanetById(member.EntityId);
+                        if (planet != null && planet.Setting != null)
+                        {
+                            sb.AppendLine("Basic Data:");
+                            sb.AppendLine("");
+                            sb.AppendLine(string.Format("Respawn Enabled: {0}", planet.Setting.RespawnEnabled ? "Yes" : "No"));
+                            sb.AppendLine(string.Format("Type: {0}", ((PlanetProfile.PlanetType)planet.Setting.Type).ToString()));
+                            sb.AppendLine(string.Format("Size: {0}", (planet.Entity.AverageRadius * 2).ToString("#0.00")));
+                            sb.AppendLine(string.Format("Gravity Force: {0}g", planet.Setting.Gravity.SurfaceGravity.ToString("#0.00")));
+                            sb.AppendLine(string.Format("Gravity Power: {0}x", planet.Setting.Gravity.GravityFalloffPower));
+                            sb.AppendLine(string.Format("Ores: {0}", string.Join(",", planet.Setting.OreMap.Select(x => x.Type.Split('_')[0]).Distinct())));
+                            if (member.StationsGenerated)
+                            {
+                                sb.AppendLine(string.Format("Total Stations: {0}", member.Stations.Count));
+                            }
+                            sb.AppendLine("");
+                            sb.AppendLine("Atmosphere Data:");
+                            sb.AppendLine("");
+                            sb.AppendLine(string.Format("Enabled: {0}", planet.Entity.HasAtmosphere ? "Yes" : "No"));
+                            if (planet.Entity.HasAtmosphere)
+                            {
+                                sb.AppendLine(string.Format("Altitude: {0}", planet.Entity.AtmosphereAltitude.ToString("#0.00")));
+                                sb.AppendLine(string.Format("Max Wind Speed: {0}", planet.Setting.Atmosphere.MaxWindSpeed.ToString("#0.00")));
+                                sb.AppendLine(string.Format("Density: {0}", planet.Setting.Atmosphere.Density.ToString("P2")));
+                                sb.AppendLine(string.Format("Oxygen Density: {0}", planet.Setting.Atmosphere.OxygenDensity.ToString("P2")));
+                                sb.AppendLine(string.Format("Toxicity: {0}", planet.Setting.Atmosphere.ToxicLevel.ToString("P2")));
+                                sb.AppendLine(string.Format("Radiation: {0}", planet.Setting.Atmosphere.RadiationLevel.ToString("P2")));
+                                sb.AppendLine(string.Format("Temperature Range: {0}ºC - {1}ºC", planet.Setting.Atmosphere.TemperatureRange.X, planet.Setting.Atmosphere.TemperatureRange.Y));
+                            }
+                            sb.AppendLine("");
+                            sb.AppendLine("Geothermal Data:");
+                            sb.AppendLine("");
+                            sb.AppendLine(string.Format("Enabled: {0}", planet.Setting.Geothermal.Enabled ? "Yes" : "No"));
+                            if (planet.Setting.Geothermal.Enabled)
+                            {
+                                sb.AppendLine(string.Format("Start Depth: {0}", planet.Setting.Geothermal.Start.ToString("#0.00")));
+                                sb.AppendLine(string.Format("Increment Depth Size: {0}", planet.Setting.Geothermal.RowSize.ToString("#0.00")));
+                                sb.AppendLine(string.Format("Base Power: {0}", planet.Setting.Geothermal.Power.ToString("#0.00")));
+                                sb.AppendLine(string.Format("Increment Power: {0}", planet.Setting.Geothermal.Increment.ToString("#0.00")));
+                                sb.AppendLine(string.Format("Max Power: {0}", planet.Setting.Geothermal.MaxPower.ToString("#0.00")));
+                            }
+                            sb.AppendLine("");
+                            sb.AppendLine("Water Data:");
+                            sb.AppendLine("");
+                            sb.AppendLine(string.Format("Enabled: {0}", planet.Setting.Water.Enabled ? "Yes" : "No"));
+                            if (planet.Setting.Water.Enabled)
+                            {
+                                sb.AppendLine(string.Format("Default Size: {0}", planet.Setting.Water.Size));
+                                sb.AppendLine(string.Format("Temperature Factor: {0}", planet.Setting.Water.TemperatureFactor));
+                                sb.AppendLine(string.Format("Toxicity: {0}", planet.Setting.Water.ToxicLevel.ToString("P2")));
+                                sb.AppendLine(string.Format("Radiation: {0}", planet.Setting.Water.RadiationLevel.ToString("P2")));
+                            }
+                            sb.AppendLine("");
+                            sb.AppendLine("Meteor Impact Data:");
+                            sb.AppendLine("");
+                            sb.AppendLine(string.Format("Enabled: {0}", planet.Setting.MeteorImpact.Enabled ? "Yes" : "No"));
+                            if (planet.Setting.MeteorImpact.Enabled)
+                            {
+                                sb.AppendLine(string.Format("Chance To Spawn: {0}", planet.Setting.MeteorImpact.ChanceToSpawn.ToString("P2")));
+                            }
+                            sb.AppendLine("");
+                            sb.AppendLine("Superficial Mining Data:");
+                            sb.AppendLine("");
+                            sb.AppendLine(string.Format("Enabled: {0}", planet.Setting.SuperficialMining.Enabled ? "Yes" : "No"));
+                            if (planet.Setting.SuperficialMining.Enabled)
+                            {
+                                foreach (var item in planet.Setting.SuperficialMining.Drops)
+                                {
+                                    var id = new UniqueEntityId(item.ItemId);
+                                    try
+                                    {
+                                        var def = MyDefinitionManager.Static.GetPhysicalItemDefinition(id.DefinitionId);
+                                        if (def != null)
+                                        {
+                                            sb.AppendLine(string.Format(
+                                                "{0} chance to get {1}-{2} of {3}",
+                                                (item.Chance / 100).ToString("P2"),
+                                                item.Ammount.X,
+                                                item.Ammount.Y,
+                                                def.DisplayNameText
+                                            ));
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        ExtendedSurvivalCoreLogging.Instance.LogError(typeof(StarSystemController), ex);
+                                    }
+                                }
+                            }
+                            sb.AppendLine("");
+                            sb.AppendLine("Animal Data:");
+                            sb.AppendLine("");
+                            sb.AppendLine(string.Format("Day Spawn Enabled: {0}", planet.Setting.Animal.DaySpawn.Enabled ? "Yes" : "No"));
+                            sb.AppendLine(string.Format("Night Spawn Enabled: {0}", planet.Setting.Animal.NightSpawn.Enabled ? "Yes" : "No"));
+                            if (planet.Setting.Animal.DaySpawn.Enabled || planet.Setting.Animal.NightSpawn.Enabled)
+                            {
+                                sb.AppendLine(string.Format("Animals: {0}", string.Join(",", planet.Setting.Animal.Animals.Select(x => x.Id.Split('_')[0]))));
+                            }
+                        }
+                        break;
+                    case StarSystemProfile.MemberType.AsteroidBelt:
+                        sb.AppendLine("Basic Data:");
+                        sb.AppendLine(string.Format("Total Asteroids: {0}", member.AsteroidsData.Count));
+                        if (member.StationsGenerated)
+                        {
+                            sb.AppendLine(string.Format("Total Stations: {0}", member.Stations.Count));
+                        }
+                        break;
+                }
+            }
         }
 
         public static void DoCycle()
@@ -819,6 +928,9 @@ namespace ExtendedSurvival.Core
                             }
                         }
                     }
+
+                    member.StationsGenerated = true;
+
                 }
             }
             catch (Exception ex)
@@ -981,7 +1093,8 @@ namespace ExtendedSurvival.Core
                 Vector3 forward = GetRandomVector(GetRandomDouble(1000) + 1);
                 Vector3 up = GetRandomVector(GetRandomDouble(1000) + 1);
                 MatrixD matrix = MatrixD.CreateWorld(position, forward, up);
-                id = voxelMaps.CreateProceduralVoxelMap(AsteroidSeed.GetRandomInt(), radius, matrix).EntityId;
+                var asteroid = voxelMaps.CreateProceduralVoxelMap(AsteroidSeed.GetRandomInt(), radius, matrix);
+                id = asteroid.EntityId;
             });
             return id;
         }

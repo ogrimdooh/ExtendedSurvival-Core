@@ -11,6 +11,9 @@ namespace ExtendedSurvival.Core
         public bool AutoGenerateStarSystemGps { get; set; } = true;
 
         [XmlElement]
+        public bool AddAllInfoToStarSystemGps { get; set; } = true;
+
+        [XmlElement]
         public bool AutoGenerateTradeStationsGps { get; set; } = false;
 
         [XmlElement]

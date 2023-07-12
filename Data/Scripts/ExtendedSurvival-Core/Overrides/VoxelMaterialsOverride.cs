@@ -1,13 +1,20 @@
 ﻿using Sandbox.Definitions;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using VRage.Collections;
 using VRage.Game;
+using VRage.Utils;
 
 namespace ExtendedSurvival.Core
 {
 
     public class VoxelMaterialsOverride
     {
+
+        public static readonly Dictionary<string, MyVoxelMaterialDefinition> VoxelMap = new Dictionary<string, MyVoxelMaterialDefinition>();
+
+        public static List<string> AsteroidVoxels = new List<string>();
 
         public static void SetDefinitions()
         {
@@ -30,6 +37,7 @@ namespace ExtendedSurvival.Core
                     MyVoxelMaterialDefinition definition;
                     if (definitions.TryGetValue(voxel, out definition))
                     {
+                        VoxelMap.Add(voxel, definition);
                         var info = ExtendedSurvivalSettings.Instance.GetVoxelInfo(voxel);
                         if (info != null)
                         {
@@ -51,6 +59,16 @@ namespace ExtendedSurvival.Core
                     ExtendedSurvivalCoreLogging.Instance.LogError(typeof(VoxelMaterialsOverride), ex);
                 }
             }
+            var asteroidVoxels = VoxelMap.Where(x => x.Value.IsRare && x.Value.SpawnsInAsteroids).Select(x => x.Key).ToArray();
+            var tempVoxels = new List<KeyValuePair<string, float>>();
+            foreach (var voxel in asteroidVoxels)
+            {
+                for (int i = 0; i < VoxelMap[voxel].AsteroidGeneratorSpawnProbabilityMultiplier; i++)
+                {
+                    tempVoxels.Add(new KeyValuePair<string, float>(voxel, MyUtils.GetRandomFloat()));
+                }
+            }
+            AsteroidVoxels = tempVoxels.OrderBy(x => x.Value).Select(x => x.Key).ToList();
         }
 
         private static void SetMinedOre(DictionaryValuesReader<string, MyVoxelMaterialDefinition> definitions, string[] targets, string ore, float ratio)
