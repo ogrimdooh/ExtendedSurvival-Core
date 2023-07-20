@@ -265,24 +265,12 @@ namespace ExtendedSurvival.Core
 
         public void Players_PlayerConnected(long playerId)
         {
-            var tempPlayers = new List<IMyPlayer>();
-            MyAPIGateway.Players.GetPlayers(tempPlayers, (p) => { return p.IdentityId == playerId; });
-            if (tempPlayers.Any())
-            {
-                if (tempPlayers[0].IsValidPlayer())
-                {
-
-                    Players[playerId] = tempPlayers[0];
-                }
-            }
+            UpdatePlayerList();
         }
 
         public void Players_PlayerDisconnected(long playerId)
         {
-            if (Players.ContainsKey(playerId))
-            {
-                Players.Remove(playerId);
-            }
+            UpdatePlayerList();
         }
 
         public void UpdatePlayerList()

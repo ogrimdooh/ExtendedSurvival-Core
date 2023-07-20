@@ -75,6 +75,12 @@ namespace ExtendedSurvival.Core
             public bool CanSell { get; set; }
             public bool CanOrder { get; set; }
 
+            public void DoForceDefinition()
+            {
+                Definition.CanPlayerOrder = CanOrder;
+                Definition.MinimalPricePerUnit = (int)BaseValue;
+            }
+
         }
 
         [Flags]
@@ -689,7 +695,8 @@ namespace ExtendedSurvival.Core
             if (SHOP_ITENS.ContainsKey(id))
             {
                 SHOP_ITENS[id].Rarity = rarity;
-                ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(SpaceStationController), $"ChangeItemRarity: Item {id.DefinitionId} rarity change to {rarity}.");
+                if (ExtendedSurvivalSettings.Instance.Debug)
+                    ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(SpaceStationController), $"ChangeItemRarity: Item {id.DefinitionId} rarity change to {rarity}.");
                 return true;
             }
             ExtendedSurvivalCoreLogging.Instance.LogWarning(typeof(SpaceStationController), $"ChangeItemRarity: Item {id.DefinitionId} not found.");
@@ -744,7 +751,8 @@ namespace ExtendedSurvival.Core
                             TargetFactions = targetFactions,
                             Definition = def
                         };
-                        ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(SpaceStationController), $"AddItemToShop: Item {id.DefinitionId} registered.");
+                        if (ExtendedSurvivalSettings.Instance.Debug)
+                            ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(SpaceStationController), $"AddItemToShop: Item {id.DefinitionId} registered.");
                         return true;
                     }
                     else
@@ -1023,7 +1031,8 @@ namespace ExtendedSurvival.Core
                             }
                         }
                         prefabToCheck.IsLoaded = true;
-                        ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(SpaceStationController), $"LoadPrefabsToSell: {prefabToCheck.PrefabName} : BASE VALUE = {prefabToCheck.BaseValue}");
+                        if (ExtendedSurvivalSettings.Instance.Debug)
+                            ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(SpaceStationController), $"LoadPrefabsToSell: {prefabToCheck.PrefabName} : BASE VALUE = {prefabToCheck.BaseValue}");
                     }
                 }
             }
@@ -1231,6 +1240,7 @@ namespace ExtendedSurvival.Core
                 if (!SHOP_ITENS[id].IsLoaded)
                 {
                     SHOP_ITENS[id].BaseValue = (long)GetBluePrintValue(SHOP_ITENS[id].RecipeBlueprint, SHOP_ITENS[id].Definition);
+                    SHOP_ITENS[id].DoForceDefinition();
                     SHOP_ITENS[id].IsLoaded = true;
                 }
                 return SHOP_ITENS[id];
