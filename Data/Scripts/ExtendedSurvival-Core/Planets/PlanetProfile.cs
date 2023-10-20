@@ -261,20 +261,32 @@ namespace ExtendedSurvival.Core
             };
         }
 
-        public SuperficialMiningSetting BuildSuperficialMiningSetting()
+        public SuperficialMiningSetting BuildSuperficialMiningSetting(string name)
         {
-            return new SuperficialMiningSetting()
+            try
             {
-                Enabled = SuperficialMining.enabled,
-                Drops = SuperficialMining.drops.Select(x => new SuperficialMiningDropSetting()
+                if (SuperficialMining.drops != null && SuperficialMining.drops.Any())
                 {
-                    ItemId = x.itemId.DefinitionId,
-                    Ammount = new DocumentedVector2(x.ammount.X, x.ammount.Y, SuperficialMiningDropSetting.AMMOUNT_RANGE_INFO),
-                    AlowFrac = x.alowFrac,
-                    Chance = x.chance,
-                    ValidSubType = x.validSubType.Select(y => new SuperficialMiningDropValidSubTypeSetting() { Id = y }).ToList()
-                }).ToList()
-            };
+                    return new SuperficialMiningSetting()
+                    {
+                        Enabled = SuperficialMining.enabled,
+                        Drops = SuperficialMining.drops.Select(x => new SuperficialMiningDropSetting()
+                        {
+                            ItemId = x.itemId.DefinitionId,
+                            Ammount = new DocumentedVector2(x.ammount.X, x.ammount.Y, SuperficialMiningDropSetting.AMMOUNT_RANGE_INFO),
+                            AlowFrac = x.alowFrac,
+                            Chance = x.chance,
+                            ValidSubType = x.validSubType.Select(y => new SuperficialMiningDropValidSubTypeSetting() { Id = y }).ToList()
+                        }).ToList()
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
+            }
+            ExtendedSurvivalCoreLogging.Instance.LogWarning(GetType(), $"Not manage to build Superficial Mining on planet {name}.");
+            return new SuperficialMiningSetting() { Enabled = false };
         }
 
         private List<PlanetOreMapEntrySetting> BuildOresMappings(int seed, float deep, string[] addOres, string[] removeOres, 
@@ -628,7 +640,7 @@ namespace ExtendedSurvival.Core
                 }
                 if (settings.Version <= 14)
                 {
-                    settings.SuperficialMining = BuildSuperficialMiningSetting();
+                    settings.SuperficialMining = BuildSuperficialMiningSetting(settings.Id);
                 }
                 settings.Version = Version;
             }
@@ -686,7 +698,7 @@ namespace ExtendedSurvival.Core
                 Gravity = BuildGravitySetting(),
                 Animal = BuildAnimalsSetting(),
                 MeteorImpact = BuildMeteorImpactSetting(),
-                SuperficialMining = BuildSuperficialMiningSetting(),
+                SuperficialMining = BuildSuperficialMiningSetting(id),
                 OreGroupType = (int)(groupType.HasValue ? groupType.Value : GroupType),
                 OreMap = BuildOresMappings(
                     seed, 
