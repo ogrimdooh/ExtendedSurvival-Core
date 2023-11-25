@@ -28,11 +28,11 @@ namespace ExtendedSurvival.Core
                 new string[]
                 {
                     PlanetMapProfile.Sulfur_01,
-                    PlanetMapProfile.Carbon_01
+                    PlanetMapProfile.Carbon_01,
+                    PlanetMapProfile.Lead_01
                 },
                 new string[]
                 {
-                    PlanetMapProfile.Lead_01,
                     PlanetMapProfile.Potassium_01
                 },
                 new string[]
@@ -47,11 +47,13 @@ namespace ExtendedSurvival.Core
                     PlanetMapProfile.Nickel_01,
                     PlanetMapProfile.Silicon_01
                 },
-                null,
                 new string[]
                 {
                     PlanetMapProfile.Magnesium_01,
                     PlanetMapProfile.Cobalt_01,
+                },
+                new string[]
+                {
                     PlanetMapProfile.Gold_01,
                     PlanetMapProfile.Silver_01
                 },
@@ -74,7 +76,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(true, 1.0005f, -0.4f, 0, 0),
             SizeRange = new Vector2(60, 75),
             Type = PlanetProfile.PlanetType.Planet,
-            GroupType = PlanetProfile.OreGroupType.LargeGroup,
+            GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = HELIOSTERRAFORMED_ORES,
             MeteorImpact = VanilaMapProfile.EARTHLIKE_METEOR,
             SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING

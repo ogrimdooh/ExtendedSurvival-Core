@@ -31,12 +31,12 @@ namespace ExtendedSurvival.Core
                 new string[]
                 {
                     PlanetMapProfile.Sulfur_01,
-                    PlanetMapProfile.Carbon_01
+                    PlanetMapProfile.Carbon_01,
+                    PlanetMapProfile.Lead_01
                 },
                 new string[]
                 {
-                    PlanetMapProfile.Lead_01,
-                    PlanetMapProfile.Potassium_01                    
+                    PlanetMapProfile.Potassium_01
                 },
                 new string[]
                 {
@@ -50,11 +50,13 @@ namespace ExtendedSurvival.Core
                     PlanetMapProfile.Nickel_01,
                     PlanetMapProfile.Silicon_01
                 },
-                null,
                 new string[]
                 {
                     PlanetMapProfile.Magnesium_01,
                     PlanetMapProfile.Cobalt_01,
+                },
+                new string[]
+                {
                     PlanetMapProfile.Gold_01,
                     PlanetMapProfile.Silver_01
                 },
@@ -67,22 +69,26 @@ namespace ExtendedSurvival.Core
                 new string[]
                 {
                     PlanetMapProfile.Iron_02,
+                    PlanetMapProfile.Nickel_01,
                     PlanetMapProfile.Aluminum_01,
-                    PlanetMapProfile.Silicon_01
+                    PlanetMapProfile.Copper_01,
+                    PlanetMapProfile.Silicon_01,
+                    PlanetMapProfile.Zinc_01
                 },
                 new string[]
                 {
                     PlanetMapProfile.Sulfur_01,
-                    PlanetMapProfile.Titanium_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Potassium_01,
                     PlanetMapProfile.Uraninite_01
                 },
                 new string[]
                 {
+                    PlanetMapProfile.Titanium_01,
                     PlanetMapProfile.Plutonium_01
+                },
+                new string[]
+                {
+                    PlanetMapProfile.Plutonium_01,
+                    PlanetMapProfile.Titanium_01
                 }
             ) :
             PlanetMapProfile.BuildOreMap(
@@ -92,11 +98,13 @@ namespace ExtendedSurvival.Core
                     PlanetMapProfile.Nickel_01,
                     PlanetMapProfile.Silicon_01
                 },
-                null,
                 new string[]
                 {
                     PlanetMapProfile.Magnesium_01,
-                    PlanetMapProfile.Cobalt_01,
+                    PlanetMapProfile.Cobalt_01
+                },
+                new string[]
+                {
                     PlanetMapProfile.Gold_01,
                     PlanetMapProfile.Silver_01,
                     PlanetMapProfile.Platinum_01
@@ -111,7 +119,9 @@ namespace ExtendedSurvival.Core
                 {
                     PlanetMapProfile.Iron_02,
                     PlanetMapProfile.Nickel_01,
+                    PlanetMapProfile.Aluminum_01,
                     PlanetMapProfile.Copper_01,
+                    PlanetMapProfile.Silicon_01,
                     PlanetMapProfile.Zinc_01
                 },
                 new string[]
@@ -122,7 +132,6 @@ namespace ExtendedSurvival.Core
                 },
                 new string[]
                 {
-                    PlanetMapProfile.Potassium_01,
                     PlanetMapProfile.Platinum_01
                 },
                 new string[]
@@ -137,11 +146,13 @@ namespace ExtendedSurvival.Core
                     PlanetMapProfile.Nickel_01,
                     PlanetMapProfile.Silicon_01
                 },
-                null,
                 new string[]
                 {
                     PlanetMapProfile.Magnesium_01,
-                    PlanetMapProfile.Cobalt_01,
+                    PlanetMapProfile.Cobalt_01
+                },
+                new string[]
+                {
                     PlanetMapProfile.Gold_01,
                     PlanetMapProfile.Silver_01,
                     PlanetMapProfile.Platinum_01
@@ -156,21 +167,25 @@ namespace ExtendedSurvival.Core
                 {
                     PlanetMapProfile.Iron_02,
                     PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Copper_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lead_01,
-                    PlanetMapProfile.Sulfur_01
+                    PlanetMapProfile.Aluminum_01,
+                    PlanetMapProfile.Copper_01,
+                    PlanetMapProfile.Silicon_01,
+                    PlanetMapProfile.Zinc_01
                 },
                 new string[]
                 {
                     PlanetMapProfile.Potassium_01,
-                    PlanetMapProfile.Platinum_01
+                    PlanetMapProfile.Sulfur_01
                 },
                 new string[]
                 {
+                    PlanetMapProfile.Platinum_01,
                     PlanetMapProfile.Tungsten_01
+                },
+                new string[]
+                {
+                    PlanetMapProfile.Tungsten_01,
+                    PlanetMapProfile.Platinum_01
                 }
             ) :
             PlanetMapProfile.BuildOreMap(
@@ -180,11 +195,13 @@ namespace ExtendedSurvival.Core
                     PlanetMapProfile.Nickel_01,
                     PlanetMapProfile.Silicon_01
                 },
-                null,
                 new string[]
                 {
                     PlanetMapProfile.Magnesium_01,
-                    PlanetMapProfile.Cobalt_01,
+                    PlanetMapProfile.Cobalt_01
+                },
+                new string[]
+                {
                     PlanetMapProfile.Gold_01,
                     PlanetMapProfile.Silver_01,
                     PlanetMapProfile.Platinum_01
@@ -198,22 +215,26 @@ namespace ExtendedSurvival.Core
                 new string[]
                 {
                     PlanetMapProfile.Iron_02,
+                    PlanetMapProfile.Nickel_01,
                     PlanetMapProfile.Aluminum_01,
-                    PlanetMapProfile.Silicon_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lead_01,
-                    PlanetMapProfile.Carbon_01
+                    PlanetMapProfile.Copper_01,
+                    PlanetMapProfile.Silicon_01,
+                    PlanetMapProfile.Zinc_01
                 },
                 new string[]
                 {
                     PlanetMapProfile.Potassium_01,
+                    PlanetMapProfile.Carbon_01
+                },
+                new string[]
+                {
+                    PlanetMapProfile.Beryllium_01,
                     PlanetMapProfile.Magnesium_01
                 },
                 new string[]
                 {
-                    PlanetMapProfile.Beryllium_01
+                    PlanetMapProfile.Beryllium_01,
+                    PlanetMapProfile.Magnesium_01
                 }
             ) :
             PlanetMapProfile.BuildOreMap(
@@ -223,11 +244,13 @@ namespace ExtendedSurvival.Core
                     PlanetMapProfile.Nickel_01,
                     PlanetMapProfile.Silicon_01
                 },
-                null,
                 new string[]
                 {
                     PlanetMapProfile.Magnesium_01,
-                    PlanetMapProfile.Cobalt_01,
+                    PlanetMapProfile.Cobalt_01
+                },
+                new string[]
+                {
                     PlanetMapProfile.Gold_01,
                     PlanetMapProfile.Silver_01
                 },
@@ -240,18 +263,21 @@ namespace ExtendedSurvival.Core
                 new string[]
                 {
                     PlanetMapProfile.Iron_02,
+                    PlanetMapProfile.Nickel_01,
                     PlanetMapProfile.Aluminum_01,
+                    PlanetMapProfile.Copper_01,
+                    PlanetMapProfile.Silicon_01,
                     PlanetMapProfile.Zinc_01
                 },
                 new string[]
                 {
-                    PlanetMapProfile.Lead_01,
+                    PlanetMapProfile.Lithium_01,
                     PlanetMapProfile.Gold_01,
                     PlanetMapProfile.Silver_01
                 },
                 new string[]
                 {
-                    PlanetMapProfile.Lithium_01
+                    PlanetMapProfile.Mercury_01
                 },
                 new string[]
                 {
@@ -265,11 +291,13 @@ namespace ExtendedSurvival.Core
                     PlanetMapProfile.Nickel_01,
                     PlanetMapProfile.Silicon_01
                 },
-                null,
                 new string[]
                 {
                     PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01,
+                    PlanetMapProfile.Silver_01
+                },
+                new string[]
+                {
                     PlanetMapProfile.Platinum_01,
                     PlanetMapProfile.Uraninite_01
                 },
@@ -282,17 +310,21 @@ namespace ExtendedSurvival.Core
                 new string[]
                 {
                     PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Silicon_01
+                    PlanetMapProfile.Nickel_01,
+                    PlanetMapProfile.Aluminum_01,
+                    PlanetMapProfile.Copper_01,
+                    PlanetMapProfile.Silicon_01,
+                    PlanetMapProfile.Zinc_01
                 },
                 new string[]
                 {
-                    PlanetMapProfile.Lead_01,
+                    PlanetMapProfile.Lithium_01,
                     PlanetMapProfile.Gold_01,
                     PlanetMapProfile.Silver_01
                 },
                 new string[]
                 {
-                    PlanetMapProfile.Lithium_01
+                    PlanetMapProfile.Mercury_01
                 },
                 new string[]
                 {
@@ -306,11 +338,13 @@ namespace ExtendedSurvival.Core
                     PlanetMapProfile.Nickel_01,
                     PlanetMapProfile.Silicon_01
                 },
-                null,
                 new string[]
                 {
                     PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01,
+                    PlanetMapProfile.Silver_01
+                },
+                new string[]
+                {
                     PlanetMapProfile.Platinum_01,
                     PlanetMapProfile.Uraninite_01
                 },
@@ -323,17 +357,21 @@ namespace ExtendedSurvival.Core
                 new string[]
                 {
                     PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01
+                    PlanetMapProfile.Nickel_01,
+                    PlanetMapProfile.Aluminum_01,
+                    PlanetMapProfile.Copper_01,
+                    PlanetMapProfile.Silicon_01,
+                    PlanetMapProfile.Zinc_01
                 },
                 new string[]
                 {
-                    PlanetMapProfile.Lead_01,
+                    PlanetMapProfile.Lithium_01,
                     PlanetMapProfile.Gold_01,
                     PlanetMapProfile.Silver_01
                 },
                 new string[]
                 {
-                    PlanetMapProfile.Lithium_01
+                    PlanetMapProfile.Mercury_01
                 },
                 new string[]
                 {
@@ -347,11 +385,13 @@ namespace ExtendedSurvival.Core
                     PlanetMapProfile.Nickel_01,
                     PlanetMapProfile.Silicon_01
                 },
-                null,
                 new string[]
                 {
                     PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01,
+                    PlanetMapProfile.Silver_01
+                },
+                new string[]
+                {
                     PlanetMapProfile.Platinum_01,
                     PlanetMapProfile.Uraninite_01
                 },
@@ -507,7 +547,7 @@ namespace ExtendedSurvival.Core
             Origin = PlanetProfile.PlanetOrigin.Vanila,
             Version = PlanetMapProfile.PROFILE_VERSION,
             RespawnEnabled = true,
-            ColorInfluence = new Vector2I(0, 15),
+            ColorInfluence = new Vector2I(15, 15),
             TargetColor = "#616c83",
             Animal = PlanetMapAnimalsProfile.DEFAULT_EARTH,
             Geothermal = PlanetMapProfile.GetGeothermal(true),
@@ -517,7 +557,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(true, 1.011f, -0.4f, 0, 0),
             SizeRange = new Vector2(55, 75),
             Type = PlanetProfile.PlanetType.Planet,
-            GroupType = PlanetProfile.OreGroupType.LargeGroup,
+            GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = EARTHLIKE_ORES,
             MeteorImpact = EARTHLIKE_METEOR,
             SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING
@@ -528,7 +568,7 @@ namespace ExtendedSurvival.Core
             Origin = PlanetProfile.PlanetOrigin.Vanila,
             Version = PlanetMapProfile.PROFILE_VERSION,
             RespawnEnabled = false,
-            ColorInfluence = new Vector2I(0, 15),
+            ColorInfluence = new Vector2I(15, 15),
             TargetColor = "#616c83",
             Animal = PlanetMapAnimalsProfile.DEFAULT_SPIDERS_03,
             Geothermal = PlanetMapProfile.GetGeothermal(true, depthMultiplier: 0.75f, rowSizeMultiplier: 0.5f, powerMultiplier: 1.25f),
@@ -538,10 +578,10 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(true, 1.03f, 0.4f, 0.5f, 0.25f),
             SizeRange = new Vector2(50, 70),
             Type = PlanetProfile.PlanetType.Planet,
-            GroupType = PlanetProfile.OreGroupType.LargeGroup,
+            GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = ALIEN_ORES,
             MeteorImpact = ALIEN_METEOR,
-            SuperficialMining = PlanetMapProfile.ALIEN_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.ALIEN_SUPERFICIAL_MINING            
         };
 
         public static readonly PlanetProfile MARS = new PlanetProfile()
@@ -550,7 +590,7 @@ namespace ExtendedSurvival.Core
             Version = PlanetMapProfile.PROFILE_VERSION,
             RespawnEnabled = false,
             TargetColor = "#616c83",
-            ColorInfluence = new Vector2I(0, 15),
+            ColorInfluence = new Vector2I(15, 15),
             Animal = PlanetMapAnimalsProfile.DEFAULT_SPIDERS_02,
             Geothermal = PlanetMapProfile.GetGeothermal(true, depthMultiplier: 1.5f, rowSizeMultiplier: 1.25f, powerMultiplier: 0.5f),
             Atmosphere = PlanetMapProfile.GetAtmosphere(true, false, 1f, 0f, 80, 2, 0.25f, 0f),
@@ -559,7 +599,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(45, 55),
             Type = PlanetProfile.PlanetType.Planet,
-            GroupType = PlanetProfile.OreGroupType.LargeGroup,
+            GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = MARS_ORES,
             MeteorImpact = MARS_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
@@ -599,7 +639,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(55, 65),
             Type = PlanetProfile.PlanetType.Planet,
-            GroupType = PlanetProfile.OreGroupType.LargeGroup,
+            GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = TRITON_ORES,
             MeteorImpact = TRITON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
@@ -612,7 +652,7 @@ namespace ExtendedSurvival.Core
             Origin = PlanetProfile.PlanetOrigin.Vanila,
             Version = PlanetMapProfile.PROFILE_VERSION,
             RespawnEnabled = false,
-            ColorInfluence = new Vector2I(0, 15),
+            ColorInfluence = new Vector2I(15, 15),
             TargetColor = "#FFFFFF",
             Animal = PlanetMapAnimalsProfile.DEFAULT_NO_ANIMALS,
             Geothermal = PlanetMapProfile.GetGeothermal(false),
@@ -622,7 +662,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(30, 50),
             Type = PlanetProfile.PlanetType.Moon,
-            GroupType = PlanetProfile.OreGroupType.SmallGroup,
+            GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = MOON_ORES,
             MeteorImpact = MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
@@ -633,7 +673,7 @@ namespace ExtendedSurvival.Core
             Origin = PlanetProfile.PlanetOrigin.Vanila,
             Version = PlanetMapProfile.PROFILE_VERSION,
             RespawnEnabled = false,
-            ColorInfluence = new Vector2I(0, 15),
+            ColorInfluence = new Vector2I(15, 15),
             TargetColor = "#616c83",
             Animal = PlanetMapAnimalsProfile.DEFAULT_NO_ANIMALS,
             Geothermal = PlanetMapProfile.GetGeothermal(false),
@@ -643,7 +683,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(25, 45),
             Type = PlanetProfile.PlanetType.Moon,
-            GroupType = PlanetProfile.OreGroupType.SmallGroup,
+            GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = EUROPA_ORES,
             MeteorImpact = EUROPA_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
@@ -654,7 +694,7 @@ namespace ExtendedSurvival.Core
             Origin = PlanetProfile.PlanetOrigin.Vanila,
             Version = PlanetMapProfile.PROFILE_VERSION,
             RespawnEnabled = false,
-            ColorInfluence = new Vector2I(0, 15),
+            ColorInfluence = new Vector2I(15, 15),
             TargetColor = "#616c83",
             Animal = PlanetMapAnimalsProfile.DEFAULT_NO_ANIMALS,
             Geothermal = PlanetMapProfile.GetGeothermal(false),
@@ -664,7 +704,7 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(30, 40),
             Type = PlanetProfile.PlanetType.Moon,
-            GroupType = PlanetProfile.OreGroupType.SmallGroup,
+            GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = TITAN_ORES,
             MeteorImpact = TITAN_METEOR,
             SuperficialMining = PlanetMapProfile.ALIEN_SUPERFICIAL_MINING

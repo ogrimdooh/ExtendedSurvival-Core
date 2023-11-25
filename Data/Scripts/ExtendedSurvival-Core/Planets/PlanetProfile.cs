@@ -17,7 +17,8 @@ namespace ExtendedSurvival.Core
             LargeGroup = 0,
             SmallGroup = 1,
             LargeGroupShortSpace = 2,
-            SmallGroupShortSpace = 3
+            SmallGroupShortSpace = 3,
+            Concentrated = 4
 
         }
 
@@ -187,6 +188,7 @@ namespace ExtendedSurvival.Core
         public Vector2I ColorInfluence { get; set; } = Vector2I.Zero;
         public int Version { get; set; }
         public OreGroupType GroupType { get; set; } = OreGroupType.LargeGroup;
+        public float OreMultiplier { get; set; } = 1.0f;
         public Vector2 SizeRange { get; set; } = new Vector2(30, 60);
         public PlanetType Type { get; set; } = PlanetType.Planet;
 
@@ -294,6 +296,7 @@ namespace ExtendedSurvival.Core
         {
             var maxEntries = 220;
             var maxFinalEntries = 30;
+            var maxEntryId = 250;
 
             Random rand = new Random(seed);
             var map = new List<PlanetOreMapEntrySetting>();
@@ -332,7 +335,7 @@ namespace ExtendedSurvival.Core
                 if (groupType == OreGroupType.LargeGroupShortSpace || groupType == OreGroupType.SmallGroupShortSpace)
                     limit = 11;
 
-                if (calcOres.Count < limit)
+                if (calcOres.Count < limit && groupType != OreGroupType.Concentrated)
                 {
                     int i = 0;
                     while (calcOres.Count < limit)
@@ -353,7 +356,7 @@ namespace ExtendedSurvival.Core
 
                 var oresByRarity = calcOres.GroupBy(x => x.rarity).ToDictionary(x => x.Key, y => y.ToList());
                 // add common start entries
-                if (oresByRarity.ContainsKey(OreRarity.Common))
+                if (oresByRarity.ContainsKey(OreRarity.Common) && groupType != OreGroupType.Concentrated)
                 {
                     var oresToStart = oresByRarity[OreRarity.Common].Distinct();
                     int i = 0;
@@ -538,75 +541,250 @@ namespace ExtendedSurvival.Core
                         }
 
                         break;
-                }
+                    case OreGroupType.Concentrated:
 
-                // Add to max 55 entries
-                while (map.Count(x => x.Value == 0) < 55)
-                {
-                    var ore = calcOres.OrderBy(x => MyUtils.GetRandomFloat()).FirstOrDefault();
-                    if (map.Count >= maxEntries)
+                        var epicAmount = 2 * OreMultiplier;
+                        var rareAmount = 2 * OreMultiplier;
+                        var uncommonAmount = 3 * OreMultiplier;
+                        var commonAmount = 3 * OreMultiplier;
+
+                        /* Add 2 Epic and 3 Rare at start */
+                        byte beginEpicRagePart1 = 20;
+                        if (oresByRarity.ContainsKey(OreRarity.Rare) || oresByRarity.ContainsKey(OreRarity.Epic))
+                        {
+
+                            foreach (var ore in oresByRarity[OreRarity.Rare])
+                            {
+                                for (int i = 0; i < rareAmount; i++)
+                                {
+                                    if (map.Count >= maxEntries)
+                                        break;
+                                    map.Add(new PlanetOreMapEntrySetting()
+                                    {
+                                        Value = beginEpicRagePart1,
+                                        Type = ore.type,
+                                        Start = new Vector2I(ore.start.X, ore.start.Y).GetRandom() * deep,
+                                        Depth = new Vector2I(ore.depth.X, ore.depth.Y).GetRandom() * deep,
+                                        ColorInfluence = influenceToUse.GetRandom(),
+                                        TargetColor = colorToUse
+                                    });
+                                    beginEpicRagePart1++;
+                                }
+                                beginEpicRagePart1 += 5;
+                            }
+                            foreach (var ore in oresByRarity[OreRarity.Epic])
+                            {
+                                for (int i = 0; i < epicAmount; i++)
+                                {
+                                    if (map.Count >= maxEntries)
+                                        break;
+                                    map.Add(new PlanetOreMapEntrySetting()
+                                    {
+                                        Value = beginEpicRagePart1,
+                                        Type = ore.type,
+                                        Start = new Vector2I(ore.start.X, ore.start.Y).GetRandom() * deep,
+                                        Depth = new Vector2I(ore.depth.X, ore.depth.Y).GetRandom() * deep,
+                                        ColorInfluence = influenceToUse.GetRandom(),
+                                        TargetColor = colorToUse
+                                    });
+                                    beginEpicRagePart1++;
+                                }
+                                beginEpicRagePart1 += 5;
+                            }
+
+                        }
+
+                        /* Add 4 each Common */
+                        byte beginCommon = 50;
+                        byte beginInc = 10;
+                        if (oresByRarity.ContainsKey(OreRarity.Common))
+                        {
+                            byte c = 0;
+                            foreach (var ore in oresByRarity[OreRarity.Common])
+                            {
+                                byte id = (byte)(beginCommon + (beginInc * c));
+                                for (int i = 1; i <= commonAmount; i++)
+                                {
+                                    if (map.Count >= maxEntries)
+                                        break;
+                                    map.Add(new PlanetOreMapEntrySetting()
+                                    {
+                                        Value = id,
+                                        Type = ore.type,
+                                        Start = new Vector2I(ore.start.X, ore.start.Y).GetRandom() * deep,
+                                        Depth = new Vector2I(ore.depth.X, ore.depth.Y).GetRandom() * deep,
+                                        ColorInfluence = influenceToUse.GetRandom(),
+                                        TargetColor = colorToUse
+                                    });
+                                    id++;
+                                }
+                                c++;
+                            }
+                        }
+
+                        /* Add 3 each Uncommon */
+                        byte beginUncommon = 150;
+                        if (oresByRarity.ContainsKey(OreRarity.Uncommon))
+                        {
+                            byte c = 0;
+                            foreach (var ore in oresByRarity[OreRarity.Uncommon])
+                            {
+                                byte id = (byte)(beginUncommon + (beginInc * c));
+                                for (int i = 1; i <= uncommonAmount; i++)
+                                {
+                                    if (map.Count >= maxEntries)
+                                        break;
+                                    map.Add(new PlanetOreMapEntrySetting()
+                                    {
+                                        Value = id,
+                                        Type = ore.type,
+                                        Start = new Vector2I(ore.start.X, ore.start.Y).GetRandom() * deep,
+                                        Depth = new Vector2I(ore.depth.X, ore.depth.Y).GetRandom() * deep,
+                                        ColorInfluence = influenceToUse.GetRandom(),
+                                        TargetColor = colorToUse
+                                    });
+                                    id++;
+                                }
+                                c++;
+                            }
+                        }
+
+                        /* Add 2 Epic / 3 Rare at end */
+                        byte beginEpicRagePart2 = 220;
+                        if (oresByRarity.ContainsKey(OreRarity.Rare) || oresByRarity.ContainsKey(OreRarity.Epic))
+                        {
+
+                            foreach (var ore in oresByRarity[OreRarity.Rare])
+                            {
+                                for (int i = 0; i < rareAmount; i++)
+                                {
+                                    if (map.Count >= maxEntries)
+                                        break;
+                                    map.Add(new PlanetOreMapEntrySetting()
+                                    {
+                                        Value = beginEpicRagePart2,
+                                        Type = ore.type,
+                                        Start = new Vector2I(ore.start.X, ore.start.Y).GetRandom() * deep,
+                                        Depth = new Vector2I(ore.depth.X, ore.depth.Y).GetRandom() * deep,
+                                        ColorInfluence = influenceToUse.GetRandom(),
+                                        TargetColor = colorToUse
+                                    });
+                                    beginEpicRagePart2++;
+                                }
+                            }
+                            beginEpicRagePart2 += 5;
+                            foreach (var ore in oresByRarity[OreRarity.Epic])
+                            {
+                                for (int i = 0; i < epicAmount; i++)
+                                {
+                                    if (map.Count >= maxEntries)
+                                        break;
+                                    map.Add(new PlanetOreMapEntrySetting()
+                                    {
+                                        Value = beginEpicRagePart2,
+                                        Type = ore.type,
+                                        Start = new Vector2I(ore.start.X, ore.start.Y).GetRandom() * deep,
+                                        Depth = new Vector2I(ore.depth.X, ore.depth.Y).GetRandom() * deep,
+                                        ColorInfluence = influenceToUse.GetRandom(),
+                                        TargetColor = colorToUse
+                                    });
+                                    beginEpicRagePart2++;
+                                }
+                            }
+                            beginEpicRagePart2 += 5;
+
+                        }
+
                         break;
-                    map.Add(new PlanetOreMapEntrySetting()
-                    {
-                        Value = 0,
-                        Type = ore.type,
-                        Start = new Vector2I(ore.start.X, ore.start.Y).GetRandom() * deep,
-                        Depth = new Vector2I(ore.depth.X, ore.depth.Y).GetRandom() * deep,
-                        ColorInfluence = influenceToUse.GetRandom(),
-                        TargetColor = colorToUse
-                    });
                 }
 
-                // Remove if over 55
-                while (map.Count(x => x.Value == 0) > 55)
+                if (groupType != OreGroupType.Concentrated)
                 {
-                    map.RemoveAt(map.Count - 1);
-                }
 
-                // set the indexes
-                var commnAmount = (oresByRarity.ContainsKey(OreRarity.Common) ? oresByRarity[OreRarity.Common].Count : 0) + 1;
-                var amountNotIndexed = map.Count(x => x.Value == 0);
-                if (amountNotIndexed > 0)
-                {
-                    var fractionValue = maxEntries / amountNotIndexed;
-                    var startValue = fractionValue;
-                    switch (groupType)
+                    // Add to max 55 entries
+                    while (map.Count(x => x.Value == 0) < 55)
                     {
-                        case OreGroupType.LargeGroup:
-                        case OreGroupType.SmallGroup:
-                            foreach (var item in map)
-                            {
-                                if (item.Value == 0)
-                                {
-                                    item.Value = (byte)startValue;
-                                    startValue += fractionValue;
-                                }
-                            }
+                        var ore = calcOres.OrderBy(x => MyUtils.GetRandomFloat()).FirstOrDefault();
+                        if (map.Count >= maxEntries)
                             break;
-                        case OreGroupType.LargeGroupShortSpace:
-                        case OreGroupType.SmallGroupShortSpace:
-                            int comulativeIncrement = 0;
-                            var internalFrac = fractionValue / 2;
-                            var lastOre = map.FirstOrDefault().Type;
-                            foreach (var item in map)
-                            {
-                                if (item.Value == 0)
+                        map.Add(new PlanetOreMapEntrySetting()
+                        {
+                            Value = 0,
+                            Type = ore.type,
+                            Start = new Vector2I(ore.start.X, ore.start.Y).GetRandom() * deep,
+                            Depth = new Vector2I(ore.depth.X, ore.depth.Y).GetRandom() * deep,
+                            ColorInfluence = influenceToUse.GetRandom(),
+                            TargetColor = colorToUse
+                        });
+                    }
+
+                    // Remove if over 55
+                    while (map.Count(x => x.Value == 0) > 55)
+                    {
+                        map.RemoveAt(map.Count - 1);
+                    }
+
+                    // set the indexes
+                    var commnAmount = (oresByRarity.ContainsKey(OreRarity.Common) ? oresByRarity[OreRarity.Common].Count : 0) + 1;
+                    var amountNotIndexed = map.Count(x => x.Value == 0);
+                    if (amountNotIndexed > 0)
+                    {
+                        var fractionValue = maxEntries / amountNotIndexed;
+                        var startValue = fractionValue;
+                        switch (groupType)
+                        {
+                            case OreGroupType.LargeGroup:
+                            case OreGroupType.SmallGroup:
+                                foreach (var item in map)
                                 {
-                                    item.Value = (byte)startValue;
-                                    if (lastOre == item.Type)
+                                    if (item.Value == 0)
                                     {
-                                        comulativeIncrement += internalFrac;
-                                        startValue += internalFrac;
+                                        item.Value = (byte)startValue;
+                                        startValue += fractionValue;
                                     }
-                                    else
-                                    {
-                                        startValue += comulativeIncrement;
-                                        comulativeIncrement = 0;
-                                    }
-                                    lastOre = item.Type;
                                 }
-                            }
-                            break;
+                                break;
+                            case OreGroupType.LargeGroupShortSpace:
+                            case OreGroupType.SmallGroupShortSpace:
+                                int comulativeIncrement = 0;
+                                var internalFrac = fractionValue / 2;
+                                var lastOre = map.FirstOrDefault().Type;
+                                foreach (var item in map)
+                                {
+                                    if (item.Value == 0)
+                                    {
+                                        item.Value = (byte)startValue;
+                                        if (lastOre == item.Type)
+                                        {
+                                            comulativeIncrement += internalFrac;
+                                            startValue += internalFrac;
+                                        }
+                                        else
+                                        {
+                                            startValue += comulativeIncrement;
+                                            comulativeIncrement = 0;
+                                        }
+                                        lastOre = item.Type;
+                                    }
+                                }
+                                break;
+                        }
+                    }
+
+                }
+                else
+                {
+                    /* Remove ids acima do maximo */
+                    while (map.Any(x => x.Value > maxEntryId))
+                    {
+                        var itemToRemove = map.Where(x => x.Value > maxEntryId).First();
+                        map.Remove(itemToRemove);
+                    }
+                    /* Remove ids duplicados */
+                    while (map.GroupBy(x => x.Value).Any(x => x.Count() > 1))
+                    {
+                        var itemToRemove = map.GroupBy(x => x.Value).Where(x => x.Count() > 1).First().First();
+                        map.Remove(itemToRemove);
                     }
                 }
 
@@ -641,6 +819,15 @@ namespace ExtendedSurvival.Core
                 if (settings.Version <= 14)
                 {
                     settings.SuperficialMining = BuildSuperficialMiningSetting(settings.Id);
+                }
+                if (settings.Version <= 15)
+                {
+                    var tmpSettings = BuildSettings(settings.Id, settings.Seed, settings.DeepMultiplier, settings.AddedOres?.Split(','), 
+                        settings.RemovedOres?.Split(','), settings.ClearOresBeforeAdd, settings.TargetColor,
+                        settings.UseColorInfluence ? (Vector2I?)settings.ColorInfluence.ToVector2I() : null,
+                        GroupType);
+                    settings.OreMap = tmpSettings.OreMap;
+                    settings.OreGroupType = tmpSettings.OreGroupType;
                 }
                 settings.Version = Version;
             }
