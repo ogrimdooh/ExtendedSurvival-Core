@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using VRage.Game.ModAPI;
 using VRage.Utils;
 using VRageMath;
 
@@ -675,7 +676,8 @@ namespace ExtendedSurvival.Core
                             MyAPIGateway.Parallel.Sleep(100);
 
                         var faction = MyAPIGateway.Session.Factions.TryGetFactionByTag(tag);
-                        faction.RequestChangeBalance(long.MaxValue);
+                        DoResetFactionBalance(faction);
+
                         var factionStore = ExtendedSurvivalStorage.Instance.GetFaction(faction.FactionId);
                         factionStore.FactionType = (int)factionTypes[f];
                         factionStore.Name = name;
@@ -689,6 +691,38 @@ namespace ExtendedSurvival.Core
             catch (Exception ex)
             {
                 ExtendedSurvivalCoreLogging.Instance.LogError(typeof(StarSystemController), ex);
+            }
+        }
+
+        public static void DoResetAllFactionBalance()
+        {
+            try
+            {
+                if (!ExtendedSurvivalStorage.Instance.Factions.Any())
+                {
+                    foreach (var item in ExtendedSurvivalStorage.Instance.Factions)
+                    {
+                        var faction = MyAPIGateway.Session.Factions.TryGetFactionById(item.FactionId);
+                        if (faction != null)
+                        {
+                            DoResetFactionBalance(faction);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExtendedSurvivalCoreLogging.Instance.LogError(typeof(StarSystemController), ex);
+            }
+        }
+
+        private static void DoResetFactionBalance(IMyFaction faction)
+        {
+            faction.RequestChangeBalance(long.MaxValue / 2);
+            if (faction.Members.Any())
+            {
+                var ownerId = faction.Members.Keys.First();
+                MyAPIGateway.Players.RequestChangeBalance(ownerId, long.MaxValue / 2);
             }
         }
 

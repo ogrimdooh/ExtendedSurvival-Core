@@ -552,46 +552,50 @@ namespace ExtendedSurvival.Core
                         byte beginEpicRagePart1 = 20;
                         if (oresByRarity.ContainsKey(OreRarity.Rare) || oresByRarity.ContainsKey(OreRarity.Epic))
                         {
-
-                            foreach (var ore in oresByRarity[OreRarity.Rare])
+                            if (oresByRarity.ContainsKey(OreRarity.Rare))
                             {
-                                for (int i = 0; i < rareAmount; i++)
+                                foreach (var ore in oresByRarity[OreRarity.Rare])
                                 {
-                                    if (map.Count >= maxEntries)
-                                        break;
-                                    map.Add(new PlanetOreMapEntrySetting()
+                                    for (int i = 0; i < rareAmount; i++)
                                     {
-                                        Value = beginEpicRagePart1,
-                                        Type = ore.type,
-                                        Start = new Vector2I(ore.start.X, ore.start.Y).GetRandom() * deep,
-                                        Depth = new Vector2I(ore.depth.X, ore.depth.Y).GetRandom() * deep,
-                                        ColorInfluence = influenceToUse.GetRandom(),
-                                        TargetColor = colorToUse
-                                    });
-                                    beginEpicRagePart1++;
+                                        if (map.Count >= maxEntries)
+                                            break;
+                                        map.Add(new PlanetOreMapEntrySetting()
+                                        {
+                                            Value = beginEpicRagePart1,
+                                            Type = ore.type,
+                                            Start = new Vector2I(ore.start.X, ore.start.Y).GetRandom() * deep,
+                                            Depth = new Vector2I(ore.depth.X, ore.depth.Y).GetRandom() * deep,
+                                            ColorInfluence = influenceToUse.GetRandom(),
+                                            TargetColor = colorToUse
+                                        });
+                                        beginEpicRagePart1++;
+                                    }
+                                    beginEpicRagePart1 += 5;
                                 }
-                                beginEpicRagePart1 += 5;
                             }
-                            foreach (var ore in oresByRarity[OreRarity.Epic])
+                            if (oresByRarity.ContainsKey(OreRarity.Epic))
                             {
-                                for (int i = 0; i < epicAmount; i++)
+                                foreach (var ore in oresByRarity[OreRarity.Epic])
                                 {
-                                    if (map.Count >= maxEntries)
-                                        break;
-                                    map.Add(new PlanetOreMapEntrySetting()
+                                    for (int i = 0; i < epicAmount; i++)
                                     {
-                                        Value = beginEpicRagePart1,
-                                        Type = ore.type,
-                                        Start = new Vector2I(ore.start.X, ore.start.Y).GetRandom() * deep,
-                                        Depth = new Vector2I(ore.depth.X, ore.depth.Y).GetRandom() * deep,
-                                        ColorInfluence = influenceToUse.GetRandom(),
-                                        TargetColor = colorToUse
-                                    });
-                                    beginEpicRagePart1++;
+                                        if (map.Count >= maxEntries)
+                                            break;
+                                        map.Add(new PlanetOreMapEntrySetting()
+                                        {
+                                            Value = beginEpicRagePart1,
+                                            Type = ore.type,
+                                            Start = new Vector2I(ore.start.X, ore.start.Y).GetRandom() * deep,
+                                            Depth = new Vector2I(ore.depth.X, ore.depth.Y).GetRandom() * deep,
+                                            ColorInfluence = influenceToUse.GetRandom(),
+                                            TargetColor = colorToUse
+                                        });
+                                        beginEpicRagePart1++;
+                                    }
+                                    beginEpicRagePart1 += 5;
                                 }
-                                beginEpicRagePart1 += 5;
                             }
-
                         }
 
                         /* Add 4 each Common */
@@ -653,46 +657,50 @@ namespace ExtendedSurvival.Core
                         byte beginEpicRagePart2 = 220;
                         if (oresByRarity.ContainsKey(OreRarity.Rare) || oresByRarity.ContainsKey(OreRarity.Epic))
                         {
-
-                            foreach (var ore in oresByRarity[OreRarity.Rare])
+                            if (oresByRarity.ContainsKey(OreRarity.Rare))
                             {
-                                for (int i = 0; i < rareAmount; i++)
+                                foreach (var ore in oresByRarity[OreRarity.Rare])
                                 {
-                                    if (map.Count >= maxEntries)
-                                        break;
-                                    map.Add(new PlanetOreMapEntrySetting()
+                                    for (int i = 0; i < rareAmount; i++)
                                     {
-                                        Value = beginEpicRagePart2,
-                                        Type = ore.type,
-                                        Start = new Vector2I(ore.start.X, ore.start.Y).GetRandom() * deep,
-                                        Depth = new Vector2I(ore.depth.X, ore.depth.Y).GetRandom() * deep,
-                                        ColorInfluence = influenceToUse.GetRandom(),
-                                        TargetColor = colorToUse
-                                    });
-                                    beginEpicRagePart2++;
+                                        if (map.Count >= maxEntries)
+                                            break;
+                                        map.Add(new PlanetOreMapEntrySetting()
+                                        {
+                                            Value = beginEpicRagePart2,
+                                            Type = ore.type,
+                                            Start = new Vector2I(ore.start.X, ore.start.Y).GetRandom() * deep,
+                                            Depth = new Vector2I(ore.depth.X, ore.depth.Y).GetRandom() * deep,
+                                            ColorInfluence = influenceToUse.GetRandom(),
+                                            TargetColor = colorToUse
+                                        });
+                                        beginEpicRagePart2++;
+                                    }
                                 }
+                                beginEpicRagePart2 += 5;
                             }
-                            beginEpicRagePart2 += 5;
-                            foreach (var ore in oresByRarity[OreRarity.Epic])
+                            if (oresByRarity.ContainsKey(OreRarity.Epic))
                             {
-                                for (int i = 0; i < epicAmount; i++)
+                                foreach (var ore in oresByRarity[OreRarity.Epic])
                                 {
-                                    if (map.Count >= maxEntries)
-                                        break;
-                                    map.Add(new PlanetOreMapEntrySetting()
+                                    for (int i = 0; i < epicAmount; i++)
                                     {
-                                        Value = beginEpicRagePart2,
-                                        Type = ore.type,
-                                        Start = new Vector2I(ore.start.X, ore.start.Y).GetRandom() * deep,
-                                        Depth = new Vector2I(ore.depth.X, ore.depth.Y).GetRandom() * deep,
-                                        ColorInfluence = influenceToUse.GetRandom(),
-                                        TargetColor = colorToUse
-                                    });
-                                    beginEpicRagePart2++;
+                                        if (map.Count >= maxEntries)
+                                            break;
+                                        map.Add(new PlanetOreMapEntrySetting()
+                                        {
+                                            Value = beginEpicRagePart2,
+                                            Type = ore.type,
+                                            Start = new Vector2I(ore.start.X, ore.start.Y).GetRandom() * deep,
+                                            Depth = new Vector2I(ore.depth.X, ore.depth.Y).GetRandom() * deep,
+                                            ColorInfluence = influenceToUse.GetRandom(),
+                                            TargetColor = colorToUse
+                                        });
+                                        beginEpicRagePart2++;
+                                    }
                                 }
+                                beginEpicRagePart2 += 5;
                             }
-                            beginEpicRagePart2 += 5;
-
                         }
 
                         break;

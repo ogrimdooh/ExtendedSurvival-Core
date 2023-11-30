@@ -180,6 +180,7 @@ namespace ExtendedSurvival.Core
         private const string SETTINGS_COMMAND_STARSYSTEM_CLEAR = "clear";
         private const string SETTINGS_COMMAND_STARSYSTEM_CREATE = "create";
         private const string SETTINGS_COMMAND_STARSYSTEM_COMPLETE = "complete";
+        private const string SETTINGS_COMMAND_STARSYSTEM_RESETECONOMY = "reseteconomy";
         private const string SETTINGS_COMMAND_STARSYSTEM_RECREATESTATIONS = "recreatestation";
 
         private static readonly Dictionary<string, KeyValuePair<int, bool>> VALID_COMMANDS = new Dictionary<string, KeyValuePair<int, bool>>()
@@ -377,12 +378,19 @@ namespace ExtendedSurvival.Core
                                     {
                                         case SETTINGS_COMMAND_STARSYSTEM_RECREATESTATIONS:
                                             StarSystemController.RecreateStations();
+                                            ShowMessage($"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_STARSYSTEM} {SETTINGS_COMMAND_STARSYSTEM_RECREATESTATIONS} executed.", MyFontEnum.White);
                                             break;
                                         case SETTINGS_COMMAND_STARSYSTEM_COMPLETE:
                                             StarSystemController.CompleteStarSystem();
+                                            ShowMessage($"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_STARSYSTEM} {SETTINGS_COMMAND_STARSYSTEM_COMPLETE} executed.", MyFontEnum.White);
+                                            break;
+                                        case SETTINGS_COMMAND_STARSYSTEM_RESETECONOMY:
+                                            StarSystemController.DoResetAllFactionBalance();
+                                            ShowMessage($"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_STARSYSTEM} {SETTINGS_COMMAND_STARSYSTEM_RESETECONOMY} executed.", MyFontEnum.White);
                                             break;
                                         case SETTINGS_COMMAND_STARSYSTEM_CLEAR:
                                             StarSystemController.ClearStarSystem();
+                                            ShowMessage($"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_STARSYSTEM} {SETTINGS_COMMAND_STARSYSTEM_CLEAR} executed.", MyFontEnum.White);
                                             break;
                                         case SETTINGS_COMMAND_STARSYSTEM_CREATE:
                                             string profile = StarSystemMapProfile.DEFAULT_PROFILE;
@@ -408,7 +416,7 @@ namespace ExtendedSurvival.Core
                                                     flags |= StarSystemController.GenerationFlags.WithAsteroids;
                                                 if (StarSystemController.ComputeNewStarSystem(profileInfo, flags))
                                                 {
-                                                    ShowMessage($"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_STARSYSTEM} executed.", MyFontEnum.White);
+                                                    ShowMessage($"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_STARSYSTEM} {SETTINGS_COMMAND_STARSYSTEM_CREATE} executed.", MyFontEnum.White);
                                                 }
                                             }
                                             break;
