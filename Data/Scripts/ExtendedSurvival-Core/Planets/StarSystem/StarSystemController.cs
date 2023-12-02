@@ -489,6 +489,30 @@ namespace ExtendedSurvival.Core
             return false;
         }
 
+        public static bool DoChangePveZone(long planetId, List<string> optionsPve)
+        {
+            if (ExtendedSurvivalStorage.Instance.StarSystem.Generated)
+            {
+                if (ExtendedSurvivalStorage.Instance.StarSystem.Members.Any(x => x.EntityId == planetId))
+                {
+                    var member = ExtendedSurvivalStorage.Instance.StarSystem.Members.FirstOrDefault(x => x.EntityId == planetId);
+                    foreach (var option in optionsPve)
+                    {
+                        if (option == "remove" && member.HasPveArea)
+                        {
+                            member.HasPveArea = false;
+                        }
+                        else if (option == "create" && !member.HasPveArea)
+                        {
+                            member.HasPveArea = true;
+                        }
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
+
         private static void DoCompleteInfo(StringBuilder sb, StarSystemMemberStorage member)
         {
             if (ExtendedSurvivalSettings.Instance.StarSystemConfiguration.AddAllInfoToStarSystemGps)

@@ -43,6 +43,9 @@ namespace ExtendedSurvival.Core
         [XmlElement]
         public bool StationsGenerated { get; set; }
 
+        [XmlElement]
+        public bool HasPveArea { get; set; }
+
         [XmlArray("Asteroids"), XmlArrayItem("Id", typeof(long))]
         public List<long> Asteroids { get; set; } = new List<long>();
 
