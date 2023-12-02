@@ -112,6 +112,90 @@ namespace ExtendedSurvival.Core
             }
         }
 
+        public List<IMySlimBlock> LargeGatlingTurrets
+        {
+            get
+            {
+                if (_blocksByType.ContainsKey(typeof(MyObjectBuilder_LargeGatlingTurret)))
+                    return _blocksByType[typeof(MyObjectBuilder_LargeGatlingTurret)];
+                return new List<IMySlimBlock>();
+            }
+        }
+
+        public List<IMySlimBlock> LargeMissileTurrets
+        {
+            get
+            {
+                if (_blocksByType.ContainsKey(typeof(MyObjectBuilder_LargeMissileTurret)))
+                    return _blocksByType[typeof(MyObjectBuilder_LargeMissileTurret)];
+                return new List<IMySlimBlock>();
+            }
+        }
+
+        public List<IMySlimBlock> InteriorTurrets
+        {
+            get
+            {
+                if (_blocksByType.ContainsKey(typeof(MyObjectBuilder_InteriorTurret)))
+                    return _blocksByType[typeof(MyObjectBuilder_InteriorTurret)];
+                return new List<IMySlimBlock>();
+            }
+        }
+
+        public List<IMySlimBlock> SmallMissileLaunchers
+        {
+            get
+            {
+                if (_blocksByType.ContainsKey(typeof(MyObjectBuilder_SmallMissileLauncher)))
+                    return _blocksByType[typeof(MyObjectBuilder_SmallMissileLauncher)];
+                return new List<IMySlimBlock>();
+            }
+        }
+
+        public List<IMySlimBlock> SmallMissileLauncherReloads
+        {
+            get
+            {
+                if (_blocksByType.ContainsKey(typeof(MyObjectBuilder_SmallMissileLauncherReload)))
+                    return _blocksByType[typeof(MyObjectBuilder_SmallMissileLauncherReload)];
+                return new List<IMySlimBlock>();
+            }
+        }
+
+        public List<IMySlimBlock> SmallGatlingGuns
+        {
+            get
+            {
+                if (_blocksByType.ContainsKey(typeof(MyObjectBuilder_SmallGatlingGun)))
+                    return _blocksByType[typeof(MyObjectBuilder_SmallGatlingGun)];
+                return new List<IMySlimBlock>();
+            }
+        }
+
+        public bool HasAnyGun
+        {
+            get
+            {
+                return SmallGatlingGuns.Any() || SmallMissileLauncherReloads.Any() || SmallMissileLaunchers.Any();
+            }
+        }
+
+        public bool HasAnyTurret
+        {
+            get
+            {
+                return InteriorTurrets.Any() || LargeMissileTurrets.Any() || LargeGatlingTurrets.Any();
+            }
+        }
+
+        public bool HasWeapon
+        {
+            get
+            {
+                return HasAnyGun || HasAnyTurret;
+            }
+        }
+
         public List<IMySlimBlock> WaterSolidificators
         {
             get

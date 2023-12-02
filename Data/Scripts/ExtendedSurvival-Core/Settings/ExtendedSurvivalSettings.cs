@@ -68,6 +68,9 @@ namespace ExtendedSurvival.Core
         [XmlElement]
         public MeteorImpactSetting MeteorImpact { get; set; } = new MeteorImpactSetting();
 
+        [XmlElement]
+        public CombatSetting CombatSetting { get; set; } = new CombatSetting();
+
         [XmlArray("Planets"), XmlArrayItem("Planet", typeof(PlanetSetting))]
         public List<PlanetSetting> Planets { get; set; } = new List<PlanetSetting>();
 
@@ -1069,6 +1072,14 @@ namespace ExtendedSurvival.Core
                     if (int.TryParse(value, out moondeployaltitude))
                     {
                         MoonDeployAltitude = Math.Min(Math.Max(moondeployaltitude, 5), 1500);
+                        return true;
+                    }
+                    break;
+                case "combatsetting.nogrindfunctionalgrids":
+                    bool combatsetting_nogrindfunctionalgrids;
+                    if (bool.TryParse(value, out combatsetting_nogrindfunctionalgrids))
+                    {
+                        CombatSetting.NoGrindFunctionalGrids = combatsetting_nogrindfunctionalgrids;
                         return true;
                     }
                     break;
