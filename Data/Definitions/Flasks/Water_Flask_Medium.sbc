@@ -54,7 +54,7 @@
     <TransparentMaterial>
       <Id>
         <TypeId>TransparentMaterialDefinition</TypeId>
-        <SubtypeId>Water_Flask_Medium</SubtypeId>
+        <SubtypeId>ConsumableItemWater_Flask_Medium</SubtypeId>
       </Id>
       <AlphaMistingEnable>false</AlphaMistingEnable>
       <AlphaSaturation>1</AlphaSaturation>

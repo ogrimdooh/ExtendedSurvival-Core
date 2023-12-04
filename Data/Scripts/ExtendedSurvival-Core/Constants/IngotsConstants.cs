@@ -87,6 +87,47 @@ namespace ExtendedSurvival.Core
         public static void TryOverrideDefinitions()
         {
             PhysicalItemDefinitionOverride.TryOverrideDefinitions<IngotDefinition, MyPhysicalItemDefinition>(INGOTS_DEFINITIONS, FactionTypeConstants.MINER_ID);
+            HelpController.AddLoadAction(BuildHelpTopics);
+        }
+
+        public const string HELP_TOPIC_SUBTYPE = "PhysicalItem.Ingot";
+
+        private static UniqueNameId _HelpTopicId;
+        public static UniqueNameId HelpTopicId
+        {
+            get
+            {
+                if (_HelpTopicId == null)
+                    _HelpTopicId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, HELP_TOPIC_SUBTYPE);
+                return _HelpTopicId;
+            }
+        }
+
+        public static void BuildHelpTopics()
+        {
+            HelpController.AddTopic(HelpTopicId, LanguageProvider.GetEntry(LanguageEntries.HELP_TOPIC_INGOTS_TITLE));
+            HelpController.AddEntry(
+                HelpTopicId,
+                HelpTopicId,
+                LanguageProvider.GetEntry(LanguageEntries.HELP_TOPIC_INGOTS_TITLE),
+                0
+            );
+            HelpController.AddPage(
+                HelpTopicId,
+                HelpTopicId,
+                LanguageProvider.GetEntry(LanguageEntries.HELP_TOPIC_INGOTS_DESCRIPTION)
+            );
+            foreach (var itemId in INGOTS_DEFINITIONS.Keys)
+            {
+                var itemEntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.{itemId.subtypeId.String}");
+                HelpController.AddEntry(
+                    HelpTopicId,
+                    itemEntryId,
+                    INGOTS_DEFINITIONS[itemId].Name,
+                    1
+                );
+                HelpController.LoadDefinitionHelpEntryPages<IngotDefinition, MyPhysicalItemDefinition>(INGOTS_DEFINITIONS[itemId], HelpTopicId, itemEntryId);
+            }
         }
 
     }

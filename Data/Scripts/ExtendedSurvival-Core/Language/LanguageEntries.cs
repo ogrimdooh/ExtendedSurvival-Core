@@ -85,6 +85,23 @@
         public const string SILVERSULFADIAZINE_NAME = "SILVERSULFADIAZINE_NAME";
         public const string SILVERSULFADIAZINE_DESCRIPTION = "SILVERSULFADIAZINE_DESCRIPTION";
 
+        /* Enuns */
+
+        public const string ITEMRARITY_COMMON = "ITEMRARITY_COMMON";
+        public const string ITEMRARITY_UNCOMMON = "ITEMRARITY_UNCOMMON";
+        public const string ITEMRARITY_NORMAL = "ITEMRARITY_NORMAL";
+        public const string ITEMRARITY_RARE = "ITEMRARITY_RARE";
+        public const string ITEMRARITY_EPIC = "ITEMRARITY_EPIC";
+
+        public const string FACTIONTYPE_MINER = "FACTIONTYPE_MINER";
+        public const string FACTIONTYPE_LUMBER = "FACTIONTYPE_LUMBER";
+        public const string FACTIONTYPE_SHIPYARD = "FACTIONTYPE_SHIPYARD";
+        public const string FACTIONTYPE_ARMORY = "FACTIONTYPE_ARMORY";
+        public const string FACTIONTYPE_TRADER = "FACTIONTYPE_TRADER";
+        public const string FACTIONTYPE_FARMING = "FACTIONTYPE_FARMING";
+        public const string FACTIONTYPE_LIVESTOCK = "FACTIONTYPE_LIVESTOCK";
+        public const string FACTIONTYPE_MARKET = "FACTIONTYPE_MARKET";
+
         /* Help */
 
         public const string HELP_TOPIC_RECIPIENTS_TITLE = "HELP_TOPIC_RECIPIENTS_TITLE";
@@ -92,6 +109,29 @@
 
         public const string HELP_TOPIC_ORES_TITLE = "HELP_TOPIC_ORES_TITLE";
         public const string HELP_TOPIC_ORES_DESCRIPTION = "HELP_TOPIC_ORES_DESCRIPTION";
+
+        public const string HELP_TOPIC_INGOTS_TITLE = "HELP_TOPIC_INGOTS_TITLE";
+        public const string HELP_TOPIC_INGOTS_DESCRIPTION = "HELP_TOPIC_INGOTS_DESCRIPTION";
+        
+        public const string TERMS_MASS = "TERMS_MASS";
+        public const string TERMS_VOLUME = "TERMS_VOLUME";
+        public const string TERMS_RARITY = "TERMS_RARITY";
+        public const string TERMS_CANBUY = "TERMS_CANBUY";
+        public const string TERMS_CANSELL = "TERMS_CANSELL";
+        public const string TERMS_CANORDER = "TERMS_CANORDER";
+        public const string TERMS_BASEVALUE = "TERMS_BASEVALUE";
+        public const string TERMS_TARGETFACTIONS = "TERMS_TARGETFACTIONS";
+        public const string TERMS_ECONOMY_INFO = "TERMS_ECONOMY_INFO";
+        public const string TERMS_RECIPE = "TERMS_RECIPE";
+        public const string TERMS_PRODUCTIONTIME = "TERMS_PRODUCTIONTIME";
+        public const string TERMS_INGREDIENTS = "TERMS_INGREDIENTS";
+        public const string TERMS_RESULTS = "TERMS_RESULTS";
+        public const string TERMS_CRAFTAT = "TERMS_CRAFTAT";
+        public const string TERMS_REFINEAT = "TERMS_REFINEAT";
+        public const string TERMS_CONSUMEAT = "TERMS_CONSUMEAT";
+        public const string TERMS_SMALL = "TERMS_SMALL";
+        public const string TERMS_LARGE = "TERMS_LARGE";
+
 
     }
 

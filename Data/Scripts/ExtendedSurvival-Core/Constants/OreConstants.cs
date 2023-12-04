@@ -528,16 +528,16 @@ namespace ExtendedSurvival.Core
                 HelpTopicId,
                 LanguageProvider.GetEntry(LanguageEntries.HELP_TOPIC_ORES_DESCRIPTION)
             );
-            foreach (var recipentId in ORES_DEFINITIONS.Keys)
+            foreach (var itemId in ORES_DEFINITIONS.Keys)
             {
-                var recipentEntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.{recipentId.subtypeId.String}");
+                var itemEntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.{itemId.subtypeId.String}");
                 HelpController.AddEntry(
                     HelpTopicId,
-                    recipentEntryId,
-                    ORES_DEFINITIONS[recipentId].Name,
+                    itemEntryId,
+                    ORES_DEFINITIONS[itemId].Name,
                     1
                 );
-                HelpController.LoadDefinitionHelpEntryPages<OreDefinition, MyPhysicalItemDefinition>(ORES_DEFINITIONS[recipentId], HelpTopicId, recipentEntryId);
+                HelpController.LoadDefinitionHelpEntryPages<OreDefinition, MyPhysicalItemDefinition>(ORES_DEFINITIONS[itemId], HelpTopicId, itemEntryId);
             }
         }
 

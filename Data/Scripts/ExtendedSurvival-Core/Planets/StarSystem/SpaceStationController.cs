@@ -22,6 +22,50 @@ namespace ExtendedSurvival.Core
     public static class SpaceStationController
     {
 
+        public static string GetFactionTypeName(FactionType type)
+        {
+            switch (type)
+            {
+                case FactionType.Miner:
+                    return LanguageProvider.GetEntry(LanguageEntries.FACTIONTYPE_MINER);
+                case FactionType.Lumber:
+                    return LanguageProvider.GetEntry(LanguageEntries.FACTIONTYPE_LUMBER);
+                case FactionType.Shipyard:
+                    return LanguageProvider.GetEntry(LanguageEntries.FACTIONTYPE_SHIPYARD);
+                case FactionType.Armory:
+                    return LanguageProvider.GetEntry(LanguageEntries.FACTIONTYPE_ARMORY);
+                case FactionType.Trader:
+                    return LanguageProvider.GetEntry(LanguageEntries.FACTIONTYPE_TRADER);
+                case FactionType.Farming:
+                    return LanguageProvider.GetEntry(LanguageEntries.FACTIONTYPE_FARMING);
+                case FactionType.Livestock:
+                    return LanguageProvider.GetEntry(LanguageEntries.FACTIONTYPE_LIVESTOCK);
+                case FactionType.Market:
+                    return LanguageProvider.GetEntry(LanguageEntries.FACTIONTYPE_MARKET);
+                default:
+                    return "";
+            }
+        }
+
+        public static string GetItemRarityName(ItemRarity rarity)
+        {
+            switch (rarity)
+            {
+                case ItemRarity.Common:
+                    return LanguageProvider.GetEntry(LanguageEntries.ITEMRARITY_COMMON);
+                case ItemRarity.Uncommon:
+                    return LanguageProvider.GetEntry(LanguageEntries.ITEMRARITY_UNCOMMON);
+                case ItemRarity.Normal:
+                    return LanguageProvider.GetEntry(LanguageEntries.ITEMRARITY_NORMAL);
+                case ItemRarity.Rare:
+                    return LanguageProvider.GetEntry(LanguageEntries.ITEMRARITY_RARE);
+                case ItemRarity.Epic:
+                    return LanguageProvider.GetEntry(LanguageEntries.ITEMRARITY_EPIC);
+                default:
+                    return "";
+            }
+        }
+
         public static int SPAWN_DISTANCE = 10000;
 
         public static readonly Vector2 STATION_BUY_VALUE_MULTIPLIER = new Vector2(0.75f, 0.85f);

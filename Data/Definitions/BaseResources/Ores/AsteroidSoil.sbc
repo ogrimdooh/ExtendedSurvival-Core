@@ -30,7 +30,7 @@
         <SubtypeId>AsteroidSoil_Deconstruction</SubtypeId>
       </Id>
       <DisplayName>Asteroid Soil</DisplayName>
-      <Icon>Textures\GUI\Icons\ore_gravel.dds</Icon>
+      <Icon>Textures\GUI\Icons\ore_asteroidsoil.dds</Icon>
       <Prerequisites>
         <Item Amount="1" TypeId="Ore" SubtypeId="AsteroidSoil" />
       </Prerequisites>
@@ -44,4 +44,29 @@
     </Blueprint>
 
   </Blueprints>
+  <TransparentMaterials>
+
+    <TransparentMaterial>
+      <Id>
+        <TypeId>TransparentMaterialDefinition</TypeId>
+        <SubtypeId>OreAsteroidSoil</SubtypeId>
+      </Id>
+      <AlphaMistingEnable>false</AlphaMistingEnable>
+      <AlphaSaturation>1</AlphaSaturation>
+      <CanBeAffectedByOtherLights>false</CanBeAffectedByOtherLights>
+      <IgnoreDepth>false</IgnoreDepth>
+      <SoftParticleDistanceScale>0.1</SoftParticleDistanceScale>
+      <Texture>Textures\GUI\Icons\ore_asteroidsoil.dds</Texture>
+      <UseAtlas>false</UseAtlas>
+      <UVOffset>
+        <X>0</X>
+        <Y>0</Y>
+      </UVOffset>
+      <UVSize>
+        <X>1</X>
+        <Y>1</Y>
+      </UVSize>
+    </TransparentMaterial>
+
+  </TransparentMaterials>
 </Definitions>

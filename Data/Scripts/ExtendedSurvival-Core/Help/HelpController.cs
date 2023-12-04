@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using VRage.Game;
 
 namespace ExtendedSurvival.Core
 {
@@ -157,6 +158,11 @@ namespace ExtendedSurvival.Core
             return null;
         }
 
+        private static string BuildTextureName(MyDefinitionId id)
+        {
+            return $"{id.TypeId.ToString().Replace("MyObjectBuilder_", "")}{id.SubtypeId.String}";
+        }
+
         public static void LoadDefinitionHelpEntryPages<T, K>(T definition, UniqueNameId topicId, UniqueNameId entryId) 
             where T : SimpleDefinition
             where K : MyPhysicalItemDefinition
@@ -167,8 +173,8 @@ namespace ExtendedSurvival.Core
                 AddPage(
                     topicId,
                     entryId,
-                    itemDef.ExtraInventoryTooltipLine.ToString(),
-                    definition.Id.subtypeId.String
+                    definition.GetHelpDescription(),
+                    BuildTextureName(definition.Id.DefinitionId)
                 );
                 var factoring = definition as ISimpleFactoringDefinition;
                 if (factoring != null)
@@ -180,10 +186,10 @@ namespace ExtendedSurvival.Core
                         var recipeDef = DefinitionUtils.TryGetBlueprintDefinition(recipe.RecipeName);
                         if (recipeDef != null)
                         {
-                            sb.AppendLine("Recipe " + i.ToString("00"));
-                            sb.AppendLine(string.Format("Production Time: {0}s", recipe.ProductionTime.ToString("#0.00")));
+                            sb.AppendLine(LanguageProvider.GetEntry(LanguageEntries.TERMS_RECIPE) + " " + i.ToString("00"));
+                            sb.AppendLine(string.Format("{0}: {1}s", LanguageProvider.GetEntry(LanguageEntries.TERMS_PRODUCTIONTIME), recipe.ProductionTime.ToString("#0.00")));
                             sb.AppendLine("");
-                            sb.AppendLine("Ingredients:");
+                            sb.AppendLine($"{LanguageProvider.GetEntry(LanguageEntries.TERMS_INGREDIENTS)}:");
                             foreach (var ingredient in recipeDef.Prerequisites)
                             {
                                 var ingredientDef = DefinitionUtils.TryGetDefinition<MyPhysicalItemDefinition>(ingredient.Id);
@@ -193,7 +199,7 @@ namespace ExtendedSurvival.Core
                                 }
                             }
                             sb.AppendLine("");
-                            sb.AppendLine("Results:");
+                            sb.AppendLine($"{LanguageProvider.GetEntry(LanguageEntries.TERMS_RESULTS)}:");
                             foreach (var result in recipeDef.Results)
                             {
                                 var resultDef = DefinitionUtils.TryGetDefinition<MyPhysicalItemDefinition>(result.Id);
@@ -202,11 +208,51 @@ namespace ExtendedSurvival.Core
                                     sb.AppendLine(string.Format("- {0} {1}", result.Amount, resultDef.DisplayNameText));
                                 }
                             }
+                            var assemblers = new List<MyAssemblerDefinition>();
+                            var refineries = new List<MyRefineryDefinition>();
+                            var gasGenerators = new List<MyOxygenGeneratorDefinition>();
+                            PhysicalItemDefinitionOverride.RecoverBlueprintUse(recipeDef, ref assemblers, ref refineries, ref gasGenerators);
+                            if (assemblers.Any())
+                            {
+                                sb.AppendLine("");
+                                sb.AppendLine($"{LanguageProvider.GetEntry(LanguageEntries.TERMS_CRAFTAT)}:");
+                                foreach (var item in assemblers)
+                                {
+                                    var size = item.CubeSize == MyCubeSize.Large ?
+                                        LanguageProvider.GetEntry(LanguageEntries.TERMS_LARGE) :
+                                        LanguageProvider.GetEntry(LanguageEntries.TERMS_SMALL);
+                                    sb.AppendLine($"- {item.DisplayNameText} ({size})");
+                                }
+                            }
+                            else if (refineries.Any())
+                            {
+                                sb.AppendLine("");
+                                sb.AppendLine($"{LanguageProvider.GetEntry(LanguageEntries.TERMS_REFINEAT)}:");
+                                foreach (var item in refineries)
+                                {
+                                    var size = item.CubeSize == MyCubeSize.Large ?
+                                        LanguageProvider.GetEntry(LanguageEntries.TERMS_LARGE) :
+                                        LanguageProvider.GetEntry(LanguageEntries.TERMS_SMALL);
+                                    sb.AppendLine($"- {item.DisplayNameText} ({size})");
+                                }
+                            }
+                            else if (gasGenerators.Any())
+                            {
+                                sb.AppendLine("");
+                                sb.AppendLine($"{LanguageProvider.GetEntry(LanguageEntries.TERMS_CONSUMEAT)}:");
+                                foreach (var item in gasGenerators)
+                                {
+                                    var size = item.CubeSize == MyCubeSize.Large ?
+                                        LanguageProvider.GetEntry(LanguageEntries.TERMS_LARGE) :
+                                        LanguageProvider.GetEntry(LanguageEntries.TERMS_SMALL);
+                                    sb.AppendLine($"- {item.DisplayNameText} ({size})");
+                                }
+                            }
                             AddPage(
                                 topicId,
                                 entryId,
                                 sb.ToString(),
-                                definition.Id.subtypeId.String
+                                BuildTextureName(definition.Id.DefinitionId)
                             );
                             i++;
                         }

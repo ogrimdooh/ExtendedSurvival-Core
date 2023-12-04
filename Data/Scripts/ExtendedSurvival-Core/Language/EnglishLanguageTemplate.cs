@@ -304,24 +304,172 @@ namespace ExtendedSurvival.Core
 
 			AddEntry(
 				LanguageEntries.HELP_TOPIC_RECIPIENTS_TITLE,
-				"Recipients"
+				"Extended Survival - Recipients"
 			);
 			AddEntry(
 				LanguageEntries.HELP_TOPIC_RECIPIENTS_DESCRIPTION,
-				"Recipients can be manufactured at Assemblers using Ingots, and can " + Environment.NewLine +
-				"be used to store Foods and Substances."
+				"Recipients are the subset of items that are used in Survival Mode to store " + Environment.NewLine +
+				"Foods and Substances." + Environment.NewLine +
+				"Recipients are acquired by crafting them from refined materials in an " + Environment.NewLine +
+				"Assembler, or looted from the inventories of container blocks onboard " + Environment.NewLine +
+				"Pre - Built Ships."
 			);
 
 			AddEntry(
 				LanguageEntries.HELP_TOPIC_ORES_TITLE,
-				"Ores"
+				"Extended Survival - Ores"
 			);
 			AddEntry(
 				LanguageEntries.HELP_TOPIC_ORES_DESCRIPTION,
-				"Ores can be processed into Ingots in one of the Refineries."
+				"Ores are mined from Asteroids or Planets, and are processed into ingots " + Environment.NewLine +
+				"in one of the Refineries. Grids are made of blocks, blocks are made of " + Environment.NewLine +
+				"components, components are made of materials, materials are made of ores." + Environment.NewLine +
+				"You mine ores from voxels using either a ship - mounted drill or Hand Drill. " + Environment.NewLine +
+				"Ores can also be looted from the cargo holds of some pre-built ships, " + Environment.NewLine +
+				"especially mining ships." + Environment.NewLine +
+				"Ice is mined just like ore, but processed in an O2 H2 Generator which " + Environment.NewLine +
+				"is not covered here."
+			);
+
+			AddEntry(
+				LanguageEntries.HELP_TOPIC_INGOTS_TITLE,
+				"Extended Survival - Ingots"
+			);
+			AddEntry(
+				LanguageEntries.HELP_TOPIC_INGOTS_DESCRIPTION,
+				"Materials are the subset of items that are produced by the Refineries " + Environment.NewLine +
+				"and used up by Assemblers. Grids are made of blocks, blocks are made " + Environment.NewLine +
+				"of components, components are made of materials, materials are made " + Environment.NewLine +
+				"of ores."
 			);
 
 			#endregion
+
+			AddEntry(
+				LanguageEntries.TERMS_MASS,
+				"Mass"
+			);
+			AddEntry(
+				LanguageEntries.TERMS_VOLUME,
+				"Volume"
+			);
+			AddEntry(
+				LanguageEntries.TERMS_RARITY,
+				"Rarity"
+			);
+			AddEntry(
+				LanguageEntries.TERMS_CANBUY,
+				"Can buy"
+			);
+			AddEntry(
+				LanguageEntries.TERMS_CANSELL,
+				"Can sell"
+			);
+			AddEntry(
+				LanguageEntries.TERMS_CANORDER,
+				"Can order"
+			);
+			AddEntry(
+				LanguageEntries.TERMS_BASEVALUE,
+				"Base value"
+			);
+			AddEntry(
+				LanguageEntries.TERMS_TARGETFACTIONS,
+				"Target factions"
+			);
+			AddEntry(
+				LanguageEntries.TERMS_ECONOMY_INFO,
+				"Economy information:"
+			);
+			AddEntry(
+				LanguageEntries.TERMS_RECIPE,
+				"Recipe"
+			);
+			AddEntry(
+				LanguageEntries.TERMS_PRODUCTIONTIME,
+				"Production Time"
+			);
+			AddEntry(
+				LanguageEntries.TERMS_INGREDIENTS,
+				"Ingredients"
+			);
+			AddEntry(
+				LanguageEntries.TERMS_RESULTS,
+				"Results"
+			);
+			AddEntry(
+				LanguageEntries.TERMS_CRAFTAT,
+				"Craft at"
+			);
+			AddEntry(
+				LanguageEntries.TERMS_REFINEAT,
+				"Refine at"
+			);
+			AddEntry(
+				LanguageEntries.TERMS_CONSUMEAT,
+				"Consume at"
+			);
+			AddEntry(
+				LanguageEntries.TERMS_SMALL,
+				"Small"
+			);
+			AddEntry(
+				LanguageEntries.TERMS_LARGE,
+				"Large"
+			);
+
+			AddEntry(
+				LanguageEntries.ITEMRARITY_COMMON,
+				"Common"
+			);
+			AddEntry(
+				LanguageEntries.ITEMRARITY_UNCOMMON,
+				"Uncommon"
+			);
+			AddEntry(
+				LanguageEntries.ITEMRARITY_NORMAL,
+				"Normal"
+			);
+			AddEntry(
+				LanguageEntries.ITEMRARITY_RARE,
+				"Rare"
+			);
+			AddEntry(
+				LanguageEntries.ITEMRARITY_EPIC,
+				"Epic"
+			);
+			AddEntry(
+				LanguageEntries.FACTIONTYPE_MINER,
+				"Miner"
+			);
+			AddEntry(
+				LanguageEntries.FACTIONTYPE_LUMBER,
+				"Lumber"
+			);
+			AddEntry(
+				LanguageEntries.FACTIONTYPE_SHIPYARD,
+				"Shipyard"
+			);
+			AddEntry(
+				LanguageEntries.FACTIONTYPE_ARMORY,
+				"Armory"
+			);
+			AddEntry(
+				LanguageEntries.FACTIONTYPE_TRADER,
+				"Trader"
+			);
+			AddEntry(
+				LanguageEntries.FACTIONTYPE_FARMING,
+				"Farming"
+			);
+			AddEntry(
+				LanguageEntries.FACTIONTYPE_LIVESTOCK,
+				"Livestock"
+			);
+			AddEntry(
+				LanguageEntries.FACTIONTYPE_MARKET,
+				"Market"
+			);
 
 		}
 

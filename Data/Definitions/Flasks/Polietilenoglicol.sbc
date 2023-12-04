@@ -51,7 +51,7 @@
     <TransparentMaterial>
       <Id>
         <TypeId>TransparentMaterialDefinition</TypeId>
-        <SubtypeId>Polietilenoglicol</SubtypeId>
+        <SubtypeId>PhysicalObjectPolietilenoglicol</SubtypeId>
       </Id>
       <AlphaMistingEnable>false</AlphaMistingEnable>
       <AlphaSaturation>1</AlphaSaturation>

@@ -1,12 +1,79 @@
-﻿using Sandbox.Definitions;
+﻿using Sandbox.Common.ObjectBuilders;
+using Sandbox.Definitions;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using VRage.Game;
 
 namespace ExtendedSurvival.Core
 {
     public static class PhysicalItemDefinitionOverride
     {
+
+        public static readonly ConcurrentDictionary<UniqueEntityId, MyAssemblerDefinition> ASSEMBLERS = new ConcurrentDictionary<UniqueEntityId, MyAssemblerDefinition>();
+        public static readonly ConcurrentDictionary<UniqueEntityId, MyRefineryDefinition> REFINERIES = new ConcurrentDictionary<UniqueEntityId, MyRefineryDefinition>();
+        public static readonly ConcurrentDictionary<UniqueEntityId, MyOxygenGeneratorDefinition> GASGENERATOR = new ConcurrentDictionary<UniqueEntityId, MyOxygenGeneratorDefinition>();
+
+        public static readonly ConcurrentDictionary<UniqueEntityId, List<MyBlueprintDefinitionBase>> BLUEPRINTS = new ConcurrentDictionary<UniqueEntityId, List<MyBlueprintDefinitionBase>>();
+
+        private static bool IsLoaded = false;
+
+        private static void DoLoad()
+        {
+            if (!IsLoaded)
+            {
+                var assemblers = MyDefinitionManager.Static.GetAllDefinitions().Where(x => x.Id.TypeId == typeof(MyObjectBuilder_Assembler) || x.Id.TypeId == typeof(MyObjectBuilder_SurvivalKit)).Cast<MyAssemblerDefinition>().ToList();
+                foreach (var assembler in assemblers)
+                {
+                    ASSEMBLERS[new UniqueEntityId(assembler.Id)] = assembler;
+                    BLUEPRINTS[new UniqueEntityId(assembler.Id)] = new List<MyBlueprintDefinitionBase>();
+                    foreach (var blueprintClass in assembler.BlueprintClasses)
+                    {
+                        BLUEPRINTS[new UniqueEntityId(assembler.Id)].AddRange(blueprintClass);
+                    }
+                }
+                var refineries = MyDefinitionManager.Static.GetAllDefinitions().Where(x => x.Id.TypeId == typeof(MyObjectBuilder_Refinery)).Cast<MyRefineryDefinition>().ToList();
+                foreach (var refinery in refineries)
+                {
+                    REFINERIES[new UniqueEntityId(refinery.Id)] = refinery;
+                    BLUEPRINTS[new UniqueEntityId(refinery.Id)] = new List<MyBlueprintDefinitionBase>();
+                    foreach (var blueprintClass in refinery.BlueprintClasses)
+                    {
+                        BLUEPRINTS[new UniqueEntityId(refinery.Id)].AddRange(blueprintClass);
+                    }
+                }
+                var gasGenerators = MyDefinitionManager.Static.GetAllDefinitions().Where(x => x.Id.TypeId == typeof(MyObjectBuilder_OxygenGenerator)).Cast<MyOxygenGeneratorDefinition>().ToList();
+                foreach (var gasGenerator in gasGenerators)
+                {
+                    GASGENERATOR[new UniqueEntityId(gasGenerator.Id)] = gasGenerator;
+                    BLUEPRINTS[new UniqueEntityId(gasGenerator.Id)] = new List<MyBlueprintDefinitionBase>();
+                    foreach (var blueprintClass in gasGenerator.BlueprintClasses)
+                    {
+                        BLUEPRINTS[new UniqueEntityId(gasGenerator.Id)].AddRange(blueprintClass);
+                    }
+                }
+                IsLoaded = true;
+            }
+        }
+
+        public static void RecoverBlueprintUse(MyBlueprintDefinitionBase targetBlueprint, ref List<MyAssemblerDefinition> assemblers, ref List<MyRefineryDefinition> refineries, ref List<MyOxygenGeneratorDefinition> gasGenerators)
+        {
+            DoLoad();
+            if (BLUEPRINTS.Any(x => x.Value.Contains(targetBlueprint)))
+            {
+                var ids = BLUEPRINTS.Where(x => x.Value.Contains(targetBlueprint)).Select(x => x.Key);
+                foreach (var id in ids)
+                {
+                    if (ASSEMBLERS.ContainsKey(id))
+                        assemblers.Add(ASSEMBLERS[id]);
+                    else if (REFINERIES.ContainsKey(id))
+                        refineries.Add(REFINERIES[id]);
+                    else if (GASGENERATOR.ContainsKey(id))
+                        gasGenerators.Add(GASGENERATOR[id]);
+                }
+            }
+        }
 
         public static void TryOverrideDefinitions<T, K>(Dictionary<UniqueEntityId, T> definitions, UniqueEntityId targetFactionId, Action<T, K> onEndDefinition = null) where T : SimpleDefinition where K : MyPhysicalItemDefinition
         {
