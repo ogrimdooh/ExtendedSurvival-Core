@@ -1,5 +1,8 @@
-﻿using Sandbox.Definitions;
+﻿using Sandbox.Common.ObjectBuilders;
+using Sandbox.Definitions;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using VRage.Game;
 using VRageMath;
 
@@ -328,6 +331,47 @@ namespace ExtendedSurvival.Core
                 RECIPIENTS_DEFINITIONS.Add(WATER_FLASK_BIG_ID, WATER_FLASK_BIG_DEFINITION);
             }
             PhysicalItemDefinitionOverride.TryOverrideDefinitions<RecipientDefinition, MyPhysicalItemDefinition>(RECIPIENTS_DEFINITIONS, FactionTypeConstants.TRADER_ID);
+            HelpController.AddLoadAction(BuildHelpTopics);
+        }
+
+        public const string HELP_TOPIC_SUBTYPE = "PhysicalItem.Recipient";
+
+        private static UniqueNameId _HelpTopicId;
+        public static UniqueNameId HelpTopicId
+        {
+            get
+            {
+                if (_HelpTopicId == null)
+                    _HelpTopicId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, HELP_TOPIC_SUBTYPE);
+                return _HelpTopicId;
+            }
+        }
+
+        public static void BuildHelpTopics()
+        {
+            HelpController.AddTopic(HelpTopicId, LanguageProvider.GetEntry(LanguageEntries.HELP_TOPIC_RECIPIENTS_TITLE));
+            HelpController.AddEntry(
+                HelpTopicId,
+                HelpTopicId,
+                LanguageProvider.GetEntry(LanguageEntries.HELP_TOPIC_RECIPIENTS_TITLE),
+                0
+            );
+            HelpController.AddPage(
+                HelpTopicId,
+                HelpTopicId,
+                LanguageProvider.GetEntry(LanguageEntries.HELP_TOPIC_RECIPIENTS_DESCRIPTION)
+            );
+            foreach (var recipentId in RECIPIENTS_DEFINITIONS.Keys)
+            {
+                var recipentEntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.{recipentId.subtypeId.String}");
+                HelpController.AddEntry(
+                    HelpTopicId,
+                    recipentEntryId,
+                    RECIPIENTS_DEFINITIONS[recipentId].Name,
+                    1
+                );
+                HelpController.LoadDefinitionHelpEntryPages<RecipientDefinition, MyPhysicalItemDefinition>(RECIPIENTS_DEFINITIONS[recipentId], HelpTopicId, recipentEntryId);
+            }
         }
 
     }

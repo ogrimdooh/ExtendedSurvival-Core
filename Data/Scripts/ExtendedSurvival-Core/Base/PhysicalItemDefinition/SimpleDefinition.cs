@@ -1,4 +1,5 @@
-﻿using VRageMath;
+﻿using System.Text;
+using VRageMath;
 
 namespace ExtendedSurvival.Core
 {

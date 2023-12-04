@@ -299,8 +299,32 @@ namespace ExtendedSurvival.Core
 				"Silver-based compound for medical use."
 			);
 			#endregion
+
+			#region HELP
+
+			AddEntry(
+				LanguageEntries.HELP_TOPIC_RECIPIENTS_TITLE,
+				"Recipients"
+			);
+			AddEntry(
+				LanguageEntries.HELP_TOPIC_RECIPIENTS_DESCRIPTION,
+				"Recipients can be manufactured at Assemblers using Ingots, and can " + Environment.NewLine +
+				"be used to store Foods and Substances."
+			);
+
+			AddEntry(
+				LanguageEntries.HELP_TOPIC_ORES_TITLE,
+				"Ores"
+			);
+			AddEntry(
+				LanguageEntries.HELP_TOPIC_ORES_DESCRIPTION,
+				"Ores can be processed into Ingots in one of the Refineries."
+			);
+
+			#endregion
+
 		}
 
-	}
+    }
 
 }

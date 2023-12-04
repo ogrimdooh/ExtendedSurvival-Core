@@ -67,12 +67,24 @@ namespace ExtendedSurvival.Core
 
         public static bool operator ==(UniqueNameId l, UniqueNameId r)
         {
-            return l.Equals(r);
+            if (l.IsNotNull())
+            {
+                if (r.IsNotNull())
+                    return l.Equals(r);
+                return false;
+            }
+            return r.IsNull();
         }
 
         public static bool operator !=(UniqueNameId l, UniqueNameId r)
         {
-            return !l.Equals(r);
+            if (l.IsNotNull())
+            {
+                if (r.IsNotNull())
+                    return !l.Equals(r);
+                return true;
+            }
+            return r.IsNotNull();
         }
 
     }

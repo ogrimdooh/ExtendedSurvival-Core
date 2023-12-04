@@ -498,6 +498,47 @@ namespace ExtendedSurvival.Core
         public static void TryOverrideDefinitions()
         {
             PhysicalItemDefinitionOverride.TryOverrideDefinitions<OreDefinition, MyPhysicalItemDefinition>(ORES_DEFINITIONS, FactionTypeConstants.MINER_ID);
+            HelpController.AddLoadAction(BuildHelpTopics);
+        }
+
+        public const string HELP_TOPIC_SUBTYPE = "PhysicalItem.Ore";
+
+        private static UniqueNameId _HelpTopicId;
+        public static UniqueNameId HelpTopicId
+        {
+            get
+            {
+                if (_HelpTopicId == null)
+                    _HelpTopicId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, HELP_TOPIC_SUBTYPE);
+                return _HelpTopicId;
+            }
+        }
+
+        public static void BuildHelpTopics()
+        {
+            HelpController.AddTopic(HelpTopicId, LanguageProvider.GetEntry(LanguageEntries.HELP_TOPIC_ORES_TITLE));
+            HelpController.AddEntry(
+                HelpTopicId,
+                HelpTopicId,
+                LanguageProvider.GetEntry(LanguageEntries.HELP_TOPIC_ORES_TITLE),
+                0
+            );
+            HelpController.AddPage(
+                HelpTopicId,
+                HelpTopicId,
+                LanguageProvider.GetEntry(LanguageEntries.HELP_TOPIC_ORES_DESCRIPTION)
+            );
+            foreach (var recipentId in ORES_DEFINITIONS.Keys)
+            {
+                var recipentEntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.{recipentId.subtypeId.String}");
+                HelpController.AddEntry(
+                    HelpTopicId,
+                    recipentEntryId,
+                    ORES_DEFINITIONS[recipentId].Name,
+                    1
+                );
+                HelpController.LoadDefinitionHelpEntryPages<OreDefinition, MyPhysicalItemDefinition>(ORES_DEFINITIONS[recipentId], HelpTopicId, recipentEntryId);
+            }
         }
 
     }

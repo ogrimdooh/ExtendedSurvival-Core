@@ -67,6 +67,8 @@ namespace ExtendedSurvival.Core
         public const string CALL_FOR_DEFS = "NEEDDEFS";
         public const string CALL_FOR_WATER = "NEEDWATER";
 
+        public AdvancedPlayerUICoreAPI APUCoreAPI;
+
         protected override void DoInit(MyObjectBuilder_SessionComponent sessionComponent)
         {
 
@@ -173,6 +175,16 @@ namespace ExtendedSurvival.Core
                 );
 
             }
+
+            APUCoreAPI = new AdvancedPlayerUICoreAPI(() =>
+            {
+                if (AdvancedPlayerUICoreAPI.Registered)
+                {
+                    AdvancedPlayerUICoreAPI.RegisterGetHelpTopics("ESCORE", HelpController.GetHelpTopics);
+                    AdvancedPlayerUICoreAPI.RegisterGetHelpTopicEntries("ESCORE", HelpController.GetHelpTopicEntries);
+                    AdvancedPlayerUICoreAPI.RegisterGetHelpEntryPageData("ESCORE", HelpController.GetHelpEntryPageData);
+                }
+            });
 
         }
 
