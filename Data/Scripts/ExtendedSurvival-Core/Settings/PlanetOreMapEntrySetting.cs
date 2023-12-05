@@ -18,7 +18,8 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_OREMAP_VALUE_DESCRIPTION),
                 DefaultValue = "",
                 CanUseSettingsCommand = false,
-                NeedRestart = false
+                NeedRestart = false,
+                ValueType = HelpController.ConfigurationValueType.Integer
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
@@ -27,7 +28,8 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_OREMAP_TYPE_DESCRIPTION),
                 DefaultValue = "",
                 CanUseSettingsCommand = false,
-                NeedRestart = false
+                NeedRestart = false,
+                ValueType = HelpController.ConfigurationValueType.String
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
@@ -36,7 +38,8 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_OREMAP_START_DESCRIPTION),
                 DefaultValue = "",
                 CanUseSettingsCommand = false,
-                NeedRestart = false
+                NeedRestart = false,
+                ValueType = HelpController.ConfigurationValueType.Decimal
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
@@ -45,7 +48,8 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_OREMAP_DEPTH_DESCRIPTION),
                 DefaultValue = "",
                 CanUseSettingsCommand = false,
-                NeedRestart = false
+                NeedRestart = false,
+                ValueType = HelpController.ConfigurationValueType.Decimal
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
@@ -54,7 +58,8 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_OREMAP_TARGETCOLOR_DESCRIPTION),
                 DefaultValue = "",
                 CanUseSettingsCommand = false,
-                NeedRestart = false
+                NeedRestart = false,
+                ValueType = HelpController.ConfigurationValueType.String
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
@@ -63,7 +68,8 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_OREMAP_COLORINFLUENCE_DESCRIPTION),
                 DefaultValue = "",
                 CanUseSettingsCommand = false,
-                NeedRestart = false
+                NeedRestart = false,
+                ValueType = HelpController.ConfigurationValueType.Decimal
             }
         };
 

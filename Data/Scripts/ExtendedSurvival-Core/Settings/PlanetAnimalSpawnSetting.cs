@@ -1,4 +1,5 @@
 ﻿using ProtoBuf;
+using System;
 using System.Xml.Serialization;
 using VRageMath;
 
@@ -20,7 +21,9 @@ namespace ExtendedSurvival.Core
                     Description = string.Format(LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_ANIMALSPAWN_ENABLED_DESCRIPTION), replace),
                     DefaultValue = "",
                     CanUseSettingsCommand = true,
-                    NeedRestart = true
+                    NeedRestart = true,
+                    CommandSample = $"/planet.animals $ set {replace}.Enabled true" + Environment.NewLine + $"/planet.animals Pertam set {replace}.Enabled false",
+                    ValueType = HelpController.ConfigurationValueType.Bool
                 },
                 new HelpController.ConfigurationEntryHelpInfo()
                 {
@@ -29,7 +32,9 @@ namespace ExtendedSurvival.Core
                     Description = string.Format(LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_ANIMALSPAWN_SPAWNDELAY_DESCRIPTION), replace),
                     DefaultValue = "",
                     CanUseSettingsCommand = true,
-                    NeedRestart = true
+                    NeedRestart = true,
+                    CommandSample = $"/planet.animals $ set {replace}.SpawnDelay 150:250" + Environment.NewLine + $"/planet.animals Pertam set {replace}.SpawnDelay 355:750",
+                    ValueType = HelpController.ConfigurationValueType.Vector2
                 },
                 new HelpController.ConfigurationEntryHelpInfo()
                 {
@@ -38,7 +43,9 @@ namespace ExtendedSurvival.Core
                     Description = string.Format(LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_ANIMALSPAWN_SPAWNDIST_DESCRIPTION), replace),
                     DefaultValue = "",
                     CanUseSettingsCommand = true,
-                    NeedRestart = true
+                    NeedRestart = true,
+                    CommandSample = $"/planet.animals $ set {replace}.SpawnDist 150:250" + Environment.NewLine + $"/planet.animals Pertam set {replace}.SpawnDist 355:750",
+                    ValueType = HelpController.ConfigurationValueType.Vector2
                 },
                 new HelpController.ConfigurationEntryHelpInfo()
                 {
@@ -47,7 +54,9 @@ namespace ExtendedSurvival.Core
                     Description = string.Format(LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_ANIMALSPAWN_WAVECOUNT_DESCRIPTION), replace),
                     DefaultValue = "",
                     CanUseSettingsCommand = true,
-                    NeedRestart = true
+                    NeedRestart = true,
+                    CommandSample = $"/planet.animals $ set {replace}.WaveCount 10:25" + Environment.NewLine + $"/planet.animals Pertam set {replace}.WaveCount 5:10",
+                    ValueType = HelpController.ConfigurationValueType.Vector2
                 }
             };
         }

@@ -13,7 +13,7 @@ namespace ExtendedSurvival.Core
             new HelpController.ConfigurationEntryHelpInfo()
             {
                 EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.GroupId"),
-                Title = "SurfaceGravity",
+                Title = "GroupId",
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_METEORIMPACT_STONES_GROUPID_DESCRIPTION),
                 DefaultValue = "",
                 CanUseSettingsCommand = false,

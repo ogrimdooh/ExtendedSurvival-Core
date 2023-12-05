@@ -541,11 +541,11 @@ namespace ExtendedSurvival.Core
 				"- Large Group = 0 : A group with many ores, can stack 6 ores in a same spot." + Environment.NewLine +
 				"- Small Group = 1 : A group with less ores, can stack 4 ores in a same spot." + Environment.NewLine +
 				"- Large Group Short Space = 2 : A group with many ores, can stack 6 ores in a same " + Environment.NewLine +
-				"spot, try to space the spots to not had many ores spots together." + Environment.NewLine +
+				"  spot, try to space the spots to not had many ores spots together." + Environment.NewLine +
 				"- Small Group Short Space = 3 : A group with less ores, can stack 4 ores in a same " + Environment.NewLine +
-				"spot, try to space the spots to not had many ores spots together." + Environment.NewLine +
+				"  spot, try to space the spots to not had many ores spots together." + Environment.NewLine +
 				"- Concentrated = 4 : Will try to create isolated ores spots, can stack 4 ores in " + Environment.NewLine +
-				"a same spot."
+				"  a same spot."
 			);
 			AddEntry(
 				LanguageEntries.HELP_SETTINGS_PLANETS_COLORINFLUENCE_DESCRIPTION,
@@ -874,7 +874,277 @@ namespace ExtendedSurvival.Core
 				"target value of the ore map." + Environment.NewLine +
 				"The ore map system is based in a RGB texture."
 			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_COMBATSETTING_DESCRIPTION,
+				"This configuration group define the behavior of the combat system."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_COMBATSETTING_NOGRINDFUNCTIONALGRIDS_DESCRIPTION,
+				"This configuration enable the grid protection against grinders." + Environment.NewLine +
+				"You can read more about the grid protection in the systems topics."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_VOXELMATERIALS_DESCRIPTION,
+				"This configuration group define the behavior of the voxel materials."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_VOXELMATERIALS_ID_DESCRIPTION,
+				"The voxel type id from the configuration, used as identification to the " + Environment.NewLine +
+				"definitions override."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_VOXELMATERIALS_USINGTECHNOLOGY_DESCRIPTION,
+				"The identification that this configuration was created with the Extended " + Environment.NewLine +
+				"Sruvival Technology Module added to the save."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_VOXELMATERIALS_VERSION_DESCRIPTION,
+				"The version of the template of the voxel material configuration type."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_VOXELMATERIALS_MINEDORERATIO_DESCRIPTION,
+				"This configuration set the mined ore ratio when the player use drills at " + Environment.NewLine +
+				"the target voxel material."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_VOXELMATERIALS_SPAWNSFROMMETEORITES_DESCRIPTION,
+				"This configuration set if the target ore will spawn at meteors."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_VOXELMATERIALS_SPAWNSINASTEROIDS_DESCRIPTION,
+				"This configuration set if the target ore will spawn at asteroids."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_VOXELMATERIALS_ASTEROIDSPAWNPROBABILITYMULTIPLIER_DESCRIPTION,
+				"This configuration set the multiplier chance to spawn the target ore at " + Environment.NewLine +
+				"asteroids."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_MATERIALMODIFIERS_DESCRIPTION,
+				"This configuration group define the behavior of the voxel modifiers." + Environment.NewLine +
+				"Material modifiers profiles can't be add or change by commands, need to be " + Environment.NewLine +
+				"change directly in the config file. "
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_MATERIALMODIFIERS_ID_DESCRIPTION,
+				"The voxel modifier id from the configuration, used as identification to the " + Environment.NewLine +
+				"definitions override."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_MATERIALMODIFIERS_VERSION_DESCRIPTION,
+				"The version of the template of the voxel modifier configuration type."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_MATERIALMODIFIERS_USINGTECHNOLOGY_DESCRIPTION,
+				"The identification that this configuration was created with the Extended " + Environment.NewLine +
+				"Sruvival Technology Module added to the save."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_MATERIALMODIFIERS_NOCHANGECHANCE_DESCRIPTION,
+				"This configuration set the chance to not change the target voxel of " + Environment.NewLine +
+				"this modifier."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_MATERIALMODIFIERS_OPTIONS_DESCRIPTION,
+				"This configuration group define the options to modfy the target voxel."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_MATERIALMODIFIERS_OPTIONS_IDFROM_DESCRIPTION,
+				"This configuration set the target voxel material to be find in the " + Environment.NewLine +
+				"target voxel."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_MATERIALMODIFIERS_OPTIONS_IDTO_DESCRIPTION,
+				"This configuration set the target voxel material to be replace in the " + Environment.NewLine +
+				"target voxel."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_MATERIALMODIFIERS_OPTIONS_DEFAULT_DESCRIPTION,
+				"This configuration set the option as the default to use, can only had " + Environment.NewLine +
+				"one default to each material modifier."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMCONFIGURATION_DESCRIPTION,
+				"This configuration group define the behavior of the starsystem controller." + Environment.NewLine +
+				"You can read more about the starsystem controller in the system topics."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMCONFIGURATION_AUTOGENERATESTARSYSTEMGPS_DESCRIPTION,
+				"This configuration set to auto generate GPS to all members of the starsystem " + Environment.NewLine +
+				"world to all players."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMCONFIGURATION_ADDALLINFOTOSTARSYSTEMGPS_DESCRIPTION,
+				"This configuration set to add a full description (with all data of the target " + Environment.NewLine +
+				"member) of the auto generate GPS of the starsystem."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMCONFIGURATION_AUTOGENERATETRADESTATIONSGPS_DESCRIPTION,
+				"This configuration set to auto generate GPS to all trade stations of the starsystem " + Environment.NewLine +
+				"world to all players."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMCONFIGURATION_CREATEDATAPADINSTARTROVER_DESCRIPTION,
+				"This configuration set to generate a datapad with a coordinate of a nearest trade " + Environment.NewLine +
+				"stations at a cargo container in the start rover."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMCONFIGURATION_CREATEDATAPADINDROPCONTAINERS_DESCRIPTION,
+				"This configuration set to had a chance to generate a datapad with a coordinate of a " + Environment.NewLine +
+				"random trade stations at a cargo container in the drop containers."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMCONFIGURATION_DATAPADCHANCEINDROPCONTAINERS_DESCRIPTION,
+				"This configuration set the chance to generate a datapad with a coordinate of a " + Environment.NewLine +
+				"random trade stations at a cargo container in the drop containers."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMS_DESCRIPTION,
+				"This configuration group define the available profiles to be used by the " + Environment.NewLine +
+				"starsystem command." + Environment.NewLine +
+				"Starsystem profiles can't be add or change by commands, need to be change " + Environment.NewLine +
+				"directly in the config file. " + Environment.NewLine +
+				"You can read more about the starsystem in the commands topics."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMS_NAME_DESCRIPTION,
+				"The unique name from the profile, used as identification to the starsystem " + Environment.NewLine +
+				"controller."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMS_TYPE_DESCRIPTION,
+				"This configuration set the type of the generation used to create a world " + Environment.NewLine +
+				"using the starsystem command." + Environment.NewLine +
+				"" + Environment.NewLine +
+				"Types available:" + Environment.NewLine +
+				"- Random = 0 : Will use defined ranges to randomize members to the world." + Environment.NewLine +
+				"- Mapped = 1 : Will use a pre defined members list to create a world."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMS_PLANETPROFILE_DESCRIPTION,
+				"This configuration set the planet profile that will be used to create the world " + Environment.NewLine +
+				"using the starsystem command. " + Environment.NewLine +
+				" " + Environment.NewLine +
+				"Planet profiles available: " + Environment.NewLine +
+				"- All = 0 : All planets in the configuration. " + Environment.NewLine +
+				"- Vanila = 1 : Only vanila planets." + Environment.NewLine +
+				"- ExtendedSurvival = 2 : Only planets from Extended Survival pack." + Environment.NewLine +
+				"- Vanila & ExtendedSurvival = 3 : Only vanila planets and from Extended Survival " + Environment.NewLine +
+				"  pack." + Environment.NewLine +
+				"- ATA = 4 : Only planets from ATA Solar System pack." + Environment.NewLine +
+				"- Vanila & ATA = 5 : Only vanila planets and from ATA Solar System pack." + Environment.NewLine +
+				"- ExtendedSurvival & ATA = 6 : Only planets from Extended Survival & ATA Solar " + Environment.NewLine +
+				"  System pack." + Environment.NewLine +
+				"- Vanila & ExtendedSurvival & ATA = 7 : Only vanila planets and from Extended " + Environment.NewLine +
+				"  Survival & ATA Solar System pack." 
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMS_MEMBERS_DESCRIPTION,
+				"This configuration group define the pre defined list of members to be used when " + Environment.NewLine +
+				"the profile type = 1 (Mapped)."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMS_MEMBERS_NAME_DESCRIPTION,
+				"This configuration set the target member name, it will be used to the interfaces " + Environment.NewLine +
+				"and auto generate GPS."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMS_MEMBERS_MEMBERTYPE_DESCRIPTION,
+				"This configuration set the member type to be generate. " + Environment.NewLine +
+				" " + Environment.NewLine +
+				"Member types available: " + Environment.NewLine +
+				"- Planet = 0 : A target planet add to the configuration. " + Environment.NewLine +
+				"- AsteroidBelt = 1 : A series of asteroids generated in a belt."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMS_MEMBERS_DEFINITIONSUBTYPE_DESCRIPTION,
+				"This configuration set the target member id of a type of planet present in the" + Environment.NewLine +
+				"configuration, used only when it is a planet (MemberType = 0)"
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMS_MEMBERS_HASRING_DESCRIPTION,
+				"This configuration set the target member to generate a ring of auto generate " + Environment.NewLine +
+				"asteroids, used only when it is a planet (MemberType = 0)"
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMS_MEMBERS_DENSITY_DESCRIPTION,
+				"This configuration set the density of the auto generate asteroids that will " + Environment.NewLine +
+				"be part of the belt or ring created"
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMS_MEMBERS_ORDER_DESCRIPTION,
+				"This configuration set the order of the member in the generation, for a correct " + Environment.NewLine +
+				"generation order is essential that all member had a unique order number."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMS_MEMBERS_MOONCOUNT_DESCRIPTION,
+				"This configuration set the target member to generate a random number of moons " + Environment.NewLine +
+				"based in the minimum and maximum value of this configuration, used only when " + Environment.NewLine +
+				"it is a planet (MemberType = 0)"
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMS_MEMBERS_VALIDMOONS_DESCRIPTION,
+				"This configuration had the ids of the valid planet types to be used as moon of " + Environment.NewLine +
+				"the target member to generate, used only when it is a planet (MemberType = 0)"
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMS_TOTALMEMBERS_DESCRIPTION,
+				"This configuration define the minimum and maximum number of members in the " + Environment.NewLine +
+				"generate world, used when the profile type = 0 (Random)."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMS_DEFAULTMOONCOUNT_DESCRIPTION,
+				"This configuration define the minimum and maximum number of moons in member in " + Environment.NewLine +
+				"the generate world, used when the profile type = 0 (Random)."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMS_DEFAULTBELTCOUNT_DESCRIPTION,
+				"This configuration define the minimum and maximum number of belts in the generate " + Environment.NewLine +
+				"world, used when the profile type = 0 (Random)."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMS_DEFAULTRINGCOUNT_DESCRIPTION,
+				"This configuration define the minimum and maximum number of members with ring in " + Environment.NewLine +
+				"the generate world, used when the profile type = 0 (Random)."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMS_DEFAULTDENSITY_DESCRIPTION,
+				"This configuration set the default density of the auto generate asteroids that " + Environment.NewLine +
+				"will be part of the belt or ring created, used when the profile type = 0 " + Environment.NewLine +
+				"(Random)."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMS_DISTANCEMULTIPLIER_DESCRIPTION,
+				"This configuration set a multiplier of distance between the members of the world " + Environment.NewLine +
+				"generate by the starsystem command."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMS_WITHSTAR_DESCRIPTION,
+				"This configuration set that the generate world will had a star fixed in the center " + Environment.NewLine +
+				"at in the coordinate 0-0-0, it will need a planet with a type = 4 (Star) in the " + Environment.NewLine +
+				"configuration, ATA Solar System had some auto detect stars."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMS_ALLOWDUPLICATE_DESCRIPTION,
+				"This configuration define the the generate world can had duplicate types members, " + Environment.NewLine +
+				"used when the profile type = 0 (Random)."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMS_VANILLAASTEROIDS_DESCRIPTION,
+				"This configuration set if the world will spawn vanila asteroids."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMS_VERSION_DESCRIPTION,
+				"The version of the template of the starsystem template configuration type."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_IGNOREPLANETS_DESCRIPTION,
+				"This configuration set a list of ignored planet types to the override definition " + Environment.NewLine +
+				"system."
+			);
 
+
+			
 
 
 
@@ -986,8 +1256,12 @@ namespace ExtendedSurvival.Core
 				LanguageEntries.TERMS_NIGHT,
 				"Night"
 			);
+			AddEntry(
+				LanguageEntries.TERMS_COMMANDUSESAMPLE,
+				"Example of use"
+			);
 
-
+			
 
 
 			AddEntry(
@@ -1042,10 +1316,38 @@ namespace ExtendedSurvival.Core
 				LanguageEntries.FACTIONTYPE_MARKET,
 				"Market"
 			);
+			AddEntry(
+				LanguageEntries.CONFIGURATIONVALUETYPE_BOOL,
+				"This configuration has a boolean value, which stores 'true' or 'false'."
+			);
+			AddEntry(
+				LanguageEntries.CONFIGURATIONVALUETYPE_INTEGER,
+				"This configuration has the integer value, which stores absolute numbers (without " + Environment.NewLine +
+				"decimal places)."
+			);
+			AddEntry(
+				LanguageEntries.CONFIGURATIONVALUETYPE_DECIMAL,
+				"This configuration has a decimal value, which stores numbers with decimal places."
+			);
+			AddEntry(
+				LanguageEntries.CONFIGURATIONVALUETYPE_VECTOR2,
+				"This configuration has the value in a numeric vector of two positions."
+			);
+			AddEntry(
+				LanguageEntries.CONFIGURATIONVALUETYPE_VECTOR3,
+				"This configuration has the value in a numeric vector of three positions."
+			);
+			AddEntry(
+				LanguageEntries.CONFIGURATIONVALUETYPE_VECTOR4,
+				"This configuration has the value in a numeric vector of four positions."
+			);
+			AddEntry(
+				LanguageEntries.CONFIGURATIONVALUETYPE_STRING,
+				"This configuration has a string value and can store any type of data."
+			);
 
 
 
-	
 
 		}
 

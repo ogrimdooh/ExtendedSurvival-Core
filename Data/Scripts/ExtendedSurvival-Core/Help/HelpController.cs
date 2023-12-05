@@ -12,6 +12,20 @@ namespace ExtendedSurvival.Core
     public static class HelpController
     {
 
+        public enum ConfigurationValueType
+        {
+
+            None = 0,
+            String = 1,
+            Bool = 2,
+            Integer = 3,
+            Decimal = 4,
+            Vector2 = 5,
+            Vector3 = 6,
+            Vector4 = 7
+
+        }
+
         public class ConfigurationEntryHelpInfo
         {
 
@@ -22,6 +36,8 @@ namespace ExtendedSurvival.Core
             public string DefaultValue { get; set; }
             public bool CanUseSettingsCommand { get; set; }
             public bool NeedRestart { get; set; }
+            public ConfigurationValueType ValueType { get; set; } = ConfigurationValueType.None;
+            public string CommandSample { get; set; }
             public ConfigurationEntryHelpInfo[] Entries { get; set; } = new ConfigurationEntryHelpInfo[] { };
 
         }
@@ -274,6 +290,38 @@ namespace ExtendedSurvival.Core
                         LanguageProvider.GetEntry(LanguageEntries.TERMS_NEEDRESTART) : 
                         LanguageProvider.GetEntry(LanguageEntries.TERMS_TAKEIMMEDIATELY);
                     sb.AppendLine($"{LanguageProvider.GetEntry(LanguageEntries.TERMS_CANUSEADMINCOMMAND)}. ({effect})");
+                    if (!string.IsNullOrWhiteSpace(entry.CommandSample))
+                    {
+                        sb.AppendLine("");
+                        sb.AppendLine($"{LanguageProvider.GetEntry(LanguageEntries.TERMS_COMMANDUSESAMPLE)}:");
+                        sb.AppendLine("");
+                        sb.AppendLine(entry.CommandSample);
+                    }
+                }
+                sb.AppendLine("");
+                switch (entry.ValueType)
+                {
+                    case ConfigurationValueType.String:
+                        sb.AppendLine($"{LanguageProvider.GetEntry(LanguageEntries.CONFIGURATIONVALUETYPE_STRING)}");
+                        break;
+                    case ConfigurationValueType.Bool:
+                        sb.AppendLine($"{LanguageProvider.GetEntry(LanguageEntries.CONFIGURATIONVALUETYPE_BOOL)}");
+                        break;
+                    case ConfigurationValueType.Integer:
+                        sb.AppendLine($"{LanguageProvider.GetEntry(LanguageEntries.CONFIGURATIONVALUETYPE_INTEGER)}");
+                        break;
+                    case ConfigurationValueType.Decimal:
+                        sb.AppendLine($"{LanguageProvider.GetEntry(LanguageEntries.CONFIGURATIONVALUETYPE_DECIMAL)}");
+                        break;
+                    case ConfigurationValueType.Vector2:
+                        sb.AppendLine($"{LanguageProvider.GetEntry(LanguageEntries.CONFIGURATIONVALUETYPE_VECTOR2)}");
+                        break;
+                    case ConfigurationValueType.Vector3:
+                        sb.AppendLine($"{LanguageProvider.GetEntry(LanguageEntries.CONFIGURATIONVALUETYPE_VECTOR3)}");
+                        break;
+                    case ConfigurationValueType.Vector4:
+                        sb.AppendLine($"{LanguageProvider.GetEntry(LanguageEntries.CONFIGURATIONVALUETYPE_VECTOR4)}");
+                        break;
                 }
                 AddPage(
                     topicId,

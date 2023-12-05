@@ -10,6 +10,61 @@ namespace ExtendedSurvival.Core
     public class VoxelMaterialModifierSetting
     {
 
+        public const string HELP_TOPIC_SUBTYPE = "ExtendedSurvival.Core.Settings.MaterialModifiers";
+        public static readonly HelpController.ConfigurationEntryHelpInfo[] HELP_INFO = new HelpController.ConfigurationEntryHelpInfo[]
+        {
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.Id"),
+                Title = "Id",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_MATERIALMODIFIERS_ID_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false,
+                ValueType = HelpController.ConfigurationValueType.String
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.Version"),
+                Title = "Version",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_MATERIALMODIFIERS_VERSION_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false,
+                ValueType = HelpController.ConfigurationValueType.Integer
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.UsingTechnology"),
+                Title = "UsingTechnology",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_MATERIALMODIFIERS_USINGTECHNOLOGY_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false,
+                ValueType = HelpController.ConfigurationValueType.Bool
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.NoChangeChance"),
+                Title = "NoChangeChance",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_MATERIALMODIFIERS_NOCHANGECHANCE_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false,
+                ValueType = HelpController.ConfigurationValueType.Decimal
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, VoxelMapModifierOptionSetting.HELP_TOPIC_SUBTYPE),
+                Title = "Options",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_MATERIALMODIFIERS_OPTIONS_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false,
+                Entries = VoxelMapModifierOptionSetting.HELP_INFO
+            }
+        };
+
         [XmlElement]
         public string Id { get; set; }
 

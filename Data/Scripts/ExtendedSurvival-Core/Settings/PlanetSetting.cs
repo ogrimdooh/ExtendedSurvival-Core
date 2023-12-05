@@ -1,4 +1,5 @@
 ﻿using ProtoBuf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
@@ -21,7 +22,8 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_ID_DESCRIPTION),
                 DefaultValue = "",
                 CanUseSettingsCommand = false,
-                NeedRestart = false
+                NeedRestart = false,
+                ValueType = HelpController.ConfigurationValueType.String
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
@@ -30,7 +32,8 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_USINGTECHNOLOGY_DESCRIPTION),
                 DefaultValue = "",
                 CanUseSettingsCommand = false,
-                NeedRestart = false
+                NeedRestart = false,
+                ValueType = HelpController.ConfigurationValueType.Bool
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
@@ -39,7 +42,9 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_RESPAWNENABLED_DESCRIPTION),
                 DefaultValue = "",
                 CanUseSettingsCommand = true,
-                NeedRestart = true
+                NeedRestart = true,
+                CommandSample = "/planet.settings $ RespawnEnabled true" + Environment.NewLine + "/planet.settings Pertam RespawnEnabled false",
+                ValueType = HelpController.ConfigurationValueType.Bool
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
@@ -48,7 +53,8 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_SEED_DESCRIPTION),
                 DefaultValue = "",
                 CanUseSettingsCommand = false,
-                NeedRestart = false
+                NeedRestart = false,
+                ValueType = HelpController.ConfigurationValueType.Integer
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
@@ -57,7 +63,8 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_VERSION_DESCRIPTION),
                 DefaultValue = "",
                 CanUseSettingsCommand = false,
-                NeedRestart = false
+                NeedRestart = false,
+                ValueType = HelpController.ConfigurationValueType.Integer
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
@@ -66,7 +73,8 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_DEEPMULTIPLIER_DESCRIPTION),
                 DefaultValue = "",
                 CanUseSettingsCommand = false,
-                NeedRestart = false
+                NeedRestart = false,
+                ValueType = HelpController.ConfigurationValueType.Integer
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
@@ -75,7 +83,9 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_TYPE_DESCRIPTION),
                 DefaultValue = "",
                 CanUseSettingsCommand = true,
-                NeedRestart = true
+                NeedRestart = true,
+                CommandSample = "/planet.settings $ Type 0" + Environment.NewLine + "/planet.settings Pertam Type 1",
+                ValueType = HelpController.ConfigurationValueType.Integer
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
@@ -84,7 +94,8 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_ADDEDORES_DESCRIPTION),
                 DefaultValue = "",
                 CanUseSettingsCommand = false,
-                NeedRestart = false
+                NeedRestart = false,
+                ValueType = HelpController.ConfigurationValueType.String
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
@@ -93,7 +104,8 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_REMOVEDORES_DESCRIPTION),
                 DefaultValue = "",
                 CanUseSettingsCommand = false,
-                NeedRestart = false
+                NeedRestart = false,
+                ValueType = HelpController.ConfigurationValueType.String
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
@@ -102,7 +114,8 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_CLEARORESBEFOREADD_DESCRIPTION),
                 DefaultValue = "",
                 CanUseSettingsCommand = false,
-                NeedRestart = false
+                NeedRestart = false,
+                ValueType = HelpController.ConfigurationValueType.Bool
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
@@ -111,7 +124,8 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_TARGETCOLOR_DESCRIPTION),
                 DefaultValue = "",
                 CanUseSettingsCommand = false,
-                NeedRestart = false
+                NeedRestart = false,
+                ValueType = HelpController.ConfigurationValueType.String
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
@@ -120,7 +134,8 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_USECOLORINFLUENCE_DESCRIPTION),
                 DefaultValue = "",
                 CanUseSettingsCommand = false,
-                NeedRestart = false
+                NeedRestart = false,
+                ValueType = HelpController.ConfigurationValueType.Bool
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
@@ -129,7 +144,8 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_OREGROUPTYPE_DESCRIPTION),
                 DefaultValue = "",
                 CanUseSettingsCommand = false,
-                NeedRestart = false
+                NeedRestart = false,
+                ValueType = HelpController.ConfigurationValueType.Integer
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
@@ -138,7 +154,8 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_COLORINFLUENCE_DESCRIPTION),
                 DefaultValue = "",
                 CanUseSettingsCommand = false,
-                NeedRestart = false
+                NeedRestart = false,
+                ValueType = HelpController.ConfigurationValueType.Vector2
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
@@ -147,7 +164,9 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_SIZERANGE_DESCRIPTION),
                 DefaultValue = "",
                 CanUseSettingsCommand = true,
-                NeedRestart = true
+                NeedRestart = true,
+                CommandSample = "/planet.settings $ SizeRange 35:60" + Environment.NewLine + "/planet.settings Pertam SizeRange 32.5:80",
+                ValueType = HelpController.ConfigurationValueType.Vector2
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
@@ -227,7 +246,11 @@ namespace ExtendedSurvival.Core
                 DefaultValue = "",
                 CanUseSettingsCommand = true,
                 NeedRestart = true,
-                Entries = PlanetOreMapEntrySetting.HELP_INFO
+                Entries = PlanetOreMapEntrySetting.HELP_INFO,
+                CommandSample = "/planet.oremap $ generate seed=5514752" + Environment.NewLine +
+                                "/planet.oremap Europa generate profile=Oi" + Environment.NewLine +
+                                "/planet.oremap EarthLike clear add=Iron,Mercury,Sulfur" + Environment.NewLine +
+                                "/planet.oremap Pertam generate deep=2 profile=Moon targetColor=#000000 colorInfluence=50|150"
             }
         };
 

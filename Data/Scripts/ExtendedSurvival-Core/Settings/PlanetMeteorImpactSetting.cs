@@ -1,4 +1,5 @@
 ﻿using ProtoBuf;
+using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
@@ -18,7 +19,9 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_METEORIMPACT_ENABLED_DESCRIPTION),
                 DefaultValue = "",
                 CanUseSettingsCommand = true,
-                NeedRestart = true
+                NeedRestart = true,
+                CommandSample = "/planet.meteorimpact $ set Enabled true" + Environment.NewLine + "/planet.meteorimpact Pertam set Enabled false",
+                ValueType = HelpController.ConfigurationValueType.Bool
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
@@ -27,7 +30,9 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_METEORIMPACT_CHANCETOSPAWN_DESCRIPTION),
                 DefaultValue = "",
                 CanUseSettingsCommand = true,
-                NeedRestart = true
+                NeedRestart = true,
+                CommandSample = "/planet.meteorimpact $ set ChanceToSpawn 0.75" + Environment.NewLine + "/planet.meteorimpact Pertam set ChanceToSpawn 0.25",
+                ValueType = HelpController.ConfigurationValueType.Decimal
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
@@ -37,7 +42,9 @@ namespace ExtendedSurvival.Core
                 DefaultValue = "",
                 CanUseSettingsCommand = true,
                 NeedRestart = true,
-                Entries = MeteorImpactStoneSetting.HELP_INFO
+                Entries = MeteorImpactStoneSetting.HELP_INFO,
+                CommandSample = "/planet.meteorimpact $ add StoneCoverageIronCore:EarthDesertArea:1" + Environment.NewLine +
+                                "/planet.meteorimpact Pertam clear"
             }
         };
 

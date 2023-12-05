@@ -17,7 +17,9 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_METEORIMPACT_ENABLED_DESCRIPTION),
                 DefaultValue = "true",
                 CanUseSettingsCommand = true,
-                NeedRestart = false
+                NeedRestart = false,
+                CommandSample = "/settings MeteorImpact.Enabled true",
+                ValueType = HelpController.ConfigurationValueType.Bool
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
@@ -26,7 +28,9 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_METEORIMPACT_DISTANCETOSPAWN_DESCRIPTION),
                 DefaultValue = "2500",
                 CanUseSettingsCommand = true,
-                NeedRestart = false
+                NeedRestart = false,
+                CommandSample = "/settings MeteorImpact.DistanceToSpawn 750.50",
+                ValueType = HelpController.ConfigurationValueType.Decimal
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
@@ -35,7 +39,9 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_METEORIMPACT_STONELIFETIME_DESCRIPTION),
                 DefaultValue = "3600",
                 CanUseSettingsCommand = true,
-                NeedRestart = false
+                NeedRestart = false,
+                CommandSample = "/settings MeteorImpact.StoneLifeTime 1250",
+                ValueType = HelpController.ConfigurationValueType.Integer
             }
         };
 

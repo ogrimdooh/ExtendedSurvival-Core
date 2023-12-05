@@ -1,4 +1,5 @@
 ﻿using ProtoBuf;
+using System;
 using System.Xml.Serialization;
 
 namespace ExtendedSurvival.Core
@@ -18,7 +19,9 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_GRAVITY_SURFACEGRAVITY_DESCRIPTION),
                 DefaultValue = "",
                 CanUseSettingsCommand = true,
-                NeedRestart = true
+                NeedRestart = true,
+                CommandSample = "/planet.gravity $ set SurfaceGravity 0.8" + Environment.NewLine + "/planet.gravity Pertam set SurfaceGravity 1.25",
+                ValueType = HelpController.ConfigurationValueType.Decimal
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
@@ -27,7 +30,9 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_GRAVITY_GRAVITYFALLOFFPOWER_DESCRIPTION),
                 DefaultValue = "",
                 CanUseSettingsCommand = true,
-                NeedRestart = true
+                NeedRestart = true,
+                CommandSample = "/planet.gravity $ set GravityFalloffPower 1.5" + Environment.NewLine + "/planet.gravity Pertam set GravityFalloffPower 2.0",
+                ValueType = HelpController.ConfigurationValueType.Decimal
             }
         };
 

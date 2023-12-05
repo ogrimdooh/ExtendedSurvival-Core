@@ -17,7 +17,9 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_TRADESTATIONS_COMERCIALCYCLE_DESCRIPTION),
                 DefaultValue = "1200",
                 CanUseSettingsCommand = true,
-                NeedRestart = false
+                NeedRestart = false,
+                CommandSample = "/settings TradeStations.ComercialCycle 2500",
+                ValueType = HelpController.ConfigurationValueType.Integer
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
@@ -26,7 +28,9 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_TRADESTATIONS_TRADEFACTIONSAMOUNT_DESCRIPTION),
                 DefaultValue = "X: 10 | Y: 20",
                 CanUseSettingsCommand = true,
-                NeedRestart = false
+                NeedRestart = false,
+                CommandSample = "/settings TradeStations.TradeFactionsAmount 5:25",
+                ValueType = HelpController.ConfigurationValueType.Integer
             }
         };
 

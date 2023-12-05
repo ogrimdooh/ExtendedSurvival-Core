@@ -1,4 +1,5 @@
 ﻿using ProtoBuf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
@@ -21,7 +22,11 @@ namespace ExtendedSurvival.Core
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_ANIMAL_ANIMALS_DESCRIPTION),
                 DefaultValue = "",
                 CanUseSettingsCommand = true,
-                NeedRestart = true
+                NeedRestart = true,
+                CommandSample = "/planet.animals $ add Wolf" + Environment.NewLine + 
+                                "/planet.animals Pertam remove Wolf" + Environment.NewLine +
+                                "/planet.animals Pertam clear",
+                ValueType = HelpController.ConfigurationValueType.String
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
