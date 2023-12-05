@@ -11,6 +11,226 @@ namespace ExtendedSurvival.Core
     public class PlanetSetting
     {
 
+        public const string HELP_TOPIC_SUBTYPE = "ExtendedSurvival.Core.Settings.Planets";
+        public static readonly HelpController.ConfigurationEntryHelpInfo[] HELP_INFO = new HelpController.ConfigurationEntryHelpInfo[]
+        {
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.Id"),
+                Title = "Id",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_ID_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.UsingTechnology"),
+                Title = "UsingTechnology",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_USINGTECHNOLOGY_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.RespawnEnabled"),
+                Title = "RespawnEnabled",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_RESPAWNENABLED_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = true,
+                NeedRestart = true
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.Seed"),
+                Title = "Seed",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_SEED_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.Version"),
+                Title = "Version",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_VERSION_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.DeepMultiplier"),
+                Title = "DeepMultiplier",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_DEEPMULTIPLIER_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.Type"),
+                Title = "Type",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_TYPE_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = true,
+                NeedRestart = true
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.AddedOres"),
+                Title = "AddedOres",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_ADDEDORES_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.RemovedOres"),
+                Title = "RemovedOres",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_REMOVEDORES_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.ClearOresBeforeAdd"),
+                Title = "ClearOresBeforeAdd",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_CLEARORESBEFOREADD_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.TargetColor"),
+                Title = "TargetColor",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_TARGETCOLOR_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.UseColorInfluence"),
+                Title = "UseColorInfluence",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_USECOLORINFLUENCE_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.OreGroupType"),
+                Title = "OreGroupType",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_OREGROUPTYPE_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.ColorInfluence"),
+                Title = "ColorInfluence",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_COLORINFLUENCE_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.SizeRange"),
+                Title = "SizeRange",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_SIZERANGE_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = true,
+                NeedRestart = true
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, AtmosphereSetting.HELP_TOPIC_SUBTYPE),
+                Title = "Atmosphere",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_ATMOSPHERE_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false,
+                Entries = AtmosphereSetting.HELP_INFO
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, GeothermalSetting.HELP_TOPIC_SUBTYPE),
+                Title = "Geothermal",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_GEOTHERMAL_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false,
+                Entries = GeothermalSetting.HELP_INFO
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, GravitySetting.HELP_TOPIC_SUBTYPE),
+                Title = "Gravity",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_GRAVITY_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false,
+                Entries = GravitySetting.HELP_INFO
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, WaterSetting.HELP_TOPIC_SUBTYPE),
+                Title = "Water",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_WATER_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false,
+                Entries = WaterSetting.HELP_INFO
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, PlanetAnimalSetting.HELP_TOPIC_SUBTYPE),
+                Title = "Animal",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_ANIMAL_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false,
+                Entries = PlanetAnimalSetting.HELP_INFO
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, PlanetMeteorImpactSetting.HELP_TOPIC_SUBTYPE),
+                Title = "MeteorImpact",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_METEORIMPACT_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false,
+                Entries = PlanetMeteorImpactSetting.HELP_INFO
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, SuperficialMiningSetting.HELP_TOPIC_SUBTYPE),
+                Title = "SuperficialMining",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_SUPERFICIALMINING_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false,
+                Entries = SuperficialMiningSetting.HELP_INFO
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, PlanetOreMapEntrySetting.HELP_TOPIC_SUBTYPE),
+                Title = "OreMap",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_OREMAP_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = true,
+                NeedRestart = true,
+                Entries = PlanetOreMapEntrySetting.HELP_INFO
+            }
+        };
+
         public const string SIZERANGE_INFO = "X: Min Size. Y: Max Size.";
         public const string INFLUENCERANGE_INFO = "X: Min Influence. Y: Max Influence.";
 

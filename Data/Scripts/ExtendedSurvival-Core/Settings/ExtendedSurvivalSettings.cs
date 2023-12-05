@@ -15,6 +15,140 @@ namespace ExtendedSurvival.Core
     public class ExtendedSurvivalSettings : BaseSettings
     {
 
+        public const string HELP_TOPIC_SUBTYPE = "ExtendedSurvival.Core.Settings";
+        public static readonly HelpController.ConfigurationEntryHelpInfo[] HELP_INFO = new HelpController.ConfigurationEntryHelpInfo[] 
+        { 
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.Debug"),
+                Title = "Debug",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_DEBUG_DESCRIPTION),
+                DefaultValue = "false",
+                CanUseSettingsCommand = true,
+                NeedRestart = false
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.DinamicWoodGridEnabled"),
+                Title = "DinamicWoodGridEnabled",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_DINAMICWOODGRIDENABLED_DESCRIPTION),
+                DefaultValue = "false",
+                CanUseSettingsCommand = true,
+                NeedRestart = false
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.DinamicStoneGridEnabled"),
+                Title = "DinamicStoneGridEnabled",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_DINAMICSTONEGRIDENABLED_DESCRIPTION),
+                DefaultValue = "false",
+                CanUseSettingsCommand = true,
+                NeedRestart = false
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.DinamicConcreteGridEnabled"),
+                Title = "DinamicConcreteGridEnabled",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_DINAMICCONCRETEGRIDENABLED_DESCRIPTION),
+                DefaultValue = "false",
+                CanUseSettingsCommand = true,
+                NeedRestart = false
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.RotEnabled"),
+                Title = "RotEnabled",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_ROTENABLED_DESCRIPTION),
+                DefaultValue = "false",
+                CanUseSettingsCommand = true,
+                NeedRestart = false
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.DisableWaterModFreeIce"),
+                Title = "DisableWaterModFreeIce",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_DISABLEWATERMODFREEICE_DESCRIPTION),
+                DefaultValue = "false",
+                CanUseSettingsCommand = true,
+                NeedRestart = true
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.RespawnSpacePodEnabled"),
+                Title = "RespawnSpacePodEnabled",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_RESPAWNSPACEPODENABLED_DESCRIPTION),
+                DefaultValue = "false",
+                CanUseSettingsCommand = true,
+                NeedRestart = true
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.RespawnLargePodEnabled"),
+                Title = "RespawnLargePodEnabled",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_RESPAWNLARGEPODENABLED_DESCRIPTION),
+                DefaultValue = "false",
+                CanUseSettingsCommand = true,
+                NeedRestart = true
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.PlanetDeployAltitude"),
+                Title = "PlanetDeployAltitude",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETDEPLOYALTITUDE_DESCRIPTION),
+                DefaultValue = "false",
+                CanUseSettingsCommand = true,
+                NeedRestart = true
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.MoonDeployAltitude"),
+                Title = "MoonDeployAltitude",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_MOONDEPLOYALTITUDE_DESCRIPTION),
+                DefaultValue = "false",
+                CanUseSettingsCommand = true,
+                NeedRestart = true
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.DropContainerDeployHeight"),
+                Title = "DropContainerDeployHeight",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_DROPCONTAINERDEPLOYHEIGHT_DESCRIPTION),
+                DefaultValue = "false",
+                CanUseSettingsCommand = true,
+                NeedRestart = true
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, TradeStationSetting.HELP_TOPIC_SUBTYPE),
+                Title = "TradeStations",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_TRADESTATIONS_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false,
+                Entries = TradeStationSetting.HELP_INFO
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, MeteorImpactSetting.HELP_TOPIC_SUBTYPE),
+                Title = "MeteorImpact",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_METEORIMPACT_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false,
+                Entries = MeteorImpactSetting.HELP_INFO
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, PlanetSetting.HELP_TOPIC_SUBTYPE),
+                Title = "Planets",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false,
+                Entries = PlanetSetting.HELP_INFO
+            }
+        };
+
         private const int CURRENT_VERSION = 2;
         private const string FILE_NAME = "ExtendedSurvival.Core.Settings.xml";
 

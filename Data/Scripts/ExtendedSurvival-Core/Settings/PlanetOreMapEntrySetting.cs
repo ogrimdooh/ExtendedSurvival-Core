@@ -8,6 +8,65 @@ namespace ExtendedSurvival.Core
     public class PlanetOreMapEntrySetting
     {
 
+        public const string HELP_TOPIC_SUBTYPE = "ExtendedSurvival.Core.Settings.Planets.OreMap";
+        public static readonly HelpController.ConfigurationEntryHelpInfo[] HELP_INFO = new HelpController.ConfigurationEntryHelpInfo[]
+        {
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.Value"),
+                Title = "Value",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_OREMAP_VALUE_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.Type"),
+                Title = "Type",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_OREMAP_TYPE_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.Start"),
+                Title = "Start",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_OREMAP_START_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.Depth"),
+                Title = "Depth",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_OREMAP_DEPTH_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.TargetColor"),
+                Title = "TargetColor",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_OREMAP_TARGETCOLOR_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.ColorInfluence"),
+                Title = "ColorInfluence",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_OREMAP_COLORINFLUENCE_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false
+            }
+        };
+
         [XmlElement]
         public byte Value { get; set; }
 

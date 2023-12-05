@@ -12,7 +12,58 @@ namespace ExtendedSurvival.Core
     public static class HelpController
     {
 
+        public class ConfigurationEntryHelpInfo
+        {
+
+            public UniqueNameId EntryId { get; set; }
+            public string Title { get; set; }
+            public string Description { get; set; }
+            public string TextureIcon { get; set; }
+            public string DefaultValue { get; set; }
+            public bool CanUseSettingsCommand { get; set; }
+            public bool NeedRestart { get; set; }
+            public ConfigurationEntryHelpInfo[] Entries { get; set; } = new ConfigurationEntryHelpInfo[] { };
+
+        }
+
         public const string BASE_TOPIC_TYPE = "ExtendedSurvival.Core";
+
+        public const string HELP_SYSTEM_TOPIC_SUBTYPE = "System";
+        public const string HELP_CONFIGURATION_TOPIC_SUBTYPE = "Configuration";
+        public const string HELP_COMMANDS_TOPIC_SUBTYPE = "Command";
+
+        private static UniqueNameId _HelpSystemTopicId;
+        public static UniqueNameId HelpSystemTopicId
+        {
+            get
+            {
+                if (_HelpSystemTopicId == null)
+                    _HelpSystemTopicId = new UniqueNameId(BASE_TOPIC_TYPE, HELP_SYSTEM_TOPIC_SUBTYPE);
+                return _HelpSystemTopicId;
+            }
+        }
+
+        private static UniqueNameId _HelpConfigurationTopicId;
+        public static UniqueNameId HelpConfigurationTopicId
+        {
+            get
+            {
+                if (_HelpConfigurationTopicId == null)
+                    _HelpConfigurationTopicId = new UniqueNameId(BASE_TOPIC_TYPE, HELP_CONFIGURATION_TOPIC_SUBTYPE);
+                return _HelpConfigurationTopicId;
+            }
+        }
+
+        private static UniqueNameId _HelpCommandTopicId;
+        public static UniqueNameId HelpCommandTopicId
+        {
+            get
+            {
+                if (_HelpCommandTopicId == null)
+                    _HelpCommandTopicId = new UniqueNameId(BASE_TOPIC_TYPE, HELP_COMMANDS_TOPIC_SUBTYPE);
+                return _HelpCommandTopicId;
+            }
+        }
 
         public class HelpTopic
         {
@@ -116,6 +167,47 @@ namespace ExtendedSurvival.Core
 
         private static void DoLoad()
         {
+            /* Systems */
+            AddTopic(HelpSystemTopicId, LanguageProvider.GetEntry(LanguageEntries.HELP_TOPIC_SYSTEM_TITLE));
+            AddEntry(
+                HelpSystemTopicId,
+                HelpSystemTopicId,
+                LanguageProvider.GetEntry(LanguageEntries.HELP_TOPIC_SYSTEM_TITLE),
+                0
+            );
+            AddPage(
+                HelpSystemTopicId,
+                HelpSystemTopicId,
+                LanguageProvider.GetEntry(LanguageEntries.HELP_TOPIC_SYSTEM_DESCRIPTION)
+            );
+            /* Configurations */
+            AddTopic(HelpConfigurationTopicId, LanguageProvider.GetEntry(LanguageEntries.HELP_TOPIC_CONFIGURATION_TITLE));
+            AddEntry(
+                HelpConfigurationTopicId,
+                HelpConfigurationTopicId,
+                LanguageProvider.GetEntry(LanguageEntries.HELP_TOPIC_CONFIGURATION_TITLE),
+                0
+            );
+            AddPage(
+                HelpConfigurationTopicId,
+                HelpConfigurationTopicId,
+                LanguageProvider.GetEntry(LanguageEntries.HELP_TOPIC_CONFIGURATION_DESCRIPTION)
+            );
+            LoadCommandHelpEntry(HelpConfigurationTopicId, ExtendedSurvivalSettings.HELP_INFO, 1);
+            /* Commands */
+            AddTopic(HelpCommandTopicId, LanguageProvider.GetEntry(LanguageEntries.HELP_TOPIC_COMMAND_TITLE));
+            AddEntry(
+                HelpCommandTopicId,
+                HelpCommandTopicId,
+                LanguageProvider.GetEntry(LanguageEntries.HELP_TOPIC_COMMAND_TITLE),
+                0
+            );
+            AddPage(
+                HelpCommandTopicId,
+                HelpCommandTopicId,
+                LanguageProvider.GetEntry(LanguageEntries.HELP_TOPIC_COMMAND_DESCRIPTION)
+            );
+            /* Others */
             foreach (var action in LOAD_ACTIONS)
             {
                 action?.Invoke();
@@ -156,6 +248,44 @@ namespace ExtendedSurvival.Core
                 }
             }
             return null;
+        }
+
+        public static void LoadCommandHelpEntry(UniqueNameId topicId, IEnumerable<ConfigurationEntryHelpInfo> entries, int level)
+        {
+            foreach (var entry in entries)
+            {
+                AddEntry(
+                    topicId,
+                    entry.EntryId,
+                    entry.Title,
+                    level
+                );
+                var sb = new StringBuilder();
+                sb.AppendLine(entry.Description);
+                if (!string.IsNullOrWhiteSpace(entry.DefaultValue))
+                {
+                    sb.AppendLine("");
+                    sb.AppendLine($"{LanguageProvider.GetEntry(LanguageEntries.TERMS_DEFAULTVALUE)}: {entry.DefaultValue}");
+                }
+                if (entry.CanUseSettingsCommand)
+                {
+                    sb.AppendLine("");
+                    var effect = entry.NeedRestart ? 
+                        LanguageProvider.GetEntry(LanguageEntries.TERMS_NEEDRESTART) : 
+                        LanguageProvider.GetEntry(LanguageEntries.TERMS_TAKEIMMEDIATELY);
+                    sb.AppendLine($"{LanguageProvider.GetEntry(LanguageEntries.TERMS_CANUSEADMINCOMMAND)}. ({effect})");
+                }
+                AddPage(
+                    topicId,
+                    entry.EntryId,
+                    sb.ToString(),
+                    entry.TextureIcon
+                );
+                if (entry.Entries.Any())
+                {
+                    LoadCommandHelpEntry(topicId, entry.Entries, level + 1);
+                }
+            }
         }
 
         private static string BuildTextureName(MyDefinitionId id)

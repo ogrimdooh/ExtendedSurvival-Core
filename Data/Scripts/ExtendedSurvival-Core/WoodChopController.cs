@@ -16,6 +16,11 @@ namespace ExtendedSurvival.Core
     public static class WoodChopController
     {
 
+        public static void BuildHelpTopics()
+        {
+
+        }
+
         private static readonly Vector2 BASE_WOOD_DROP = new Vector2(140, 240);
         private static readonly Vector2 BASE_LEAF_DROP = new Vector2(40, 80);
         private static readonly Vector2 BASE_TWIG_DROP = new Vector2(30, 60);
