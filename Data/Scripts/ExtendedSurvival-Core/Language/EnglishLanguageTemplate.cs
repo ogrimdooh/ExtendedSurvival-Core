@@ -1144,8 +1144,10 @@ namespace ExtendedSurvival.Core
 			);
 
 
-			
 
+
+
+			
 
 
 
@@ -1155,8 +1157,29 @@ namespace ExtendedSurvival.Core
 			);
 			AddEntry(
 				LanguageEntries.HELP_TOPIC_COMMAND_DESCRIPTION,
-				""
+				"Admin players can run chat commands to perform actions on the server."
 			);
+			AddEntry(
+				LanguageEntries.HELP_COMMAND_SETTINGS_DESCRIPTION,
+				"This command can change the mod's Configuration File values during the game, some " + Environment.NewLine +
+				"changes will still need a restart." + Environment.NewLine +
+				"You can check more information about in Configuration Topic."
+			);
+			AddEntry(
+				LanguageEntries.HELP_COMMAND_VOXELSETTINGS_DESCRIPTION,
+				"This command can change the VoxelMaterials section in mod's Configuration File " + Environment.NewLine +
+				"values during the game." + Environment.NewLine +
+				"You can check more information about in Configuration Topic."
+			);
+			AddEntry(
+				LanguageEntries.HELP_COMMAND_PLANETSETTINGS_DESCRIPTION,
+				"This command can change the Planets section in mod's Configuration File values " + Environment.NewLine +
+				"during the game." + Environment.NewLine +
+				"You can check more information about in Configuration Topic."
+			);
+
+			
+
 
 			#endregion
 
@@ -1260,8 +1283,21 @@ namespace ExtendedSurvival.Core
 				LanguageEntries.TERMS_COMMANDUSESAMPLE,
 				"Example of use"
 			);
+			AddEntry(
+				LanguageEntries.TERMS_SYNTAX,
+				"Syntax"
+			);
+			AddEntry(
+				LanguageEntries.TERMS_VALIDVOXELS,
+				"Valid voxels"
+			);
+			AddEntry(
+				LanguageEntries.TERMS_VALIDPLANETS,
+				"Valid planets"
+			);
 
 			
+
 
 
 			AddEntry(

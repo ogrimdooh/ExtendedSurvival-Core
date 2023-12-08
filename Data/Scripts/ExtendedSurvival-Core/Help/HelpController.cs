@@ -42,6 +42,21 @@ namespace ExtendedSurvival.Core
 
         }
 
+        public class CommandEntryHelpInfo
+        {
+
+            public UniqueNameId EntryId { get; set; }
+            public string Title { get; set; }
+            public string Description { get; set; }
+            public string TextureIcon { get; set; }
+            public bool IsGroup { get; set; }
+            public string Syntax { get; set; }
+            public string CommandSample { get; set; }
+            public CommandEntryHelpInfo[] SubCommands { get; set; } = new CommandEntryHelpInfo[] { };
+            public Action<StringBuilder> OnAfterBuildPage { get; set; }
+
+        }
+
         public const string BASE_TOPIC_TYPE = "ExtendedSurvival.Core";
 
         public const string HELP_SYSTEM_TOPIC_SUBTYPE = "System";
@@ -209,7 +224,11 @@ namespace ExtendedSurvival.Core
                 HelpConfigurationTopicId,
                 LanguageProvider.GetEntry(LanguageEntries.HELP_TOPIC_CONFIGURATION_DESCRIPTION)
             );
-            LoadCommandHelpEntry(HelpConfigurationTopicId, ExtendedSurvivalSettings.HELP_INFO, 1);
+            LoadConfigHelpEntry(
+                HelpConfigurationTopicId, 
+                ExtendedSurvivalSettings.HELP_INFO, 
+                1
+            );
             /* Commands */
             AddTopic(HelpCommandTopicId, LanguageProvider.GetEntry(LanguageEntries.HELP_TOPIC_COMMAND_TITLE));
             AddEntry(
@@ -223,6 +242,14 @@ namespace ExtendedSurvival.Core
                 HelpCommandTopicId,
                 LanguageProvider.GetEntry(LanguageEntries.HELP_TOPIC_COMMAND_DESCRIPTION)
             );
+            if (ExtendedSurvivalCoreCommandController.Static != null)
+            {
+                LoadCommandHelpEntry(
+                    HelpCommandTopicId,
+                    ExtendedSurvivalCoreCommandController.Static.VALID_COMMANDS.Values.Where(x => x.HelpInfo != null).Select(x => x.HelpInfo),
+                    1
+                );
+            }
             /* Others */
             foreach (var action in LOAD_ACTIONS)
             {
@@ -266,7 +293,67 @@ namespace ExtendedSurvival.Core
             return null;
         }
 
-        public static void LoadCommandHelpEntry(UniqueNameId topicId, IEnumerable<ConfigurationEntryHelpInfo> entries, int level)
+        public static void FormatHelpLine(StringBuilder sb, string startLine, params string[] terms)
+        {
+            if (terms.Any())
+            {
+                sb.AppendLine("");
+                var line = new StringBuilder();
+                line.Append(startLine);
+                for (int i = 0; i < terms.Length; i++)
+                {
+                    var data = terms[i] + (i < terms.Length - 1 ? ", " : ".");
+                    if (line.Length + data.Length < 80)
+                        line.Append(data);
+                    else
+                    {
+                        sb.AppendLine(line.ToString());
+                        line.Clear();
+                    }
+                }
+                if (line.Length > 0)
+                    sb.AppendLine(line.ToString());
+            }
+        }
+
+        public static void LoadCommandHelpEntry(UniqueNameId topicId, IEnumerable<CommandEntryHelpInfo> entries, int level)
+        {
+            foreach (var entry in entries)
+            {
+                AddEntry(
+                    topicId,
+                    entry.EntryId,
+                    entry.Title,
+                    level
+                );
+                var sb = new StringBuilder();
+                sb.AppendLine(entry.Description);
+                if (!entry.IsGroup)
+                {
+                    sb.AppendLine("");
+                    sb.AppendLine($"{LanguageProvider.GetEntry(LanguageEntries.TERMS_SYNTAX)}:");
+                    sb.AppendLine("");
+                    sb.AppendLine(entry.Syntax);
+                    sb.AppendLine("");
+                    sb.AppendLine($"{LanguageProvider.GetEntry(LanguageEntries.TERMS_COMMANDUSESAMPLE)}:");
+                    sb.AppendLine("");
+                    sb.AppendLine(entry.CommandSample);
+                }
+                entry.OnAfterBuildPage?.Invoke(sb);
+                AddPage(
+                    topicId,
+                    entry.EntryId,
+                    sb.ToString(),
+                    entry.TextureIcon
+                );
+                if (entry.SubCommands.Any())
+                {
+                    LoadCommandHelpEntry(topicId, entry.SubCommands, level + 1);
+                }
+            }
+        }
+
+        public static void LoadConfigHelpEntry(UniqueNameId topicId, IEnumerable<ConfigurationEntryHelpInfo> entries, int level)
         {
             foreach (var entry in entries)
             {
@@ -331,7 +418,7 @@ namespace ExtendedSurvival.Core
                 );
                 if (entry.Entries.Any())
                 {
-                    LoadCommandHelpEntry(topicId, entry.Entries, level + 1);
+                    LoadConfigHelpEntry(topicId, entry.Entries, level + 1);
                 }
             }
         }
