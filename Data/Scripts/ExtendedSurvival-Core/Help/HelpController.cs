@@ -42,6 +42,14 @@ namespace ExtendedSurvival.Core
 
         }
 
+        public class CommandExtraPage
+        {
+
+            public string Description { get; set; }
+            public string TextureIcon { get; set; }
+
+        }
+
         public class CommandEntryHelpInfo
         {
 
@@ -52,8 +60,11 @@ namespace ExtendedSurvival.Core
             public bool IsGroup { get; set; }
             public string Syntax { get; set; }
             public string CommandSample { get; set; }
+            public bool ShowApplyLevel { get; set; }
+            public bool NeedRestart { get; set; }
             public CommandEntryHelpInfo[] SubCommands { get; set; } = new CommandEntryHelpInfo[] { };
-            public Action<StringBuilder> OnAfterBuildPage { get; set; }
+            public CommandExtraPage[] ExtraPage { get; set; } = new CommandExtraPage[] { };
+            public Action<StringBuilder, int> OnAfterBuildPage { get; set; }
 
         }
 
@@ -330,22 +341,50 @@ namespace ExtendedSurvival.Core
                 sb.AppendLine(entry.Description);
                 if (!entry.IsGroup)
                 {
-                    sb.AppendLine("");
-                    sb.AppendLine($"{LanguageProvider.GetEntry(LanguageEntries.TERMS_SYNTAX)}:");
-                    sb.AppendLine("");
-                    sb.AppendLine(entry.Syntax);
-                    sb.AppendLine("");
-                    sb.AppendLine($"{LanguageProvider.GetEntry(LanguageEntries.TERMS_COMMANDUSESAMPLE)}:");
-                    sb.AppendLine("");
-                    sb.AppendLine(entry.CommandSample);
+                    if (!string.IsNullOrWhiteSpace(entry.Syntax))
+                    {
+                        sb.AppendLine("");
+                        sb.AppendLine($"{LanguageProvider.GetEntry(LanguageEntries.TERMS_SYNTAX)}:");
+                        sb.AppendLine("");
+                        sb.AppendLine(entry.Syntax);
+                    }
+                    if (!string.IsNullOrWhiteSpace(entry.CommandSample))
+                    {
+                        sb.AppendLine("");
+                        sb.AppendLine($"{LanguageProvider.GetEntry(LanguageEntries.TERMS_COMMANDUSESAMPLE)}:");
+                        sb.AppendLine("");
+                        sb.AppendLine(entry.CommandSample);
+                    }
                 }
-                entry.OnAfterBuildPage?.Invoke(sb);
+                entry.OnAfterBuildPage?.Invoke(sb, 0);
+                if (entry.ShowApplyLevel)
+                {
+                    sb.AppendLine("");
+                    var effect = entry.NeedRestart ?
+                        LanguageProvider.GetEntry(LanguageEntries.TERMS_NEEDRESTART) :
+                        LanguageProvider.GetEntry(LanguageEntries.TERMS_TAKEIMMEDIATELY);
+                    sb.AppendLine($"{LanguageProvider.GetEntry(LanguageEntries.TERMS_CHANGEEFFECT)}: {effect}.");
+                }
                 AddPage(
                     topicId,
                     entry.EntryId,
                     sb.ToString(),
                     entry.TextureIcon
                 );
+                int p = 1;
+                foreach (var page in entry.ExtraPage)
+                {
+                    sb.Clear();
+                    sb.AppendLine(page.Description);
+                    entry.OnAfterBuildPage?.Invoke(sb, p);
+                    AddPage(
+                        topicId,
+                        entry.EntryId,
+                        sb.ToString(),
+                        page.TextureIcon
+                    );
+                    p++;
+                }
                 if (entry.SubCommands.Any())
                 {
                     LoadCommandHelpEntry(topicId, entry.SubCommands, level + 1);

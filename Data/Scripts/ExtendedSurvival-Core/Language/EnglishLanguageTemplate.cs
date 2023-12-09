@@ -1177,11 +1177,100 @@ namespace ExtendedSurvival.Core
 				"during the game." + Environment.NewLine +
 				"You can check more information about in Configuration Topic."
 			);
-
-			
+			AddEntry(
+				LanguageEntries.HELP_COMMAND_PLANETSETTINGS_DESCRIPTION_P2,
+				@"Valid options:" + Environment.NewLine + Environment.NewLine +
+				"seed=<NUMBER OF SEED> " + Environment.NewLine +
+				"deep=<NUMBER OF MULTIPLIER TO DEEP ORE>" + Environment.NewLine +
+				"profile=<PLANET TO USE AS SOURCE>" + Environment.NewLine +
+				"clear" + Environment.NewLine +
+				"add=<ORE NAMES SEPARETED BY ,>" + Environment.NewLine +
+				"remove=<ORE NAMES SEPARETED BY ,>" + Environment.NewLine +
+				"targetColor=<COLOR TO USE AS TARGET : USE “NULL“ TO NOT USE>" + Environment.NewLine +
+				"colorInfluence=<THE INFLUENCE OF THE COLOR MIN/MAX SEPARATED BY '|'>" + Environment.NewLine +
+				"oregrouptype=<THE ORE GROUP TYPE [0,1,2,3,4]>" + Environment.NewLine+ Environment.NewLine +
+				"Valid ore group types:" + Environment.NewLine + Environment.NewLine +
+				"0 - Large Group: A group with many ores, can stack 6 ores in a same spot." + Environment.NewLine +
+				"1 - Small Group: A group with less ores, can stack 4 ores in a same spot." + Environment.NewLine +
+				"2 - Large Group Short Space: A group with many ores, can stack 6 ores in a same " + Environment.NewLine +
+				"    spot, try to space the spots to not had many ores spots together." + Environment.NewLine +
+				"3 - Small Group Short Space: A group with less ores, can stack 4 ores in a same " + Environment.NewLine +
+				"    spot, try to space the spots to not had many ores spots together." + Environment.NewLine +
+				"4 - Concentrated: Will try to create isolated ores spots, can stack 4 ores in " + Environment.NewLine +
+				"    a same spot."
+			);
+			AddEntry(
+				LanguageEntries.HELP_COMMAND_PLANETSETTINGS_DESCRIPTION_P3,
+				"Warnings: " + Environment.NewLine + Environment.NewLine +
+				"- Options are not mandatory, will use the default value if not informed." + Environment.NewLine +
+				"- The color and color influence are advanced options that are based on the " + Environment.NewLine +
+				"  planet's texture files, and are used to shuffle the ores, but may cause no ore " + Environment.NewLine +
+				"  to be generated so use care." + Environment.NewLine +
+				"- The maximum amount of ores on a planet is 12, if you put more the game will " + Environment.NewLine +
+				"  ignore it." + Environment.NewLine +
+				"- You can enter $ in the planet name and the system will use the planet closest " + Environment.NewLine +
+				"  to the player." + Environment.NewLine +
+				"- The color must be informed in exdecimal with the #, if informed incorrectly " + Environment.NewLine +
+				"  it can cause problems to load the game again. (Example: #000000)." + Environment.NewLine +
+				"- The color influence value is a minimum and maximum vector and must be informed " + Environment.NewLine +
+				"  with two numbers separated by '|' the start value must be less than the end " + Environment.NewLine +
+				"  value. (Example: 100|150)."
+			);
+			AddEntry(
+				LanguageEntries.HELP_COMMAND_GEOTHERMAL_DESCRIPTION,
+				"This command can change the Planets geothermal section in mod's Configuration " + Environment.NewLine +
+				"File values during the game." + Environment.NewLine +
+				"You can check more information about geothermal power in Systems Topic."
+			);
+			AddEntry(
+				LanguageEntries.HELP_COMMAND_GEOTHERMAL_COPY_DESCRIPTION,
+				"Use this command to copy all definitions of geothermal from one planet type to " + Environment.NewLine +
+				"another."
+			);
+			AddEntry(
+				LanguageEntries.HELP_COMMAND_GEOTHERMAL_SET_DESCRIPTION,
+				"Use this command to set a value from the geothermal configuration with the " + Environment.NewLine +
+				"value wanted."
+			);
+			AddEntry(
+				LanguageEntries.HELP_COMMAND_GEOTHERMAL_GENERATE_DESCRIPTION,
+				"Use this command to generate all definitions of geothermal from one planet " + Environment.NewLine +
+				"type to using a profile of any other."
+			);
+			AddEntry(
+				LanguageEntries.HELP_COMMAND_ATMOSPHERE_DESCRIPTION,
+				"This command can change the Planets atmosphere section in mod's Configuration " + Environment.NewLine +
+				"File values during the game."
+			);
+			AddEntry(
+				LanguageEntries.HELP_COMMAND_ATMOSPHERE_COPY_DESCRIPTION,
+				"Use this command to copy all definitions of atmosphere from one planet type to " + Environment.NewLine +
+				"another."
+			);
+			AddEntry(
+				LanguageEntries.HELP_COMMAND_ATMOSPHERE_SET_DESCRIPTION,
+				"Use this command to set a value from the atmosphere configuration with the " + Environment.NewLine +
+				"value wanted."
+			);
 
 
 			#endregion
+
+			AddEntry(
+				LanguageEntries.TERMS_INFO_COPY_OPERATION,
+				"Copy the definition of the target profile informed as first option"
+			);
+			AddEntry(
+				LanguageEntries.TERMS_INFO_SET_OPERATION,
+				"Set the value informed as first option with the value informed as second " + Environment.NewLine +
+				"  option"
+			);
+			AddEntry(
+				LanguageEntries.TERMS_INFO_GENERATE_OPERATION,
+				"Set the value informed as first option with the value informed as " + Environment.NewLine +
+				"  second option"
+			);
+
 
 			AddEntry(
 				LanguageEntries.TERMS_MASS,
@@ -1295,8 +1384,24 @@ namespace ExtendedSurvival.Core
 				LanguageEntries.TERMS_VALIDPLANETS,
 				"Valid planets"
 			);
+			AddEntry(
+				LanguageEntries.TERMS_VALIDOPERATIONS,
+				"Valid operations"
+			);
+			AddEntry(
+				LanguageEntries.TERMS_CHANGEEFFECT,
+				"Change effect"
+			);
+			AddEntry(
+				LanguageEntries.TERMS_VALIDOPTIONS,
+				"Valid options"
+			);
+			AddEntry(
+				LanguageEntries.TERMS_OPTNOTMANDATORY,
+				"Obs.: options are not mandatory, will use the default value if not informed."
+			);
 
-			
+
 
 
 

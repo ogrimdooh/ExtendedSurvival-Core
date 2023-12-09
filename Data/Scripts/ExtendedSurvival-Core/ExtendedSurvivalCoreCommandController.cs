@@ -83,7 +83,9 @@ namespace ExtendedSurvival.Core
                     Description = LanguageProvider.GetEntry(LanguageEntries.HELP_COMMAND_VOXELSETTINGS_DESCRIPTION),
                     Syntax = "/voxel.settings <VOXEL_TYPE> <CONFIG> <VALUE>",
                     CommandSample = "/voxel.settings Iron_01 MinedOreRatio 10",
-                    OnAfterBuildPage = (sb) =>
+                    ShowApplyLevel = true,
+                    NeedRestart = true,
+                    OnAfterBuildPage = (sb, p) =>
                     {
                         var voxels = ExtendedSurvivalSettings.Instance?.VoxelMaterials.Select(x => x.Id).ToArray() ?? new string[] { };
                         HelpController.FormatHelpLine(sb, $"{LanguageProvider.GetEntry(LanguageEntries.TERMS_VALIDVOXELS)}: ", voxels);
@@ -97,18 +99,167 @@ namespace ExtendedSurvival.Core
                     EntryId = new UniqueNameId(BASE_TOPIC_TYPE, SETTINGS_COMMAND_PLANET),
                     Title = "Planet.Settings",
                     Description = LanguageProvider.GetEntry(LanguageEntries.HELP_COMMAND_PLANETSETTINGS_DESCRIPTION),
-                    Syntax = "/planet.settings <PLANET : USE '$' TO USE THE NEAR PLANET> <CONFIG> <VALUE>",
-                    CommandSample = "/planet.settings Pertam respawnenabled true" + Environment.NewLine + "/planet.settings $ type 1",
-                    OnAfterBuildPage = (sb) =>
+                    Syntax = "/planet.settings <PLANET: Use '$' as nearest Planet> <CONFIG> <VALUE>",
+                    CommandSample = "/planet.settings Pertam respawnenabled true" + Environment.NewLine + 
+                        "/planet.settings $ type 1",
+                    ShowApplyLevel = true,
+                    NeedRestart = true,
+                    OnAfterBuildPage = (sb, p) =>
                     {
                         var planets = ExtendedSurvivalSettings.Instance?.Planets.Select(x => x.Id).ToArray() ?? new string[] { };
                         HelpController.FormatHelpLine(sb, $"{LanguageProvider.GetEntry(LanguageEntries.TERMS_VALIDPLANETS)}: ", planets);
                     }
                 }
             };
-            VALID_COMMANDS[SETTINGS_COMMAND_OREMAP] = new ValidCommand(SETTINGS_COMMAND_OREMAP, 3, true);
-            VALID_COMMANDS[SETTINGS_COMMAND_GEOTHERMAL] = new ValidCommand(SETTINGS_COMMAND_GEOTHERMAL, 3, true);
-            VALID_COMMANDS[SETTINGS_COMMAND_ATMOSPHERE] = new ValidCommand(SETTINGS_COMMAND_ATMOSPHERE, 3, true);
+            VALID_COMMANDS[SETTINGS_COMMAND_OREMAP] = new ValidCommand(SETTINGS_COMMAND_OREMAP, 3, true)
+            {
+                HelpInfo = new HelpController.CommandEntryHelpInfo()
+                {
+                    EntryId = new UniqueNameId(BASE_TOPIC_TYPE, SETTINGS_COMMAND_OREMAP),
+                    Title = "Planet.OreMap",
+                    Description = LanguageProvider.GetEntry(LanguageEntries.HELP_COMMAND_SETTINGS_DESCRIPTION),
+                    Syntax = "/planet.oremap <PLANET: Use '$' as nearest Planet> generate <OPTIONS>",
+                    CommandSample = "/planet.oremap $ generate seed=5514752" + Environment.NewLine +
+                        "/planet.oremap Europa generate profile=Oi" + Environment.NewLine +
+                        "/planet.oremap EarthLike clear add=Iron,Mercury,Sulfur deep=2" + Environment.NewLine +
+                        "/planet.oremap Pertam generate targetColor=#000000 colorInfluence=50|150",
+                    ShowApplyLevel = true,
+                    NeedRestart = true,
+                    ExtraPage = new HelpController.CommandExtraPage[] 
+                    { 
+                        new HelpController.CommandExtraPage()
+                        {
+                            Description = LanguageProvider.GetEntry(LanguageEntries.HELP_COMMAND_PLANETSETTINGS_DESCRIPTION_P2)
+                        },
+                        new HelpController.CommandExtraPage()
+                        {
+                            Description = LanguageProvider.GetEntry(LanguageEntries.HELP_COMMAND_PLANETSETTINGS_DESCRIPTION_P3)
+                        }
+                    },
+                    OnAfterBuildPage = (sb, p) =>
+                    {
+                        if (p == 0)
+                        {
+                            var planets = ExtendedSurvivalSettings.Instance?.Planets.Select(x => x.Id).ToArray() ?? new string[] { };
+                            HelpController.FormatHelpLine(sb, $"{LanguageProvider.GetEntry(LanguageEntries.TERMS_VALIDPLANETS)}: ", planets);
+                        }
+                    }
+                }
+            };
+            VALID_COMMANDS[SETTINGS_COMMAND_GEOTHERMAL] = new ValidCommand(SETTINGS_COMMAND_GEOTHERMAL, 3, true)
+            {
+                HelpInfo = new HelpController.CommandEntryHelpInfo()
+                {
+                    EntryId = new UniqueNameId(BASE_TOPIC_TYPE, SETTINGS_COMMAND_GEOTHERMAL),
+                    Title = "Planet.Geothermal",
+                    Description = LanguageProvider.GetEntry(LanguageEntries.HELP_COMMAND_GEOTHERMAL_DESCRIPTION),
+                    Syntax = "/planet.geothermal <PLANET: Use '$' as nearest Planet> <OPERATION> <OPTIONS>",
+                    OnAfterBuildPage = (sb, p) =>
+                    {
+                        if (p == 0)
+                        {
+                            sb.AppendLine("");
+                            sb.AppendLine($"{LanguageProvider.GetEntry(LanguageEntries.TERMS_VALIDOPERATIONS)}:");
+                            sb.AppendLine($"- Copy : {LanguageProvider.GetEntry(LanguageEntries.TERMS_INFO_COPY_OPERATION)}.");
+                            sb.AppendLine($"- Set: {LanguageProvider.GetEntry(LanguageEntries.TERMS_INFO_SET_OPERATION)}.");
+                            sb.AppendLine($"- Generate: {LanguageProvider.GetEntry(LanguageEntries.TERMS_INFO_GENERATE_OPERATION)}.");
+                        }
+                    },
+                    SubCommands = new HelpController.CommandEntryHelpInfo[] 
+                    { 
+                        new HelpController.CommandEntryHelpInfo()
+                        {
+                            EntryId = new UniqueNameId(BASE_TOPIC_TYPE, SETTINGS_COMMAND_GEOTHERMAL + "." + SETTINGS_SUBCOMMAND_COPY),
+                            Title = "Planet.Geothermal - Copy",
+                            Description = LanguageProvider.GetEntry(LanguageEntries.HELP_COMMAND_GEOTHERMAL_COPY_DESCRIPTION),
+                            Syntax = "/planet.geothermal <PLANET: Use '$' as nearest Planet> copy <TARGET>",
+                            CommandSample = "/planet.geothermal $ copy Moon" + Environment.NewLine +
+                                "/planet.geothermal Triton copy Europa",
+                            ShowApplyLevel = true,
+                            NeedRestart = false
+                        },
+                        new HelpController.CommandEntryHelpInfo()
+                        {
+                            EntryId = new UniqueNameId(BASE_TOPIC_TYPE, SETTINGS_COMMAND_GEOTHERMAL + "." + SETTINGS_SUBCOMMAND_SET),
+                            Title = "Planet.Geothermal - Set",
+                            Description = LanguageProvider.GetEntry(LanguageEntries.HELP_COMMAND_GEOTHERMAL_SET_DESCRIPTION),
+                            Syntax = "/planet.geothermal <PLANET: Use '$' as nearest Planet> set <CONFIG> <VALUE>",
+                            CommandSample = "/planet.geothermal $ set power 200.25" + Environment.NewLine +
+                                "/planet.geothermal Triton set increment 125.5",
+                            ShowApplyLevel = true,
+                            NeedRestart = false
+                        },
+                        new HelpController.CommandEntryHelpInfo()
+                        {
+                            EntryId = new UniqueNameId(BASE_TOPIC_TYPE, SETTINGS_COMMAND_GEOTHERMAL + "." + SETTINGS_SUBCOMMAND_GENERATE),
+                            Title = "Planet.Geothermal - Generate",
+                            Description = LanguageProvider.GetEntry(LanguageEntries.HELP_COMMAND_GEOTHERMAL_GENERATE_DESCRIPTION),
+                            Syntax = "/planet.geothermal <PLANET: Use '$' as nearest Planet> generate <OPTIONS>",
+                            CommandSample = "/planet.geothermal Pertam generate startmultiplier=2 profile=Moon" + Environment.NewLine +
+                                "/planet.geothermal Triton generate powermultiplier=0.5" + Environment.NewLine +
+                                "/planet.geothermal Europa generate profile=Oi",
+                            ShowApplyLevel = true,
+                            NeedRestart = false,
+                            OnAfterBuildPage = (sb, p) =>
+                            {
+                                sb.AppendLine("");
+                                sb.AppendLine($"{LanguageProvider.GetEntry(LanguageEntries.TERMS_VALIDOPTIONS)}:");
+                                sb.AppendLine("- startmultiplier=<NUMBER OF MULTIPLIER START DEPHT>");
+                                sb.AppendLine("- rowmultiplier=<NUMBER OF MULTIPLIER ROW DEPHT>");
+                                sb.AppendLine("- powermultiplier=<NUMBER OF MULTIPLIER POWER>");
+                                sb.AppendLine("- profile=<PLANET TO USE AS SOURCE>");
+                                sb.AppendLine("");
+                                sb.AppendLine(LanguageProvider.GetEntry(LanguageEntries.TERMS_OPTNOTMANDATORY));
+                            }
+                        }
+                    }
+                }
+            };
+            VALID_COMMANDS[SETTINGS_COMMAND_ATMOSPHERE] = new ValidCommand(SETTINGS_COMMAND_ATMOSPHERE, 3, true)
+            {
+                HelpInfo = new HelpController.CommandEntryHelpInfo()
+                {
+                    EntryId = new UniqueNameId(BASE_TOPIC_TYPE, SETTINGS_COMMAND_ATMOSPHERE),
+                    Title = "Planet.Atmosphere",
+                    Description = LanguageProvider.GetEntry(LanguageEntries.HELP_COMMAND_ATMOSPHERE_DESCRIPTION),
+                    Syntax = "/planet.atmosphere <PLANET: Use '$' as nearest Planet> <OPERATION> <OPTIONS>",
+                    OnAfterBuildPage = (sb, p) =>
+                    {
+                        if (p == 0)
+                        {
+                            sb.AppendLine("");
+                            sb.AppendLine($"{LanguageProvider.GetEntry(LanguageEntries.TERMS_VALIDOPERATIONS)}:");
+                            sb.AppendLine($"- Copy : {LanguageProvider.GetEntry(LanguageEntries.TERMS_INFO_COPY_OPERATION)}.");
+                            sb.AppendLine($"- Set: {LanguageProvider.GetEntry(LanguageEntries.TERMS_INFO_SET_OPERATION)}.");
+                        }
+                    },
+                    SubCommands = new HelpController.CommandEntryHelpInfo[]
+                    {
+                        new HelpController.CommandEntryHelpInfo()
+                        {
+                            EntryId = new UniqueNameId(BASE_TOPIC_TYPE, SETTINGS_COMMAND_ATMOSPHERE + "." + SETTINGS_SUBCOMMAND_COPY),
+                            Title = "Planet.Atmosphere - Copy",
+                            Description = LanguageProvider.GetEntry(LanguageEntries.HELP_COMMAND_ATMOSPHERE_COPY_DESCRIPTION),
+                            Syntax = "/planet.atmosphere <PLANET: Use '$' as nearest Planet> copy <TARGET>",
+                            CommandSample = "/planet.atmosphere $ copy Moon" + Environment.NewLine +
+                                "/planet.atmosphere Triton copy Europa",
+                            ShowApplyLevel = true,
+                            NeedRestart = true
+                        },
+                        new HelpController.CommandEntryHelpInfo()
+                        {
+                            EntryId = new UniqueNameId(BASE_TOPIC_TYPE, SETTINGS_COMMAND_ATMOSPHERE + "." + SETTINGS_SUBCOMMAND_SET),
+                            Title = "Planet.Atmosphere - Set",
+                            Description = LanguageProvider.GetEntry(LanguageEntries.HELP_COMMAND_ATMOSPHERE_SET_DESCRIPTION),
+                            Syntax = "/planet.atmosphere <PLANET: Use '$' as nearest Planet> set <CONFIG> <VALUE>",
+                            CommandSample = "/planet.atmosphere $ set oxygendensity 0.5" + Environment.NewLine +
+                                "/planet.atmosphere Triton set maxwindspeed 150",
+                            ShowApplyLevel = true,
+                            NeedRestart = true
+                        }
+                    }
+                }
+            };
             VALID_COMMANDS[SETTINGS_COMMAND_GRAVITY] = new ValidCommand(SETTINGS_COMMAND_GRAVITY, 3, true);
             VALID_COMMANDS[SETTINGS_COMMAND_WATER] = new ValidCommand(SETTINGS_COMMAND_WATER, 3, true);
             VALID_COMMANDS[SETTINGS_COMMAND_ANIMALS] = new ValidCommand(SETTINGS_COMMAND_ANIMALS, 3, true);
@@ -162,6 +313,12 @@ namespace ExtendedSurvival.Core
         private const string SETTINGS_COMMAND_STARSYSTEM_RESETECONOMY = "reseteconomy";
         private const string SETTINGS_COMMAND_STARSYSTEM_RECREATESTATIONS = "recreatestation";
         private const string SETTINGS_COMMAND_STARSYSTEM_PVEZONE = "pvezone";
+
+        private const string SETTINGS_SUBCOMMAND_SET = "set";
+        private const string SETTINGS_SUBCOMMAND_COPY = "copy";
+        private const string SETTINGS_SUBCOMMAND_GENERATE = "generate";
+        private const string SETTINGS_SUBCOMMAND_CLEAR = "clear";
+        private const string SETTINGS_SUBCOMMAND_REMOVE = "remove";
 
         private IMyHudNotification hudMsg;
 

@@ -1131,6 +1131,18 @@ namespace ExtendedSurvival.Core
             {
                 switch (name)
                 {
+                    case "copy":
+                        if (options.Any())
+                        {
+                            string target = options[0].ToUpper();
+                            var copyProfile = PlanetMapProfile.Get(target);
+                            if (copyProfile != null)
+                            {
+                                info.Geothermal = copyProfile.BuildGeothermalSetting();
+                                return true;
+                            }
+                        }
+                        break;
                     case "set":
                         if (options.Count() == 2)
                         {
