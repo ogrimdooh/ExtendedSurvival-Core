@@ -1024,6 +1024,35 @@ namespace ExtendedSurvival.Core
             {
                 SamMapProfile.DEFAULT_HELIOSTERRAFORMEDWM,
                 SamMapProfile.HELIOSTERRAFORMED
+            },
+            // Elindis
+            {
+                ElindisMapProfile.DEFAULT_PYKE,
+                ElindisMapProfile.PYKE
+            },
+            // CaptainArthur
+            {
+                CaptainArthurMapProfile.DEFAULT_CRAIT,
+                CaptainArthurMapProfile.CRAIT
+            },
+            // Balmung
+            {
+                BalmungMapProfile.DEFAULT_BLACKHOLE,
+                BalmungMapProfile.BLACKHOLE
+            },
+            {
+                BalmungMapProfile.DEFAULT_BLACKHOLE_NODISK,
+                BalmungMapProfile.BLACKHOLE
+            },
+            // MLTMods
+            {
+                MLTModsMapProfile.DEFAULT_SEDONIA,
+                MLTModsMapProfile.SEDONIA
+            },
+            // RheaLicious
+            {
+                RheaLiciousMapProfile.DEFAULT_MILA,
+                RheaLiciousMapProfile.MILA
             }
         };
 

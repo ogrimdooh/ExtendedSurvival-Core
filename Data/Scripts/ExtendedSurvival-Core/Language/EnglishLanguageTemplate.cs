@@ -1039,6 +1039,11 @@ namespace ExtendedSurvival.Core
 				"  Survival & ATA Solar System pack." 
 			);
 			AddEntry(
+				LanguageEntries.HELP_SETTINGS_STARSYSTEMS_STARNAME_DESCRIPTION,
+				"This configuration group define the pre defined the planet type used as star " + Environment.NewLine +
+				"of the generated world."
+			);
+			AddEntry(
 				LanguageEntries.HELP_SETTINGS_STARSYSTEMS_MEMBERS_DESCRIPTION,
 				"This configuration group define the pre defined list of members to be used when " + Environment.NewLine +
 				"the profile type = 1 (Mapped)."

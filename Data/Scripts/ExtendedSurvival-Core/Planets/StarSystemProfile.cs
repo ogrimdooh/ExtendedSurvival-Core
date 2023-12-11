@@ -55,6 +55,7 @@ namespace ExtendedSurvival.Core
         public string Name { get; set; }
         public ProfileType Type { get; set; } = ProfileType.Random;
         public ValidPlanetProfile PlanetProfile { get; set; } = ValidPlanetProfile.None;
+        public string StarName { get; set; }
         public List<SystemMember> Members { get; set; } = new List<SystemMember>();
         public Vector2 TotalMembers { get; set; } = Vector2.Zero;
         public Vector2 DefaultMoonCount { get; set; } = Vector2.Zero;
@@ -114,6 +115,7 @@ namespace ExtendedSurvival.Core
                 AllowDuplicate = AllowDuplicate,
                 VanillaAsteroids = VanillaAsteroids,
                 Version = Version,
+                StarName = StarName,
                 Members = BuildMembersSettings()
             };
         }

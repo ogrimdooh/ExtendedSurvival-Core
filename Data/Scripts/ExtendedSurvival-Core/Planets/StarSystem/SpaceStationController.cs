@@ -555,7 +555,16 @@ namespace ExtendedSurvival.Core
             "Sacred",
             "Expanse",
             "Pligrims",
-            "Nation"
+            "Nation",
+            "Stoyer",
+            "Newcorp",
+            "Berrett",
+            "Myshkin",
+            "Rosek",
+            "Sonoda",
+            "NanoDev",
+            "TeraTek",
+            "Omegadev"
         };
 
         private static readonly string[] MIDDLE_NAMES = new string[] 
@@ -572,7 +581,23 @@ namespace ExtendedSurvival.Core
             "Alpha",
             "of",
             "Nomads",
-            "Elders"
+            "Elders",
+            "Diversified",
+            "Heavy",
+            "Light",
+            "Multinational",
+            "Development",
+            "Transport",
+            "Integrated",
+            "Evolved",
+            "Biotech",
+            "Advanced",
+            "Specialized",
+            "Consolidated",
+            "Productions",
+            "Global",
+            "Engineering",
+            "Financial"
         };
 
         private static readonly string[] LAST_NAMES = new string[] 
@@ -590,7 +615,15 @@ namespace ExtendedSurvival.Core
             "Saiph",
             "Andromeda",
             "Systems",
-            "Vega"
+            "Vega",
+            "Armament",
+            "Cybernetics",
+            "Entertainment",
+            "Media",
+            "Communications",
+            "Security",
+            "Industrial",
+            "Financial"
         };
 
         static SpaceStationController()
@@ -1303,7 +1336,7 @@ namespace ExtendedSurvival.Core
 
         public static string GetStationName()
         {
-            return FIRST_NAMES.Concat(LAST_NAMES).OrderBy(x => GetRandomDouble()).FirstOrDefault();
+            return FIRST_NAMES.Concat(MIDDLE_NAMES).Concat(LAST_NAMES).Where(x => x.Length >= 4).OrderBy(x => GetRandomDouble()).FirstOrDefault();
         }
 
         public static string GetFactionDesc(FactionType type)

@@ -254,12 +254,12 @@ namespace ExtendedSurvival.Core
             {
                 Enabled = MeteorImpact.enabled,
                 ChanceToSpawn = MeteorImpact.chanceToSpawn,
-                Stones = MeteorImpact.stones.Select(x => new MeteorImpactStoneSetting()
+                Stones = MeteorImpact.stones?.Select(x => new MeteorImpactStoneSetting()
                 {
                     GroupId = x.groupId,
                     ModifierId = x.modifierId,
                     ChanceToSpawn = x.chanceToSpawn
-                }).ToList()
+                }).ToList() ?? new List<MeteorImpactStoneSetting>()
             };
         }
 

@@ -43,6 +43,16 @@ namespace ExtendedSurvival.Core
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.StarName"),
+                Title = "StarName",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_STARSYSTEMS_STARNAME_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false,
+                ValueType = HelpController.ConfigurationValueType.String
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
                 EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, SystemMemberSetting.HELP_TOPIC_SUBTYPE),
                 Title = "Members",
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_STARSYSTEMS_MEMBERS_DESCRIPTION),
@@ -163,6 +173,9 @@ namespace ExtendedSurvival.Core
 
         [XmlElement]
         public int PlanetProfile { get; set; }
+
+        [XmlElement]
+        public string StarName { get; set; }
 
         [XmlArray("Members"), XmlArrayItem("Member", typeof(SystemMemberSetting))]
         public List<SystemMemberSetting> Members { get; set; } = new List<SystemMemberSetting>();

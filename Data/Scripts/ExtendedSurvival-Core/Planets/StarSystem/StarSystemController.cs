@@ -42,12 +42,12 @@ namespace ExtendedSurvival.Core
         }
 
         public static readonly Vector2 PLANET_MOON_BUFFER = new Vector2(150f, 300f);
-        public static readonly Vector2 GIANTGAS_MOON_BUFFER = new Vector2(2000f, 2500f);
+        public static readonly Vector2 GIANTGAS_MOON_BUFFER = new Vector2(450f, 900f);
         public const float KILOMETERS_TO_METERS = 1000f;
         public const float TAU = (float)(Math.PI * 2f);
         public const float SLICE = (float)(Math.PI * 0.5f);
         public const float DEFAULT_INCLINATION = 45f;
-        public static readonly Vector2 DEFAULT_PLANETARY_DISTANCE = new Vector2(1500f, 7500f);
+        public static readonly Vector2 DEFAULT_PLANETARY_DISTANCE = new Vector2(2500f, 7500f);
         public const float GAS_GIANT_DISTANCE_MULTIPLIER = 2f;
 
         public static void RecreateStations()
@@ -216,27 +216,33 @@ namespace ExtendedSurvival.Core
                             ExtendedSurvivalStorage.Instance.StarSystem.Name = profile.Name;
                             ExtendedSurvivalStorage.Instance.StarSystem.Generated = true;
                             float createdPlanets = 0;
+                            bool sunCreated = false;
                             if (!flags.IsFlagSet(GenerationFlags.NoStar) && (profile.WithStar || flags.IsFlagSet(GenerationFlags.WithStar)))
                             {
+                                IEnumerable<PlanetSetting> suns = Enumerable.Empty<PlanetSetting>();
                                 PlanetSetting sunProfile = null;
                                 if (planets.Any(x => x.Type == (int)PlanetProfile.PlanetType.Star))
                                 {
-                                    sunProfile = planets.FirstOrDefault(x => x.Type == (int)PlanetProfile.PlanetType.Star);
+                                    suns = planets.Where(x => x.Type == (int)PlanetProfile.PlanetType.Star);
 
                                 }
                                 else if (ExtendedSurvivalSettings.Instance.Planets.Any(x => x.Type == (int)PlanetProfile.PlanetType.Star))
                                 {
-                                    sunProfile = ExtendedSurvivalSettings.Instance.Planets.FirstOrDefault(x => x.Type == (int)PlanetProfile.PlanetType.Star);
+                                    suns = ExtendedSurvivalSettings.Instance.Planets.Where(x => x.Type == (int)PlanetProfile.PlanetType.Star);
                                 }
+                                sunProfile = suns.Any(x => x.Id == profile.StarName) ?
+                                    suns.FirstOrDefault(x => x.Id == profile.StarName) :
+                                    suns.FirstOrDefault();
                                 if (sunProfile != null)
                                 {
                                     var pos = Vector3D.Zero;
                                     var size = new Vector2(sunProfile.SizeRange.X, sunProfile.SizeRange.Y).GetRandom() * KILOMETERS_TO_METERS;
                                     MyAPIGateway.Session.VoxelMaps.SpawnPlanet(sunProfile.Id, size, new Vector2I(1000000, 10000000).GetRandomInt(), pos);
                                     createdPlanets = size / KILOMETERS_TO_METERS;
+                                    sunCreated = true;
                                 }
                             }
-                            float currentSystemSize = createdPlanets > 0 ? createdPlanets + DEFAULT_PLANETARY_DISTANCE.GetRandom() : 0;
+                            float currentSystemSize = (createdPlanets + DEFAULT_PLANETARY_DISTANCE.GetRandom()) * profile.DistanceMultiplier;
                             List<SystemMemberSetting> members = new List<SystemMemberSetting>();
                             switch (generationType)
                             {
@@ -311,10 +317,15 @@ namespace ExtendedSurvival.Core
                             int p = 0;
                             int b = 0;
                             PlanetSetting lastCreated = null;
+                            members.Sort((x, y) => { return x.Order.CompareTo(y.Order); });
+                            for (int i = 0; i < members.Count; i++)
+                            {
+                                members[i].Order = i;
+                            }
                             foreach (var member in members)
                             {
                                 var memberType = (StarSystemProfile.MemberType)member.MemberType;
-                                List<Vector3D> asteroids = null;
+                                Dictionary<int, Vector3D> asteroids = null;
                                 switch (memberType)
                                 {
                                     case StarSystemProfile.MemberType.Planet:
@@ -328,7 +339,7 @@ namespace ExtendedSurvival.Core
                                             var theta = eclipticRotation + sectorSize * p + (GetRandomDouble() * 2 - 1) * deviation;
                                             var phi = (GetRandomDouble() * 2 - 1) * DEFAULT_INCLINATION;
                                             var minDistanceKm = currentSystemSize;
-                                            var incrementDistance = DEFAULT_PLANETARY_DISTANCE.GetRandom();
+                                            var incrementDistance = DEFAULT_PLANETARY_DISTANCE.GetRandom() * profile.DistanceMultiplier;
                                             if (item.Type == (int)PlanetProfile.PlanetType.GiantGas)
                                             {
                                                 incrementDistance *= GAS_GIANT_DISTANCE_MULTIPLIER;
@@ -344,7 +355,7 @@ namespace ExtendedSurvival.Core
                                             currentSystemSize = distance + (size / KILOMETERS_TO_METERS);
                                             MyPlanet planet = null;
                                             planet = MyAPIGateway.Session.VoxelMaps.SpawnPlanet(item.Id, size, new Vector2I(1000000, 10000000).GetRandomInt(), position) as MyPlanet;
-                                            planet.AsteroidName = $"Planet {p + 1} - {member.Name}";
+                                            planet.AsteroidName = $"{member.Order + 1:00} - Planet {p + 1:00} - {member.Name}";
                                             ExtendedSurvivalStorage.Instance.StarSystem.Members.Add(new StarSystemMemberStorage()
                                             {
                                                 EntityId = planet.EntityId,
@@ -392,7 +403,7 @@ namespace ExtendedSurvival.Core
                                                             moonPos += moonOffset;
                                                             MyPlanet moon = null;
                                                             moon = MyAPIGateway.Session.VoxelMaps.SpawnPlanet(moonToCreate.Id, moonDiameter, new Vector2I(1000000, 10000000).GetRandomInt(), moonPos) as MyPlanet;
-                                                            moon.AsteroidName = $"Planet {p + 1} - Moon {j + 1} - {moonToCreate.Id}";
+                                                            moon.AsteroidName = $"{member.Order + 1:00} - Planet {p + 1:00} - Moon {j + 1:00} - {moonToCreate.Id}";
                                                             ExtendedSurvivalStorage.Instance.StarSystem.Members.Add(new StarSystemMemberStorage()
                                                             {
                                                                 EntityId = moon.EntityId,
@@ -419,12 +430,12 @@ namespace ExtendedSurvival.Core
                                                 ExtendedSurvivalStorage.Instance.StarSystem.Members.Add(new StarSystemMemberStorage()
                                                 {
                                                     EntityId = 0,
-                                                    Name = $"Planet {p + 1} - Ring",
+                                                    Name = $"{member.Order + 1:00} - Planet {p + 1:00} - Ring",
                                                     Position = ringPosition,
                                                     MemberType = (int)StarSystemProfile.MemberType.AsteroidBelt,
                                                     ItemType = 0,
-                                                    NotSpawnAsteroids = asteroids,
-                                                    AsteroidsData = asteroids.Select(x => new AsteroidStorage() { Position = x, Radius = Range(350, 1050) }).ToList()
+                                                    NotSpawnAsteroids = asteroids.Values.ToList(),
+                                                    AsteroidsData = asteroids.Select(x => new AsteroidStorage() { Position = x.Value, Radius = Range(350, 1050) }).ToList()
                                                 });
                                                 asteroids = null;
                                             }
@@ -435,18 +446,18 @@ namespace ExtendedSurvival.Core
                                         var minDistKm = currentSystemSize;
                                         var incDistance = DEFAULT_PLANETARY_DISTANCE.GetRandom();
                                         var maxDistKm = minDistKm + incDistance;
-                                        float finalDistance = Range(minDistKm, maxDistKm);
+                                        float finalDistance = Range(minDistKm, maxDistKm) * profile.DistanceMultiplier;
                                         currentSystemSize = finalDistance;
                                         var beltPosition = CreateAsteroidBelt(member, Vector3D.Zero, currentSystemSize, out asteroids);
                                         ExtendedSurvivalStorage.Instance.StarSystem.Members.Add(new StarSystemMemberStorage()
                                         {
                                             EntityId = 0,
-                                            Name = (!string.IsNullOrWhiteSpace(member.Name) ? $"{member.Name} - " : "") + $"Asteroid Belt {b + 1}",
+                                            Name = $"{member.Order + 1:00} - " + (!string.IsNullOrWhiteSpace(member.Name) ? $"{member.Name} - " : "") + $"Asteroid Belt {b + 1:00}",
                                             Position = beltPosition,
                                             MemberType = (int)StarSystemProfile.MemberType.AsteroidBelt,
                                             ItemType = 0,
-                                            NotSpawnAsteroids = asteroids,
-                                            AsteroidsData = asteroids.Select(x => new AsteroidStorage() { Position = x, Radius = Range(600, 1800) }).ToList()
+                                            NotSpawnAsteroids = asteroids.Values.ToList(),
+                                            AsteroidsData = asteroids.Select(x => new AsteroidStorage() { Position = x.Value, Radius = Range(600, 1800) }).ToList()
                                         });
                                         asteroids = null;
                                         b++;
@@ -684,8 +695,10 @@ namespace ExtendedSurvival.Core
                     }
                     var factionToGenerate = ExtendedSurvivalSettings.Instance.TradeStations.TradeFactionsAmount.ToVector2I().GetRandomInt();
                     var f = 0;
-                    for (int i = 0; i < factionToGenerate; i++)
+                    int i = 0;
+                    while (i < factionToGenerate)
                     {
+
                         var tag = "";
                         var name = "";
                         do
@@ -693,22 +706,39 @@ namespace ExtendedSurvival.Core
                             name = SpaceStationController.GetFactionName(factionTypes[f], out tag);
                         }
                         while (MyAPIGateway.Session.Factions.FactionTagExists(tag));
+
                         var desc = SpaceStationController.GetFactionDesc(factionTypes[f]) + Environment.NewLine + $"Operation type: {factionTypes[f]}.";
 
-                        MyAPIGateway.Session.Factions.CreateNPCFaction(tag, name, desc, "");
-                        while (!MyAPIGateway.Session.Factions.FactionTagExists(tag))
-                            MyAPIGateway.Parallel.Sleep(100);
+                        for (int c = 0; c < 10; c++)
+                        {
 
-                        var faction = MyAPIGateway.Session.Factions.TryGetFactionByTag(tag);
-                        DoResetFactionBalance(faction);
+                            MyAPIGateway.Session.Factions.CreateNPCFaction(tag, name, desc, "");
 
-                        var factionStore = ExtendedSurvivalStorage.Instance.GetFaction(faction.FactionId);
-                        factionStore.FactionType = (int)factionTypes[f];
-                        factionStore.Name = name;
-                        factionStore.Tag = tag;
-                        f++;
-                        if (f >= factionTypes.Count)
-                            f = 0;
+                            int p = 0;
+                            while (!MyAPIGateway.Session.Factions.FactionTagExists(tag) && p < 30)
+                            {
+                                MyAPIGateway.Parallel.Sleep(100);
+                                p++;
+                            }
+
+                            if (MyAPIGateway.Session.Factions.FactionTagExists(tag))
+                                break;
+
+                        }
+
+                        if (MyAPIGateway.Session.Factions.FactionTagExists(tag))
+                        {
+                            var faction = MyAPIGateway.Session.Factions.TryGetFactionByTag(tag);
+                            DoResetFactionBalance(faction);
+                            var factionStore = ExtendedSurvivalStorage.Instance.GetFaction(faction.FactionId);
+                            factionStore.FactionType = (int)factionTypes[f];
+                            factionStore.Name = name;
+                            factionStore.Tag = tag;
+                            f++;
+                            if (f >= factionTypes.Count)
+                                f = 0;
+                            i++;
+                        }
                     }
                 }
             }
@@ -784,10 +814,10 @@ namespace ExtendedSurvival.Core
             try
             {
                 var validItem = new int[]
-            {
-                (int)PlanetProfile.PlanetType.Moon,
-                (int)PlanetProfile.PlanetType.Planet
-            };
+                {
+                    (int)PlanetProfile.PlanetType.Moon,
+                    (int)PlanetProfile.PlanetType.Planet
+                };
 
                 if (!validItem.Contains(member.ItemType))
                     return;
@@ -805,7 +835,7 @@ namespace ExtendedSurvival.Core
                                             planet.Entity.PositionComp.GetPosition() + (planet.Entity.WorldMatrix.Backward * 5)
                                         };
 
-                    var totalToGenerate = new Vector2I(1, 6).GetRandomInt();
+                    var totalToGenerate = new Vector2I(3, 6).GetRandomInt();
                     while (targetCoords.Count > totalToGenerate)
                     {
                         targetCoords.Remove(targetCoords.OrderBy(x => GetRandomDouble()).FirstOrDefault());
@@ -915,8 +945,8 @@ namespace ExtendedSurvival.Core
             {
                 if (member.AsteroidsData.Any())
                 {
-                    var minStations = (int)Math.Max(member.AsteroidsData.Count / 1000f, 1f);
-                    var maxStations = (int)Math.Max(member.AsteroidsData.Count / 500f, 1f);
+                    var minStations = (int)Math.Max(member.AsteroidsData.Count / 1000f, 4f);
+                    var maxStations = (int)Math.Max(member.AsteroidsData.Count / 500f, 8f);
                     var totalToGenerate = new Vector2I(minStations, maxStations).GetRandomInt();
                     var fraction = member.AsteroidsData.Count / totalToGenerate;
                     var targetCoords = new List<Vector3D>();
@@ -1059,9 +1089,9 @@ namespace ExtendedSurvival.Core
 
         }
 
-        private static Vector3D CreateAsteroidBelt(SystemMemberSetting asteroidSystem, Vector3D centerPosition, float orbitDistance, out List<Vector3D> asteroids)
+        private static Vector3D CreateAsteroidBelt(SystemMemberSetting asteroidSystem, Vector3D centerPosition, float orbitDistance, out Dictionary<int, Vector3D> asteroids)
         {
-            asteroids = new List<Vector3D>();
+            asteroids = new Dictionary<int, Vector3D>();
 
             float density = Math.Min(Math.Max(0, asteroidSystem.Density), 1);
 
@@ -1095,7 +1125,7 @@ namespace ExtendedSurvival.Core
 
                 Vector3D asteroidPosition = centerPosition + asteroidOffset;
 
-                asteroids.Add(asteroidPosition);
+                asteroids.Add(i, asteroidPosition);
 
                 if (beltPositionCaptured != Vector3D.Zero) { continue; }
 
