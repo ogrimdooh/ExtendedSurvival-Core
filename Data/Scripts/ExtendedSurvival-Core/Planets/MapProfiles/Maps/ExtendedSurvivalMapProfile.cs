@@ -616,7 +616,7 @@ namespace ExtendedSurvival.Core
             RespawnEnabled = true,
             Animal = PlanetMapAnimalsProfile.DEFAULT_EARTH,
             Geothermal = PlanetMapProfile.GetGeothermal(true),
-            Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 1, 0.9f, 80, 3, 0, 0),
+            Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 1.5f, 0.9f, 120, 6, 0, 0),
             Gravity = PlanetMapProfile.GetGravity(1.1f, 4),
             Temperature = PlanetMapProfile.GetTemperature(VRage.Game.MyTemperatureLevel.Cozy, 0, 45),
             Water = PlanetMapProfile.GetWater(true, 1.01305f, -0.4f, 0, 0),

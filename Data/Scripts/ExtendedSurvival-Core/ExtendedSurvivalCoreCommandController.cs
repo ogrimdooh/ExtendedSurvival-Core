@@ -312,6 +312,8 @@ namespace ExtendedSurvival.Core
         private const string SETTINGS_COMMAND_STARSYSTEM_COMPLETE = "complete";
         private const string SETTINGS_COMMAND_STARSYSTEM_RESETECONOMY = "reseteconomy";
         private const string SETTINGS_COMMAND_STARSYSTEM_RECREATESTATIONS = "recreatestation";
+        private const string SETTINGS_COMMAND_STARSYSTEM_RECREATEFACTIONS = "recreatefactions";
+
         private const string SETTINGS_COMMAND_STARSYSTEM_PVEZONE = "pvezone";
 
         private const string SETTINGS_SUBCOMMAND_SET = "set";
@@ -521,6 +523,10 @@ namespace ExtendedSurvival.Core
                                 }
                                 switch (mCommandData.content[1])
                                 {
+                                    case SETTINGS_COMMAND_STARSYSTEM_RECREATEFACTIONS:
+                                        StarSystemController.RecreateFactions();
+                                        SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_STARSYSTEM} {SETTINGS_COMMAND_STARSYSTEM_RECREATEFACTIONS} executed.", MyFontEnum.White);
+                                        break;
                                     case SETTINGS_COMMAND_STARSYSTEM_RECREATESTATIONS:
                                         StarSystemController.RecreateStations();
                                         SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_STARSYSTEM} {SETTINGS_COMMAND_STARSYSTEM_RECREATESTATIONS} executed.", MyFontEnum.White);

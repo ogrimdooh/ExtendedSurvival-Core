@@ -86,47 +86,57 @@ namespace ExtendedSurvival.Core
 
                 MyAPIGateway.Session.DamageSystem.RegisterBeforeDamageHandler(int.MaxValue, (object entity, ref MyDamageInformation damage) =>
                 {
-                    if (entity != null && damage.Amount > 0)
+                    try
                     {
-                        var cubeBlock = entity as IMySlimBlock;
-                        if (cubeBlock != null)
+                        if (entity != null && damage.Amount > 0)
                         {
-                            var ownerId = cubeBlock.OwnerId != 0 ? cubeBlock.OwnerId : cubeBlock.CubeGrid.BigOwners.FirstOrDefault();
-                            if (ExtendedSurvivalStorage.Instance.StarSystem.Generated &&
-                                ExtendedSurvivalStorage.Instance.StarSystem.Members.Any(x => x.HasPveArea))
+                            var cubeBlock = entity as IMySlimBlock;
+                            if (cubeBlock != null)
                             {
-                                if (MyAPIGateway.Players.TryGetSteamId(ownerId) != 0)
+                                var ownerId = cubeBlock.OwnerId != 0 ? cubeBlock.OwnerId : cubeBlock.CubeGrid.BigOwners.FirstOrDefault();
+                                if (ExtendedSurvivalStorage.Instance.StarSystem.Generated &&
+                                    ExtendedSurvivalStorage.Instance.StarSystem.Members.Any(x => x.HasPveArea))
                                 {
-                                    /* Player GRID */
-                                    var pos = cubeBlock.CubeGrid.GetPosition();
-                                    float naturalGravityInterference;
-                                    Vector3 naturalGravity = MyAPIGateway.Physics.CalculateNaturalGravityAt(pos, out naturalGravityInterference);
-                                    if (naturalGravityInterference > 0)
+                                    if (MyAPIGateway.Players.TryGetSteamId(ownerId) != 0)
                                     {
-                                        var neartPlanet = ExtendedSurvivalEntityManager.GetPlanetAtRange(pos);
-                                        var memberInfo = ExtendedSurvivalStorage.Instance.StarSystem.Members.FirstOrDefault(x => x.EntityId == neartPlanet.Entity.EntityId);
-                                        if (memberInfo.HasPveArea)
+                                        /* Player GRID */
+                                        var pos = cubeBlock.CubeGrid.GetPosition();
+                                        float naturalGravityInterference;
+                                        Vector3 naturalGravity = MyAPIGateway.Physics.CalculateNaturalGravityAt(pos, out naturalGravityInterference);
+                                        if (naturalGravityInterference > 0)
                                         {
-                                            if (damage.AttackerId != 0)
+                                            var neartPlanet = ExtendedSurvivalEntityManager.GetPlanetAtRange(pos);
+                                            var memberInfo = ExtendedSurvivalStorage.Instance.StarSystem.Members.FirstOrDefault(x => x.EntityId == neartPlanet.Entity.EntityId);
+                                            if (memberInfo.HasPveArea)
                                             {
-                                                long attackerPlayerId = 0;
-                                                MyDamageInformationExtensions.DamageType damageType;
-                                                var attackerEntity = damage.GetAttacker(out attackerPlayerId, out damageType);
-                                                if (attackerPlayerId != 0)
+                                                if (damage.AttackerId != 0)
                                                 {
-                                                    var ownerFaction = MyAPIGateway.Session.Factions.TryGetPlayerFaction(ownerId);
-                                                    var attackerFaction = MyAPIGateway.Session.Factions.TryGetPlayerFaction(attackerPlayerId);
-                                                    if (ownerId == attackerPlayerId || ownerFaction.FactionId == attackerFaction.FactionId)
+                                                    long attackerPlayerId = 0;
+                                                    MyDamageInformationExtensions.DamageType damageType;
+                                                    var attackerEntity = damage.GetAttacker(out attackerPlayerId, out damageType);
+                                                    if (attackerPlayerId != 0)
                                                     {
-                                                        if (damageType != MyDamageInformationExtensions.DamageType.Tool)
+                                                        var ownerFaction = MyAPIGateway.Session.Factions.TryGetPlayerFaction(ownerId);
+                                                        var attackerFaction = MyAPIGateway.Session.Factions.TryGetPlayerFaction(attackerPlayerId);
+                                                        if (ownerId == attackerPlayerId || ownerFaction?.FactionId == attackerFaction?.FactionId)
                                                         {
-                                                            damage.Amount = 0;
+                                                            if (damageType != MyDamageInformationExtensions.DamageType.Tool)
+                                                            {
+                                                                damage.Amount = 0;
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            var steamId = MyAPIGateway.Players.TryGetSteamId(attackerPlayerId);
+                                                            if (steamId != 0)
+                                                            {
+                                                                damage.Amount = 0;
+                                                            }
                                                         }
                                                     }
                                                     else
                                                     {
-                                                        var steamId = MyAPIGateway.Players.TryGetSteamId(attackerPlayerId);
-                                                        if (steamId != 0)
+                                                        if (damageType != MyDamageInformationExtensions.DamageType.Fall)
                                                         {
                                                             damage.Amount = 0;
                                                         }
@@ -134,25 +144,22 @@ namespace ExtendedSurvival.Core
                                                 }
                                                 else
                                                 {
-                                                    if (damageType != MyDamageInformationExtensions.DamageType.Fall)
-                                                    {
-                                                        damage.Amount = 0;
-                                                    }
+                                                    damage.Amount = 0;
                                                 }
-                                            }
-                                            else
-                                            {
-                                                damage.Amount = 0;
                                             }
                                         }
                                     }
                                 }
-                            }
-                            if (damage.Amount > 0)
-                            {
-                                CheckGridCanBeGrinded(cubeBlock, ownerId, ref damage);
+                                if (damage.Amount > 0)
+                                {
+                                    CheckGridCanBeGrinded(cubeBlock, ownerId, ref damage);
+                                }
                             }
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
                     }
                 });
 
@@ -184,33 +191,36 @@ namespace ExtendedSurvival.Core
 
         private void CheckGridCanBeGrinded(IMySlimBlock cubeBlock, long ownerId, ref MyDamageInformation damage)
         {
-            if (ExtendedSurvivalSettings.Instance.Combat.NoGrindFunctionalGrids)
+            try
             {
-                var gridInfo = ExtendedSurvivalEntityManager.Instance.GetGridByUuid(cubeBlock.CubeGrid.EntityId);
-                if (gridInfo != null)
+                if (ExtendedSurvivalSettings.Instance.Combat.NoGrindFunctionalGrids)
                 {
-                    if (gridInfo.Entity.ResourceDistributor.ResourceState != VRage.MyResourceStateEnum.NoPower)
+                    var gridInfo = ExtendedSurvivalEntityManager.Instance.GetGridByUuid(cubeBlock.CubeGrid.EntityId);
+                    if (gridInfo != null)
                     {
-                        if (gridInfo.HasWeapon)
+                        if (gridInfo.Entity.ResourceDistributor.ResourceState != VRage.MyResourceStateEnum.NoPower)
                         {
-                            if (damage.AttackerId != 0)
+                            if (gridInfo.HasWeapon)
                             {
-                                long attackerPlayerId = 0;
-                                MyDamageInformationExtensions.DamageType damageType;
-                                var attackerEntity = damage.GetAttacker(out attackerPlayerId, out damageType);
-                                if (MyAPIGateway.Players.TryGetSteamId(attackerPlayerId) != 0)
+                                if (damage.AttackerId != 0)
                                 {
-                                    if (damageType == MyDamageInformationExtensions.DamageType.Tool)
+                                    long attackerPlayerId = 0;
+                                    MyDamageInformationExtensions.DamageType damageType;
+                                    var attackerEntity = damage.GetAttacker(out attackerPlayerId, out damageType);
+                                    if (MyAPIGateway.Players.TryGetSteamId(attackerPlayerId) != 0)
                                     {
-                                        var ownerFaction = MyAPIGateway.Session.Factions.TryGetPlayerFaction(ownerId);
-                                        var attackerFaction = MyAPIGateway.Session.Factions.TryGetPlayerFaction(attackerPlayerId);
-                                        if (ownerId != attackerPlayerId && ownerFaction.FactionId != attackerFaction.FactionId)
+                                        if (damageType == MyDamageInformationExtensions.DamageType.Tool)
                                         {
-                                            if (cubeBlock.BlockDefinition.Id.TypeId != typeof(MyObjectBuilder_Door) &&
-                                            cubeBlock.BlockDefinition.Id.TypeId != typeof(MyObjectBuilder_AirtightSlideDoor) &&
-                                            cubeBlock.BlockDefinition.Id.TypeId != typeof(MyObjectBuilder_AirtightHangarDoor))
+                                            var ownerFaction = MyAPIGateway.Session.Factions.TryGetPlayerFaction(ownerId);
+                                            var attackerFaction = MyAPIGateway.Session.Factions.TryGetPlayerFaction(attackerPlayerId);
+                                            if (ownerId != attackerPlayerId && ownerFaction?.FactionId != attackerFaction?.FactionId)
                                             {
-                                                damage.Amount = 0;
+                                                if (cubeBlock.BlockDefinition.Id.TypeId != typeof(MyObjectBuilder_Door) &&
+                                                cubeBlock.BlockDefinition.Id.TypeId != typeof(MyObjectBuilder_AirtightSlideDoor) &&
+                                                cubeBlock.BlockDefinition.Id.TypeId != typeof(MyObjectBuilder_AirtightHangarDoor))
+                                                {
+                                                    damage.Amount = 0;
+                                                }
                                             }
                                         }
                                     }
@@ -219,6 +229,10 @@ namespace ExtendedSurvival.Core
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
             }
         }
 

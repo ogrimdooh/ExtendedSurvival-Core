@@ -143,17 +143,33 @@ namespace ExtendedSurvival.Core
             ExtendedSurvivalStorage.Instance.StarSystem.Generated = false;
             ExtendedSurvivalStorage.Instance.StarSystem.ComercialTick = 0;
             ExtendedSurvivalStorage.Instance.StarSystem.ComercialCountdown = 0;
-            foreach (var faction in ExtendedSurvivalStorage.Instance.Factions)
+            try
             {
-                MyAPIGateway.Session.Factions.RemoveFaction(faction.FactionId);
+                ExtendedSurvivalEntityManager.Instance.FactionsLocked = true;
+                RemoveAllFactions();
             }
-            ExtendedSurvivalStorage.Instance.Factions.Clear();
+            finally
+            {
+                ExtendedSurvivalEntityManager.Instance.FactionsLocked = false;
+            }
             foreach (var item in ExtendedSurvivalStorage.Instance.MeteorImpact.Stones)
             {
                 if (ExtendedSurvivalEntityManager.Instance.VoxelMaps.ContainsKey(item.EntityId))
                     ExtendedSurvivalEntityManager.Instance.VoxelMaps[item.EntityId].Close();
             }
             ExtendedSurvivalStorage.Instance.MeteorImpact.Stones.Clear();
+        }
+
+        private static void RemoveAllFactions()
+        {
+            if (ExtendedSurvivalStorage.Instance.Factions.Any())
+            {
+                foreach (var faction in ExtendedSurvivalStorage.Instance.Factions)
+                {
+                    MyAPIGateway.Session.Factions.RemoveFaction(faction.FactionId);
+                }
+                ExtendedSurvivalStorage.Instance.Factions.Clear();
+            }
         }
 
         private static bool CreatingStarSysten = false;
@@ -1027,6 +1043,35 @@ namespace ExtendedSurvival.Core
             }
         }
 
+        public static void RecreateFactions()
+        {
+            try
+            {
+                ExtendedSurvivalEntityManager.Instance.FactionsLocked = true;
+                try
+                {
+
+                    foreach (var member in ExtendedSurvivalStorage.Instance.StarSystem.Members)
+                    {
+                        RemoveStationFromPlanet(member);
+                    }
+
+                    RemoveAllFactions();
+
+                    CheckFactionsCreated();
+
+                }
+                catch (Exception ex)
+                {
+                    ExtendedSurvivalCoreLogging.Instance.LogError(typeof(StarSystemController), ex);
+                }
+            }
+            finally
+            {
+                ExtendedSurvivalEntityManager.Instance.FactionsLocked = false;
+            }
+        }
+
         private static void CreateStationToPlanet(StarSystemMemberStorage member)
         {
             CheckFactionsCreated();
@@ -1078,7 +1123,7 @@ namespace ExtendedSurvival.Core
             finally
             {
                 ExtendedSurvivalEntityManager.Instance.FactionsLocked = false;
-            }            
+            }
         }
 
         public static Vector3D RandomPerpendicular(Vector3D referenceDir)

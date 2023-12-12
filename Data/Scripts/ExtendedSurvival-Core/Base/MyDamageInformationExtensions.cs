@@ -101,23 +101,23 @@ namespace ExtendedSurvival.Core
                 var attackerGun = MyAPIGateway.Entities.GetEntityById(damage.AttackerId);
                 if (attackerGun != null)
                 {
-                    var handGun = attackerGun as IMyGunBaseUser;
-                    if (handGun != null)
+                    var weaponBlock = attackerGun as IMyCubeBlock;
+                    if (weaponBlock != null)
                     {
-                        var character = handGun.Owner as IMyCharacter;
-                        if (character != null)
-                        {
-                            playerId = character.GetPlayerId();
-                            return character;
-                        }
+                        playerId = weaponBlock.OwnerId;
+                        return weaponBlock;
                     }
                     else
                     {
-                        var weaponBlock = attackerGun as IMyCubeBlock;
-                        if (weaponBlock != null)
+                        var handGun = attackerGun as IMyGunBaseUser;
+                        if (handGun != null)
                         {
-                            playerId = weaponBlock.OwnerId;
-                            return weaponBlock;
+                            var character = handGun.Owner as IMyCharacter;
+                            if (character != null)
+                            {
+                                playerId = character.GetPlayerId();
+                                return character;
+                            }
                         }
                     }
                 }
