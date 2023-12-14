@@ -200,7 +200,7 @@ namespace ExtendedSurvival.Core
         {
             get
             {
-                return HasWeapon && AllGuns.Any(x => x.FatBlock?.IsFunctional ?? false);
+                return HasWeapon && AllWeapons.Any(x => x.FatBlock?.IsFunctional ?? false);
             }
         }
 

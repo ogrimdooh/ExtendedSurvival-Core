@@ -128,6 +128,7 @@ namespace ExtendedSurvival.Core
                                                             if (damageType != MyDamageInformationExtensions.DamageType.Tool)
                                                             {
                                                                 damage.Amount = 0;
+                                                                damage.IsDeformation = false;
                                                             }
                                                         }
                                                         else
@@ -136,6 +137,7 @@ namespace ExtendedSurvival.Core
                                                             if (steamId != 0)
                                                             {
                                                                 damage.Amount = 0;
+                                                                damage.IsDeformation = false;
                                                             }
                                                         }
                                                     }
@@ -144,12 +146,14 @@ namespace ExtendedSurvival.Core
                                                         if (damageType != MyDamageInformationExtensions.DamageType.Fall)
                                                         {
                                                             damage.Amount = 0;
+                                                            damage.IsDeformation = false;
                                                         }
                                                     }
                                                 }
                                                 else
                                                 {
                                                     damage.Amount = 0;
+                                                    damage.IsDeformation = false;
                                                 }
                                             }
                                         }
@@ -220,10 +224,11 @@ namespace ExtendedSurvival.Core
                                             if (ownerId != attackerPlayerId && ownerFaction?.FactionId != attackerFaction?.FactionId)
                                             {
                                                 if (cubeBlock.BlockDefinition.Id.TypeId != typeof(MyObjectBuilder_Door) &&
-                                                cubeBlock.BlockDefinition.Id.TypeId != typeof(MyObjectBuilder_AirtightSlideDoor) &&
-                                                cubeBlock.BlockDefinition.Id.TypeId != typeof(MyObjectBuilder_AirtightHangarDoor))
+                                                    cubeBlock.BlockDefinition.Id.TypeId != typeof(MyObjectBuilder_AirtightSlideDoor) &&
+                                                    cubeBlock.BlockDefinition.Id.TypeId != typeof(MyObjectBuilder_AirtightHangarDoor))
                                                 {
                                                     damage.Amount = 0;
+                                                    damage.IsDeformation = false;
                                                 }
                                             }
                                         }
@@ -236,6 +241,7 @@ namespace ExtendedSurvival.Core
                                         if (attackerBlock != null && attackerBlock.CubeGrid.EntityId == cubeBlock.CubeGrid.EntityId)
                                         {
                                             damage.Amount = 0;
+                                            damage.IsDeformation = false;
                                         }
                                     }
                                 }
@@ -246,7 +252,13 @@ namespace ExtendedSurvival.Core
                                     if (damageType == MyDamageInformationExtensions.DamageType.Tool &&
                                         ExtendedSurvivalSettings.Instance.Combat.NoGrindFunctionalGrids)
                                     {
-                                        damage.Amount = 0;
+                                        if (cubeBlock.BlockDefinition.Id.TypeId != typeof(MyObjectBuilder_Door) &&
+                                            cubeBlock.BlockDefinition.Id.TypeId != typeof(MyObjectBuilder_AirtightSlideDoor) &&
+                                            cubeBlock.BlockDefinition.Id.TypeId != typeof(MyObjectBuilder_AirtightHangarDoor))
+                                        {
+                                            damage.Amount = 0;
+                                            damage.IsDeformation = false;
+                                        }
                                     }
                                 }
                             }
