@@ -196,6 +196,38 @@ namespace ExtendedSurvival.Core
             }
         }
 
+        public bool AnyWeaponIsFunctional
+        {
+            get
+            {
+                return HasWeapon && AllGuns.Any(x => x.FatBlock?.IsFunctional ?? false);
+            }
+        }
+
+        public IEnumerable<IMySlimBlock> AllTurrets
+        {
+            get
+            {
+                return InteriorTurrets.Concat(LargeMissileTurrets).Concat(LargeGatlingTurrets);
+            }
+        }
+
+        public IEnumerable<IMySlimBlock> AllGuns
+        {
+            get
+            {
+                return SmallGatlingGuns.Concat(SmallMissileLauncherReloads).Concat(SmallMissileLaunchers);
+            }
+        }
+
+        public IEnumerable<IMySlimBlock> AllWeapons
+        {
+            get
+            {
+                return AllGuns.Concat(AllTurrets);
+            }
+        }
+
         public List<IMySlimBlock> WaterSolidificators
         {
             get

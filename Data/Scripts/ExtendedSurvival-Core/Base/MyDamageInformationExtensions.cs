@@ -31,6 +31,15 @@ namespace ExtendedSurvival.Core
 
         }
 
+        public enum AttackerType
+        {
+
+            None = 0,
+            Character = 1,
+            CubeBlock = 2
+
+        }
+
         public static readonly Dictionary<DamageType, MyStringHash[]> DAMAGE_TYPES_EQUIVALENCE = new Dictionary<DamageType, MyStringHash[]>()
         {
             { DamageType.Creature, new MyStringHash[] { MyDamageType.Wolf, MyDamageType.Spider } },
@@ -53,9 +62,10 @@ namespace ExtendedSurvival.Core
             return DamageType.None;
         }
 
-        public static IMyEntity GetAttacker(this MyDamageInformation damage, out long playerId, out DamageType damageType)
+        public static IMyEntity GetAttacker(this MyDamageInformation damage, out long playerId, out DamageType damageType, out AttackerType attackerType)
         {
             playerId = 0;
+            attackerType = AttackerType.None;
             damageType = GetDamageType(damage.Type);
             if (damageType == DamageType.Creature)
             {
@@ -63,6 +73,7 @@ namespace ExtendedSurvival.Core
                 if (creature != null)
                 {
                     playerId = creature.GetPlayerId();
+                    attackerType = AttackerType.Character;
                     return creature;
                 }
             }
@@ -78,6 +89,7 @@ namespace ExtendedSurvival.Core
                         if (character != null)
                         {
                             playerId = character.GetPlayerId();
+                            attackerType = AttackerType.Character;
                             return character;
                         }
                     }
@@ -90,6 +102,7 @@ namespace ExtendedSurvival.Core
                             if (character != null)
                             {
                                 playerId = character.GetPlayerId();
+                                attackerType = AttackerType.Character;
                                 return character;
                             }
                         }
@@ -105,6 +118,7 @@ namespace ExtendedSurvival.Core
                     if (weaponBlock != null)
                     {
                         playerId = weaponBlock.OwnerId;
+                        attackerType = AttackerType.CubeBlock;
                         return weaponBlock;
                     }
                     else
@@ -116,6 +130,7 @@ namespace ExtendedSurvival.Core
                             if (character != null)
                             {
                                 playerId = character.GetPlayerId();
+                                attackerType = AttackerType.Character;
                                 return character;
                             }
                         }

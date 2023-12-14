@@ -26,6 +26,9 @@ namespace ExtendedSurvival.Core
         [XmlElement]
         public bool NoGrindFunctionalGrids { get; set; } = false;
 
+        [XmlElement]
+        public bool NoGridSelfDamage { get; set; } = false;
+
     }
 
 }
