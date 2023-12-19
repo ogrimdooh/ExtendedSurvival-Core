@@ -142,10 +142,18 @@ namespace ExtendedSurvival.Core
                 {
                     ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), "StartBackground [CheckFactions START]");
                     // Loop CheckFactions
+                    int c = 0;
+                    bool first = true;
                     while (canRun)
                     {
-                        if (!FactionsLocked)
-                            CheckFactions();
+                        if (!FactionsLocked && (Instance?.Loaded ?? false))
+                        {
+                            CheckFactions(first || c >= 30); /* force every 10 minutes */
+                            c++;
+                            if (c >= 7)
+                                c = 0;
+                            first = false;
+                        }
                         if (MyAPIGateway.Parallel != null)
                             MyAPIGateway.Parallel.Sleep(10000);
                         else
@@ -470,6 +478,7 @@ namespace ExtendedSurvival.Core
                         }
                         else if (DropContainersOverride.DropContainerPrefabs.Contains(gridEntity.Entity.DisplayName))
                         {
+                            gridEntity.Entity.ChangeGridOwnership(0, MyOwnershipShareModeEnum.All);
                             if (gridEntity._blocksByType.ContainsKey(typeof(MyObjectBuilder_Parachute)))
                             {
                                 foreach (var parachuteBlock in gridEntity._blocksByType[typeof(MyObjectBuilder_Parachute)])
@@ -667,7 +676,7 @@ namespace ExtendedSurvival.Core
             return closest;
         }
 
-        private void CheckFactions()
+        private void CheckFactions(bool force = false)
         {
             try
             {
@@ -700,7 +709,7 @@ namespace ExtendedSurvival.Core
                                 faction.FirstCheck = true;
                             }
                             // Set peace to player factions not mapped
-                            var notMappedPlayerFactions = playerFacIds.Where(x => !faction.FactionsMapped.Contains(x)).ToArray();
+                            var notMappedPlayerFactions = playerFacIds.Where(x => force || !faction.FactionsMapped.Contains(x)).ToArray();
                             if (notMappedPlayerFactions.Any())
                             {
                                 for (int j = 0; j < notMappedPlayerFactions.Length; j++)
@@ -716,7 +725,7 @@ namespace ExtendedSurvival.Core
                                 }
                             }
                             // Set peace to players not mapped
-                            var notMappedPlayers = identities.Where(x => !faction.PlayersMapped.Contains(x.IdentityId)).ToArray();
+                            var notMappedPlayers = identities.Where(x => force || !faction.PlayersMapped.Contains(x.IdentityId)).ToArray();
                             if (notMappedPlayers.Any())
                             {
                                 for (int j = 0; j < notMappedPlayers.Length; j++)
@@ -730,10 +739,41 @@ namespace ExtendedSurvival.Core
                         }
                     }
                 }
+                if (force)
+                {
+                    if (ExtendedSurvivalSettings.Instance.Combat.ForceEnemyToFactions)
+                    {
+                        var tags = ExtendedSurvivalSettings.Instance.Combat.TargetEnemyFactions.Split(';');
+                        for (int i = 0; i < tags.Length; i++)
+                        {
+                            ForceRepotationToFactionByTag(playerFacIds, identities, tags[i], -1000);
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
                 ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
+            }
+        }
+
+        private void ForceRepotationToFactionByTag(long[] playerFacIds, List<IMyIdentity> identities, string targetTag, int targetReputation)
+        {
+            var SprtFaction = MyAPIGateway.Session.Factions.TryGetFactionByTag(targetTag);
+            if (SprtFaction != null)
+            {
+                for (int j = 0; j < playerFacIds.Length; j++)
+                {
+                    var reputation = MyAPIGateway.Session.Factions.GetReputationBetweenFactions(playerFacIds[j], SprtFaction.FactionId);
+                    if (reputation != targetReputation)
+                        MyAPIGateway.Session.Factions.SetReputation(playerFacIds[j], SprtFaction.FactionId, targetReputation);
+                }
+                for (int j = 0; j < identities.Count; j++)
+                {
+                    var reputation = MyAPIGateway.Session.Factions.GetReputationBetweenPlayerAndFaction(identities[j].IdentityId, SprtFaction.FactionId);
+                    if (reputation != targetReputation)
+                        MyAPIGateway.Session.Factions.SetReputationBetweenPlayerAndFaction(identities[j].IdentityId, SprtFaction.FactionId, targetReputation);
+                }
             }
         }
 

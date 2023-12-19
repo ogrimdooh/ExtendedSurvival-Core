@@ -1636,6 +1636,25 @@ namespace ExtendedSurvival.Core
                         return true;
                     }
                     break;
+                case "combat.nogridselfdamage":
+                    bool combatsetting_nogridselfdamage;
+                    if (bool.TryParse(value, out combatsetting_nogridselfdamage))
+                    {
+                        Combat.NoGridSelfDamage = combatsetting_nogridselfdamage;
+                        return true;
+                    }
+                    break;
+                case "combat.forceenemytofactions":
+                    bool combatsetting_forceenemytofactions;
+                    if (bool.TryParse(value, out combatsetting_forceenemytofactions))
+                    {
+                        Combat.ForceEnemyToFactions = combatsetting_forceenemytofactions;
+                        return true;
+                    }
+                    break;
+                case "combat.targetenemyfactions":
+                    Combat.TargetEnemyFactions = value;
+                    return true;
                 case "tradestations.comercialcycle":
                     long tradestations_comercialcycle;
                     if (long.TryParse(value, out tradestations_comercialcycle))

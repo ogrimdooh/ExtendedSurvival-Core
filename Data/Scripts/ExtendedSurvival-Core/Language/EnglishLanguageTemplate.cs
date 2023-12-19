@@ -884,6 +884,21 @@ namespace ExtendedSurvival.Core
 				"You can read more about the grid protection in the systems topics."
 			);
 			AddEntry(
+				LanguageEntries.HELP_SETTINGS_COMBATSETTING_NOGRIDSELFDAMAGE_DESCRIPTION,
+				"This configuration enable the grid protection against self turrets damage." + Environment.NewLine +
+				"You can read more about the grid protection in the systems topics."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_COMBATSETTING_FORCEENEMYTOFACTIONS_DESCRIPTION,
+				"This configuration enable the system to force -1000 reputation to a list" + Environment.NewLine +
+				"of targets factions."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_COMBATSETTING_TARGETENEMYFACTIONS_DESCRIPTION,
+				"A list of tags of factions to be used as targets to set -1000 reputation" + Environment.NewLine +
+				"when enabled."
+			);
+			AddEntry(
 				LanguageEntries.HELP_SETTINGS_VOXELMATERIALS_DESCRIPTION,
 				"This configuration group define the behavior of the voxel materials."
 			);
