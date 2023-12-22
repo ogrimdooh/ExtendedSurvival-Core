@@ -69,6 +69,7 @@ namespace ExtendedSurvival.Core
         public static int SPAWN_DISTANCE = 10000;
 
         public static readonly Vector2 STATION_BUY_VALUE_MULTIPLIER = new Vector2(0.75f, 0.85f);
+        public static readonly Vector2 STATION_SELL_VALUE_MULTIPLIER = new Vector2(1.15f, 1.25f);
 
         public const string STOREBLOCK_SUBTYPEID = "StoreBlock";
         public static readonly UniqueEntityId STOREBLOCK_ID = new UniqueEntityId(typeof(MyObjectBuilder_StoreBlock), STOREBLOCK_SUBTYPEID);
@@ -106,7 +107,52 @@ namespace ExtendedSurvival.Core
             public bool IsBlueprintChecked { get; set; }
             public MyBlueprintDefinitionBase RecipeBlueprint { get; set; }
 
-            public long BaseValue { get; set; }
+            public float BaseValue { get; set; }
+            public ConcurrentDictionary<string, float> Composition { get; set; } = new ConcurrentDictionary<string, float>();
+
+            public long GetValue(StarSystemMemberStationStorage station, bool buy, float modifier = 1f)
+            {
+                var finalValue = BaseValue * modifier;
+                if (Composition.Any())
+                {
+                    var member = station.GetMember();
+                    if (member != null)
+                    {
+                        PlanetEntity nearPlanet = null;
+                        float distanceToPlanet = 0;
+                        if (member.IsPlanet)
+                        {
+                            nearPlanet = member.Planet;
+                            if (station.IsOrbitalStation && nearPlanet != null)
+                            {
+                                distanceToPlanet = (float)Vector3D.Distance(station.Position, nearPlanet.SurfaceAtPosition(station.Position));
+                            }
+                        }
+                        else if (member.IsAsteroidBelt)
+                        {
+                            nearPlanet = ExtendedSurvivalEntityManager.GetPlanetAtRange(station.Position);
+                            if (nearPlanet != null)
+                            {
+                                distanceToPlanet = (float)Vector3D.Distance(station.Position, nearPlanet.Center());
+                            }
+                        }
+                        if (nearPlanet != null && nearPlanet.Setting != null)
+                        {
+                            var voxelTypes = nearPlanet.Setting.OreMap.Select(x => x.Type).Distinct().ToArray();
+                            var ores = voxelTypes.Select(x => MyDefinitionManager.Static.GetVoxelMaterialDefinition(x)).Where(x => x != null).Select(x => x.MinedOre.ToUpper()).ToArray();
+                            var pEasy = Composition.Where(x => ores.Contains(x.Key)).Sum(x => x.Value);
+                            var pHard = Composition.Values.Sum() - pEasy;
+                            var eValue = (finalValue * pEasy) / (buy ? 2.5f : 5f);
+                            var hValue = (finalValue * pHard) / (buy ? 5f : 2.5f);
+                            var dValue = finalValue * (distanceToPlanet / 100000000);
+                            finalValue -= eValue;
+                            finalValue += hValue;
+                            finalValue += dValue;
+                        }
+                    }
+                }
+                return (long)finalValue;
+            }
 
         }
 
@@ -199,27 +245,27 @@ namespace ExtendedSurvival.Core
         public static readonly ConcurrentDictionary<UniqueEntityId, StationShopItem> SHOP_ITENS = new ConcurrentDictionary<UniqueEntityId, StationShopItem>();
         public static readonly ConcurrentDictionary<UniqueEntityId, BaseMaterialItem> BASE_ITENS = new ConcurrentDictionary<UniqueEntityId, BaseMaterialItem>();
 
-        // PG = 15 * 2.25 (5-1)
+        // PG = 25.15 * 1.95 (5-1)
         public static readonly Dictionary<PlanetProfile.OreRarity, float> BASE_ORE_VALUE = new Dictionary<PlanetProfile.OreRarity, float>()
         {
-            { PlanetProfile.OreRarity.None, 15f },
-            { PlanetProfile.OreRarity.Common, 33.75f },
-            { PlanetProfile.OreRarity.Uncommon, 75.94f },
-            { PlanetProfile.OreRarity.Rare, 170.86f },
-            { PlanetProfile.OreRarity.Epic, 384.43f }
+            { PlanetProfile.OreRarity.None, 25.15f },
+            { PlanetProfile.OreRarity.Common, 49.04f },
+            { PlanetProfile.OreRarity.Uncommon, 95.63f },
+            { PlanetProfile.OreRarity.Rare, 186.48f },
+            { PlanetProfile.OreRarity.Epic, 363.64f }
         };
 
         public static readonly Dictionary<ItemRarity, Vector2> ITEM_RARITY_AMOUNT = new Dictionary<ItemRarity, Vector2>()
         {
-            { ItemRarity.Common, new Vector2(256, 512) },
-            { ItemRarity.Uncommon, new Vector2(128, 256) },
-            { ItemRarity.Normal, new Vector2(64, 128) },
-            { ItemRarity.Rare, new Vector2(32, 64) },
-            { ItemRarity.Epic, new Vector2(16, 32) },
+            { ItemRarity.Common, new Vector2(128, 256) },
+            { ItemRarity.Uncommon, new Vector2(64, 128) },
+            { ItemRarity.Normal, new Vector2(32, 64) },
+            { ItemRarity.Rare, new Vector2(16, 32) },
+            { ItemRarity.Epic, new Vector2(8, 16) },
         };
 
-        public static readonly Vector2 ORE_INGOT_AMOUNT_MULTIPLIER = new Vector2(100, 200);
-        public static readonly Vector2 GASCONTAINER_AMOUNT_MULTIPLIER = new Vector2(0.15f, 0.35f);
+        public static readonly Vector2 ORE_INGOT_AMOUNT_MULTIPLIER = new Vector2(10, 20);
+        public static readonly Vector2 GASCONTAINER_AMOUNT_MULTIPLIER = new Vector2(0.25f, 0.5f);
 
         public static readonly Dictionary<KeyValuePair<StationType, StationLevel>, StationPrefabFilter> STATION_PREFAB_FILTERS = new Dictionary<KeyValuePair<StationType, StationLevel>, StationPrefabFilter>
         {
@@ -1187,7 +1233,7 @@ namespace ExtendedSurvival.Core
         }
 
         private static readonly List<MyDefinitionId> ValueCalcLock = new List<MyDefinitionId>();
-        private static float GetBluePrintValue(MyBlueprintDefinitionBase bluePrint, MyPhysicalItemDefinition baseDef)
+        private static float GetBluePrintValue(MyBlueprintDefinitionBase bluePrint, MyPhysicalItemDefinition baseDef, ref ConcurrentDictionary<string, float> composition)
         {
             float baseValue = 0;
             if (ExtendedSurvivalSettings.Instance.Debug)
@@ -1209,14 +1255,28 @@ namespace ExtendedSurvival.Core
                                 var prerequisiteShopItem = GetAndCalcItemInfo(targetId);
                                 if (prerequisiteShopItem != null)
                                 {
-                                    baseValue += (float)prerequisiteShopItem.BaseValue * (float)prerequisite.Amount;
+                                    baseValue += prerequisiteShopItem.BaseValue * (float)prerequisite.Amount;
+                                    foreach (var c in prerequisiteShopItem.Composition)
+                                    {
+                                        if (composition.ContainsKey(c.Key))
+                                            composition[c.Key] += c.Value * (float)prerequisite.Amount;
+                                        else
+                                            composition[c.Key] = c.Value * (float)prerequisite.Amount;
+                                    }
                                 }
                                 else
                                 {
                                     var prerequisiteBaseItem = GetAndCalcBaseItemInfo(targetId);
                                     if (prerequisiteBaseItem != null)
                                     {
-                                        baseValue += (float)prerequisiteBaseItem.BaseValue * (float)prerequisite.Amount;
+                                        baseValue += prerequisiteBaseItem.BaseValue * (float)prerequisite.Amount;
+                                        foreach (var c in prerequisiteBaseItem.Composition)
+                                        {
+                                            if (composition.ContainsKey(c.Key))
+                                                composition[c.Key] += c.Value * (float)prerequisite.Amount;
+                                            else
+                                                composition[c.Key] = c.Value * (float)prerequisite.Amount;
+                                        }
                                     }
                                 }
                             }
@@ -1226,6 +1286,11 @@ namespace ExtendedSurvival.Core
                             }
                         }
                         baseValue *= 1 + (bluePrint.BaseProductionTimeInSeconds / 10);
+                        var totalMax = composition.Values.Sum();
+                        foreach (var k in composition.Keys)
+                        {
+                            composition[k] = composition[k] / totalMax;
+                        }
                     }
                     else
                     {
@@ -1265,6 +1330,7 @@ namespace ExtendedSurvival.Core
                                 baseValue /= baseRatio;
                                 baseValue *= lostFactor;
                                 baseValue *= baseRefineTime;
+                                composition[baseDef.Id.SubtypeName.ToUpper()] = 1f;
                             }
                             else
                             {
@@ -1302,8 +1368,10 @@ namespace ExtendedSurvival.Core
             {
                 if (!BASE_ITENS[id].IsLoaded)
                 {
-                    BASE_ITENS[id].BaseValue = (long)GetBluePrintValue(BASE_ITENS[id].RecipeBlueprint, BASE_ITENS[id].Definition);
+                    var compostion = new ConcurrentDictionary<string, float>();
+                    BASE_ITENS[id].BaseValue = (long)GetBluePrintValue(BASE_ITENS[id].RecipeBlueprint, BASE_ITENS[id].Definition, ref compostion);
                     BASE_ITENS[id].IsLoaded = true;
+                    BASE_ITENS[id].Composition = compostion;
                 }
                 return BASE_ITENS[id];
             }
@@ -1316,9 +1384,11 @@ namespace ExtendedSurvival.Core
             {
                 if (!SHOP_ITENS[id].IsLoaded)
                 {
-                    SHOP_ITENS[id].BaseValue = (long)GetBluePrintValue(SHOP_ITENS[id].RecipeBlueprint, SHOP_ITENS[id].Definition);
+                    var compostion = new ConcurrentDictionary<string, float>();
+                    SHOP_ITENS[id].BaseValue = (long)GetBluePrintValue(SHOP_ITENS[id].RecipeBlueprint, SHOP_ITENS[id].Definition, ref compostion);
                     SHOP_ITENS[id].DoForceDefinition();
                     SHOP_ITENS[id].IsLoaded = true;
+                    SHOP_ITENS[id].Composition = compostion;
                 }
                 return SHOP_ITENS[id];
             }
@@ -1559,12 +1629,16 @@ namespace ExtendedSurvival.Core
                             {
                                 foreach (var item in itensToBuyQuery)
                                 {
-                                    station.ShopItems.Add(new StarSystemStationShopItemStorage()
+                                    var finalValue = item.GetValue(station, true, STATION_BUY_VALUE_MULTIPLIER.GetRandom());
+                                    if (finalValue > 0)
                                     {
-                                        Id = item.Id.DefinitionId,
-                                        Amount = (int)GetAmountWithMultiplier(ITEM_RARITY_AMOUNT[item.Rarity].GetRandom(), item.Id.DefinitionId),
-                                        Price = (long)((float)item.BaseValue * STATION_BUY_VALUE_MULTIPLIER.GetRandom())
-                                    });
+                                        station.ShopItems.Add(new StarSystemStationShopItemStorage()
+                                        {
+                                            Id = item.Id.DefinitionId,
+                                            Amount = (int)GetAmountWithMultiplier(ITEM_RARITY_AMOUNT[item.Rarity].GetRandom(), item.Id.DefinitionId),
+                                            Price = finalValue
+                                        });
+                                    }
                                 }
                             }
                         }
@@ -1578,12 +1652,20 @@ namespace ExtendedSurvival.Core
                                     var itemToUse = itensToBuyQuery.Where(x => !queryCheck.Any(y => y.Id == x.Id.DefinitionId)).OrderBy(x => GetRandomDouble()).FirstOrDefault();
                                     if (itemToUse == null)
                                         break;
-                                    station.ShopItems.Add(new StarSystemStationShopItemStorage()
+                                    var finalValue = itemToUse.GetValue(station, true, STATION_BUY_VALUE_MULTIPLIER.GetRandom());
+                                    if (finalValue > 0)
                                     {
-                                        Id = itemToUse.Id.DefinitionId,
-                                        Amount = (int)GetAmountWithMultiplier(ITEM_RARITY_AMOUNT[itemToUse.Rarity].GetRandom(), itemToUse.Id.DefinitionId),
-                                        Price = (long)((float)itemToUse.BaseValue * STATION_BUY_VALUE_MULTIPLIER.GetRandom())
-                                    });
+                                        station.ShopItems.Add(new StarSystemStationShopItemStorage()
+                                        {
+                                            Id = itemToUse.Id.DefinitionId,
+                                            Amount = (int)GetAmountWithMultiplier(ITEM_RARITY_AMOUNT[itemToUse.Rarity].GetRandom(), itemToUse.Id.DefinitionId),
+                                            Price = finalValue
+                                        });
+                                    }
+                                    else
+                                    {
+                                        countToBuy--;
+                                    }
                                 }
                             }
                         }
@@ -1598,13 +1680,17 @@ namespace ExtendedSurvival.Core
                             {
                                 foreach (var item in itensToSellQuery)
                                 {
-                                    station.ShopItems.Add(new StarSystemStationShopItemStorage()
+                                    var finalValue = item.GetValue(station, false, STATION_SELL_VALUE_MULTIPLIER.GetRandom());
+                                    if (finalValue > 0)
                                     {
-                                        Id = item.Id.DefinitionId,
-                                        Amount = (int)GetAmountWithMultiplier(ITEM_RARITY_AMOUNT[item.Rarity].GetRandom(), item.Id.DefinitionId),
-                                        Price = item.BaseValue,
-                                        IsSelling = true
-                                    });
+                                        station.ShopItems.Add(new StarSystemStationShopItemStorage()
+                                        {
+                                            Id = item.Id.DefinitionId,
+                                            Amount = (int)GetAmountWithMultiplier(ITEM_RARITY_AMOUNT[item.Rarity].GetRandom(), item.Id.DefinitionId),
+                                            Price = finalValue,
+                                            IsSelling = true
+                                        });
+                                    }
                                 }
                             }
                         }
@@ -1618,13 +1704,21 @@ namespace ExtendedSurvival.Core
                                     var itemToUse = itensToSellQuery.Where(x => !queryCheck.Any(y => y.Id == x.Id.DefinitionId)).OrderBy(x => GetRandomDouble()).FirstOrDefault();
                                     if (itemToUse == null)
                                         break;
-                                    station.ShopItems.Add(new StarSystemStationShopItemStorage()
+                                    var finalValue = itemToUse.GetValue(station, false, STATION_SELL_VALUE_MULTIPLIER.GetRandom());
+                                    if (finalValue > 0)
                                     {
-                                        Id = itemToUse.Id.DefinitionId,
-                                        Amount = (int)GetAmountWithMultiplier(ITEM_RARITY_AMOUNT[itemToUse.Rarity].GetRandom(), itemToUse.Id.DefinitionId),
-                                        Price = itemToUse.BaseValue,
-                                        IsSelling = true
-                                    });
+                                        station.ShopItems.Add(new StarSystemStationShopItemStorage()
+                                        {
+                                            Id = itemToUse.Id.DefinitionId,
+                                            Amount = (int)GetAmountWithMultiplier(ITEM_RARITY_AMOUNT[itemToUse.Rarity].GetRandom(), itemToUse.Id.DefinitionId),
+                                            Price = itemToUse.BaseValue,
+                                            IsSelling = true
+                                        });
+                                    }
+                                    else
+                                    {
+                                        countToSell--;
+                                    }
                                 }
                             }
                         }

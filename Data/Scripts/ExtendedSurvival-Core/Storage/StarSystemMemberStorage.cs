@@ -7,21 +7,6 @@ namespace ExtendedSurvival.Core
 {
 
     [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
-    public class AsteroidStorage
-    {
-
-        [XmlElement]
-        public long Id { get; set; }
-
-        [XmlElement]
-        public Vector3D Position { get; set; }
-
-        [XmlElement]
-        public float Radius { get; set; }
-
-    }
-
-    [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
     public class StarSystemMemberStorage
     {
 
@@ -57,6 +42,42 @@ namespace ExtendedSurvival.Core
 
         [XmlArray("Stations"), XmlArrayItem("Station", typeof(StarSystemMemberStationStorage))]
         public List<StarSystemMemberStationStorage> Stations { get; set; } = new List<StarSystemMemberStationStorage>();
+
+        public bool IsAsteroidBelt
+        {
+            get
+            {
+                return MemberType == (int)StarSystemProfile.MemberType.AsteroidBelt;
+            }
+        }
+
+        public bool IsPlanet
+        {
+            get
+            {
+                return MemberType == (int)StarSystemProfile.MemberType.Planet;
+            }
+        }
+
+        public PlanetProfile.PlanetType PlanetType
+        {
+            get
+            {
+                return (PlanetProfile.PlanetType)ItemType;
+            }
+        }
+
+        public PlanetEntity Planet
+        {
+            get
+            {
+                if (IsPlanet)
+                {
+                    return ExtendedSurvivalEntityManager.GetPlanetById(EntityId);
+                }
+                return null;
+            }
+        }
 
     }
 
