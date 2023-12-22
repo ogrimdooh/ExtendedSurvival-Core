@@ -34,6 +34,17 @@ namespace ExtendedSurvival.Core
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.LogAllPvPDamage"),
+                Title = "LogAllPvPDamage",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_COMBATSETTING_LOGALLPVPDAMAGE_DESCRIPTION),
+                DefaultValue = "false",
+                CanUseSettingsCommand = true,
+                NeedRestart = false,
+                CommandSample = "/settings Combat.LogAllPvPDamage true",
+                ValueType = HelpController.ConfigurationValueType.Bool
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
                 EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.ForceEnemyToFactions"),
                 Title = "ForceEnemyToFactions",
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_COMBATSETTING_FORCEENEMYTOFACTIONS_DESCRIPTION),
@@ -61,6 +72,9 @@ namespace ExtendedSurvival.Core
 
         [XmlElement]
         public bool NoGridSelfDamage { get; set; } = false;
+
+        [XmlElement]
+        public bool LogAllPvPDamage { get; set; } = false;
 
         [XmlElement]
         public bool ForceEnemyToFactions { get; set; } = true;

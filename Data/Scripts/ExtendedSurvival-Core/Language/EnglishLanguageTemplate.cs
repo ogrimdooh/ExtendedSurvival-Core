@@ -889,6 +889,10 @@ namespace ExtendedSurvival.Core
 				"You can read more about the grid protection in the systems topics."
 			);
 			AddEntry(
+				LanguageEntries.HELP_SETTINGS_COMBATSETTING_LOGALLPVPDAMAGE_DESCRIPTION,
+				"This configuration enable the server to log all PvP damage with grids."
+			);			
+			AddEntry(
 				LanguageEntries.HELP_SETTINGS_COMBATSETTING_FORCEENEMYTOFACTIONS_DESCRIPTION,
 				"This configuration enable the system to force -1000 reputation to a list" + Environment.NewLine +
 				"of targets factions."

@@ -375,6 +375,7 @@ namespace ExtendedSurvival.Core
         public bool NeedToRecreateWhells { get; set; } = false;
         public bool NeedTeleport { get; set; } = false;
         public Vector3D TargetTeleportPosition { get; set; }
+        public MatrixD? TargetTeleport { get; set; }
 
         private List<IMySlimBlock> _woodBlocks;
         public bool HasWoodBlocks 

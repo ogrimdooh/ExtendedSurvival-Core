@@ -1644,6 +1644,14 @@ namespace ExtendedSurvival.Core
                         return true;
                     }
                     break;
+                case "combat.logallpvpdamage":
+                    bool combatsetting_logallpvpdamage;
+                    if (bool.TryParse(value, out combatsetting_logallpvpdamage))
+                    {
+                        Combat.LogAllPvPDamage = combatsetting_logallpvpdamage;
+                        return true;
+                    }
+                    break;
                 case "combat.forceenemytofactions":
                     bool combatsetting_forceenemytofactions;
                     if (bool.TryParse(value, out combatsetting_forceenemytofactions))

@@ -49,6 +49,8 @@ namespace ExtendedSurvival.Core
         public ConcurrentDictionary<long, HandheldGunEntity> HandheldGuns { get; private set; } = new ConcurrentDictionary<long, HandheldGunEntity>();
         public ConcurrentDictionary<long, IMyPlayer> Players { get; private set; } = new ConcurrentDictionary<long, IMyPlayer>();
 
+        public ConcurrentQueue<ExtendedSurvivalCoreDamageLogging.DamageToLogInfo> DamageToLog = new ConcurrentQueue<ExtendedSurvivalCoreDamageLogging.DamageToLogInfo>();
+
         private bool inicialLoadComplete = false;
 
         public bool HasPlanetNeedingWater()
@@ -75,6 +77,7 @@ namespace ExtendedSurvival.Core
         protected ParallelTasks.Task taskFactions;
         protected ParallelTasks.Task taskGuns;
         protected ParallelTasks.Task taskAsteroids;
+        protected ParallelTasks.Task taskLogDamage;
         protected override void DoInit(MyObjectBuilder_SessionComponent sessionComponent)
         {
             if (MyAPIGateway.Session.IsServer)
@@ -173,6 +176,27 @@ namespace ExtendedSurvival.Core
                             {
                                 HandheldGuns[keys[i]].StoreCurrentAmmo();
                             }
+                        }
+                        if (MyAPIGateway.Parallel != null)
+                            MyAPIGateway.Parallel.Sleep(25);
+                        else
+                            break;
+                    }
+                });
+                taskLogDamage = MyAPIGateway.Parallel.StartBackground(() =>
+                {
+                    ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), "StartBackground [LogDamage START]");
+                    while (canRun)
+                    {
+                        while (DamageToLog.Any())
+                        {
+                            ExtendedSurvivalCoreDamageLogging.DamageToLogInfo info;
+                            if (DamageToLog.TryDequeue(out info))
+                            {
+                                ExtendedSurvivalCoreDamageLogging.Instance.Log(info);
+                            }
+                            else
+                                break;
                         }
                         if (MyAPIGateway.Parallel != null)
                             MyAPIGateway.Parallel.Sleep(25);
@@ -411,11 +435,6 @@ namespace ExtendedSurvival.Core
                         if (cubeGrid.IsRespawnGrid)
                         {
                             var playerId = cubeGrid.BigOwners.FirstOrDefault();
-                            if (WaterModAPI.Registered)
-                            {
-                                // Maybe the wheels are gone xD hahaha
-                                gridEntity.NeedToRecreateWhells = true;
-                            }
                             // Teleport Grid to Belt if Vanila Asteroid Disabled
                             if (MyAPIGateway.Session.SessionSettings.ProceduralDensity == 0 &&
                                 ExtendedSurvivalStorage.Instance.StarSystem.Generated &&
@@ -435,8 +454,8 @@ namespace ExtendedSurvival.Core
                                 };
                                 var startPos = targetOrientations[new Vector2I(0, 5).GetRandomInt()];
                                 gridEntity.Entity.SetPosition(startPos);
-                                gridEntity.NeedTeleport = true;
                                 gridEntity.TargetTeleportPosition = startPos;
+                                gridEntity.NeedTeleport = true;
                             }
                             // Added extra start itens to main cargo
                             if (ExtraStartLoot.Any())
@@ -471,6 +490,48 @@ namespace ExtendedSurvival.Core
                                                     }
                                                 }
                                             }
+                                        }
+                                    }
+                                }
+                            }
+                            if (WaterModAPI.Registered)
+                            {
+                                // Try to avoid spawn at water
+                                float naturalGravityInterference;
+                                var gridPos = cubeGrid.GetPosition();
+                                var foward = cubeGrid.PositionComp.WorldMatrixRef.Forward;
+                                Vector3 naturalGravity = MyAPIGateway.Physics.CalculateNaturalGravityAt(gridPos, out naturalGravityInterference);
+                                if (naturalGravityInterference > 0)
+                                {
+                                    var neartPlanet = GetPlanetAtRange(gridPos);
+                                    if (neartPlanet != null && WaterModAPI.HasWater(neartPlanet.Entity))
+                                    {
+                                        float baseMove = 1000;
+                                        float extraMove = 100;
+                                        var surfacePosition = neartPlanet.SurfaceAtPosition(gridPos);
+                                        var baseDistance = Math.Max(Vector3D.Distance(surfacePosition, gridPos), 100);
+                                        int i = 0;
+                                        Vector3D upAtSurface = Vector3D.Zero;
+                                        while (WaterModAPI.IsUnderwater(surfacePosition))
+                                        {
+                                            gridPos += baseMove * foward;
+                                            surfacePosition = neartPlanet.SurfaceAtPosition(gridPos);
+                                            upAtSurface = neartPlanet.UpAtPosition(surfacePosition);
+                                            gridPos = surfacePosition + (baseDistance * upAtSurface);
+                                            i++;
+                                            if (i >= 40)
+                                                break;
+                                        }
+                                        if (gridPos != cubeGrid.GetPosition())
+                                        {
+                                            /* Added a extra move */
+                                            gridPos += extraMove * foward;
+                                            surfacePosition = neartPlanet.SurfaceAtPosition(gridPos);
+                                            upAtSurface = neartPlanet.UpAtPosition(surfacePosition);
+                                            gridPos = surfacePosition + (baseDistance * upAtSurface);
+                                            /* Set to teleport */
+                                            gridEntity.TargetTeleport = MatrixD.CreateWorld(gridPos, foward, upAtSurface);
+                                            gridEntity.NeedTeleport = true;
                                         }
                                     }
                                 }
@@ -853,17 +914,9 @@ namespace ExtendedSurvival.Core
                 GridEntity[] lista;
                 lock (Grids)
                 {
-                    lista = Grids.Where(x => x.HasBlocksToApplySkin).ToArray(); Grids.Where(x => x.HasBlocksToApplySkin).ToArray();
-                }
-                for (int i = 0; i < lista.Length -1; i++)
-                {
-                    lista[i].ApllySkins();
-                }
-                lock (Grids)
-                {
                     lista = Grids.Where(x => x.NeedToRecreateWhells).ToArray();
                 }
-                for (int j = 0; j < lista.Length - 1; j++)
+                for (int j = 0; j < lista.Length; j++)
                 {
                     var gridEntity = lista[j];
                     var playerId = gridEntity.Entity.BigOwners.FirstOrDefault();
@@ -890,7 +943,7 @@ namespace ExtendedSurvival.Core
                                     }
                                     else
                                         c = 10;
-                                    MyAPIGateway.Parallel.Sleep(250);
+                                    MyAPIGateway.Parallel.Sleep(25);
                                     c++;
                                 }
                                 if (motorSuspension.IsAttached)
@@ -900,6 +953,14 @@ namespace ExtendedSurvival.Core
                             }
                         }
                     }
+                }
+                lock (Grids)
+                {
+                    lista = Grids.Where(x => x.HasBlocksToApplySkin).ToArray(); Grids.Where(x => x.HasBlocksToApplySkin).ToArray();
+                }
+                for (int i = 0; i < lista.Length; i++)
+                {
+                    lista[i].ApllySkins();
                 }
                 if (WaterModAPI.Registered && ExtendedSurvivalSettings.Instance.DisableWaterModFreeIce)
                 {
@@ -940,14 +1001,30 @@ namespace ExtendedSurvival.Core
                 for (int i = 0; i < lista.Length; i++)
                 {
                     var grid = lista[i];
-                    var startPos = grid.TargetTeleportPosition;
-                    var startUp = Vector3D.Normalize(startPos - Vector3D.One);
-                    var startRandomForward = StarSystemController.RandomPerpendicular(startUp);
+                    if (!grid.TargetTeleport.HasValue)
+                    {
+                        var startPos = grid.TargetTeleportPosition;
+                        var startUp = Vector3D.Normalize(startPos - Vector3D.One);
+                        var startRandomForward = StarSystemController.RandomPerpendicular(startUp);
+                        grid.TargetTeleport = MatrixD.CreateWorld(startPos, startRandomForward, startUp);
+                    }
+                    if (grid.MotorSuspensions.Any())
+                    {
+                        for (int j = 0; j < grid.MotorSuspensions.Count; j++)
+                        {
+                            var motorSuspension = grid.MotorSuspensions[j].FatBlock as IMyMotorSuspension;
+                            if (motorSuspension.IsAttached)
+                            {
+                                motorSuspension.TopGrid.Close();
+                            }
+                        }
+                        grid.NeedToRecreateWhells = true;
+                    }
                     StarSystemController.InvokeOnGameThread(() =>
                     {
-                        grid.Entity.Teleport(MatrixD.CreateWorld(startPos, startRandomForward, startUp));
-                        grid.NeedTeleport = false;
+                        grid.Entity.Teleport(grid.TargetTeleport.Value);
                     });
+                    grid.NeedTeleport = false;
                 }
             }
             catch (Exception ex)

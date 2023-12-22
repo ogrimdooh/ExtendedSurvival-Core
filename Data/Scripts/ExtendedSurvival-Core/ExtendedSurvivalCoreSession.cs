@@ -94,14 +94,24 @@ namespace ExtendedSurvival.Core
                             if (cubeBlock != null)
                             {
                                 var ownerId = cubeBlock.OwnerId != 0 ? cubeBlock.OwnerId : cubeBlock.CubeGrid.BigOwners.FirstOrDefault();
+                                var isPlayer = MyAPIGateway.Players.TryGetSteamId(ownerId) != 0;
+                                long attackerPlayerId = 0;
+                                MyDamageInformationExtensions.DamageType damageType;
+                                MyDamageInformationExtensions.AttackerType attackerType = MyDamageInformationExtensions.AttackerType.None;
+                                VRage.ModAPI.IMyEntity attackerEntity = null;
+                                if (damage.AttackerId != 0)
+                                    attackerEntity = damage.GetAttacker(out attackerPlayerId, out damageType, out attackerType);
+                                else
+                                    damageType = MyDamageInformationExtensions.GetDamageType(damage.Type);
+                                var isAttackerPlayer = MyAPIGateway.Players.TryGetSteamId(attackerPlayerId) != 0;
                                 if (damage.Amount > 0)
                                 {
-                                    CheckGridCanBeDamage(cubeBlock, ownerId, ref damage);
+                                    CheckGridCanBeDamage(cubeBlock, ownerId, attackerPlayerId, damageType, attackerType, attackerEntity, ref damage);
                                 }
                                 if (damage.Amount > 0 && ExtendedSurvivalStorage.Instance.StarSystem.Generated &&
                                     ExtendedSurvivalStorage.Instance.StarSystem.Members.Any(x => x.HasPveArea))
                                 {
-                                    if (MyAPIGateway.Players.TryGetSteamId(ownerId) != 0)
+                                    if (isPlayer)
                                     {
                                         /* Player GRID */
                                         var pos = cubeBlock.CubeGrid.GetPosition();
@@ -115,10 +125,6 @@ namespace ExtendedSurvival.Core
                                             {
                                                 if (damage.AttackerId != 0)
                                                 {
-                                                    long attackerPlayerId = 0;
-                                                    MyDamageInformationExtensions.DamageType damageType;
-                                                    MyDamageInformationExtensions.AttackerType attackerType;
-                                                    var attackerEntity = damage.GetAttacker(out attackerPlayerId, out damageType, out attackerType);
                                                     if (attackerPlayerId != 0)
                                                     {
                                                         var ownerFaction = MyAPIGateway.Session.Factions.TryGetPlayerFaction(ownerId);
@@ -133,8 +139,7 @@ namespace ExtendedSurvival.Core
                                                         }
                                                         else
                                                         {
-                                                            var steamId = MyAPIGateway.Players.TryGetSteamId(attackerPlayerId);
-                                                            if (steamId != 0)
+                                                            if (isAttackerPlayer)
                                                             {
                                                                 damage.Amount = 0;
                                                                 damage.IsDeformation = false;
@@ -158,6 +163,20 @@ namespace ExtendedSurvival.Core
                                             }
                                         }
                                     }
+                                }
+                                if (ExtendedSurvivalSettings.Instance.Combat.LogAllPvPDamage && isPlayer && isAttackerPlayer &&
+                                    attackerPlayerId != ownerId && damage.Amount > 0 && ExtendedSurvivalEntityManager.Instance != null)
+                                {
+                                    ExtendedSurvivalEntityManager.Instance.DamageToLog.Enqueue(new ExtendedSurvivalCoreDamageLogging.DamageToLogInfo()
+                                    {
+                                        attackerId = attackerPlayerId,
+                                        ownerId = ownerId,
+                                        damageType = damageType,
+                                        gridName = cubeBlock.CubeGrid.CustomName,
+                                        position = cubeBlock.CubeGrid.GetPosition(),
+                                        amount = damage.Amount,
+                                        time = DateTime.Now
+                                    });
                                 }
                             }
                         }
@@ -194,7 +213,9 @@ namespace ExtendedSurvival.Core
 
         }
 
-        private void CheckGridCanBeDamage(IMySlimBlock cubeBlock, long ownerId, ref MyDamageInformation damage)
+        private void CheckGridCanBeDamage(IMySlimBlock cubeBlock, long ownerId, long attackerPlayerId, 
+            MyDamageInformationExtensions.DamageType damageType, MyDamageInformationExtensions.AttackerType attackerType,
+            VRage.ModAPI.IMyEntity attackerEntity, ref MyDamageInformation damage)
         {
             try
             {
@@ -210,10 +231,6 @@ namespace ExtendedSurvival.Core
                             {
                                 if (damage.AttackerId != 0)
                                 {
-                                    long attackerPlayerId = 0;
-                                    MyDamageInformationExtensions.DamageType damageType;
-                                    MyDamageInformationExtensions.AttackerType attackerType;
-                                    var attackerEntity = damage.GetAttacker(out attackerPlayerId, out damageType, out attackerType);
                                     if (MyAPIGateway.Players.TryGetSteamId(attackerPlayerId) != 0)
                                     {
                                         if (damageType == MyDamageInformationExtensions.DamageType.Tool &&
@@ -248,7 +265,6 @@ namespace ExtendedSurvival.Core
                                 else
                                 {
                                     /* During a battle a many damages info is lack of attacker id, so better avoid tool damage */
-                                    var damageType = MyDamageInformationExtensions.GetDamageType(damage.Type);
                                     if (damageType == MyDamageInformationExtensions.DamageType.Tool &&
                                         ExtendedSurvivalSettings.Instance.Combat.NoGrindFunctionalGrids)
                                     {
