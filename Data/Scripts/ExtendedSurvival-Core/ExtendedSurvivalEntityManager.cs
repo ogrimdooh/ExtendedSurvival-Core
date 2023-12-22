@@ -169,13 +169,26 @@ namespace ExtendedSurvival.Core
                     // Loop StoreCurrentAmmo
                     while (canRun)
                     {
-                        var keys = HandheldGuns.Keys.ToArray();
-                        for (int i = 0; i < keys.Length; i++)
+                        try
                         {
-                            if (HandheldGuns.ContainsKey(keys[i]))
+                            long[] keys;
+                            lock (HandheldGuns)
                             {
-                                HandheldGuns[keys[i]].StoreCurrentAmmo();
+                                keys = HandheldGuns.Keys.ToArray();
                             }
+                            if (ExtendedSurvivalSettings.Instance?.Debug ?? false)
+                                ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), "CheckHandGuns [RUN]");
+                            for (int i = 0; i < keys.Length; i++)
+                            {
+                                if (HandheldGuns.ContainsKey(keys[i]))
+                                {
+                                    HandheldGuns[keys[i]].StoreCurrentAmmo();
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
                         }
                         if (MyAPIGateway.Parallel != null)
                             MyAPIGateway.Parallel.Sleep(25);
@@ -188,15 +201,22 @@ namespace ExtendedSurvival.Core
                     ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), "StartBackground [LogDamage START]");
                     while (canRun)
                     {
-                        while (DamageToLog.Any())
+                        try
                         {
-                            ExtendedSurvivalCoreDamageLogging.DamageToLogInfo info;
-                            if (DamageToLog.TryDequeue(out info))
+                            while (DamageToLog.Any())
                             {
-                                ExtendedSurvivalCoreDamageLogging.Instance.Log(info);
+                                ExtendedSurvivalCoreDamageLogging.DamageToLogInfo info;
+                                if (DamageToLog.TryDequeue(out info))
+                                {
+                                    ExtendedSurvivalCoreDamageLogging.Instance.Log(info);
+                                }
+                                else
+                                    break;
                             }
-                            else
-                                break;
+                        }
+                        catch (Exception ex)
+                        {
+                            ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
                         }
                         if (MyAPIGateway.Parallel != null)
                             MyAPIGateway.Parallel.Sleep(25);

@@ -174,10 +174,14 @@ namespace ExtendedSurvival.Core
                 try
                 {
                     var needToDelete = new List<UInt128>();
-                    var keys = MyInventoryObservers.Keys.ToArray();
+                    UInt128[] keys;
+                    lock (MyInventoryObservers)
+                    {
+                        keys = MyInventoryObservers.Keys.ToArray();
+                    }
                     for (int i = 0; i < keys.Length; i++)
                     {
-                        var item = MyInventoryObservers[keys[i]];
+                        var item = MyInventoryObservers.ContainsKey(keys[i]) ? MyInventoryObservers[keys[i]] : null;
                         if (item != null && !item.OwnerEntity.Closed)
                         {
                             item.DoUpdate100();
