@@ -315,6 +315,8 @@ namespace ExtendedSurvival.Core
         private const string SETTINGS_COMMAND_STARSYSTEM_RECREATEFACTIONS = "recreatefactions";
 
         private const string SETTINGS_COMMAND_STARSYSTEM_PVEZONE = "pvezone";
+        private const string SETTINGS_COMMAND_STARSYSTEM_GPS = "gps";
+        private const string SETTINGS_COMMAND_STARSYSTEM_REQUESTGPS = "requestgps";
 
         private const string SETTINGS_SUBCOMMAND_SET = "set";
         private const string SETTINGS_SUBCOMMAND_COPY = "copy";
@@ -542,6 +544,33 @@ namespace ExtendedSurvival.Core
                                     case SETTINGS_COMMAND_STARSYSTEM_CLEAR:
                                         StarSystemController.ClearStarSystem();
                                         SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_STARSYSTEM} {SETTINGS_COMMAND_STARSYSTEM_CLEAR} executed.", MyFontEnum.White);
+                                        break;
+                                    case SETTINGS_COMMAND_STARSYSTEM_REQUESTGPS:
+                                        if (StarSystemController.CheckGpsToAllPlayers(true))
+                                        {
+                                            SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_STARSYSTEM} {SETTINGS_COMMAND_STARSYSTEM_REQUESTGPS} executed.", MyFontEnum.White);
+                                        }
+                                        break;
+                                    case SETTINGS_COMMAND_STARSYSTEM_GPS:
+                                        long playerId = 0;
+                                        if (mCommandData.content[2] == "$")
+                                        {
+                                            playerId = MyAPIGateway.Players.TryGetIdentityId(steamId);
+                                        }
+                                        else
+                                        {
+                                            var players = new List<IMyPlayer>();
+                                            MyAPIGateway.Players.GetPlayers(players, x => x.DisplayName == mCommandData.content[2] || x.SteamUserId.ToString() == mCommandData.content[2]);
+                                            if (players.Any())
+                                                playerId = players[0].IdentityId;
+                                        }
+                                        if (playerId != 0)
+                                        {
+                                            if (StarSystemController.CreateGpsToPlayer(playerId, true))
+                                            {
+                                                SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_STARSYSTEM} {SETTINGS_COMMAND_STARSYSTEM_GPS} executed.", MyFontEnum.White);
+                                            }
+                                        }
                                         break;
                                     case SETTINGS_COMMAND_STARSYSTEM_PVEZONE:
                                         var optionsPve = new List<string>();

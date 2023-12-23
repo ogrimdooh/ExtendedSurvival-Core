@@ -97,6 +97,73 @@ namespace ExtendedSurvival.Core
             }
         }
 
+        public static bool CheckGpsToAllPlayers(bool force = false)
+        {
+            try
+            {
+                if (ExtendedSurvivalStorage.Instance.StarSystem.Generated)
+                {
+                    if (ExtendedSurvivalSettings.Instance.StarSystemConfiguration.AutoGenerateStarSystemGps)
+                    {
+                        ExtendedSurvivalEntityManager.Instance.UpdatePlayerList();
+                        long[] activePlayers;
+                        lock (ExtendedSurvivalEntityManager.Instance.Players)
+                        {
+                            activePlayers = ExtendedSurvivalEntityManager.Instance.Players.Keys.ToArray();
+                        }
+                        foreach (var playerId in activePlayers)
+                        {
+                            CreateGpsToPlayer(playerId, force);
+                        }
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExtendedSurvivalCoreLogging.Instance.LogError(typeof(StarSystemController), ex);
+            }
+            return false;
+        }
+
+        public static bool CreateGpsToPlayer(long playerId, bool force = false)
+        {
+            try
+            {
+                if (ExtendedSurvivalStorage.Instance != null && ExtendedSurvivalStorage.Instance.StarSystem.Generated)
+                {
+                    if (ExtendedSurvivalSettings.Instance.StarSystemConfiguration.AutoGenerateStarSystemGps)
+                    {
+                        var playerInteration = ExtendedSurvivalStorage.Instance.StarSystem.GetPlayerInterationStorage(playerId);
+                        if (playerInteration != null && (!playerInteration.StartGpsGenerated || force))
+                        {
+                            foreach (var member in ExtendedSurvivalStorage.Instance.StarSystem.Members)
+                            {
+                                var posGps = member.Position;
+                                if (member.EntityId != 0)
+                                {
+                                    var Entity = MyAPIGateway.Entities.GetEntityById(member.EntityId);
+                                    posGps = Entity?.PositionComp?.WorldAABB.Center ?? member.Position;
+                                }
+                                StringBuilder sb = new StringBuilder();
+                                DoCompleteInfo(sb, member);
+                                if (force)
+                                    MyVisualScriptLogicProvider.RemoveGPS(member.Name, playerId);
+                                MyVisualScriptLogicProvider.AddGPS(member.Name, sb.ToString(), posGps, Color.MediumPurple, playerId: playerId);
+                            }
+                            playerInteration.StartGpsGenerated = true;
+                            return true;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExtendedSurvivalCoreLogging.Instance.LogError(typeof(StarSystemController), ex);
+            }
+            return false;
+        }
+
         public static void ClearStarSystem()
         {
             ExtendedSurvivalEntityManager.Instance.ClearAllPlanets();

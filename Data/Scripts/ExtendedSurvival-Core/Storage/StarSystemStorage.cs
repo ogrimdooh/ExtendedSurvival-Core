@@ -3,9 +3,11 @@ using ProtoBuf;
 using System.Xml.Serialization;
 using System.Linq;
 using VRageMath;
+using Sandbox.ModAPI;
 
 namespace ExtendedSurvival.Core
 {
+
     [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
     public class StarSystemStorage
     {
@@ -22,6 +24,9 @@ namespace ExtendedSurvival.Core
         [XmlElement]
         public long ComercialCountdown { get; set; }
 
+        [XmlArray("PlayerInterations"), XmlArrayItem("PlayerInteration", typeof(StarSystemPlayerInterationStorage))]
+        public List<StarSystemPlayerInterationStorage> PlayerInterations { get; set; } = new List<StarSystemPlayerInterationStorage>();
+
         [XmlArray("Members"), XmlArrayItem("Member", typeof(StarSystemMemberStorage))]
         public List<StarSystemMemberStorage> Members { get; set; } = new List<StarSystemMemberStorage>();
 
@@ -36,6 +41,28 @@ namespace ExtendedSurvival.Core
                 }
             }
             return ids;
+        }
+
+        public StarSystemPlayerInterationStorage GetPlayerInterationStorage(long playerId)
+        {
+            StarSystemPlayerInterationStorage playerInteration = null;
+            if (!ExtendedSurvivalStorage.Instance.StarSystem.PlayerInterations.Any(x => x.PlayerId == playerId))
+            {
+                var steamId = MyAPIGateway.Players.TryGetSteamId(playerId);
+                if (steamId == 0)
+                    return null;
+                playerInteration = new StarSystemPlayerInterationStorage()
+                {
+                    PlayerId = playerId,
+                    SteamId = steamId
+                };
+                ExtendedSurvivalStorage.Instance.StarSystem.PlayerInterations.Add(playerInteration);
+            }
+            else
+            {
+                playerInteration = ExtendedSurvivalStorage.Instance.StarSystem.PlayerInterations.FirstOrDefault(x => x.PlayerId == playerId);
+            }
+            return playerInteration;
         }
 
         public StarSystemMemberStationStorage GetByCargoId(long id)

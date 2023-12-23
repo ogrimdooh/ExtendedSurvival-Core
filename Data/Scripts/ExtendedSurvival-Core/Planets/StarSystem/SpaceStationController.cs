@@ -1350,7 +1350,8 @@ namespace ExtendedSurvival.Core
             {
                 ExtendedSurvivalCoreLogging.Instance.LogWarning(typeof(SpaceStationController), $"GetBluePrintValue: {baseDef.Id} : Avoid stack overflow, maybe recipes got conflicted!");
             }
-            ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(SpaceStationController), $"GetBluePrintValue: {baseDef.Id} : BASE VALUE = {baseValue}");
+            if (ExtendedSurvivalSettings.Instance.Debug)
+                ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(SpaceStationController), $"GetBluePrintValue: {baseDef.Id} : BASE VALUE = {baseValue}");
             return Math.Max(baseValue, 1);
         }
 

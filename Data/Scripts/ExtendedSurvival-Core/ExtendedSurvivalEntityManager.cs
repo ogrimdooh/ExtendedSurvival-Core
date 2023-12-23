@@ -78,6 +78,7 @@ namespace ExtendedSurvival.Core
         protected ParallelTasks.Task taskGuns;
         protected ParallelTasks.Task taskAsteroids;
         protected ParallelTasks.Task taskLogDamage;
+        protected ParallelTasks.Task taskGpsPlayers;
         protected override void DoInit(MyObjectBuilder_SessionComponent sessionComponent)
         {
             if (MyAPIGateway.Session.IsServer)
@@ -224,6 +225,19 @@ namespace ExtendedSurvival.Core
                             break;
                     }
                 });
+                taskGpsPlayers = MyAPIGateway.Parallel.StartBackground(() =>
+                {
+                    ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), "StartBackground [CheckGpsToAllPlayers START]");
+                    // Loop CheckGpsToAllPlayers
+                    while (canRun)
+                    {
+                        StarSystemController.CheckGpsToAllPlayers();
+                        if (MyAPIGateway.Parallel != null)
+                            MyAPIGateway.Parallel.Sleep(60000);
+                        else
+                            break;
+                    }
+                });
             }
         }
 
@@ -318,6 +332,7 @@ namespace ExtendedSurvival.Core
         public void Players_PlayerConnected(long playerId)
         {
             UpdatePlayerList();
+            StarSystemController.CreateGpsToPlayer(playerId);
         }
 
         public void Players_PlayerDisconnected(long playerId)
