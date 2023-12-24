@@ -107,6 +107,14 @@ namespace ExtendedSurvival.Core
 				"Raw soil, needs to be processed to be used."
 			);
 			AddEntry(
+				LanguageEntries.MUD_ORE_NAME,
+				"Mud"
+			);
+			AddEntry(
+				LanguageEntries.MUD_ORE_DESCRIPTION,
+				"Soft, moist soil, needs to be processed to be used."
+			);
+			AddEntry(
 				LanguageEntries.ALIENSOIL_NAME,
 				"Alien Soil"
 			);

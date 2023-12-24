@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <VoxelMaterials>
+    
+    <VoxelMaterial xsi:type="MyObjectBuilder_Dx11VoxelMaterialDefinition">
+      <Id>
+        <TypeId>VoxelMaterialDefinition</TypeId>
+        <SubtypeId>DirtySoil_01</SubtypeId>
+      </Id>
+      <MaterialTypeName>Rock</MaterialTypeName>
+      <MinedOre>Mud</MinedOre>
+      <MinedOreRatio>2.5</MinedOreRatio>
+      <CanBeHarvested>true</CanBeHarvested>
+      <SpawnsInAsteroids>true</SpawnsInAsteroids>
+      <IsRare>false</IsRare>
+      <SpawnsFromMeteorites>false</SpawnsFromMeteorites>
+      <IsIndestructible>false</IsIndestructible>
+      <ParticleEffect>Collision_Meteor</ParticleEffect>
+      
+      <ColorMetalXZnY>Textures\Voxels\Soil\Soil_cm.dds</ColorMetalXZnY>
+      <NormalGlossXZnY>Textures\Voxels\Soil\Soil_ng.dds</NormalGlossXZnY>
+      <ExtXZnY>Textures\Voxels\Dummy_add.dds</ExtXZnY>
+
+      <SpecularPower>5</SpecularPower>
+      <SpecularShininess>0.1</SpecularShininess>
+
+      <!--QUICK AND DIRTY COPY AND PASTE-->
+      <Far3Distance>2000</Far3Distance>
+      <Far3Color>
+        <X>0.17</X>
+        <Y>0.19</Y>
+        <Z>0.20</Z>
+        <W>1.0</W>
+      </Far3Color>
+      <ColorKey Hex="#28C2DD"/>
+      
+      <LandingEffect>Landing_Jet_Ground_Dust</LandingEffect>
+    </VoxelMaterial>
+    
+  </VoxelMaterials>
+</Definitions>

@@ -108,6 +108,14 @@ namespace ExtendedSurvival.Core
 				"Roherde, muss verarbeitet werden, um verwendet zu werden."
 			);
 			AddEntry(
+				LanguageEntries.MUD_ORE_NAME,
+				"Dreck"
+			);
+			AddEntry(
+				LanguageEntries.MUD_ORE_DESCRIPTION,
+				"Weicher, feuchter Boden, der für die Verwendung bearbeitet werden muss."
+			);
+			AddEntry(
 				LanguageEntries.ALIENSOIL_NAME,
 				"Fremder Boden"
 			);

@@ -23,6 +23,8 @@
 
         public const string SOIL_ORE_NAME = "SOIL_ORE_NAME";
         public const string SOIL_ORE_DESCRIPTION = "SOIL_ORE_DESCRIPTION";
+        public const string MUD_ORE_NAME = "MUD_ORE_NAME";
+        public const string MUD_ORE_DESCRIPTION = "MUD_ORE_DESCRIPTION";
         public const string ALIENSOIL_NAME = "ALIENSOIL_NAME";
         public const string ALIENSOIL_DESCRIPTION = "ALIENSOIL_DESCRIPTION";
         public const string ASTEROIDSOIL_NAME = "ASTEROIDSOIL_NAME";

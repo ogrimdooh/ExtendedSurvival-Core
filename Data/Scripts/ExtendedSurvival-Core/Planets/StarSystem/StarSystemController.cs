@@ -101,7 +101,7 @@ namespace ExtendedSurvival.Core
         {
             try
             {
-                if (ExtendedSurvivalStorage.Instance.StarSystem.Generated)
+                if (ExtendedSurvivalStorage.Instance.StarSystem.Generated && ExtendedSurvivalEntityManager.Instance != null)
                 {
                     if (ExtendedSurvivalSettings.Instance.StarSystemConfiguration.AutoGenerateStarSystemGps)
                     {

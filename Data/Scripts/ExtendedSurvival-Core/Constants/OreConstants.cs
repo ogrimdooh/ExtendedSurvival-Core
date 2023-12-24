@@ -11,6 +11,9 @@ namespace ExtendedSurvival.Core
         public const string SOIL_SUBTYPEID = "Soil";
         public static readonly UniqueEntityId SOIL_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), SOIL_SUBTYPEID);
 
+        public const string MUD_SUBTYPEID = "Mud";
+        public static readonly UniqueEntityId MUD_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), MUD_SUBTYPEID);
+
         public const string ALIENSOIL_SUBTYPEID = "AlienSoil";
         public static readonly UniqueEntityId ALIENSOIL_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), ALIENSOIL_SUBTYPEID);
 
@@ -188,6 +191,48 @@ namespace ExtendedSurvival.Core
                         {
                             Id = SAWDUST_ID,
                             Ammount = 1.6f
+                        }
+                    }
+                }
+            }
+        };
+
+        public static readonly OreDefinition MUD_DEFINITION = new OreDefinition()
+        {
+            Id = MUD_ID,
+            Name = LanguageProvider.GetEntry(LanguageEntries.MUD_ORE_NAME),
+            Description = LanguageProvider.GetEntry(LanguageEntries.MUD_ORE_DESCRIPTION),
+            CanPlayerOrder = false,
+            Mass = 1f,
+            Volume = 0.4f,
+            RecipesDefinition = new List<SimpleIngredientRecipeDefinition>()
+            {
+                new SimpleIngredientRecipeDefinition()
+                {
+                    RecipeName = "Mud_Deconstruction",
+                    IngredientAmmount = 1,
+                    ProductionTime = 0.24f,
+                    Results = new SimpleIngredientRecipeDefinition.RecipeItem[]
+                    {
+                        new SimpleIngredientRecipeDefinition.RecipeItem()
+                        {
+                            Id = IngotsConstants.GRAVEL_ID,
+                            Ammount = 0.04f
+                        },
+                        new SimpleIngredientRecipeDefinition.RecipeItem()
+                        {
+                            Id = IngotsConstants.SOIL_ID,
+                            Ammount = 0.15f
+                        },
+                        new SimpleIngredientRecipeDefinition.RecipeItem()
+                        {
+                            Id = ORGANIC_ID,
+                            Ammount = 0.0075f
+                        },
+                        new SimpleIngredientRecipeDefinition.RecipeItem()
+                        {
+                            Id = ICE_ID,
+                            Ammount = 0.0015f
                         }
                     }
                 }
@@ -480,6 +525,7 @@ namespace ExtendedSurvival.Core
         public static readonly Dictionary<UniqueEntityId, OreDefinition> ORES_DEFINITIONS = new Dictionary<UniqueEntityId, OreDefinition>()
         {
             { SOIL_ID, SOIL_DEFINITION },
+            { MUD_ID, MUD_DEFINITION },
             { ALIENSOIL_ID, ALIENSOIL_DEFINITION },
             { ASTEROIDSOIL_ID, ASTEROIDSOIL_DEFINITION },
             { DESERTSOIL_ID, DESERTSOIL_DEFINITION },

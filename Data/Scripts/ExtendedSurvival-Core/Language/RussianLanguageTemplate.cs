@@ -106,6 +106,14 @@ namespace ExtendedSurvival.Core
 				"Сырая почва, нуждается в обработке для использования."
 			);
 			AddEntry(
+				LanguageEntries.MUD_ORE_NAME,
+				"Грязь"
+			);
+			AddEntry(
+				LanguageEntries.MUD_ORE_DESCRIPTION,
+				"Мягкую, влажную почву перед использованием необходимо обработать."
+			);
+			AddEntry(
 				LanguageEntries.ALIENSOIL_NAME,
 				"Инопланетная Почва"
 			);
