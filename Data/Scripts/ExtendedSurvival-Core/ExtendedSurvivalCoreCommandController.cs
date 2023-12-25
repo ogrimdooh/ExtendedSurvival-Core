@@ -21,14 +21,14 @@ namespace ExtendedSurvival.Core
 
             public string Command { get; set; }
             public int MinOptions { get; set; }
-            public bool FixedOptions { get; set; }
+            public bool NotFixedOptions { get; set; }
             public HelpController.CommandEntryHelpInfo HelpInfo { get; set; }
 
-            public ValidCommand(string command, int minOptions, bool fixedOptions)
+            public ValidCommand(string command, int minOptions, bool notFixedOptions)
             {
                 Command = command;
                 MinOptions = minOptions;
-                FixedOptions = fixedOptions;
+                NotFixedOptions = notFixedOptions;
             }
 
         }
@@ -267,6 +267,7 @@ namespace ExtendedSurvival.Core
             VALID_COMMANDS[SETTINGS_COMMAND_SUPERFICIALMINING] = new ValidCommand(SETTINGS_COMMAND_SUPERFICIALMINING, 3, true);
             VALID_COMMANDS[SETTINGS_COMMAND_STARSYSTEM] = new ValidCommand(SETTINGS_COMMAND_STARSYSTEM, 1, true);
             VALID_COMMANDS[SETTINGS_COMMAND_METEORWAVE] = new ValidCommand(SETTINGS_COMMAND_METEORWAVE, 0, true);
+            VALID_COMMANDS[SETTINGS_COMMAND_GRIDS] = new ValidCommand(SETTINGS_COMMAND_GRIDS, 1, true);
         }
 
         protected override void UnloadData()
@@ -306,6 +307,9 @@ namespace ExtendedSurvival.Core
         private const string SETTINGS_COMMAND_SUPERFICIALMINING = "planet.superficialmining";
         private const string SETTINGS_COMMAND_STARSYSTEM = "starsystem";
         private const string SETTINGS_COMMAND_METEORWAVE = "meteorwave";
+        private const string SETTINGS_COMMAND_GRIDS = "grids";
+
+        private const string SETTINGS_COMMAND_GRIDS_RENAMEALL = "renameall";
 
         private const string SETTINGS_COMMAND_STARSYSTEM_CLEAR = "clear";
         private const string SETTINGS_COMMAND_STARSYSTEM_CREATE = "create";
@@ -338,8 +342,8 @@ namespace ExtendedSurvival.Core
             {
                 if (VALID_COMMANDS.ContainsKey(words[0]))
                 {
-                    if ((!VALID_COMMANDS[words[0]].FixedOptions && words.Length == VALID_COMMANDS[words[0]].MinOptions) ||
-                        (VALID_COMMANDS[words[0]].FixedOptions && words.Length >= VALID_COMMANDS[words[0]].MinOptions))
+                    if ((!VALID_COMMANDS[words[0]].NotFixedOptions && words.Length == VALID_COMMANDS[words[0]].MinOptions) ||
+                        (VALID_COMMANDS[words[0]].NotFixedOptions && words.Length >= VALID_COMMANDS[words[0]].MinOptions))
                     {
                         sendToOthers = false;
                         Command cmd = new Command(MyAPIGateway.Multiplayer.MyId, words);
@@ -369,8 +373,8 @@ namespace ExtendedSurvival.Core
             {
                 if (VALID_COMMANDS.ContainsKey(mCommandData.content[0]))
                 {
-                    if ((!VALID_COMMANDS[mCommandData.content[0]].FixedOptions && mCommandData.content.Length == VALID_COMMANDS[mCommandData.content[0]].MinOptions) ||
-                        (VALID_COMMANDS[mCommandData.content[0]].FixedOptions && mCommandData.content.Length >= VALID_COMMANDS[mCommandData.content[0]].MinOptions))
+                    if ((!VALID_COMMANDS[mCommandData.content[0]].NotFixedOptions && mCommandData.content.Length == VALID_COMMANDS[mCommandData.content[0]].MinOptions) ||
+                        (VALID_COMMANDS[mCommandData.content[0]].NotFixedOptions && mCommandData.content.Length >= VALID_COMMANDS[mCommandData.content[0]].MinOptions))
                     {
                         long planetId = 0;
                         switch (mCommandData.content[0])
@@ -515,6 +519,17 @@ namespace ExtendedSurvival.Core
                                 if (ExtendedSurvivalSettings.Instance.ProcessPlanetSuperficialMiningInfo(mCommandData.content[1], mCommandData.content[2], optionsSmn.ToArray()))
                                 {
                                     SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_SUPERFICIALMINING} executed.", MyFontEnum.White);
+                                }
+                                break;
+                            case SETTINGS_COMMAND_GRIDS:
+                                switch (mCommandData.content[1])
+                                {
+                                    case SETTINGS_COMMAND_GRIDS_RENAMEALL:
+                                        if (ExtendedSurvivalEntityManager.Instance.RenameAllPlayerGrids())
+                                        {
+                                            SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_GRIDS} {SETTINGS_COMMAND_GRIDS_RENAMEALL} executed.", MyFontEnum.White);
+                                        }
+                                        break;
                                 }
                                 break;
                             case SETTINGS_COMMAND_STARSYSTEM:

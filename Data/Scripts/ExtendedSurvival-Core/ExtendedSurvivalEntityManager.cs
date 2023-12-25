@@ -1121,6 +1121,134 @@ namespace ExtendedSurvival.Core
             }
         }
 
+        public bool NameHasPrefix(string name, params string[] validPrefix)
+        {
+            foreach (var prefix in validPrefix)
+            {
+                if (name.StartsWith(prefix) || name.StartsWith("[" + prefix + "]"))
+                    return true;
+            }
+            return false;
+        }
+
+        private string GetPlayerDisplayName(long playerId)
+        {
+            if (Players.ContainsKey(playerId))
+                return Players[playerId].DisplayName;
+            var lista = new List<IMyIdentity>();
+            MyAPIGateway.Players.GetAllIdentites(lista, x => x.IdentityId == playerId);
+            if (lista.Any())
+                return lista[0].DisplayName;
+            return null;
+        }
+
+        public bool IsGridNameOk(GridEntity grid)
+        {
+            var ownerId = grid.Entity.BigOwners.Any() ? grid.Entity.BigOwners[0] : 0;
+            var ownerSteamId = MyAPIGateway.Players.TryGetSteamId(ownerId);
+            if (ownerSteamId != 0)
+            {
+                var faction = MyAPIGateway.Session.Factions.TryGetPlayerFaction(ownerId);
+                var playerName = GetPlayerDisplayName(ownerId);
+                var prefixs = new List<string>();
+                if (!string.IsNullOrEmpty(playerName))
+                    prefixs.Add(playerName);
+                if (faction != null)
+                    prefixs.Add(faction.Tag);
+                return NameHasPrefix(grid.Entity.CustomName, prefixs.ToArray());
+            }
+            return true;
+        }
+
+        private string[] SHAME_NAMES = new string[]
+        {
+            "Charlotte",
+            "Scotch",
+            "Downy",
+            "Coke",
+            "Scrooge McDuck",
+            "Una",
+            "Bentina Beakley",
+            "Quacker",
+            "Jelly Bean",
+            "Ferdinand",
+            "Fenton Crackshell",
+            "Jasmine",
+            "Budweiser",
+            "Runner",
+            "Lilac",
+            "Foie Gras",
+            "Submarine",
+            "Bubba",
+            "Flapper",
+            "Hubert",
+            "Plucker",
+            "Penny",
+            "Daisy Duck",
+            "Kennedy",
+            "Feathers",
+            "Launchpad McQuack",
+            "Caesar",
+            "Scrooge McDuck",
+            "Blubber",
+            "Peso",
+            "Yolanda",
+            "Count Duckula",
+            "Webster",
+            "Popcorn",
+            "Bubbles",
+            "Pocoyo",
+            "Captain",
+            "Cookie",
+            "Snowflake",
+            "Beatrice",
+            "Daphne Duck",
+            "Colonel",
+            "Coke",
+            "Jelly Bean",
+            "Submarine",
+            "Marigold",
+            "Float",
+            "Fowl Play",
+            "Duckbeak",
+            "Della Duck"
+        };
+
+        public bool RenameAllPlayerGrids()
+        {
+            try
+            {
+                UpdatePlayerList();
+                GridEntity[] lista;
+                lock (Grids)
+                {
+                    lista = Grids.Where(x => !IsGridNameOk(x)).ToArray();
+                }
+                if (lista.Any())
+                {
+                    for (int i = 0; i < lista.Length; i++)
+                    {
+                        var grid = lista[i];
+                        var ownerId = grid.Entity.BigOwners.Any() ? grid.Entity.BigOwners[0] : 0;
+                        var faction = MyAPIGateway.Session.Factions.TryGetPlayerFaction(ownerId);
+                        var playerName = GetPlayerDisplayName(ownerId);
+                        var prefix = faction != null ? faction.Tag : playerName;
+                        if (!string.IsNullOrEmpty(prefix))
+                        {
+                            var name = SHAME_NAMES.OrderBy(x => MyUtils.GetRandomFloat()).FirstOrDefault();
+                            grid.Entity.CustomName = $"[{prefix}] - {name}";
+                        }
+                    }
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
+            }
+            return false;
+        }
+
     }
 
 }
