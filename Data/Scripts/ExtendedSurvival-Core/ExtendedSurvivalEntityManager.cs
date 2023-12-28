@@ -251,11 +251,8 @@ namespace ExtendedSurvival.Core
                     RegisterWatcher();
                     SuperficialMiningController.InitShipDrillCollec();
                 }
-                if (!IsServer)
-                {
-                    ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), $"RegisterSecureMessageHandler EntityCallsMsgHandler");
-                    MyAPIGateway.Multiplayer.RegisterSecureMessageHandler(ExtendedSurvivalCoreSession.NETWORK_ID_ENTITYCALLS, EntityCallsMsgHandler);
-                }
+                ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), $"RegisterSecureMessageHandler EntityCallsMsgHandler");
+                MyAPIGateway.Multiplayer.RegisterSecureMessageHandler(ExtendedSurvivalCoreSession.NETWORK_ID_ENTITYCALLS, EntityCallsMsgHandler);
             }
             catch (Exception ex)
             {
@@ -268,7 +265,7 @@ namespace ExtendedSurvival.Core
         {
             try
             {
-                if (netId != ExtendedSurvivalCoreSession.NETWORK_ID_ENTITYCALLS)
+                if (netId != ExtendedSurvivalCoreSession.NETWORK_ID_ENTITYCALLS || (fromServer && IsServer))
                     return;
                 var message = Encoding.Unicode.GetString(data);
                 var mCommandData = MyAPIGateway.Utilities.SerializeFromXML<Command>(message);
@@ -291,7 +288,10 @@ namespace ExtendedSurvival.Core
                             {
                                 var componentParamData = Encoding.Unicode.GetString(mCommandData.data);
                                 var componentParams = MyAPIGateway.Utilities.SerializeFromXML<CommandExtraParams>(componentParamData);
-                                syncComponent.CallFromServer(mCommandData.content[2], componentParams);
+                                if (fromServer)
+                                    syncComponent.CallFromServer(mCommandData.content[2], componentParams);
+                                else
+                                    syncComponent.CallFromClient(steamId, mCommandData.content[2], componentParams);
                             }
                         }
                     }
@@ -320,10 +320,7 @@ namespace ExtendedSurvival.Core
                 MyEntities.OnEntityAdd -= Entities_OnEntityAdd;
                 MyEntities.OnEntityRemove -= Entities_OnEntityRemove;
             }
-            else
-            {
-                MyAPIGateway.Multiplayer.UnregisterSecureMessageHandler(ExtendedSurvivalCoreSession.NETWORK_ID_ENTITYCALLS, EntityCallsMsgHandler);
-            }
+            MyAPIGateway.Multiplayer.UnregisterSecureMessageHandler(ExtendedSurvivalCoreSession.NETWORK_ID_ENTITYCALLS, EntityCallsMsgHandler);
             base.UnloadData();
         }
 

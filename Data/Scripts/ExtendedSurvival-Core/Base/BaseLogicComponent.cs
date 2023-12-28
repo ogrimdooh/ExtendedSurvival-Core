@@ -17,6 +17,7 @@ namespace ExtendedSurvival.Core
     {
 
         void CallFromServer(string method, CommandExtraParams extraParams);
+        void CallFromClient(ulong caller, string method, CommandExtraParams extraParams);
 
     }
 
@@ -193,17 +194,58 @@ namespace ExtendedSurvival.Core
             return "";
         }
 
-        protected void SendCallServer(string method, Dictionary<string, string> extraParams)
+        protected void SendCallClient(ulong caller, string method, Dictionary<string, string> extraParams)
         {
+            var cmd = new Command(caller, CurrentEntity.EntityId.ToString(), GetType().Name, method);
+            var extraData = new CommandExtraParams() { extraParams = extraParams.Select(x => new CommandExtraParam() { id = x.Key, data = x.Value }).ToArray() };
+            string extraDataToSend = MyAPIGateway.Utilities.SerializeToXML<CommandExtraParams>(extraData);
+            cmd.data = Encoding.Unicode.GetBytes(extraDataToSend);
+            string messageToSend = MyAPIGateway.Utilities.SerializeToXML<Command>(cmd);
+            MyAPIGateway.Multiplayer.SendMessageToServer(
+                ExtendedSurvivalCoreSession.NETWORK_ID_ENTITYCALLS,
+                Encoding.Unicode.GetBytes(messageToSend)
+            );
+        }
+
+        protected void SendCallServer(ulong[] target, string method, Dictionary<string, string> extraParams)
+        {
+            if (IsDedicated && !target.Any())
+            {
+                var players = new List<IMyPlayer>();
+                MyAPIGateway.Players.GetPlayers(players);
+                if (players.Any())
+                    target = players.Select(x => x.SteamUserId).ToArray();
+                else
+                    return;
+            }
             var cmd = new Command(0, CurrentEntity.EntityId.ToString(), GetType().Name, method);
             var extraData = new CommandExtraParams() { extraParams = extraParams.Select(x => new CommandExtraParam() { id = x.Key, data = x.Value }).ToArray() };
             string extraDataToSend = MyAPIGateway.Utilities.SerializeToXML<CommandExtraParams>(extraData);
             cmd.data = Encoding.Unicode.GetBytes(extraDataToSend);
             string messageToSend = MyAPIGateway.Utilities.SerializeToXML<Command>(cmd);
-            MyAPIGateway.Multiplayer.SendMessageToOthers(
-                ExtendedSurvivalCoreSession.NETWORK_ID_ENTITYCALLS,
-                Encoding.Unicode.GetBytes(messageToSend)
-            );
+            if (!target.Any())
+            {
+                MyAPIGateway.Multiplayer.SendMessageToOthers(
+                    ExtendedSurvivalCoreSession.NETWORK_ID_ENTITYCALLS,
+                    Encoding.Unicode.GetBytes(messageToSend)
+                );
+            }
+            else
+            {
+                foreach (var item in target)
+                {
+                    MyAPIGateway.Multiplayer.SendMessageTo(
+                        ExtendedSurvivalCoreSession.NETWORK_ID_ENTITYCALLS,
+                        Encoding.Unicode.GetBytes(messageToSend),
+                        item
+                    );
+                }
+            }
+        }
+
+        public virtual void CallFromClient(ulong caller, string method, CommandExtraParams extraParams)
+        {
+
         }
 
         public virtual void CallFromServer(string method, CommandExtraParams extraParams)

@@ -216,7 +216,7 @@ namespace ExtendedSurvival.Core
             if (IsServer)
             {
                 StoreInfoToClient(CanProduce, depth, output, SourceComp.CurrentOutput);
-                SendCallServer("StoreInfoToClient", new Dictionary<string, string>() {
+                SendCallServer(new ulong[] { }, "StoreInfoToClient", new Dictionary<string, string>() {
                     { CANPRODUCE_KEY, CanProduce.ToString() },
                     { DEPTH_KEY, depth.ToString() },
                     { SERVEROUTPUT_KEY, output.ToString() },
