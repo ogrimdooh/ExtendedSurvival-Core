@@ -177,8 +177,6 @@ namespace ExtendedSurvival.Core
                             {
                                 keys = HandheldGuns.Keys.ToArray();
                             }
-                            if (ExtendedSurvivalSettings.Instance?.Debug ?? false)
-                                ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), "CheckHandGuns [RUN]");
                             for (int i = 0; i < keys.Length; i++)
                             {
                                 if (HandheldGuns.ContainsKey(keys[i]))
