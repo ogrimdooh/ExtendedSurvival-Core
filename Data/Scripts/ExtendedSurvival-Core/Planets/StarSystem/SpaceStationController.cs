@@ -142,8 +142,8 @@ namespace ExtendedSurvival.Core
                             var ores = voxelTypes.Select(x => MyDefinitionManager.Static.GetVoxelMaterialDefinition(x)).Where(x => x != null).Select(x => x.MinedOre.ToUpper()).ToArray();
                             var pEasy = Composition.Where(x => ores.Contains(x.Key)).Sum(x => x.Value);
                             var pHard = Composition.Values.Sum() - pEasy;
-                            var eValue = (finalValue * pEasy) / (buy ? 2.5f : 5f);
-                            var hValue = (finalValue * pHard) / (buy ? 5f : 2.5f);
+                            var eValue = (finalValue * pEasy) / (buy ? 5f : 2.5f);
+                            var hValue = (finalValue * pHard) / (buy ? 2.5f : 5f);
                             var dValue = finalValue * (distanceToPlanet / 100000000);
                             finalValue -= eValue;
                             finalValue += hValue;
@@ -248,23 +248,23 @@ namespace ExtendedSurvival.Core
         // PG = 25.15 * 1.95 (5-1)
         public static readonly Dictionary<PlanetProfile.OreRarity, float> BASE_ORE_VALUE = new Dictionary<PlanetProfile.OreRarity, float>()
         {
-            { PlanetProfile.OreRarity.None, 25.15f },
-            { PlanetProfile.OreRarity.Common, 49.04f },
-            { PlanetProfile.OreRarity.Uncommon, 95.63f },
-            { PlanetProfile.OreRarity.Rare, 186.48f },
-            { PlanetProfile.OreRarity.Epic, 363.64f }
+            { PlanetProfile.OreRarity.None, 5.75f },
+            { PlanetProfile.OreRarity.Common, 12.94f },
+            { PlanetProfile.OreRarity.Uncommon, 29.11f },
+            { PlanetProfile.OreRarity.Rare, 65.50f },
+            { PlanetProfile.OreRarity.Epic, 147.37f }
         };
 
         public static readonly Dictionary<ItemRarity, Vector2> ITEM_RARITY_AMOUNT = new Dictionary<ItemRarity, Vector2>()
         {
-            { ItemRarity.Common, new Vector2(128, 256) },
-            { ItemRarity.Uncommon, new Vector2(64, 128) },
-            { ItemRarity.Normal, new Vector2(32, 64) },
-            { ItemRarity.Rare, new Vector2(16, 32) },
-            { ItemRarity.Epic, new Vector2(8, 16) },
+            { ItemRarity.Common, new Vector2(64, 128) },
+            { ItemRarity.Uncommon, new Vector2(32, 64) },
+            { ItemRarity.Normal, new Vector2(16, 32) },
+            { ItemRarity.Rare, new Vector2(8, 16) },
+            { ItemRarity.Epic, new Vector2(4, 8) },
         };
 
-        public static readonly Vector2 ORE_INGOT_AMOUNT_MULTIPLIER = new Vector2(10, 20);
+        public static readonly Vector2 ORE_INGOT_AMOUNT_MULTIPLIER = new Vector2(5, 25);
         public static readonly Vector2 GASCONTAINER_AMOUNT_MULTIPLIER = new Vector2(0.25f, 0.5f);
 
         public static readonly Dictionary<KeyValuePair<StationType, StationLevel>, StationPrefabFilter> STATION_PREFAB_FILTERS = new Dictionary<KeyValuePair<StationType, StationLevel>, StationPrefabFilter>
@@ -1285,7 +1285,7 @@ namespace ExtendedSurvival.Core
                                 ExtendedSurvivalCoreLogging.Instance.LogWarning(typeof(SpaceStationController), $"GetBluePrintValue: {bluePrint.Id} had invalid prerequisite!");
                             }
                         }
-                        baseValue *= 1 + (bluePrint.BaseProductionTimeInSeconds / 10);
+                        baseValue *= 1 + (bluePrint.BaseProductionTimeInSeconds / 60);
                         var totalMax = composition.Values.Sum();
                         foreach (var k in composition.Keys)
                         {

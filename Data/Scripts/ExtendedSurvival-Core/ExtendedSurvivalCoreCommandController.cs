@@ -268,6 +268,7 @@ namespace ExtendedSurvival.Core
             VALID_COMMANDS[SETTINGS_COMMAND_STARSYSTEM] = new ValidCommand(SETTINGS_COMMAND_STARSYSTEM, 1, true);
             VALID_COMMANDS[SETTINGS_COMMAND_METEORWAVE] = new ValidCommand(SETTINGS_COMMAND_METEORWAVE, 0, true);
             VALID_COMMANDS[SETTINGS_COMMAND_GRIDS] = new ValidCommand(SETTINGS_COMMAND_GRIDS, 1, true);
+            VALID_COMMANDS[SETTINGS_COMMAND_SESSION] = new ValidCommand(SETTINGS_COMMAND_SESSION, 2, true);
         }
 
         protected override void UnloadData()
@@ -309,6 +310,8 @@ namespace ExtendedSurvival.Core
         private const string SETTINGS_COMMAND_METEORWAVE = "meteorwave";
         private const string SETTINGS_COMMAND_GRIDS = "grids";
 
+        private const string SETTINGS_COMMAND_SESSION = "sessionsettings";
+
         private const string SETTINGS_COMMAND_GRIDS_RENAMEALL = "renameall";
 
         private const string SETTINGS_COMMAND_STARSYSTEM_CLEAR = "clear";
@@ -322,6 +325,7 @@ namespace ExtendedSurvival.Core
         private const string SETTINGS_COMMAND_STARSYSTEM_GPS = "gps";
         private const string SETTINGS_COMMAND_STARSYSTEM_REQUESTGPS = "requestgps";
 
+        private const string SETTINGS_SUBCOMMAND_GET = "get";
         private const string SETTINGS_SUBCOMMAND_SET = "set";
         private const string SETTINGS_SUBCOMMAND_COPY = "copy";
         private const string SETTINGS_SUBCOMMAND_GENERATE = "generate";
@@ -644,6 +648,24 @@ namespace ExtendedSurvival.Core
                                             MeteorWaveController.CallMeteorWave(new BoundingSphereD(playerPos.Value, 50));
                                         }
                                     }
+                                }
+                                break;
+                            case SETTINGS_COMMAND_SESSION:
+                                switch (mCommandData.content[1])
+                                {
+                                    case SETTINGS_SUBCOMMAND_GET:
+                                        string v;
+                                        if (SessionSettingsController.TryGetValue(mCommandData.content[2], out v))
+                                        {
+                                            SendMessage(steamId, $"[ExtendedSurvivalCore] SessionSettings: {mCommandData.content[2]} is {v}.", MyFontEnum.White);
+                                        }
+                                        break;
+                                    case SETTINGS_SUBCOMMAND_SET:
+                                        if (SessionSettingsController.TrySetValue(mCommandData.content[2], mCommandData.content[3]))
+                                        {
+                                            SendMessage(steamId, $"[ExtendedSurvivalCore] SessionSettings: {mCommandData.content[2]} change to {mCommandData.content[3]}.", MyFontEnum.White);
+                                        }
+                                        break;
                                 }
                                 break;
                         }
