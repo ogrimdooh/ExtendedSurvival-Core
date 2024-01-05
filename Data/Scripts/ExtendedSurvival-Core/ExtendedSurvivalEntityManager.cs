@@ -329,6 +329,10 @@ namespace ExtendedSurvival.Core
                 MyVisualScriptLogicProvider.PlayerDisconnected -= Players_PlayerDisconnected;
                 MyEntities.OnEntityAdd -= Entities_OnEntityAdd;
                 MyEntities.OnEntityRemove -= Entities_OnEntityRemove;
+                MyVisualScriptLogicProvider.ContractAccepted -= Contracts_ContractAccepted;
+                MyVisualScriptLogicProvider.ContractAbandoned -= Contracts_ContractAbandoned;
+                MyVisualScriptLogicProvider.ContractFailed -= Contracts_ContractFailed;
+                MyVisualScriptLogicProvider.ContractFinished -= Contracts_ContractFinished;
             }
             MyAPIGateway.Multiplayer.UnregisterSecureMessageHandler(ExtendedSurvivalCoreSession.NETWORK_ID_ENTITYCALLS, EntityCallsMsgHandler);
             base.UnloadData();
@@ -385,6 +389,63 @@ namespace ExtendedSurvival.Core
             MyEntities.OnEntityAdd += Entities_OnEntityAdd;
             MyEntities.OnEntityRemove += Entities_OnEntityRemove;
 
+            MyVisualScriptLogicProvider.ContractAccepted += Contracts_ContractAccepted;
+            MyVisualScriptLogicProvider.ContractAbandoned += Contracts_ContractAbandoned;
+            MyVisualScriptLogicProvider.ContractFailed += Contracts_ContractFailed;
+            MyVisualScriptLogicProvider.ContractFinished += Contracts_ContractFinished;
+
+        }
+
+        private void Contracts_ContractFinished(long contractId, MyDefinitionId contractDefinitionId, long acceptingPlayerId, bool isPlayerMade, long startingBlockId, long startingFactionId, long startingStationId)
+        {
+            if (ExtendedSurvivalStorage.Instance.StarSystem.Generated)
+            {
+                StarSystemStationAcquisitionContract contract;
+                var station = ExtendedSurvivalStorage.Instance.StarSystem.GetByContractId(contractId, out contract);
+                if (station != null)
+                {
+                    station.AcquisitionContracts.Remove(contract);
+                }
+            }
+        }
+
+        private void Contracts_ContractFailed(long contractId, MyDefinitionId contractDefinitionId, long acceptingPlayerId, bool isPlayerMade, long startingBlockId, long startingFactionId, long startingStationId, bool IsAbandon)
+        {
+            if (ExtendedSurvivalStorage.Instance.StarSystem.Generated)
+            {
+                StarSystemStationAcquisitionContract contract;
+                var station = ExtendedSurvivalStorage.Instance.StarSystem.GetByContractId(contractId, out contract);
+                if (station != null)
+                {
+                    station.AcquisitionContracts.Remove(contract);
+                }
+            }
+        }
+
+        private void Contracts_ContractAbandoned(long contractId, MyDefinitionId contractDefinitionId, long acceptingPlayerId, bool isPlayerMade, long startingBlockId, long startingFactionId, long startingStationId)
+        {
+            if (ExtendedSurvivalStorage.Instance.StarSystem.Generated)
+            {
+                StarSystemStationAcquisitionContract contract;
+                var station = ExtendedSurvivalStorage.Instance.StarSystem.GetByContractId(contractId, out contract);
+                if (station != null)
+                {
+                    contract.PlayerId = null;
+                }
+            }
+        }
+
+        private void  Contracts_ContractAccepted(long contractId, MyDefinitionId contractDefinitionId, long acceptingPlayerId, bool isPlayerMade, long startingBlockId, long startingFactionId, long startingStationId)
+        {
+            if (ExtendedSurvivalStorage.Instance.StarSystem.Generated)
+            {
+                StarSystemStationAcquisitionContract contract;
+                var station = ExtendedSurvivalStorage.Instance.StarSystem.GetByContractId(contractId, out contract);
+                if (station != null)
+                {
+                    contract.PlayerId = acceptingPlayerId;
+                }
+            }
         }
 
         private void Entities_OnEntityRemove(MyEntity entity)

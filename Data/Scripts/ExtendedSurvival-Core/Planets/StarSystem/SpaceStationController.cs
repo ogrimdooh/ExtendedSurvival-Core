@@ -1,6 +1,7 @@
 ﻿using Sandbox.Common.ObjectBuilders;
 using Sandbox.Common.ObjectBuilders.Definitions;
 using Sandbox.Definitions;
+using Sandbox.Game;
 using Sandbox.Game.Entities;
 using Sandbox.Game.Entities.Blocks;
 using Sandbox.ModAPI;
@@ -8,6 +9,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using VRage;
 using VRage.Collections;
 using VRage.Game;
@@ -68,11 +70,18 @@ namespace ExtendedSurvival.Core
 
         public static int SPAWN_DISTANCE = 10000;
 
-        public static readonly Vector2 STATION_BUY_VALUE_MULTIPLIER = new Vector2(0.75f, 0.85f);
-        public static readonly Vector2 STATION_SELL_VALUE_MULTIPLIER = new Vector2(1.15f, 1.25f);
+        public static readonly Vector2 STATION_BUY_VALUE_MULTIPLIER = new Vector2(0.65f, 0.75f);
+        public static readonly Vector2 STATION_ORDER_VALUE_MULTIPLIER = new Vector2(0.75f, 0.85f);
+        public static readonly Vector2 STATION_SELL_VALUE_MULTIPLIER = new Vector2(1.25f, 1.35f);
+
+        public const int DEFAULT_COLLATERAL_CONTRACT = 20;
+        public const int DEFAULT_DURATION_CONTRACT = 600;
 
         public const string STOREBLOCK_SUBTYPEID = "StoreBlock";
         public static readonly UniqueEntityId STOREBLOCK_ID = new UniqueEntityId(typeof(MyObjectBuilder_StoreBlock), STOREBLOCK_SUBTYPEID);
+
+        public const string CONTRACTBLOCK_SUBTYPEID = "ContractBlock";
+        public static readonly UniqueEntityId CONTRACTBLOCK_ID = new UniqueEntityId(typeof(MyObjectBuilder_ContractBlock), CONTRACTBLOCK_SUBTYPEID);
 
         public const string LARGEBLOCKLARGECONTAINER_SUBTYPEID = "LargeBlockLargeContainer";
         public static readonly UniqueEntityId LARGEBLOCKLARGECONTAINER_ID = new UniqueEntityId(typeof(MyObjectBuilder_CargoContainer), LARGEBLOCKLARGECONTAINER_SUBTYPEID);
@@ -112,7 +121,7 @@ namespace ExtendedSurvival.Core
 
             public long GetValue(StarSystemMemberStationStorage station, bool buy, float modifier = 1f)
             {
-                var finalValue = BaseValue * modifier;
+                var finalValue = BaseValue;
                 if (Composition.Any())
                 {
                     var member = station.GetMember();
@@ -142,8 +151,8 @@ namespace ExtendedSurvival.Core
                             var ores = voxelTypes.Select(x => MyDefinitionManager.Static.GetVoxelMaterialDefinition(x)).Where(x => x != null).Select(x => x.MinedOre.ToUpper()).ToArray();
                             var pEasy = Composition.Where(x => ores.Contains(x.Key)).Sum(x => x.Value);
                             var pHard = Composition.Values.Sum() - pEasy;
-                            var eValue = (finalValue * pEasy) / (buy ? 5f : 2.5f);
-                            var hValue = (finalValue * pHard) / (buy ? 2.5f : 5f);
+                            var eValue = (finalValue * pEasy) / (buy ? 5f : 7.5f);
+                            var hValue = (finalValue * pHard) / (buy ? 1.25f : 2.5f);
                             var dValue = finalValue * (distanceToPlanet / 100000000);
                             finalValue -= eValue;
                             finalValue += hValue;
@@ -151,7 +160,7 @@ namespace ExtendedSurvival.Core
                         }
                     }
                 }
-                return (long)finalValue;
+                return (long)(finalValue * modifier);
             }
 
         }
@@ -229,6 +238,7 @@ namespace ExtendedSurvival.Core
             public Vector2I PrefabsCount;
             public Vector2I SellItensCount;
             public Vector2I BuyItensCount;
+            public Vector2I AcquisitionContractsCount;
             public ItemRarity[] CanSellRarity;
 
         }
@@ -351,6 +361,7 @@ namespace ExtendedSurvival.Core
                     PrefabsCount = new Vector2I(2, 4),
                     BuyItensCount = new Vector2I(5, 10),
                     SellItensCount = new Vector2I(5, 10),
+                    AcquisitionContractsCount = new Vector2I(5, 10),
                     CanSellRarity = new ItemRarity[] { ItemRarity.Common, ItemRarity.Uncommon, ItemRarity.Normal }
                 }
             },
@@ -361,6 +372,7 @@ namespace ExtendedSurvival.Core
                     PrefabsCount = new Vector2I(3, 6),
                     BuyItensCount = new Vector2I(10, 15),
                     SellItensCount = new Vector2I(10, 15),
+                    AcquisitionContractsCount = new Vector2I(10, 15),
                     CanSellRarity = new ItemRarity[] { ItemRarity.Common, ItemRarity.Uncommon, ItemRarity.Normal, ItemRarity.Rare }
                 }
             },
@@ -371,6 +383,7 @@ namespace ExtendedSurvival.Core
                     PrefabsCount = new Vector2I(4, 8),
                     BuyItensCount = new Vector2I(15, 20),
                     SellItensCount = new Vector2I(15, 20),
+                    AcquisitionContractsCount = new Vector2I(15, 20),
                     CanSellRarity = new ItemRarity[] { ItemRarity.Common, ItemRarity.Uncommon, ItemRarity.Normal, ItemRarity.Rare, ItemRarity.Epic }
                 }
             }
@@ -675,7 +688,7 @@ namespace ExtendedSurvival.Core
         static SpaceStationController()
         {
             // Lumber
-            AddItemToShop(ItensConstants.WOODLOG_ID, ItemRarity.Common, true, true, true, FactionType.Lumber);
+            AddItemToShop(ItensConstants.WOODLOG_ID, ItemRarity.Common, true, true, true, true, FactionType.Lumber);
             AddItemToShop(ItensConstants.SAWDUST_ID, ItemRarity.Common, true, true, true, FactionType.Lumber);
             // Miner
             AddItemToShop(ItensConstants.IRON_ORE_ID, ItemRarity.Common, true, true, true, FactionType.Miner);
@@ -988,15 +1001,26 @@ namespace ExtendedSurvival.Core
                             var isBaseOre = idToFind.TypeId == typeof(MyObjectBuilder_Ore) && PlanetMapProfile.AllValidOres.Contains(idToFind.SubtypeName.ToUpper());
                             if (!isBaseOre)
                             {
-                                var queryBlueprint = bluePrints.Where(x => x.Results.Any(y => y.Id == idToFind) && !x.Prerequisites.Any(y => y.Id == idToFind));
+                                var queryBlueprint = bluePrints.Where(x => 
+                                    x.Results.Any(y => y.Id == idToFind) && 
+                                    !x.Prerequisites.Any(y => y.Id == idToFind
+                                ));
                                 if (queryBlueprint.Any())
                                 {
+                                    if (queryBlueprint.Count() > 1)
+                                    {
+                                        var newQuery = queryBlueprint.Where(x => !x.Id.SubtypeName.StartsWith("Position"));
+                                        if (newQuery.Any())
+                                            queryBlueprint = newQuery;
+                                    }
                                     var bluePrintsToChouse = queryBlueprint.OrderBy(x => x.Results.Count()).ToList();
                                     if (bluePrintsToChouse.Any(x => x.IsPrimary))
                                         itemToCheck.Value.RecipeBlueprint = bluePrintsToChouse.Where(x => x.IsPrimary).FirstOrDefault();
                                     else
                                         itemToCheck.Value.RecipeBlueprint = bluePrintsToChouse.FirstOrDefault();
                                 }
+                                if (ExtendedSurvivalSettings.Instance.Debug)
+                                    ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(SpaceStationController), $"DoCalcAllItensInfo: USE {itemToCheck.Value.RecipeBlueprint?.Id} TO {idToFind}");
                             }
                         }
                         itemToCheck.Value.IsBlueprintChecked = true;
@@ -1245,6 +1269,7 @@ namespace ExtendedSurvival.Core
                     ValueCalcLock.Add(baseDef.Id);
                     if (bluePrint != null)
                     {
+                        var resultaAmount = (float)bluePrint.Results.FirstOrDefault(x => x.Id == baseDef.Id).Amount;
                         foreach (var prerequisite in bluePrint.Prerequisites)
                         {
                             if (!prerequisite.Id.TypeId.IsNull && !string.IsNullOrWhiteSpace(prerequisite.Id.SubtypeId.String))
@@ -1286,6 +1311,10 @@ namespace ExtendedSurvival.Core
                             }
                         }
                         baseValue *= 1 + (bluePrint.BaseProductionTimeInSeconds / 60);
+                        if (resultaAmount >= 1)
+                            baseValue /= resultaAmount;
+                        else if (resultaAmount < 1 && resultaAmount > 0)
+                            baseValue *= 1 + ((1 - resultaAmount) / 2);
                         var totalMax = composition.Values.Sum();
                         foreach (var k in composition.Keys)
                         {
@@ -1396,6 +1425,25 @@ namespace ExtendedSurvival.Core
             return null;
         }
 
+        public static string GetEconomyValues()
+        {
+            var sb = new StringBuilder();
+            var validTypes = BASE_ITENS.Keys.Select(x => x.typeId).Concat(SHOP_ITENS.Keys.Select(x => x.typeId)).Distinct().ToArray();
+            foreach (var validType in validTypes)
+            {
+                sb.AppendLine($"Group {validType}:");
+                var itens = BASE_ITENS.Where(x => x.Key.typeId == validType).Select(x => x.Value)
+                    .Concat(SHOP_ITENS.Where(x => x.Key.typeId == validType).Select(x => x.Value as BaseMaterialItem))
+                    .OrderBy(x => x.BaseValue).ToArray();
+                foreach (var item in itens)
+                {
+                    sb.AppendLine($"- {item.Definition.DisplayNameText} = $ {item.BaseValue.ToString("#0.00")}:");
+                }
+                sb.AppendLine();
+            }
+            return sb.ToString();
+        }
+
         public static string GetFactionName(FactionType type, out string tag)
         {
             var first = FIRST_NAMES.OrderBy(x => GetRandomDouble()).FirstOrDefault();
@@ -1460,34 +1508,40 @@ namespace ExtendedSurvival.Core
                                                     true,
                                                     () =>
                                                     {
-                                                        var grid = gridListDummy.FirstOrDefault();
-                                                        if (grid != null)
+                                                        try
                                                         {
-                                                            grid.IsStatic = true;
-                                                            station.StationEntityId = grid.EntityId;
-                                                            var safeZone = MySessionComponentSafeZones.CrateSafeZone(
-                                                                MatrixD.CreateWorld(station.Position, station.Up, station.Foward),
-                                                                MySafeZoneShape.Sphere,
-                                                                MySafeZoneAccess.Blacklist,
-                                                                new long[] { },
-                                                                new long[] { },
-                                                                stationType == StationType.OrbitalStation || stationType == StationType.SpaceStation ? 100 : 75,
-                                                                true
-                                                            );
-                                                            station.SafeZoneEntityId = safeZone.EntityId;
-                                                            if (!station.FirstContact || 
-                                                                station.ComercialTick < ExtendedSurvivalStorage.Instance.StarSystem.ComercialTick ||
-                                                                !station.ShopItems.Any())
+                                                            var grid = gridListDummy.FirstOrDefault();
+                                                            if (grid != null)
                                                             {
-                                                                DoBuildShopItens(station);
-                                                                station.FirstContact = true;
-                                                            }
-                                                            else
-                                                            {
-                                                                DoApplyItensToGrid(station);
+                                                                grid.IsStatic = true;
+                                                                station.StationEntityId = grid.EntityId;
+                                                                var safeZone = MySessionComponentSafeZones.CrateSafeZone(
+                                                                    MatrixD.CreateWorld(station.Position, station.Up, station.Foward),
+                                                                    MySafeZoneShape.Sphere,
+                                                                    MySafeZoneAccess.Blacklist,
+                                                                    new long[] { },
+                                                                    new long[] { },
+                                                                    stationType == StationType.OrbitalStation || stationType == StationType.SpaceStation ? 100 : 75,
+                                                                    true
+                                                                );
+                                                                station.SafeZoneEntityId = safeZone.EntityId;
+                                                                if (!station.FirstContact ||
+                                                                    station.ComercialTick < ExtendedSurvivalStorage.Instance.StarSystem.ComercialTick ||
+                                                                    !station.ShopItems.Any())
+                                                                {
+                                                                    DoBuildShopItens(station);
+                                                                    station.FirstContact = true;
+                                                                }
+                                                                else
+                                                                {
+                                                                    DoApplyItensToGrid(station);
+                                                                }
                                                             }
                                                         }
-                                                        station.IsSpawning = false;
+                                                        finally
+                                                        {
+                                                            station.IsSpawning = false;
+                                                        }
                                                     }
                                                 );
                                             }
@@ -1500,7 +1554,7 @@ namespace ExtendedSurvival.Core
                                     }
                                     else if (station.StationEntityId != 0)
                                     {
-                                        if (!ExtendedSurvivalEntityManager.Instance.AnyInRange(station.Position, SPAWN_DISTANCE, station.StationEntityId))
+                                        if (!station.HasActiveContracts && !ExtendedSurvivalEntityManager.Instance.AnyInRange(station.Position, SPAWN_DISTANCE, station.StationEntityId))
                                         {
                                             try
                                             {
@@ -1605,6 +1659,60 @@ namespace ExtendedSurvival.Core
             if (id.TypeId == typeof(MyObjectBuilder_GasContainerObject) || id.TypeId == typeof(MyObjectBuilder_OxygenContainerObject))
                 return baseValue * GASCONTAINER_AMOUNT_MULTIPLIER.GetRandom();
             return baseValue;
+        }
+
+        public static void DoBuildContracts(StarSystemMemberStationStorage station)
+        {
+            var faction = ExtendedSurvivalStorage.Instance.GetFaction(station.FactionId);
+            if (faction != null)
+            {
+                if (station.AcquisitionContracts.Any(x => x.ContractId.HasValue && !x.PlayerId.HasValue))
+                {
+                    foreach (var contrat in station.AcquisitionContracts.Where(x => x.ContractId.HasValue && !x.PlayerId.HasValue))
+                    {
+                        MyVisualScriptLogicProvider.RemoveContract(contrat.ContractId.Value);
+                    }
+                }
+                station.AcquisitionContracts.RemoveAll(x => x.ContractId.HasValue && !x.PlayerId.HasValue);
+                var factionType = (FactionType)faction.FactionType;
+                var stationLevel = (StationLevel)station.StationLevel;
+                var countToOrder = Math.Max(0, STATION_ITENS_PROFILE[stationLevel].AcquisitionContractsCount.GetRandomInt() - station.AcquisitionContracts.Count);
+                var itensQuery = SHOP_ITENS.Values.Where(x => x.TargetFactions.Contains(factionType) && STATION_ITENS_PROFILE[stationLevel].CanSellRarity.Contains(x.Rarity));
+                if (itensQuery.Any() && countToOrder > 0)
+                {
+                    var itensToOrderQuery = itensQuery.Where(x => x.CanOrder);
+                    if (itensToOrderQuery.Any())
+                    {
+                        lock (station.AcquisitionContracts)
+                        {
+                            var queryCheck = station.AcquisitionContracts.AsQueryable();
+                            while (queryCheck.Count() < countToOrder)
+                            {
+                                var itemToUse = itensToOrderQuery.Where(x => !queryCheck.Any(y => y.Id == x.Id.DefinitionId)).OrderBy(x => GetRandomDouble()).FirstOrDefault();
+                                if (itemToUse == null)
+                                    break;
+                                var finalValue = itemToUse.GetValue(station, true, STATION_BUY_VALUE_MULTIPLIER.GetRandom());
+                                if (finalValue > 0)
+                                {
+                                    var amount = (int)GetAmountWithMultiplier(ITEM_RARITY_AMOUNT[itemToUse.Rarity].GetRandom(), itemToUse.Id.DefinitionId);
+                                    station.AcquisitionContracts.Add(new StarSystemStationAcquisitionContract()
+                                    {
+                                        Id = itemToUse.Id.DefinitionId,
+                                        Amount = amount,
+                                        Reward = (int)finalValue * amount,
+                                        Collateral = DEFAULT_COLLATERAL_CONTRACT,
+                                        Duration = DEFAULT_DURATION_CONTRACT
+                                    });
+                                }
+                                else
+                                {
+                                    countToOrder--;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         public static void DoBuildShopItens(StarSystemMemberStationStorage station)
@@ -1765,6 +1873,7 @@ namespace ExtendedSurvival.Core
                     }
                 }
             }
+            DoBuildContracts(station);
             station.ComercialTick = ExtendedSurvivalStorage.Instance.StarSystem.ComercialTick;
             if (station.StationEntityId != 0)
             {
@@ -1894,6 +2003,46 @@ namespace ExtendedSurvival.Core
             }
         }
 
+        private static void DoApplyContractsToStation(GridEntity entity, StarSystemMemberStationStorage station)
+        {
+            if (entity != null)
+            {
+                if (entity._blocksById.ContainsKey(CONTRACTBLOCK_ID))
+                {
+                    var contractBlock = entity._blocksById[CONTRACTBLOCK_ID].FirstOrDefault();
+                    if (contractBlock != null)
+                    {
+                        bool balanceChange = false;
+                        foreach (var contract in station.AcquisitionContracts.Where(x => !x.ContractId.HasValue))
+                        {
+                            StarSystemController.InvokeOnGameThread(() =>
+                            {
+                                if (!balanceChange)
+                                {
+                                    MyAPIGateway.Players.RequestChangeBalance(contractBlock.OwnerId, long.MaxValue / 2);
+                                    balanceChange = true;
+                                }
+                                long contractId = 0;
+                                if (MyVisualScriptLogicProvider.AddAcquisitionContract(
+                                    contractBlock.FatBlock.EntityId,
+                                    contract.Reward,
+                                    contract.Collateral,
+                                    contract.Duration,
+                                    contractBlock.FatBlock.EntityId,
+                                    contract.Id,
+                                    contract.Amount,
+                                    out contractId
+                                ))
+                                {
+                                    contract.ContractId = contractId;
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        }
+
         private static void DoApplyItensToGrid(StarSystemMemberStationStorage station)
         {
             var entity = ExtendedSurvivalEntityManager.GetGridById(station.StationEntityId);
@@ -1952,6 +2101,7 @@ namespace ExtendedSurvival.Core
                         }
                     }
                 }
+                DoApplyContractsToStation(entity, station);
             }
         }
 

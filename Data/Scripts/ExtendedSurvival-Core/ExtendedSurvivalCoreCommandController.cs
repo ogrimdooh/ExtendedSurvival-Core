@@ -322,6 +322,7 @@ namespace ExtendedSurvival.Core
         private const string SETTINGS_COMMAND_STARSYSTEM_RECREATEFACTIONS = "recreatefactions";
         private const string SETTINGS_COMMAND_STARSYSTEM_RECREATEASTEROIDS = "recreateasteroids";
         private const string SETTINGS_COMMAND_STARSYSTEM_RESETASTEROIDS = "reseteasteroids";
+        private const string SETTINGS_COMMAND_STARSYSTEM_GETALLECONOMYVALUES = "getalleconomyvalues";
 
         private const string SETTINGS_COMMAND_STARSYSTEM_PVEZONE = "pvezone";
         private const string SETTINGS_COMMAND_STARSYSTEM_GPS = "gps";
@@ -546,6 +547,10 @@ namespace ExtendedSurvival.Core
                                 }
                                 switch (mCommandData.content[1])
                                 {
+                                    case SETTINGS_COMMAND_STARSYSTEM_GETALLECONOMYVALUES:
+                                        var data = SpaceStationController.GetEconomyValues();
+                                        SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_STARSYSTEM} {SETTINGS_COMMAND_STARSYSTEM_GETALLECONOMYVALUES} executed.", MyFontEnum.White, extraInfo: data);
+                                        break;
                                     case SETTINGS_COMMAND_STARSYSTEM_RESETASTEROIDS:
                                         StarSystemController.RecreateAsteroids(false);
                                         SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_STARSYSTEM} {SETTINGS_COMMAND_STARSYSTEM_RESETASTEROIDS} executed.", MyFontEnum.White);
@@ -697,10 +702,10 @@ namespace ExtendedSurvival.Core
                     var mCommandData = MyAPIGateway.Utilities.SerializeFromXML<Command>(message);
 
                     int timeToLive = 0;
-                    if (mCommandData.content.Length == 3 &&
+                    if (mCommandData.content.Length == 4 &&
                         int.TryParse(mCommandData.content[2], out timeToLive))
                     {
-                        ShowMessage(mCommandData.content[0], mCommandData.content[1], timeToLive);
+                        ShowMessage(mCommandData.content[0], mCommandData.content[1], timeToLive, mCommandData.content[3]);
                     }
                 }
             }
@@ -752,7 +757,7 @@ namespace ExtendedSurvival.Core
             return nullReturn;
         }
 
-        public void SendMessage(ulong target, string text, string font = MyFontEnum.Red, int timeToLive = 5000)
+        public void SendMessage(ulong target, string text, string font = MyFontEnum.Red, int timeToLive = 5000, string extraInfo = null)
         {
             if (IsDedicated || (IsServer && MyAPIGateway.Multiplayer.MyId != target))
             {
@@ -760,7 +765,8 @@ namespace ExtendedSurvival.Core
                 {
                     text,
                     font,
-                    timeToLive.ToString()
+                    timeToLive.ToString(),
+                    extraInfo
                 };
                 Command cmd = new Command(IsDedicated ? 0 : MyAPIGateway.Multiplayer.MyId, values);
                 string message = MyAPIGateway.Utilities.SerializeToXML<Command>(cmd);
@@ -772,11 +778,11 @@ namespace ExtendedSurvival.Core
             }
             else
             {
-                ShowMessage(text, font, timeToLive);
+                ShowMessage(text, font, timeToLive, extraInfo);
             }
         }
 
-        public void ShowMessage(string text, string font = MyFontEnum.Red, int timeToLive = 5000)
+        public void ShowMessage(string text, string font = MyFontEnum.Red, int timeToLive = 5000, string extraInfo = null)
         {
             if (hudMsg == null)
                 hudMsg = MyAPIGateway.Utilities.CreateNotification(string.Empty);
@@ -786,6 +792,8 @@ namespace ExtendedSurvival.Core
             hudMsg.AliveTime = timeToLive;
             hudMsg.Text = text;
             hudMsg.Show();
+            if (!string.IsNullOrWhiteSpace(extraInfo))
+                VRage.Utils.MyClipboardHelper.SetClipboard(extraInfo);
         }
 
     }

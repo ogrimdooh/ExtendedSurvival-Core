@@ -65,6 +65,20 @@ namespace ExtendedSurvival.Core
             return playerInteration;
         }
 
+        public StarSystemMemberStationStorage GetByEntityId(long id)
+        {
+            return GetStations().FirstOrDefault(x => x.StationEntityId == id);
+        }
+
+        public StarSystemMemberStationStorage GetByContractId(long id, out StarSystemStationAcquisitionContract contract)
+        {
+            contract = null;
+            var station = GetStations().FirstOrDefault(x => x.AcquisitionContracts.Any(y => y.ContractId == id));
+            if (station != null)
+                contract = station.AcquisitionContracts.FirstOrDefault(y => y.ContractId == id);
+            return station;
+        }
+
         public StarSystemMemberStationStorage GetByCargoId(long id)
         {
             var ids = GetStationsContainersIds();

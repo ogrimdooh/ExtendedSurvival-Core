@@ -4,6 +4,7 @@ using VRage.ObjectBuilders;
 
 namespace ExtendedSurvival.Core
 {
+
     [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
     public class StarSystemStationShopItemStorage
     {

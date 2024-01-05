@@ -67,12 +67,23 @@ namespace ExtendedSurvival.Core
         [XmlElement]
         public bool FirstContact { get; set; }
 
+        public bool HasActiveContracts
+        {
+            get
+            {
+                return AcquisitionContracts.Any(x => x.PlayerId.HasValue);
+            }
+        }
+
         [XmlArray("ShopItems"), XmlArrayItem("Item", typeof(StarSystemStationShopItemStorage))]
         public List<StarSystemStationShopItemStorage> ShopItems { get; set; } = new List<StarSystemStationShopItemStorage>();
 
         [XmlArray("ShopPrefabs"), XmlArrayItem("Prefab", typeof(StarSystemStationShopPrefabStorage))]
         public List<StarSystemStationShopPrefabStorage> ShopPrefabs { get; set; } = new List<StarSystemStationShopPrefabStorage>();
-        
+
+        [XmlArray("AcquisitionContracts"), XmlArrayItem("Contract", typeof(StarSystemStationAcquisitionContract))]
+        public List<StarSystemStationAcquisitionContract> AcquisitionContracts { get; set; } = new List<StarSystemStationAcquisitionContract>();
+
         public string GetDatabadData()
         {
             return "Some Merchant keeps bragging about some really good deals at a station he has been visiting but would not spill the details. " + Environment.NewLine +

@@ -847,6 +847,7 @@ namespace ExtendedSurvival.Core
                             i++;
                         }
                     }
+                    DoResetAnyNpcBalance();
                 }
             }
             catch (Exception ex)
@@ -869,6 +870,7 @@ namespace ExtendedSurvival.Core
                             DoResetFactionBalance(faction);
                         }
                     }
+                    DoResetAnyNpcBalance();
                 }
             }
             catch (Exception ex)
@@ -877,14 +879,28 @@ namespace ExtendedSurvival.Core
             }
         }
 
+        private static void DoResetAnyNpcBalance()
+        {
+            List<IMyIdentity> identities = new List<IMyIdentity>();
+            MyAPIGateway.Players.GetAllIdentites(identities, (x) => { return MyAPIGateway.Players.TryGetSteamId(x.IdentityId) == 0; });
+            foreach (var item in identities)
+            {
+                MyAPIGateway.Players.RequestChangeBalance(item.IdentityId, long.MaxValue / 2);
+            }
+        }
+
         private static void DoResetFactionBalance(IMyFaction faction)
         {
-            faction.RequestChangeBalance(long.MaxValue / 2);
-            if (faction.Members.Any())
-            {
-                var ownerId = faction.Members.Keys.First();
-                MyAPIGateway.Players.RequestChangeBalance(ownerId, long.MaxValue / 2);
-            }
+            InvokeOnGameThread(() => {
+                faction.RequestChangeBalance(long.MaxValue / 2);
+                if (faction.Members.Any())
+                {
+                    foreach (var item in faction.Members)
+                    {
+                        MyAPIGateway.Players.RequestChangeBalance(item.Key, long.MaxValue / 2);
+                    }
+                }
+            });
         }
 
         private static void RemoveStationFromPlanet(StarSystemMemberStorage member)
@@ -1057,7 +1073,7 @@ namespace ExtendedSurvival.Core
                     var totalToGenerate = new Vector2I(minStations, maxStations).GetRandomInt();
                     var fraction = member.AsteroidsData.Count / totalToGenerate;
                     var targetCoords = new List<Vector3D>();
-                    var validCoords = member.AsteroidsData.Select(x => x.Position).OrderBy(x => GetRandomDouble()).ToArray();
+                    var validCoords = member.AsteroidsData.Select(x => x.Position).ToArray();
                     for (int i = 0; i < totalToGenerate; i++)
                     {
                         var targetIndex = i * fraction;
@@ -1388,6 +1404,7 @@ namespace ExtendedSurvival.Core
 
         public static void InvokeOnGameThread(Action action, bool wait = true)
         {
+            int maxWait = 100;
             bool isExecuting = true;
             MyAPIGateway.Utilities.InvokeOnGameThread(() =>
             {
@@ -1400,10 +1417,12 @@ namespace ExtendedSurvival.Core
                     isExecuting = false;
                 }
             });
-            while (wait && isExecuting)
+            int c = 0;
+            while (wait && isExecuting && c < maxWait)
             {
                 if (MyAPIGateway.Parallel != null)
                     MyAPIGateway.Parallel.Sleep(25);
+                c++;
             }
         }
 
