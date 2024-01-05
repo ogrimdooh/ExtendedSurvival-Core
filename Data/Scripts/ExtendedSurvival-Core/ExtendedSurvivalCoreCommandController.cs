@@ -320,6 +320,8 @@ namespace ExtendedSurvival.Core
         private const string SETTINGS_COMMAND_STARSYSTEM_RESETECONOMY = "reseteconomy";
         private const string SETTINGS_COMMAND_STARSYSTEM_RECREATESTATIONS = "recreatestation";
         private const string SETTINGS_COMMAND_STARSYSTEM_RECREATEFACTIONS = "recreatefactions";
+        private const string SETTINGS_COMMAND_STARSYSTEM_RECREATEASTEROIDS = "recreateasteroids";
+        private const string SETTINGS_COMMAND_STARSYSTEM_RESETASTEROIDS = "reseteasteroids";
 
         private const string SETTINGS_COMMAND_STARSYSTEM_PVEZONE = "pvezone";
         private const string SETTINGS_COMMAND_STARSYSTEM_GPS = "gps";
@@ -544,6 +546,14 @@ namespace ExtendedSurvival.Core
                                 }
                                 switch (mCommandData.content[1])
                                 {
+                                    case SETTINGS_COMMAND_STARSYSTEM_RESETASTEROIDS:
+                                        StarSystemController.RecreateAsteroids(false);
+                                        SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_STARSYSTEM} {SETTINGS_COMMAND_STARSYSTEM_RESETASTEROIDS} executed.", MyFontEnum.White);
+                                        break;
+                                    case SETTINGS_COMMAND_STARSYSTEM_RECREATEASTEROIDS:
+                                        StarSystemController.RecreateAsteroids();
+                                        SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_STARSYSTEM} {SETTINGS_COMMAND_STARSYSTEM_RECREATEASTEROIDS} executed.", MyFontEnum.White);
+                                        break;
                                     case SETTINGS_COMMAND_STARSYSTEM_RECREATEFACTIONS:
                                         StarSystemController.RecreateFactions();
                                         SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_STARSYSTEM} {SETTINGS_COMMAND_STARSYSTEM_RECREATEFACTIONS} executed.", MyFontEnum.White);

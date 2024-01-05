@@ -51,7 +51,7 @@ namespace ExtendedSurvival.Core
 
         public ConcurrentQueue<ExtendedSurvivalCoreDamageLogging.DamageToLogInfo> DamageToLog = new ConcurrentQueue<ExtendedSurvivalCoreDamageLogging.DamageToLogInfo>();
 
-        private bool inicialLoadComplete = false;
+        public bool InicialLoadComplete { get; private set; } = false;
 
         public bool HasPlanetNeedingWater()
         {
@@ -81,6 +81,7 @@ namespace ExtendedSurvival.Core
         protected ParallelTasks.Task taskGpsPlayers;
         protected override void DoInit(MyObjectBuilder_SessionComponent sessionComponent)
         {
+            Instance = this;
             if (MyAPIGateway.Session.IsServer)
             {
                 canRun = true;
@@ -115,9 +116,19 @@ namespace ExtendedSurvival.Core
                 {
                     ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), "StartBackground [StarSystemController START]");
                     // Loop CheckTradeStations
+                    int runCount = 0;
                     while (canRun)
                     {
                         StarSystemController.DoCycle();
+                        if (runCount % 10 == 0)
+                        {
+                            StarSystemController.ClearAsteroidsThatCanBeRemoved();
+                            runCount = 0;
+                        }
+                        else
+                        {
+                            runCount++;
+                        }
                         if (MyAPIGateway.Parallel != null)
                             MyAPIGateway.Parallel.Sleep(2500);
                         else
@@ -245,7 +256,6 @@ namespace ExtendedSurvival.Core
         {
             try
             {
-                Instance = this;
                 if (MyAPIGateway.Session.IsServer)
                 {
                     RegisterWatcher();
@@ -365,7 +375,7 @@ namespace ExtendedSurvival.Core
                     PlanetsOnLoad.Add(entity as MyPlanet);
                 Entities_OnEntityAdd(entity);
             }
-            inicialLoadComplete = true;
+            InicialLoadComplete = true;
 
             UpdatePlayerList();
 
@@ -426,7 +436,7 @@ namespace ExtendedSurvival.Core
         {
             try
             {
-                if (inicialLoadComplete)
+                if (InicialLoadComplete)
                 {
                     string entityName = entity.ToString();
                     if (WoodChopController.CheckEntityIsATree(entityName, entity))
@@ -460,7 +470,7 @@ namespace ExtendedSurvival.Core
                     {
                         Grids.Add(gridEntity);
                     }
-                    if (inicialLoadComplete)
+                    if (InicialLoadComplete)
                     {
                         if (cubeGrid.IsRespawnGrid)
                         {

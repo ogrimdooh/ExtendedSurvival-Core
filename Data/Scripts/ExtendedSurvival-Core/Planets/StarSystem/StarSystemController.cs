@@ -518,7 +518,14 @@ namespace ExtendedSurvival.Core
                                                     MemberType = (int)StarSystemProfile.MemberType.AsteroidBelt,
                                                     ItemType = 0,
                                                     NotSpawnAsteroids = asteroids.Values.ToList(),
-                                                    AsteroidsData = asteroids.Select(x => new AsteroidStorage() { Position = x.Value, Radius = Range(350, 1050) }).ToList()
+                                                    AsteroidsData = asteroids.Select(x => new AsteroidStorage() 
+                                                    { 
+                                                        Position = x.Value, 
+                                                        Radius = GetRandomAsteroidRadius(), 
+                                                        Seed = GetRandomAsteroidSeed(),
+                                                        Forward = GetRandomVector(GetRandomDouble(1000) + 1),
+                                                        Up = GetRandomVector(GetRandomDouble(1000) + 1)
+                                                    }).ToList()
                                                 });
                                                 asteroids = null;
                                             }
@@ -540,7 +547,14 @@ namespace ExtendedSurvival.Core
                                             MemberType = (int)StarSystemProfile.MemberType.AsteroidBelt,
                                             ItemType = 0,
                                             NotSpawnAsteroids = asteroids.Values.ToList(),
-                                            AsteroidsData = asteroids.Select(x => new AsteroidStorage() { Position = x.Value, Radius = Range(600, 1800) }).ToList()
+                                            AsteroidsData = asteroids.Select(x => new AsteroidStorage() 
+                                            { 
+                                                Position = x.Value, 
+                                                Radius = GetRandomAsteroidRadius(), 
+                                                Seed = GetRandomAsteroidSeed(),
+                                                Forward = GetRandomVector(GetRandomDouble(1000) + 1),
+                                                Up = GetRandomVector(GetRandomDouble(1000) + 1)
+                                            }).ToList()
                                         });
                                         asteroids = null;
                                         b++;
@@ -581,6 +595,16 @@ namespace ExtendedSurvival.Core
                 }
             }
             return false;
+        }
+
+        private static int GetRandomAsteroidSeed()
+        {
+            return AsteroidSeed.GetRandomInt();
+        }
+
+        private static float GetRandomAsteroidRadius()
+        {
+            return Range(600, 1800);
         }
 
         public static bool DoChangePveZone(long planetId, List<string> optionsPve)
@@ -747,7 +771,7 @@ namespace ExtendedSurvival.Core
                                         var data = member.AsteroidsData.FirstOrDefault(x => x.Position == pos);
                                         if (data != null)
                                         {
-                                            data.Id = CreateAsteroid(pos, data.Radius);
+                                            data.Id = CreateAsteroid(pos, data.Radius, data.Seed, data.Forward, data.Up);
                                             member.Asteroids.Add(data.Id);
                                             member.NotSpawnAsteroids.Remove(pos);
                                         }
@@ -1110,6 +1134,105 @@ namespace ExtendedSurvival.Core
             }
         }
 
+        public static void ClearAsteroidsThatCanBeRemoved()
+        {
+            try
+            {
+                if (ExtendedSurvivalStorage.Instance.StarSystem.Generated &&
+                    ExtendedSurvivalEntityManager.Instance != null &&
+                    ExtendedSurvivalEntityManager.Instance.InicialLoadComplete)
+                {
+                    var query = ExtendedSurvivalStorage.Instance.StarSystem.Members.Where(x => x.MemberType == (int)StarSystemProfile.MemberType.AsteroidBelt);
+                    if (query.Any())
+                    {
+                        foreach (var member in query)
+                        {
+                            if (member.Asteroids.Any())
+                            {
+                                for (int i = 0; i < member.Asteroids.Count; i++)
+                                {
+                                    var asteroidData = member.AsteroidsData.FirstOrDefault(x => x.Id == member.Asteroids[i]);
+                                    if (asteroidData != null)
+                                    {
+                                        var noOneAround = !ExtendedSurvivalEntityManager.Instance.AnyInRange(asteroidData.Position, SPAWN_DISTANCE);
+                                        if (noOneAround || !asteroidData.Changed)
+                                        {
+                                            VRage.ModAPI.IMyEntity asteroid = null;
+                                            InvokeOnGameThread(() =>
+                                            {
+                                                asteroid = MyAPIGateway.Entities.GetEntityById(member.Asteroids[i]);
+                                            });
+                                            var voxel = (asteroid as MyVoxelBase);
+                                            if (asteroid != null && voxel != null)
+                                            {
+                                                if (!asteroidData.Changed && voxel.ContentChanged)
+                                                    asteroidData.Changed = true;
+                                                if (noOneAround && !asteroidData.Changed)
+                                                {
+                                                    asteroid.Close();
+                                                    asteroidData.Id = 0;
+                                                    member.NotSpawnAsteroids.Add(asteroidData.Position);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExtendedSurvivalCoreLogging.Instance.LogError(typeof(StarSystemController), ex);
+            }
+        }
+
+        public static void RecreateAsteroids(bool newSeed = true)
+        {
+            try
+            {
+                if (ExtendedSurvivalStorage.Instance.StarSystem.Generated)
+                {
+                    var query = ExtendedSurvivalStorage.Instance.StarSystem.Members.Where(x => x.MemberType == (int)StarSystemProfile.MemberType.AsteroidBelt);
+                    if (query.Any())
+                    {
+                        foreach (var member in query)
+                        {
+                            if (member.Asteroids.Any())
+                            {
+                                for (int i = 0; i < member.Asteroids.Count; i++)
+                                {
+                                    var asteroid = MyAPIGateway.Entities.GetEntityById(member.Asteroids[i]);
+                                    if (asteroid != null)
+                                    {
+                                        asteroid.Close();
+                                    }   
+                                }
+                            }
+                            foreach (var item in member.AsteroidsData)
+                            {
+                                item.Id = 0;
+                                if (newSeed)
+                                {
+                                    item.Seed = GetRandomAsteroidSeed();
+                                    item.Radius = GetRandomAsteroidRadius();
+                                    item.Forward = GetRandomVector(GetRandomDouble(1000) + 1);
+                                    item.Up = GetRandomVector(GetRandomDouble(1000) + 1);
+                                }
+                                item.Changed = false;
+                            }
+                            member.NotSpawnAsteroids = member.AsteroidsData.Select(x => x.Position).ToList();
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                ExtendedSurvivalEntityManager.Instance.FactionsLocked = false;
+            }
+        }
+
         public static void RecreateFactions()
         {
             try
@@ -1285,15 +1408,17 @@ namespace ExtendedSurvival.Core
         }
 
         private static readonly Vector2I AsteroidSeed = new Vector2I(int.MinValue, int.MaxValue);
-        private static long CreateAsteroid(Vector3D position, float radius)
+        private static long CreateAsteroid(Vector3D position, float radius, int seed = 0, Vector3? forward = null, Vector3? up = null)
         {
             long id = 0;
             InvokeOnGameThread(() => {
                 var voxelMaps = MyAPIGateway.Session.VoxelMaps;
-                Vector3 forward = GetRandomVector(GetRandomDouble(1000) + 1);
-                Vector3 up = GetRandomVector(GetRandomDouble(1000) + 1);
-                MatrixD matrix = MatrixD.CreateWorld(position, forward, up);
-                var asteroid = voxelMaps.CreateProceduralVoxelMap(AsteroidSeed.GetRandomInt(), radius, matrix);
+                if (forward == null)
+                    forward = GetRandomVector(GetRandomDouble(1000) + 1);
+                if (up == null)
+                    up = GetRandomVector(GetRandomDouble(1000) + 1);
+                MatrixD matrix = MatrixD.CreateWorld(position, forward.Value, up.Value);
+                var asteroid = voxelMaps.CreateProceduralVoxelMap(seed == 0 ? AsteroidSeed.GetRandomInt() : seed, radius, matrix);
                 id = asteroid.EntityId;
             });
             return id;

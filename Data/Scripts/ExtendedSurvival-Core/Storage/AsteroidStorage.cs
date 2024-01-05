@@ -17,6 +17,18 @@ namespace ExtendedSurvival.Core
         [XmlElement]
         public float Radius { get; set; }
 
+        [XmlElement]
+        public int Seed { get; set; }
+
+        [XmlElement]
+        public Vector3 Forward { get; set; }
+
+        [XmlElement]
+        public Vector3 Up { get; set; }
+
+        [XmlElement]
+        public bool Changed { get; set; }
+
     }
 
 }
