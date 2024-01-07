@@ -317,6 +317,9 @@ namespace ExtendedSurvival.Core
         private const string SETTINGS_COMMAND_STARSYSTEM_CLEAR = "clear";
         private const string SETTINGS_COMMAND_STARSYSTEM_CREATE = "create";
         private const string SETTINGS_COMMAND_STARSYSTEM_COMPLETE = "complete";
+        private const string SETTINGS_COMMAND_STARSYSTEM_DELETENPCFACTIONS = "deletenpcfactions";
+        private const string SETTINGS_COMMAND_STARSYSTEM_CLEANMETADA = "cleanmetada";
+        private const string SETTINGS_COMMAND_STARSYSTEM_CLEANSAFEZONES = "cleansafezones";
         private const string SETTINGS_COMMAND_STARSYSTEM_RESETECONOMY = "reseteconomy";
         private const string SETTINGS_COMMAND_STARSYSTEM_RECREATESTATIONS = "recreatestation";
         private const string SETTINGS_COMMAND_STARSYSTEM_RECREATEFACTIONS = "recreatefactions";
@@ -567,13 +570,30 @@ namespace ExtendedSurvival.Core
                                         StarSystemController.RecreateStations();
                                         SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_STARSYSTEM} {SETTINGS_COMMAND_STARSYSTEM_RECREATESTATIONS} executed.", MyFontEnum.White);
                                         break;
+                                    case SETTINGS_COMMAND_STARSYSTEM_DELETENPCFACTIONS:
+                                        StarSystemController.DeleteNpcFactions();
+                                        SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_STARSYSTEM} {SETTINGS_COMMAND_STARSYSTEM_DELETENPCFACTIONS} executed.", MyFontEnum.White);
+                                        break;
                                     case SETTINGS_COMMAND_STARSYSTEM_COMPLETE:
-                                        StarSystemController.CompleteStarSystem();
+                                        string targetprofile = null;
+                                        if (optionsStarSystem.Any(x => x.Length == 2 && x[0].ToLower() == "profile"))
+                                        {
+                                            targetprofile = optionsStarSystem.FirstOrDefault(x => x.Length == 2 && x[0].ToLower() == "profile")[1];
+                                        }
+                                        StarSystemController.CompleteStarSystem(targetprofile);
                                         SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_STARSYSTEM} {SETTINGS_COMMAND_STARSYSTEM_COMPLETE} executed.", MyFontEnum.White);
                                         break;
                                     case SETTINGS_COMMAND_STARSYSTEM_RESETECONOMY:
                                         StarSystemController.DoResetAllFactionBalance();
                                         SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_STARSYSTEM} {SETTINGS_COMMAND_STARSYSTEM_RESETECONOMY} executed.", MyFontEnum.White);
+                                        break;
+                                    case SETTINGS_COMMAND_STARSYSTEM_CLEANMETADA:
+                                        StarSystemController.ClearStarSystemMetaData();
+                                        SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_STARSYSTEM} {SETTINGS_COMMAND_STARSYSTEM_CLEANMETADA} executed.", MyFontEnum.White);
+                                        break;
+                                    case SETTINGS_COMMAND_STARSYSTEM_CLEANSAFEZONES:
+                                        StarSystemController.ClearSafeZones();
+                                        SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_STARSYSTEM} {SETTINGS_COMMAND_STARSYSTEM_CLEANSAFEZONES} executed.", MyFontEnum.White);
                                         break;
                                     case SETTINGS_COMMAND_STARSYSTEM_CLEAR:
                                         StarSystemController.ClearStarSystem();

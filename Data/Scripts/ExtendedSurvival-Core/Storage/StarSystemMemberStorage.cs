@@ -11,6 +11,12 @@ namespace ExtendedSurvival.Core
     {
 
         [XmlElement]
+        public int Order { get; set; }
+
+        [XmlElement]
+        public long OwnerId { get; set; }
+
+        [XmlElement]
         public string Name { get; set; }
 
         [XmlElement]

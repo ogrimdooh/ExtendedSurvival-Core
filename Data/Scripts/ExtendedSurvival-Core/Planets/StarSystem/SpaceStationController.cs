@@ -1538,6 +1538,11 @@ namespace ExtendedSurvival.Core
                                                                 }
                                                             }
                                                         }
+                                                        catch (Exception ex)
+                                                        {
+                                                            station.IsSpawning = false;
+                                                            ExtendedSurvivalCoreLogging.Instance.LogError(typeof(SpaceStationController), ex);
+                                                        }
                                                         finally
                                                         {
                                                             station.IsSpawning = false;
@@ -1715,169 +1720,181 @@ namespace ExtendedSurvival.Core
             }
         }
 
+        public static ConcurrentDictionary<long, bool> _lockStationGeneration = new ConcurrentDictionary<long, bool>();
         public static void DoBuildShopItens(StarSystemMemberStationStorage station)
         {
-            var faction = ExtendedSurvivalStorage.Instance.GetFaction(station.FactionId);
-            if (faction != null)
+            if (!_lockStationGeneration.ContainsKey(station.Id) || !_lockStationGeneration[station.Id])
             {
-                station.ShopItems.Clear();
-                var factionType = (FactionType)faction.FactionType;
-                var stationLevel = (StationLevel)station.StationLevel;
-                var countToBuy = STATION_ITENS_PROFILE[stationLevel].BuyItensCount.GetRandomInt();
-                var countToSell = STATION_ITENS_PROFILE[stationLevel].SellItensCount.GetRandomInt();
-                var itensQuery = SHOP_ITENS.Values.Where(x => x.TargetFactions.Contains(factionType) && STATION_ITENS_PROFILE[stationLevel].CanSellRarity.Contains(x.Rarity));
-                if (itensQuery.Any())
+                _lockStationGeneration[station.Id] = true;
+                try
                 {
-                    // BUY Item List
-                    var itensToBuyQuery = itensQuery.Where(x => x.CanBuy);
-                    if (itensToBuyQuery.Any())
+                    var faction = ExtendedSurvivalStorage.Instance.GetFaction(station.FactionId);
+                    if (faction != null)
                     {
-                        if (itensToBuyQuery.Count() <= countToBuy)
+                        station.ShopItems.Clear();
+                        var factionType = (FactionType)faction.FactionType;
+                        var stationLevel = (StationLevel)station.StationLevel;
+                        var countToBuy = STATION_ITENS_PROFILE[stationLevel].BuyItensCount.GetRandomInt();
+                        var countToSell = STATION_ITENS_PROFILE[stationLevel].SellItensCount.GetRandomInt();
+                        var itensQuery = SHOP_ITENS.Values.Where(x => x.TargetFactions.Contains(factionType) && STATION_ITENS_PROFILE[stationLevel].CanSellRarity.Contains(x.Rarity));
+                        if (itensQuery.Any())
                         {
-                            lock (station.ShopItems)
+                            // BUY Item List
+                            var itensToBuyQuery = itensQuery.Where(x => x.CanBuy);
+                            if (itensToBuyQuery.Any())
                             {
-                                foreach (var item in itensToBuyQuery)
+                                if (itensToBuyQuery.Count() <= countToBuy)
                                 {
-                                    var finalValue = item.GetValue(station, true, STATION_BUY_VALUE_MULTIPLIER.GetRandom());
-                                    if (finalValue > 0)
+                                    lock (station.ShopItems)
                                     {
-                                        station.ShopItems.Add(new StarSystemStationShopItemStorage()
+                                        foreach (var item in itensToBuyQuery)
                                         {
-                                            Id = item.Id.DefinitionId,
-                                            Amount = (int)GetAmountWithMultiplier(ITEM_RARITY_AMOUNT[item.Rarity].GetRandom(), item.Id.DefinitionId),
-                                            Price = finalValue
-                                        });
+                                            var finalValue = item.GetValue(station, true, STATION_BUY_VALUE_MULTIPLIER.GetRandom());
+                                            if (finalValue > 0)
+                                            {
+                                                station.ShopItems.Add(new StarSystemStationShopItemStorage()
+                                                {
+                                                    Id = item.Id.DefinitionId,
+                                                    Amount = (int)GetAmountWithMultiplier(ITEM_RARITY_AMOUNT[item.Rarity].GetRandom(), item.Id.DefinitionId),
+                                                    Price = finalValue
+                                                });
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    lock (station.ShopItems)
+                                    {
+                                        var queryCheck = station.ShopItems.Where(x => !x.IsSelling);
+                                        while (queryCheck.Count() < countToBuy)
+                                        {
+                                            var itemToUse = itensToBuyQuery.Where(x => !queryCheck.Any(y => y.Id == x.Id.DefinitionId)).OrderBy(x => GetRandomDouble()).FirstOrDefault();
+                                            if (itemToUse == null)
+                                                break;
+                                            var finalValue = itemToUse.GetValue(station, true, STATION_BUY_VALUE_MULTIPLIER.GetRandom());
+                                            if (finalValue > 0)
+                                            {
+                                                station.ShopItems.Add(new StarSystemStationShopItemStorage()
+                                                {
+                                                    Id = itemToUse.Id.DefinitionId,
+                                                    Amount = (int)GetAmountWithMultiplier(ITEM_RARITY_AMOUNT[itemToUse.Rarity].GetRandom(), itemToUse.Id.DefinitionId),
+                                                    Price = finalValue
+                                                });
+                                            }
+                                            else
+                                            {
+                                                countToBuy--;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            // SELL Item List
+                            var itensToSellQuery = itensQuery.Where(x => x.CanSell);
+                            if (itensToSellQuery.Any())
+                            {
+                                if (itensToSellQuery.Count() <= countToSell)
+                                {
+                                    lock (station.ShopItems)
+                                    {
+                                        foreach (var item in itensToSellQuery)
+                                        {
+                                            var finalValue = item.GetValue(station, false, STATION_SELL_VALUE_MULTIPLIER.GetRandom());
+                                            if (finalValue > 0)
+                                            {
+                                                station.ShopItems.Add(new StarSystemStationShopItemStorage()
+                                                {
+                                                    Id = item.Id.DefinitionId,
+                                                    Amount = (int)GetAmountWithMultiplier(ITEM_RARITY_AMOUNT[item.Rarity].GetRandom(), item.Id.DefinitionId),
+                                                    Price = finalValue,
+                                                    IsSelling = true
+                                                });
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    lock (station.ShopItems)
+                                    {
+                                        var queryCheck = station.ShopItems.Where(x => x.IsSelling);
+                                        while (queryCheck.Count() < countToSell)
+                                        {
+                                            var itemToUse = itensToSellQuery.Where(x => !queryCheck.Any(y => y.Id == x.Id.DefinitionId)).OrderBy(x => GetRandomDouble()).FirstOrDefault();
+                                            if (itemToUse == null)
+                                                break;
+                                            var finalValue = itemToUse.GetValue(station, false, STATION_SELL_VALUE_MULTIPLIER.GetRandom());
+                                            if (finalValue > 0)
+                                            {
+                                                station.ShopItems.Add(new StarSystemStationShopItemStorage()
+                                                {
+                                                    Id = itemToUse.Id.DefinitionId,
+                                                    Amount = (int)GetAmountWithMultiplier(ITEM_RARITY_AMOUNT[itemToUse.Rarity].GetRandom(), itemToUse.Id.DefinitionId),
+                                                    Price = itemToUse.BaseValue,
+                                                    IsSelling = true
+                                                });
+                                            }
+                                            else
+                                            {
+                                                countToSell--;
+                                            }
+                                        }
                                     }
                                 }
                             }
                         }
-                        else
+                        if (factionType == FactionType.Shipyard)
                         {
-                            lock (station.ShopItems)
+                            var prefabsToSell = STATION_ITENS_PROFILE[stationLevel].PrefabsCount.GetRandomInt();
+                            var prefabsQuery = LOADED_PREFABS_TO_SELL.Values.Where(x => x.IsValid && CheckPrefabCanGoInStation(station, x));
+                            if (prefabsQuery.Any())
                             {
-                                var queryCheck = station.ShopItems.Where(x => !x.IsSelling);
-                                while (queryCheck.Count() < countToBuy)
+                                if (prefabsQuery.Count() <= prefabsToSell)
                                 {
-                                    var itemToUse = itensToBuyQuery.Where(x => !queryCheck.Any(y => y.Id == x.Id.DefinitionId)).OrderBy(x => GetRandomDouble()).FirstOrDefault();
-                                    if (itemToUse == null)
-                                        break;
-                                    var finalValue = itemToUse.GetValue(station, true, STATION_BUY_VALUE_MULTIPLIER.GetRandom());
-                                    if (finalValue > 0)
+                                    lock (station.ShopPrefabs)
                                     {
-                                        station.ShopItems.Add(new StarSystemStationShopItemStorage()
+                                        foreach (var item in prefabsQuery)
                                         {
-                                            Id = itemToUse.Id.DefinitionId,
-                                            Amount = (int)GetAmountWithMultiplier(ITEM_RARITY_AMOUNT[itemToUse.Rarity].GetRandom(), itemToUse.Id.DefinitionId),
-                                            Price = finalValue
-                                        });
+                                            station.ShopPrefabs.Add(new StarSystemStationShopPrefabStorage()
+                                            {
+                                                PrefabName = item.PrefabName,
+                                                Price = item.BaseValue
+                                            });
+                                        }
                                     }
-                                    else
+                                }
+                                else
+                                {
+                                    lock (station.ShopPrefabs)
                                     {
-                                        countToBuy--;
+                                        while (station.ShopPrefabs.Count < prefabsToSell)
+                                        {
+                                            var itemToUse = prefabsQuery.Where(x => !station.ShopPrefabs.Any(y => y.PrefabName == x.PrefabName)).OrderBy(x => GetRandomDouble()).FirstOrDefault();
+                                            if (itemToUse == null)
+                                                break;
+                                            station.ShopPrefabs.Add(new StarSystemStationShopPrefabStorage()
+                                            {
+                                                PrefabName = itemToUse.PrefabName,
+                                                Price = itemToUse.BaseValue
+                                            });
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                    // SELL Item List
-                    var itensToSellQuery = itensQuery.Where(x => x.CanSell);
-                    if (itensToSellQuery.Any())
+                    DoBuildContracts(station);
+                    station.ComercialTick = ExtendedSurvivalStorage.Instance.StarSystem.ComercialTick;
+                    if (station.StationEntityId != 0)
                     {
-                        if (itensToSellQuery.Count() <= countToSell)
-                        {
-                            lock (station.ShopItems)
-                            {
-                                foreach (var item in itensToSellQuery)
-                                {
-                                    var finalValue = item.GetValue(station, false, STATION_SELL_VALUE_MULTIPLIER.GetRandom());
-                                    if (finalValue > 0)
-                                    {
-                                        station.ShopItems.Add(new StarSystemStationShopItemStorage()
-                                        {
-                                            Id = item.Id.DefinitionId,
-                                            Amount = (int)GetAmountWithMultiplier(ITEM_RARITY_AMOUNT[item.Rarity].GetRandom(), item.Id.DefinitionId),
-                                            Price = finalValue,
-                                            IsSelling = true
-                                        });
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            lock (station.ShopItems)
-                            {
-                                var queryCheck = station.ShopItems.Where(x => x.IsSelling);
-                                while (queryCheck.Count() < countToSell)
-                                {
-                                    var itemToUse = itensToSellQuery.Where(x => !queryCheck.Any(y => y.Id == x.Id.DefinitionId)).OrderBy(x => GetRandomDouble()).FirstOrDefault();
-                                    if (itemToUse == null)
-                                        break;
-                                    var finalValue = itemToUse.GetValue(station, false, STATION_SELL_VALUE_MULTIPLIER.GetRandom());
-                                    if (finalValue > 0)
-                                    {
-                                        station.ShopItems.Add(new StarSystemStationShopItemStorage()
-                                        {
-                                            Id = itemToUse.Id.DefinitionId,
-                                            Amount = (int)GetAmountWithMultiplier(ITEM_RARITY_AMOUNT[itemToUse.Rarity].GetRandom(), itemToUse.Id.DefinitionId),
-                                            Price = itemToUse.BaseValue,
-                                            IsSelling = true
-                                        });
-                                    }
-                                    else
-                                    {
-                                        countToSell--;
-                                    }
-                                }
-                            }
-                        }
+                        DoApplyItensToGrid(station);
                     }
                 }
-                if (factionType == FactionType.Shipyard)
+                finally
                 {
-                    var prefabsToSell = STATION_ITENS_PROFILE[stationLevel].PrefabsCount.GetRandomInt();
-                    var prefabsQuery = LOADED_PREFABS_TO_SELL.Values.Where(x => x.IsValid && CheckPrefabCanGoInStation(station, x));
-                    if (prefabsQuery.Any())
-                    {
-                        if (prefabsQuery.Count() <= prefabsToSell)
-                        {
-                            lock (station.ShopPrefabs)
-                            {
-                                foreach (var item in prefabsQuery)
-                                {
-                                    station.ShopPrefabs.Add(new StarSystemStationShopPrefabStorage()
-                                    {
-                                        PrefabName = item.PrefabName,
-                                        Price = item.BaseValue
-                                    });
-                                }
-                            }
-                        }
-                        else
-                        {
-                            lock (station.ShopPrefabs)
-                            {
-                                while (station.ShopPrefabs.Count < prefabsToSell)
-                                {
-                                    var itemToUse = prefabsQuery.Where(x => !station.ShopPrefabs.Any(y => y.PrefabName == x.PrefabName)).OrderBy(x => GetRandomDouble()).FirstOrDefault();
-                                    if (itemToUse == null)
-                                        break;
-                                    station.ShopPrefabs.Add(new StarSystemStationShopPrefabStorage()
-                                    {
-                                        PrefabName = itemToUse.PrefabName,
-                                        Price = itemToUse.BaseValue
-                                    });
-                                }
-                            }
-                        }
-                    }
+                    _lockStationGeneration[station.Id] = false;
                 }
-            }
-            DoBuildContracts(station);
-            station.ComercialTick = ExtendedSurvivalStorage.Instance.StarSystem.ComercialTick;
-            if (station.StationEntityId != 0)
-            {
-                DoApplyItensToGrid(station);
             }
         }
 
@@ -2043,65 +2060,77 @@ namespace ExtendedSurvival.Core
             }
         }
 
+        public static ConcurrentDictionary<long, bool> _lockApplyItensToGrid = new ConcurrentDictionary<long, bool>();
         private static void DoApplyItensToGrid(StarSystemMemberStationStorage station)
         {
-            var entity = ExtendedSurvivalEntityManager.GetGridById(station.StationEntityId);
-            if (entity != null)
+            if (!_lockApplyItensToGrid.ContainsKey(station.Id) || !_lockApplyItensToGrid[station.Id])
             {
-                DoCheckStationGrid(station, entity);
-                if (entity._blocksById.ContainsKey(STOREBLOCK_ID) && entity._blocksById.ContainsKey(LARGEBLOCKLARGECONTAINER_ID))
+                _lockApplyItensToGrid[station.Id] = true;
+                try
                 {
-                    var storeBlock = entity._blocksById[STOREBLOCK_ID].FirstOrDefault().FatBlock as IMyStoreBlock;
-                    var cargoContainer = entity._blocksById[LARGEBLOCKLARGECONTAINER_ID].FirstOrDefault().FatBlock as IMyCargoContainer;
-                    if (storeBlock != null && cargoContainer != null)
+                    var entity = ExtendedSurvivalEntityManager.GetGridById(station.StationEntityId);
+                    if (entity != null)
                     {
-                        var inventory = cargoContainer.GetInventory();
-                        if (inventory != null)
+                        DoCheckStationGrid(station, entity);
+                        if (entity._blocksById.ContainsKey(STOREBLOCK_ID) && entity._blocksById.ContainsKey(LARGEBLOCKLARGECONTAINER_ID))
                         {
-                            station.CargoContainerEntityId = cargoContainer.EntityId;
-                            var observer = MyInventoryObserverProgressController.Get(cargoContainer.EntityId, 0);
-                            if (observer != null)
+                            var storeBlock = entity._blocksById[STOREBLOCK_ID].FirstOrDefault().FatBlock as IMyStoreBlock;
+                            var cargoContainer = entity._blocksById[LARGEBLOCKLARGECONTAINER_ID].FirstOrDefault().FatBlock as IMyCargoContainer;
+                            if (storeBlock != null && cargoContainer != null)
                             {
-                                observer.SpoilEnabled = false;
-                            }
-                            inventory.Clear();
-                            // Clear the store
-                            List<IMyStoreItem> items = new List<IMyStoreItem>();
-                            storeBlock.GetStoreItems(items);
-                            foreach (var item in items)
-                            {
-                                storeBlock.RemoveStoreItem(item);
-                            }
-                            // Add item to store
-                            foreach (var shopItem in station.ShopItems)
-                            {
-                                if (shopItem.IsSelling)
+                                var inventory = cargoContainer.GetInventory();
+                                if (inventory != null)
                                 {
-                                    var finalAmount = inventory.AddMaxItems(shopItem.Amount, ItensConstants.GetPhysicalObjectBuilder(new UniqueEntityId(shopItem.Id)));
-                                    var item = storeBlock.CreateStoreItem(shopItem.Id, (int)finalAmount, (int)shopItem.Price, StoreItemTypes.Offer);
-                                    storeBlock.InsertStoreItem(item);
-                                }
-                                else
-                                {
-                                    var item = storeBlock.CreateStoreItem(shopItem.Id, (int)shopItem.Amount, (int)shopItem.Price, StoreItemTypes.Order);
-                                    storeBlock.InsertStoreItem(item);
-                                }
-                                
-                            }
-                            // Add Prefabs to sell
-                            foreach (var prefab in station.ShopPrefabs)
-                            {
-                                if (LOADED_PREFABS_TO_SELL.ContainsKey(prefab.PrefabName))
-                                {
-                                    var def = LOADED_PREFABS_TO_SELL[prefab.PrefabName];
-                                    var item = storeBlock.CreateStoreItem(prefab.PrefabName, 1, (int)def.BaseValue, (int)def.TotalPCU);
-                                    storeBlock.InsertStoreItem(item);
+                                    station.CargoContainerEntityId = cargoContainer.EntityId;
+                                    var observer = MyInventoryObserverProgressController.Get(cargoContainer.EntityId, 0);
+                                    if (observer != null)
+                                    {
+                                        observer.SpoilEnabled = false;
+                                    }
+                                    inventory.Clear();
+                                    // Clear the store
+                                    List<IMyStoreItem> items = new List<IMyStoreItem>();
+                                    storeBlock.GetStoreItems(items);
+                                    foreach (var item in items)
+                                    {
+                                        storeBlock.RemoveStoreItem(item);
+                                    }
+                                    // Add item to store
+                                    foreach (var shopItem in station.ShopItems)
+                                    {
+                                        if (shopItem.IsSelling)
+                                        {
+                                            var finalAmount = inventory.AddMaxItems(shopItem.Amount, ItensConstants.GetPhysicalObjectBuilder(new UniqueEntityId(shopItem.Id)));
+                                            var item = storeBlock.CreateStoreItem(shopItem.Id, (int)finalAmount, (int)shopItem.Price, StoreItemTypes.Offer);
+                                            storeBlock.InsertStoreItem(item);
+                                        }
+                                        else
+                                        {
+                                            var item = storeBlock.CreateStoreItem(shopItem.Id, (int)shopItem.Amount, (int)shopItem.Price, StoreItemTypes.Order);
+                                            storeBlock.InsertStoreItem(item);
+                                        }
+
+                                    }
+                                    // Add Prefabs to sell
+                                    foreach (var prefab in station.ShopPrefabs)
+                                    {
+                                        if (LOADED_PREFABS_TO_SELL.ContainsKey(prefab.PrefabName))
+                                        {
+                                            var def = LOADED_PREFABS_TO_SELL[prefab.PrefabName];
+                                            var item = storeBlock.CreateStoreItem(prefab.PrefabName, 1, (int)def.BaseValue, (int)def.TotalPCU);
+                                            storeBlock.InsertStoreItem(item);
+                                        }
+                                    }
                                 }
                             }
                         }
+                        DoApplyContractsToStation(entity, station);
                     }
                 }
-                DoApplyContractsToStation(entity, station);
+                finally
+                {
+                    _lockApplyItensToGrid[station.Id] = false;
+                }
             }
         }
 
