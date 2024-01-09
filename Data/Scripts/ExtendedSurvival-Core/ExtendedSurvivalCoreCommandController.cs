@@ -269,6 +269,7 @@ namespace ExtendedSurvival.Core
             VALID_COMMANDS[SETTINGS_COMMAND_METEORWAVE] = new ValidCommand(SETTINGS_COMMAND_METEORWAVE, 0, true);
             VALID_COMMANDS[SETTINGS_COMMAND_GRIDS] = new ValidCommand(SETTINGS_COMMAND_GRIDS, 1, true);
             VALID_COMMANDS[SETTINGS_COMMAND_SESSION] = new ValidCommand(SETTINGS_COMMAND_SESSION, 2, true);
+            VALID_COMMANDS[SETTINGS_COMMAND_DEFINITIONS] = new ValidCommand(SETTINGS_COMMAND_DEFINITIONS, 1, true);
         }
 
         protected override void UnloadData()
@@ -309,8 +310,11 @@ namespace ExtendedSurvival.Core
         private const string SETTINGS_COMMAND_STARSYSTEM = "starsystem";
         private const string SETTINGS_COMMAND_METEORWAVE = "meteorwave";
         private const string SETTINGS_COMMAND_GRIDS = "grids";
-
         private const string SETTINGS_COMMAND_SESSION = "sessionsettings";
+        private const string SETTINGS_COMMAND_DEFINITIONS = "definitions";
+
+        private const string SETTINGS_COMMAND_DEFINITIONS_WEAPONS = "weapons";
+        private const string SETTINGS_COMMAND_DEFINITIONS_TURRETS = "turrets";
 
         private const string SETTINGS_COMMAND_GRIDS_RENAMEALL = "renameall";
 
@@ -326,7 +330,6 @@ namespace ExtendedSurvival.Core
         private const string SETTINGS_COMMAND_STARSYSTEM_RECREATEASTEROIDS = "recreateasteroids";
         private const string SETTINGS_COMMAND_STARSYSTEM_RESETASTEROIDS = "reseteasteroids";
         private const string SETTINGS_COMMAND_STARSYSTEM_GETALLECONOMYVALUES = "getalleconomyvalues";
-
         private const string SETTINGS_COMMAND_STARSYSTEM_PVEZONE = "pvezone";
         private const string SETTINGS_COMMAND_STARSYSTEM_GPS = "gps";
         private const string SETTINGS_COMMAND_STARSYSTEM_REQUESTGPS = "requestgps";
@@ -529,6 +532,18 @@ namespace ExtendedSurvival.Core
                                 if (ExtendedSurvivalSettings.Instance.ProcessPlanetSuperficialMiningInfo(mCommandData.content[1], mCommandData.content[2], optionsSmn.ToArray()))
                                 {
                                     SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_SUPERFICIALMINING} executed.", MyFontEnum.White);
+                                }
+                                break;
+                            case SETTINGS_COMMAND_DEFINITIONS:
+                                switch (mCommandData.content[1])
+                                {
+                                    case SETTINGS_COMMAND_DEFINITIONS_WEAPONS:
+                                        var dataDefs = ExtendedSurvivalEntityManager.Instance.GetWeaponsDefinitions();
+                                        SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_DEFINITIONS} {SETTINGS_COMMAND_DEFINITIONS_WEAPONS} executed.", MyFontEnum.White, extraInfo: dataDefs);
+                                        break;
+                                    case SETTINGS_COMMAND_DEFINITIONS_TURRETS:
+
+                                        break;
                                 }
                                 break;
                             case SETTINGS_COMMAND_GRIDS:
