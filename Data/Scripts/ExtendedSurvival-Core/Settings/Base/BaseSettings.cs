@@ -2,6 +2,8 @@
 using System;
 using VRage.Utils;
 using System.Xml.Serialization;
+using System.Collections.Generic;
+using System.Text;
 
 namespace ExtendedSurvival.Core
 {
@@ -16,7 +18,7 @@ namespace ExtendedSurvival.Core
         [XmlElement]
         public int Version { get; set; }
 
-        protected static T Load<T>(string fileName, int currentVersion, BaseSettings_Validade<T> validade, BaseSettings_Create<T> create, BaseSettings_Upgrade<T> upgrade) where T : BaseSettings
+        protected static T Load<T>(string fileName, int currentVersion, BaseSettings_Validade<T> validade, BaseSettings_Create<T> create, BaseSettings_Upgrade<T> upgrade, bool json = false, bool createIfNotFound = true) where T : BaseSettings
         {
             var world = true;
             T settings = null;
@@ -32,7 +34,7 @@ namespace ExtendedSurvival.Core
                         {
                             try
                             {
-                                settings = GetData<T>(fileData);
+                                settings = GetData<T>(fileData, json);
                                 MyLog.Default.WriteLineAndConsole(fileName + ": Loaded from world file.");
                                 needToRecreate = false;
                             }
@@ -47,7 +49,7 @@ namespace ExtendedSurvival.Core
                         settings = create();
                         settings.Version = currentVersion;
                         validade(settings);
-                        Save<T>(settings, fileName, world);
+                        Save<T>(settings, fileName, world, json);
                         MyLog.Default.WriteLineAndConsole(fileName + ": World file recreated.");
                     }
                 }
@@ -62,7 +64,7 @@ namespace ExtendedSurvival.Core
                         {
                             try
                             {
-                                settings = GetData<T>(fileData);
+                                settings = GetData<T>(fileData, json);
                                 MyLog.Default.WriteLineAndConsole(fileName + ": Loaded from local file.");
                                 needToRecreate = false;
                             }
@@ -77,7 +79,7 @@ namespace ExtendedSurvival.Core
                         settings = create();
                         settings.Version = currentVersion;
                         validade(settings);
-                        Save<T>(settings, fileName, world);
+                        Save<T>(settings, fileName, world, json);
                         MyLog.Default.WriteLineAndConsole(fileName + ": Local file recreated.");
                     }
                 }
@@ -93,16 +95,16 @@ namespace ExtendedSurvival.Core
                         settings.Version = currentVersion;
                     }
                     adjusted = adjusted || !validade(settings);
-                    if (adjusted) Save<T>(settings, fileName, world);
+                    if (adjusted) Save<T>(settings, fileName, world, json);
                 }
-                else
+                else if (createIfNotFound)
                 {
                     settings = create();
                     settings.Version = currentVersion;
                     validade(settings);
-                    Save<T>(settings, fileName, world);
+                    Save<T>(settings, fileName, world, json);
                 }
-                settings.OnAfterLoad();
+                settings?.OnAfterLoad();
             }
             catch (Exception ex)
             {
@@ -117,31 +119,52 @@ namespace ExtendedSurvival.Core
 
         }
 
-        protected static T GetData<T>(string data) where T : BaseSettings
+        protected static T GetData<T>(string data, bool json) where T : BaseSettings
         {
+            if (json)
+            {
+                var lines = data.Replace(Environment.NewLine, "\n").Split('\n');
+                var nDict = new List<KeyValuePair<string, object>>();
+                int nEnd = 0;
+                JsonUtils.JsonToDic(0, lines, nDict, out nEnd);
+                StringBuilder sb = new StringBuilder();
+                JsonUtils.DicToXml(sb, nDict, 0);
+                data = sb.ToString();
+            }
             return MyAPIGateway.Utilities.SerializeFromXML<T>(data);
         }
 
-        protected static string GetData<T>(T settings) where T : BaseSettings
+        protected static string GetData<T>(T settings, bool json) where T : BaseSettings
         {
-            return MyAPIGateway.Utilities.SerializeToXML(settings);
+            var data = MyAPIGateway.Utilities.SerializeToXML(settings);
+            if (json)
+            {
+                var lines = data.Replace(Environment.NewLine, "\n").Split('\n');
+                var nDict = new List<KeyValuePair<string, object>>();
+                int nEnd = 0;
+                JsonUtils.XmlToDic(0, lines, nDict, out nEnd);
+                StringBuilder sb = new StringBuilder();
+                JsonUtils.DicToJson(sb, nDict, 0);
+                data = sb.ToString();
+            }
+            return data;
         }
 
-        protected static void Save<T>(T settings, string fileName, bool world) where T : BaseSettings
+        protected static void Save<T>(T settings, string fileName, bool world, bool json) where T : BaseSettings
         {
             var targetType = typeof(T);
             if (world)
             {
                 using (var writer = MyAPIGateway.Utilities.WriteFileInWorldStorage(fileName, targetType))
                 {
-                    writer.Write(GetData<T>(settings));
+                    writer.Write(GetData<T>(settings, json));
                 }
             }
             else
             {
                 using (var writer = MyAPIGateway.Utilities.WriteFileInLocalStorage(fileName, targetType))
                 {
-                    writer.Write(GetData<T>(settings));
+                    writer.Write(GetData<T>(settings, json));
                 }
             }
         }

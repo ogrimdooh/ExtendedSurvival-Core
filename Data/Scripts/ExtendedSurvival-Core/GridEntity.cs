@@ -502,6 +502,27 @@ namespace ExtendedSurvival.Core
             }
         }
 
+        public long? OwnerId
+        {
+            get
+            {
+                return Entity.BigOwners.Any() ? (long?)Entity.BigOwners.FirstOrDefault() : null;
+            }
+        }
+
+        public bool NeedToDecay
+        {
+            get
+            {
+                if (ExtendedSurvivalSettings.Instance.Decay.Enabled && OwnerId.HasValue)
+                {
+                    var steamId = MyAPIGateway.Players.TryGetSteamId(OwnerId.Value);
+                    return ExtendedSurvivalStorage.Instance.Decay.Players.Any(x => x.SteamId == steamId && x.CanDecay);
+                }
+                return false;
+            }
+        }
+
         public GridEntity(IMyCubeGrid entity) : base(entity)
         {
             if (Closed)
@@ -569,6 +590,14 @@ namespace ExtendedSurvival.Core
             CheckSkinAtBlocks(_woodBlocks, SkinHelper.WOOD_SKIN);
             CheckSkinAtBlocks(_stoneBlocks, SkinHelper.CONCRETE_SKIN);
             CheckSkinAtBlocks(_concreteBlocks, SkinHelper.CONCRETE_SKIN);
+        }
+
+        public void Decay()
+        {
+            if (NeedToDecay)
+            {
+
+            }
         }
 
         private void CheckSkinAtBlocks(List<IMySlimBlock> blocks, MyStringHash skin)

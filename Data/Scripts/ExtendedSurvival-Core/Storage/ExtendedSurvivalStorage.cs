@@ -11,8 +11,11 @@ namespace ExtendedSurvival.Core
     public class ExtendedSurvivalStorage : BaseSettings
     {
 
+        private const bool USE_JSON_TO_SAVE = false;
+
         private const int CURRENT_VERSION = 1;
         private const string FILE_NAME = "ExtendedSurvival.Core.Storage.xml";
+        private const string JSON_FILE_NAME = "ExtendedSurvival.Core.Storage.json";
 
         private static ExtendedSurvivalStorage _instance;
         public static ExtendedSurvivalStorage Instance
@@ -39,7 +42,9 @@ namespace ExtendedSurvival.Core
 
         public static ExtendedSurvivalStorage Load()
         {
-            _instance = Load(FILE_NAME, CURRENT_VERSION, Validate, () => { return new ExtendedSurvivalStorage(); }, Upgrade);
+            _instance = Load(JSON_FILE_NAME, CURRENT_VERSION, Validate, () => { return new ExtendedSurvivalStorage(); }, Upgrade, true, false);
+            if (_instance == null)
+                _instance = Load(FILE_NAME, CURRENT_VERSION, Validate, () => { return new ExtendedSurvivalStorage(); }, Upgrade);
             return _instance;
         }
 
@@ -47,7 +52,8 @@ namespace ExtendedSurvival.Core
         {
             try
             {
-                Save<ExtendedSurvivalStorage>(Instance, FILE_NAME, true);
+                Save<ExtendedSurvivalStorage>(Instance, USE_JSON_TO_SAVE ? JSON_FILE_NAME : FILE_NAME, true, USE_JSON_TO_SAVE);
+                AsteroidGroupStorage.SaveAll();
             }
             catch (Exception ex)
             {
@@ -57,6 +63,9 @@ namespace ExtendedSurvival.Core
         
         [XmlElement]
         public MeteorImpactStorage MeteorImpact { get; set; } = new MeteorImpactStorage();
+
+        [XmlElement]
+        public DecayStorage Decay { get; set; } = new DecayStorage();
 
         [XmlElement]
         public StarSystemStorage StarSystem { get; set; } = new StarSystemStorage();

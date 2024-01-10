@@ -25,7 +25,7 @@ namespace ExtendedSurvival.Core
 
         }
 
-        private const string FILE_NAME = "ExtendedSurvival.Damage.Logging.{0}.log";
+        private const string FILE_NAME = "{0}.Damage.log";
 
         private static ExtendedSurvivalCoreDamageLogging _instance;
         public static ExtendedSurvivalCoreDamageLogging Instance
@@ -48,10 +48,15 @@ namespace ExtendedSurvival.Core
 
         private TextWriter _writer;
 
+        private static string GetFileName()
+        {
+            return string.Format(FILE_NAME, GetTimeString().Replace(" ", "").Replace(":", "").Replace("-", ""));
+        }
+
         public static ExtendedSurvivalCoreDamageLogging Load()
         {
             _instance = new ExtendedSurvivalCoreDamageLogging();
-            _instance.Load(string.Format(FILE_NAME, GetTimeString().Replace(' ', '_').Replace(':', '-')));
+            _instance.Load(GetFileName());
             return _instance;
         }
 
@@ -75,9 +80,11 @@ namespace ExtendedSurvival.Core
             }
         }
 
-        private static string GetTimeString()
+        private static string GetTimeString(bool complete = true)
         {
-            return GetTimeString(DateTime.Now);
+            if (complete)
+                return DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            return DateTime.Now.ToString("yyyy-MM-dd");
         }
 
         private static string GetTimeString(DateTime time)
@@ -142,6 +149,7 @@ namespace ExtendedSurvival.Core
             {
                 _writer.Flush();
                 _writer.Close();
+                _writer = null;
             }
         }
 

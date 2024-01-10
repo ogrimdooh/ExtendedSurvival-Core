@@ -482,6 +482,9 @@ namespace ExtendedSurvival.Core
                 {
                     MyAPIGateway.Multiplayer.UnregisterSecureMessageHandler(NETWORK_ID_DEFINITIONS, ClientDefinitionsUpdateMsgHandler);
                 }
+
+                ExtendedSurvivalCoreLogging.Instance.Close();
+                ExtendedSurvivalCoreDamageLogging.Instance.Close();
             }
             catch (Exception ex)
             {

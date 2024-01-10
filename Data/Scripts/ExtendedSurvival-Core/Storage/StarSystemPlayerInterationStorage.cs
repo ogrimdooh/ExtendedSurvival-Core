@@ -8,9 +8,6 @@ namespace ExtendedSurvival.Core
     {
 
         [XmlElement]
-        public long PlayerId { get; set; }
-
-        [XmlElement]
         public ulong SteamId { get; set; }
 
         [XmlElement]

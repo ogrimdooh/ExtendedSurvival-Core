@@ -45,22 +45,25 @@ namespace ExtendedSurvival.Core
 
         public StarSystemPlayerInterationStorage GetPlayerInterationStorage(long playerId)
         {
+            var steamId = MyAPIGateway.Players.TryGetSteamId(playerId);
+            if (steamId == 0)
+                return null;
             StarSystemPlayerInterationStorage playerInteration = null;
-            if (!ExtendedSurvivalStorage.Instance.StarSystem.PlayerInterations.Any(x => x.PlayerId == playerId))
+            if (!ExtendedSurvivalStorage.Instance.StarSystem.PlayerInterations.Any(x => x.SteamId == steamId))
             {
-                var steamId = MyAPIGateway.Players.TryGetSteamId(playerId);
-                if (steamId == 0)
-                    return null;
                 playerInteration = new StarSystemPlayerInterationStorage()
                 {
-                    PlayerId = playerId,
                     SteamId = steamId
                 };
                 ExtendedSurvivalStorage.Instance.StarSystem.PlayerInterations.Add(playerInteration);
             }
             else
             {
-                playerInteration = ExtendedSurvivalStorage.Instance.StarSystem.PlayerInterations.FirstOrDefault(x => x.PlayerId == playerId);
+                playerInteration = ExtendedSurvivalStorage.Instance.StarSystem.PlayerInterations.FirstOrDefault(x => x.SteamId == steamId);
+                if (ExtendedSurvivalStorage.Instance.StarSystem.PlayerInterations.Count(x => x.SteamId == steamId) > 1)
+                {
+                    ExtendedSurvivalStorage.Instance.StarSystem.PlayerInterations.RemoveAll(x => x.SteamId == steamId && x != playerInteration);
+                }
             }
             return playerInteration;
         }

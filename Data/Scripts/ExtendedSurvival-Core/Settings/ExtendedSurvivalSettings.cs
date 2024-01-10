@@ -17,6 +17,8 @@ namespace ExtendedSurvival.Core
     public class ExtendedSurvivalSettings : BaseSettings
     {
 
+        private const bool USE_JSON_TO_SAVE = true;
+
         public const string HELP_TOPIC_SUBTYPE = "ExtendedSurvival.Core.Settings";
         public static readonly HelpController.ConfigurationEntryHelpInfo[] HELP_INFO = new HelpController.ConfigurationEntryHelpInfo[] 
         { 
@@ -173,6 +175,16 @@ namespace ExtendedSurvival.Core
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, DecaySettings.HELP_TOPIC_SUBTYPE),
+                Title = "Decay",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_COMBATSETTING_DESCRIPTION),
+                DefaultValue = "",
+                CanUseSettingsCommand = false,
+                NeedRestart = false,
+                Entries = DecaySettings.HELP_INFO
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
                 EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, PlanetSetting.HELP_TOPIC_SUBTYPE),
                 Title = "Planets",
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_DESCRIPTION),
@@ -235,6 +247,7 @@ namespace ExtendedSurvival.Core
 
         private const int CURRENT_VERSION = 2;
         private const string FILE_NAME = "ExtendedSurvival.Core.Settings.xml";
+        private const string JSON_FILE_NAME = "ExtendedSurvival.Core.Settings.cfg";
 
         private static ExtendedSurvivalSettings _instance;
         public static ExtendedSurvivalSettings Instance
@@ -289,6 +302,9 @@ namespace ExtendedSurvival.Core
         [XmlElement]
         public CombatSetting Combat { get; set; } = new CombatSetting();
 
+        [XmlElement]
+        public DecaySettings Decay { get; set; } = new DecaySettings();
+
         [XmlArray("Planets"), XmlArrayItem("Planet", typeof(PlanetSetting))]
         public List<PlanetSetting> Planets { get; set; } = new List<PlanetSetting>();
 
@@ -325,25 +341,27 @@ namespace ExtendedSurvival.Core
 
         public static ExtendedSurvivalSettings Load()
         {
-            _instance = Load(FILE_NAME, CURRENT_VERSION, Validate, () => { return new ExtendedSurvivalSettings(); }, Upgrade);
+            _instance = Load(JSON_FILE_NAME, CURRENT_VERSION, Validate, () => { return new ExtendedSurvivalSettings(); }, Upgrade, true, false);
+            if (_instance == null)
+                _instance = Load(FILE_NAME, CURRENT_VERSION, Validate, () => { return new ExtendedSurvivalSettings(); }, Upgrade);
             return _instance;
         }
 
         public static void ClientLoad(string data)
         {
-            _instance = GetData<ExtendedSurvivalSettings>(data);
+            _instance = GetData<ExtendedSurvivalSettings>(data, true);
         }
 
         public string GetDataToClient()
         {
-            return GetData(this);
+            return GetData(this, true);
         }
 
         public static void Save()
         {
             try
             {
-                Save<ExtendedSurvivalSettings>(Instance, FILE_NAME, true);
+                Save<ExtendedSurvivalSettings>(Instance, USE_JSON_TO_SAVE ? JSON_FILE_NAME : FILE_NAME, true, USE_JSON_TO_SAVE);
             }
             catch (Exception ex)
             {

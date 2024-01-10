@@ -106,6 +106,16 @@ namespace ExtendedSurvival.Core
                                 return character;
                             }
                         }
+                        else
+                        {
+                            var toolBlock = attackerTool as IMyCubeBlock;
+                            if (toolBlock != null)
+                            {
+                                playerId = toolBlock.OwnerId;
+                                attackerType = AttackerType.CubeBlock;
+                                return toolBlock;
+                            }
+                        }
                     }
                 }
             }

@@ -80,6 +80,7 @@ namespace ExtendedSurvival.Core
         protected ParallelTasks.Task taskAsteroids;
         protected ParallelTasks.Task taskLogDamage;
         protected ParallelTasks.Task taskGpsPlayers;
+        protected ParallelTasks.Task taskDecaySystem;
         protected override void DoInit(MyObjectBuilder_SessionComponent sessionComponent)
         {
             Instance = this;
@@ -248,6 +249,19 @@ namespace ExtendedSurvival.Core
                             break;
                     }
                 });
+                taskDecaySystem = MyAPIGateway.Parallel.StartBackground(() =>
+                {
+                    ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), "StartBackground [DecaySystemController START]");
+                    // Loop DecaySystemController
+                    while (canRun)
+                    {
+                        DecaySystemController.DoCycle();
+                        if (MyAPIGateway.Parallel != null)
+                            MyAPIGateway.Parallel.Sleep(ExtendedSurvivalSettings.Instance?.Decay.CycleTick ?? 60000);
+                        else
+                            break;
+                    }
+                });
             }
         }
 
@@ -343,11 +357,13 @@ namespace ExtendedSurvival.Core
         {
             UpdatePlayerList();
             StarSystemController.CreateGpsToPlayer(playerId);
+            DecaySystemController.RegisterPlayerAction(playerId);
         }
 
         public void Players_PlayerDisconnected(long playerId)
         {
             UpdatePlayerList();
+            DecaySystemController.RegisterPlayerAction(playerId);
         }
 
         public void UpdatePlayerList()
@@ -383,6 +399,18 @@ namespace ExtendedSurvival.Core
             InicialLoadComplete = true;
 
             UpdatePlayerList();
+            foreach (var playerId in Players.Keys)
+            {
+                DecaySystemController.RegisterPlayerAction(playerId);
+            }
+            lock (Grids)
+            {
+                foreach (var item in Grids.Where(x=>x.OwnerId.HasValue))
+                {
+                    ulong steamId = 0;
+                    DecaySystemController.CreatePlayerInfoIfNotExits(item.OwnerId.Value, out steamId);
+                }
+            }
 
             MyVisualScriptLogicProvider.PlayerConnected += Players_PlayerConnected;
             MyVisualScriptLogicProvider.PlayerDisconnected += Players_PlayerDisconnected;
@@ -544,7 +572,7 @@ namespace ExtendedSurvival.Core
                                 gridEntity.Entity.NaturalGravity == Vector3.Zero /* In Space */)
                             {
                                 var targetBelt = ExtendedSurvivalStorage.Instance.StarSystem.Members.Where(x => x.MemberType == (int)StarSystemProfile.MemberType.AsteroidBelt).OrderBy(x => GetRandomDouble()).FirstOrDefault();
-                                var targetAsteroid = targetBelt.AsteroidsData.OrderBy(x => GetRandomDouble()).FirstOrDefault();
+                                var targetAsteroid = targetBelt.GetAsteroidStorage().AsteroidsData.OrderBy(x => GetRandomDouble()).FirstOrDefault();
                                 var targetOrientations = new List<Vector3D>
                                 {
                                     targetAsteroid.Position + (MatrixD.Identity.Up * (targetAsteroid.Radius + (StarSystemController.SAFE_DISTANCE * 2))),
@@ -1058,7 +1086,7 @@ namespace ExtendedSurvival.Core
                 }
                 lock (Grids)
                 {
-                    lista = Grids.Where(x => x.HasBlocksToApplySkin).ToArray(); Grids.Where(x => x.HasBlocksToApplySkin).ToArray();
+                    lista = Grids.Where(x => x.HasBlocksToApplySkin).ToArray();
                 }
                 for (int i = 0; i < lista.Length; i++)
                 {
@@ -1127,6 +1155,26 @@ namespace ExtendedSurvival.Core
                         grid.Entity.Teleport(grid.TargetTeleport.Value);
                     });
                     grid.NeedTeleport = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
+            }
+        }
+
+        public void DoRunDecay()
+        {
+            try
+            {
+                GridEntity[] lista;
+                lock (Grids)
+                {
+                    lista = Grids.Where(x => x.NeedToDecay).ToArray();
+                }
+                for (int i = 0; i < lista.Length; i++)
+                {
+                    lista[i].Decay();
                 }
             }
             catch (Exception ex)

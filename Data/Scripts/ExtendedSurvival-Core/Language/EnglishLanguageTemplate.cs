@@ -1174,12 +1174,55 @@ namespace ExtendedSurvival.Core
 				"This configuration set a list of ignored planet types to the override definition " + Environment.NewLine +
 				"system."
 			);
-
-
-
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_DECAYSETTING_ENABLED_DESCRIPTION,
+				"This configuration enable the decay system." + Environment.NewLine +
+				"You can read more about the decay in the systems topics."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_DECAYSETTING_CYCLETICK_DESCRIPTION,
+				"This configuration set the time in milesseconds to decay marked grids." + Environment.NewLine +
+				"You can read more about the decay in the systems topics."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_DECAYSETTING_BLOCKPERCENTCYCLE_DESCRIPTION,
+				"This configuration set the % amount of blocks that will decay per cycle." + Environment.NewLine +
+				"You can read more about the decay in the systems topics."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_DECAYSETTING_ARMORPERCENTBLOCK_DESCRIPTION,
+				"This configuration set the % amount of armor blocks that will decay per cycle." + Environment.NewLine +
+				"You can read more about the decay in the systems topics."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_DECAYSETTING_NEWBLOCKSPERCENT_DESCRIPTION,
+				"This configuration set the % amount of new blocks that will decay per cycle." + Environment.NewLine +
+				"You can read more about the decay in the systems topics."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_DECAYSETTING_TIMETODECAY_DESCRIPTION,
+				"This configuration set time in minutes without the owner login to mark their " + Environment.NewLine +
+				"grids for decay." + Environment.NewLine +
+				"You can read more about the decay in the systems topics."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_DECAYSETTING_IGNOREGRIDPROTECTION_DESCRIPTION,
+				"This configuration when enable make the grids on decay out of the protection " + Environment.NewLine +
+				"of safezone and combat systems." + Environment.NewLine +
+				"You can read more about the decay in the systems topics."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_DECAYSETTING_RUSTDAMAGE_DESCRIPTION,
+				"This configuration set the damage that every rust block get per cycle. " + Environment.NewLine +
+				"You can read more about the decay in the systems topics."
+			);
 
 
 			
+
+
+
+
 
 
 
