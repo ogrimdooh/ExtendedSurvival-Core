@@ -65,6 +65,38 @@ namespace ExtendedSurvival.Core
         public const string CALL_FOR_WATER = "NEEDWATER";
 
         public AdvancedPlayerUICoreAPI APUCoreAPI;
+        public NanobotAPI NanobotAPI;
+
+        private bool NeedToNullDamage(long attackerPlayerId, bool isAttackerPlayer, long ownerId, MyDamageInformationExtensions.DamageType damageType)
+        {
+            if (attackerPlayerId != 0)
+            {
+                var ownerFaction = MyAPIGateway.Session.Factions.TryGetPlayerFaction(ownerId);
+                var attackerFaction = MyAPIGateway.Session.Factions.TryGetPlayerFaction(attackerPlayerId);
+                if (ownerId == attackerPlayerId || ownerFaction?.FactionId == attackerFaction?.FactionId)
+                {
+                    if (damageType != MyDamageInformationExtensions.DamageType.Tool)
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (isAttackerPlayer)
+                    {
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                if (damageType != MyDamageInformationExtensions.DamageType.Fall)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         protected override void DoInit(MyObjectBuilder_SessionComponent sessionComponent)
         {
@@ -125,34 +157,10 @@ namespace ExtendedSurvival.Core
                                             {
                                                 if (damage.AttackerId != 0)
                                                 {
-                                                    if (attackerPlayerId != 0)
+                                                    if (NeedToNullDamage(attackerPlayerId, isAttackerPlayer, ownerId, damageType))
                                                     {
-                                                        var ownerFaction = MyAPIGateway.Session.Factions.TryGetPlayerFaction(ownerId);
-                                                        var attackerFaction = MyAPIGateway.Session.Factions.TryGetPlayerFaction(attackerPlayerId);
-                                                        if (ownerId == attackerPlayerId || ownerFaction?.FactionId == attackerFaction?.FactionId)
-                                                        {
-                                                            if (damageType != MyDamageInformationExtensions.DamageType.Tool)
-                                                            {
-                                                                damage.Amount = 0;
-                                                                damage.IsDeformation = false;
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            if (isAttackerPlayer)
-                                                            {
-                                                                damage.Amount = 0;
-                                                                damage.IsDeformation = false;
-                                                            }
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        if (damageType != MyDamageInformationExtensions.DamageType.Fall)
-                                                        {
-                                                            damage.Amount = 0;
-                                                            damage.IsDeformation = false;
-                                                        }
+                                                        damage.Amount = 0;
+                                                        damage.IsDeformation = false;
                                                     }
                                                 }
                                                 else
@@ -184,6 +192,42 @@ namespace ExtendedSurvival.Core
                     catch (Exception ex)
                     {
                         ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
+                    }
+                });
+
+                NanobotAPI = new NanobotAPI(()=> 
+                { 
+                    if (NanobotAPI.Registered)
+                    {
+                        NanobotAPI.OnCanGrindTargetBlock(
+                            (nanobotBLock, block, distance) =>
+                            {
+                                var pos = block.CubeGrid.GetPosition();
+                                float naturalGravityInterference;
+                                Vector3 naturalGravity = MyAPIGateway.Physics.CalculateNaturalGravityAt(pos, out naturalGravityInterference);
+                                if (naturalGravityInterference > 0)
+                                {
+                                    var neartPlanet = ExtendedSurvivalEntityManager.GetPlanetAtRange(pos);
+                                    var memberInfo = ExtendedSurvivalStorage.Instance.StarSystem.Members.FirstOrDefault(x => x.EntityId == neartPlanet.Entity.EntityId);
+                                    if (memberInfo.HasPveArea)
+                                    {
+                                        var ownerId = block.OwnerId != 0 ? block.OwnerId : block.CubeGrid.BigOwners.FirstOrDefault();
+                                        var isPlayer = MyAPIGateway.Players.TryGetSteamId(ownerId) != 0;
+                                        if (isPlayer)
+                                        {
+                                            var attackerPlayerId = nanobotBLock.OwnerId;
+                                            var isAttackerPlayer = MyAPIGateway.Players.TryGetSteamId(attackerPlayerId) != 0;
+                                            if (NeedToNullDamage(attackerPlayerId, isAttackerPlayer, ownerId, MyDamageInformationExtensions.DamageType.Tool))
+                                            {
+                                                return false;
+                                            }
+                                        }
+                                    }
+                                }
+                                return true;
+                            }, 
+                            int.MaxValue
+                        );
                     }
                 });
 
