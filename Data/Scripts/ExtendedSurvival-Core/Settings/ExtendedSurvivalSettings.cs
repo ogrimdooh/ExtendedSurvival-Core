@@ -344,6 +344,8 @@ namespace ExtendedSurvival.Core
             _instance = Load(JSON_FILE_NAME, CURRENT_VERSION, Validate, () => { return new ExtendedSurvivalSettings(); }, Upgrade, true, false);
             if (_instance == null)
                 _instance = Load(FILE_NAME, CURRENT_VERSION, Validate, () => { return new ExtendedSurvivalSettings(); }, Upgrade);
+            if (_instance != null)
+                _instance.CheckModified = true;
             return _instance;
         }
 
@@ -413,6 +415,7 @@ namespace ExtendedSurvival.Core
                 var starProfile = VoxelMaterialModifierMapProfile.Get(settings.Id);
                 if (starProfile != null)
                     settings = starProfile.UpgradeSettings(settings);
+                Modified = true;
                 return settings;
             }
             else if (generateWhenNotExists)
@@ -422,6 +425,7 @@ namespace ExtendedSurvival.Core
                 {
                     var settings = starProfile.BuildSettings(id);
                     MaterialModifiers.Add(settings);
+                    Modified = true;
                     return settings;
                 }
             }
@@ -436,6 +440,7 @@ namespace ExtendedSurvival.Core
                 var starProfile = StarSystemMapProfile.Get(settings.Name, true);
                 if (starProfile != null)
                     settings = starProfile.UpgradeSettings(settings);
+                Modified = true;
                 return settings;
             }
             else if (generateWhenNotExists)
@@ -445,6 +450,7 @@ namespace ExtendedSurvival.Core
                 {
                     var settings = starProfile.BuildSettings();
                     StarSystems.Add(settings);
+                    Modified = true;
                     return settings;
                 }
             }
@@ -461,14 +467,18 @@ namespace ExtendedSurvival.Core
                     var profile = PlanetMapProfile.Get(id.ToUpper());
                     if (profile != null && profile.Version > settings.Version)
                         settings = profile.UpgradeSettings(settings);
+                    Modified = true;
                 }
                 return settings;
             }
             else if (generateWhenNotExists)
             {
                 if (!IgnorePlanets.Split(';').Contains(id.ToUpper()))
+                {
+                    Modified = true;
                     return GeneratePlanetInfo(id, MyUtils.GetRandomInt(10000000, int.MaxValue), 1.0f, id.ToUpper(), true, GenerateFlags.All,
                         null, null, false, null, null, null);
+                }
             }
             return null;
         }
@@ -537,6 +547,7 @@ namespace ExtendedSurvival.Core
                 {
                     Planets.Add(settings);
                 }
+                Modified = true;
                 return settings;
             }
             return GetPlanetInfo(id, false);
@@ -557,6 +568,7 @@ namespace ExtendedSurvival.Core
                             if (copyProfile != null)
                             {
                                 info.SuperficialMining = copyProfile.BuildSuperficialMiningSetting(name);
+                                Modified = true;
                                 return true;
                             }
                         }
@@ -602,6 +614,7 @@ namespace ExtendedSurvival.Core
                                                                     Id = x
                                                                 }).ToList()
                                                             });
+                                                            Modified = true;
                                                             return true;
                                                         }
                                                     }
@@ -624,6 +637,7 @@ namespace ExtendedSurvival.Core
                                 if (MyObjectBuilderType.TryParse($"MyObjectBuilder_{values[0]}", out type))
                                 {
                                     info.SuperficialMining.Drops.RemoveAll(x => x.ItemId == new MyDefinitionId(type, subtype));
+                                    Modified = true;
                                     return true;
                                 }
                             }
@@ -642,6 +656,7 @@ namespace ExtendedSurvival.Core
                                     if (bool.TryParse(options[1], out enabled))
                                     {
                                         info.SuperficialMining.Enabled = enabled;
+                                        Modified = true;
                                         return true;
                                     }
                                     break;
@@ -668,6 +683,7 @@ namespace ExtendedSurvival.Core
                             if (copyProfile != null)
                             {
                                 info.MeteorImpact = copyProfile.BuildMeteorImpactSetting();
+                                Modified = true;
                                 return true;
                             }
                         }
@@ -687,6 +703,7 @@ namespace ExtendedSurvival.Core
                                         ModifierId = values[1],
                                         ChanceToSpawn = chance
                                     });
+                                    Modified = true;
                                     return true;
                                 }
                             }
@@ -705,6 +722,7 @@ namespace ExtendedSurvival.Core
                                     if (bool.TryParse(options[1], out enabled))
                                     {
                                         info.MeteorImpact.Enabled = enabled;
+                                        Modified = true;
                                         return true;
                                     }
                                     break;
@@ -713,6 +731,7 @@ namespace ExtendedSurvival.Core
                                     if (float.TryParse(options[1], out chancetospawn))
                                     {
                                         info.MeteorImpact.ChanceToSpawn = chancetospawn;
+                                        Modified = true;
                                         return true;
                                     }
                                     break;
@@ -739,6 +758,7 @@ namespace ExtendedSurvival.Core
                             if (copyProfile != null)
                             {
                                 info.Gravity = copyProfile.BuildGravitySetting();
+                                Modified = true;
                                 return true;
                             }
                         }
@@ -753,6 +773,7 @@ namespace ExtendedSurvival.Core
                                     if (float.TryParse(options[1], out surfacegravity))
                                     {
                                         info.Gravity.SurfaceGravity = surfacegravity;
+                                        Modified = true;
                                         return true;
                                     }
                                     break;
@@ -761,6 +782,7 @@ namespace ExtendedSurvival.Core
                                     if (float.TryParse(options[1], out gravityfalloffpower))
                                     {
                                         info.Gravity.GravityFalloffPower = gravityfalloffpower;
+                                        Modified = true;
                                         return true;
                                     }
                                     break;
@@ -787,6 +809,7 @@ namespace ExtendedSurvival.Core
                             if (copyProfile != null)
                             {
                                 info.Atmosphere = copyProfile.BuildAtmosphereSetting();
+                                Modified = true;
                                 return true;
                             }
                         }
@@ -801,6 +824,7 @@ namespace ExtendedSurvival.Core
                                     if (bool.TryParse(options[1], out enabled))
                                     {
                                         info.Atmosphere.Enabled = enabled;
+                                        Modified = true;
                                         return true;
                                     }
                                     break;
@@ -809,6 +833,7 @@ namespace ExtendedSurvival.Core
                                     if (bool.TryParse(options[1], out breathable))
                                     {
                                         info.Atmosphere.Breathable = breathable;
+                                        Modified = true;
                                         return true;
                                     }
                                     break;
@@ -817,6 +842,7 @@ namespace ExtendedSurvival.Core
                                     if (float.TryParse(options[1], out oxygendensity) && oxygendensity >= 0 && oxygendensity <= 1)
                                     {
                                         info.Atmosphere.OxygenDensity = oxygendensity;
+                                        Modified = true;
                                         return true;
                                     }
                                     break;
@@ -825,6 +851,7 @@ namespace ExtendedSurvival.Core
                                     if (float.TryParse(options[1], out density) && density >= 0 && density <= 1)
                                     {
                                         info.Atmosphere.Density = density;
+                                        Modified = true;
                                         return true;
                                     }
                                     break;
@@ -833,6 +860,7 @@ namespace ExtendedSurvival.Core
                                     if (float.TryParse(options[1], out limitaltitude))
                                     {
                                         info.Atmosphere.LimitAltitude = limitaltitude;
+                                        Modified = true;
                                         return true;
                                     }
                                     break;
@@ -841,6 +869,7 @@ namespace ExtendedSurvival.Core
                                     if (float.TryParse(options[1], out maxwindspeed))
                                     {
                                         info.Atmosphere.MaxWindSpeed = maxwindspeed;
+                                        Modified = true;
                                         return true;
                                     }
                                     break;
@@ -850,6 +879,7 @@ namespace ExtendedSurvival.Core
                                         temperaturelevel >= 0 && temperaturelevel <= 4)
                                     {
                                         info.Atmosphere.TemperatureLevel = temperaturelevel;
+                                        Modified = true;
                                         return true;
                                     }
                                     break;
@@ -866,6 +896,7 @@ namespace ExtendedSurvival.Core
                                             {
                                                 info.Atmosphere.TemperatureRange.X = temperaturerange_from;
                                                 info.Atmosphere.TemperatureRange.Y = temperaturerange_to;
+                                                Modified = true;
                                                 return true;
                                             }
                                         }
@@ -876,6 +907,7 @@ namespace ExtendedSurvival.Core
                                     if (float.TryParse(options[1], out toxiclevel))
                                     {
                                         info.Atmosphere.ToxicLevel = toxiclevel;
+                                        Modified = true;
                                         return true;
                                     }
                                     break;
@@ -884,6 +916,7 @@ namespace ExtendedSurvival.Core
                                     if (float.TryParse(options[1], out radiationlevel))
                                     {
                                         info.Atmosphere.RadiationLevel = radiationlevel;
+                                        Modified = true;
                                         return true;
                                     }
                                     break;
@@ -910,6 +943,7 @@ namespace ExtendedSurvival.Core
                             if (copyProfile != null)
                             {
                                 info.Animal = copyProfile.BuildAnimalsSetting();
+                                Modified = true;
                                 return true;
                             }
                         }
@@ -921,6 +955,7 @@ namespace ExtendedSurvival.Core
                             if (!info.Animal.Animals.Any(x => x.Id == targetBodToAdd))
                             {
                                 info.Animal.Animals.Add(new PlanetAnimalEntrySetting() { Id = targetBodToAdd });
+                                Modified = true;
                                 return true;
                             }
                         }
@@ -932,6 +967,7 @@ namespace ExtendedSurvival.Core
                             if (info.Animal.Animals.Any(x => x.Id == targetBodToRemove))
                             {
                                 info.Animal.Animals.RemoveAll(x => x.Id == targetBodToRemove);
+                                Modified = true;
                                 return true;
                             }
                         }
@@ -949,6 +985,7 @@ namespace ExtendedSurvival.Core
                                     if (bool.TryParse(options[1], out dayspawnenabled))
                                     {
                                         info.Animal.DaySpawn.Enabled = dayspawnenabled;
+                                        Modified = true;
                                         return true;
                                     }
                                     break;
@@ -964,6 +1001,7 @@ namespace ExtendedSurvival.Core
                                             if (dayspawnspawndelay_from <= dayspawnspawndelay_to)
                                             {
                                                 info.Animal.DaySpawn.SpawnDelay = new Vector2I(dayspawnspawndelay_from, dayspawnspawndelay_to);
+                                                Modified = true;
                                                 return true;
                                             }
                                         }
@@ -981,6 +1019,7 @@ namespace ExtendedSurvival.Core
                                             if (dayspawnspawndist_from <= dayspawnspawndist_to)
                                             {
                                                 info.Animal.DaySpawn.SpawnDist = new Vector2I(dayspawnspawndist_from, dayspawnspawndist_to);
+                                                Modified = true;
                                                 return true;
                                             }
                                         }
@@ -998,6 +1037,7 @@ namespace ExtendedSurvival.Core
                                             if (dayspawnwavecount_from <= dayspawnwavecount_to)
                                             {
                                                 info.Animal.DaySpawn.WaveCount = new Vector2I(dayspawnwavecount_from, dayspawnwavecount_to);
+                                                Modified = true;
                                                 return true;
                                             }
                                         }
@@ -1008,6 +1048,7 @@ namespace ExtendedSurvival.Core
                                     if (bool.TryParse(options[1], out nightspawnenabled))
                                     {
                                         info.Animal.NightSpawn.Enabled = nightspawnenabled;
+                                        Modified = true;
                                         return true;
                                     }
                                     break;
@@ -1023,6 +1064,7 @@ namespace ExtendedSurvival.Core
                                             if (nightspawnspawndelay_from <= nightspawnspawndelay_to)
                                             {
                                                 info.Animal.NightSpawn.SpawnDelay = new Vector2I(nightspawnspawndelay_from, nightspawnspawndelay_to);
+                                                Modified = true;
                                                 return true;
                                             }
                                         }
@@ -1040,6 +1082,7 @@ namespace ExtendedSurvival.Core
                                             if (nightspawnspawndist_from <= nightspawnspawndist_to)
                                             {
                                                 info.Animal.NightSpawn.SpawnDist = new Vector2I(nightspawnspawndist_from, nightspawnspawndist_to);
+                                                Modified = true;
                                                 return true;
                                             }
                                         }
@@ -1057,6 +1100,7 @@ namespace ExtendedSurvival.Core
                                             if (nightspawnwavecount_from <= nightspawnwavecount_to)
                                             {
                                                 info.Animal.NightSpawn.WaveCount = new Vector2I(nightspawnwavecount_from, nightspawnwavecount_to);
+                                                Modified = true;
                                                 return true;
                                             }
                                         }
@@ -1085,6 +1129,7 @@ namespace ExtendedSurvival.Core
                             if (copyProfile != null)
                             {
                                 info.Water = copyProfile.BuildWaterSetting();
+                                Modified = true;
                                 return true;
                             }
                         }
@@ -1099,6 +1144,7 @@ namespace ExtendedSurvival.Core
                                     if (bool.TryParse(options[1], out enabled))
                                     {
                                         info.Water.Enabled = enabled;
+                                        Modified = true;
                                         return true;
                                     }
                                     break;
@@ -1107,6 +1153,7 @@ namespace ExtendedSurvival.Core
                                     if (float.TryParse(options[1], out size))
                                     {
                                         info.Water.Size = size;
+                                        Modified = true;
                                         return true;
                                     }
                                     break;
@@ -1115,6 +1162,7 @@ namespace ExtendedSurvival.Core
                                     if (float.TryParse(options[1], out temperaturefactor))
                                     {
                                         info.Water.TemperatureFactor = temperaturefactor;
+                                        Modified = true;
                                         return true;
                                     }
                                     break;
@@ -1123,6 +1171,7 @@ namespace ExtendedSurvival.Core
                                     if (float.TryParse(options[1], out toxiclevel))
                                     {
                                         info.Water.ToxicLevel = toxiclevel;
+                                        Modified = true;
                                         return true;
                                     }
                                     break;
@@ -1131,6 +1180,7 @@ namespace ExtendedSurvival.Core
                                     if (float.TryParse(options[1], out radiationlevel))
                                     {
                                         info.Water.RadiationLevel = radiationlevel;
+                                        Modified = true;
                                         return true;
                                     }
                                     break;
@@ -1157,6 +1207,7 @@ namespace ExtendedSurvival.Core
                             if (copyProfile != null)
                             {
                                 info.Geothermal = copyProfile.BuildGeothermalSetting();
+                                Modified = true;
                                 return true;
                             }
                         }
@@ -1171,6 +1222,7 @@ namespace ExtendedSurvival.Core
                                     if (bool.TryParse(options[1], out enabled))
                                     {
                                         info.Geothermal.Enabled = enabled;
+                                        Modified = true;
                                         return true;
                                     }
                                     break;
@@ -1179,6 +1231,7 @@ namespace ExtendedSurvival.Core
                                     if (float.TryParse(options[1], out start))
                                     {
                                         info.Geothermal.Start = start;
+                                        Modified = true;
                                         return true;
                                     }
                                     break;
@@ -1187,6 +1240,7 @@ namespace ExtendedSurvival.Core
                                     if (float.TryParse(options[1], out rowsize))
                                     {
                                         info.Geothermal.RowSize = rowsize;
+                                        Modified = true;
                                         return true;
                                     }
                                     break;
@@ -1195,6 +1249,7 @@ namespace ExtendedSurvival.Core
                                     if (float.TryParse(options[1], out power))
                                     {
                                         info.Geothermal.Power = power;
+                                        Modified = true;
                                         return true;
                                     }
                                     break;
@@ -1203,6 +1258,7 @@ namespace ExtendedSurvival.Core
                                     if (float.TryParse(options[1], out maxpower))
                                     {
                                         info.Geothermal.MaxPower = maxpower;
+                                        Modified = true;
                                         return true;
                                     }
                                     break;
@@ -1211,6 +1267,7 @@ namespace ExtendedSurvival.Core
                                     if (float.TryParse(options[1], out increment))
                                     {
                                         info.Geothermal.Increment = increment;
+                                        Modified = true;
                                         return true;
                                     }
                                     break;
@@ -1258,6 +1315,7 @@ namespace ExtendedSurvival.Core
                             }
                         }
                         info.Geothermal = PlanetMapProfile.Get(profile).BuildGeothermalSetting(startMultiplier, rowMultiplier, powerMultiplier);
+                        Modified = true;
                         return true;
                 }
             }
@@ -1401,6 +1459,7 @@ namespace ExtendedSurvival.Core
                         if (bool.TryParse(value, out respawnenabled))
                         {
                             info.RespawnEnabled = respawnenabled;
+                            Modified = true;
                             return true;
                         }
                         break;
@@ -1412,6 +1471,7 @@ namespace ExtendedSurvival.Core
                             if (validValues.Contains(type))
                             {
                                 info.Type = type;
+                                Modified = true;
                                 return true;
                             }
                         }
@@ -1426,6 +1486,7 @@ namespace ExtendedSurvival.Core
                                 float.TryParse(sizerangeparts[1], out sizerange_p2))
                             {
                                 TradeStations.TradeFactionsAmount = new DocumentedVector2(sizerange_p1, sizerange_p2, PlanetSetting.SIZERANGE_INFO);
+                                Modified = true;
                                 return true;
                             }
                         }
@@ -1443,6 +1504,7 @@ namespace ExtendedSurvival.Core
                 var profile = VoxelMaterialMapProfile.Get(id.ToUpper());
                 if (profile != null && profile.Version > settings.Version)
                     settings = profile.UpgradeSettings(settings);
+                Modified = true;
                 return settings;
             }
             else if (generateWhenNotExists)
@@ -1460,6 +1522,7 @@ namespace ExtendedSurvival.Core
                 if (HasVoxelInfo(id))
                     VoxelMaterials.RemoveAll(x => x.Id.ToUpper().Trim() == id.ToUpper().Trim());
                 VoxelMaterials.Add(settings);
+                Modified = true;
                 return settings;
             }
             return GetVoxelInfo(id, false);
@@ -1482,6 +1545,7 @@ namespace ExtendedSurvival.Core
                         if (float.TryParse(value, out minedoreratio))
                         {
                             info.MinedOreRatio = minedoreratio;
+                            Modified = true;
                             return true;
                         }
                         break;
@@ -1490,6 +1554,7 @@ namespace ExtendedSurvival.Core
                         if (bool.TryParse(value, out spawnsfrommeteorites))
                         {
                             info.SpawnsFromMeteorites = spawnsfrommeteorites;
+                            Modified = true;
                             return true;
                         }
                         break;
@@ -1498,6 +1563,7 @@ namespace ExtendedSurvival.Core
                         if (bool.TryParse(value, out spawnsinasteroids))
                         {
                             info.SpawnsInAsteroids = spawnsinasteroids;
+                            Modified = true;
                             return true;
                         }
                         break;
@@ -1506,6 +1572,7 @@ namespace ExtendedSurvival.Core
                         if (int.TryParse(value, out asteroidspawnprobabilitymultiplier))
                         {
                             info.AsteroidSpawnProbabilityMultiplier = asteroidspawnprobabilitymultiplier;
+                            Modified = true;
                             return true;
                         }
                         break;
@@ -1523,6 +1590,7 @@ namespace ExtendedSurvival.Core
                     if (bool.TryParse(value, out debug))
                     {
                         Debug = debug;
+                        Modified = true;
                         return true;
                     }
                     break;
@@ -1531,6 +1599,7 @@ namespace ExtendedSurvival.Core
                     if (bool.TryParse(value, out rotfoodenabled))
                     {
                         RotEnabled = rotfoodenabled;
+                        Modified = true;
                         return true;
                     }
                     break;
@@ -1539,6 +1608,7 @@ namespace ExtendedSurvival.Core
                     if (bool.TryParse(value, out dinamicwoodgridenabled))
                     {
                         DinamicWoodGridEnabled = dinamicwoodgridenabled;
+                        Modified = true;
                         return true;
                     }
                     break;
@@ -1547,6 +1617,7 @@ namespace ExtendedSurvival.Core
                     if (bool.TryParse(value, out dinamicstonegridenabled))
                     {
                         DinamicStoneGridEnabled = dinamicstonegridenabled;
+                        Modified = true;
                         return true;
                     }
                     break;
@@ -1555,6 +1626,7 @@ namespace ExtendedSurvival.Core
                     if (bool.TryParse(value, out dinamicconcretegridenabled))
                     {
                         DinamicConcreteGridEnabled = dinamicconcretegridenabled;
+                        Modified = true;
                         return true;
                     }
                     break;
@@ -1563,6 +1635,7 @@ namespace ExtendedSurvival.Core
                     if (bool.TryParse(value, out respawnspacepodenabled))
                     {
                         RespawnSpacePodEnabled = respawnspacepodenabled;
+                        Modified = true;
                         return true;
                     }
                     break;
@@ -1571,6 +1644,7 @@ namespace ExtendedSurvival.Core
                     if (bool.TryParse(value, out disablewatermodfreeice))
                     {
                         DisableWaterModFreeIce = disablewatermodfreeice;
+                        Modified = true;
                         return true;
                     }
                     break;
@@ -1579,6 +1653,7 @@ namespace ExtendedSurvival.Core
                     if (bool.TryParse(value, out starsystemconfigurationautogeneratestarsystemgps))
                     {
                         StarSystemConfiguration.AutoGenerateStarSystemGps = starsystemconfigurationautogeneratestarsystemgps;
+                        Modified = true;
                         return true;
                     }
                     break;
@@ -1587,6 +1662,7 @@ namespace ExtendedSurvival.Core
                     if (bool.TryParse(value, out starsystemconfigurationaddallinfotostarsystemgps))
                     {
                         StarSystemConfiguration.AddAllInfoToStarSystemGps = starsystemconfigurationaddallinfotostarsystemgps;
+                        Modified = true;
                         return true;
                     }
                     break;
@@ -1595,6 +1671,7 @@ namespace ExtendedSurvival.Core
                     if (bool.TryParse(value, out starsystemconfigurationautogeneratetradestationsgps))
                     {
                         StarSystemConfiguration.AutoGenerateTradeStationsGps = starsystemconfigurationautogeneratetradestationsgps;
+                        Modified = true;
                         return true;
                     }
                     break;
@@ -1603,6 +1680,7 @@ namespace ExtendedSurvival.Core
                     if (bool.TryParse(value, out starsystemconfigurationcreatedatapadinstartrover))
                     {
                         StarSystemConfiguration.CreateDatapadInStartRover = starsystemconfigurationcreatedatapadinstartrover;
+                        Modified = true;
                         return true;
                     }
                     break;
@@ -1611,6 +1689,7 @@ namespace ExtendedSurvival.Core
                     if (bool.TryParse(value, out starsystemconfigurationcreatedatapadindropcontainers))
                     {
                         StarSystemConfiguration.CreateDatapadInDropContainers = starsystemconfigurationcreatedatapadindropcontainers;
+                        Modified = true;
                         return true;
                     }
                     break;
@@ -1619,6 +1698,7 @@ namespace ExtendedSurvival.Core
                     if (float.TryParse(value, out starsystemconfigurationdatapadchanceindropcontainers))
                     {
                         StarSystemConfiguration.DatapadChanceInDropContainers = starsystemconfigurationdatapadchanceindropcontainers;
+                        Modified = true;
                         return true;
                     }
                     break;
@@ -1627,6 +1707,7 @@ namespace ExtendedSurvival.Core
                     if (int.TryParse(value, out dropcontainerdeployheight))
                     {
                         DropContainerDeployHeight = Math.Min(Math.Max(dropcontainerdeployheight, 200), 2000);
+                        Modified = true;
                         return true;
                     }
                     break;
@@ -1635,6 +1716,7 @@ namespace ExtendedSurvival.Core
                     if (int.TryParse(value, out planetdeployaltitude))
                     {
                         PlanetDeployAltitude = Math.Min(Math.Max(planetdeployaltitude, 5), 2000);
+                        Modified = true;
                         return true;
                     }
                     break;
@@ -1643,6 +1725,7 @@ namespace ExtendedSurvival.Core
                     if (int.TryParse(value, out moondeployaltitude))
                     {
                         MoonDeployAltitude = Math.Min(Math.Max(moondeployaltitude, 5), 1500);
+                        Modified = true;
                         return true;
                     }
                     break;
@@ -1651,6 +1734,7 @@ namespace ExtendedSurvival.Core
                     if (bool.TryParse(value, out combatsetting_nogrindfunctionalgrids))
                     {
                         Combat.NoGrindFunctionalGrids = combatsetting_nogrindfunctionalgrids;
+                        Modified = true;
                         return true;
                     }
                     break;
@@ -1659,6 +1743,7 @@ namespace ExtendedSurvival.Core
                     if (bool.TryParse(value, out combatsetting_nogridselfdamage))
                     {
                         Combat.NoGridSelfDamage = combatsetting_nogridselfdamage;
+                        Modified = true;
                         return true;
                     }
                     break;
@@ -1667,6 +1752,7 @@ namespace ExtendedSurvival.Core
                     if (bool.TryParse(value, out combatsetting_logallpvpdamage))
                     {
                         Combat.LogAllPvPDamage = combatsetting_logallpvpdamage;
+                        Modified = true;
                         return true;
                     }
                     break;
@@ -1675,6 +1761,7 @@ namespace ExtendedSurvival.Core
                     if (bool.TryParse(value, out combatsetting_forceenemytofactions))
                     {
                         Combat.ForceEnemyToFactions = combatsetting_forceenemytofactions;
+                        Modified = true;
                         return true;
                     }
                     break;
@@ -1686,6 +1773,7 @@ namespace ExtendedSurvival.Core
                     if (long.TryParse(value, out tradestations_comercialcycle))
                     {
                         TradeStations.ComercialCycle = tradestations_comercialcycle;
+                        Modified = true;
                         return true;
                     }
                     break;
@@ -1699,6 +1787,7 @@ namespace ExtendedSurvival.Core
                             float.TryParse(tradestations_tradefactionsamountparts[1], out tradestations_tradefactionsamount_p2))
                         {
                             TradeStations.TradeFactionsAmount = new DocumentedVector2(tradestations_tradefactionsamount_p1, tradestations_tradefactionsamount_p2, TradeStationSetting.FACTIONRANGE_INFO);
+                            Modified = true;
                             return true;
                         }
                     }
@@ -1708,6 +1797,7 @@ namespace ExtendedSurvival.Core
                     if (bool.TryParse(value, out meteorimpact_enabled))
                     {
                         MeteorImpact.Enabled = meteorimpact_enabled;
+                        Modified = true;
                         return true;
                     }
                     break;
@@ -1716,6 +1806,7 @@ namespace ExtendedSurvival.Core
                     if (float.TryParse(value, out meteorimpact_distancetospawn))
                     {
                         MeteorImpact.DistanceToSpawn = meteorimpact_distancetospawn;
+                        Modified = true;
                         return true;
                     }
                     break;
@@ -1724,6 +1815,97 @@ namespace ExtendedSurvival.Core
                     if (long.TryParse(value, out meteorimpact_stonelifetime))
                     {
                         MeteorImpact.StoneLifeTime = meteorimpact_stonelifetime;
+                        Modified = true;
+                        return true;
+                    }
+                    break;
+                case "decay.enabled":
+                    bool decay_enabled;
+                    if (bool.TryParse(value, out decay_enabled))
+                    {
+                        Decay.Enabled = decay_enabled;
+                        Modified = true;
+                        return true;
+                    }
+                    break;
+                case "decay.cycletick":
+                    int decay_cycletick;
+                    if (int.TryParse(value, out decay_cycletick))
+                    {
+                        Decay.CycleTick = decay_cycletick;
+                        Modified = true;
+                        return true;
+                    }
+                    break;
+                case "decay.blockpercentcycle":
+                    float decay_blockpercentcycle;
+                    if (float.TryParse(value, out decay_blockpercentcycle))
+                    {
+                        Decay.BlockPercentCycle = decay_blockpercentcycle;
+                        Modified = true;
+                        return true;
+                    }
+                    break;
+                case "decay.armorpercentblock":
+                    float decay_armorpercentblock;
+                    if (float.TryParse(value, out decay_armorpercentblock))
+                    {
+                        Decay.ArmorPercentBlock = decay_armorpercentblock;
+                        Modified = true;
+                        return true;
+                    }
+                    break;
+                case "decay.newblockspercent":
+                    float decay_newblockspercent;
+                    if (float.TryParse(value, out decay_newblockspercent))
+                    {
+                        Decay.NewBlocksPercent = decay_newblockspercent;
+                        Modified = true;
+                        return true;
+                    }
+                    break;
+                case "decay.timetodecay":
+                    int decay_timetodecay;
+                    if (int.TryParse(value, out decay_timetodecay))
+                    {
+                        Decay.TimeToDecay = decay_timetodecay;
+                        Modified = true;
+                        return true;
+                    }
+                    break;
+                case "decay.ignoregridprotection":
+                    bool decay_ignoregridprotection;
+                    if (bool.TryParse(value, out decay_ignoregridprotection))
+                    {
+                        Decay.IgnoreGridProtection = decay_ignoregridprotection;
+                        Modified = true;
+                        return true;
+                    }
+                    break;
+                case "decay.rustdamage":
+                    float decay_rustdamage;
+                    if (float.TryParse(value, out decay_rustdamage))
+                    {
+                        Decay.RustDamage = decay_rustdamage;
+                        Modified = true;
+                        return true;
+                    }
+                    break;
+                case "decay.damagecycletick":
+                    int decay_damagecycletick;
+                    if (int.TryParse(value, out decay_damagecycletick))
+                    {
+                        Decay.DamageCycleTick = decay_damagecycletick;
+                        Modified = true;
+                        return true;
+                    }
+                    break;
+                case "decay.maxblockeachcycle":
+                    int decay_maxblockeachcycle;
+                    if (int.TryParse(value, out decay_maxblockeachcycle))
+                    {
+                        Decay.MaxBlockEachCycle = decay_maxblockeachcycle;
+                        Modified = true;
                         return true;
                     }
                     break;

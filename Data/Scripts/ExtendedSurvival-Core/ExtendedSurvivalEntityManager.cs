@@ -253,13 +253,25 @@ namespace ExtendedSurvival.Core
                 {
                     ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), "StartBackground [DecaySystemController START]");
                     // Loop DecaySystemController
+                    int runCount = 0;
                     while (canRun)
                     {
-                        DecaySystemController.DoCycle();
+                        var decayTime = ExtendedSurvivalSettings.Instance?.Decay.CycleTick ?? 600000;
+                        var damageTime = ExtendedSurvivalSettings.Instance?.Decay.DamageCycleTick ?? 10000;
+                        var maxRunToCheckDecay = decayTime / damageTime;
+                        DecaySystemController.DoCycle(runCount < maxRunToCheckDecay);
                         if (MyAPIGateway.Parallel != null)
-                            MyAPIGateway.Parallel.Sleep(ExtendedSurvivalSettings.Instance?.Decay.CycleTick ?? 60000);
+                            MyAPIGateway.Parallel.Sleep(damageTime);
                         else
                             break;
+                        if (runCount >= maxRunToCheckDecay)
+                        {
+                            runCount = 0;
+                        }
+                        else
+                        {
+                            runCount++;
+                        }
                     }
                 });
             }

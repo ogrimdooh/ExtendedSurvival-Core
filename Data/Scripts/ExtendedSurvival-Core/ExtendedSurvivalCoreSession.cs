@@ -203,24 +203,17 @@ namespace ExtendedSurvival.Core
                             (nanobotBLock, block, distance) =>
                             {
                                 var pos = block.CubeGrid.GetPosition();
-                                float naturalGravityInterference;
-                                Vector3 naturalGravity = MyAPIGateway.Physics.CalculateNaturalGravityAt(pos, out naturalGravityInterference);
-                                if (naturalGravityInterference > 0)
+                                if (IsPveZone(pos))
                                 {
-                                    var neartPlanet = ExtendedSurvivalEntityManager.GetPlanetAtRange(pos);
-                                    var memberInfo = ExtendedSurvivalStorage.Instance.StarSystem.Members.FirstOrDefault(x => x.EntityId == neartPlanet.Entity.EntityId);
-                                    if (memberInfo.HasPveArea)
+                                    var ownerId = block.OwnerId != 0 ? block.OwnerId : block.CubeGrid.BigOwners.FirstOrDefault();
+                                    var isPlayer = MyAPIGateway.Players.TryGetSteamId(ownerId) != 0;
+                                    if (isPlayer)
                                     {
-                                        var ownerId = block.OwnerId != 0 ? block.OwnerId : block.CubeGrid.BigOwners.FirstOrDefault();
-                                        var isPlayer = MyAPIGateway.Players.TryGetSteamId(ownerId) != 0;
-                                        if (isPlayer)
+                                        var attackerPlayerId = nanobotBLock.OwnerId;
+                                        var isAttackerPlayer = MyAPIGateway.Players.TryGetSteamId(attackerPlayerId) != 0;
+                                        if (NeedToNullDamage(attackerPlayerId, isAttackerPlayer, ownerId, MyDamageInformationExtensions.DamageType.Tool))
                                         {
-                                            var attackerPlayerId = nanobotBLock.OwnerId;
-                                            var isAttackerPlayer = MyAPIGateway.Players.TryGetSteamId(attackerPlayerId) != 0;
-                                            if (NeedToNullDamage(attackerPlayerId, isAttackerPlayer, ownerId, MyDamageInformationExtensions.DamageType.Tool))
-                                            {
-                                                return false;
-                                            }
+                                            return false;
                                         }
                                     }
                                 }
@@ -255,6 +248,19 @@ namespace ExtendedSurvival.Core
                 }
             });
 
+        }
+
+        public bool IsPveZone(Vector3D pos)
+        {
+            float naturalGravityInterference;
+            Vector3 naturalGravity = MyAPIGateway.Physics.CalculateNaturalGravityAt(pos, out naturalGravityInterference);
+            if (naturalGravityInterference > 0)
+            {
+                var neartPlanet = ExtendedSurvivalEntityManager.GetPlanetAtRange(pos);
+                var memberInfo = ExtendedSurvivalStorage.Instance.StarSystem.Members.FirstOrDefault(x => x.EntityId == neartPlanet.Entity.EntityId);
+                return memberInfo.HasPveArea;
+            }
+            return false;
         }
 
         private void CheckGridCanBeDamage(IMySlimBlock cubeBlock, long ownerId, long attackerPlayerId, 

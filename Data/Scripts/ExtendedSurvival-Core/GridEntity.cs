@@ -14,6 +14,7 @@ using VRage.Game;
 using System;
 using Sandbox.Game.GameSystems;
 using SpaceEngineers.Game.Entities.Blocks;
+using SpaceEngineers.Game.ModAPI;
 
 namespace ExtendedSurvival.Core
 {
@@ -592,11 +593,167 @@ namespace ExtendedSurvival.Core
             CheckSkinAtBlocks(_concreteBlocks, SkinHelper.CONCRETE_SKIN);
         }
 
+        private void DisableBlocksThatCanRevertDecay()
+        {
+            if (_blocksByType.ContainsKey(typeof(MyObjectBuilder_EventControllerBlock)))
+                foreach (var block in _blocksByType[typeof(MyObjectBuilder_EventControllerBlock)])
+                {
+                    var fatBlock = block.FatBlock as IMyEventControllerBlock;
+                    if (fatBlock != null)
+                        fatBlock.Enabled = false;
+                }
+            if (_blocksByType.ContainsKey(typeof(MyObjectBuilder_MyProgrammableBlock)))
+                foreach (var block in _blocksByType[typeof(MyObjectBuilder_MyProgrammableBlock)])
+                {
+                    var fatBlock = block.FatBlock as IMyProgrammableBlock;
+                    if (fatBlock != null)
+                        fatBlock.Enabled = false;
+                }
+            if (_blocksByType.ContainsKey(typeof(MyObjectBuilder_TimerBlock)))
+                foreach (var block in _blocksByType[typeof(MyObjectBuilder_TimerBlock)])
+                {
+                    var fatBlock = block.FatBlock as IMyTimerBlock;
+                    if (fatBlock != null)
+                        fatBlock.Enabled = false;
+                }
+            if (_blocksByType.ContainsKey(typeof(MyObjectBuilder_SensorBlock)))
+                foreach (var block in _blocksByType[typeof(MyObjectBuilder_SensorBlock)])
+                {
+                    var fatBlock = block.FatBlock as IMySensorBlock;
+                    if (fatBlock != null)
+                        fatBlock.Enabled = false;
+                }
+            if (_blocksByType.ContainsKey(typeof(MyObjectBuilder_ShipWelder)))
+                foreach (var block in _blocksByType[typeof(MyObjectBuilder_ShipWelder)])
+                {
+                    var fatBlock = block.FatBlock as IMyShipWelder;
+                    if (fatBlock != null)
+                        fatBlock.Enabled = false;
+                }
+            if (_blocksByType.ContainsKey(typeof(MyObjectBuilder_OreDetector)))
+                foreach (var block in _blocksByType[typeof(MyObjectBuilder_OreDetector)])
+                {
+                    var fatBlock = block.FatBlock as IMyOreDetector;
+                    if (fatBlock != null)
+                        fatBlock.Enabled = false;
+                }
+        }
+
         public void Decay()
         {
             if (NeedToDecay)
             {
+                if (!ExtendedSurvivalSettings.Instance.Decay.IgnoreGridProtection)
+                {
+                    if (ExtendedSurvivalCoreSession.Static.IsPveZone(Entity.GetPosition()))
+                        return;
+                }
+                DisableBlocksThatCanRevertDecay();
+                var totalBlocks = _allBlocks.Count;
+                var isAllRustSkin = _allBlocks.All(x => DecaySystemController.IsRustSkin(x.SkinSubtypeId));
+                var isAllHeavyRustSkin = _allBlocks.All(x => x.SkinSubtypeId == DecaySystemController.HeavyRustHash);
+                var neededBlocks = (int)(totalBlocks * ExtendedSurvivalSettings.Instance.Decay.BlockPercentCycle);
+                if (neededBlocks == 0)
+                    neededBlocks = totalBlocks;
+                var newNeed = (int)(neededBlocks * ExtendedSurvivalSettings.Instance.Decay.NewBlocksPercent);
+                var armorNeed = (int)(neededBlocks * ExtendedSurvivalSettings.Instance.Decay.ArmorPercentBlock);
+                var gettedBlocks = new List<Vector3I>();
+                var ignoreNewForArmors = false;
+                while (neededBlocks > 0)
+                {
+                    IMySlimBlock target = null;
+                    if (armorNeed > 0)
+                    {
+                        if (_blocksByType.ContainsKey(typeof(MyObjectBuilder_CubeBlock)))
+                        {
+                            target = _blocksByType[typeof(MyObjectBuilder_CubeBlock)].Where(x =>
+                                (
+                                    newNeed == 0 || ignoreNewForArmors ||
+                                    (
+                                        (
+                                            (!isAllRustSkin && !isAllHeavyRustSkin && !DecaySystemController.IsRustSkin(x.SkinSubtypeId)) ||
+                                            (isAllRustSkin && !isAllHeavyRustSkin && x.SkinSubtypeId != DecaySystemController.HeavyRustHash)
+                                        )
+                                    )
+                                ) &&
+                                !gettedBlocks.Contains(x.Position)
+                            ).OrderBy(x => MyUtils.GetRandomFloat()).FirstOrDefault();
+                        }
+                    }
+                    else
+                    {
+                        if (_blocksByType.ContainsKey(typeof(MyObjectBuilder_ShipWelder)))
+                        {
+                            target = _blocksByType[typeof(MyObjectBuilder_ShipWelder)].Where(x =>
+                                (
+                                    newNeed == 0 || 
+                                    (
+                                        (
+                                            (!isAllRustSkin && !isAllHeavyRustSkin && !DecaySystemController.IsRustSkin(x.SkinSubtypeId)) ||
+                                            (isAllRustSkin && !isAllHeavyRustSkin && x.SkinSubtypeId != DecaySystemController.HeavyRustHash)
+                                        )
+                                    )
+                                ) &&
+                                !gettedBlocks.Contains(x.Position)
+                            ).OrderBy(x => MyUtils.GetRandomFloat()).FirstOrDefault();
+                        }
+                        if (target == null)
+                        {
+                            target = _allBlocks.Where(x =>
+                                    (
+                                        newNeed == 0 ||
+                                        (
+                                            (
+                                                (!isAllRustSkin && !isAllHeavyRustSkin && !DecaySystemController.IsRustSkin(x.SkinSubtypeId)) ||
+                                                (isAllRustSkin && !isAllHeavyRustSkin && x.SkinSubtypeId != DecaySystemController.HeavyRustHash)
+                                            )
+                                        )
+                                    ) &&
+                                    !gettedBlocks.Contains(x.Position)
+                                ).OrderBy(x => MyUtils.GetRandomFloat()).FirstOrDefault();
+                        }
+                    }
+                    if (target == null)
+                    {
+                        if (newNeed > 0)
+                        {
+                            if (armorNeed > 0 && !ignoreNewForArmors)
+                            {
+                                ignoreNewForArmors = true;
+                            }
+                            else
+                            {
+                                newNeed = 0;
+                            }
+                        }
+                        else if (armorNeed > 0)
+                        {
+                            armorNeed = 0;
+                        }
+                        else
+                        {
+                            neededBlocks = 0;
+                        }
+                    }
+                    else
+                    {
+                        gettedBlocks.Add(target.Position);
+                        ApplyDecay(target);
+                        if (newNeed > 0)
+                            newNeed--;
+                        if (armorNeed > 0)
+                            armorNeed--;
+                        neededBlocks--;
+                    }
+                }
+            }
+        }
 
+        private void ApplyDecay(IMySlimBlock block)
+        {
+            if (block != null)
+            {
+                DecaySystemController.MarkBlockToRust(block, Entity as MyCubeGrid);
             }
         }
 

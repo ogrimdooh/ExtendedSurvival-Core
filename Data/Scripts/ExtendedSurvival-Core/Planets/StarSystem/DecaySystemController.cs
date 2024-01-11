@@ -1,4 +1,6 @@
-﻿using Sandbox.ModAPI;
+﻿using Sandbox.Game.Entities;
+using Sandbox.Game.Entities.Cube;
+using Sandbox.ModAPI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,14 @@ namespace ExtendedSurvival.Core
 
         public static MyStringHash RustHash { get; private set; }
         public static MyStringHash HeavyRustHash { get; private set; }
+
+        private static Queue<Action> _damageQueue = new Queue<Action>();
+        private static Queue<Action> _paintQueue = new Queue<Action>();
+
+        public static bool IsRustSkin(MyStringHash skin)
+        {
+            return skin == RustHash || skin == HeavyRustHash;
+        }
 
         static DecaySystemController()
         {
@@ -62,6 +72,61 @@ namespace ExtendedSurvival.Core
             return false;
         }
 
+        public static void MarkBlockToRust(IMySlimBlock block, MyCubeGrid gridInternal)
+        {
+            if (block.SkinSubtypeId == HeavyRustHash)
+            {
+                _damageQueue.Enqueue(() => DamageBlock(block, gridInternal));
+            }
+            else
+            {
+                _paintQueue.Enqueue(() => RustBlockPaint(block, gridInternal));
+            }
+        }
+
+        private static void ShareBlock(IMySlimBlock block)
+        {
+            if (block.FatBlock != null)
+            {
+                var cubeBlock = block.FatBlock as MyCubeBlock;
+                if (cubeBlock != null)
+                {
+                    cubeBlock.ChangeOwner(cubeBlock.OwnerId, VRage.Game.MyOwnershipShareModeEnum.All);
+                }
+            }
+        }
+
+        private static void DamageBlock(IMySlimBlock block, MyCubeGrid gridInternal)
+        {
+            if (block.IsFullyDismounted)
+            {
+                gridInternal.RazeBlock(block.Position);
+            }
+            else
+            {
+                block?.DecreaseMountLevel(ExtendedSurvivalSettings.Instance.Decay.RustDamage, null, true);
+                ShareBlock(block);
+            }
+        }
+
+        private static void RustBlockPaint(IMySlimBlock block, MyCubeGrid gridInternal)
+        {
+            MyCube myCube;
+            gridInternal.TryGetCube(block.Position, out myCube);
+            if (myCube == null)
+                return;
+
+            if (block.SkinSubtypeId == RustHash)
+            {
+                gridInternal.ChangeColorAndSkin(myCube.CubeBlock, skinSubtypeId: HeavyRustHash);
+            }
+            else
+            {
+                gridInternal.ChangeColorAndSkin(myCube.CubeBlock, skinSubtypeId: RustHash);
+            }
+            ShareBlock(block);
+        }
+
         public static void RegisterPlayerAction(long playerId)
         {
             try
@@ -79,13 +144,72 @@ namespace ExtendedSurvival.Core
             }
         }
 
-        public static void DoCycle()
+        public static void ProcessPaint()
+        {
+            if (_paintQueue.Count == 0)
+                return;
+            for (int i = 0; i < ExtendedSurvivalSettings.Instance.Decay.MaxBlockEachCycle; i++)
+            {
+                Action action;
+                if (!_paintQueue.TryDequeue(out action))
+                    return;
+
+                SafeInvoke(action);
+            }
+        }
+
+        public static void ProcessDamage()
+        {
+            if (_damageQueue.Count == 0)
+                return;
+            for (int i = 0; i < ExtendedSurvivalSettings.Instance.Decay.MaxBlockEachCycle; i++)
+            {
+                Action action;
+                if (!_damageQueue.TryDequeue(out action))
+                    return;
+
+                SafeInvoke(action);
+            }
+        }
+
+        private static void SafeInvoke(Action action)
+        {
+            try
+            {
+                //action();
+                MyAPIGateway.Utilities.InvokeOnGameThread(() =>
+                {
+                    try
+                    {
+                        action();
+                    }
+                    catch (Exception ex)
+                    {
+                        ExtendedSurvivalCoreLogging.Instance.LogError(typeof(DecaySystemController), ex);
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                ExtendedSurvivalCoreLogging.Instance.LogError(typeof(DecaySystemController), ex);
+            }
+        }
+
+        public static void DoCycle(bool isDamageCycle)
         {
             try
             {
                 if (ExtendedSurvivalSettings.Instance.Decay.Enabled)
                 {
-                    ExtendedSurvivalEntityManager.Instance.DoRunDecay();
+                    if (isDamageCycle)
+                    {
+                        ProcessPaint();
+                        ProcessDamage();
+                    }
+                    else
+                    {
+                        ExtendedSurvivalEntityManager.Instance.DoRunDecay();
+                    }
                 }
             }
             catch (Exception ex)

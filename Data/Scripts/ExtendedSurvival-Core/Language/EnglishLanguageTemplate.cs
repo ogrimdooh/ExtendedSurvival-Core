@@ -1216,9 +1216,17 @@ namespace ExtendedSurvival.Core
 				"This configuration set the damage that every rust block get per cycle. " + Environment.NewLine +
 				"You can read more about the decay in the systems topics."
 			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_DECAYSETTING_DAMAGECYCLETICK_DESCRIPTION,
+				"This configuration set the time in milesseconds to apply damage to decay blocks." + Environment.NewLine +
+				"You can read more about the decay in the systems topics."
+			);
+			AddEntry(
+				LanguageEntries.HELP_SETTINGS_DECAYSETTING_MAXBLOCKEACHCYCLE_DESCRIPTION,
+				"This configuration set amount of blocks to be use each damage cycle." + Environment.NewLine +
+				"You can read more about the decay in the systems topics."
+			);
 
-
-			
 
 
 

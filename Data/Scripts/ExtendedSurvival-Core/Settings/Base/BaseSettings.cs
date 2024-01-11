@@ -18,6 +18,12 @@ namespace ExtendedSurvival.Core
         [XmlElement]
         public int Version { get; set; }
 
+        [XmlIgnore]
+        public bool Modified { get; set; }
+
+        [XmlIgnore]
+        public bool CheckModified { get; set; } = false;
+
         protected static T Load<T>(string fileName, int currentVersion, BaseSettings_Validade<T> validade, BaseSettings_Create<T> create, BaseSettings_Upgrade<T> upgrade, bool json = false, bool createIfNotFound = true) where T : BaseSettings
         {
             var world = true;
@@ -152,6 +158,8 @@ namespace ExtendedSurvival.Core
 
         protected static void Save<T>(T settings, string fileName, bool world, bool json) where T : BaseSettings
         {
+            if (settings.CheckModified && !settings.Modified)
+                return;
             var targetType = typeof(T);
             if (world)
             {
@@ -167,6 +175,8 @@ namespace ExtendedSurvival.Core
                     writer.Write(GetData<T>(settings, json));
                 }
             }
+            if (settings.CheckModified)
+                settings.Modified = false;
         }
 
     }

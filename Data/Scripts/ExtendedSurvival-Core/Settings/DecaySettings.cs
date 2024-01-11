@@ -97,6 +97,28 @@ namespace ExtendedSurvival.Core
                 NeedRestart = false,
                 CommandSample = "/settings Decay.RustDamage 0.25",
                 ValueType = HelpController.ConfigurationValueType.Decimal
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.DamageCycleTick"),
+                Title = "DamageCycleTick",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_DECAYSETTING_DAMAGECYCLETICK_DESCRIPTION),
+                DefaultValue = "10000",
+                CanUseSettingsCommand = true,
+                NeedRestart = false,
+                CommandSample = "/settings Decay.DamageCycleTick 2500",
+                ValueType = HelpController.ConfigurationValueType.Integer
+            },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.MaxBlockEachCycle"),
+                Title = "MaxBlockEachCycle",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_DECAYSETTING_MAXBLOCKEACHCYCLE_DESCRIPTION),
+                DefaultValue = "50",
+                CanUseSettingsCommand = true,
+                NeedRestart = false,
+                CommandSample = "/settings Decay.MaxBlockEachCycle 100",
+                ValueType = HelpController.ConfigurationValueType.Integer
             }
         };
 
@@ -106,6 +128,12 @@ namespace ExtendedSurvival.Core
         [XmlElement]
         public int CycleTick { get; set; } = 3600000; /* 1 hora */
 
+        [XmlElement]
+        public int DamageCycleTick { get; set; } = 10000; /* 10 seconds */
+
+        [XmlElement]
+        public int MaxBlockEachCycle { get; set; } = 50; 
+        
         [XmlElement]
         public float BlockPercentCycle { get; set; } = 0.05f;
 
