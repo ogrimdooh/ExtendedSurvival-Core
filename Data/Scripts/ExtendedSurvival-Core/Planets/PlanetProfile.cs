@@ -274,7 +274,7 @@ namespace ExtendedSurvival.Core
                         Enabled = SuperficialMining.enabled,
                         Drops = SuperficialMining.drops.Select(x => new SuperficialMiningDropSetting()
                         {
-                            ItemId = x.itemId.DefinitionId,
+                            ItemId = new DocumentedDefinitionId(x.itemId.DefinitionId),
                             Ammount = new DocumentedVector2(x.ammount.X, x.ammount.Y, SuperficialMiningDropSetting.AMMOUNT_RANGE_INFO),
                             AlowFrac = x.alowFrac,
                             Chance = x.chance,
@@ -836,6 +836,10 @@ namespace ExtendedSurvival.Core
                         GroupType);
                     settings.OreMap = tmpSettings.OreMap;
                     settings.OreGroupType = tmpSettings.OreGroupType;
+                }
+                if (settings.Version <= 16)
+                {
+                    settings.SuperficialMining = BuildSuperficialMiningSetting(settings.Id);
                 }
                 settings.Version = Version;
             }

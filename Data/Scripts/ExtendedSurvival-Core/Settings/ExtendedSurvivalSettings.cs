@@ -605,7 +605,7 @@ namespace ExtendedSurvival.Core
                                                         {
                                                             info.SuperficialMining.Drops.Add(new SuperficialMiningDropSetting()
                                                             {
-                                                                ItemId = new MyDefinitionId(type, subtype),
+                                                                ItemId = new DocumentedDefinitionId(new MyDefinitionId(type, subtype)),
                                                                 Ammount = new DocumentedVector2(amount_from, amount_to, SuperficialMiningDropSetting.AMMOUNT_RANGE_INFO),
                                                                 Chance = addChance,
                                                                 AlowFrac = alowFrac,
@@ -636,7 +636,7 @@ namespace ExtendedSurvival.Core
                                 MyObjectBuilderType type;
                                 if (MyObjectBuilderType.TryParse($"MyObjectBuilder_{values[0]}", out type))
                                 {
-                                    info.SuperficialMining.Drops.RemoveAll(x => x.ItemId == new MyDefinitionId(type, subtype));
+                                    info.SuperficialMining.Drops.RemoveAll(x => x.ItemId == new DocumentedDefinitionId(new MyDefinitionId(type, subtype)));
                                     Modified = true;
                                     return true;
                                 }

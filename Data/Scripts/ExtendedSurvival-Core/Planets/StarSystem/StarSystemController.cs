@@ -955,24 +955,28 @@ namespace ExtendedSurvival.Core
                             {
                                 foreach (var item in planet.Setting.SuperficialMining.Drops)
                                 {
-                                    var id = new UniqueEntityId(item.ItemId);
-                                    try
+                                    var defId = item.ItemId.GetId();
+                                    if (defId.HasValue)
                                     {
-                                        var def = MyDefinitionManager.Static.GetPhysicalItemDefinition(id.DefinitionId);
-                                        if (def != null)
+                                        var id = new UniqueEntityId(defId.Value);
+                                        try
                                         {
-                                            sb.AppendLine(string.Format(
-                                                "{0} chance to get {1}-{2} of {3}",
-                                                (item.Chance / 100).ToString("P2"),
-                                                item.Ammount.X,
-                                                item.Ammount.Y,
-                                                def.DisplayNameText
-                                            ));
+                                            var def = MyDefinitionManager.Static.GetPhysicalItemDefinition(id.DefinitionId);
+                                            if (def != null)
+                                            {
+                                                sb.AppendLine(string.Format(
+                                                    "{0} chance to get {1}-{2} of {3}",
+                                                    (item.Chance / 100).ToString("P2"),
+                                                    item.Ammount.X,
+                                                    item.Ammount.Y,
+                                                    def.DisplayNameText
+                                                ));
+                                            }
                                         }
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        ExtendedSurvivalCoreLogging.Instance.LogError(typeof(StarSystemController), ex);
+                                        catch (Exception ex)
+                                        {
+                                            ExtendedSurvivalCoreLogging.Instance.LogError(typeof(StarSystemController), ex);
+                                        }
                                     }
                                 }
                             }

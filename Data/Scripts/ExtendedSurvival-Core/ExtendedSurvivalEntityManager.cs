@@ -360,6 +360,7 @@ namespace ExtendedSurvival.Core
                 MyVisualScriptLogicProvider.ContractAbandoned -= Contracts_ContractAbandoned;
                 MyVisualScriptLogicProvider.ContractFailed -= Contracts_ContractFailed;
                 MyVisualScriptLogicProvider.ContractFinished -= Contracts_ContractFinished;
+                SuperficialMiningController.ClearShipDrillCollec();
             }
             MyAPIGateway.Multiplayer.UnregisterSecureMessageHandler(ExtendedSurvivalCoreSession.NETWORK_ID_ENTITYCALLS, EntityCallsMsgHandler);
             base.UnloadData();

@@ -63,7 +63,7 @@ namespace ExtendedSurvival.Core
         public const string AMMOUNT_RANGE_INFO = "X: Minimal. Y: Maxima.";
 
         [XmlElement]
-        public SerializableDefinitionId ItemId { get; set; }
+        public DocumentedDefinitionId ItemId { get; set; }
 
         [XmlElement]
         public DocumentedVector2 Ammount { get; set; } = new DocumentedVector2(0, 0, AMMOUNT_RANGE_INFO);

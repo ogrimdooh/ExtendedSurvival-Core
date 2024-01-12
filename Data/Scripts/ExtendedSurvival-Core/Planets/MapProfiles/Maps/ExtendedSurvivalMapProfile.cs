@@ -587,7 +587,7 @@ namespace ExtendedSurvival.Core
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = ENITOR_ORES,
             MeteorImpact = ENITOR_METEOR,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING
         };
 
         public static readonly PlanetProfile EREMUS_NUBIS = new PlanetProfile()

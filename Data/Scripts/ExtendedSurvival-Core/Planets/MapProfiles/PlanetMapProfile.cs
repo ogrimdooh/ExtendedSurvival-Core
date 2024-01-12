@@ -16,7 +16,7 @@ namespace ExtendedSurvival.Core
 
         }
 
-        public const int PROFILE_VERSION = 16;
+        public const int PROFILE_VERSION = 17;
 
         public const ulong EARTHLIKE_ANIMALS_MODID = 2170447225;
 
@@ -541,7 +541,7 @@ namespace ExtendedSurvival.Core
                 new PlanetProfile.SuperficialMiningDropInfo()
                 {
                     itemId = ItensConstants.CHAMPIGNONS_ID,
-                    ammount = new Vector2(4, 8),
+                    ammount = new Vector2(2, 8),
                     chance = 4,
                     alowFrac = false,
                     validSubType = new string[] { "Soil" }
@@ -549,7 +549,7 @@ namespace ExtendedSurvival.Core
                 new PlanetProfile.SuperficialMiningDropInfo()
                 {
                     itemId = ItensConstants.SHIITAKE_ID,
-                    ammount = new Vector2(4, 8),
+                    ammount = new Vector2(2, 8),
                     chance = 4,
                     alowFrac = false,
                     validSubType = new string[] { "Soil" }
@@ -573,7 +573,7 @@ namespace ExtendedSurvival.Core
                 new PlanetProfile.SuperficialMiningDropInfo()
                 {
                     itemId = ItensConstants.ALOEVERA_ID,
-                    ammount = new Vector2(2, 6),
+                    ammount = new Vector2(0.25f, 1.25f),
                     chance = 5,
                     alowFrac = true,
                     validSubType = new string[] { "Soil" }
@@ -581,7 +581,7 @@ namespace ExtendedSurvival.Core
                 new PlanetProfile.SuperficialMiningDropInfo()
                 {
                     itemId = ItensConstants.ERYTHROXYLUM_ID,
-                    ammount = new Vector2(1, 4),
+                    ammount = new Vector2(0.25f, 1.25f),
                     chance = 5,
                     alowFrac = true,
                     validSubType = new string[] { "Soil" }
@@ -589,7 +589,7 @@ namespace ExtendedSurvival.Core
                 new PlanetProfile.SuperficialMiningDropInfo()
                 {
                     itemId = ItensConstants.ARNICA_ID,
-                    ammount = new Vector2(1, 4),
+                    ammount = new Vector2(0.25f, 0.75f),
                     chance = 3,
                     alowFrac = true,
                     validSubType = new string[] { "Soil" }
@@ -597,7 +597,7 @@ namespace ExtendedSurvival.Core
                 new PlanetProfile.SuperficialMiningDropInfo()
                 {
                     itemId = ItensConstants.CHAMOMILE_ID,
-                    ammount = new Vector2(3, 9),
+                    ammount = new Vector2(0.25f, 1.25f),
                     chance = 3,
                     alowFrac = true,
                     validSubType = new string[] { "Soil" }
@@ -605,10 +605,26 @@ namespace ExtendedSurvival.Core
                 new PlanetProfile.SuperficialMiningDropInfo()
                 {
                     itemId = ItensConstants.MINT_ID,
-                    ammount = new Vector2(3, 9),
+                    ammount = new Vector2(0.25f, 1.25f),
                     chance = 3,
                     alowFrac = true,
                     validSubType = new string[] { "Soil" }
+                },
+                new PlanetProfile.SuperficialMiningDropInfo()
+                {
+                    itemId = ItensConstants.FISH_BAIT_SMALL_ID,
+                    ammount = new Vector2(0.25f, 1.25f),
+                    chance = 4,
+                    alowFrac = true,
+                    validSubType = new string[] { "Mud" }
+                },
+                new PlanetProfile.SuperficialMiningDropInfo()
+                {
+                    itemId = ItensConstants.FISH_NOBLE_BAIT_ID,
+                    ammount = new Vector2(0.25f, 0.75f),
+                    chance = 2,
+                    alowFrac = true,
+                    validSubType = new string[] { "Mud" }
                 }
             }
         };
