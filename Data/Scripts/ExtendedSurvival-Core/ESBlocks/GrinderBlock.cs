@@ -4,7 +4,12 @@ using VRage.Game.Components;
 namespace ExtendedSurvival.Core
 {
 
-    [MyEntityComponentDescriptor(typeof(MyObjectBuilder_Assembler), false, "BasicGrinder", "Grinder", "GrinderIndustrial")]
+    [MyEntityComponentDescriptor(typeof(MyObjectBuilder_Assembler), false,
+        "SmallBasicGrinder", 
+        "BasicGrinder", 
+        "Grinder", 
+        "GrinderIndustrial"
+    )]
     public class GrinderBlock : BaseAssemblerBlock
     {
 

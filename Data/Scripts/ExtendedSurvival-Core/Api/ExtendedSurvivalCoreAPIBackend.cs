@@ -64,7 +64,8 @@ namespace ExtendedSurvival.Core
             ["ChangeItemRarity"] = new Func<MyDefinitionId, int, bool>(ChangeItemRarity),
             ["MarkAsAllItensLoaded"] = new Action<ulong>(MarkAsAllItensLoaded),
             ["IsMarkAsAllItensLoaded"] = new Func<bool>(IsMarkAsAllItensLoaded),
-            ["AddCallBackWhenMarkAsAllItensLoaded"] = new Action<Action>(AddCallBackWhenMarkAsAllItensLoaded)
+            ["AddCallBackWhenMarkAsAllItensLoaded"] = new Action<Action>(AddCallBackWhenMarkAsAllItensLoaded),
+            ["GetDisableAssemblerDysasemble"] = new Func<bool>(GetDisableAssemblerDysasemble)
         };
 
         public static void BeforeStart()
@@ -149,6 +150,11 @@ namespace ExtendedSurvival.Core
         public static bool IsMarkAsAllItensLoaded()
         {
             return SpaceStationController.IsAllLoaded;
+        }
+
+        public static bool GetDisableAssemblerDysasemble()
+        {
+            return ExtendedSurvivalSettings.Instance.DisableAssemblerDysasemble;
         }
 
         public static void AddCallBackWhenMarkAsAllItensLoaded(Action action)

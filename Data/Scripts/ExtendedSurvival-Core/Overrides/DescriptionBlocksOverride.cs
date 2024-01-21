@@ -58,24 +58,24 @@ namespace ExtendedSurvival.Core
                 BASIC_ALCHEMYBENCH_BLOCK,
                 new BlockDescriptionInfo()
                 {
-                    Name = AlchemyBenchBlock.BASIC_BLOCK_NAME,
-                    Description = AlchemyBenchBlock.GetFullDescription()
+                    Name = LaboratoryBlock.BASIC_BLOCK_NAME,
+                    Description = LaboratoryBlock.GetFullDescription()
                 }
             },
             {
                 ALCHEMYBENCH_BLOCK,
                 new BlockDescriptionInfo()
                 {
-                    Name = AlchemyBenchBlock.BLOCK_NAME,
-                    Description = AlchemyBenchBlock.GetFullDescription()
+                    Name = LaboratoryBlock.BLOCK_NAME,
+                    Description = LaboratoryBlock.GetFullDescription()
                 }
             },
             {
                 INDUSTRIAL_ALCHEMYBENCH_BLOCK,
                 new BlockDescriptionInfo()
                 {
-                    Name = AlchemyBenchBlock.INDUSTRIAL_BLOCK_NAME,
-                    Description = AlchemyBenchBlock.GetFullDescription()
+                    Name = LaboratoryBlock.INDUSTRIAL_BLOCK_NAME,
+                    Description = LaboratoryBlock.GetFullDescription()
                 }
             }
         };

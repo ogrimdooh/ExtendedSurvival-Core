@@ -71,12 +71,23 @@ namespace ExtendedSurvival.Core
                 EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.RotEnabled"),
                 Title = "RotEnabled",
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_ROTENABLED_DESCRIPTION),
-                DefaultValue = "false",
+                DefaultValue = "true",
                 CanUseSettingsCommand = true,
                 NeedRestart = false,
                 CommandSample = "/settings RotEnabled true",
                 ValueType = HelpController.ConfigurationValueType.Bool
             },
+            new HelpController.ConfigurationEntryHelpInfo()
+            {
+                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.DisableAssemblerDysasemble"),
+                Title = "DisableAssemblerDysasemble",
+                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_DISABLEASSEMBLERDYSASEMBLE_DESCRIPTION),
+                DefaultValue = "true",
+                CanUseSettingsCommand = true,
+                NeedRestart = false,
+                CommandSample = "/settings DisableAssemblerDysasemble true",
+                ValueType = HelpController.ConfigurationValueType.Bool
+            },            
             new HelpController.ConfigurationEntryHelpInfo()
             {
                 EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, $"{HELP_TOPIC_SUBTYPE}.DisableWaterModFreeIce"),
@@ -274,6 +285,9 @@ namespace ExtendedSurvival.Core
 
         [XmlElement]
         public bool RotEnabled { get; set; } = true;
+
+        [XmlElement]
+        public bool DisableAssemblerDysasemble { get; set; } = true;
 
         [XmlElement]
         public bool DisableWaterModFreeIce { get; set; } = true;
@@ -1599,6 +1613,15 @@ namespace ExtendedSurvival.Core
                     if (bool.TryParse(value, out rotfoodenabled))
                     {
                         RotEnabled = rotfoodenabled;
+                        Modified = true;
+                        return true;
+                    }
+                    break;
+                case "disableassemblerdysasemble":
+                    bool disableassemblerdysasemble;
+                    if (bool.TryParse(value, out disableassemblerdysasemble))
+                    {
+                        DisableAssemblerDysasemble = disableassemblerdysasemble;
                         Modified = true;
                         return true;
                     }

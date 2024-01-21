@@ -405,6 +405,10 @@ namespace ExtendedSurvival.Core
 				"will root and turn into organic waste."
 			);
 			AddEntry(
+				LanguageEntries.HELP_SETTINGS_DISABLEASSEMBLERDYSASEMBLE_DESCRIPTION,
+				"This configuration disable the default disassemble fuction from all assemble types."
+			);			
+			AddEntry(
 				LanguageEntries.HELP_SETTINGS_DISABLEWATERMODFREEICE_DESCRIPTION,
 				"This configuration disable the water mod default collector ice generation when " + Environment.NewLine +
 				"submerge, the amount of ice is too unbalanced."

@@ -286,6 +286,7 @@ namespace ExtendedSurvival.Core
         private static Action<ulong> _MarkAsAllItensLoaded;
         private static Func<bool> _IsMarkAsAllItensLoaded;
         private static Action<Action> _AddCallBackWhenMarkAsAllItensLoaded;
+        private static Func<bool> _GetDisableAssemblerDysasemble;
 
         /// <summary>
         /// Returns true if the version is compatibile with the API Backend, this is automatically called
@@ -528,6 +529,14 @@ namespace ExtendedSurvival.Core
         public static bool IsMarkAsAllItensLoaded()
         {
             return _IsMarkAsAllItensLoaded?.Invoke() ?? false;
+        }
+
+        /// <summary>
+        /// Get the value of settings DisableAssemblerDysasemble
+        /// </summary>
+        public static bool GetDisableAssemblerDysasemble()
+        {
+            return _GetDisableAssemblerDysasemble?.Invoke() ?? false;
         }
 
         /// <summary>
@@ -787,6 +796,7 @@ namespace ExtendedSurvival.Core
                         _MarkAsAllItensLoaded = (Action<ulong>)ModAPIMethods["MarkAsAllItensLoaded"];
                         _IsMarkAsAllItensLoaded = (Func<bool>)ModAPIMethods["IsMarkAsAllItensLoaded"];
                         _AddCallBackWhenMarkAsAllItensLoaded = (Action<Action>)ModAPIMethods["AddCallBackWhenMarkAsAllItensLoaded"];
+                        _GetDisableAssemblerDysasemble = (Func<bool>)ModAPIMethods["GetDisableAssemblerDysasemble"];
 
                         if (m_onRegisteredAction != null)
                             m_onRegisteredAction();

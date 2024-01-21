@@ -4,8 +4,13 @@ using VRage.Game.Components;
 namespace ExtendedSurvival.Core
 {
 
-    [MyEntityComponentDescriptor(typeof(MyObjectBuilder_Assembler), false, "BasicAlchemyBench", "AlchemyBench", "AlchemyBenchIndustrial")]
-    public class AlchemyBenchBlock : BaseAssemblerBlock
+    [MyEntityComponentDescriptor(typeof(MyObjectBuilder_Assembler), false,
+        "SmallBasicAlchemyBench", 
+        "BasicAlchemyBench", 
+        "AlchemyBench", 
+        "AlchemyBenchIndustrial"
+    )]
+    public class LaboratoryBlock : BaseAssemblerBlock
     {
 
         public static string BASIC_BLOCK_NAME

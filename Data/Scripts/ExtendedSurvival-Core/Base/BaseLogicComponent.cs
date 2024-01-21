@@ -160,7 +160,7 @@ namespace ExtendedSurvival.Core
         private void TerminalBlock_AppendingCustomInfo(IMyTerminalBlock block, StringBuilder sb)
         {
             sb.Append('-', 30).Append('\n');
-            sb.Append("Extended Survival Information").Append('\n');
+            sb.Append($"{GetType().Name} Information").Append('\n');
             sb.Append('-', 30).Append('\n');
             sb.Append("Startup: ").Append(_IsInit ? "Initialized" : "Pending").Append('\n');
             OnAppendingCustomInfo(sb);
