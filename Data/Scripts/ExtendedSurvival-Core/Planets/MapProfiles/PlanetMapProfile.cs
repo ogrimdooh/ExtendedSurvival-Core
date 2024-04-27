@@ -1051,6 +1051,10 @@ namespace ExtendedSurvival.Core
                 CaptainArthurMapProfile.DEFAULT_CRAIT,
                 CaptainArthurMapProfile.CRAIT
             },
+            {
+                CaptainArthurMapProfile.DEFAULT_PLANET26,
+                CaptainArthurMapProfile.PLANET26
+            },
             // Balmung
             {
                 BalmungMapProfile.DEFAULT_BLACKHOLE,
@@ -1065,10 +1069,28 @@ namespace ExtendedSurvival.Core
                 MLTModsMapProfile.DEFAULT_SEDONIA,
                 MLTModsMapProfile.SEDONIA
             },
+            {
+                MLTModsMapProfile.DEFAULT_IRENE1C,
+                MLTModsMapProfile.IRENE1C
+            },
             // RheaLicious
             {
                 RheaLiciousMapProfile.DEFAULT_MILA,
                 RheaLiciousMapProfile.MILA
+            },
+            // RheaLicious
+            {
+                InfiniteMapProfile.DEFAULT_HALCYON,
+                InfiniteMapProfile.HALCYON
+            },
+            {
+                InfiniteMapProfile.DEFAULT_PENUMBRA,
+                InfiniteMapProfile.PENUMBRA
+            },
+            // GHOSTXV
+            {
+                GHOSTXVMapProfile.DEFAULT_AVALAN,
+                GHOSTXVMapProfile.AVALAN
             }
         };
 

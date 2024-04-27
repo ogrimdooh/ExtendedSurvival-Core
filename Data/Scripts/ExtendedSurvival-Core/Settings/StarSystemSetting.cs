@@ -164,6 +164,7 @@ namespace ExtendedSurvival.Core
         };
 
         public const string TOTALMEMBERS_INFO = "X: Min Ammount. Y: Max Ammount.";
+        public const string SIZEMULTIPLIER_INFO = "X: Min Size Multiplier. Y: Max Size Multiplier.";
 
         [XmlElement]
         public string Name { get; set; }

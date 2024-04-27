@@ -226,7 +226,7 @@ namespace ExtendedSurvival.Core
                     NoChangeChance = ExtendedSurvivalCoreSession.IsUsingTechnology() ? NOCHANGE_ES : NOCHANGE_VANILLA,
                     Options = BuildOptions(AlienRockyMountain, null,
                         ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-                        BuildDefaultESOres(PlanetMapProfile.Uraninite_01) :
+                        BuildDefaultESOres(PlanetMapProfile.Uraninite_01, PlanetMapProfile.Plutonium_01) :
                         DEFAULT_VANILLA_OPTIONS
                     )
                 }
@@ -239,7 +239,7 @@ namespace ExtendedSurvival.Core
                     NoChangeChance = ExtendedSurvivalCoreSession.IsUsingTechnology() ? NOCHANGE_ES : NOCHANGE_VANILLA,
                     Options = BuildOptions(AlienRockyMountain, AlienSnow,
                         ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-                        BuildDefaultESOres(PlanetMapProfile.Uraninite_01) :
+                        BuildDefaultESOres(PlanetMapProfile.Uraninite_01, PlanetMapProfile.Plutonium_01) :
                         DEFAULT_VANILLA_OPTIONS
                     )
                 }
@@ -252,7 +252,7 @@ namespace ExtendedSurvival.Core
                     NoChangeChance = ExtendedSurvivalCoreSession.IsUsingTechnology() ? NOCHANGE_ES : NOCHANGE_VANILLA,
                     Options = BuildOptions(AlienRockyMountain, AlienSnow,
                         ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-                        BuildDefaultESOres(PlanetMapProfile.Uraninite_01) :
+                        BuildDefaultESOres(PlanetMapProfile.Uraninite_01, PlanetMapProfile.Plutonium_01) :
                         DEFAULT_VANILLA_OPTIONS
                     )
                 }

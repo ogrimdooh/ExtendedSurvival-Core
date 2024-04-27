@@ -36,9 +36,7 @@ namespace ExtendedSurvival.Core
 
         private ConcurrentDictionary<long, ThermalSourceBlock> _thermalSources = new ConcurrentDictionary<long, ThermalSourceBlock>();
         private ConcurrentDictionary<long, ThermalOutputBlock> _thermalOutputs = new ConcurrentDictionary<long, ThermalOutputBlock>();
-        private ConcurrentDictionary<long, WindTurbineBlock> _windTurbines = new ConcurrentDictionary<long, WindTurbineBlock>();
-        private ConcurrentDictionary<long, TurbinePowerOutputModuleBlock> _turbinePowerOutputModules = new ConcurrentDictionary<long, TurbinePowerOutputModuleBlock>();
-
+        
         private ConcurrentDictionary<long, long[]> _thermalConnections = new ConcurrentDictionary<long, long[]>();
 
         private List<IMySlimBlock> _notInitilizedCollectorsBlocks;
@@ -531,7 +529,6 @@ namespace ExtendedSurvival.Core
             LoadBlocks();
             ApllySkins();
             CheckThermalConnections();
-            CheckWindTurbineModules();
             Entity.OnBlockAdded += Entity_OnBlockAdded;
             Entity.OnBlockRemoved += Entity_OnBlockRemoved;
             Entity.OnIsStaticChanged += Entity_OnIsStaticChanged;
@@ -563,7 +560,6 @@ namespace ExtendedSurvival.Core
             LoadBlocks(false);
             ReloadThermalBlocks();
             CheckThermalConnections();
-            CheckWindTurbineModules();
         }
 
         private MyEntityComponentBase GetGameLogic(IMySlimBlock block, string name)
@@ -804,11 +800,8 @@ namespace ExtendedSurvival.Core
             {
                 RemoveThermalSource(obj.FatBlock.EntityId);
                 RemoveThermalOutput(obj.FatBlock.EntityId);
-                RemoveWindTurbine(obj.FatBlock.EntityId);
-                RemoveTurbinePowerOutputModules(obj.FatBlock.EntityId);
             }
             CheckThermalConnections();
-            CheckWindTurbineModules();
         }
 
         private void Entity_OnBlockAdded(IMySlimBlock obj)
@@ -850,38 +843,7 @@ namespace ExtendedSurvival.Core
                 _notInitilizedTreadmillBlocks.Add(obj);         
             /* ALL BLOCKS */
             _allBlocks.Add(obj);
-            /* WIND TURBINES */
-            if (uniqueId.typeId == typeof(MyObjectBuilder_WindTurbine))
-            {
-                var windTurbine = (obj.FatBlock as IMyPowerProducer);
-                if (windTurbine != null)
-                {
-                    var windTurbineBlock = windTurbine.GetAs<WindTurbineBlock>();
-                    if (windTurbineBlock != null)
-                    {
-                        _windTurbines[windTurbine.EntityId] = windTurbineBlock;
-                    }
-                    else
-                        ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), $"LoadBlocks WindTurbineBlock not found. ID=[{windTurbine.EntityId}]");
-                }
-            }
-            /* TURBINE POWER MODULES */
-            if (uniqueId.typeId == typeof(MyObjectBuilder_UpgradeModule) && TURBINEMODULES_SUBTYPES.Contains(uniqueId.subtypeId.String))
-            {
-                var upgradeModule = (obj.FatBlock as IMyUpgradeModule);
-                if (upgradeModule != null)
-                {
-                    var turbinePowerOutputModule = upgradeModule.GetAs<TurbinePowerOutputModuleBlock>();
-                    if (turbinePowerOutputModule != null)
-                    {
-                        _turbinePowerOutputModules[upgradeModule.EntityId] = turbinePowerOutputModule;
-                    }
-                    else
-                        ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), $"LoadBlocks TurbinePowerOutputModuleBlock not found. ID=[{upgradeModule.EntityId}]");
-                }
-            }
             CheckThermalConnections();
-            CheckWindTurbineModules();
         }
 
         private bool CheckAddedBlock(IMySlimBlock obj)
@@ -940,50 +902,6 @@ namespace ExtendedSurvival.Core
                 else
                 {
                     _notInitilizedTreadmillBlocks = new List<IMySlimBlock>();
-                }
-            }
-            /* WIND TURBINES */
-            RefreshWindTurbines();
-            /* TURBINE POWER MODULES */
-            RefreshTurbinePowerOutputModules();
-        }
-
-        private void RefreshTurbinePowerOutputModules()
-        {
-            var allModules = TurbinePowerOutputModules;
-            allModules.AddRange(EnhancedTurbinePowerOutputModules);
-            allModules.AddRange(EliteTurbinePowerOutputModules);
-            foreach (var item in allModules)
-            {
-                var upgradeModule = (item.FatBlock as IMyUpgradeModule);
-                if (upgradeModule != null)
-                {
-                    var turbinePowerOutputModule = upgradeModule.GetAs<TurbinePowerOutputModuleBlock>();
-                    if (turbinePowerOutputModule != null)
-                    {
-                        _turbinePowerOutputModules[upgradeModule.EntityId] = turbinePowerOutputModule;
-                    }
-                    else
-                        ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), $"LoadBlocks TurbinePowerOutputModuleBlock not found. ID=[{upgradeModule.EntityId}]");
-                }
-            }
-        }
-
-        private void RefreshWindTurbines()
-        {
-            var allTurbines = WindTurbines;
-            foreach (var item in allTurbines)
-            {
-                var windTurbine = (item.FatBlock as IMyPowerProducer);
-                if (windTurbine != null)
-                {
-                    var windTurbineBlock = windTurbine.GetAs<WindTurbineBlock>();
-                    if (windTurbineBlock != null)
-                    {
-                        _windTurbines[windTurbine.EntityId] = windTurbineBlock;
-                    }
-                    else
-                        ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), $"LoadBlocks WindTurbineBlock not found. ID=[{windTurbine.EntityId}]");
                 }
             }
         }
@@ -1061,28 +979,6 @@ namespace ExtendedSurvival.Core
             return retorno;
         }
 
-        public void CheckWindTurbineModules()
-        {
-            foreach (var turbineId in _windTurbines.Keys)
-            {
-                _windTurbines[turbineId].RemoveAllModules();
-            }
-            foreach (var moduleId in _turbinePowerOutputModules.Keys)
-            {
-                long turbineId = 0;
-                if (_turbinePowerOutputModules[moduleId].IsUpBlockValid(out turbineId))
-                {
-                    if (_windTurbines.ContainsKey(turbineId))
-                        _windTurbines[turbineId].AddNewModule(_turbinePowerOutputModules[moduleId].CurrentEntity);
-                }
-                if (_turbinePowerOutputModules[moduleId].IsDownBlockValid(out turbineId))
-                {
-                    if (_windTurbines.ContainsKey(turbineId))
-                        _windTurbines[turbineId].AddNewModule(_turbinePowerOutputModules[moduleId].CurrentEntity);
-                }
-            }
-        }
-
         public void CheckThermalConnections()
         {
             var allOutputs = ThermalOutputs;
@@ -1110,18 +1006,6 @@ namespace ExtendedSurvival.Core
                 _thermalOutputs.Remove(entityId);
         }
 
-        protected void RemoveWindTurbine(long entityId)
-        {
-            if (_windTurbines.ContainsKey(entityId))
-                _windTurbines.Remove(entityId);
-        }
-
-        protected void RemoveTurbinePowerOutputModules(long entityId)
-        {
-            if (_turbinePowerOutputModules.ContainsKey(entityId))
-                _turbinePowerOutputModules.Remove(entityId);
-        }
-        
     }
 
 }

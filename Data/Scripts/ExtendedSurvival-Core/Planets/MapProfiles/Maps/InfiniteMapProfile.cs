@@ -3,17 +3,17 @@ using VRageMath;
 
 namespace ExtendedSurvival.Core
 {
-    public static class CaptainArthurMapProfile
+    public static class InfiniteMapProfile
     {
 
-        public const ulong CRAIT_MODID = 2394305855;
-        public const ulong PLANET26_MODID = 2079185441;
+        public const ulong HALCYON_MODID = 3028355272;
+        public const ulong PENUMBRA_MODID = 3077440417;
 
-        public const string DEFAULT_CRAIT = "PLANET-CRAIT";
-        public const string DEFAULT_PLANET26 = "PLANET-26";
+        public const string DEFAULT_HALCYON = "HALCYON";
+        public const string DEFAULT_PENUMBRA = "PENUMBRA";
 
         // Ore Maps
-        public static readonly List<PlanetProfile.OreMapInfo> CRAIT_ORES =
+        public static readonly List<PlanetProfile.OreMapInfo> HALCYON_ORES =
             ExtendedSurvivalCoreSession.IsUsingTechnology() ?
             PlanetMapProfile.BuildOreMap(
                 new string[]
@@ -27,17 +27,17 @@ namespace ExtendedSurvival.Core
                 },
                 new string[]
                 {
-                    PlanetMapProfile.Sulfur_01,
-                    PlanetMapProfile.StoneIce_01,
-                    PlanetMapProfile.Lead_01
+                    PlanetMapProfile.Titanium_01,
+                    PlanetMapProfile.Platinum_01,
+                    PlanetMapProfile.Tungsten_01
                 },
                 new string[]
                 {
-                    PlanetMapProfile.Platinum_01
+                    PlanetMapProfile.Tungsten_01
                 },
                 new string[]
                 {
-                    PlanetMapProfile.Titanium_01
+                    PlanetMapProfile.Iridium_01
                 }
             ) :
             PlanetMapProfile.BuildOreMap(
@@ -50,19 +50,17 @@ namespace ExtendedSurvival.Core
                 new string[]
                 {
                     PlanetMapProfile.Magnesium_01,
-                    PlanetMapProfile.Cobalt_01,
-                    PlanetMapProfile.Silver_01
+                    PlanetMapProfile.Cobalt_01
                 },
                 new string[]
                 {
                     PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Uraninite_01,
-                    PlanetMapProfile.Platinum_01
+                    PlanetMapProfile.Silver_01
                 },
                 null
             );
 
-        public static readonly List<PlanetProfile.OreMapInfo> PLANET26_ORES =
+        public static readonly List<PlanetProfile.OreMapInfo> PENUMBRA_ORES =
             ExtendedSurvivalCoreSession.IsUsingTechnology() ?
             PlanetMapProfile.BuildOreMap(
                 new string[]
@@ -76,17 +74,18 @@ namespace ExtendedSurvival.Core
                 },
                 new string[]
                 {
-                    PlanetMapProfile.Sulfur_01,
-                    PlanetMapProfile.Carbon_01,
-                    PlanetMapProfile.Lead_01
+                    PlanetMapProfile.Potassium_01,
+                    PlanetMapProfile.Sulfur_01
                 },
                 new string[]
                 {
-                    PlanetMapProfile.Potassium_01
+                    PlanetMapProfile.Gold_01,
+                    PlanetMapProfile.Tungsten_01
                 },
                 new string[]
                 {
-                    PlanetMapProfile.Cobalt_01
+                    PlanetMapProfile.Tungsten_01,
+                    PlanetMapProfile.Gold_01
                 }
             ) :
             PlanetMapProfile.BuildOreMap(
@@ -99,57 +98,56 @@ namespace ExtendedSurvival.Core
                 new string[]
                 {
                     PlanetMapProfile.Magnesium_01,
-                    PlanetMapProfile.Cobalt_01,
+                    PlanetMapProfile.Cobalt_01
                 },
                 new string[]
                 {
                     PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01
+                    PlanetMapProfile.Silver_01,
+                    PlanetMapProfile.Platinum_01
                 },
                 null
             );
 
         // Planets
-        public static readonly PlanetProfile CRAIT = new PlanetProfile()
+        public static readonly PlanetProfile HALCYON = new PlanetProfile()
         {
             Origin = PlanetProfile.PlanetOrigin.OtherMod,
-            OriginId = CRAIT_MODID,
+            OriginId = HALCYON_MODID,
             Version = PlanetMapProfile.PROFILE_VERSION,
             RespawnEnabled = false,
-            Animal = PlanetMapAnimalsProfile.DEFAULT_SPIDERS_01,
-            Geothermal = PlanetMapProfile.GetGeothermal(true),
-            Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 1.0f, 0.5f, 80, 2.0f, 0.15f, 0.05f),
-            Gravity = PlanetMapProfile.GetGravity(1, 4.5f),
-            Temperature = PlanetMapProfile.GetTemperature(VRage.Game.MyTemperatureLevel.ExtremeHot, 70, 165),
+            Animal = PlanetMapAnimalsProfile.DEFAULT_WOLF,
+            Geothermal = PlanetMapProfile.GetGeothermal(true, depthMultiplier: 2, rowSizeMultiplier: 2, powerMultiplier: 0.75f),
+            Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 0.7f, 0.4f, 70, 1.3f, 0.15f, 0.5f),
+            Gravity = PlanetMapProfile.GetGravity(0.5f, 4),
+            Temperature = PlanetMapProfile.GetTemperature(VRage.Game.MyTemperatureLevel.ExtremeFreeze, -50, 0),
             Water = PlanetMapProfile.GetWater(false),
-            SizeRange = new Vector2(115, 125),
+            SizeRange = new Vector2(45, 55),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            Ores = CRAIT_ORES,
+            Ores = HALCYON_ORES,
             MeteorImpact = VanilaMapProfile.ALIEN_METEOR,
-            SuperficialMining = PlanetMapProfile.ALIEN_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
-        public static readonly PlanetProfile PLANET26 = new PlanetProfile()
+        public static readonly PlanetProfile PENUMBRA = new PlanetProfile()
         {
             Origin = PlanetProfile.PlanetOrigin.OtherMod,
-            OriginId = PLANET26_MODID,
+            OriginId = PENUMBRA_MODID,
             Version = PlanetMapProfile.PROFILE_VERSION,
-            RespawnEnabled = true,
-            ColorInfluence = new Vector2I(15, 15),
-            TargetColor = "#616c83",
-            Animal = PlanetMapAnimalsProfile.DEFAULT_EARTH,
-            Geothermal = PlanetMapProfile.GetGeothermal(true),
-            Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 1, 0.9f, 80, 2, 0, 0),
-            Gravity = PlanetMapProfile.GetGravity(1, 4),
-            Temperature = PlanetMapProfile.GetTemperature(VRage.Game.MyTemperatureLevel.Cozy, 0, 45),
-            Water = PlanetMapProfile.GetWater(true, 1.011f, -0.4f, 0, 0),
-            SizeRange = new Vector2(110, 150),
-            Type = PlanetProfile.PlanetType.Planet,
+            RespawnEnabled = false,
+            Animal = PlanetMapAnimalsProfile.DEFAULT_NO_ANIMALS,
+            Geothermal = PlanetMapProfile.GetGeothermal(true, depthMultiplier: 2, rowSizeMultiplier: 2, powerMultiplier: 0.75f),
+            Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 1f, 0.8f, 80, 1.0f, 0.15f, 0.5f),
+            Gravity = PlanetMapProfile.GetGravity(0.8f, 4),
+            Temperature = PlanetMapProfile.GetTemperature(VRage.Game.MyTemperatureLevel.ExtremeFreeze, -230, -100),
+            Water = PlanetMapProfile.GetWater(false),
+            SizeRange = new Vector2(55, 65),
+            Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            Ores = PLANET26_ORES,
-            MeteorImpact = VanilaMapProfile.EARTHLIKE_METEOR,
-            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING
+            Ores = PENUMBRA_ORES,
+            MeteorImpact = VanilaMapProfile.TRITON_METEOR,
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
     }

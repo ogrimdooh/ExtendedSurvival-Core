@@ -1662,6 +1662,15 @@ namespace ExtendedSurvival.Core
                         return true;
                     }
                     break;
+                case "respawnlargepodenabled":
+                    bool respawnlargepodenabled;
+                    if (bool.TryParse(value, out respawnlargepodenabled))
+                    {
+                        RespawnLargePodEnabled = respawnlargepodenabled;
+                        Modified = true;
+                        return true;
+                    }
+                    break;
                 case "disablewatermodfreeice":
                     bool disablewatermodfreeice;
                     if (bool.TryParse(value, out disablewatermodfreeice))

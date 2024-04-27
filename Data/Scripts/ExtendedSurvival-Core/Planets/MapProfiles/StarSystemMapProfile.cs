@@ -7,13 +7,14 @@ namespace ExtendedSurvival.Core
     public static class StarSystemMapProfile
     {
 
-        public const int PROFILES_VERSION = 1;
+        public const int PROFILES_VERSION = 2;
         public const string DEFAULT_PROFILE = "RANDOM";
         public const string VANILLA_PROFILE = "VANILLA";
         public const string EXTENDEDSURVIVAL_PROFILE = "ES";
         public const string EXTENDEDSURVIVAL_COMPLETE_PROFILE = "VANILLAES";
         public const string ATA_PROFILE = "ATA";
         public const string ESSERVER_PROFILE = "ESSERVER";
+        public const string ESSERVERV2_PROFILE = "ESSERVER-V2";
 
         public static readonly Dictionary<string, StarSystemProfile> SYSTEMS_PROFILES = new Dictionary<string, StarSystemProfile>()
         {
@@ -52,60 +53,60 @@ namespace ExtendedSurvival.Core
                     {
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = VanilaMapProfile.DEFAULT_EARTHLIKE,
-                            name = VanilaMapProfile.DEFAULT_EARTHLIKE,
-                            order = 0,
-                            moonCount = new Vector2(1, 1),
-                            validMoons = new string[] 
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = VanilaMapProfile.DEFAULT_EARTHLIKE,
+                            Name = VanilaMapProfile.DEFAULT_EARTHLIKE,
+                            Order = 0,
+                            MoonCount = new Vector2(1, 1),
+                            ValidMoons = new string[] 
                             {
                                 VanilaMapProfile.DEFAULT_MOON 
                             }
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = VanilaMapProfile.DEFAULT_TRITON,
-                            name = VanilaMapProfile.DEFAULT_TRITON,
-                            order = 1
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = VanilaMapProfile.DEFAULT_TRITON,
+                            Name = VanilaMapProfile.DEFAULT_TRITON,
+                            Order = 1
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = VanilaMapProfile.DEFAULT_MARS,
-                            name = VanilaMapProfile.DEFAULT_MARS,
-                            order = 2,
-                            moonCount = new Vector2(1, 1),
-                            validMoons = new string[] 
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = VanilaMapProfile.DEFAULT_MARS,
+                            Name = VanilaMapProfile.DEFAULT_MARS,
+                            Order = 2,
+                            MoonCount = new Vector2(1, 1),
+                            ValidMoons = new string[] 
                             {
                                 VanilaMapProfile.DEFAULT_EUROPA 
                             }
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.AsteroidBelt,
-                            name = "Kuiper Belt",
-                            order = 3,
-                            density = 0.65f
+                            MemberType = StarSystemProfile.MemberType.AsteroidBelt,
+                            Name = "Kuiper Belt",
+                            Order = 3,
+                            Density = 0.65f
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = VanilaMapProfile.DEFAULT_ALIEN,
-                            name = VanilaMapProfile.DEFAULT_ALIEN,
-                            order = 4,
-                            moonCount = new Vector2(1, 1),
-                            validMoons = new string[] 
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = VanilaMapProfile.DEFAULT_ALIEN,
+                            Name = VanilaMapProfile.DEFAULT_ALIEN,
+                            Order = 4,
+                            MoonCount = new Vector2(1, 1),
+                            ValidMoons = new string[] 
                             { 
                                 VanilaMapProfile.DEFAULT_TITAN
                             }
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = VanilaMapProfile.DEFAULT_PERTAM,
-                            name = VanilaMapProfile.DEFAULT_PERTAM,
-                            order = 5
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = VanilaMapProfile.DEFAULT_PERTAM,
+                            Name = VanilaMapProfile.DEFAULT_PERTAM,
+                            Order = 5
                         }
                     }
                 }
@@ -127,32 +128,32 @@ namespace ExtendedSurvival.Core
                     {
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = ExtendedSurvivalMapProfile.DEFAULT_DOVER,
-                            name = ExtendedSurvivalMapProfile.DEFAULT_DOVER,
-                            order = 0,
-                            moonCount = new Vector2(1, 1),
-                            validMoons = new string[] 
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = ExtendedSurvivalMapProfile.DEFAULT_DOVER,
+                            Name = ExtendedSurvivalMapProfile.DEFAULT_DOVER,
+                            Order = 0,
+                            MoonCount = new Vector2(1, 1),
+                            ValidMoons = new string[] 
                             {
                                 ExtendedSurvivalMapProfile.DEFAULT_SPATAT 
                             }
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = ExtendedSurvivalMapProfile.DEFAULT_ENITOR,
-                            name = ExtendedSurvivalMapProfile.DEFAULT_ENITOR,
-                            order = 1,
-                            hasRing = true
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = ExtendedSurvivalMapProfile.DEFAULT_ENITOR,
+                            Name = ExtendedSurvivalMapProfile.DEFAULT_ENITOR,
+                            Order = 1,
+                            HasRing = true
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = ExtendedSurvivalMapProfile.DEFAULT_EREMUS_NUBIS,
-                            name = ExtendedSurvivalMapProfile.DEFAULT_EREMUS_NUBIS,
-                            order = 2,
-                            moonCount = new Vector2(2, 2),
-                            validMoons = new string[] 
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = ExtendedSurvivalMapProfile.DEFAULT_EREMUS_NUBIS,
+                            Name = ExtendedSurvivalMapProfile.DEFAULT_EREMUS_NUBIS,
+                            Order = 2,
+                            MoonCount = new Vector2(2, 2),
+                            ValidMoons = new string[] 
                             { 
                                 ExtendedSurvivalMapProfile.DEFAULT_GLEDIUS_NUBIS, 
                                 ExtendedSurvivalMapProfile.DEFAULT_CAPUTALIS_NUBIS 
@@ -160,19 +161,19 @@ namespace ExtendedSurvival.Core
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.AsteroidBelt,
-                            name = "Arcaris Belt",
-                            order = 3,
-                            density = 0.85f                            
+                            MemberType = StarSystemProfile.MemberType.AsteroidBelt,
+                            Name = "Arcaris Belt",
+                            Order = 3,
+                            Density = 0.85f                            
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = ExtendedSurvivalMapProfile.DEFAULT_TOTHT,
-                            name = ExtendedSurvivalMapProfile.DEFAULT_TOTHT,
-                            order = 4,
-                            moonCount = new Vector2(1, 1),
-                            validMoons = new string[] 
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = ExtendedSurvivalMapProfile.DEFAULT_TOTHT,
+                            Name = ExtendedSurvivalMapProfile.DEFAULT_TOTHT,
+                            Order = 4,
+                            MoonCount = new Vector2(1, 1),
+                            ValidMoons = new string[] 
                             { 
                                 ExtendedSurvivalMapProfile.DEFAULT_OI 
                             }
@@ -197,51 +198,51 @@ namespace ExtendedSurvival.Core
                     {
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = ExtendedSurvivalMapProfile.DEFAULT_DOVER,
-                            name = ExtendedSurvivalMapProfile.DEFAULT_DOVER,
-                            order = 0,
-                            moonCount = new Vector2(1, 1),
-                            validMoons = new string[] 
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = ExtendedSurvivalMapProfile.DEFAULT_DOVER,
+                            Name = ExtendedSurvivalMapProfile.DEFAULT_DOVER,
+                            Order = 0,
+                            MoonCount = new Vector2(1, 1),
+                            ValidMoons = new string[] 
                             {
                                 ExtendedSurvivalMapProfile.DEFAULT_SPATAT 
                             }
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = ExtendedSurvivalMapProfile.DEFAULT_ENITOR,
-                            name = ExtendedSurvivalMapProfile.DEFAULT_ENITOR,
-                            order = 1,
-                            hasRing = true
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = ExtendedSurvivalMapProfile.DEFAULT_ENITOR,
+                            Name = ExtendedSurvivalMapProfile.DEFAULT_ENITOR,
+                            Order = 1,
+                            HasRing = true
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = VanilaMapProfile.DEFAULT_EARTHLIKE,
-                            name = VanilaMapProfile.DEFAULT_EARTHLIKE,
-                            order = 2,
-                            moonCount = new Vector2(1, 1),
-                            validMoons = new string[] 
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = VanilaMapProfile.DEFAULT_EARTHLIKE,
+                            Name = VanilaMapProfile.DEFAULT_EARTHLIKE,
+                            Order = 2,
+                            MoonCount = new Vector2(1, 1),
+                            ValidMoons = new string[] 
                             { 
                                 VanilaMapProfile.DEFAULT_MOON
                             }
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = VanilaMapProfile.DEFAULT_TRITON,
-                            name = VanilaMapProfile.DEFAULT_TRITON,
-                            order = 3
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = VanilaMapProfile.DEFAULT_TRITON,
+                            Name = VanilaMapProfile.DEFAULT_TRITON,
+                            Order = 3
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = ExtendedSurvivalMapProfile.DEFAULT_EREMUS_NUBIS,
-                            name = ExtendedSurvivalMapProfile.DEFAULT_EREMUS_NUBIS,
-                            order = 4,
-                            moonCount = new Vector2(2, 2),
-                            validMoons = new string[] 
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = ExtendedSurvivalMapProfile.DEFAULT_EREMUS_NUBIS,
+                            Name = ExtendedSurvivalMapProfile.DEFAULT_EREMUS_NUBIS,
+                            Order = 4,
+                            MoonCount = new Vector2(2, 2),
+                            ValidMoons = new string[] 
                             { 
                                 ExtendedSurvivalMapProfile.DEFAULT_GLEDIUS_NUBIS, 
                                 ExtendedSurvivalMapProfile.DEFAULT_CAPUTALIS_NUBIS 
@@ -249,47 +250,47 @@ namespace ExtendedSurvival.Core
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.AsteroidBelt,
-                            name = "Arcaris Belt",
-                            order = 5,
-                            density = 0.85f
+                            MemberType = StarSystemProfile.MemberType.AsteroidBelt,
+                            Name = "Arcaris Belt",
+                            Order = 5,
+                            Density = 0.85f
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = VanilaMapProfile.DEFAULT_MARS,
-                            name = VanilaMapProfile.DEFAULT_MARS,
-                            order = 6,
-                            moonCount = new Vector2(1, 1),
-                            validMoons = new string[] 
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = VanilaMapProfile.DEFAULT_MARS,
+                            Name = VanilaMapProfile.DEFAULT_MARS,
+                            Order = 6,
+                            MoonCount = new Vector2(1, 1),
+                            ValidMoons = new string[] 
                             { 
                                 VanilaMapProfile.DEFAULT_EUROPA 
                             }
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = ExtendedSurvivalMapProfile.DEFAULT_TOTHT,
-                            name = ExtendedSurvivalMapProfile.DEFAULT_TOTHT,
-                            order = 7,
-                            moonCount = new Vector2(1, 1),
-                            validMoons = new string[] { ExtendedSurvivalMapProfile.DEFAULT_OI }
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = ExtendedSurvivalMapProfile.DEFAULT_TOTHT,
+                            Name = ExtendedSurvivalMapProfile.DEFAULT_TOTHT,
+                            Order = 7,
+                            MoonCount = new Vector2(1, 1),
+                            ValidMoons = new string[] { ExtendedSurvivalMapProfile.DEFAULT_OI }
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = VanilaMapProfile.DEFAULT_ALIEN,
-                            name = VanilaMapProfile.DEFAULT_ALIEN,
-                            order = 8,
-                            moonCount = new Vector2(1, 1),
-                            validMoons = new string[] { VanilaMapProfile.DEFAULT_TITAN }
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = VanilaMapProfile.DEFAULT_ALIEN,
+                            Name = VanilaMapProfile.DEFAULT_ALIEN,
+                            Order = 8,
+                            MoonCount = new Vector2(1, 1),
+                            ValidMoons = new string[] { VanilaMapProfile.DEFAULT_TITAN }
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = VanilaMapProfile.DEFAULT_PERTAM,
-                            name = VanilaMapProfile.DEFAULT_PERTAM,
-                            order = 9
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = VanilaMapProfile.DEFAULT_PERTAM,
+                            Name = VanilaMapProfile.DEFAULT_PERTAM,
+                            Order = 9
                         }
                     }
                 }
@@ -311,52 +312,52 @@ namespace ExtendedSurvival.Core
                     {
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = ATAMapProfile.ATA_01_MERCURY,
-                            name = ATAMapProfile.ATA_01_MERCURY,
-                            order = 0
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = ATAMapProfile.ATA_01_MERCURY,
+                            Name = ATAMapProfile.ATA_01_MERCURY,
+                            Order = 0
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = ATAMapProfile.ATA_02_VENUS,
-                            name = ATAMapProfile.ATA_02_VENUS,
-                            order = 1
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = ATAMapProfile.ATA_02_VENUS,
+                            Name = ATAMapProfile.ATA_02_VENUS,
+                            Order = 1
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = ATAMapProfile.ATA_03_EARTH,
-                            name = ATAMapProfile.ATA_03_EARTH,
-                            order = 2,
-                            moonCount = new Vector2(1, 1),
-                            validMoons = new string[] 
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = ATAMapProfile.ATA_03_EARTH,
+                            Name = ATAMapProfile.ATA_03_EARTH,
+                            Order = 2,
+                            MoonCount = new Vector2(1, 1),
+                            ValidMoons = new string[] 
                             { 
                                 ATAMapProfile.ATA_03_MOON 
                             }
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = ATAMapProfile.ATA_04_MARS,
-                            name = ATAMapProfile.ATA_04_MARS,
-                            order = 3
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = ATAMapProfile.ATA_04_MARS,
+                            Name = ATAMapProfile.ATA_04_MARS,
+                            Order = 3
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.AsteroidBelt,
-                            name = "Kuiper Belt",
-                            order = 4,
-                            density = 0.65f
+                            MemberType = StarSystemProfile.MemberType.AsteroidBelt,
+                            Name = "Kuiper Belt",
+                            Order = 4,
+                            Density = 0.65f
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = ATAMapProfile.ATA_05_JUPITER,
-                            name = ATAMapProfile.ATA_05_JUPITER,
-                            order = 5,
-                            moonCount = new Vector2(4, 4),
-                            validMoons = new string[] 
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = ATAMapProfile.ATA_05_JUPITER,
+                            Name = ATAMapProfile.ATA_05_JUPITER,
+                            Order = 5,
+                            MoonCount = new Vector2(4, 4),
+                            ValidMoons = new string[] 
                             { 
                                 ATAMapProfile.ATA_05_CALLISTO,
                                 ATAMapProfile.ATA_05_EUROPA,
@@ -366,13 +367,13 @@ namespace ExtendedSurvival.Core
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = ATAMapProfile.ATA_06_SATURN,
-                            name = ATAMapProfile.ATA_06_SATURN,
-                            order = 6,
-                            hasRing = true,
-                            moonCount = new Vector2(7, 7),
-                            validMoons = new string[]
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = ATAMapProfile.ATA_06_SATURN,
+                            Name = ATAMapProfile.ATA_06_SATURN,
+                            Order = 6,
+                            HasRing = true,
+                            MoonCount = new Vector2(7, 7),
+                            ValidMoons = new string[]
                             {
                                 ATAMapProfile.ATA_06_DIONE,
                                 ATAMapProfile.ATA_06_ENCELADUS,
@@ -385,12 +386,12 @@ namespace ExtendedSurvival.Core
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = ATAMapProfile.ATA_07_URANUS,
-                            name = ATAMapProfile.ATA_07_URANUS,
-                            order = 7,
-                            moonCount = new Vector2(5, 5),
-                            validMoons = new string[]
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = ATAMapProfile.ATA_07_URANUS,
+                            Name = ATAMapProfile.ATA_07_URANUS,
+                            Order = 7,
+                            MoonCount = new Vector2(5, 5),
+                            ValidMoons = new string[]
                             {
                                 ATAMapProfile.ATA_07_ARIEL,
                                 ATAMapProfile.ATA_07_MIRANDA,
@@ -401,24 +402,24 @@ namespace ExtendedSurvival.Core
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = ATAMapProfile.ATA_08_NEPTUNE,
-                            name = ATAMapProfile.ATA_08_NEPTUNE,
-                            order = 8,
-                            moonCount = new Vector2(1, 1),
-                            validMoons = new string[]
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = ATAMapProfile.ATA_08_NEPTUNE,
+                            Name = ATAMapProfile.ATA_08_NEPTUNE,
+                            Order = 8,
+                            MoonCount = new Vector2(1, 1),
+                            ValidMoons = new string[]
                             {
                                 ATAMapProfile.ATA_08_TRITON
                             }
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = ATAMapProfile.ATA_09_PLUTO,
-                            name = ATAMapProfile.ATA_09_PLUTO,
-                            order = 9,
-                            moonCount = new Vector2(1, 1),
-                            validMoons = new string[]
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = ATAMapProfile.ATA_09_PLUTO,
+                            Name = ATAMapProfile.ATA_09_PLUTO,
+                            Order = 9,
+                            MoonCount = new Vector2(1, 1),
+                            ValidMoons = new string[]
                             {
                                 ATAMapProfile.ATA_09_CHARON
                             }
@@ -444,40 +445,40 @@ namespace ExtendedSurvival.Core
                     {
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = ElindisMapProfile.DEFAULT_PYKE,
-                            name = ElindisMapProfile.DEFAULT_PYKE,
-                            order = 0,
-                            moonCount = Vector2.Zero
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = ElindisMapProfile.DEFAULT_PYKE,
+                            Name = ElindisMapProfile.DEFAULT_PYKE,
+                            Order = 0,
+                            MoonCount = Vector2.Zero
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = ExtendedSurvivalMapProfile.DEFAULT_ENITOR,
-                            name = ExtendedSurvivalMapProfile.DEFAULT_ENITOR,
-                            order = 1,
-                            hasRing = true
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = ExtendedSurvivalMapProfile.DEFAULT_ENITOR,
+                            Name = ExtendedSurvivalMapProfile.DEFAULT_ENITOR,
+                            Order = 1,
+                            HasRing = true
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = ExtendedSurvivalMapProfile.DEFAULT_DOVER,
-                            name = ExtendedSurvivalMapProfile.DEFAULT_DOVER,
-                            order = 2,
-                            moonCount = new Vector2(1, 1),
-                            validMoons = new string[]
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = ExtendedSurvivalMapProfile.DEFAULT_DOVER,
+                            Name = ExtendedSurvivalMapProfile.DEFAULT_DOVER,
+                            Order = 2,
+                            MoonCount = new Vector2(1, 1),
+                            ValidMoons = new string[]
                             {
                                 ExtendedSurvivalMapProfile.DEFAULT_SPATAT
                             }
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = ExtendedSurvivalMapProfile.DEFAULT_EREMUS_NUBIS,
-                            name = ExtendedSurvivalMapProfile.DEFAULT_EREMUS_NUBIS,
-                            order = 3,
-                            moonCount = new Vector2(2, 2),
-                            validMoons = new string[]
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = ExtendedSurvivalMapProfile.DEFAULT_EREMUS_NUBIS,
+                            Name = ExtendedSurvivalMapProfile.DEFAULT_EREMUS_NUBIS,
+                            Order = 3,
+                            MoonCount = new Vector2(2, 2),
+                            ValidMoons = new string[]
                             {
                                 ExtendedSurvivalMapProfile.DEFAULT_GLEDIUS_NUBIS,
                                 ExtendedSurvivalMapProfile.DEFAULT_CAPUTALIS_NUBIS
@@ -485,19 +486,19 @@ namespace ExtendedSurvival.Core
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.AsteroidBelt,
-                            name = "Arcaris Belt",
-                            order = 4,
-                            density = 0.85f
+                            MemberType = StarSystemProfile.MemberType.AsteroidBelt,
+                            Name = "Arcaris Belt",
+                            Order = 4,
+                            Density = 0.85f
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = RheaLiciousMapProfile.DEFAULT_MILA,
-                            name = RheaLiciousMapProfile.DEFAULT_MILA,
-                            order = 5,
-                            moonCount = new Vector2(2, 2),
-                            validMoons = new string[]
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = RheaLiciousMapProfile.DEFAULT_MILA,
+                            Name = RheaLiciousMapProfile.DEFAULT_MILA,
+                            Order = 5,
+                            MoonCount = new Vector2(2, 2),
+                            ValidMoons = new string[]
                             {
                                 MLTModsMapProfile.DEFAULT_SEDONIA,
                                 CaptainArthurMapProfile.DEFAULT_CRAIT
@@ -505,15 +506,57 @@ namespace ExtendedSurvival.Core
                         },
                         new StarSystemProfile.SystemMember()
                         {
-                            memberType = StarSystemProfile.MemberType.Planet,
-                            definitionSubtype = ExtendedSurvivalMapProfile.DEFAULT_TOTHT,
-                            name = ExtendedSurvivalMapProfile.DEFAULT_TOTHT,
-                            order = 6,
-                            moonCount = new Vector2(1, 1),
-                            validMoons = new string[]
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = ExtendedSurvivalMapProfile.DEFAULT_TOTHT,
+                            Name = ExtendedSurvivalMapProfile.DEFAULT_TOTHT,
+                            Order = 6,
+                            MoonCount = new Vector2(1, 1),
+                            ValidMoons = new string[]
                             {
                                 ExtendedSurvivalMapProfile.DEFAULT_OI
                             }
+                        }
+                    }
+                }
+            },
+            {
+                ESSERVERV2_PROFILE,
+                new StarSystemProfile()
+                {
+                    Name = ESSERVERV2_PROFILE,
+                    Version = PROFILES_VERSION,
+                    Type = StarSystemProfile.ProfileType.Mapped,
+                    WithStar = false,
+                    VanillaAsteroids = false,
+                    DefaultDensity = 0.75f,
+                    DistanceMultiplier = 1.0f,
+                    AllowDuplicate = false,
+                    PlanetProfile = StarSystemProfile.ValidPlanetProfile.None,
+                    Members = new List<StarSystemProfile.SystemMember>()
+                    {
+                        new StarSystemProfile.SystemMember()
+                        {
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = SamMapProfile.DEFAULT_HELIOSTERRAFORMED,
+                            Name = SamMapProfile.DEFAULT_HELIOSTERRAFORMED,
+                            HasRing = true,
+                            Order = 0,
+                            SizeMultiplier = 1.75f,
+                            MoonCount = new Vector2(3, 3),
+                            MoonSizeMultiplier = new Vector2(0.4f, 0.6f),
+                            ValidMoons = new string[]
+                            {
+                                MLTModsMapProfile.DEFAULT_SEDONIA, /* Ag + Au + Hg + Li */
+                                MLTModsMapProfile.DEFAULT_IRENE1C, /* Au + Pt + Mg + Be */
+                                InfiniteMapProfile.DEFAULT_HALCYON /* Pt + Tg + Ti + Ir */
+                            }
+                        },
+                        new StarSystemProfile.SystemMember()
+                        {
+                            MemberType = StarSystemProfile.MemberType.AsteroidBelt,
+                            Name = "Catapulis Belt",
+                            Order = 1,
+                            Density = 0.85f
                         }
                     }
                 }

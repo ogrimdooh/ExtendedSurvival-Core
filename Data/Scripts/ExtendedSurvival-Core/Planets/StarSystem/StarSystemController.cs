@@ -383,7 +383,7 @@ namespace ExtendedSurvival.Core
             maxDistanceKm = minDistanceKm + incrementDistance;
             distance = Range(minDistanceKm, maxDistanceKm);
             position = GenerateCelestialBodyPosition(theta, phi, distance);
-            size = new Vector2(item.SizeRange.X, item.SizeRange.Y).GetRandom() * KILOMETERS_TO_METERS;
+            size = new Vector2(item.SizeRange.X, item.SizeRange.Y).GetRandom() * KILOMETERS_TO_METERS * member.SizeMultiplier;
             currentSystemSize = distance + (size / KILOMETERS_TO_METERS);
             MyPlanet planet = MyAPIGateway.Session.VoxelMaps.SpawnPlanet(item.Id, size, new Vector2I(1000000, 10000000).GetRandomInt(), position) as MyPlanet;
             planet.AsteroidName = $"{member.Order + 1:00} - Planet {p + 1:00} - {member.Name}";
@@ -420,7 +420,8 @@ namespace ExtendedSurvival.Core
             theta = GetRandomDouble() * TAU;
             phi = (GetRandomDouble() * 2 - 1) * SLICE;
             moonPos = position;
-            var moonDiameter = new Vector2(moonToCreate.SizeRange.X, moonToCreate.SizeRange.Y).GetRandom() * KILOMETERS_TO_METERS;
+            var sizeMultiplier = member.MoonSizeMultiplier.ToVector2().GetRandom();
+            var moonDiameter = new Vector2(moonToCreate.SizeRange.X, moonToCreate.SizeRange.Y).GetRandom() * KILOMETERS_TO_METERS * sizeMultiplier;
             incrementDistance = item.Type == (int)PlanetProfile.PlanetType.GiantGas ? GIANTGAS_MOON_BUFFER.GetRandom() : PLANET_MOON_BUFFER.GetRandom();
             minDistanceKm = incrementDistance + (((size * 2) + moonDiameter) / KILOMETERS_TO_METERS);
             maxDistanceKm = minDistanceKm + moonDiameter * 5;

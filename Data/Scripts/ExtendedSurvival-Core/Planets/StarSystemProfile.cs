@@ -38,17 +38,19 @@ namespace ExtendedSurvival.Core
 
         }
 
-        public struct SystemMember
+        public class SystemMember
         {
 
-            public string name;
-            public MemberType memberType;
-            public string definitionSubtype;
-            public bool hasRing;
-            public float density;
-            public int order;
-            public Vector2 moonCount;
-            public string[] validMoons;
+            public string Name { get; set; }
+            public MemberType MemberType { get; set; }
+            public string DefinitionSubtype { get; set; }
+            public bool HasRing { get; set; }
+            public float Density { get; set; }
+            public int Order { get; set; }
+            public Vector2 MoonCount { get; set; }
+            public string[] ValidMoons { get; set; }
+            public float SizeMultiplier { get; set; } = 1.0f;
+            public Vector2 MoonSizeMultiplier { get; set; } = Vector2.One;
 
         }
 
@@ -72,7 +74,10 @@ namespace ExtendedSurvival.Core
         {
             if (settings != null)
             {
-
+                if (settings.Version <= 2)
+                {
+                    settings.Members = BuildMembersSettings();
+                }
                 settings.Version = Version;
             }
             return settings;
@@ -85,14 +90,18 @@ namespace ExtendedSurvival.Core
             {
                 members.Add(new SystemMemberSetting()
                 {
-                    Name = member.name,
-                    MemberType = (int)member.memberType,
-                    DefinitionSubtype = member.definitionSubtype,
-                    HasRing = member.hasRing,
-                    Density = member.density,
-                    Order = member.order,
-                    MoonCount = new DocumentedVector2(member.moonCount.X, member.moonCount.Y, StarSystemSetting.TOTALMEMBERS_INFO),
-                    ValidMoons = member.validMoons?.Select(x => new ValidMoonEntrySetting() { Id = x }).ToList() ?? new List<ValidMoonEntrySetting>() { }
+                    Name = member.Name,
+                    MemberType = (int)member.MemberType,
+                    DefinitionSubtype = member.DefinitionSubtype,
+                    HasRing = member.HasRing,
+                    Density = member.Density,
+                    Order = member.Order,
+                    SizeMultiplier = member.SizeMultiplier > 0 ? Math.Max(member.SizeMultiplier, 0.25f) : 1f,
+                    MoonCount = new DocumentedVector2(member.MoonCount.X, member.MoonCount.Y, StarSystemSetting.TOTALMEMBERS_INFO),
+                    ValidMoons = member.ValidMoons?.Select(x => new ValidMoonEntrySetting() { Id = x }).ToList() ?? new List<ValidMoonEntrySetting>() { },
+                    MoonSizeMultiplier = member.MoonSizeMultiplier != Vector2.Zero ?
+                        new DocumentedVector2(Math.Max(member.MoonSizeMultiplier.X, 0.25f), Math.Max(member.MoonSizeMultiplier.Y, 0.25f), StarSystemSetting.SIZEMULTIPLIER_INFO) :
+                        new DocumentedVector2(1f, 1f, StarSystemSetting.SIZEMULTIPLIER_INFO),
                 });
             }
             return members;

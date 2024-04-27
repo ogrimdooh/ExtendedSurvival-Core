@@ -113,10 +113,16 @@ namespace ExtendedSurvival.Core
         public int Order { get; set; }
 
         [XmlElement]
+        public float SizeMultiplier { get; set; } = 1.0f;
+
+        [XmlElement]
         public DocumentedVector2 MoonCount { get; set; } = new DocumentedVector2(0, 0, StarSystemSetting.TOTALMEMBERS_INFO);
 
         [XmlArray("ValidMoons"), XmlArrayItem("ValidMoon", typeof(ValidMoonEntrySetting))]
         public List<ValidMoonEntrySetting> ValidMoons { get; set; } = new List<ValidMoonEntrySetting>();
+
+        [XmlElement]
+        public DocumentedVector2 MoonSizeMultiplier { get; set; } = new DocumentedVector2(1.0f, 1.0f, StarSystemSetting.SIZEMULTIPLIER_INFO);
 
     }
 
