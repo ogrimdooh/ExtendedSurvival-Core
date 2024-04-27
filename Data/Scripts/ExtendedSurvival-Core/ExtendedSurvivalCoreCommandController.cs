@@ -315,6 +315,8 @@ namespace ExtendedSurvival.Core
 
         private const string SETTINGS_COMMAND_DEFINITIONS_WEAPONS = "weapons";
         private const string SETTINGS_COMMAND_DEFINITIONS_TURRETS = "turrets";
+        private const string SETTINGS_COMMAND_DEFINITIONS_COMPONENTS = "components";
+        private const string SETTINGS_COMMAND_DEFINITIONS_BLOCKS = "blocks";
 
         private const string SETTINGS_COMMAND_GRIDS_RENAMEALL = "renameall";
 
@@ -543,6 +545,14 @@ namespace ExtendedSurvival.Core
                                         break;
                                     case SETTINGS_COMMAND_DEFINITIONS_TURRETS:
 
+                                        break;
+                                    case SETTINGS_COMMAND_DEFINITIONS_COMPONENTS:
+                                        var dataComps = ExtendedSurvivalEntityManager.Instance.GetComponentsDefinitions();
+                                        SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_DEFINITIONS} {SETTINGS_COMMAND_DEFINITIONS_COMPONENTS} executed.", MyFontEnum.White, extraInfo: dataComps);
+                                        break;
+                                    case SETTINGS_COMMAND_DEFINITIONS_BLOCKS:
+                                        var dataBlocks = ExtendedSurvivalEntityManager.Instance.GetBlocksDefinitions();
+                                        SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_DEFINITIONS} {SETTINGS_COMMAND_DEFINITIONS_BLOCKS} executed.", MyFontEnum.White, extraInfo: dataBlocks);
                                         break;
                                 }
                                 break;

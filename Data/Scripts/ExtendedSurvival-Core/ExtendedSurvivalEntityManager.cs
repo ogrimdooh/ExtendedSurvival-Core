@@ -1743,6 +1743,80 @@ namespace ExtendedSurvival.Core
             WeaponsDefsLoaded = true;
         }
 
+        public string GetBlocksDefinitions()
+        {
+            try
+            {
+                var sb = new StringBuilder();
+                var components = MyDefinitionManager.Static.GetAllDefinitions().Where(x => x.Public && (x as MyCubeBlockDefinition) != null).Select(x => x as MyCubeBlockDefinition);
+                sb.AppendLine($"Valid cube block:");
+                var maxIdLenght = components.Max(block => block.Id.ToString().Length);
+                var maxDisplayNameLenght = components.Max(block => block.DisplayNameText.Length);
+                var cols = new string[]
+                {
+                    "Id".PadRight(maxIdLenght),
+                    "Name".PadRight(maxDisplayNameLenght)
+                };
+                sb.AppendLine(string.Join(" | ", cols));
+                foreach (var item in components.OrderBy(x => x.Id.ToString()))
+                {
+                    var values = new string[]
+                    {
+                        $"{item.Id}",
+                        $"{item.DisplayNameText}"
+                    };
+                    for (int i = 0; i < values.Length; i++)
+                    {
+                        values[i] = values[i].PadRight(cols[i].Length);
+                    }
+                    sb.AppendLine(string.Join(" | ", values));
+                }
+                return sb.ToString();
+            }
+            catch (Exception ex)
+            {
+                ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
+            }
+            return null;
+        }
+
+        public string GetComponentsDefinitions()
+        {
+            try
+            {
+                var sb = new StringBuilder();
+                var components = MyDefinitionManager.Static.GetAllDefinitions().Where(x => x.Public && (x as MyComponentDefinition) != null).Select(x => x as MyComponentDefinition);
+                sb.AppendLine($"Valid components:");
+                var maxIdLenght = components.Max(block => block.Id.SubtypeName.ToString().Length);
+                var maxDisplayNameLenght = components.Max(block => block.DisplayNameText.Length);
+                var cols = new string[]
+                {
+                    "Id".PadRight(maxIdLenght),
+                    "Name".PadRight(maxDisplayNameLenght)
+                };
+                sb.AppendLine(string.Join(" | ", cols));
+                foreach (var item in components.OrderBy(x=>x.Id.SubtypeName))
+                {
+                    var values = new string[]
+                    {
+                        $"{item.Id.SubtypeName}",
+                        $"{item.DisplayNameText}"
+                    };
+                    for (int i = 0; i < values.Length; i++)
+                    {
+                        values[i] = values[i].PadRight(cols[i].Length);
+                    }
+                    sb.AppendLine(string.Join(" | ", values));
+                }
+                return sb.ToString();
+            }
+            catch (Exception ex)
+            {
+                ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
+            }
+            return null;
+        }
+
         public string GetWeaponsDefinitions()
         {
             try
