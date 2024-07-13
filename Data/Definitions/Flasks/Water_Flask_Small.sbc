@@ -26,6 +26,7 @@
       <MinimumOfferAmount>5</MinimumOfferAmount>
       <MaximumOfferAmount>50</MaximumOfferAmount>
       <CanPlayerOrder>true</CanPlayerOrder>
+      <UseSound>Drink01</UseSound>
     </PhysicalItem>
 
   </PhysicalItems>

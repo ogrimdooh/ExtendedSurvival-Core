@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Sounds>
+
+    <Sound>
+      <Id>
+        <TypeId>MyObjectBuilder_AudioDefinition</TypeId>
+        <SubtypeId>Drink01</SubtypeId>
+      </Id>
+      <Category>CONSUMABLE</Category>
+      <Volume>1.0</Volume>
+      <Loopable>false</Loopable>
+      <MaxDistance>15</MaxDistance>
+      <UpdateDistance>20</UpdateDistance>
+      <ModifiableByHelmetFilters>false</ModifiableByHelmetFilters>
+      <Waves>
+        <Wave Type="D2">
+          <Start>Audio\Consumable\Food\Drink01.wav</Start>
+        </Wave>
+      </Waves>
+    </Sound>
+
+    <Sound>
+      <Id>
+        <TypeId>MyObjectBuilder_AudioDefinition</TypeId>
+        <SubtypeId>OpeningDrinkCan</SubtypeId>
+      </Id>
+      <Category>CONSUMABLE</Category>
+      <Volume>1.0</Volume>
+      <Loopable>false</Loopable>
+      <MaxDistance>15</MaxDistance>
+      <UpdateDistance>20</UpdateDistance>
+      <ModifiableByHelmetFilters>false</ModifiableByHelmetFilters>
+      <Waves>
+        <Wave Type="D2">
+          <Start>Audio\Consumable\Food\OpeningDrinkCan.wav</Start>
+        </Wave>
+      </Waves>
+    </Sound>
+
+    <Sound>
+      <Id>
+        <TypeId>MyObjectBuilder_AudioDefinition</TypeId>
+        <SubtypeId>UseMedKit</SubtypeId>
+      </Id>
+      <Category>CONSUMABLE</Category>
+      <Volume>1.0</Volume>
+      <Loopable>false</Loopable>
+      <MaxDistance>15</MaxDistance>
+      <UpdateDistance>20</UpdateDistance>
+      <ModifiableByHelmetFilters>false</ModifiableByHelmetFilters>
+      <Waves>
+        <Wave Type="D2">
+          <Start>Audio\Consumable\UseMedKit.wav</Start>
+        </Wave>
+      </Waves>
+    </Sound>
+
+  </Sounds>
+</Definitions>

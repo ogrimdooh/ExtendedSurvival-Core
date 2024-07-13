@@ -26,6 +26,7 @@
       <MinimumOfferAmount>5</MinimumOfferAmount>
       <MaximumOfferAmount>50</MaximumOfferAmount>
       <CanPlayerOrder>true</CanPlayerOrder>
+      <UseSound>UseMedKit</UseSound>
     </PhysicalItem>
 
   </PhysicalItems>
