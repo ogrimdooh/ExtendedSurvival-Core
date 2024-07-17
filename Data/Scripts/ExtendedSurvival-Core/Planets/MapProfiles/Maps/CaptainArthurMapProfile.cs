@@ -14,6 +14,39 @@ namespace ExtendedSurvival.Core
         public const string DEFAULT_CRAIT = "PLANET-CRAIT";
         public const string DEFAULT_PLANET26 = "PLANET-26";
 
+        // Crait
+
+        public const string MoonAlien = "MoonAlien";
+        public const string MoonAlienBare = "MoonAlien bare";
+        public const string Saltflat = "Saltflat";
+        public const string Redsand = "Redsand";
+        public const string Redsoil = "Redsoil";
+        public const string CraitIce = "CraitIce";
+        public const string AlienSnowSpider = "AlienSnowSpider";
+
+        // Planet-26
+
+        public const string Beachsideice = "Beachsideice";
+        public const string Mediumice = "Mediumice";
+        public const string Ice_03 = "Ice_03";
+        public const string DarinusIce = "DarinusIce";
+        public const string Ice_02DOC = "Ice_02DOC";
+
+        public const string MEwoods = "MEwoods";
+        public const string MEwoodsgrass = "MEwoodsgrass";
+        public const string MESoil = "MESoil";
+        public const string MESteppe = "MESteppe";
+        public const string DarinusGrass = "DarinusGrass";
+        public const string DarinusGrass2 = "DarinusGrass2";
+        public const string PWoodsGrass = "P-Woods_grass";
+        public const string PurpleGrass = "purple Grass";
+        public const string GrassDOC = "Grass DOC";
+        public const string Grass_oldDOC = "Grass_old DOC";
+        public const string Woods_grassDOC = "Woods_grass DOC";
+        public const string SoilDOC = "Soil DOC";
+
+        public const string DOCSand_02 = "DOC Sand_02";
+
         static CaptainArthurMapProfile()
         {
             LoadCraitOreMapInfo();

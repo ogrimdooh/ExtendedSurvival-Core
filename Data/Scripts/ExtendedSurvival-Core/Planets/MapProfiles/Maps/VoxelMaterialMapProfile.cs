@@ -95,7 +95,9 @@ namespace ExtendedSurvival.Core
             AlienOrangeGrassBare,
             AlienYellowGrass,
             AlienYellowGrassBare,
-            AlienSoil
+            AlienSoil,
+            // Captain Arthur
+            CaptainArthurMapProfile.Redsoil
         };
 
         public static readonly string[] SoilVoxels = new string[] 
@@ -116,7 +118,25 @@ namespace ExtendedSurvival.Core
             InfiniteMapProfile.ValkorGrass,
             InfiniteMapProfile.ValkorTundra,
             InfiniteMapProfile.ValkorGrass2,
-            InfiniteMapProfile.ValkorGrass3
+            InfiniteMapProfile.ValkorGrass3,
+            // Captain Arthur
+            CaptainArthurMapProfile.MESoil,
+            CaptainArthurMapProfile.SoilDOC,
+            CaptainArthurMapProfile.MESteppe,
+            CaptainArthurMapProfile.DarinusGrass,
+            CaptainArthurMapProfile.DarinusGrass2,
+            CaptainArthurMapProfile.PWoodsGrass,
+            CaptainArthurMapProfile.PurpleGrass,
+            CaptainArthurMapProfile.GrassDOC,
+            CaptainArthurMapProfile.Grass_oldDOC,
+            CaptainArthurMapProfile.Woods_grassDOC
+        };
+
+        public static readonly string[] MudVoxels = new string[]
+        {
+            // Captain Arthur
+            CaptainArthurMapProfile.MEwoods,
+            CaptainArthurMapProfile.MEwoodsgrass
         };
 
         public static readonly string[] DesertSoilVoxels = new string[] 
@@ -134,13 +154,20 @@ namespace ExtendedSurvival.Core
             // Infinite
             InfiniteMapProfile.ValkorSand,
             InfiniteMapProfile.ValkorDesert,
-            InfiniteMapProfile.ValkorSandstone
+            InfiniteMapProfile.ValkorSandstone,
+            // Captain Arthur
+            CaptainArthurMapProfile.Saltflat,
+            CaptainArthurMapProfile.Redsand,
+            CaptainArthurMapProfile.DOCSand_02
         };
 
         public static readonly string[] MoomSoilVoxels = new string[] 
         {
             MoonSoil,
-            SmallMoonRocks
+            SmallMoonRocks,
+            // Captain Arthur
+            CaptainArthurMapProfile.MoonAlien,
+            CaptainArthurMapProfile.MoonAlienBare
         };
 
         public static readonly string[] ESStoneIce = new string[]
@@ -150,7 +177,13 @@ namespace ExtendedSurvival.Core
             InfiniteMapProfile.Ice_02New,
             InfiniteMapProfile.BlackIce,
             InfiniteMapProfile.AlienYellowGrass,
-            InfiniteMapProfile.PenumbraTerrain
+            InfiniteMapProfile.PenumbraTerrain,
+            // Captain Arthur
+            CaptainArthurMapProfile.Beachsideice,
+            CaptainArthurMapProfile.Mediumice,
+            CaptainArthurMapProfile.Ice_03,
+            CaptainArthurMapProfile.DarinusIce,
+            CaptainArthurMapProfile.Ice_02DOC
         };
 
         public static readonly string[] ESToxicIce = new string[] 
@@ -164,7 +197,10 @@ namespace ExtendedSurvival.Core
             InfiniteMapProfile.AlienSnowNew,
             InfiniteMapProfile.SnowNew,
             InfiniteMapProfile.TritonIceNew,
-            InfiniteMapProfile.HalcyonIce
+            InfiniteMapProfile.HalcyonIce,
+            // Captain Arthur
+            CaptainArthurMapProfile.CraitIce,
+            CaptainArthurMapProfile.AlienSnowSpider
         };
 
         public static readonly string[] SpaceNeeded = new string[] 
@@ -244,9 +280,15 @@ namespace ExtendedSurvival.Core
                 TargetVoxels = ESStoneIce,
                 OreToMine = OreConstants.STONEICE_SUBTYPEID,
                 MineRatio = UNCOMMON_RATIO
+            },
+            new VoxelOreReplace()
+            {
+                TargetVoxels = MudVoxels,
+                OreToMine = OreConstants.MUD_SUBTYPEID,
+                MineRatio = VERYCOMMON_RATIO
             }
         };
-
+        
         // ES Core
         public const string StoneIce_01 = "StoneIce_01";
 
