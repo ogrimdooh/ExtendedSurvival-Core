@@ -536,6 +536,8 @@ namespace ExtendedSurvival.Core
                 FactionTypeConstants.TryOverrideDefinitions();
                 DropContainersOverride.TryOverride();
 
+                InfiniteMapProfile.DoAfterPlanetOverride();
+
             }
         }
 

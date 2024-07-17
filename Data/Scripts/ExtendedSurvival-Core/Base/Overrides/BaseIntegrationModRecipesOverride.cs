@@ -58,6 +58,20 @@ namespace ExtendedSurvival.Core
             return esModTechContext;
         }
 
+        public static string GetCustomIcon(MyModContext baseContext, ExternalModCustomIcon iconInfo)
+        {
+            var icon = iconInfo.Icon;
+            if (iconInfo.SamePath)
+            {
+                icon = System.IO.Path.Combine(baseContext.ModPath, icon);
+            }
+            else
+            {
+                icon = System.IO.Path.Combine(GetESCoreContext().ModPath, icon);
+            }
+            return icon;
+        }
+
         public static void ApplyAllBlockVariantGroups()
         {
             foreach (var key in BlockVariantGroups.Keys)

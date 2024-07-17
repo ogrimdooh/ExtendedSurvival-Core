@@ -181,7 +181,8 @@ namespace ExtendedSurvival.Core
             { "COHENITE", BetterStoneIntegrationProfile.Cohenite_01 },
             { "KAMACITE", BetterStoneIntegrationProfile.Kamacite_01 },
             { "URANIAURITE", BetterStoneIntegrationProfile.Uraniaurite_01 },
-            { "PETZIT", BetterStoneIntegrationProfile.Petzite_01 }
+            { "PETZIT", BetterStoneIntegrationProfile.Petzite_01 },
+            { "GLOWCRYSTAL", InfiniteMapProfile.GlowCrystal }
         };
 
         public static string[] FilterValidOres(string[] keys)
@@ -950,6 +951,21 @@ namespace ExtendedSurvival.Core
                         rarity = PlanetProfile.OreRarity.Rare
                     }
                 }
+            },
+            // Infinite
+            {
+                InfiniteMapProfile.GlowCrystal,
+                new OreType()
+                {
+                    Name = InfiniteMapProfile.GlowCrystal,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = InfiniteMapProfile.GlowCrystal,
+                        start = new Vector2I(50, 100),
+                        depth = new Vector2I(15, 30),
+                        rarity = PlanetProfile.OreRarity.Rare
+                    }
+                }
             }
         };
 
@@ -1144,8 +1160,46 @@ namespace ExtendedSurvival.Core
                 rarity = rarity == PlanetProfile.OreRarity.None ? baseInfo.DefaultInfo.rarity : rarity
             };
         }
-    
-        public static List<PlanetProfile.OreMapInfo> BuildOreMap(string[] common, string[] uncommon, string[] rare, string[] epic)
+
+        public static List<PlanetProfile.OreMapInfo> CopyAndAdd(List<PlanetProfile.OreMapInfo> source, string[] common = null, string[] uncommon = null, string[] rare = null, string[] epic = null)
+        {
+            var retorno = new List<PlanetProfile.OreMapInfo>();
+            if (source != null && source.Any())
+            {
+                retorno.AddRange(source);
+            }
+            if (common != null && common.Any())
+            {
+                foreach (var item in common)
+                {
+                    retorno.Add(GetOreMap(item, PlanetProfile.OreRarity.Common));
+                }
+            }
+            if (uncommon != null && uncommon.Any())
+            {
+                foreach (var item in uncommon)
+                {
+                    retorno.Add(GetOreMap(item, PlanetProfile.OreRarity.Uncommon));
+                }
+            }
+            if (rare != null && rare.Any())
+            {
+                foreach (var item in rare)
+                {
+                    retorno.Add(GetOreMap(item, PlanetProfile.OreRarity.Rare));
+                }
+            }
+            if (epic != null && epic.Any())
+            {
+                foreach (var item in epic)
+                {
+                    retorno.Add(GetOreMap(item, PlanetProfile.OreRarity.Epic));
+                }
+            }
+            return retorno;
+        }
+
+        public static List<PlanetProfile.OreMapInfo> BuildOreMap(string[] common = null, string[] uncommon = null, string[] rare = null, string[] epic = null)
         {
             var retorno = new List<PlanetProfile.OreMapInfo>();
             if (common != null && common.Any())
@@ -1498,7 +1552,7 @@ namespace ExtendedSurvival.Core
                 RheaLiciousMapProfile.DEFAULT_MILA,
                 RheaLiciousMapProfile.MILA
             },
-            // RheaLicious
+            // Infinite
             {
                 InfiniteMapProfile.DEFAULT_HALCYON,
                 InfiniteMapProfile.HALCYON
@@ -1507,10 +1561,23 @@ namespace ExtendedSurvival.Core
                 InfiniteMapProfile.DEFAULT_PENUMBRA,
                 InfiniteMapProfile.PENUMBRA
             },
+            {
+                InfiniteMapProfile.DEFAULT_VALKOR,
+                InfiniteMapProfile.VALKOR
+            },
             // GHOSTXV
             {
                 GHOSTXVMapProfile.DEFAULT_AVALAN,
                 GHOSTXVMapProfile.AVALAN
+            },
+            // FIZZY
+            {
+                FizzyMapProfile.DEFAULT_CHIMERA,
+                FizzyMapProfile.CHIMERA
+            },
+            {
+                FizzyMapProfile.DEFAULT_ZIRA,
+                FizzyMapProfile.ZIRA
             }
         };
 

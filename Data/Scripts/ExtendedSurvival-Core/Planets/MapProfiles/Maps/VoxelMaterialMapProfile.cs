@@ -1,11 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static ExtendedSurvival.Core.PlanetMapProfile;
 
 namespace ExtendedSurvival.Core
 {
     public static class VoxelMaterialMapProfile
     {
+
+        public class VoxelOreReplace
+        {
+
+            public string[] TargetVoxels { get; set; }
+            public string OreToMine { get; set; }
+            public float MineRatio { get; set; }
+
+        }
 
         public class VoxelType
         {
@@ -101,7 +111,12 @@ namespace ExtendedSurvival.Core
             Soil,
             Helios_Grass,
             Helios_Grass_old,
-            Helios_HighGrass
+            Helios_HighGrass,
+            // Infinite
+            InfiniteMapProfile.ValkorGrass,
+            InfiniteMapProfile.ValkorTundra,
+            InfiniteMapProfile.ValkorGrass2,
+            InfiniteMapProfile.ValkorGrass3
         };
 
         public static readonly string[] DesertSoilVoxels = new string[] 
@@ -115,7 +130,11 @@ namespace ExtendedSurvival.Core
             DustyRocks3,
             PertamSand,
             Helios_Sand_02,
-            Helios_Lava
+            Helios_Lava,
+            // Infinite
+            InfiniteMapProfile.ValkorSand,
+            InfiniteMapProfile.ValkorDesert,
+            InfiniteMapProfile.ValkorSandstone
         };
 
         public static readonly string[] MoomSoilVoxels = new string[] 
@@ -124,12 +143,28 @@ namespace ExtendedSurvival.Core
             SmallMoonRocks
         };
 
+        public static readonly string[] ESStoneIce = new string[]
+        {
+            // Infinite
+            InfiniteMapProfile.RedIce,
+            InfiniteMapProfile.Ice_02New,
+            InfiniteMapProfile.BlackIce,
+            InfiniteMapProfile.AlienYellowGrass,
+            InfiniteMapProfile.PenumbraTerrain
+        };
+
         public static readonly string[] ESToxicIce = new string[] 
         {
             IceEuropa2,
             AlienIce,
             AlienIce_03,
-            AlienSnow
+            AlienSnow,
+            // Infinite
+            InfiniteMapProfile.ToxicIce,
+            InfiniteMapProfile.AlienSnowNew,
+            InfiniteMapProfile.SnowNew,
+            InfiniteMapProfile.TritonIceNew,
+            InfiniteMapProfile.HalcyonIce
         };
 
         public static readonly string[] SpaceNeeded = new string[] 
@@ -170,6 +205,46 @@ namespace ExtendedSurvival.Core
             BetterStoneIntegrationProfile.Cohenite_01,
             BetterStoneIntegrationProfile.Kamacite_01,
             BetterStoneIntegrationProfile.Petzite_01
+        };
+
+        public static readonly VoxelOreReplace[] VoxelReplaces = new VoxelOreReplace[]
+        {
+            new VoxelOreReplace()
+            {
+                TargetVoxels = MoomSoilVoxels,
+                OreToMine = OreConstants.MOONSOIL_SUBTYPEID,
+                MineRatio = UNCOMMON_RATIO
+            },
+            new VoxelOreReplace()
+            {
+                TargetVoxels = AlienSoilVoxels,
+                OreToMine = OreConstants.ALIENSOIL_SUBTYPEID,
+                MineRatio = VERYCOMMON_RATIO
+            },
+            new VoxelOreReplace()
+            {
+                TargetVoxels = SoilVoxels,
+                OreToMine = OreConstants.SOIL_SUBTYPEID,
+                MineRatio = VERYCOMMON_RATIO
+            },
+            new VoxelOreReplace()
+            {
+                TargetVoxels = DesertSoilVoxels,
+                OreToMine = OreConstants.DESERTSOIL_SUBTYPEID,
+                MineRatio = COMMON_RATIO
+            },
+            new VoxelOreReplace()
+            {
+                TargetVoxels = ESToxicIce,
+                OreToMine = OreConstants.TOXICICE_SUBTYPEID,
+                MineRatio = UNCOMMON_RATIO
+            },
+            new VoxelOreReplace()
+            {
+                TargetVoxels = ESStoneIce,
+                OreToMine = OreConstants.STONEICE_SUBTYPEID,
+                MineRatio = UNCOMMON_RATIO
+            }
         };
 
         // ES Core
@@ -568,7 +643,9 @@ namespace ExtendedSurvival.Core
             { BetterStoneIntegrationProfile.Cohenite_01.ToUpper(), BetterStoneIntegrationProfile.COHENITE_VOXEL_MATERIAL },
             { BetterStoneIntegrationProfile.Kamacite_01.ToUpper(), BetterStoneIntegrationProfile.KAMACITE_VOXEL_MATERIAL },
             { BetterStoneIntegrationProfile.Uraniaurite_01.ToUpper(), BetterStoneIntegrationProfile.URANIAURITE_VOXEL_MATERIAL },
-            { BetterStoneIntegrationProfile.Petzite_01.ToUpper(), BetterStoneIntegrationProfile.PETZITE_VOXEL_MATERIAL }
+            { BetterStoneIntegrationProfile.Petzite_01.ToUpper(), BetterStoneIntegrationProfile.PETZITE_VOXEL_MATERIAL },
+            // Infinite
+            { InfiniteMapProfile.GlowCrystal.ToUpper(), InfiniteMapProfile.GLOWCRYSTAL_MATERIAL }
         };
 
         private static readonly List<string> ValidVoxels = new List<string>()
@@ -637,7 +714,9 @@ namespace ExtendedSurvival.Core
             BetterStoneIntegrationProfile.Cohenite_01,
             BetterStoneIntegrationProfile.Kamacite_01,
             BetterStoneIntegrationProfile.Uraniaurite_01,
-            BetterStoneIntegrationProfile.Petzite_01
+            BetterStoneIntegrationProfile.Petzite_01,
+            // Infinite
+            InfiniteMapProfile.GlowCrystal
         };
 
         public static string[] GetNames()

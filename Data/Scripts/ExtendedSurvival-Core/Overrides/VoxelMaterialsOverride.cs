@@ -21,11 +21,10 @@ namespace ExtendedSurvival.Core
             // Get Definitions
             var definitions = MyDefinitionManager.Static.GetVoxelMaterialDefinitions();
             // Override Soils and Toxic Voxels
-            SetMinedOre(definitions, VoxelMaterialMapProfile.MoomSoilVoxels, OreConstants.MOONSOIL_SUBTYPEID, VoxelMaterialMapProfile.UNCOMMON_RATIO);
-            SetMinedOre(definitions, VoxelMaterialMapProfile.AlienSoilVoxels, OreConstants.ALIENSOIL_SUBTYPEID, VoxelMaterialMapProfile.VERYCOMMON_RATIO);
-            SetMinedOre(definitions, VoxelMaterialMapProfile.SoilVoxels, OreConstants.SOIL_SUBTYPEID, VoxelMaterialMapProfile.VERYCOMMON_RATIO);
-            SetMinedOre(definitions, VoxelMaterialMapProfile.DesertSoilVoxels, OreConstants.DESERTSOIL_SUBTYPEID, VoxelMaterialMapProfile.COMMON_RATIO);
-            SetMinedOre(definitions, VoxelMaterialMapProfile.ESToxicIce, OreConstants.TOXICICE_SUBTYPEID, VoxelMaterialMapProfile.COMMON_RATIO);
+            foreach (var replace in VoxelMaterialMapProfile.VoxelReplaces)
+            {
+                SetMinedOre(definitions, replace.TargetVoxels, replace.OreToMine, replace.MineRatio);
+            }
             // Override Voxels
             var voxels = VoxelMaterialMapProfile.GetNames();
             foreach (var voxel in voxels)
