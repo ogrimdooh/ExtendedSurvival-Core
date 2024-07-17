@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using VRageMath;
 
 namespace ExtendedSurvival.Core
@@ -52,999 +53,7384 @@ namespace ExtendedSurvival.Core
         public const string ATA_STAR_005 = "S 005Kº G TAUCETI - YELLOW";
         public const string ATA_STAR_003 = "S 003Kº K LACAILLE - ORANGE";
 
-        // Ore maps
+        static ATAMapProfile()
+        {
+            LoadMercuryOreMapInfo();
+            LoadVenusOreMapInfo();
+            LoadEarthOreMapInfo();
+            LoadMoonOreMapInfo();
+            LoadMarsOreMapInfo();
+            LoadCalistoOreMapInfo();
+            LoadGanymedeOreMapInfo();
+            LoadEuropaOreMapInfo();
+            LoadIoOreMapInfo();
+            LoadIapetusOreMapInfo();
+            LoadTitanOreMapInfo();
+            LoadRheaOreMapInfo();
+            LoadDioneOreMapInfo();
+            LoadTethysOreMapInfo();
+            LoadEnceladusOreMapInfo();
+            LoadMimasOreMapInfo();
+            LoadObreonOreMapInfo();
+            LoadTitaniaOreMapInfo();
+            LoadUmbrielOreMapInfo();
+            LoadArielOreMapInfo();
+            LoadMirandaOreMapInfo();
+            LoadTritonOreMapInfo();
+            LoadPlutoOreMapInfo();
+            LoadCharonOreMapInfo();
+        }
 
-        public static readonly List<PlanetProfile.OreMapInfo> ATA_01_MERCURY_ORES =
-            ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Aluminum_01,
-                    PlanetMapProfile.Copper_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Carbon_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Potassium_01
-                },
-                new string[]
-                {
-                     PlanetMapProfile.Tungsten_01
-                }
-            ) :
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Silicon_01
-                },
-                null,
-                new string[]
-                {
-                    PlanetMapProfile.Magnesium_01,
-                    PlanetMapProfile.Cobalt_01,
-                    PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01
-                },
-                null
-            );
+        private static void LoadMercuryOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
 
-        public static readonly List<PlanetProfile.OreMapInfo> ATA_02_VENUS_ORES =
-            ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Silicon_01,
-                    PlanetMapProfile.Sulfur_01
-                },
-                new string[]
-                {
-                     PlanetMapProfile.Carbon_01
-                },
-                new string[]
-                {
-                     PlanetMapProfile.Potassium_01
-                },
-                new string[]
-                {
-                     PlanetMapProfile.Iridium_01
-                }
-            ) :
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Silicon_01
-                },
-                null,
-                new string[]
-                {
-                    PlanetMapProfile.Magnesium_01,
-                    PlanetMapProfile.Cobalt_01,
-                    PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01
-                },
-                null
-            );
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[10] = 14086;
+            faceFront[40] = 18557;
+            faceFront[20] = 47642;
+            faceFront[30] = 52630;
+            faceFront[100] = 75051;
+            faceFront[250] = 75960;
+            faceFront[60] = 107198;
+            faceFront[80] = 112587;
+            faceFront[50] = 124013;
+            faceFront[90] = 131335;
+            faceFront[240] = 136186;
+            faceFront[70] = 146232;
+            faceFront[110] = 154369;
+            faceFront[210] = 168968;
+            faceFront[120] = 172018;
+            faceFront[130] = 196278;
+            faceFront[140] = 197435;
+            faceFront[160] = 199848;
+            faceFront[150] = 200262;
+            faceFront[200] = 217976;
+            faceFront[230] = 276903;
+            faceFront[220] = 307492;
+            faceFront[190] = 316601;
+            faceFront[180] = 351812;
+            faceFront[170] = 390416;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
 
-        public static readonly List<PlanetProfile.OreMapInfo> ATA_03_EARTH_ORES =
-            ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Aluminum_01,
-                    PlanetMapProfile.Copper_01,
-                    PlanetMapProfile.Silicon_01,
-                    PlanetMapProfile.Zinc_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Sulfur_01,
-                    PlanetMapProfile.Carbon_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lead_01,
-                    PlanetMapProfile.Potassium_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Cobalt_01
-                }
-            ) :
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Silicon_01
-                },
-                null,
-                new string[]
-                {
-                    PlanetMapProfile.Magnesium_01,
-                    PlanetMapProfile.Cobalt_01,
-                    PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01
-                },
-                null
-            );
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[40] = 23098;
+            faceBack[10] = 26331;
+            faceBack[100] = 65334;
+            faceBack[20] = 66276;
+            faceBack[30] = 68695;
+            faceBack[80] = 106816;
+            faceBack[60] = 116758;
+            faceBack[90] = 119936;
+            faceBack[110] = 129294;
+            faceBack[120] = 136412;
+            faceBack[70] = 146299;
+            faceBack[140] = 146396;
+            faceBack[150] = 146451;
+            faceBack[50] = 147063;
+            faceBack[160] = 148916;
+            faceBack[130] = 149569;
+            faceBack[250] = 174272;
+            faceBack[210] = 182737;
+            faceBack[240] = 223009;
+            faceBack[200] = 230633;
+            faceBack[190] = 293539;
+            faceBack[180] = 294744;
+            faceBack[170] = 304074;
+            faceBack[220] = 368893;
+            faceBack[230] = 368947;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
 
-        public static readonly List<PlanetProfile.OreMapInfo> ATA_03_MOON_ORES =
-            ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Aluminum_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lead_01,
-                    PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lithium_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Mercury_01
-                }
-            ) :
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Silicon_01
-                },
-                null,
-                new string[]
-                {
-                    PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Platinum_01,
-                    PlanetMapProfile.Uraninite_01
-                },
-                null
-            );
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[250] = 35255;
+            faceLeft[40] = 54893;
+            faceLeft[240] = 66811;
+            faceLeft[100] = 75952;
+            faceLeft[210] = 123057;
+            faceLeft[80] = 134130;
+            faceLeft[90] = 142905;
+            faceLeft[110] = 146846;
+            faceLeft[120] = 152074;
+            faceLeft[160] = 152341;
+            faceLeft[150] = 152529;
+            faceLeft[140] = 154672;
+            faceLeft[230] = 159152;
+            faceLeft[200] = 160377;
+            faceLeft[10] = 161943;
+            faceLeft[130] = 162296;
+            faceLeft[30] = 173313;
+            faceLeft[60] = 181607;
+            faceLeft[70] = 199056;
+            faceLeft[220] = 210747;
+            faceLeft[20] = 221133;
+            faceLeft[190] = 239673;
+            faceLeft[180] = 272267;
+            faceLeft[50] = 278333;
+            faceLeft[170] = 304179;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
 
-        public static readonly List<PlanetProfile.OreMapInfo> ATA_04_MARS_ORES =
-            ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Copper_01,
-                    PlanetMapProfile.Zinc_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.StoneIce_01,
-                    PlanetMapProfile.Sulfur_01,
-                    PlanetMapProfile.Carbon_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Potassium_01,
-                    PlanetMapProfile.Platinum_01
-                },
-                new string[]
-                {
-                     PlanetMapProfile.Iridium_01
-                }
-            ) :
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Silicon_01
-                },
-                null,
-                new string[]
-                {
-                    PlanetMapProfile.Magnesium_01,
-                    PlanetMapProfile.Cobalt_01,
-                    PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Platinum_01
-                },
-                null
-            );
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[250] = 5521;
+            faceRight[240] = 17568;
+            faceRight[40] = 54402;
+            faceRight[230] = 54939;
+            faceRight[10] = 70525;
+            faceRight[210] = 78802;
+            faceRight[220] = 97926;
+            faceRight[200] = 108034;
+            faceRight[100] = 114744;
+            faceRight[30] = 162979;
+            faceRight[20] = 164512;
+            faceRight[160] = 170137;
+            faceRight[150] = 183090;
+            faceRight[190] = 189361;
+            faceRight[140] = 196646;
+            faceRight[80] = 206868;
+            faceRight[120] = 215737;
+            faceRight[110] = 216841;
+            faceRight[130] = 218411;
+            faceRight[90] = 220081;
+            faceRight[180] = 238783;
+            faceRight[60] = 249349;
+            faceRight[70] = 297558;
+            faceRight[170] = 304734;
+            faceRight[50] = 331730;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
 
-        public static readonly List<PlanetProfile.OreMapInfo> ATA_05_CALLISTO_ORES =
-            ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Aluminum_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lead_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Gold_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Uraninite_01
-                },
-                new string[]
-                {
-                     PlanetMapProfile.Plutonium_01
-                }
-            ) :
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Silicon_01
-                },
-                null,
-                new string[]
-                {
-                    PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Platinum_01,
-                    PlanetMapProfile.Uraninite_01
-                },
-                null
-            );
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[250] = 2004;
+            faceTop[240] = 7834;
+            faceTop[230] = 26160;
+            faceTop[210] = 35048;
+            faceTop[200] = 47128;
+            faceTop[220] = 47541;
+            faceTop[190] = 79414;
+            faceTop[160] = 85975;
+            faceTop[100] = 86758;
+            faceTop[40] = 90594;
+            faceTop[150] = 97969;
+            faceTop[180] = 105928;
+            faceTop[140] = 112243;
+            faceTop[130] = 134219;
+            faceTop[120] = 142550;
+            faceTop[170] = 143185;
+            faceTop[110] = 155034;
+            faceTop[80] = 173903;
+            faceTop[90] = 175246;
+            faceTop[60] = 245702;
+            faceTop[70] = 267806;
+            faceTop[30] = 297014;
+            faceTop[50] = 390899;
+            faceTop[10] = 498503;
+            faceTop[20] = 532186;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
 
-        public static readonly List<PlanetProfile.OreMapInfo> ATA_05_GANYMEDE_ORES =
-            ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Silicon_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lead_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Gold_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Uraninite_01
-                },
-                new string[]
-                {
-                     PlanetMapProfile.Plutonium_01
-                }
-            ) :
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Silicon_01
-                },
-                null,
-                new string[]
-                {
-                    PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Platinum_01,
-                    PlanetMapProfile.Uraninite_01
-                },
-                null
-            );
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[250] = 26322;
+            faceBottom[240] = 54124;
+            faceBottom[40] = 55990;
+            faceBottom[100] = 83708;
+            faceBottom[210] = 111754;
+            faceBottom[230] = 138490;
+            faceBottom[200] = 146162;
+            faceBottom[160] = 148242;
+            faceBottom[10] = 151733;
+            faceBottom[80] = 154094;
+            faceBottom[150] = 154744;
+            faceBottom[110] = 160667;
+            faceBottom[140] = 161177;
+            faceBottom[90] = 162069;
+            faceBottom[120] = 163531;
+            faceBottom[130] = 172126;
+            faceBottom[30] = 174686;
+            faceBottom[220] = 183258;
+            faceBottom[60] = 212788;
+            faceBottom[190] = 213344;
+            faceBottom[20] = 230383;
+            faceBottom[70] = 233962;
+            faceBottom[180] = 240212;
+            faceBottom[170] = 279161;
+            faceBottom[50] = 309367;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
 
-        public static readonly List<PlanetProfile.OreMapInfo> ATA_05_EUROPA_ORES =
-            ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Zinc_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lead_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Gold_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Uraninite_01
-                },
-                new string[]
-                {
-                     PlanetMapProfile.Plutonium_01
-                }
-            ) :
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Silicon_01
-                },
-                null,
-                new string[]
-                {
-                    PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Platinum_01,
-                    PlanetMapProfile.Uraninite_01
-                },
-                null
-            );
+            mapInfo.ProcessAllInfo();
 
-        public static readonly List<PlanetProfile.OreMapInfo> ATA_05_IO_ORES =
-            ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Aluminum_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lead_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Gold_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Uraninite_01
-                },
-                new string[]
-                {
-                     PlanetMapProfile.Plutonium_01
-                }
-            ) :
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Silicon_01
-                },
-                null,
-                new string[]
-                {
-                    PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Platinum_01,
-                    PlanetMapProfile.Uraninite_01
-                },
-                null
-            );
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[ATA_01_MERCURY] = mapInfo;
+        }
 
-        public static readonly List<PlanetProfile.OreMapInfo> ATA_06_IAPETUS_ORES =
-            ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Zinc_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lead_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Gold_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lithium_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Iridium_01
-                }
-            ) :
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Silicon_01
-                },
-                null,
-                new string[]
-                {
-                    PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Platinum_01,
-                    PlanetMapProfile.Uraninite_01
-                },
-                null
-            );
+        private static void LoadVenusOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
 
-        public static readonly List<PlanetProfile.OreMapInfo> ATA_06_TITAN_ORES =
-            ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Aluminum_01,
-                    PlanetMapProfile.Silicon_01,
-                    PlanetMapProfile.Copper_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lead_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Gold_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lithium_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Mercury_01
-                }
-            ) :
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Silicon_01
-                },
-                null,
-                new string[]
-                {
-                    PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Platinum_01,
-                    PlanetMapProfile.Uraninite_01
-                },
-                null
-            );
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[157] = 13;
+            faceFront[132] = 4064;
+            faceFront[94] = 13933;
+            faceFront[75] = 33633;
+            faceFront[57] = 90028;
+            faceFront[122] = 154223;
+            faceFront[109] = 835012;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
 
-        public static readonly List<PlanetProfile.OreMapInfo> ATA_06_RHEA_ORES =
-            ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Aluminum_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lead_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Gold_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lithium_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Beryllium_01
-                }
-            ) :
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Silicon_01
-                },
-                null,
-                new string[]
-                {
-                    PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Platinum_01,
-                    PlanetMapProfile.Uraninite_01
-                },
-                null
-            );
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[173] = 27;
+            faceBack[194] = 62;
+            faceBack[222] = 5429;
+            faceBack[157] = 5780;
+            faceBack[143] = 9708;
+            faceBack[75] = 20498;
+            faceBack[132] = 69866;
+            faceBack[57] = 92494;
+            faceBack[122] = 128916;
+            faceBack[94] = 404854;
+            faceBack[109] = 1143222;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
 
-        public static readonly List<PlanetProfile.OreMapInfo> ATA_06_DIONE_ORES =
-            ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Silicon_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lead_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Gold_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lithium_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Titanium_01
-                }
-            ) :
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Silicon_01
-                },
-                null,
-                new string[]
-                {
-                    PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Platinum_01,
-                    PlanetMapProfile.Uraninite_01
-                },
-                null
-            );
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[173] = 55;
+            faceLeft[194] = 56;
+            faceLeft[222] = 1240;
+            faceLeft[157] = 14013;
+            faceLeft[143] = 18938;
+            faceLeft[75] = 28185;
+            faceLeft[132] = 40158;
+            faceLeft[57] = 127135;
+            faceLeft[122] = 152983;
+            faceLeft[94] = 260617;
+            faceLeft[109] = 881178;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
 
-        public static readonly List<PlanetProfile.OreMapInfo> ATA_06_TETHYS_ORES =
-            ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lead_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Gold_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lithium_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Mercury_01
-                }
-            ) :
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Silicon_01
-                },
-                null,
-                new string[]
-                {
-                    PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Platinum_01,
-                    PlanetMapProfile.Uraninite_01
-                },
-                null
-            );
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[173] = 10;
+            faceRight[194] = 37;
+            faceRight[157] = 2701;
+            faceRight[143] = 3038;
+            faceRight[57] = 11280;
+            faceRight[75] = 20879;
+            faceRight[132] = 70021;
+            faceRight[122] = 87138;
+            faceRight[94] = 331677;
+            faceRight[109] = 1556760;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
 
-        public static readonly List<PlanetProfile.OreMapInfo> ATA_06_ENCELADUS_ORES =
-            ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Aluminum_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lead_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Gold_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lithium_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Mercury_01
-                }
-            ) :
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Silicon_01
-                },
-                null,
-                new string[]
-                {
-                    PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Platinum_01,
-                    PlanetMapProfile.Uraninite_01
-                },
-                null
-            );
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[132] = 622;
+            faceTop[94] = 3266;
+            faceTop[75] = 26519;
+            faceTop[57] = 26898;
+            faceTop[122] = 211175;
+            faceTop[109] = 387999;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
 
-        public static readonly List<PlanetProfile.OreMapInfo> ATA_06_MIMAS_ORES =
-            ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Silicon_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lead_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Gold_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lithium_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Mercury_01
-                }
-            ) :
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Silicon_01
-                },
-                null,
-                new string[]
-                {
-                    PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Platinum_01,
-                    PlanetMapProfile.Uraninite_01
-                },
-                null
-            );
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[157] = 1839;
+            faceBottom[132] = 2882;
+            faceBottom[143] = 4763;
+            faceBottom[94] = 12749;
+            faceBottom[75] = 26368;
+            faceBottom[57] = 31173;
+            faceBottom[122] = 170406;
+            faceBottom[109] = 853705;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
 
-        public static readonly List<PlanetProfile.OreMapInfo> ATA_07_OBREON_ORES =
-            ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Copper_01,
-                    PlanetMapProfile.Silicon_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lead_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Gold_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lithium_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Titanium_01
-                }
-            ) :
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Silicon_01
-                },
-                null,
-                new string[]
-                {
-                    PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Platinum_01,
-                    PlanetMapProfile.Uraninite_01
-                },
-                null
-            );
+            mapInfo.ProcessAllInfo();
 
-        public static readonly List<PlanetProfile.OreMapInfo> ATA_07_TITANIA_ORES =
-            ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Copper_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lead_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Gold_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lithium_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Mercury_01
-                }
-            ) :
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Silicon_01
-                },
-                null,
-                new string[]
-                {
-                    PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Platinum_01,
-                    PlanetMapProfile.Uraninite_01
-                },
-                null
-            );
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[ATA_02_VENUS] = mapInfo;
+        }
 
-        public static readonly List<PlanetProfile.OreMapInfo> ATA_07_UMBRIEL_ORES =
-            ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Copper_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lead_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Gold_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lithium_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Tungsten_01
-                }
-            ) :
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Silicon_01
-                },
-                null,
-                new string[]
-                {
-                    PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Platinum_01,
-                    PlanetMapProfile.Uraninite_01
-                },
-                null
-            );
+        private static void LoadEarthOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
 
-        public static readonly List<PlanetProfile.OreMapInfo> ATA_07_ARIEL_ORES =
-            ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Aluminum_01,
-                    PlanetMapProfile.Silicon_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lead_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Gold_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lithium_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Mercury_01
-                }
-            ) :
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Silicon_01
-                },
-                null,
-                new string[]
-                {
-                    PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Platinum_01,
-                    PlanetMapProfile.Uraninite_01
-                },
-                null
-            );
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[47] = 16203;
+            faceFront[107] = 43635;
+            faceFront[84] = 156284;
+            faceFront[121] = 368196;
+            faceFront[73] = 534728;
+            faceFront[164] = 633247;
+            faceFront[136] = 638222;
+            faceFront[37] = 877499;
+            faceFront[131] = 926290;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
 
-        public static readonly List<PlanetProfile.OreMapInfo> ATA_07_MIRANDA_ORES =
-            ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Silicon_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lead_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Gold_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lithium_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Tungsten_01
-                }
-            ) :
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Silicon_01
-                },
-                null,
-                new string[]
-                {
-                    PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Platinum_01,
-                    PlanetMapProfile.Uraninite_01
-                },
-                null
-            );
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[107] = 174;
+            faceBack[47] = 12365;
+            faceBack[121] = 47972;
+            faceBack[136] = 96283;
+            faceBack[164] = 218244;
+            faceBack[84] = 297311;
+            faceBack[73] = 348933;
+            faceBack[131] = 1284881;
+            faceBack[37] = 1888141;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
 
-        public static readonly List<PlanetProfile.OreMapInfo> ATA_08_TRITON_ORES =
-            ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Aluminum_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lead_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Gold_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lithium_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Beryllium_01
-                }
-            ) :
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Silicon_01
-                },
-                null,
-                new string[]
-                {
-                    PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Platinum_01,
-                    PlanetMapProfile.Uraninite_01
-                },
-                null
-            );
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[47] = 19178;
+            faceLeft[107] = 23446;
+            faceLeft[84] = 104907;
+            faceLeft[121] = 270520;
+            faceLeft[164] = 354047;
+            faceLeft[136] = 517751;
+            faceLeft[37] = 653568;
+            faceLeft[73] = 694230;
+            faceLeft[131] = 1556657;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
 
-        public static readonly List<PlanetProfile.OreMapInfo> ATA_09_PLUTO_ORES =
-            ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Carbon_01,
-                    PlanetMapProfile.Potassium_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Uraninite_01
-                },
-                new string[]
-                {
-                     PlanetMapProfile.Titanium_01
-                }
-            ) :
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Silicon_01
-                },
-                null,
-                new string[]
-                {
-                    PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Platinum_01,
-                    PlanetMapProfile.Uraninite_01
-                },
-                null
-            );
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[47] = 14785;
+            faceRight[107] = 24822;
+            faceRight[136] = 160028;
+            faceRight[84] = 198322;
+            faceRight[121] = 385679;
+            faceRight[164] = 481480;
+            faceRight[37] = 659035;
+            faceRight[131] = 868980;
+            faceRight[73] = 1401173;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
 
-        public static readonly List<PlanetProfile.OreMapInfo> ATA_09_CHARON_ORES =
-            ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Copper_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lead_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Gold_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Lithium_01
-                },
-                new string[]
-                {
-                    PlanetMapProfile.Titanium_01
-                }
-            ) :
-            PlanetMapProfile.BuildOreMap(
-                new string[]
-                {
-                    PlanetMapProfile.Iron_02,
-                    PlanetMapProfile.Nickel_01,
-                    PlanetMapProfile.Silicon_01
-                },
-                null,
-                new string[]
-                {
-                    PlanetMapProfile.Gold_01,
-                    PlanetMapProfile.Silver_01,
-                    PlanetMapProfile.Platinum_01,
-                    PlanetMapProfile.Uraninite_01
-                },
-                null
-            );
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[47] = 13180;
+            faceTop[107] = 92421;
+            faceTop[37] = 104319;
+            faceTop[84] = 141976;
+            faceTop[164] = 520815;
+            faceTop[131] = 548703;
+            faceTop[136] = 651692;
+            faceTop[73] = 912233;
+            faceTop[121] = 1208965;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
+
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[47] = 12453;
+            faceBottom[107] = 19473;
+            faceBottom[84] = 140453;
+            faceBottom[121] = 165421;
+            faceBottom[73] = 308708;
+            faceBottom[164] = 315723;
+            faceBottom[136] = 322685;
+            faceBottom[37] = 1196786;
+            faceBottom[131] = 1712602;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
+
+            mapInfo.ProcessAllInfo();
+
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[ATA_03_EARTH] = mapInfo;
+        }
+
+        private static void LoadMoonOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
+
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[180] = 132;
+            faceFront[50] = 134;
+            faceFront[170] = 3415;
+            faceFront[60] = 3702;
+            faceFront[70] = 11837;
+            faceFront[160] = 19556;
+            faceFront[150] = 48973;
+            faceFront[140] = 132889;
+            faceFront[80] = 149354;
+            faceFront[130] = 315791;
+            faceFront[120] = 482800;
+            faceFront[110] = 941604;
+            faceFront[90] = 947682;
+            faceFront[100] = 1136435;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
+
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[10] = 100;
+            faceBack[250] = 145;
+            faceBack[240] = 643;
+            faceBack[20] = 2711;
+            faceBack[30] = 3886;
+            faceBack[230] = 6738;
+            faceBack[220] = 32133;
+            faceBack[40] = 42995;
+            faceBack[50] = 77131;
+            faceBack[210] = 82269;
+            faceBack[60] = 86312;
+            faceBack[70] = 106002;
+            faceBack[90] = 126254;
+            faceBack[100] = 131729;
+            faceBack[80] = 137945;
+            faceBack[200] = 144091;
+            faceBack[110] = 183309;
+            faceBack[120] = 217344;
+            faceBack[190] = 267858;
+            faceBack[130] = 317910;
+            faceBack[180] = 347122;
+            faceBack[140] = 408105;
+            faceBack[170] = 431424;
+            faceBack[150] = 510840;
+            faceBack[160] = 529289;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
+
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[40] = 6;
+            faceLeft[240] = 10;
+            faceLeft[50] = 43;
+            faceLeft[230] = 118;
+            faceLeft[60] = 583;
+            faceLeft[70] = 2057;
+            faceLeft[220] = 2361;
+            faceLeft[210] = 14619;
+            faceLeft[80] = 15964;
+            faceLeft[200] = 35739;
+            faceLeft[190] = 88145;
+            faceLeft[180] = 153033;
+            faceLeft[170] = 272250;
+            faceLeft[110] = 359961;
+            faceLeft[160] = 403066;
+            faceLeft[120] = 422140;
+            faceLeft[150] = 422820;
+            faceLeft[130] = 426898;
+            faceLeft[90] = 433035;
+            faceLeft[140] = 441434;
+            faceLeft[100] = 700022;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
+
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[40] = 28;
+            faceRight[200] = 94;
+            faceRight[190] = 1643;
+            faceRight[50] = 1675;
+            faceRight[60] = 10599;
+            faceRight[180] = 13896;
+            faceRight[170] = 65051;
+            faceRight[160] = 140160;
+            faceRight[70] = 150573;
+            faceRight[80] = 165597;
+            faceRight[150] = 211925;
+            faceRight[140] = 323755;
+            faceRight[90] = 355860;
+            faceRight[130] = 514462;
+            faceRight[100] = 679828;
+            faceRight[120] = 705367;
+            faceRight[110] = 853789;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
+
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[200] = 19;
+            faceTop[30] = 38;
+            faceTop[40] = 274;
+            faceTop[50] = 1845;
+            faceTop[190] = 2613;
+            faceTop[180] = 20735;
+            faceTop[60] = 27460;
+            faceTop[70] = 56057;
+            faceTop[170] = 75237;
+            faceTop[160] = 157599;
+            faceTop[150] = 207607;
+            faceTop[80] = 261158;
+            faceTop[140] = 300431;
+            faceTop[130] = 424865;
+            faceTop[120] = 502404;
+            faceTop[110] = 610625;
+            faceTop[100] = 716925;
+            faceTop[90] = 828411;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
+
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[210] = 30;
+            faceBottom[200] = 707;
+            faceBottom[10] = 5503;
+            faceBottom[190] = 5576;
+            faceBottom[180] = 17880;
+            faceBottom[20] = 20068;
+            faceBottom[30] = 27286;
+            faceBottom[170] = 35241;
+            faceBottom[40] = 56748;
+            faceBottom[160] = 66270;
+            faceBottom[150] = 134315;
+            faceBottom[50] = 192587;
+            faceBottom[70] = 209960;
+            faceBottom[60] = 231164;
+            faceBottom[80] = 252430;
+            faceBottom[140] = 253573;
+            faceBottom[90] = 290969;
+            faceBottom[100] = 469621;
+            faceBottom[130] = 509110;
+            faceBottom[110] = 704003;
+            faceBottom[120] = 710962;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
+
+            mapInfo.ProcessAllInfo();
+
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[ATA_03_MOON] = mapInfo;
+        }
+
+        private static void LoadMarsOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
+
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[136] = 10737;
+            faceFront[47] = 114907;
+            faceFront[84] = 216638;
+            faceFront[121] = 244805;
+            faceFront[164] = 265811;
+            faceFront[107] = 499995;
+            faceFront[135] = 584562;
+            faceFront[73] = 691072;
+            faceFront[37] = 765883;
+            faceFront[131] = 799894;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
+
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[136] = 1238;
+            faceBack[47] = 86145;
+            faceBack[121] = 106698;
+            faceBack[84] = 153471;
+            faceBack[164] = 272246;
+            faceBack[73] = 357425;
+            faceBack[37] = 555557;
+            faceBack[135] = 808172;
+            faceBack[131] = 925636;
+            faceBack[107] = 927716;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
+
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[136] = 3758;
+            faceLeft[121] = 11241;
+            faceLeft[47] = 105838;
+            faceLeft[135] = 146357;
+            faceLeft[107] = 175168;
+            faceLeft[84] = 204429;
+            faceLeft[73] = 290193;
+            faceLeft[37] = 655189;
+            faceLeft[131] = 1119502;
+            faceLeft[164] = 1482629;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
+
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[47] = 95366;
+            faceRight[84] = 204527;
+            faceRight[136] = 237025;
+            faceRight[73] = 287126;
+            faceRight[135] = 352735;
+            faceRight[164] = 365705;
+            faceRight[121] = 497214;
+            faceRight[107] = 530814;
+            faceRight[37] = 614150;
+            faceRight[131] = 1009642;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
+
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[136] = 10245;
+            faceTop[164] = 26947;
+            faceTop[131] = 32781;
+            faceTop[47] = 33124;
+            faceTop[84] = 54764;
+            faceTop[37] = 137792;
+            faceTop[73] = 233389;
+            faceTop[135] = 345754;
+            faceTop[107] = 1257977;
+            faceTop[121] = 2061531;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
+
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[121] = 37870;
+            faceBottom[107] = 63417;
+            faceBottom[135] = 106520;
+            faceBottom[47] = 114871;
+            faceBottom[73] = 159405;
+            faceBottom[84] = 197987;
+            faceBottom[136] = 198209;
+            faceBottom[164] = 572951;
+            faceBottom[37] = 746772;
+            faceBottom[131] = 1996302;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
+
+            mapInfo.ProcessAllInfo();
+
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[ATA_04_MARS] = mapInfo;
+        }
+
+        private static void LoadCalistoOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
+
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[200] = 3307;
+            faceFront[175] = 5300;
+            faceFront[150] = 30838;
+            faceFront[125] = 162170;
+            faceFront[100] = 279703;
+            faceFront[75] = 703261;
+            faceFront[25] = 1233769;
+            faceFront[50] = 1775956;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
+
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[225] = 17539;
+            faceBack[200] = 43628;
+            faceBack[175] = 130597;
+            faceBack[150] = 289750;
+            faceBack[25] = 332983;
+            faceBack[125] = 649144;
+            faceBack[50] = 842379;
+            faceBack[75] = 901337;
+            faceBack[100] = 982630;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
+
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[225] = 40428;
+            faceLeft[200] = 99946;
+            faceLeft[25] = 141375;
+            faceLeft[175] = 265327;
+            faceLeft[150] = 443677;
+            faceLeft[50] = 594651;
+            faceLeft[125] = 697516;
+            faceLeft[75] = 931407;
+            faceLeft[100] = 960211;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
+
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[225] = 5501;
+            faceRight[200] = 31476;
+            faceRight[175] = 86066;
+            faceRight[150] = 95174;
+            faceRight[125] = 204387;
+            faceRight[25] = 512961;
+            faceRight[100] = 634704;
+            faceRight[50] = 1222062;
+            faceRight[75] = 1401973;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
+
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[225] = 13779;
+            faceTop[200] = 20654;
+            faceTop[175] = 60799;
+            faceTop[150] = 114441;
+            faceTop[125] = 250921;
+            faceTop[100] = 477694;
+            faceTop[25] = 898011;
+            faceTop[75] = 1048356;
+            faceTop[50] = 1295789;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
+
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[225] = 56440;
+            faceBottom[25] = 75849;
+            faceBottom[200] = 134711;
+            faceBottom[175] = 267878;
+            faceBottom[50] = 383993;
+            faceBottom[150] = 546638;
+            faceBottom[125] = 877273;
+            faceBottom[75] = 880365;
+            faceBottom[100] = 934806;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
+
+            mapInfo.ProcessAllInfo();
+
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[ATA_05_CALLISTO] = mapInfo;
+        }
+
+        private static void LoadGanymedeOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
+
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[25] = 82991;
+            faceFront[50] = 128669;
+            faceFront[125] = 144835;
+            faceFront[75] = 238978;
+            faceFront[175] = 366140;
+            faceFront[150] = 370065;
+            faceFront[100] = 492134;
+            faceFront[200] = 493048;
+            faceFront[225] = 658755;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
+
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[125] = 65904;
+            faceBack[150] = 128812;
+            faceBack[25] = 154998;
+            faceBack[175] = 287753;
+            faceBack[50] = 316236;
+            faceBack[200] = 407277;
+            faceBack[75] = 408565;
+            faceBack[225] = 594043;
+            faceBack[100] = 641165;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
+
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[125] = 3063;
+            faceLeft[25] = 94837;
+            faceLeft[150] = 157676;
+            faceLeft[50] = 173626;
+            faceLeft[75] = 179417;
+            faceLeft[100] = 306758;
+            faceLeft[175] = 415620;
+            faceLeft[200] = 667787;
+            faceLeft[225] = 1045562;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
+
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[25] = 208313;
+            faceRight[175] = 233652;
+            faceRight[50] = 261662;
+            faceRight[200] = 261748;
+            faceRight[150] = 339854;
+            faceRight[125] = 382444;
+            faceRight[225] = 399170;
+            faceRight[75] = 466316;
+            faceRight[100] = 735236;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
+
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[175] = 109149;
+            faceTop[125] = 127554;
+            faceTop[200] = 136979;
+            faceTop[150] = 150656;
+            faceTop[225] = 202234;
+            faceTop[25] = 320253;
+            faceTop[100] = 648928;
+            faceTop[50] = 778297;
+            faceTop[75] = 965093;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
+
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[125] = 43445;
+            faceBottom[175] = 112391;
+            faceBottom[150] = 149159;
+            faceBottom[200] = 205620;
+            faceBottom[25] = 285824;
+            faceBottom[225] = 323000;
+            faceBottom[50] = 589873;
+            faceBottom[75] = 814883;
+            faceBottom[100] = 828391;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
+
+            mapInfo.ProcessAllInfo();
+
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[ATA_05_GANYMEDE] = mapInfo;
+        }
+
+        private static void LoadEuropaOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
+
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[50] = 31811;
+            faceFront[25] = 207401;
+            faceFront[100] = 455532;
+            faceFront[225] = 474300;
+            faceFront[150] = 500672;
+            faceFront[125] = 524350;
+            faceFront[175] = 543848;
+            faceFront[75] = 650656;
+            faceFront[200] = 691647;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
+
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[50] = 90413;
+            faceBack[100] = 188431;
+            faceBack[225] = 196690;
+            faceBack[25] = 219176;
+            faceBack[200] = 383699;
+            faceBack[175] = 631765;
+            faceBack[75] = 696751;
+            faceBack[150] = 842635;
+            faceBack[125] = 850120;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
+
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[50] = 380;
+            faceLeft[25] = 5608;
+            faceLeft[100] = 20283;
+            faceLeft[75] = 158179;
+            faceLeft[125] = 471789;
+            faceLeft[225] = 672441;
+            faceLeft[150] = 747830;
+            faceLeft[175] = 937723;
+            faceLeft[200] = 948894;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
+
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[225] = 10414;
+            faceRight[200] = 49311;
+            faceRight[175] = 192284;
+            faceRight[50] = 352534;
+            faceRight[150] = 366158;
+            faceRight[125] = 603235;
+            faceRight[25] = 692490;
+            faceRight[75] = 909861;
+            faceRight[100] = 1015605;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
+
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[50] = 28164;
+            faceTop[25] = 58796;
+            faceTop[100] = 169884;
+            faceTop[225] = 355155;
+            faceTop[75] = 458884;
+            faceTop[125] = 582364;
+            faceTop[150] = 735925;
+            faceTop[200] = 816065;
+            faceTop[175] = 884466;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
+
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[50] = 39580;
+            faceBottom[25] = 76550;
+            faceBottom[100] = 86312;
+            faceBottom[225] = 336806;
+            faceBottom[75] = 438501;
+            faceBottom[200] = 542654;
+            faceBottom[125] = 752030;
+            faceBottom[175] = 792537;
+            faceBottom[150] = 1027493;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
+
+            mapInfo.ProcessAllInfo();
+
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[ATA_05_EUROPA] = mapInfo;
+        }
+
+        private static void LoadIoOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
+
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[225] = 1028;
+            faceFront[25] = 2782;
+            faceFront[50] = 19656;
+            faceFront[200] = 87391;
+            faceFront[75] = 222975;
+            faceFront[175] = 370653;
+            faceFront[150] = 730821;
+            faceFront[100] = 1339327;
+            faceFront[125] = 1419671;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
+
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[25] = 1009;
+            faceBack[225] = 1182;
+            faceBack[50] = 15844;
+            faceBack[200] = 178957;
+            faceBack[75] = 229706;
+            faceBack[100] = 452087;
+            faceBack[175] = 711665;
+            faceBack[125] = 1167358;
+            faceBack[150] = 1436496;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
+
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[25] = 86;
+            faceLeft[50] = 2699;
+            faceLeft[225] = 10758;
+            faceLeft[75] = 124723;
+            faceLeft[200] = 469107;
+            faceLeft[100] = 503913;
+            faceLeft[175] = 686105;
+            faceLeft[150] = 1012391;
+            faceLeft[125] = 1384521;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
+
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[25] = 1427;
+            faceRight[225] = 2217;
+            faceRight[50] = 22876;
+            faceRight[200] = 77487;
+            faceRight[75] = 254360;
+            faceRight[175] = 337785;
+            faceRight[150] = 827178;
+            faceRight[100] = 1298445;
+            faceRight[125] = 1372529;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
+
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[25] = 176;
+            faceTop[225] = 12959;
+            faceTop[50] = 20020;
+            faceTop[200] = 98786;
+            faceTop[175] = 268833;
+            faceTop[75] = 410670;
+            faceTop[150] = 617895;
+            faceTop[100] = 1296551;
+            faceTop[125] = 1468414;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
+
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[25] = 367;
+            faceBottom[225] = 5689;
+            faceBottom[50] = 11405;
+            faceBottom[200] = 95848;
+            faceBottom[175] = 328277;
+            faceBottom[150] = 514402;
+            faceBottom[75] = 655837;
+            faceBottom[125] = 936833;
+            faceBottom[100] = 1645611;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
+
+            mapInfo.ProcessAllInfo();
+
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[ATA_05_IO] = mapInfo;
+        }
+
+        private static void LoadIapetusOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
+
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[175] = 1045;
+            faceFront[200] = 9022;
+            faceFront[225] = 13112;
+            faceFront[150] = 34265;
+            faceFront[50] = 1627874;
+            faceFront[100] = 1830436;
+            faceFront[75] = 2850226;
+            faceFront[125] = 2962101;
+            faceFront[25] = 3009073;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
+
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[175] = 546;
+            faceBack[200] = 2668;
+            faceBack[225] = 3190;
+            faceBack[150] = 16410;
+            faceBack[75] = 518995;
+            faceBack[100] = 1069498;
+            faceBack[125] = 2033347;
+            faceBack[50] = 2111014;
+            faceBack[25] = 6602285;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
+
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[175] = 11;
+            faceLeft[50] = 22120;
+            faceLeft[25] = 2592306;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
+
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[175] = 32881;
+            faceRight[225] = 108595;
+            faceRight[200] = 124593;
+            faceRight[150] = 237348;
+            faceRight[25] = 491660;
+            faceRight[50] = 1135461;
+            faceRight[100] = 1776399;
+            faceRight[75] = 4176294;
+            faceRight[125] = 8319796;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
+
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[150] = 475815;
+            faceTop[225] = 543503;
+            faceTop[75] = 1005459;
+            faceTop[175] = 1155578;
+            faceTop[100] = 1822845;
+            faceTop[125] = 2204241;
+            faceTop[50] = 2263402;
+            faceTop[25] = 2364966;
+            faceTop[200] = 3165089;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
+
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[225] = 416912;
+            faceBottom[150] = 571590;
+            faceBottom[75] = 873343;
+            faceBottom[175] = 1390131;
+            faceBottom[100] = 1647374;
+            faceBottom[125] = 2374683;
+            faceBottom[50] = 2420659;
+            faceBottom[25] = 2843678;
+            faceBottom[200] = 3410609;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
+
+            mapInfo.ProcessAllInfo();
+
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[ATA_06_IAPETUS] = mapInfo;
+        }
+
+        private static void LoadTitanOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
+
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[225] = 1310581;
+            faceFront[175] = 1596497;
+            faceFront[200] = 2011315;
+            faceFront[100] = 2271395;
+            faceFront[150] = 2483953;
+            faceFront[125] = 2510410;
+            faceFront[75] = 3030733;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
+
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[225] = 907048;
+            faceBack[25] = 915472;
+            faceBack[200] = 920704;
+            faceBack[175] = 1179229;
+            faceBack[150] = 1318280;
+            faceBack[50] = 1875411;
+            faceBack[125] = 2734494;
+            faceBack[75] = 2893079;
+            faceBack[100] = 4033499;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
+
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[175] = 30932;
+            faceLeft[125] = 342602;
+            faceLeft[200] = 455385;
+            faceLeft[150] = 455434;
+            faceLeft[225] = 553281;
+            faceLeft[100] = 1024202;
+            faceLeft[75] = 2041564;
+            faceLeft[50] = 3781311;
+            faceLeft[25] = 7838432;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
+
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[100] = 473102;
+            faceRight[200] = 2291798;
+            faceRight[225] = 2425422;
+            faceRight[150] = 3166645;
+            faceRight[175] = 3418845;
+            faceRight[125] = 3610070;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
+
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[25] = 405105;
+            faceTop[225] = 684496;
+            faceTop[200] = 1355356;
+            faceTop[175] = 1779509;
+            faceTop[100] = 2034274;
+            faceTop[50] = 2179896;
+            faceTop[75] = 2495150;
+            faceTop[125] = 2670429;
+            faceTop[150] = 2764295;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
+
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[50] = 385450;
+            faceBottom[225] = 779106;
+            faceBottom[200] = 875933;
+            faceBottom[150] = 1723612;
+            faceBottom[175] = 2401548;
+            faceBottom[125] = 2859415;
+            faceBottom[100] = 3088174;
+            faceBottom[75] = 4333001;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
+
+            mapInfo.ProcessAllInfo();
+
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[ATA_06_TITAN] = mapInfo;
+        }
+
+        private static void LoadRheaOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
+
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[250] = 8;
+            faceFront[249] = 65;
+            faceFront[248] = 95;
+            faceFront[247] = 113;
+            faceFront[245] = 125;
+            faceFront[244] = 146;
+            faceFront[242] = 147;
+            faceFront[243] = 160;
+            faceFront[246] = 160;
+            faceFront[241] = 230;
+            faceFront[240] = 299;
+            faceFront[238] = 333;
+            faceFront[239] = 363;
+            faceFront[236] = 384;
+            faceFront[237] = 394;
+            faceFront[234] = 475;
+            faceFront[235] = 477;
+            faceFront[233] = 492;
+            faceFront[232] = 544;
+            faceFront[231] = 581;
+            faceFront[230] = 606;
+            faceFront[229] = 669;
+            faceFront[228] = 731;
+            faceFront[227] = 860;
+            faceFront[226] = 962;
+            faceFront[225] = 984;
+            faceFront[224] = 1103;
+            faceFront[223] = 1146;
+            faceFront[222] = 1328;
+            faceFront[221] = 1368;
+            faceFront[220] = 1455;
+            faceFront[218] = 1486;
+            faceFront[219] = 1496;
+            faceFront[217] = 1558;
+            faceFront[216] = 1590;
+            faceFront[215] = 1744;
+            faceFront[214] = 1981;
+            faceFront[213] = 2073;
+            faceFront[212] = 2154;
+            faceFront[211] = 2198;
+            faceFront[210] = 2210;
+            faceFront[209] = 2326;
+            faceFront[208] = 2333;
+            faceFront[207] = 2361;
+            faceFront[206] = 2422;
+            faceFront[205] = 2560;
+            faceFront[204] = 2603;
+            faceFront[203] = 2701;
+            faceFront[202] = 2817;
+            faceFront[201] = 2959;
+            faceFront[200] = 3030;
+            faceFront[198] = 3102;
+            faceFront[197] = 3137;
+            faceFront[199] = 3147;
+            faceFront[196] = 3245;
+            faceFront[195] = 3361;
+            faceFront[194] = 3477;
+            faceFront[193] = 3562;
+            faceFront[192] = 3800;
+            faceFront[191] = 3966;
+            faceFront[189] = 4212;
+            faceFront[190] = 4219;
+            faceFront[188] = 4237;
+            faceFront[187] = 4349;
+            faceFront[186] = 4613;
+            faceFront[185] = 4925;
+            faceFront[184] = 4927;
+            faceFront[182] = 4936;
+            faceFront[183] = 4970;
+            faceFront[181] = 5108;
+            faceFront[180] = 5242;
+            faceFront[179] = 5255;
+            faceFront[178] = 5459;
+            faceFront[177] = 5690;
+            faceFront[176] = 5997;
+            faceFront[173] = 6005;
+            faceFront[172] = 6008;
+            faceFront[175] = 6043;
+            faceFront[174] = 6059;
+            faceFront[171] = 6205;
+            faceFront[169] = 6253;
+            faceFront[170] = 6277;
+            faceFront[168] = 6432;
+            faceFront[167] = 6658;
+            faceFront[166] = 6805;
+            faceFront[165] = 6846;
+            faceFront[164] = 7044;
+            faceFront[163] = 7159;
+            faceFront[162] = 7245;
+            faceFront[161] = 7529;
+            faceFront[159] = 7621;
+            faceFront[160] = 7669;
+            faceFront[158] = 7846;
+            faceFront[155] = 8198;
+            faceFront[157] = 8229;
+            faceFront[156] = 8393;
+            faceFront[154] = 8459;
+            faceFront[153] = 8701;
+            faceFront[152] = 8937;
+            faceFront[151] = 9026;
+            faceFront[150] = 9074;
+            faceFront[149] = 9199;
+            faceFront[148] = 9351;
+            faceFront[147] = 9664;
+            faceFront[145] = 9822;
+            faceFront[146] = 9843;
+            faceFront[144] = 10117;
+            faceFront[142] = 10300;
+            faceFront[143] = 10303;
+            faceFront[141] = 10693;
+            faceFront[140] = 11012;
+            faceFront[139] = 11316;
+            faceFront[138] = 11556;
+            faceFront[137] = 11668;
+            faceFront[136] = 11744;
+            faceFront[135] = 12092;
+            faceFront[134] = 12485;
+            faceFront[133] = 12691;
+            faceFront[132] = 13189;
+            faceFront[131] = 13313;
+            faceFront[130] = 13475;
+            faceFront[129] = 13800;
+            faceFront[128] = 14510;
+            faceFront[127] = 14805;
+            faceFront[126] = 15099;
+            faceFront[125] = 15561;
+            faceFront[124] = 16019;
+            faceFront[123] = 16327;
+            faceFront[122] = 16569;
+            faceFront[121] = 16939;
+            faceFront[120] = 17470;
+            faceFront[119] = 18291;
+            faceFront[118] = 18797;
+            faceFront[117] = 19520;
+            faceFront[116] = 20023;
+            faceFront[115] = 20946;
+            faceFront[114] = 21677;
+            faceFront[113] = 22476;
+            faceFront[112] = 23199;
+            faceFront[111] = 24294;
+            faceFront[110] = 25266;
+            faceFront[109] = 26333;
+            faceFront[108] = 27094;
+            faceFront[107] = 27924;
+            faceFront[106] = 29090;
+            faceFront[105] = 30122;
+            faceFront[104] = 31493;
+            faceFront[103] = 32101;
+            faceFront[102] = 32925;
+            faceFront[101] = 34166;
+            faceFront[100] = 34854;
+            faceFront[99] = 35667;
+            faceFront[98] = 36791;
+            faceFront[97] = 38378;
+            faceFront[1] = 39027;
+            faceFront[96] = 39266;
+            faceFront[95] = 40738;
+            faceFront[94] = 41978;
+            faceFront[93] = 42908;
+            faceFront[92] = 44253;
+            faceFront[91] = 44959;
+            faceFront[90] = 46249;
+            faceFront[89] = 48494;
+            faceFront[88] = 50383;
+            faceFront[87] = 50960;
+            faceFront[86] = 52687;
+            faceFront[85] = 53749;
+            faceFront[84] = 54648;
+            faceFront[83] = 55568;
+            faceFront[82] = 57747;
+            faceFront[81] = 60064;
+            faceFront[80] = 61525;
+            faceFront[79] = 64865;
+            faceFront[78] = 66995;
+            faceFront[77] = 69069;
+            faceFront[76] = 71205;
+            faceFront[75] = 73605;
+            faceFront[74] = 75080;
+            faceFront[73] = 75785;
+            faceFront[72] = 77354;
+            faceFront[71] = 78607;
+            faceFront[70] = 78856;
+            faceFront[69] = 80358;
+            faceFront[68] = 80925;
+            faceFront[67] = 82313;
+            faceFront[66] = 84407;
+            faceFront[65] = 88159;
+            faceFront[64] = 90579;
+            faceFront[63] = 94425;
+            faceFront[62] = 98850;
+            faceFront[61] = 103458;
+            faceFront[60] = 106188;
+            faceFront[59] = 108955;
+            faceFront[58] = 112741;
+            faceFront[57] = 114726;
+            faceFront[56] = 119195;
+            faceFront[55] = 123284;
+            faceFront[54] = 126572;
+            faceFront[53] = 129032;
+            faceFront[52] = 133138;
+            faceFront[51] = 137381;
+            faceFront[50] = 139989;
+            faceFront[49] = 142606;
+            faceFront[48] = 147311;
+            faceFront[47] = 149974;
+            faceFront[2] = 150767;
+            faceFront[46] = 155454;
+            faceFront[45] = 160278;
+            faceFront[44] = 166671;
+            faceFront[43] = 172916;
+            faceFront[42] = 175714;
+            faceFront[41] = 180073;
+            faceFront[40] = 183207;
+            faceFront[39] = 185608;
+            faceFront[38] = 187858;
+            faceFront[37] = 188752;
+            faceFront[36] = 194662;
+            faceFront[35] = 201573;
+            faceFront[34] = 205460;
+            faceFront[33] = 215444;
+            faceFront[32] = 222081;
+            faceFront[31] = 227859;
+            faceFront[30] = 230930;
+            faceFront[29] = 238615;
+            faceFront[28] = 240996;
+            faceFront[27] = 248095;
+            faceFront[3] = 248955;
+            faceFront[24] = 255651;
+            faceFront[25] = 257845;
+            faceFront[26] = 258945;
+            faceFront[23] = 262331;
+            faceFront[22] = 267851;
+            faceFront[21] = 282919;
+            faceFront[4] = 283926;
+            faceFront[5] = 284467;
+            faceFront[20] = 295630;
+            faceFront[17] = 297072;
+            faceFront[6] = 297983;
+            faceFront[14] = 300073;
+            faceFront[18] = 302005;
+            faceFront[15] = 306222;
+            faceFront[16] = 307014;
+            faceFront[7] = 308142;
+            faceFront[19] = 308988;
+            faceFront[13] = 309358;
+            faceFront[8] = 317463;
+            faceFront[12] = 321190;
+            faceFront[11] = 328909;
+            faceFront[10] = 330026;
+            faceFront[9] = 330627;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
+
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[254] = 1523;
+            faceBack[251] = 1532;
+            faceBack[252] = 1574;
+            faceBack[250] = 1584;
+            faceBack[253] = 1648;
+            faceBack[249] = 1675;
+            faceBack[248] = 1791;
+            faceBack[247] = 1827;
+            faceBack[246] = 1952;
+            faceBack[245] = 1953;
+            faceBack[240] = 1976;
+            faceBack[241] = 2026;
+            faceBack[244] = 2035;
+            faceBack[242] = 2038;
+            faceBack[237] = 2052;
+            faceBack[243] = 2055;
+            faceBack[236] = 2065;
+            faceBack[239] = 2098;
+            faceBack[238] = 2111;
+            faceBack[235] = 2215;
+            faceBack[232] = 2247;
+            faceBack[233] = 2251;
+            faceBack[234] = 2308;
+            faceBack[231] = 2362;
+            faceBack[230] = 2613;
+            faceBack[226] = 2668;
+            faceBack[229] = 2669;
+            faceBack[227] = 2701;
+            faceBack[228] = 2719;
+            faceBack[225] = 2737;
+            faceBack[224] = 2827;
+            faceBack[223] = 2968;
+            faceBack[222] = 3133;
+            faceBack[221] = 3344;
+            faceBack[220] = 3562;
+            faceBack[219] = 3615;
+            faceBack[218] = 3686;
+            faceBack[217] = 3749;
+            faceBack[215] = 3847;
+            faceBack[216] = 3870;
+            faceBack[214] = 4000;
+            faceBack[212] = 4168;
+            faceBack[213] = 4197;
+            faceBack[211] = 4237;
+            faceBack[209] = 4242;
+            faceBack[207] = 4293;
+            faceBack[210] = 4296;
+            faceBack[208] = 4308;
+            faceBack[206] = 4452;
+            faceBack[205] = 4574;
+            faceBack[204] = 4679;
+            faceBack[202] = 4725;
+            faceBack[203] = 4744;
+            faceBack[201] = 4861;
+            faceBack[200] = 4946;
+            faceBack[197] = 4949;
+            faceBack[196] = 4982;
+            faceBack[198] = 4991;
+            faceBack[199] = 5135;
+            faceBack[194] = 5149;
+            faceBack[195] = 5178;
+            faceBack[193] = 5350;
+            faceBack[192] = 5399;
+            faceBack[191] = 5466;
+            faceBack[187] = 5615;
+            faceBack[190] = 5625;
+            faceBack[188] = 5652;
+            faceBack[186] = 5690;
+            faceBack[189] = 5698;
+            faceBack[185] = 5784;
+            faceBack[184] = 5954;
+            faceBack[183] = 5977;
+            faceBack[182] = 6076;
+            faceBack[180] = 6128;
+            faceBack[181] = 6225;
+            faceBack[178] = 6372;
+            faceBack[179] = 6428;
+            faceBack[177] = 6497;
+            faceBack[176] = 6584;
+            faceBack[175] = 6871;
+            faceBack[174] = 6921;
+            faceBack[172] = 6959;
+            faceBack[173] = 6978;
+            faceBack[170] = 7028;
+            faceBack[169] = 7105;
+            faceBack[168] = 7158;
+            faceBack[171] = 7215;
+            faceBack[166] = 7363;
+            faceBack[167] = 7475;
+            faceBack[165] = 7574;
+            faceBack[164] = 7612;
+            faceBack[163] = 7748;
+            faceBack[162] = 7933;
+            faceBack[161] = 8156;
+            faceBack[160] = 8177;
+            faceBack[159] = 8276;
+            faceBack[158] = 8365;
+            faceBack[157] = 8473;
+            faceBack[156] = 8506;
+            faceBack[155] = 9057;
+            faceBack[154] = 9282;
+            faceBack[153] = 9687;
+            faceBack[152] = 9807;
+            faceBack[151] = 10088;
+            faceBack[149] = 10106;
+            faceBack[150] = 10194;
+            faceBack[148] = 10298;
+            faceBack[147] = 10535;
+            faceBack[146] = 10612;
+            faceBack[144] = 10799;
+            faceBack[145] = 10920;
+            faceBack[143] = 11088;
+            faceBack[142] = 11559;
+            faceBack[141] = 11756;
+            faceBack[140] = 12051;
+            faceBack[139] = 12386;
+            faceBack[138] = 12549;
+            faceBack[137] = 12758;
+            faceBack[136] = 13335;
+            faceBack[135] = 13642;
+            faceBack[134] = 13764;
+            faceBack[133] = 14290;
+            faceBack[132] = 14662;
+            faceBack[131] = 15001;
+            faceBack[130] = 15437;
+            faceBack[129] = 16179;
+            faceBack[128] = 16450;
+            faceBack[127] = 17234;
+            faceBack[126] = 17510;
+            faceBack[125] = 17933;
+            faceBack[124] = 18401;
+            faceBack[123] = 19056;
+            faceBack[1] = 19678;
+            faceBack[122] = 19711;
+            faceBack[121] = 20587;
+            faceBack[120] = 21126;
+            faceBack[119] = 21987;
+            faceBack[118] = 22355;
+            faceBack[117] = 22917;
+            faceBack[116] = 23911;
+            faceBack[115] = 24635;
+            faceBack[114] = 25429;
+            faceBack[113] = 26209;
+            faceBack[112] = 27141;
+            faceBack[111] = 28297;
+            faceBack[110] = 29912;
+            faceBack[109] = 30592;
+            faceBack[108] = 31311;
+            faceBack[107] = 31899;
+            faceBack[106] = 33146;
+            faceBack[105] = 34374;
+            faceBack[104] = 35887;
+            faceBack[103] = 37129;
+            faceBack[102] = 38244;
+            faceBack[101] = 39385;
+            faceBack[100] = 40165;
+            faceBack[99] = 41736;
+            faceBack[2] = 42149;
+            faceBack[98] = 43209;
+            faceBack[97] = 43898;
+            faceBack[96] = 44842;
+            faceBack[95] = 46142;
+            faceBack[94] = 47960;
+            faceBack[93] = 49539;
+            faceBack[92] = 49959;
+            faceBack[91] = 51916;
+            faceBack[90] = 53280;
+            faceBack[89] = 53976;
+            faceBack[88] = 55008;
+            faceBack[87] = 56832;
+            faceBack[86] = 58107;
+            faceBack[85] = 59605;
+            faceBack[84] = 61193;
+            faceBack[83] = 63036;
+            faceBack[82] = 64067;
+            faceBack[81] = 66411;
+            faceBack[80] = 68225;
+            faceBack[79] = 70053;
+            faceBack[3] = 70593;
+            faceBack[78] = 72919;
+            faceBack[77] = 75357;
+            faceBack[76] = 77008;
+            faceBack[75] = 78888;
+            faceBack[74] = 80758;
+            faceBack[73] = 83456;
+            faceBack[72] = 85022;
+            faceBack[71] = 87929;
+            faceBack[70] = 90654;
+            faceBack[4] = 91720;
+            faceBack[69] = 92624;
+            faceBack[68] = 94430;
+            faceBack[67] = 98265;
+            faceBack[66] = 101154;
+            faceBack[65] = 102907;
+            faceBack[64] = 106242;
+            faceBack[63] = 110138;
+            faceBack[62] = 113119;
+            faceBack[61] = 116551;
+            faceBack[60] = 119125;
+            faceBack[59] = 121919;
+            faceBack[5] = 124139;
+            faceBack[58] = 124880;
+            faceBack[57] = 126925;
+            faceBack[56] = 128431;
+            faceBack[6] = 131277;
+            faceBack[55] = 132521;
+            faceBack[54] = 136335;
+            faceBack[53] = 141387;
+            faceBack[52] = 145910;
+            faceBack[7] = 149030;
+            faceBack[51] = 149936;
+            faceBack[50] = 152926;
+            faceBack[49] = 156665;
+            faceBack[8] = 160531;
+            faceBack[48] = 161437;
+            faceBack[47] = 168015;
+            faceBack[10] = 169056;
+            faceBack[9] = 170169;
+            faceBack[46] = 177140;
+            faceBack[11] = 182335;
+            faceBack[45] = 182559;
+            faceBack[44] = 188853;
+            faceBack[43] = 193503;
+            faceBack[42] = 196856;
+            faceBack[41] = 204053;
+            faceBack[40] = 212262;
+            faceBack[12] = 212868;
+            faceBack[39] = 219965;
+            faceBack[38] = 224260;
+            faceBack[37] = 228265;
+            faceBack[36] = 233223;
+            faceBack[13] = 240729;
+            faceBack[35] = 243945;
+            faceBack[34] = 253477;
+            faceBack[14] = 256147;
+            faceBack[33] = 260797;
+            faceBack[32] = 268925;
+            faceBack[15] = 273997;
+            faceBack[31] = 276228;
+            faceBack[30] = 285711;
+            faceBack[16] = 289043;
+            faceBack[29] = 290160;
+            faceBack[28] = 293848;
+            faceBack[17] = 298679;
+            faceBack[27] = 299876;
+            faceBack[18] = 300844;
+            faceBack[26] = 304180;
+            faceBack[20] = 306623;
+            faceBack[19] = 308048;
+            faceBack[25] = 316064;
+            faceBack[21] = 318277;
+            faceBack[22] = 320366;
+            faceBack[24] = 321375;
+            faceBack[23] = 323402;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
+
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[254] = 1215;
+            faceLeft[253] = 1371;
+            faceLeft[252] = 1399;
+            faceLeft[251] = 1549;
+            faceLeft[250] = 1769;
+            faceLeft[248] = 1912;
+            faceLeft[247] = 1940;
+            faceLeft[249] = 1943;
+            faceLeft[245] = 2009;
+            faceLeft[2] = 2010;
+            faceLeft[243] = 2083;
+            faceLeft[242] = 2110;
+            faceLeft[244] = 2134;
+            faceLeft[246] = 2139;
+            faceLeft[241] = 2314;
+            faceLeft[240] = 2381;
+            faceLeft[239] = 2423;
+            faceLeft[238] = 2636;
+            faceLeft[237] = 2823;
+            faceLeft[236] = 3027;
+            faceLeft[235] = 3207;
+            faceLeft[233] = 3429;
+            faceLeft[234] = 3489;
+            faceLeft[231] = 3587;
+            faceLeft[230] = 3602;
+            faceLeft[229] = 3622;
+            faceLeft[232] = 3629;
+            faceLeft[228] = 3750;
+            faceLeft[227] = 3901;
+            faceLeft[226] = 3990;
+            faceLeft[225] = 4183;
+            faceLeft[223] = 4347;
+            faceLeft[224] = 4387;
+            faceLeft[222] = 4640;
+            faceLeft[220] = 4825;
+            faceLeft[221] = 4841;
+            faceLeft[219] = 5039;
+            faceLeft[218] = 5294;
+            faceLeft[217] = 5579;
+            faceLeft[216] = 5845;
+            faceLeft[215] = 5997;
+            faceLeft[214] = 6341;
+            faceLeft[213] = 6451;
+            faceLeft[212] = 6747;
+            faceLeft[211] = 7219;
+            faceLeft[210] = 7349;
+            faceLeft[209] = 7636;
+            faceLeft[208] = 7859;
+            faceLeft[207] = 8043;
+            faceLeft[206] = 8098;
+            faceLeft[205] = 8528;
+            faceLeft[204] = 8665;
+            faceLeft[203] = 8948;
+            faceLeft[202] = 9049;
+            faceLeft[201] = 9283;
+            faceLeft[200] = 9400;
+            faceLeft[199] = 9478;
+            faceLeft[198] = 9816;
+            faceLeft[197] = 9888;
+            faceLeft[196] = 10201;
+            faceLeft[195] = 10518;
+            faceLeft[194] = 10638;
+            faceLeft[193] = 10878;
+            faceLeft[192] = 11096;
+            faceLeft[191] = 11270;
+            faceLeft[190] = 11305;
+            faceLeft[189] = 11700;
+            faceLeft[188] = 12053;
+            faceLeft[187] = 12108;
+            faceLeft[186] = 12577;
+            faceLeft[185] = 12945;
+            faceLeft[3] = 13090;
+            faceLeft[184] = 13183;
+            faceLeft[183] = 13620;
+            faceLeft[182] = 13990;
+            faceLeft[181] = 14088;
+            faceLeft[180] = 14366;
+            faceLeft[179] = 14621;
+            faceLeft[178] = 15233;
+            faceLeft[177] = 15383;
+            faceLeft[176] = 15877;
+            faceLeft[175] = 16659;
+            faceLeft[174] = 16999;
+            faceLeft[173] = 17681;
+            faceLeft[172] = 17876;
+            faceLeft[171] = 18408;
+            faceLeft[170] = 18631;
+            faceLeft[169] = 19309;
+            faceLeft[168] = 19916;
+            faceLeft[167] = 20219;
+            faceLeft[166] = 20565;
+            faceLeft[165] = 20620;
+            faceLeft[164] = 21374;
+            faceLeft[163] = 21884;
+            faceLeft[162] = 22694;
+            faceLeft[161] = 23308;
+            faceLeft[160] = 23496;
+            faceLeft[159] = 24378;
+            faceLeft[158] = 25017;
+            faceLeft[157] = 25671;
+            faceLeft[156] = 26047;
+            faceLeft[155] = 27293;
+            faceLeft[154] = 27832;
+            faceLeft[153] = 28611;
+            faceLeft[152] = 29903;
+            faceLeft[151] = 30717;
+            faceLeft[150] = 31696;
+            faceLeft[149] = 33137;
+            faceLeft[4] = 33748;
+            faceLeft[148] = 34093;
+            faceLeft[147] = 35261;
+            faceLeft[146] = 36020;
+            faceLeft[145] = 37161;
+            faceLeft[144] = 37676;
+            faceLeft[143] = 39037;
+            faceLeft[9] = 39428;
+            faceLeft[7] = 39501;
+            faceLeft[8] = 40157;
+            faceLeft[142] = 40221;
+            faceLeft[13] = 40576;
+            faceLeft[6] = 40828;
+            faceLeft[141] = 41247;
+            faceLeft[14] = 41404;
+            faceLeft[12] = 41780;
+            faceLeft[10] = 42022;
+            faceLeft[140] = 42067;
+            faceLeft[11] = 42361;
+            faceLeft[17] = 42714;
+            faceLeft[16] = 42725;
+            faceLeft[15] = 42808;
+            faceLeft[139] = 43339;
+            faceLeft[5] = 43421;
+            faceLeft[138] = 44045;
+            faceLeft[18] = 44660;
+            faceLeft[137] = 45881;
+            faceLeft[19] = 46224;
+            faceLeft[136] = 46808;
+            faceLeft[135] = 47873;
+            faceLeft[20] = 48269;
+            faceLeft[134] = 49164;
+            faceLeft[133] = 50024;
+            faceLeft[132] = 50907;
+            faceLeft[21] = 51830;
+            faceLeft[131] = 51978;
+            faceLeft[130] = 53308;
+            faceLeft[129] = 54917;
+            faceLeft[22] = 55145;
+            faceLeft[128] = 56267;
+            faceLeft[127] = 57525;
+            faceLeft[23] = 57533;
+            faceLeft[24] = 58402;
+            faceLeft[126] = 58862;
+            faceLeft[125] = 60466;
+            faceLeft[124] = 61596;
+            faceLeft[25] = 62137;
+            faceLeft[123] = 63572;
+            faceLeft[122] = 64778;
+            faceLeft[26] = 65854;
+            faceLeft[121] = 66395;
+            faceLeft[120] = 67398;
+            faceLeft[27] = 69154;
+            faceLeft[119] = 69707;
+            faceLeft[28] = 71406;
+            faceLeft[118] = 71831;
+            faceLeft[117] = 73499;
+            faceLeft[29] = 74175;
+            faceLeft[116] = 75178;
+            faceLeft[30] = 77206;
+            faceLeft[115] = 77309;
+            faceLeft[114] = 78852;
+            faceLeft[31] = 79874;
+            faceLeft[113] = 80187;
+            faceLeft[112] = 82739;
+            faceLeft[32] = 84755;
+            faceLeft[111] = 85223;
+            faceLeft[33] = 86953;
+            faceLeft[110] = 88103;
+            faceLeft[109] = 88697;
+            faceLeft[34] = 90341;
+            faceLeft[108] = 90979;
+            faceLeft[107] = 94093;
+            faceLeft[106] = 95393;
+            faceLeft[35] = 95638;
+            faceLeft[105] = 97655;
+            faceLeft[104] = 99669;
+            faceLeft[36] = 101414;
+            faceLeft[103] = 102302;
+            faceLeft[102] = 106287;
+            faceLeft[37] = 106904;
+            faceLeft[101] = 108617;
+            faceLeft[100] = 110839;
+            faceLeft[38] = 112782;
+            faceLeft[99] = 113574;
+            faceLeft[98] = 116178;
+            faceLeft[39] = 116825;
+            faceLeft[97] = 118816;
+            faceLeft[40] = 120857;
+            faceLeft[96] = 121702;
+            faceLeft[95] = 124180;
+            faceLeft[41] = 126854;
+            faceLeft[94] = 127024;
+            faceLeft[93] = 129896;
+            faceLeft[92] = 132129;
+            faceLeft[42] = 132195;
+            faceLeft[91] = 135369;
+            faceLeft[43] = 137816;
+            faceLeft[90] = 138600;
+            faceLeft[89] = 141743;
+            faceLeft[88] = 145022;
+            faceLeft[44] = 145225;
+            faceLeft[87] = 147510;
+            faceLeft[45] = 150053;
+            faceLeft[86] = 150266;
+            faceLeft[46] = 154802;
+            faceLeft[85] = 155667;
+            faceLeft[84] = 158534;
+            faceLeft[47] = 159077;
+            faceLeft[83] = 161675;
+            faceLeft[48] = 163990;
+            faceLeft[82] = 166635;
+            faceLeft[49] = 168433;
+            faceLeft[81] = 170228;
+            faceLeft[50] = 173018;
+            faceLeft[80] = 173741;
+            faceLeft[79] = 177273;
+            faceLeft[51] = 178564;
+            faceLeft[78] = 181151;
+            faceLeft[52] = 185127;
+            faceLeft[77] = 185420;
+            faceLeft[76] = 188351;
+            faceLeft[75] = 189797;
+            faceLeft[53] = 190030;
+            faceLeft[74] = 192179;
+            faceLeft[54] = 193221;
+            faceLeft[73] = 194071;
+            faceLeft[72] = 194869;
+            faceLeft[55] = 196589;
+            faceLeft[56] = 197576;
+            faceLeft[70] = 197616;
+            faceLeft[71] = 197720;
+            faceLeft[57] = 198471;
+            faceLeft[68] = 198982;
+            faceLeft[69] = 199570;
+            faceLeft[67] = 200146;
+            faceLeft[66] = 200885;
+            faceLeft[58] = 201490;
+            faceLeft[59] = 202621;
+            faceLeft[65] = 203595;
+            faceLeft[60] = 203896;
+            faceLeft[61] = 204041;
+            faceLeft[62] = 205521;
+            faceLeft[63] = 205634;
+            faceLeft[64] = 205769;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
+
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[254] = 52;
+            faceRight[253] = 78;
+            faceRight[252] = 131;
+            faceRight[251] = 154;
+            faceRight[250] = 157;
+            faceRight[247] = 173;
+            faceRight[249] = 186;
+            faceRight[248] = 189;
+            faceRight[245] = 196;
+            faceRight[246] = 200;
+            faceRight[243] = 246;
+            faceRight[244] = 248;
+            faceRight[237] = 257;
+            faceRight[242] = 258;
+            faceRight[236] = 289;
+            faceRight[239] = 302;
+            faceRight[235] = 311;
+            faceRight[238] = 315;
+            faceRight[241] = 320;
+            faceRight[240] = 324;
+            faceRight[234] = 338;
+            faceRight[232] = 344;
+            faceRight[231] = 370;
+            faceRight[233] = 377;
+            faceRight[230] = 434;
+            faceRight[229] = 548;
+            faceRight[228] = 671;
+            faceRight[227] = 772;
+            faceRight[226] = 799;
+            faceRight[225] = 899;
+            faceRight[221] = 965;
+            faceRight[224] = 968;
+            faceRight[223] = 975;
+            faceRight[222] = 1003;
+            faceRight[220] = 1054;
+            faceRight[219] = 1076;
+            faceRight[218] = 1118;
+            faceRight[217] = 1165;
+            faceRight[216] = 1235;
+            faceRight[215] = 1300;
+            faceRight[214] = 1413;
+            faceRight[213] = 1556;
+            faceRight[212] = 1810;
+            faceRight[211] = 1944;
+            faceRight[210] = 2089;
+            faceRight[209] = 2299;
+            faceRight[208] = 2506;
+            faceRight[207] = 2661;
+            faceRight[205] = 3011;
+            faceRight[206] = 3016;
+            faceRight[204] = 3031;
+            faceRight[203] = 3097;
+            faceRight[202] = 3290;
+            faceRight[199] = 3319;
+            faceRight[200] = 3387;
+            faceRight[198] = 3393;
+            faceRight[201] = 3426;
+            faceRight[197] = 3643;
+            faceRight[196] = 3739;
+            faceRight[195] = 3844;
+            faceRight[194] = 3963;
+            faceRight[193] = 4059;
+            faceRight[192] = 4072;
+            faceRight[190] = 4137;
+            faceRight[191] = 4221;
+            faceRight[184] = 4238;
+            faceRight[189] = 4246;
+            faceRight[187] = 4261;
+            faceRight[188] = 4290;
+            faceRight[185] = 4339;
+            faceRight[183] = 4350;
+            faceRight[186] = 4353;
+            faceRight[182] = 4505;
+            faceRight[181] = 4605;
+            faceRight[180] = 4685;
+            faceRight[179] = 4820;
+            faceRight[177] = 4941;
+            faceRight[178] = 4953;
+            faceRight[176] = 5027;
+            faceRight[175] = 5263;
+            faceRight[174] = 5347;
+            faceRight[171] = 5460;
+            faceRight[173] = 5590;
+            faceRight[172] = 5713;
+            faceRight[170] = 5768;
+            faceRight[169] = 5829;
+            faceRight[168] = 6000;
+            faceRight[167] = 6126;
+            faceRight[166] = 6237;
+            faceRight[165] = 6599;
+            faceRight[164] = 6618;
+            faceRight[163] = 6851;
+            faceRight[162] = 6859;
+            faceRight[161] = 7062;
+            faceRight[160] = 7513;
+            faceRight[159] = 7685;
+            faceRight[158] = 8088;
+            faceRight[157] = 8141;
+            faceRight[156] = 8466;
+            faceRight[154] = 8937;
+            faceRight[155] = 8976;
+            faceRight[153] = 9474;
+            faceRight[152] = 9656;
+            faceRight[151] = 10182;
+            faceRight[149] = 10267;
+            faceRight[150] = 10439;
+            faceRight[148] = 10517;
+            faceRight[147] = 10692;
+            faceRight[146] = 11284;
+            faceRight[145] = 11402;
+            faceRight[144] = 11759;
+            faceRight[143] = 11837;
+            faceRight[140] = 12152;
+            faceRight[141] = 12189;
+            faceRight[142] = 12236;
+            faceRight[139] = 12253;
+            faceRight[138] = 12748;
+            faceRight[137] = 13121;
+            faceRight[136] = 13386;
+            faceRight[135] = 13701;
+            faceRight[134] = 14090;
+            faceRight[133] = 14255;
+            faceRight[132] = 14542;
+            faceRight[130] = 14581;
+            faceRight[131] = 14674;
+            faceRight[129] = 14982;
+            faceRight[128] = 15231;
+            faceRight[127] = 15534;
+            faceRight[126] = 16064;
+            faceRight[125] = 16116;
+            faceRight[124] = 16579;
+            faceRight[123] = 16689;
+            faceRight[122] = 17209;
+            faceRight[121] = 17941;
+            faceRight[120] = 18637;
+            faceRight[119] = 19323;
+            faceRight[118] = 19740;
+            faceRight[117] = 20075;
+            faceRight[116] = 20355;
+            faceRight[112] = 20662;
+            faceRight[113] = 20742;
+            faceRight[115] = 20754;
+            faceRight[114] = 20905;
+            faceRight[109] = 21270;
+            faceRight[111] = 21295;
+            faceRight[110] = 21585;
+            faceRight[108] = 21961;
+            faceRight[107] = 22489;
+            faceRight[106] = 22882;
+            faceRight[105] = 23389;
+            faceRight[104] = 24145;
+            faceRight[103] = 24263;
+            faceRight[102] = 24461;
+            faceRight[101] = 25441;
+            faceRight[100] = 25903;
+            faceRight[99] = 26498;
+            faceRight[98] = 27204;
+            faceRight[97] = 27583;
+            faceRight[96] = 28023;
+            faceRight[95] = 28955;
+            faceRight[94] = 29459;
+            faceRight[93] = 30307;
+            faceRight[92] = 30813;
+            faceRight[91] = 31843;
+            faceRight[90] = 33127;
+            faceRight[89] = 33778;
+            faceRight[88] = 34866;
+            faceRight[87] = 35820;
+            faceRight[86] = 36560;
+            faceRight[85] = 37676;
+            faceRight[84] = 38561;
+            faceRight[83] = 39862;
+            faceRight[82] = 41193;
+            faceRight[81] = 41468;
+            faceRight[80] = 42905;
+            faceRight[79] = 44313;
+            faceRight[78] = 45814;
+            faceRight[77] = 47012;
+            faceRight[76] = 48686;
+            faceRight[75] = 49588;
+            faceRight[74] = 51794;
+            faceRight[73] = 53607;
+            faceRight[1] = 54441;
+            faceRight[72] = 55721;
+            faceRight[71] = 57729;
+            faceRight[70] = 58881;
+            faceRight[69] = 60363;
+            faceRight[68] = 60897;
+            faceRight[67] = 62779;
+            faceRight[66] = 63883;
+            faceRight[65] = 65873;
+            faceRight[64] = 68011;
+            faceRight[63] = 69606;
+            faceRight[62] = 71794;
+            faceRight[60] = 73117;
+            faceRight[61] = 73145;
+            faceRight[59] = 74836;
+            faceRight[58] = 77802;
+            faceRight[57] = 81358;
+            faceRight[56] = 84963;
+            faceRight[55] = 86627;
+            faceRight[54] = 89772;
+            faceRight[53] = 91419;
+            faceRight[52] = 93427;
+            faceRight[51] = 95584;
+            faceRight[50] = 97622;
+            faceRight[49] = 101169;
+            faceRight[48] = 103909;
+            faceRight[47] = 108170;
+            faceRight[46] = 112196;
+            faceRight[45] = 114298;
+            faceRight[44] = 115521;
+            faceRight[43] = 119001;
+            faceRight[42] = 124180;
+            faceRight[41] = 128166;
+            faceRight[40] = 131646;
+            faceRight[39] = 136873;
+            faceRight[38] = 140863;
+            faceRight[37] = 145152;
+            faceRight[36] = 150225;
+            faceRight[35] = 156093;
+            faceRight[34] = 162284;
+            faceRight[2] = 169563;
+            faceRight[33] = 170385;
+            faceRight[32] = 174530;
+            faceRight[31] = 179080;
+            faceRight[30] = 185123;
+            faceRight[29] = 194586;
+            faceRight[28] = 200645;
+            faceRight[27] = 205597;
+            faceRight[26] = 219333;
+            faceRight[25] = 226608;
+            faceRight[24] = 241981;
+            faceRight[23] = 253718;
+            faceRight[22] = 263771;
+            faceRight[21] = 280855;
+            faceRight[20] = 290102;
+            faceRight[19] = 306269;
+            faceRight[18] = 328306;
+            faceRight[3] = 333817;
+            faceRight[17] = 351098;
+            faceRight[16] = 380401;
+            faceRight[15] = 391463;
+            faceRight[14] = 397727;
+            faceRight[13] = 413839;
+            faceRight[12] = 442794;
+            faceRight[11] = 461803;
+            faceRight[4] = 493494;
+            faceRight[5] = 495954;
+            faceRight[10] = 500265;
+            faceRight[9] = 521593;
+            faceRight[8] = 544119;
+            faceRight[6] = 553965;
+            faceRight[7] = 556606;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
+
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[254] = 716;
+            faceTop[253] = 854;
+            faceTop[252] = 940;
+            faceTop[251] = 1059;
+            faceTop[250] = 1201;
+            faceTop[249] = 1406;
+            faceTop[248] = 1574;
+            faceTop[247] = 1845;
+            faceTop[246] = 1965;
+            faceTop[245] = 2089;
+            faceTop[244] = 2310;
+            faceTop[243] = 2407;
+            faceTop[242] = 2568;
+            faceTop[241] = 2863;
+            faceTop[240] = 3408;
+            faceTop[1] = 3463;
+            faceTop[239] = 3615;
+            faceTop[238] = 4055;
+            faceTop[237] = 4363;
+            faceTop[236] = 4609;
+            faceTop[235] = 4808;
+            faceTop[234] = 5287;
+            faceTop[233] = 5377;
+            faceTop[232] = 5997;
+            faceTop[231] = 6134;
+            faceTop[228] = 6238;
+            faceTop[229] = 6264;
+            faceTop[230] = 6293;
+            faceTop[227] = 6344;
+            faceTop[226] = 6863;
+            faceTop[223] = 6907;
+            faceTop[225] = 6941;
+            faceTop[224] = 7095;
+            faceTop[222] = 7171;
+            faceTop[221] = 7289;
+            faceTop[219] = 7456;
+            faceTop[220] = 7465;
+            faceTop[218] = 7652;
+            faceTop[217] = 7861;
+            faceTop[216] = 7969;
+            faceTop[215] = 8196;
+            faceTop[214] = 8498;
+            faceTop[213] = 8540;
+            faceTop[212] = 8771;
+            faceTop[211] = 9311;
+            faceTop[210] = 9368;
+            faceTop[209] = 9578;
+            faceTop[208] = 9735;
+            faceTop[207] = 10123;
+            faceTop[206] = 10187;
+            faceTop[205] = 10299;
+            faceTop[204] = 10316;
+            faceTop[202] = 10728;
+            faceTop[203] = 10730;
+            faceTop[201] = 10754;
+            faceTop[199] = 11111;
+            faceTop[200] = 11115;
+            faceTop[197] = 11368;
+            faceTop[198] = 11377;
+            faceTop[196] = 11557;
+            faceTop[195] = 12097;
+            faceTop[194] = 12467;
+            faceTop[193] = 12751;
+            faceTop[192] = 13008;
+            faceTop[190] = 13226;
+            faceTop[191] = 13376;
+            faceTop[189] = 13525;
+            faceTop[188] = 13619;
+            faceTop[187] = 13730;
+            faceTop[186] = 14042;
+            faceTop[185] = 14509;
+            faceTop[184] = 14609;
+            faceTop[183] = 14779;
+            faceTop[182] = 14950;
+            faceTop[181] = 15282;
+            faceTop[179] = 15374;
+            faceTop[180] = 15386;
+            faceTop[178] = 15700;
+            faceTop[177] = 15893;
+            faceTop[176] = 16149;
+            faceTop[175] = 16505;
+            faceTop[174] = 16686;
+            faceTop[172] = 16990;
+            faceTop[173] = 16997;
+            faceTop[171] = 17262;
+            faceTop[169] = 17505;
+            faceTop[170] = 17572;
+            faceTop[168] = 18216;
+            faceTop[167] = 18607;
+            faceTop[164] = 19142;
+            faceTop[165] = 19178;
+            faceTop[166] = 19236;
+            faceTop[163] = 19260;
+            faceTop[162] = 19458;
+            faceTop[161] = 19716;
+            faceTop[159] = 19844;
+            faceTop[160] = 19915;
+            faceTop[158] = 20000;
+            faceTop[157] = 20177;
+            faceTop[156] = 20449;
+            faceTop[154] = 20516;
+            faceTop[153] = 20854;
+            faceTop[152] = 20934;
+            faceTop[155] = 21118;
+            faceTop[151] = 21433;
+            faceTop[150] = 21630;
+            faceTop[149] = 21712;
+            faceTop[148] = 21965;
+            faceTop[146] = 22464;
+            faceTop[147] = 22647;
+            faceTop[145] = 23164;
+            faceTop[143] = 23437;
+            faceTop[144] = 23492;
+            faceTop[142] = 23718;
+            faceTop[141] = 23753;
+            faceTop[140] = 24370;
+            faceTop[139] = 24846;
+            faceTop[138] = 25239;
+            faceTop[137] = 25407;
+            faceTop[136] = 25819;
+            faceTop[135] = 25882;
+            faceTop[134] = 26369;
+            faceTop[133] = 27080;
+            faceTop[132] = 27560;
+            faceTop[131] = 27964;
+            faceTop[129] = 28578;
+            faceTop[130] = 28666;
+            faceTop[3] = 28881;
+            faceTop[128] = 29021;
+            faceTop[127] = 29049;
+            faceTop[126] = 29946;
+            faceTop[125] = 30013;
+            faceTop[4] = 30017;
+            faceTop[124] = 30146;
+            faceTop[123] = 30761;
+            faceTop[122] = 31473;
+            faceTop[121] = 31619;
+            faceTop[120] = 31734;
+            faceTop[119] = 32766;
+            faceTop[118] = 33432;
+            faceTop[117] = 33845;
+            faceTop[5] = 33871;
+            faceTop[116] = 34072;
+            faceTop[6] = 34260;
+            faceTop[115] = 34286;
+            faceTop[2] = 34389;
+            faceTop[114] = 34652;
+            faceTop[113] = 35343;
+            faceTop[112] = 36947;
+            faceTop[111] = 36989;
+            faceTop[110] = 37062;
+            faceTop[7] = 37906;
+            faceTop[109] = 38275;
+            faceTop[108] = 39319;
+            faceTop[107] = 40662;
+            faceTop[106] = 41361;
+            faceTop[105] = 42614;
+            faceTop[104] = 44173;
+            faceTop[103] = 44768;
+            faceTop[8] = 45574;
+            faceTop[102] = 45703;
+            faceTop[101] = 46501;
+            faceTop[100] = 47845;
+            faceTop[99] = 48848;
+            faceTop[98] = 49591;
+            faceTop[97] = 50882;
+            faceTop[96] = 52641;
+            faceTop[95] = 53732;
+            faceTop[94] = 55572;
+            faceTop[93] = 56615;
+            faceTop[92] = 58652;
+            faceTop[91] = 59946;
+            faceTop[90] = 61606;
+            faceTop[89] = 62773;
+            faceTop[9] = 64119;
+            faceTop[88] = 64229;
+            faceTop[87] = 66398;
+            faceTop[86] = 67750;
+            faceTop[85] = 70018;
+            faceTop[84] = 72204;
+            faceTop[83] = 74274;
+            faceTop[82] = 75619;
+            faceTop[81] = 78025;
+            faceTop[80] = 79694;
+            faceTop[79] = 82735;
+            faceTop[10] = 83862;
+            faceTop[78] = 85404;
+            faceTop[77] = 87032;
+            faceTop[76] = 89745;
+            faceTop[75] = 91046;
+            faceTop[74] = 93109;
+            faceTop[73] = 94520;
+            faceTop[72] = 96900;
+            faceTop[71] = 98998;
+            faceTop[11] = 100208;
+            faceTop[70] = 100725;
+            faceTop[69] = 102812;
+            faceTop[68] = 106659;
+            faceTop[67] = 109566;
+            faceTop[66] = 111703;
+            faceTop[65] = 113750;
+            faceTop[64] = 117023;
+            faceTop[63] = 119506;
+            faceTop[12] = 120085;
+            faceTop[62] = 122317;
+            faceTop[61] = 126784;
+            faceTop[60] = 128871;
+            faceTop[59] = 131677;
+            faceTop[13] = 131920;
+            faceTop[58] = 134724;
+            faceTop[57] = 138084;
+            faceTop[56] = 143718;
+            faceTop[55] = 149480;
+            faceTop[54] = 154745;
+            faceTop[14] = 158530;
+            faceTop[53] = 160647;
+            faceTop[52] = 166829;
+            faceTop[51] = 170592;
+            faceTop[50] = 175665;
+            faceTop[49] = 179765;
+            faceTop[48] = 182550;
+            faceTop[47] = 187453;
+            faceTop[15] = 188101;
+            faceTop[46] = 190008;
+            faceTop[45] = 194176;
+            faceTop[44] = 199265;
+            faceTop[16] = 204361;
+            faceTop[43] = 205491;
+            faceTop[42] = 213918;
+            faceTop[41] = 219493;
+            faceTop[17] = 223027;
+            faceTop[40] = 224626;
+            faceTop[39] = 228672;
+            faceTop[38] = 233055;
+            faceTop[37] = 235613;
+            faceTop[36] = 240095;
+            faceTop[18] = 242759;
+            faceTop[35] = 244050;
+            faceTop[34] = 246647;
+            faceTop[33] = 247571;
+            faceTop[32] = 250342;
+            faceTop[19] = 251063;
+            faceTop[31] = 251281;
+            faceTop[30] = 255445;
+            faceTop[20] = 260387;
+            faceTop[29] = 262776;
+            faceTop[28] = 268232;
+            faceTop[27] = 269120;
+            faceTop[26] = 270273;
+            faceTop[21] = 271318;
+            faceTop[25] = 277451;
+            faceTop[22] = 278000;
+            faceTop[23] = 281049;
+            faceTop[24] = 281762;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
+
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[228] = 7;
+            faceBottom[225] = 32;
+            faceBottom[224] = 38;
+            faceBottom[226] = 38;
+            faceBottom[227] = 39;
+            faceBottom[223] = 40;
+            faceBottom[221] = 45;
+            faceBottom[222] = 45;
+            faceBottom[220] = 46;
+            faceBottom[219] = 59;
+            faceBottom[218] = 82;
+            faceBottom[217] = 84;
+            faceBottom[216] = 116;
+            faceBottom[212] = 192;
+            faceBottom[215] = 193;
+            faceBottom[214] = 212;
+            faceBottom[213] = 221;
+            faceBottom[208] = 228;
+            faceBottom[209] = 241;
+            faceBottom[207] = 244;
+            faceBottom[210] = 246;
+            faceBottom[211] = 258;
+            faceBottom[206] = 299;
+            faceBottom[204] = 311;
+            faceBottom[205] = 331;
+            faceBottom[203] = 347;
+            faceBottom[202] = 383;
+            faceBottom[200] = 419;
+            faceBottom[201] = 426;
+            faceBottom[199] = 467;
+            faceBottom[198] = 509;
+            faceBottom[197] = 514;
+            faceBottom[196] = 596;
+            faceBottom[195] = 652;
+            faceBottom[194] = 673;
+            faceBottom[193] = 684;
+            faceBottom[192] = 686;
+            faceBottom[191] = 698;
+            faceBottom[188] = 715;
+            faceBottom[189] = 718;
+            faceBottom[190] = 723;
+            faceBottom[186] = 792;
+            faceBottom[187] = 813;
+            faceBottom[185] = 866;
+            faceBottom[184] = 884;
+            faceBottom[183] = 976;
+            faceBottom[182] = 1041;
+            faceBottom[181] = 1164;
+            faceBottom[180] = 1208;
+            faceBottom[179] = 1312;
+            faceBottom[178] = 1327;
+            faceBottom[177] = 1486;
+            faceBottom[176] = 1544;
+            faceBottom[175] = 1574;
+            faceBottom[174] = 1629;
+            faceBottom[173] = 1664;
+            faceBottom[172] = 1717;
+            faceBottom[171] = 1743;
+            faceBottom[169] = 1871;
+            faceBottom[170] = 1911;
+            faceBottom[168] = 1994;
+            faceBottom[166] = 2098;
+            faceBottom[167] = 2118;
+            faceBottom[165] = 2151;
+            faceBottom[161] = 2194;
+            faceBottom[162] = 2233;
+            faceBottom[163] = 2264;
+            faceBottom[164] = 2279;
+            faceBottom[160] = 2303;
+            faceBottom[159] = 2429;
+            faceBottom[158] = 2544;
+            faceBottom[157] = 2773;
+            faceBottom[156] = 2838;
+            faceBottom[155] = 2952;
+            faceBottom[154] = 2979;
+            faceBottom[153] = 3011;
+            faceBottom[152] = 3076;
+            faceBottom[151] = 3102;
+            faceBottom[149] = 3112;
+            faceBottom[150] = 3114;
+            faceBottom[148] = 3223;
+            faceBottom[146] = 3249;
+            faceBottom[147] = 3285;
+            faceBottom[145] = 3512;
+            faceBottom[144] = 3518;
+            faceBottom[143] = 3746;
+            faceBottom[142] = 3786;
+            faceBottom[141] = 3873;
+            faceBottom[140] = 4133;
+            faceBottom[139] = 4254;
+            faceBottom[138] = 4541;
+            faceBottom[137] = 4616;
+            faceBottom[136] = 4760;
+            faceBottom[135] = 4970;
+            faceBottom[134] = 5175;
+            faceBottom[133] = 5501;
+            faceBottom[132] = 5641;
+            faceBottom[131] = 5908;
+            faceBottom[130] = 6203;
+            faceBottom[129] = 6629;
+            faceBottom[128] = 6755;
+            faceBottom[127] = 6969;
+            faceBottom[126] = 7016;
+            faceBottom[125] = 7283;
+            faceBottom[124] = 7539;
+            faceBottom[123] = 7672;
+            faceBottom[122] = 8097;
+            faceBottom[121] = 8369;
+            faceBottom[120] = 8552;
+            faceBottom[119] = 9025;
+            faceBottom[118] = 9761;
+            faceBottom[117] = 10026;
+            faceBottom[116] = 10647;
+            faceBottom[115] = 10833;
+            faceBottom[114] = 11110;
+            faceBottom[113] = 11606;
+            faceBottom[112] = 11664;
+            faceBottom[111] = 12258;
+            faceBottom[110] = 12475;
+            faceBottom[109] = 12756;
+            faceBottom[108] = 13590;
+            faceBottom[107] = 14294;
+            faceBottom[106] = 14775;
+            faceBottom[105] = 15065;
+            faceBottom[104] = 15831;
+            faceBottom[103] = 16551;
+            faceBottom[102] = 17059;
+            faceBottom[101] = 17590;
+            faceBottom[100] = 18279;
+            faceBottom[99] = 19262;
+            faceBottom[98] = 20407;
+            faceBottom[97] = 21036;
+            faceBottom[96] = 21893;
+            faceBottom[95] = 22798;
+            faceBottom[94] = 24225;
+            faceBottom[93] = 25086;
+            faceBottom[92] = 26569;
+            faceBottom[91] = 27450;
+            faceBottom[90] = 28867;
+            faceBottom[89] = 30787;
+            faceBottom[88] = 32655;
+            faceBottom[87] = 34113;
+            faceBottom[86] = 35672;
+            faceBottom[85] = 37448;
+            faceBottom[84] = 38754;
+            faceBottom[83] = 39521;
+            faceBottom[82] = 40667;
+            faceBottom[81] = 42582;
+            faceBottom[80] = 45111;
+            faceBottom[79] = 47206;
+            faceBottom[78] = 50044;
+            faceBottom[77] = 52431;
+            faceBottom[76] = 54977;
+            faceBottom[75] = 57822;
+            faceBottom[1] = 58246;
+            faceBottom[74] = 61035;
+            faceBottom[73] = 63722;
+            faceBottom[72] = 67699;
+            faceBottom[71] = 69640;
+            faceBottom[70] = 71586;
+            faceBottom[69] = 74232;
+            faceBottom[68] = 76879;
+            faceBottom[67] = 80300;
+            faceBottom[66] = 83373;
+            faceBottom[65] = 86901;
+            faceBottom[64] = 90746;
+            faceBottom[63] = 94194;
+            faceBottom[62] = 97694;
+            faceBottom[61] = 102640;
+            faceBottom[60] = 105711;
+            faceBottom[59] = 110717;
+            faceBottom[58] = 115479;
+            faceBottom[57] = 119580;
+            faceBottom[56] = 123637;
+            faceBottom[2] = 124215;
+            faceBottom[55] = 128193;
+            faceBottom[54] = 134551;
+            faceBottom[53] = 139585;
+            faceBottom[52] = 143477;
+            faceBottom[51] = 148345;
+            faceBottom[50] = 155335;
+            faceBottom[6] = 157970;
+            faceBottom[4] = 158822;
+            faceBottom[5] = 159413;
+            faceBottom[49] = 161368;
+            faceBottom[48] = 168053;
+            faceBottom[47] = 171000;
+            faceBottom[3] = 171882;
+            faceBottom[46] = 178964;
+            faceBottom[45] = 185156;
+            faceBottom[7] = 189428;
+            faceBottom[44] = 192089;
+            faceBottom[43] = 199676;
+            faceBottom[42] = 205418;
+            faceBottom[41] = 212549;
+            faceBottom[8] = 217835;
+            faceBottom[40] = 219689;
+            faceBottom[39] = 224475;
+            faceBottom[9] = 232343;
+            faceBottom[38] = 233408;
+            faceBottom[37] = 242141;
+            faceBottom[10] = 243844;
+            faceBottom[36] = 255180;
+            faceBottom[11] = 264572;
+            faceBottom[35] = 266675;
+            faceBottom[34] = 274341;
+            faceBottom[33] = 278670;
+            faceBottom[32] = 288001;
+            faceBottom[12] = 296399;
+            faceBottom[31] = 297420;
+            faceBottom[30] = 308204;
+            faceBottom[29] = 314230;
+            faceBottom[13] = 318373;
+            faceBottom[28] = 319707;
+            faceBottom[27] = 329448;
+            faceBottom[26] = 339536;
+            faceBottom[14] = 340145;
+            faceBottom[25] = 350896;
+            faceBottom[15] = 358165;
+            faceBottom[24] = 359057;
+            faceBottom[16] = 365298;
+            faceBottom[20] = 371020;
+            faceBottom[21] = 371697;
+            faceBottom[19] = 371703;
+            faceBottom[17] = 372195;
+            faceBottom[22] = 373062;
+            faceBottom[23] = 373492;
+            faceBottom[18] = 374252;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
+
+            mapInfo.ProcessAllInfo();
+
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[ATA_06_RHEA] = mapInfo;
+        }
+
+        private static void LoadDioneOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
+
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[50] = 1131916;
+            faceFront[250] = 1492163;
+            faceFront[100] = 2123534;
+            faceFront[200] = 5761474;
+            faceFront[150] = 6261574;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
+
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[50] = 449681;
+            faceBack[250] = 517049;
+            faceBack[100] = 1828325;
+            faceBack[150] = 6553034;
+            faceBack[200] = 7429127;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
+
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[250] = 273937;
+            faceLeft[50] = 323449;
+            faceLeft[100] = 2681579;
+            faceLeft[200] = 6192266;
+            faceLeft[150] = 7290529;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
+
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[250] = 2171239;
+            faceRight[50] = 2847948;
+            faceRight[200] = 3326843;
+            faceRight[150] = 3593770;
+            faceRight[100] = 4703585;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
+
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[250] = 75466;
+            faceTop[200] = 988457;
+            faceTop[150] = 4334409;
+            faceTop[50] = 4383910;
+            faceTop[100] = 6994974;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
+
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[250] = 217349;
+            faceBottom[200] = 959213;
+            faceBottom[150] = 3114254;
+            faceBottom[50] = 4731583;
+            faceBottom[100] = 7754817;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
+
+            mapInfo.ProcessAllInfo();
+
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[ATA_06_DIONE] = mapInfo;
+        }
+
+        private static void LoadTethysOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
+
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[200] = 1489;
+            faceFront[175] = 86504;
+            faceFront[150] = 146339;
+            faceFront[25] = 321535;
+            faceFront[125] = 463066;
+            faceFront[100] = 773142;
+            faceFront[50] = 1160714;
+            faceFront[75] = 1241515;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
+
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[200] = 513;
+            faceBack[175] = 71106;
+            faceBack[150] = 183512;
+            faceBack[125] = 451458;
+            faceBack[100] = 607829;
+            faceBack[25] = 702007;
+            faceBack[75] = 952892;
+            faceBack[50] = 1224987;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
+
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[225] = 1245;
+            faceLeft[200] = 19651;
+            faceLeft[25] = 290450;
+            faceLeft[175] = 333749;
+            faceLeft[150] = 428476;
+            faceLeft[125] = 711526;
+            faceLeft[100] = 734923;
+            faceLeft[50] = 786781;
+            faceLeft[75] = 887503;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
+
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[225] = 81670;
+            faceRight[25] = 162383;
+            faceRight[200] = 243234;
+            faceRight[50] = 462900;
+            faceRight[100] = 523020;
+            faceRight[150] = 536309;
+            faceRight[75] = 557814;
+            faceRight[125] = 618933;
+            faceRight[175] = 1007981;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
+
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[25] = 40290;
+            faceTop[225] = 95532;
+            faceTop[50] = 167406;
+            faceTop[75] = 237951;
+            faceTop[100] = 318243;
+            faceTop[200] = 411348;
+            faceTop[125] = 584903;
+            faceTop[150] = 705755;
+            faceTop[175] = 1632876;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
+
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[25] = 20432;
+            faceBottom[50] = 85958;
+            faceBottom[225] = 171732;
+            faceBottom[75] = 185529;
+            faceBottom[100] = 308184;
+            faceBottom[200] = 427682;
+            faceBottom[125] = 621493;
+            faceBottom[150] = 727152;
+            faceBottom[175] = 1646111;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
+
+            mapInfo.ProcessAllInfo();
+
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[ATA_06_TETHYS] = mapInfo;
+        }
+
+        private static void LoadEnceladusOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
+
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[225] = 33701;
+            faceFront[25] = 78815;
+            faceFront[50] = 113232;
+            faceFront[200] = 160487;
+            faceFront[75] = 312360;
+            faceFront[175] = 352253;
+            faceFront[100] = 796527;
+            faceFront[150] = 948646;
+            faceFront[125] = 1396363;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
+
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[225] = 34463;
+            faceBack[25] = 60654;
+            faceBack[50] = 143369;
+            faceBack[200] = 144116;
+            faceBack[175] = 357245;
+            faceBack[75] = 377626;
+            faceBack[150] = 802822;
+            faceBack[100] = 918300;
+            faceBack[125] = 1351809;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
+
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[225] = 1054;
+            faceLeft[25] = 17425;
+            faceLeft[200] = 30132;
+            faceLeft[50] = 62075;
+            faceLeft[175] = 112860;
+            faceLeft[75] = 264661;
+            faceLeft[150] = 577721;
+            faceLeft[100] = 1121761;
+            faceLeft[125] = 2006615;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
+
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[225] = 8844;
+            faceRight[25] = 34906;
+            faceRight[50] = 99989;
+            faceRight[200] = 102180;
+            faceRight[75] = 293682;
+            faceRight[175] = 357502;
+            faceRight[100] = 886943;
+            faceRight[150] = 931770;
+            faceRight[125] = 1477792;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
+
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[225] = 57817;
+            faceTop[25] = 77176;
+            faceTop[200] = 136052;
+            faceTop[50] = 153639;
+            faceTop[175] = 256494;
+            faceTop[75] = 372976;
+            faceTop[150] = 615409;
+            faceTop[100] = 1166786;
+            faceTop[125] = 1346766;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
+
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[225] = 46872;
+            faceBottom[25] = 166788;
+            faceBottom[200] = 227066;
+            faceBottom[50] = 328512;
+            faceBottom[175] = 361332;
+            faceBottom[150] = 593778;
+            faceBottom[75] = 629630;
+            faceBottom[125] = 870970;
+            faceBottom[100] = 967685;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
+
+            mapInfo.ProcessAllInfo();
+
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[ATA_06_ENCELADUS] = mapInfo;
+        }
+
+        private static void LoadMimasOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
+
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[100] = 70510;
+            faceFront[50] = 95618;
+            faceFront[75] = 148380;
+            faceFront[125] = 223183;
+            faceFront[25] = 301550;
+            faceFront[150] = 342073;
+            faceFront[225] = 525411;
+            faceFront[175] = 989741;
+            faceFront[200] = 1095151;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
+
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[100] = 70263;
+            faceBack[50] = 87147;
+            faceBack[75] = 116364;
+            faceBack[125] = 192587;
+            faceBack[25] = 204227;
+            faceBack[150] = 335332;
+            faceBack[225] = 617538;
+            faceBack[200] = 1009965;
+            faceBack[175] = 1045859;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
+
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[50] = 109875;
+            faceLeft[100] = 130898;
+            faceLeft[25] = 136643;
+            faceLeft[75] = 166708;
+            faceLeft[125] = 255538;
+            faceLeft[150] = 400242;
+            faceLeft[225] = 577490;
+            faceLeft[200] = 882054;
+            faceLeft[175] = 924767;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
+
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[100] = 82530;
+            faceRight[50] = 114382;
+            faceRight[75] = 153751;
+            faceRight[125] = 269965;
+            faceRight[25] = 277818;
+            faceRight[150] = 390027;
+            faceRight[225] = 562203;
+            faceRight[175] = 930851;
+            faceRight[200] = 988311;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
+
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[100] = 99067;
+            faceTop[25] = 105699;
+            faceTop[50] = 115249;
+            faceTop[75] = 237316;
+            faceTop[125] = 395144;
+            faceTop[150] = 561029;
+            faceTop[225] = 662091;
+            faceTop[200] = 812165;
+            faceTop[175] = 860302;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
+
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[100] = 121537;
+            faceBottom[50] = 129482;
+            faceBottom[25] = 156393;
+            faceBottom[75] = 201527;
+            faceBottom[125] = 324254;
+            faceBottom[150] = 478801;
+            faceBottom[225] = 642186;
+            faceBottom[200] = 839170;
+            faceBottom[175] = 875105;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
+
+            mapInfo.ProcessAllInfo();
+
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[ATA_06_MIMAS] = mapInfo;
+        }
+
+        private static void LoadObreonOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
+
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[225] = 23013;
+            faceFront[25] = 29600;
+            faceFront[200] = 119797;
+            faceFront[50] = 224482;
+            faceFront[175] = 528839;
+            faceFront[75] = 1923848;
+            faceFront[150] = 3790115;
+            faceFront[100] = 5025909;
+            faceFront[125] = 5093058;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
+
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[225] = 88736;
+            faceBack[200] = 403326;
+            faceBack[25] = 566387;
+            faceBack[175] = 1011079;
+            faceBack[50] = 1020189;
+            faceBack[75] = 2392915;
+            faceBack[100] = 3652669;
+            faceBack[150] = 3799764;
+            faceBack[125] = 3810587;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
+
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[225] = 16065;
+            faceLeft[200] = 74397;
+            faceLeft[175] = 313337;
+            faceLeft[25] = 1004256;
+            faceLeft[50] = 1844092;
+            faceLeft[150] = 1942773;
+            faceLeft[125] = 2376843;
+            faceLeft[100] = 4125840;
+            faceLeft[75] = 5064222;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
+
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[225] = 35435;
+            faceRight[200] = 97525;
+            faceRight[175] = 297402;
+            faceRight[25] = 842357;
+            faceRight[50] = 1497724;
+            faceRight[75] = 2700393;
+            faceRight[150] = 3332205;
+            faceRight[100] = 3580701;
+            faceRight[125] = 4349797;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
+
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[225] = 78267;
+            faceTop[25] = 78674;
+            faceTop[50] = 201781;
+            faceTop[200] = 300302;
+            faceTop[175] = 1041946;
+            faceTop[75] = 1336144;
+            faceTop[100] = 3174173;
+            faceTop[125] = 4713925;
+            faceTop[150] = 5787273;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
+
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[225] = 31927;
+            faceBottom[200] = 153250;
+            faceBottom[25] = 301810;
+            faceBottom[175] = 506062;
+            faceBottom[50] = 697103;
+            faceBottom[75] = 2825670;
+            faceBottom[150] = 2990155;
+            faceBottom[125] = 4116443;
+            faceBottom[100] = 5129776;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
+
+            mapInfo.ProcessAllInfo();
+
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[ATA_07_OBREON] = mapInfo;
+        }
+
+        private static void LoadTitaniaOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
+
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[45] = 6;
+            faceFront[47] = 7;
+            faceFront[48] = 9;
+            faceFront[49] = 9;
+            faceFront[46] = 10;
+            faceFront[50] = 11;
+            faceFront[51] = 12;
+            faceFront[52] = 33;
+            faceFront[53] = 44;
+            faceFront[54] = 54;
+            faceFront[55] = 119;
+            faceFront[56] = 226;
+            faceFront[57] = 274;
+            faceFront[58] = 418;
+            faceFront[59] = 642;
+            faceFront[60] = 882;
+            faceFront[61] = 1196;
+            faceFront[62] = 1825;
+            faceFront[63] = 2720;
+            faceFront[64] = 3827;
+            faceFront[65] = 5318;
+            faceFront[248] = 5698;
+            faceFront[250] = 5759;
+            faceFront[251] = 5808;
+            faceFront[249] = 5816;
+            faceFront[247] = 6019;
+            faceFront[246] = 6083;
+            faceFront[244] = 6147;
+            faceFront[245] = 6197;
+            faceFront[252] = 6252;
+            faceFront[238] = 6258;
+            faceFront[239] = 6315;
+            faceFront[242] = 6363;
+            faceFront[237] = 6424;
+            faceFront[236] = 6469;
+            faceFront[240] = 6534;
+            faceFront[241] = 6543;
+            faceFront[243] = 6554;
+            faceFront[234] = 6649;
+            faceFront[66] = 6791;
+            faceFront[232] = 6822;
+            faceFront[235] = 6895;
+            faceFront[233] = 6973;
+            faceFront[253] = 7147;
+            faceFront[231] = 7367;
+            faceFront[230] = 7521;
+            faceFront[254] = 7549;
+            faceFront[229] = 7684;
+            faceFront[228] = 7741;
+            faceFront[227] = 7934;
+            faceFront[226] = 8190;
+            faceFront[224] = 8436;
+            faceFront[225] = 8563;
+            faceFront[222] = 8920;
+            faceFront[221] = 8995;
+            faceFront[220] = 9115;
+            faceFront[223] = 9115;
+            faceFront[219] = 9494;
+            faceFront[67] = 9794;
+            faceFront[218] = 9941;
+            faceFront[217] = 10348;
+            faceFront[214] = 10454;
+            faceFront[216] = 10504;
+            faceFront[215] = 10647;
+            faceFront[213] = 11084;
+            faceFront[68] = 11102;
+            faceFront[212] = 11498;
+            faceFront[211] = 11518;
+            faceFront[210] = 11976;
+            faceFront[209] = 12224;
+            faceFront[69] = 12732;
+            faceFront[208] = 12864;
+            faceFront[207] = 12881;
+            faceFront[206] = 13639;
+            faceFront[205] = 13959;
+            faceFront[204] = 14576;
+            faceFront[70] = 14643;
+            faceFront[203] = 15056;
+            faceFront[202] = 15721;
+            faceFront[71] = 16061;
+            faceFront[201] = 16110;
+            faceFront[200] = 17159;
+            faceFront[199] = 17416;
+            faceFront[72] = 18366;
+            faceFront[198] = 18418;
+            faceFront[73] = 18780;
+            faceFront[197] = 19148;
+            faceFront[195] = 20752;
+            faceFront[196] = 20810;
+            faceFront[194] = 21927;
+            faceFront[74] = 21994;
+            faceFront[193] = 22616;
+            faceFront[192] = 23874;
+            faceFront[75] = 24531;
+            faceFront[191] = 24901;
+            faceFront[76] = 25855;
+            faceFront[190] = 26498;
+            faceFront[189] = 27129;
+            faceFront[188] = 28978;
+            faceFront[77] = 29516;
+            faceFront[187] = 29520;
+            faceFront[78] = 30971;
+            faceFront[186] = 31882;
+            faceFront[185] = 32713;
+            faceFront[184] = 34261;
+            faceFront[183] = 35651;
+            faceFront[79] = 35698;
+            faceFront[182] = 37280;
+            faceFront[181] = 39230;
+            faceFront[180] = 41352;
+            faceFront[80] = 41588;
+            faceFront[179] = 42687;
+            faceFront[178] = 44371;
+            faceFront[81] = 45719;
+            faceFront[177] = 46559;
+            faceFront[82] = 48271;
+            faceFront[176] = 48326;
+            faceFront[83] = 50211;
+            faceFront[175] = 50563;
+            faceFront[174] = 52755;
+            faceFront[173] = 54821;
+            faceFront[84] = 54961;
+            faceFront[172] = 57641;
+            faceFront[85] = 58088;
+            faceFront[171] = 59812;
+            faceFront[170] = 63134;
+            faceFront[86] = 63662;
+            faceFront[169] = 65738;
+            faceFront[87] = 67593;
+            faceFront[168] = 69020;
+            faceFront[167] = 71988;
+            faceFront[89] = 73710;
+            faceFront[88] = 73767;
+            faceFront[166] = 75272;
+            faceFront[165] = 78430;
+            faceFront[164] = 81740;
+            faceFront[90] = 84137;
+            faceFront[163] = 84240;
+            faceFront[162] = 88697;
+            faceFront[91] = 90602;
+            faceFront[161] = 90742;
+            faceFront[92] = 95062;
+            faceFront[160] = 95369;
+            faceFront[159] = 99326;
+            faceFront[93] = 102060;
+            faceFront[158] = 104145;
+            faceFront[157] = 106543;
+            faceFront[94] = 108625;
+            faceFront[156] = 114661;
+            faceFront[95] = 115037;
+            faceFront[155] = 115797;
+            faceFront[154] = 121771;
+            faceFront[96] = 122487;
+            faceFront[153] = 125608;
+            faceFront[97] = 129957;
+            faceFront[152] = 132677;
+            faceFront[151] = 135384;
+            faceFront[150] = 142836;
+            faceFront[98] = 143974;
+            faceFront[149] = 148060;
+            faceFront[99] = 152099;
+            faceFront[100] = 155243;
+            faceFront[148] = 155549;
+            faceFront[147] = 159608;
+            faceFront[101] = 160709;
+            faceFront[146] = 164825;
+            faceFront[102] = 169292;
+            faceFront[145] = 169762;
+            faceFront[103] = 175397;
+            faceFront[144] = 179582;
+            faceFront[143] = 182237;
+            faceFront[104] = 182383;
+            faceFront[105] = 189159;
+            faceFront[142] = 192029;
+            faceFront[141] = 195506;
+            faceFront[106] = 197051;
+            faceFront[140] = 204869;
+            faceFront[107] = 205359;
+            faceFront[139] = 206173;
+            faceFront[108] = 212267;
+            faceFront[138] = 217097;
+            faceFront[109] = 218518;
+            faceFront[110] = 219170;
+            faceFront[137] = 221389;
+            faceFront[136] = 225715;
+            faceFront[111] = 229033;
+            faceFront[135] = 232304;
+            faceFront[112] = 232312;
+            faceFront[134] = 238751;
+            faceFront[133] = 241528;
+            faceFront[113] = 244257;
+            faceFront[114] = 247051;
+            faceFront[132] = 248414;
+            faceFront[130] = 250509;
+            faceFront[131] = 252133;
+            faceFront[129] = 252159;
+            faceFront[115] = 252736;
+            faceFront[116] = 255004;
+            faceFront[128] = 260644;
+            faceFront[118] = 261199;
+            faceFront[117] = 262449;
+            faceFront[122] = 267461;
+            faceFront[126] = 268663;
+            faceFront[119] = 268811;
+            faceFront[121] = 268926;
+            faceFront[120] = 269002;
+            faceFront[124] = 270148;
+            faceFront[123] = 272367;
+            faceFront[127] = 272769;
+            faceFront[125] = 273327;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
+
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[36] = 5;
+            faceBack[41] = 5;
+            faceBack[45] = 5;
+            faceBack[46] = 13;
+            faceBack[47] = 20;
+            faceBack[49] = 20;
+            faceBack[48] = 24;
+            faceBack[50] = 25;
+            faceBack[51] = 36;
+            faceBack[52] = 51;
+            faceBack[53] = 58;
+            faceBack[54] = 72;
+            faceBack[55] = 105;
+            faceBack[56] = 135;
+            faceBack[57] = 168;
+            faceBack[58] = 230;
+            faceBack[59] = 344;
+            faceBack[60] = 478;
+            faceBack[61] = 542;
+            faceBack[62] = 765;
+            faceBack[63] = 1003;
+            faceBack[64] = 1214;
+            faceBack[65] = 1645;
+            faceBack[66] = 2075;
+            faceBack[67] = 2925;
+            faceBack[251] = 3275;
+            faceBack[68] = 3322;
+            faceBack[252] = 3384;
+            faceBack[250] = 3471;
+            faceBack[248] = 3525;
+            faceBack[249] = 3555;
+            faceBack[247] = 3768;
+            faceBack[253] = 3868;
+            faceBack[254] = 3930;
+            faceBack[69] = 4029;
+            faceBack[246] = 4123;
+            faceBack[245] = 4418;
+            faceBack[244] = 4662;
+            faceBack[70] = 4681;
+            faceBack[243] = 4897;
+            faceBack[242] = 5241;
+            faceBack[71] = 5340;
+            faceBack[241] = 5704;
+            faceBack[239] = 5797;
+            faceBack[240] = 5887;
+            faceBack[72] = 6042;
+            faceBack[238] = 6339;
+            faceBack[73] = 6453;
+            faceBack[237] = 6520;
+            faceBack[236] = 6731;
+            faceBack[235] = 6784;
+            faceBack[234] = 6888;
+            faceBack[74] = 7264;
+            faceBack[233] = 7533;
+            faceBack[232] = 7574;
+            faceBack[231] = 8031;
+            faceBack[230] = 8429;
+            faceBack[75] = 8598;
+            faceBack[228] = 8646;
+            faceBack[229] = 8925;
+            faceBack[227] = 9349;
+            faceBack[76] = 9442;
+            faceBack[226] = 9664;
+            faceBack[225] = 10509;
+            faceBack[224] = 10718;
+            faceBack[77] = 11424;
+            faceBack[223] = 11569;
+            faceBack[222] = 11832;
+            faceBack[221] = 12363;
+            faceBack[78] = 12482;
+            faceBack[220] = 12958;
+            faceBack[219] = 13757;
+            faceBack[218] = 14647;
+            faceBack[217] = 14665;
+            faceBack[79] = 15278;
+            faceBack[216] = 15380;
+            faceBack[215] = 15825;
+            faceBack[214] = 16574;
+            faceBack[213] = 17364;
+            faceBack[212] = 18451;
+            faceBack[80] = 18877;
+            faceBack[211] = 19082;
+            faceBack[81] = 19673;
+            faceBack[210] = 20673;
+            faceBack[209] = 20858;
+            faceBack[82] = 21385;
+            faceBack[208] = 22597;
+            faceBack[207] = 23202;
+            faceBack[83] = 23355;
+            faceBack[206] = 24512;
+            faceBack[205] = 25341;
+            faceBack[204] = 26489;
+            faceBack[84] = 27016;
+            faceBack[203] = 27216;
+            faceBack[85] = 28445;
+            faceBack[202] = 29407;
+            faceBack[201] = 30349;
+            faceBack[86] = 31345;
+            faceBack[200] = 32099;
+            faceBack[199] = 33149;
+            faceBack[87] = 33359;
+            faceBack[198] = 34908;
+            faceBack[197] = 35901;
+            faceBack[88] = 36335;
+            faceBack[89] = 36602;
+            faceBack[196] = 39154;
+            faceBack[195] = 39808;
+            faceBack[90] = 40964;
+            faceBack[91] = 42760;
+            faceBack[194] = 42961;
+            faceBack[92] = 44316;
+            faceBack[193] = 44733;
+            faceBack[192] = 46989;
+            faceBack[93] = 47067;
+            faceBack[191] = 49077;
+            faceBack[94] = 50488;
+            faceBack[190] = 51928;
+            faceBack[189] = 53146;
+            faceBack[95] = 53185;
+            faceBack[96] = 56925;
+            faceBack[188] = 57047;
+            faceBack[187] = 58447;
+            faceBack[97] = 60423;
+            faceBack[186] = 62558;
+            faceBack[185] = 64747;
+            faceBack[184] = 67989;
+            faceBack[98] = 67996;
+            faceBack[183] = 70767;
+            faceBack[99] = 72397;
+            faceBack[100] = 73578;
+            faceBack[182] = 74487;
+            faceBack[101] = 76878;
+            faceBack[181] = 77238;
+            faceBack[102] = 80885;
+            faceBack[180] = 81352;
+            faceBack[179] = 84524;
+            faceBack[103] = 84765;
+            faceBack[178] = 88192;
+            faceBack[104] = 89926;
+            faceBack[177] = 92989;
+            faceBack[105] = 93454;
+            faceBack[176] = 96602;
+            faceBack[106] = 99482;
+            faceBack[175] = 101244;
+            faceBack[107] = 104632;
+            faceBack[174] = 105422;
+            faceBack[108] = 109352;
+            faceBack[173] = 110715;
+            faceBack[109] = 115620;
+            faceBack[172] = 115631;
+            faceBack[110] = 117929;
+            faceBack[171] = 121563;
+            faceBack[111] = 125768;
+            faceBack[170] = 126525;
+            faceBack[112] = 130304;
+            faceBack[169] = 130922;
+            faceBack[168] = 135985;
+            faceBack[167] = 140186;
+            faceBack[113] = 140621;
+            faceBack[114] = 145231;
+            faceBack[166] = 145914;
+            faceBack[165] = 149783;
+            faceBack[115] = 150882;
+            faceBack[164] = 155544;
+            faceBack[116] = 156927;
+            faceBack[163] = 159547;
+            faceBack[117] = 165719;
+            faceBack[162] = 166245;
+            faceBack[161] = 169166;
+            faceBack[118] = 170131;
+            faceBack[160] = 175385;
+            faceBack[119] = 180096;
+            faceBack[159] = 180942;
+            faceBack[120] = 186143;
+            faceBack[158] = 186420;
+            faceBack[157] = 187289;
+            faceBack[121] = 191605;
+            faceBack[122] = 198163;
+            faceBack[155] = 199385;
+            faceBack[156] = 199710;
+            faceBack[154] = 204818;
+            faceBack[123] = 207309;
+            faceBack[153] = 208709;
+            faceBack[124] = 210076;
+            faceBack[152] = 217812;
+            faceBack[151] = 219005;
+            faceBack[125] = 220663;
+            faceBack[150] = 224350;
+            faceBack[126] = 225584;
+            faceBack[149] = 227862;
+            faceBack[129] = 232696;
+            faceBack[128] = 233602;
+            faceBack[147] = 234077;
+            faceBack[148] = 234199;
+            faceBack[127] = 236171;
+            faceBack[130] = 236386;
+            faceBack[146] = 240038;
+            faceBack[145] = 240495;
+            faceBack[131] = 240549;
+            faceBack[143] = 244801;
+            faceBack[132] = 244928;
+            faceBack[133] = 246090;
+            faceBack[141] = 248273;
+            faceBack[144] = 248581;
+            faceBack[139] = 248891;
+            faceBack[142] = 249834;
+            faceBack[134] = 250319;
+            faceBack[135] = 250841;
+            faceBack[136] = 252982;
+            faceBack[140] = 253097;
+            faceBack[137] = 253906;
+            faceBack[138] = 255123;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
+
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[53] = 6;
+            faceLeft[54] = 9;
+            faceLeft[55] = 34;
+            faceLeft[56] = 90;
+            faceLeft[57] = 156;
+            faceLeft[58] = 230;
+            faceLeft[59] = 392;
+            faceLeft[60] = 566;
+            faceLeft[61] = 752;
+            faceLeft[62] = 1196;
+            faceLeft[63] = 1545;
+            faceLeft[64] = 2038;
+            faceLeft[65] = 2672;
+            faceLeft[66] = 3794;
+            faceLeft[67] = 5237;
+            faceLeft[68] = 5602;
+            faceLeft[69] = 5778;
+            faceLeft[70] = 6505;
+            faceLeft[71] = 6825;
+            faceLeft[72] = 8161;
+            faceLeft[73] = 8544;
+            faceLeft[250] = 9238;
+            faceLeft[251] = 9377;
+            faceLeft[249] = 9422;
+            faceLeft[248] = 9542;
+            faceLeft[247] = 9839;
+            faceLeft[74] = 10152;
+            faceLeft[246] = 10200;
+            faceLeft[245] = 10398;
+            faceLeft[252] = 10656;
+            faceLeft[244] = 10675;
+            faceLeft[243] = 11020;
+            faceLeft[242] = 11514;
+            faceLeft[75] = 11787;
+            faceLeft[241] = 11860;
+            faceLeft[240] = 11873;
+            faceLeft[239] = 11968;
+            faceLeft[238] = 12454;
+            faceLeft[237] = 12845;
+            faceLeft[76] = 12887;
+            faceLeft[236] = 13115;
+            faceLeft[253] = 13121;
+            faceLeft[235] = 14033;
+            faceLeft[234] = 14165;
+            faceLeft[77] = 14798;
+            faceLeft[233] = 15169;
+            faceLeft[232] = 15215;
+            faceLeft[78] = 15863;
+            faceLeft[231] = 16041;
+            faceLeft[230] = 16792;
+            faceLeft[228] = 17414;
+            faceLeft[254] = 17433;
+            faceLeft[229] = 17470;
+            faceLeft[79] = 18348;
+            faceLeft[227] = 18372;
+            faceLeft[226] = 18580;
+            faceLeft[225] = 19205;
+            faceLeft[224] = 19677;
+            faceLeft[222] = 20545;
+            faceLeft[223] = 20612;
+            faceLeft[221] = 21312;
+            faceLeft[80] = 21605;
+            faceLeft[220] = 21743;
+            faceLeft[219] = 22792;
+            faceLeft[217] = 23665;
+            faceLeft[218] = 23812;
+            faceLeft[81] = 24212;
+            faceLeft[216] = 24339;
+            faceLeft[215] = 25317;
+            faceLeft[214] = 25734;
+            faceLeft[213] = 26434;
+            faceLeft[82] = 26654;
+            faceLeft[212] = 27100;
+            faceLeft[211] = 27525;
+            faceLeft[209] = 28341;
+            faceLeft[210] = 28832;
+            faceLeft[83] = 29140;
+            faceLeft[208] = 30117;
+            faceLeft[207] = 30246;
+            faceLeft[206] = 31289;
+            faceLeft[205] = 31921;
+            faceLeft[204] = 32895;
+            faceLeft[203] = 33584;
+            faceLeft[84] = 33714;
+            faceLeft[202] = 35187;
+            faceLeft[201] = 35956;
+            faceLeft[85] = 36928;
+            faceLeft[200] = 37614;
+            faceLeft[199] = 38493;
+            faceLeft[197] = 40314;
+            faceLeft[198] = 40475;
+            faceLeft[86] = 41592;
+            faceLeft[196] = 42582;
+            faceLeft[195] = 43491;
+            faceLeft[194] = 45261;
+            faceLeft[87] = 45507;
+            faceLeft[193] = 46146;
+            faceLeft[192] = 47823;
+            faceLeft[191] = 49379;
+            faceLeft[88] = 50315;
+            faceLeft[190] = 50969;
+            faceLeft[189] = 51986;
+            faceLeft[89] = 52392;
+            faceLeft[188] = 53789;
+            faceLeft[187] = 54895;
+            faceLeft[186] = 58255;
+            faceLeft[185] = 58516;
+            faceLeft[90] = 59034;
+            faceLeft[184] = 60947;
+            faceLeft[183] = 62621;
+            faceLeft[91] = 64047;
+            faceLeft[182] = 66477;
+            faceLeft[92] = 67817;
+            faceLeft[181] = 68025;
+            faceLeft[180] = 70319;
+            faceLeft[93] = 72460;
+            faceLeft[179] = 72915;
+            faceLeft[178] = 75624;
+            faceLeft[94] = 76748;
+            faceLeft[177] = 78527;
+            faceLeft[95] = 79806;
+            faceLeft[176] = 81590;
+            faceLeft[175] = 84014;
+            faceLeft[96] = 84859;
+            faceLeft[174] = 87416;
+            faceLeft[97] = 88350;
+            faceLeft[173] = 90814;
+            faceLeft[172] = 93468;
+            faceLeft[98] = 97060;
+            faceLeft[171] = 97451;
+            faceLeft[170] = 100959;
+            faceLeft[99] = 102111;
+            faceLeft[100] = 103220;
+            faceLeft[169] = 104378;
+            faceLeft[101] = 107348;
+            faceLeft[168] = 108126;
+            faceLeft[167] = 112045;
+            faceLeft[102] = 112903;
+            faceLeft[166] = 117001;
+            faceLeft[103] = 118114;
+            faceLeft[165] = 120764;
+            faceLeft[104] = 122451;
+            faceLeft[164] = 125253;
+            faceLeft[105] = 126318;
+            faceLeft[163] = 129788;
+            faceLeft[106] = 131810;
+            faceLeft[107] = 136051;
+            faceLeft[162] = 136188;
+            faceLeft[161] = 138757;
+            faceLeft[108] = 140898;
+            faceLeft[160] = 143492;
+            faceLeft[109] = 146320;
+            faceLeft[110] = 146803;
+            faceLeft[159] = 149420;
+            faceLeft[111] = 154085;
+            faceLeft[158] = 154816;
+            faceLeft[157] = 156090;
+            faceLeft[112] = 157326;
+            faceLeft[113] = 165339;
+            faceLeft[156] = 165413;
+            faceLeft[155] = 166451;
+            faceLeft[114] = 167266;
+            faceLeft[115] = 171212;
+            faceLeft[154] = 171863;
+            faceLeft[116] = 174202;
+            faceLeft[153] = 174871;
+            faceLeft[117] = 180651;
+            faceLeft[118] = 182131;
+            faceLeft[152] = 183614;
+            faceLeft[151] = 185833;
+            faceLeft[119] = 190140;
+            faceLeft[150] = 191412;
+            faceLeft[120] = 193092;
+            faceLeft[149] = 195839;
+            faceLeft[121] = 197349;
+            faceLeft[122] = 198297;
+            faceLeft[147] = 200552;
+            faceLeft[148] = 201232;
+            faceLeft[146] = 204964;
+            faceLeft[123] = 205024;
+            faceLeft[124] = 205225;
+            faceLeft[145] = 206957;
+            faceLeft[125] = 210520;
+            faceLeft[143] = 211818;
+            faceLeft[126] = 213288;
+            faceLeft[144] = 214423;
+            faceLeft[129] = 215397;
+            faceLeft[130] = 217900;
+            faceLeft[141] = 218318;
+            faceLeft[142] = 218477;
+            faceLeft[128] = 218814;
+            faceLeft[139] = 220745;
+            faceLeft[131] = 221489;
+            faceLeft[127] = 222202;
+            faceLeft[140] = 223457;
+            faceLeft[132] = 226326;
+            faceLeft[137] = 226945;
+            faceLeft[133] = 228067;
+            faceLeft[138] = 228084;
+            faceLeft[136] = 229335;
+            faceLeft[135] = 229942;
+            faceLeft[134] = 230919;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
+
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[39] = 6;
+            faceRight[40] = 18;
+            faceRight[41] = 19;
+            faceRight[42] = 28;
+            faceRight[43] = 39;
+            faceRight[44] = 78;
+            faceRight[45] = 111;
+            faceRight[46] = 238;
+            faceRight[47] = 373;
+            faceRight[48] = 413;
+            faceRight[49] = 489;
+            faceRight[50] = 612;
+            faceRight[51] = 693;
+            faceRight[52] = 847;
+            faceRight[53] = 1023;
+            faceRight[54] = 1312;
+            faceRight[55] = 1994;
+            faceRight[250] = 3082;
+            faceRight[251] = 3084;
+            faceRight[249] = 3120;
+            faceRight[56] = 3156;
+            faceRight[252] = 3280;
+            faceRight[248] = 3310;
+            faceRight[247] = 3585;
+            faceRight[246] = 3693;
+            faceRight[253] = 3786;
+            faceRight[57] = 3791;
+            faceRight[254] = 3950;
+            faceRight[245] = 4166;
+            faceRight[244] = 4194;
+            faceRight[243] = 4600;
+            faceRight[242] = 4782;
+            faceRight[58] = 5188;
+            faceRight[241] = 5207;
+            faceRight[239] = 5762;
+            faceRight[240] = 5763;
+            faceRight[238] = 6404;
+            faceRight[59] = 6742;
+            faceRight[237] = 6807;
+            faceRight[236] = 7029;
+            faceRight[235] = 7458;
+            faceRight[234] = 7506;
+            faceRight[233] = 8196;
+            faceRight[232] = 8370;
+            faceRight[231] = 8971;
+            faceRight[230] = 9308;
+            faceRight[60] = 9425;
+            faceRight[229] = 9715;
+            faceRight[228] = 9899;
+            faceRight[61] = 10318;
+            faceRight[227] = 10491;
+            faceRight[226] = 10687;
+            faceRight[225] = 11357;
+            faceRight[224] = 11466;
+            faceRight[223] = 12065;
+            faceRight[222] = 12202;
+            faceRight[221] = 12591;
+            faceRight[220] = 12722;
+            faceRight[62] = 13554;
+            faceRight[219] = 13650;
+            faceRight[218] = 14362;
+            faceRight[217] = 14542;
+            faceRight[216] = 15353;
+            faceRight[215] = 15878;
+            faceRight[63] = 16337;
+            faceRight[214] = 16379;
+            faceRight[213] = 17122;
+            faceRight[212] = 17537;
+            faceRight[211] = 18083;
+            faceRight[210] = 18971;
+            faceRight[209] = 19286;
+            faceRight[64] = 19297;
+            faceRight[208] = 20688;
+            faceRight[207] = 21135;
+            faceRight[206] = 22179;
+            faceRight[65] = 22481;
+            faceRight[205] = 22964;
+            faceRight[204] = 23932;
+            faceRight[203] = 24406;
+            faceRight[202] = 25752;
+            faceRight[201] = 25967;
+            faceRight[66] = 26251;
+            faceRight[199] = 27199;
+            faceRight[200] = 27313;
+            faceRight[197] = 28736;
+            faceRight[198] = 28870;
+            faceRight[195] = 30414;
+            faceRight[196] = 30439;
+            faceRight[194] = 31930;
+            faceRight[67] = 32006;
+            faceRight[68] = 32086;
+            faceRight[193] = 32340;
+            faceRight[192] = 33902;
+            faceRight[69] = 33910;
+            faceRight[191] = 34947;
+            faceRight[73] = 35309;
+            faceRight[70] = 35983;
+            faceRight[71] = 36024;
+            faceRight[190] = 36792;
+            faceRight[72] = 37171;
+            faceRight[189] = 37966;
+            faceRight[74] = 38349;
+            faceRight[188] = 39637;
+            faceRight[75] = 40453;
+            faceRight[76] = 40779;
+            faceRight[187] = 41016;
+            faceRight[78] = 41956;
+            faceRight[186] = 42872;
+            faceRight[77] = 43080;
+            faceRight[79] = 44036;
+            faceRight[185] = 44040;
+            faceRight[184] = 46013;
+            faceRight[183] = 47312;
+            faceRight[80] = 48722;
+            faceRight[81] = 49412;
+            faceRight[182] = 49504;
+            faceRight[82] = 50222;
+            faceRight[181] = 50852;
+            faceRight[83] = 52210;
+            faceRight[180] = 52807;
+            faceRight[179] = 55157;
+            faceRight[178] = 56696;
+            faceRight[84] = 57340;
+            faceRight[177] = 59430;
+            faceRight[85] = 59793;
+            faceRight[176] = 61146;
+            faceRight[86] = 64382;
+            faceRight[175] = 64385;
+            faceRight[174] = 66307;
+            faceRight[87] = 68723;
+            faceRight[173] = 69178;
+            faceRight[172] = 72866;
+            faceRight[89] = 73122;
+            faceRight[88] = 73464;
+            faceRight[171] = 75817;
+            faceRight[170] = 78899;
+            faceRight[90] = 82162;
+            faceRight[169] = 82263;
+            faceRight[168] = 85654;
+            faceRight[91] = 87540;
+            faceRight[167] = 89943;
+            faceRight[92] = 91592;
+            faceRight[166] = 92770;
+            faceRight[165] = 97359;
+            faceRight[93] = 98762;
+            faceRight[164] = 101438;
+            faceRight[94] = 103750;
+            faceRight[163] = 106049;
+            faceRight[95] = 109875;
+            faceRight[162] = 111361;
+            faceRight[161] = 115142;
+            faceRight[96] = 117247;
+            faceRight[160] = 121103;
+            faceRight[97] = 123357;
+            faceRight[159] = 126529;
+            faceRight[158] = 131956;
+            faceRight[157] = 133960;
+            faceRight[98] = 136158;
+            faceRight[99] = 142111;
+            faceRight[156] = 142739;
+            faceRight[155] = 142777;
+            faceRight[100] = 143058;
+            faceRight[101] = 147790;
+            faceRight[154] = 147947;
+            faceRight[153] = 150114;
+            faceRight[102] = 155882;
+            faceRight[152] = 156208;
+            faceRight[151] = 158479;
+            faceRight[103] = 161184;
+            faceRight[150] = 163338;
+            faceRight[104] = 166403;
+            faceRight[149] = 168568;
+            faceRight[105] = 171122;
+            faceRight[148] = 174607;
+            faceRight[147] = 175753;
+            faceRight[106] = 177652;
+            faceRight[146] = 181495;
+            faceRight[107] = 183634;
+            faceRight[145] = 184797;
+            faceRight[108] = 189524;
+            faceRight[143] = 192248;
+            faceRight[110] = 192469;
+            faceRight[144] = 193876;
+            faceRight[109] = 193913;
+            faceRight[141] = 198454;
+            faceRight[142] = 199219;
+            faceRight[139] = 199867;
+            faceRight[111] = 201064;
+            faceRight[112] = 202710;
+            faceRight[140] = 203683;
+            faceRight[138] = 205572;
+            faceRight[137] = 205617;
+            faceRight[136] = 207657;
+            faceRight[130] = 209152;
+            faceRight[135] = 209441;
+            faceRight[113] = 209605;
+            faceRight[129] = 210434;
+            faceRight[114] = 210512;
+            faceRight[134] = 210635;
+            faceRight[131] = 210640;
+            faceRight[133] = 210703;
+            faceRight[116] = 212162;
+            faceRight[124] = 212248;
+            faceRight[115] = 212334;
+            faceRight[132] = 212358;
+            faceRight[122] = 213585;
+            faceRight[126] = 214126;
+            faceRight[123] = 215079;
+            faceRight[118] = 215581;
+            faceRight[128] = 215904;
+            faceRight[125] = 216030;
+            faceRight[121] = 216104;
+            faceRight[117] = 216504;
+            faceRight[120] = 217855;
+            faceRight[119] = 219491;
+            faceRight[127] = 221605;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
+
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[55] = 5;
+            faceTop[56] = 18;
+            faceTop[57] = 24;
+            faceTop[58] = 39;
+            faceTop[59] = 53;
+            faceTop[60] = 93;
+            faceTop[61] = 105;
+            faceTop[62] = 148;
+            faceTop[63] = 185;
+            faceTop[64] = 241;
+            faceTop[65] = 315;
+            faceTop[66] = 472;
+            faceTop[67] = 829;
+            faceTop[68] = 1124;
+            faceTop[69] = 1611;
+            faceTop[70] = 2104;
+            faceTop[71] = 2619;
+            faceTop[72] = 3350;
+            faceTop[73] = 3932;
+            faceTop[74] = 5084;
+            faceTop[251] = 5100;
+            faceTop[250] = 5300;
+            faceTop[252] = 5382;
+            faceTop[249] = 5409;
+            faceTop[248] = 5523;
+            faceTop[247] = 5747;
+            faceTop[253] = 6032;
+            faceTop[246] = 6089;
+            faceTop[245] = 6315;
+            faceTop[254] = 6370;
+            faceTop[244] = 6371;
+            faceTop[75] = 6426;
+            faceTop[243] = 6678;
+            faceTop[242] = 6836;
+            faceTop[241] = 7162;
+            faceTop[239] = 7268;
+            faceTop[240] = 7397;
+            faceTop[76] = 7449;
+            faceTop[238] = 8178;
+            faceTop[237] = 8337;
+            faceTop[236] = 8632;
+            faceTop[77] = 8893;
+            faceTop[235] = 9080;
+            faceTop[234] = 9350;
+            faceTop[233] = 10114;
+            faceTop[78] = 10195;
+            faceTop[232] = 10288;
+            faceTop[231] = 10870;
+            faceTop[230] = 11251;
+            faceTop[229] = 11714;
+            faceTop[79] = 11953;
+            faceTop[228] = 11976;
+            faceTop[227] = 12421;
+            faceTop[226] = 12951;
+            faceTop[225] = 13635;
+            faceTop[224] = 14107;
+            faceTop[80] = 14905;
+            faceTop[223] = 15153;
+            faceTop[222] = 15409;
+            faceTop[221] = 15640;
+            faceTop[220] = 16297;
+            faceTop[81] = 17112;
+            faceTop[219] = 17430;
+            faceTop[218] = 18372;
+            faceTop[217] = 18683;
+            faceTop[82] = 18967;
+            faceTop[216] = 19290;
+            faceTop[215] = 20029;
+            faceTop[83] = 20068;
+            faceTop[214] = 20873;
+            faceTop[213] = 22073;
+            faceTop[212] = 22464;
+            faceTop[84] = 22602;
+            faceTop[211] = 23201;
+            faceTop[210] = 24324;
+            faceTop[85] = 24351;
+            faceTop[209] = 24447;
+            faceTop[208] = 26510;
+            faceTop[207] = 26584;
+            faceTop[86] = 26813;
+            faceTop[206] = 28272;
+            faceTop[205] = 28869;
+            faceTop[87] = 29335;
+            faceTop[204] = 30783;
+            faceTop[203] = 31721;
+            faceTop[88] = 32575;
+            faceTop[202] = 33119;
+            faceTop[89] = 33148;
+            faceTop[201] = 33672;
+            faceTop[200] = 35646;
+            faceTop[199] = 36856;
+            faceTop[198] = 38317;
+            faceTop[197] = 38365;
+            faceTop[90] = 38742;
+            faceTop[196] = 41137;
+            faceTop[195] = 41769;
+            faceTop[91] = 42423;
+            faceTop[194] = 43617;
+            faceTop[193] = 43847;
+            faceTop[192] = 45780;
+            faceTop[92] = 46218;
+            faceTop[191] = 47442;
+            faceTop[190] = 49300;
+            faceTop[189] = 50220;
+            faceTop[93] = 50711;
+            faceTop[188] = 53122;
+            faceTop[187] = 53596;
+            faceTop[94] = 55717;
+            faceTop[186] = 56424;
+            faceTop[185] = 56945;
+            faceTop[184] = 59656;
+            faceTop[95] = 60355;
+            faceTop[183] = 60970;
+            faceTop[182] = 63896;
+            faceTop[181] = 66244;
+            faceTop[96] = 66501;
+            faceTop[180] = 67886;
+            faceTop[179] = 70590;
+            faceTop[178] = 72126;
+            faceTop[97] = 72216;
+            faceTop[177] = 74871;
+            faceTop[176] = 77062;
+            faceTop[175] = 79811;
+            faceTop[98] = 81949;
+            faceTop[174] = 82723;
+            faceTop[173] = 85472;
+            faceTop[172] = 88516;
+            faceTop[99] = 89074;
+            faceTop[171] = 91911;
+            faceTop[100] = 94448;
+            faceTop[170] = 95809;
+            faceTop[169] = 98474;
+            faceTop[101] = 100002;
+            faceTop[168] = 102582;
+            faceTop[167] = 106232;
+            faceTop[102] = 109446;
+            faceTop[166] = 109651;
+            faceTop[165] = 113841;
+            faceTop[103] = 117133;
+            faceTop[164] = 118790;
+            faceTop[163] = 122348;
+            faceTop[104] = 125136;
+            faceTop[162] = 128049;
+            faceTop[161] = 130995;
+            faceTop[105] = 131399;
+            faceTop[160] = 136637;
+            faceTop[106] = 141164;
+            faceTop[159] = 141512;
+            faceTop[158] = 148013;
+            faceTop[107] = 148155;
+            faceTop[157] = 149943;
+            faceTop[108] = 156753;
+            faceTop[156] = 160084;
+            faceTop[155] = 162112;
+            faceTop[109] = 165717;
+            faceTop[154] = 168748;
+            faceTop[110] = 169917;
+            faceTop[153] = 172618;
+            faceTop[152] = 179952;
+            faceTop[111] = 180925;
+            faceTop[151] = 182474;
+            faceTop[112] = 187061;
+            faceTop[150] = 189331;
+            faceTop[149] = 195726;
+            faceTop[113] = 199370;
+            faceTop[148] = 200703;
+            faceTop[147] = 202725;
+            faceTop[114] = 204434;
+            faceTop[146] = 209266;
+            faceTop[115] = 210184;
+            faceTop[145] = 211585;
+            faceTop[116] = 213504;
+            faceTop[143] = 218893;
+            faceTop[144] = 220767;
+            faceTop[117] = 221400;
+            faceTop[118] = 223496;
+            faceTop[141] = 225147;
+            faceTop[142] = 226320;
+            faceTop[139] = 228260;
+            faceTop[119] = 231048;
+            faceTop[140] = 231987;
+            faceTop[120] = 233164;
+            faceTop[122] = 236329;
+            faceTop[121] = 237436;
+            faceTop[138] = 237986;
+            faceTop[137] = 238208;
+            faceTop[124] = 240113;
+            faceTop[129] = 240565;
+            faceTop[130] = 241214;
+            faceTop[136] = 242354;
+            faceTop[123] = 242449;
+            faceTop[131] = 242788;
+            faceTop[133] = 244565;
+            faceTop[128] = 244939;
+            faceTop[135] = 244962;
+            faceTop[126] = 245527;
+            faceTop[132] = 245785;
+            faceTop[125] = 245799;
+            faceTop[134] = 247220;
+            faceTop[127] = 253667;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
+
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[54] = 8;
+            faceBottom[57] = 9;
+            faceBottom[55] = 10;
+            faceBottom[56] = 16;
+            faceBottom[58] = 24;
+            faceBottom[59] = 35;
+            faceBottom[60] = 44;
+            faceBottom[61] = 60;
+            faceBottom[62] = 84;
+            faceBottom[63] = 154;
+            faceBottom[64] = 179;
+            faceBottom[65] = 276;
+            faceBottom[66] = 392;
+            faceBottom[67] = 630;
+            faceBottom[68] = 762;
+            faceBottom[69] = 976;
+            faceBottom[70] = 1176;
+            faceBottom[71] = 1419;
+            faceBottom[72] = 1882;
+            faceBottom[73] = 2174;
+            faceBottom[74] = 2697;
+            faceBottom[75] = 3570;
+            faceBottom[76] = 4189;
+            faceBottom[77] = 5122;
+            faceBottom[78] = 5665;
+            faceBottom[79] = 6664;
+            faceBottom[80] = 8313;
+            faceBottom[81] = 9208;
+            faceBottom[82] = 10112;
+            faceBottom[83] = 11446;
+            faceBottom[84] = 13587;
+            faceBottom[85] = 15030;
+            faceBottom[250] = 15226;
+            faceBottom[249] = 15641;
+            faceBottom[251] = 15766;
+            faceBottom[248] = 15935;
+            faceBottom[86] = 16411;
+            faceBottom[247] = 16652;
+            faceBottom[252] = 17057;
+            faceBottom[246] = 17345;
+            faceBottom[245] = 18037;
+            faceBottom[87] = 18274;
+            faceBottom[244] = 18402;
+            faceBottom[243] = 19269;
+            faceBottom[242] = 20113;
+            faceBottom[88] = 20124;
+            faceBottom[253] = 20460;
+            faceBottom[89] = 20994;
+            faceBottom[241] = 21033;
+            faceBottom[239] = 21323;
+            faceBottom[240] = 21400;
+            faceBottom[238] = 22714;
+            faceBottom[237] = 23580;
+            faceBottom[236] = 23956;
+            faceBottom[90] = 24176;
+            faceBottom[234] = 25414;
+            faceBottom[235] = 25435;
+            faceBottom[91] = 26836;
+            faceBottom[254] = 27019;
+            faceBottom[233] = 27263;
+            faceBottom[232] = 27381;
+            faceBottom[231] = 28748;
+            faceBottom[92] = 28938;
+            faceBottom[230] = 29489;
+            faceBottom[229] = 30385;
+            faceBottom[228] = 30980;
+            faceBottom[93] = 31658;
+            faceBottom[227] = 32276;
+            faceBottom[226] = 32482;
+            faceBottom[225] = 33884;
+            faceBottom[224] = 34125;
+            faceBottom[94] = 34567;
+            faceBottom[222] = 35228;
+            faceBottom[223] = 35477;
+            faceBottom[221] = 36304;
+            faceBottom[220] = 36635;
+            faceBottom[95] = 37256;
+            faceBottom[219] = 37812;
+            faceBottom[217] = 39078;
+            faceBottom[218] = 39146;
+            faceBottom[216] = 39170;
+            faceBottom[215] = 40035;
+            faceBottom[96] = 40471;
+            faceBottom[214] = 41061;
+            faceBottom[213] = 42215;
+            faceBottom[212] = 43787;
+            faceBottom[211] = 44387;
+            faceBottom[97] = 44500;
+            faceBottom[210] = 46090;
+            faceBottom[209] = 46401;
+            faceBottom[208] = 49615;
+            faceBottom[207] = 49886;
+            faceBottom[98] = 50293;
+            faceBottom[206] = 52071;
+            faceBottom[99] = 52327;
+            faceBottom[205] = 52619;
+            faceBottom[100] = 54005;
+            faceBottom[204] = 55248;
+            faceBottom[203] = 55326;
+            faceBottom[101] = 56060;
+            faceBottom[202] = 58782;
+            faceBottom[201] = 59755;
+            faceBottom[102] = 60712;
+            faceBottom[200] = 62135;
+            faceBottom[199] = 62658;
+            faceBottom[103] = 64372;
+            faceBottom[198] = 65351;
+            faceBottom[197] = 65865;
+            faceBottom[104] = 67836;
+            faceBottom[196] = 69702;
+            faceBottom[195] = 69926;
+            faceBottom[105] = 70019;
+            faceBottom[194] = 73051;
+            faceBottom[193] = 73983;
+            faceBottom[106] = 74153;
+            faceBottom[192] = 77024;
+            faceBottom[107] = 77501;
+            faceBottom[191] = 79603;
+            faceBottom[108] = 81364;
+            faceBottom[190] = 82567;
+            faceBottom[189] = 84446;
+            faceBottom[109] = 84744;
+            faceBottom[110] = 86889;
+            faceBottom[188] = 88096;
+            faceBottom[187] = 89681;
+            faceBottom[111] = 92375;
+            faceBottom[186] = 93671;
+            faceBottom[112] = 95336;
+            faceBottom[185] = 96241;
+            faceBottom[184] = 99390;
+            faceBottom[183] = 102491;
+            faceBottom[113] = 103689;
+            faceBottom[182] = 107334;
+            faceBottom[114] = 107829;
+            faceBottom[181] = 110196;
+            faceBottom[180] = 113513;
+            faceBottom[115] = 114126;
+            faceBottom[179] = 118076;
+            faceBottom[116] = 118511;
+            faceBottom[178] = 120201;
+            faceBottom[117] = 124431;
+            faceBottom[177] = 125339;
+            faceBottom[118] = 128080;
+            faceBottom[176] = 128703;
+            faceBottom[175] = 133083;
+            faceBottom[119] = 133741;
+            faceBottom[174] = 136464;
+            faceBottom[120] = 137596;
+            faceBottom[173] = 140324;
+            faceBottom[121] = 141355;
+            faceBottom[172] = 144855;
+            faceBottom[122] = 144979;
+            faceBottom[124] = 147504;
+            faceBottom[171] = 149385;
+            faceBottom[123] = 149685;
+            faceBottom[170] = 151705;
+            faceBottom[125] = 153987;
+            faceBottom[169] = 156593;
+            faceBottom[126] = 156877;
+            faceBottom[168] = 160230;
+            faceBottom[129] = 161230;
+            faceBottom[128] = 161884;
+            faceBottom[127] = 162422;
+            faceBottom[167] = 164246;
+            faceBottom[130] = 165327;
+            faceBottom[166] = 167501;
+            faceBottom[131] = 170468;
+            faceBottom[165] = 171601;
+            faceBottom[164] = 174379;
+            faceBottom[132] = 176317;
+            faceBottom[163] = 176671;
+            faceBottom[161] = 180842;
+            faceBottom[133] = 181241;
+            faceBottom[162] = 182141;
+            faceBottom[160] = 186055;
+            faceBottom[134] = 186398;
+            faceBottom[159] = 188897;
+            faceBottom[157] = 189150;
+            faceBottom[135] = 189560;
+            faceBottom[158] = 191989;
+            faceBottom[136] = 194751;
+            faceBottom[155] = 196082;
+            faceBottom[137] = 198473;
+            faceBottom[156] = 198626;
+            faceBottom[154] = 200037;
+            faceBottom[153] = 200212;
+            faceBottom[139] = 201121;
+            faceBottom[138] = 201696;
+            faceBottom[151] = 205140;
+            faceBottom[152] = 206008;
+            faceBottom[141] = 208577;
+            faceBottom[150] = 208785;
+            faceBottom[140] = 209050;
+            faceBottom[149] = 210176;
+            faceBottom[143] = 210486;
+            faceBottom[147] = 211328;
+            faceBottom[145] = 211588;
+            faceBottom[148] = 212800;
+            faceBottom[146] = 212894;
+            faceBottom[142] = 213183;
+            faceBottom[144] = 215842;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
+
+            mapInfo.ProcessAllInfo();
+
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[ATA_07_TITANIA] = mapInfo;
+        }
+
+        private static void LoadUmbrielOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
+
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[180] = 5;
+            faceFront[182] = 5;
+            faceFront[178] = 8;
+            faceFront[179] = 12;
+            faceFront[177] = 18;
+            faceFront[176] = 481;
+            faceFront[175] = 757;
+            faceFront[160] = 933;
+            faceFront[163] = 967;
+            faceFront[164] = 1120;
+            faceFront[172] = 1125;
+            faceFront[159] = 1227;
+            faceFront[167] = 1228;
+            faceFront[165] = 1317;
+            faceFront[161] = 1334;
+            faceFront[142] = 1486;
+            faceFront[174] = 1558;
+            faceFront[146] = 1669;
+            faceFront[169] = 1679;
+            faceFront[170] = 1730;
+            faceFront[168] = 1760;
+            faceFront[140] = 1811;
+            faceFront[171] = 1878;
+            faceFront[148] = 1917;
+            faceFront[162] = 1934;
+            faceFront[152] = 1971;
+            faceFront[153] = 2011;
+            faceFront[158] = 2037;
+            faceFront[156] = 2101;
+            faceFront[166] = 2157;
+            faceFront[144] = 2250;
+            faceFront[157] = 2251;
+            faceFront[154] = 2263;
+            faceFront[138] = 2342;
+            faceFront[150] = 2352;
+            faceFront[155] = 2383;
+            faceFront[149] = 2409;
+            faceFront[173] = 2719;
+            faceFront[151] = 2822;
+            faceFront[129] = 2936;
+            faceFront[143] = 2950;
+            faceFront[147] = 3004;
+            faceFront[141] = 3206;
+            faceFront[136] = 3241;
+            faceFront[139] = 3733;
+            faceFront[145] = 3781;
+            faceFront[133] = 3919;
+            faceFront[132] = 3943;
+            faceFront[134] = 4114;
+            faceFront[137] = 4124;
+            faceFront[123] = 4210;
+            faceFront[135] = 4452;
+            faceFront[126] = 5200;
+            faceFront[131] = 5219;
+            faceFront[119] = 5303;
+            faceFront[127] = 5352;
+            faceFront[120] = 5702;
+            faceFront[130] = 6404;
+            faceFront[128] = 6477;
+            faceFront[115] = 7564;
+            faceFront[122] = 7748;
+            faceFront[125] = 7782;
+            faceFront[124] = 7823;
+            faceFront[1] = 10668;
+            faceFront[117] = 11192;
+            faceFront[2] = 11259;
+            faceFront[118] = 11914;
+            faceFront[121] = 11989;
+            faceFront[116] = 14204;
+            faceFront[111] = 14626;
+            faceFront[112] = 17394;
+            faceFront[105] = 17425;
+            faceFront[114] = 18384;
+            faceFront[109] = 19606;
+            faceFront[113] = 21260;
+            faceFront[110] = 21732;
+            faceFront[108] = 21811;
+            faceFront[106] = 22848;
+            faceFront[4] = 24941;
+            faceFront[101] = 26191;
+            faceFront[3] = 27052;
+            faceFront[7] = 27516;
+            faceFront[5] = 29995;
+            faceFront[96] = 30455;
+            faceFront[98] = 31174;
+            faceFront[9] = 32875;
+            faceFront[107] = 34052;
+            faceFront[103] = 36021;
+            faceFront[6] = 43215;
+            faceFront[92] = 44322;
+            faceFront[104] = 44464;
+            faceFront[102] = 46784;
+            faceFront[100] = 52184;
+            faceFront[8] = 53240;
+            faceFront[94] = 53710;
+            faceFront[89] = 54008;
+            faceFront[95] = 56849;
+            faceFront[99] = 58468;
+            faceFront[80] = 63221;
+            faceFront[93] = 66631;
+            faceFront[85] = 66836;
+            faceFront[91] = 68518;
+            faceFront[13] = 70491;
+            faceFront[90] = 71151;
+            faceFront[75] = 73074;
+            faceFront[12] = 76358;
+            faceFront[87] = 77200;
+            faceFront[10] = 77256;
+            faceFront[88] = 78258;
+            faceFront[65] = 79588;
+            faceFront[17] = 83079;
+            faceFront[82] = 83461;
+            faceFront[97] = 86286;
+            faceFront[15] = 86473;
+            faceFront[66] = 90961;
+            faceFront[14] = 92598;
+            faceFront[84] = 93247;
+            faceFront[77] = 100794;
+            faceFront[86] = 105297;
+            faceFront[68] = 109058;
+            faceFront[11] = 109093;
+            faceFront[83] = 121329;
+            faceFront[74] = 125611;
+            faceFront[71] = 130374;
+            faceFront[72] = 134372;
+            faceFront[43] = 135046;
+            faceFront[79] = 136743;
+            faceFront[19] = 138418;
+            faceFront[73] = 138828;
+            faceFront[16] = 142177;
+            faceFront[78] = 147630;
+            faceFront[70] = 149456;
+            faceFront[51] = 153314;
+            faceFront[81] = 157797;
+            faceFront[20] = 164033;
+            faceFront[60] = 168296;
+            faceFront[40] = 169179;
+            faceFront[39] = 172829;
+            faceFront[56] = 176544;
+            faceFront[63] = 178683;
+            faceFront[76] = 179918;
+            faceFront[21] = 181086;
+            faceFront[58] = 183662;
+            faceFront[45] = 185844;
+            faceFront[47] = 186186;
+            faceFront[49] = 193729;
+            faceFront[69] = 194244;
+            faceFront[59] = 196925;
+            faceFront[22] = 199636;
+            faceFront[34] = 199686;
+            faceFront[18] = 202052;
+            faceFront[61] = 210127;
+            faceFront[67] = 218807;
+            faceFront[23] = 221046;
+            faceFront[62] = 224712;
+            faceFront[26] = 228158;
+            faceFront[64] = 244858;
+            faceFront[57] = 245671;
+            faceFront[55] = 246774;
+            faceFront[54] = 250037;
+            faceFront[31] = 250450;
+            faceFront[24] = 260752;
+            faceFront[52] = 263114;
+            faceFront[29] = 263347;
+            faceFront[37] = 265752;
+            faceFront[25] = 269276;
+            faceFront[42] = 288239;
+            faceFront[33] = 291116;
+            faceFront[53] = 291251;
+            faceFront[46] = 293894;
+            faceFront[38] = 313757;
+            faceFront[36] = 326711;
+            faceFront[27] = 334199;
+            faceFront[35] = 346624;
+            faceFront[41] = 350064;
+            faceFront[30] = 352838;
+            faceFront[48] = 358756;
+            faceFront[32] = 359334;
+            faceFront[50] = 359694;
+            faceFront[28] = 371738;
+            faceFront[44] = 387336;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
+
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[3] = 14;
+            faceBack[4] = 17;
+            faceBack[1] = 23;
+            faceBack[5] = 82;
+            faceBack[6] = 85;
+            faceBack[7] = 108;
+            faceBack[240] = 144;
+            faceBack[229] = 390;
+            faceBack[228] = 413;
+            faceBack[230] = 423;
+            faceBack[227] = 519;
+            faceBack[226] = 690;
+            faceBack[225] = 963;
+            faceBack[223] = 1082;
+            faceBack[224] = 1166;
+            faceBack[222] = 1231;
+            faceBack[221] = 1621;
+            faceBack[9] = 1804;
+            faceBack[8] = 2182;
+            faceBack[220] = 2285;
+            faceBack[219] = 2469;
+            faceBack[218] = 3389;
+            faceBack[212] = 3511;
+            faceBack[217] = 3751;
+            faceBack[214] = 4374;
+            faceBack[213] = 4526;
+            faceBack[215] = 4651;
+            faceBack[216] = 4672;
+            faceBack[17] = 4857;
+            faceBack[211] = 5067;
+            faceBack[210] = 5086;
+            faceBack[209] = 5307;
+            faceBack[13] = 5935;
+            faceBack[207] = 6471;
+            faceBack[208] = 6572;
+            faceBack[10] = 7359;
+            faceBack[206] = 8637;
+            faceBack[204] = 9558;
+            faceBack[203] = 10665;
+            faceBack[202] = 11198;
+            faceBack[205] = 11570;
+            faceBack[201] = 11819;
+            faceBack[11] = 13866;
+            faceBack[200] = 15107;
+            faceBack[15] = 17607;
+            faceBack[14] = 17905;
+            faceBack[199] = 18163;
+            faceBack[198] = 21260;
+            faceBack[12] = 25521;
+            faceBack[197] = 27134;
+            faceBack[19] = 28261;
+            faceBack[179] = 29745;
+            faceBack[181] = 29776;
+            faceBack[180] = 31197;
+            faceBack[195] = 32081;
+            faceBack[178] = 32154;
+            faceBack[193] = 33496;
+            faceBack[196] = 33865;
+            faceBack[177] = 35124;
+            faceBack[194] = 35962;
+            faceBack[176] = 37292;
+            faceBack[192] = 37921;
+            faceBack[182] = 40933;
+            faceBack[172] = 41386;
+            faceBack[174] = 41923;
+            faceBack[170] = 42011;
+            faceBack[171] = 42312;
+            faceBack[175] = 42786;
+            faceBack[168] = 43468;
+            faceBack[173] = 43603;
+            faceBack[169] = 43614;
+            faceBack[191] = 45271;
+            faceBack[16] = 45635;
+            faceBack[23] = 46409;
+            faceBack[164] = 47426;
+            faceBack[190] = 47838;
+            faceBack[120] = 47935;
+            faceBack[185] = 49201;
+            faceBack[165] = 50519;
+            faceBack[167] = 51107;
+            faceBack[21] = 51130;
+            faceBack[183] = 52303;
+            faceBack[166] = 54170;
+            faceBack[123] = 54287;
+            faceBack[186] = 54315;
+            faceBack[184] = 55239;
+            faceBack[189] = 55956;
+            faceBack[119] = 56015;
+            faceBack[163] = 57042;
+            faceBack[161] = 57832;
+            faceBack[162] = 58427;
+            faceBack[66] = 58739;
+            faceBack[160] = 58816;
+            faceBack[129] = 59481;
+            faceBack[96] = 60470;
+            faceBack[20] = 60742;
+            faceBack[115] = 61285;
+            faceBack[159] = 61502;
+            faceBack[101] = 63139;
+            faceBack[80] = 65037;
+            faceBack[188] = 65674;
+            faceBack[158] = 65789;
+            faceBack[187] = 70231;
+            faceBack[75] = 71748;
+            faceBack[25] = 73410;
+            faceBack[26] = 73493;
+            faceBack[34] = 75238;
+            faceBack[157] = 76076;
+            faceBack[132] = 76272;
+            faceBack[140] = 77734;
+            faceBack[156] = 78738;
+            faceBack[152] = 80744;
+            faceBack[22] = 81232;
+            faceBack[126] = 81730;
+            faceBack[154] = 82476;
+            faceBack[106] = 83168;
+            faceBack[65] = 83930;
+            faceBack[155] = 83974;
+            faceBack[153] = 84673;
+            faceBack[138] = 84832;
+            faceBack[111] = 85151;
+            faceBack[117] = 85201;
+            faceBack[18] = 85297;
+            faceBack[61] = 86042;
+            faceBack[60] = 86055;
+            faceBack[105] = 86381;
+            faceBack[85] = 86442;
+            faceBack[148] = 86840;
+            faceBack[147] = 87217;
+            faceBack[149] = 87497;
+            faceBack[150] = 87767;
+            faceBack[146] = 88062;
+            faceBack[128] = 88282;
+            faceBack[59] = 88976;
+            faceBack[145] = 90236;
+            faceBack[92] = 90887;
+            faceBack[143] = 91054;
+            faceBack[141] = 91192;
+            faceBack[71] = 91711;
+            faceBack[68] = 92058;
+            faceBack[144] = 92187;
+            faceBack[57] = 92662;
+            faceBack[151] = 92718;
+            faceBack[58] = 92804;
+            faceBack[109] = 95119;
+            faceBack[142] = 95513;
+            faceBack[131] = 95572;
+            faceBack[41] = 95877;
+            faceBack[63] = 96464;
+            faceBack[56] = 96781;
+            faceBack[24] = 96811;
+            faceBack[122] = 98177;
+            faceBack[43] = 98935;
+            faceBack[90] = 98985;
+            faceBack[94] = 100092;
+            faceBack[72] = 100637;
+            faceBack[108] = 101187;
+            faceBack[70] = 102131;
+            faceBack[87] = 103625;
+            faceBack[137] = 103672;
+            faceBack[116] = 105437;
+            faceBack[28] = 105999;
+            faceBack[73] = 106044;
+            faceBack[89] = 106718;
+            faceBack[29] = 106925;
+            faceBack[134] = 107592;
+            faceBack[88] = 107880;
+            faceBack[27] = 108574;
+            faceBack[135] = 108816;
+            faceBack[62] = 109251;
+            faceBack[74] = 109315;
+            faceBack[139] = 109812;
+            faceBack[82] = 110591;
+            faceBack[93] = 110795;
+            faceBack[36] = 112459;
+            faceBack[124] = 112836;
+            faceBack[84] = 113303;
+            faceBack[112] = 114446;
+            faceBack[91] = 114609;
+            faceBack[52] = 115153;
+            faceBack[69] = 115350;
+            faceBack[98] = 115627;
+            faceBack[77] = 115815;
+            faceBack[32] = 117575;
+            faceBack[40] = 117950;
+            faceBack[67] = 117955;
+            faceBack[118] = 118460;
+            faceBack[103] = 119142;
+            faceBack[53] = 119146;
+            faceBack[78] = 119503;
+            faceBack[64] = 119504;
+            faceBack[136] = 119765;
+            faceBack[95] = 119870;
+            faceBack[121] = 120667;
+            faceBack[45] = 120769;
+            faceBack[133] = 121262;
+            faceBack[110] = 121425;
+            faceBack[55] = 122455;
+            faceBack[76] = 122455;
+            faceBack[39] = 124119;
+            faceBack[125] = 125722;
+            faceBack[54] = 126535;
+            faceBack[31] = 126712;
+            faceBack[48] = 129675;
+            faceBack[47] = 130849;
+            faceBack[107] = 131500;
+            faceBack[86] = 133475;
+            faceBack[51] = 133712;
+            faceBack[114] = 134176;
+            faceBack[30] = 134992;
+            faceBack[37] = 135798;
+            faceBack[79] = 136448;
+            faceBack[46] = 137833;
+            faceBack[44] = 138678;
+            faceBack[113] = 139238;
+            faceBack[83] = 140274;
+            faceBack[49] = 142307;
+            faceBack[130] = 142842;
+            faceBack[127] = 144286;
+            faceBack[38] = 145566;
+            faceBack[81] = 147167;
+            faceBack[100] = 147859;
+            faceBack[33] = 148222;
+            faceBack[35] = 150297;
+            faceBack[42] = 151149;
+            faceBack[50] = 153649;
+            faceBack[97] = 156363;
+            faceBack[99] = 158502;
+            faceBack[102] = 160210;
+            faceBack[104] = 164914;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
+
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[1] = 63;
+            faceLeft[2] = 130;
+            faceLeft[3] = 153;
+            faceLeft[5] = 216;
+            faceLeft[220] = 222;
+            faceLeft[224] = 241;
+            faceLeft[4] = 273;
+            faceLeft[214] = 273;
+            faceLeft[218] = 279;
+            faceLeft[221] = 280;
+            faceLeft[222] = 300;
+            faceLeft[223] = 320;
+            faceLeft[225] = 327;
+            faceLeft[6] = 333;
+            faceLeft[216] = 341;
+            faceLeft[212] = 346;
+            faceLeft[219] = 347;
+            faceLeft[215] = 355;
+            faceLeft[226] = 365;
+            faceLeft[213] = 410;
+            faceLeft[217] = 443;
+            faceLeft[209] = 458;
+            faceLeft[210] = 478;
+            faceLeft[227] = 480;
+            faceLeft[211] = 486;
+            faceLeft[228] = 553;
+            faceLeft[240] = 574;
+            faceLeft[207] = 644;
+            faceLeft[206] = 665;
+            faceLeft[208] = 702;
+            faceLeft[205] = 772;
+            faceLeft[204] = 817;
+            faceLeft[203] = 902;
+            faceLeft[202] = 1155;
+            faceLeft[201] = 1164;
+            faceLeft[200] = 1203;
+            faceLeft[229] = 1337;
+            faceLeft[199] = 1433;
+            faceLeft[198] = 1464;
+            faceLeft[197] = 1722;
+            faceLeft[230] = 1749;
+            faceLeft[196] = 1963;
+            faceLeft[194] = 1979;
+            faceLeft[195] = 2059;
+            faceLeft[7] = 2099;
+            faceLeft[9] = 2178;
+            faceLeft[192] = 2598;
+            faceLeft[193] = 2608;
+            faceLeft[190] = 3077;
+            faceLeft[191] = 3313;
+            faceLeft[189] = 3481;
+            faceLeft[8] = 3530;
+            faceLeft[188] = 3912;
+            faceLeft[186] = 4062;
+            faceLeft[187] = 4194;
+            faceLeft[185] = 4278;
+            faceLeft[183] = 4679;
+            faceLeft[184] = 4768;
+            faceLeft[182] = 5146;
+            faceLeft[10] = 5363;
+            faceLeft[181] = 5564;
+            faceLeft[174] = 6246;
+            faceLeft[178] = 6390;
+            faceLeft[180] = 6611;
+            faceLeft[176] = 6859;
+            faceLeft[179] = 7046;
+            faceLeft[177] = 7109;
+            faceLeft[11] = 7164;
+            faceLeft[173] = 7225;
+            faceLeft[175] = 7277;
+            faceLeft[172] = 7577;
+            faceLeft[170] = 8477;
+            faceLeft[171] = 8485;
+            faceLeft[169] = 9242;
+            faceLeft[168] = 9500;
+            faceLeft[166] = 11174;
+            faceLeft[167] = 11890;
+            faceLeft[164] = 11915;
+            faceLeft[165] = 12530;
+            faceLeft[162] = 13571;
+            faceLeft[161] = 13694;
+            faceLeft[163] = 13848;
+            faceLeft[160] = 15624;
+            faceLeft[159] = 16876;
+            faceLeft[158] = 17691;
+            faceLeft[156] = 18097;
+            faceLeft[150] = 19255;
+            faceLeft[154] = 19983;
+            faceLeft[157] = 20177;
+            faceLeft[153] = 20282;
+            faceLeft[155] = 20408;
+            faceLeft[152] = 20754;
+            faceLeft[151] = 20804;
+            faceLeft[148] = 20838;
+            faceLeft[149] = 22113;
+            faceLeft[17] = 22647;
+            faceLeft[12] = 22961;
+            faceLeft[146] = 22971;
+            faceLeft[147] = 23103;
+            faceLeft[144] = 24036;
+            faceLeft[13] = 25678;
+            faceLeft[137] = 25782;
+            faceLeft[129] = 26460;
+            faceLeft[142] = 27097;
+            faceLeft[135] = 27286;
+            faceLeft[140] = 27316;
+            faceLeft[138] = 27871;
+            faceLeft[145] = 27901;
+            faceLeft[126] = 28051;
+            faceLeft[141] = 28120;
+            faceLeft[131] = 28412;
+            faceLeft[143] = 28986;
+            faceLeft[132] = 29648;
+            faceLeft[128] = 30001;
+            faceLeft[123] = 30367;
+            faceLeft[133] = 31288;
+            faceLeft[134] = 31631;
+            faceLeft[139] = 32820;
+            faceLeft[14] = 33028;
+            faceLeft[120] = 33634;
+            faceLeft[15] = 37548;
+            faceLeft[122] = 38013;
+            faceLeft[115] = 38075;
+            faceLeft[16] = 38159;
+            faceLeft[136] = 38626;
+            faceLeft[119] = 38756;
+            faceLeft[125] = 39943;
+            faceLeft[121] = 40436;
+            faceLeft[124] = 40446;
+            faceLeft[112] = 41940;
+            faceLeft[130] = 43328;
+            faceLeft[109] = 44719;
+            faceLeft[96] = 44980;
+            faceLeft[101] = 45260;
+            faceLeft[118] = 47578;
+            faceLeft[117] = 50489;
+            faceLeft[127] = 51274;
+            faceLeft[116] = 53331;
+            faceLeft[111] = 54762;
+            faceLeft[106] = 54857;
+            faceLeft[110] = 56856;
+            faceLeft[105] = 58572;
+            faceLeft[114] = 59423;
+            faceLeft[92] = 63898;
+            faceLeft[108] = 65208;
+            faceLeft[113] = 65430;
+            faceLeft[98] = 68247;
+            faceLeft[94] = 69039;
+            faceLeft[107] = 71915;
+            faceLeft[89] = 75911;
+            faceLeft[103] = 76591;
+            faceLeft[80] = 77486;
+            faceLeft[102] = 82829;
+            faceLeft[104] = 84752;
+            faceLeft[75] = 86412;
+            faceLeft[99] = 87374;
+            faceLeft[93] = 87409;
+            faceLeft[90] = 88417;
+            faceLeft[95] = 90704;
+            faceLeft[85] = 92272;
+            faceLeft[91] = 93382;
+            faceLeft[43] = 98004;
+            faceLeft[40] = 99254;
+            faceLeft[66] = 100477;
+            faceLeft[88] = 102028;
+            faceLeft[39] = 103142;
+            faceLeft[65] = 104151;
+            faceLeft[19] = 104509;
+            faceLeft[87] = 106045;
+            faceLeft[100] = 109273;
+            faceLeft[18] = 110825;
+            faceLeft[84] = 111605;
+            faceLeft[82] = 113616;
+            faceLeft[97] = 114020;
+            faceLeft[51] = 114388;
+            faceLeft[86] = 119243;
+            faceLeft[77] = 119511;
+            faceLeft[20] = 120905;
+            faceLeft[21] = 123572;
+            faceLeft[45] = 124391;
+            faceLeft[47] = 126546;
+            faceLeft[68] = 132077;
+            faceLeft[74] = 132233;
+            faceLeft[71] = 133229;
+            faceLeft[60] = 135257;
+            faceLeft[22] = 136101;
+            faceLeft[72] = 142353;
+            faceLeft[59] = 143207;
+            faceLeft[49] = 145834;
+            faceLeft[79] = 150066;
+            faceLeft[34] = 152118;
+            faceLeft[83] = 153675;
+            faceLeft[70] = 155416;
+            faceLeft[56] = 158394;
+            faceLeft[62] = 160832;
+            faceLeft[23] = 163612;
+            faceLeft[73] = 169430;
+            faceLeft[55] = 173405;
+            faceLeft[64] = 175112;
+            faceLeft[58] = 177454;
+            faceLeft[25] = 181291;
+            faceLeft[42] = 183478;
+            faceLeft[31] = 187635;
+            faceLeft[26] = 187659;
+            faceLeft[81] = 189587;
+            faceLeft[78] = 193220;
+            faceLeft[69] = 200867;
+            faceLeft[37] = 205850;
+            faceLeft[76] = 206518;
+            faceLeft[63] = 213083;
+            faceLeft[67] = 213736;
+            faceLeft[61] = 213940;
+            faceLeft[57] = 215654;
+            faceLeft[29] = 221490;
+            faceLeft[53] = 233569;
+            faceLeft[24] = 234851;
+            faceLeft[46] = 247118;
+            faceLeft[38] = 252792;
+            faceLeft[33] = 257134;
+            faceLeft[52] = 267215;
+            faceLeft[27] = 273697;
+            faceLeft[54] = 283593;
+            faceLeft[41] = 292989;
+            faceLeft[36] = 297966;
+            faceLeft[44] = 311096;
+            faceLeft[50] = 323621;
+            faceLeft[48] = 336667;
+            faceLeft[35] = 358687;
+            faceLeft[28] = 368789;
+            faceLeft[30] = 376254;
+            faceLeft[32] = 407753;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
+
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[191] = 214;
+            faceRight[185] = 223;
+            faceRight[220] = 279;
+            faceRight[214] = 282;
+            faceRight[218] = 309;
+            faceRight[203] = 362;
+            faceRight[217] = 368;
+            faceRight[202] = 370;
+            faceRight[216] = 378;
+            faceRight[219] = 378;
+            faceRight[193] = 389;
+            faceRight[194] = 389;
+            faceRight[221] = 390;
+            faceRight[205] = 394;
+            faceRight[212] = 399;
+            faceRight[178] = 410;
+            faceRight[215] = 414;
+            faceRight[224] = 414;
+            faceRight[183] = 423;
+            faceRight[189] = 437;
+            faceRight[188] = 438;
+            faceRight[209] = 443;
+            faceRight[213] = 452;
+            faceRight[222] = 462;
+            faceRight[179] = 463;
+            faceRight[225] = 466;
+            faceRight[195] = 479;
+            faceRight[196] = 479;
+            faceRight[211] = 485;
+            faceRight[208] = 492;
+            faceRight[1] = 514;
+            faceRight[190] = 514;
+            faceRight[169] = 516;
+            faceRight[175] = 520;
+            faceRight[223] = 524;
+            faceRight[197] = 527;
+            faceRight[199] = 546;
+            faceRight[184] = 550;
+            faceRight[172] = 559;
+            faceRight[176] = 592;
+            faceRight[198] = 615;
+            faceRight[204] = 617;
+            faceRight[180] = 626;
+            faceRight[187] = 627;
+            faceRight[192] = 638;
+            faceRight[186] = 647;
+            faceRight[207] = 665;
+            faceRight[206] = 672;
+            faceRight[200] = 692;
+            faceRight[181] = 693;
+            faceRight[226] = 693;
+            faceRight[177] = 700;
+            faceRight[210] = 744;
+            faceRight[182] = 783;
+            faceRight[167] = 789;
+            faceRight[173] = 819;
+            faceRight[171] = 823;
+            faceRight[174] = 853;
+            faceRight[166] = 863;
+            faceRight[201] = 885;
+            faceRight[170] = 991;
+            faceRight[227] = 1034;
+            faceRight[168] = 1055;
+            faceRight[165] = 1117;
+            faceRight[164] = 1129;
+            faceRight[163] = 1339;
+            faceRight[161] = 1363;
+            faceRight[158] = 1405;
+            faceRight[160] = 1406;
+            faceRight[162] = 1419;
+            faceRight[159] = 1571;
+            faceRight[156] = 1691;
+            faceRight[155] = 1878;
+            faceRight[153] = 1943;
+            faceRight[157] = 1978;
+            faceRight[154] = 2035;
+            faceRight[228] = 2039;
+            faceRight[152] = 2224;
+            faceRight[150] = 2482;
+            faceRight[151] = 2638;
+            faceRight[147] = 3135;
+            faceRight[148] = 3393;
+            faceRight[149] = 3539;
+            faceRight[146] = 3586;
+            faceRight[2] = 3592;
+            faceRight[144] = 3833;
+            faceRight[145] = 4002;
+            faceRight[140] = 4983;
+            faceRight[141] = 5351;
+            faceRight[143] = 5378;
+            faceRight[138] = 6085;
+            faceRight[142] = 6171;
+            faceRight[132] = 6811;
+            faceRight[3] = 7325;
+            faceRight[129] = 7362;
+            faceRight[139] = 7804;
+            faceRight[137] = 8169;
+            faceRight[135] = 9819;
+            faceRight[136] = 10017;
+            faceRight[123] = 10438;
+            faceRight[134] = 10537;
+            faceRight[126] = 10957;
+            faceRight[119] = 11431;
+            faceRight[128] = 11955;
+            faceRight[120] = 12018;
+            faceRight[131] = 12075;
+            faceRight[4] = 12548;
+            faceRight[240] = 13405;
+            faceRight[122] = 14381;
+            faceRight[133] = 14745;
+            faceRight[115] = 15333;
+            faceRight[229] = 15473;
+            faceRight[125] = 15908;
+            faceRight[116] = 17025;
+            faceRight[130] = 18426;
+            faceRight[9] = 19355;
+            faceRight[117] = 19563;
+            faceRight[111] = 21369;
+            faceRight[127] = 21875;
+            faceRight[113] = 22022;
+            faceRight[7] = 22447;
+            faceRight[106] = 22936;
+            faceRight[101] = 24864;
+            faceRight[105] = 25415;
+            faceRight[124] = 25558;
+            faceRight[118] = 25781;
+            faceRight[121] = 26346;
+            faceRight[108] = 27094;
+            faceRight[8] = 27610;
+            faceRight[109] = 28146;
+            faceRight[230] = 29427;
+            faceRight[114] = 30071;
+            faceRight[98] = 31159;
+            faceRight[100] = 32062;
+            faceRight[95] = 32942;
+            faceRight[110] = 33025;
+            faceRight[5] = 34169;
+            faceRight[103] = 34451;
+            faceRight[80] = 34891;
+            faceRight[112] = 35175;
+            faceRight[92] = 37536;
+            faceRight[82] = 38350;
+            faceRight[75] = 38482;
+            faceRight[84] = 39653;
+            faceRight[79] = 39818;
+            faceRight[107] = 39904;
+            faceRight[85] = 39944;
+            faceRight[6] = 41066;
+            faceRight[94] = 42069;
+            faceRight[96] = 42784;
+            faceRight[66] = 43605;
+            faceRight[87] = 51908;
+            faceRight[90] = 53642;
+            faceRight[102] = 54261;
+            faceRight[77] = 54516;
+            faceRight[88] = 54840;
+            faceRight[97] = 55152;
+            faceRight[17] = 55604;
+            faceRight[91] = 59583;
+            faceRight[89] = 60405;
+            faceRight[11] = 60436;
+            faceRight[74] = 60670;
+            faceRight[13] = 62480;
+            faceRight[10] = 63003;
+            faceRight[104] = 64904;
+            faceRight[65] = 65169;
+            faceRight[71] = 67523;
+            faceRight[86] = 68234;
+            faceRight[93] = 70912;
+            faceRight[15] = 71634;
+            faceRight[99] = 72363;
+            faceRight[14] = 73336;
+            faceRight[70] = 74376;
+            faceRight[72] = 78161;
+            faceRight[68] = 82415;
+            faceRight[83] = 84140;
+            faceRight[81] = 96487;
+            faceRight[78] = 96878;
+            faceRight[64] = 102166;
+            faceRight[73] = 103662;
+            faceRight[76] = 104743;
+            faceRight[59] = 106480;
+            faceRight[12] = 110880;
+            faceRight[60] = 113285;
+            faceRight[69] = 123270;
+            faceRight[62] = 126922;
+            faceRight[16] = 133250;
+            faceRight[63] = 147114;
+            faceRight[58] = 154901;
+            faceRight[19] = 155065;
+            faceRight[67] = 157098;
+            faceRight[61] = 163748;
+            faceRight[56] = 167366;
+            faceRight[43] = 173315;
+            faceRight[18] = 180611;
+            faceRight[55] = 186984;
+            faceRight[57] = 190876;
+            faceRight[20] = 197389;
+            faceRight[21] = 206516;
+            faceRight[51] = 207218;
+            faceRight[40] = 217695;
+            faceRight[47] = 217895;
+            faceRight[49] = 224191;
+            faceRight[31] = 226600;
+            faceRight[45] = 228942;
+            faceRight[34] = 239374;
+            faceRight[23] = 253723;
+            faceRight[22] = 255529;
+            faceRight[52] = 257062;
+            faceRight[54] = 257504;
+            faceRight[25] = 261434;
+            faceRight[53] = 262534;
+            faceRight[29] = 265277;
+            faceRight[39] = 267371;
+            faceRight[26] = 289891;
+            faceRight[42] = 308913;
+            faceRight[33] = 319480;
+            faceRight[27] = 343720;
+            faceRight[46] = 359586;
+            faceRight[37] = 367133;
+            faceRight[36] = 374080;
+            faceRight[38] = 374657;
+            faceRight[41] = 392485;
+            faceRight[50] = 398175;
+            faceRight[48] = 406442;
+            faceRight[24] = 406753;
+            faceRight[30] = 449058;
+            faceRight[28] = 458506;
+            faceRight[44] = 471466;
+            faceRight[35] = 475499;
+            faceRight[32] = 497732;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
+
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[216] = 22;
+            faceTop[213] = 23;
+            faceTop[215] = 28;
+            faceTop[214] = 29;
+            faceTop[208] = 34;
+            faceTop[211] = 35;
+            faceTop[210] = 45;
+            faceTop[209] = 75;
+            faceTop[207] = 92;
+            faceTop[212] = 111;
+            faceTop[205] = 189;
+            faceTop[206] = 194;
+            faceTop[203] = 199;
+            faceTop[204] = 220;
+            faceTop[202] = 286;
+            faceTop[201] = 387;
+            faceTop[200] = 423;
+            faceTop[199] = 478;
+            faceTop[195] = 501;
+            faceTop[194] = 574;
+            faceTop[190] = 647;
+            faceTop[193] = 657;
+            faceTop[196] = 675;
+            faceTop[198] = 773;
+            faceTop[192] = 805;
+            faceTop[191] = 806;
+            faceTop[185] = 902;
+            faceTop[189] = 1011;
+            faceTop[186] = 1053;
+            faceTop[187] = 1128;
+            faceTop[182] = 1185;
+            faceTop[197] = 1194;
+            faceTop[181] = 1208;
+            faceTop[183] = 1271;
+            faceTop[184] = 1291;
+            faceTop[180] = 1313;
+            faceTop[172] = 1322;
+            faceTop[179] = 1451;
+            faceTop[177] = 1569;
+            faceTop[188] = 1637;
+            faceTop[178] = 1724;
+            faceTop[170] = 1807;
+            faceTop[175] = 1816;
+            faceTop[169] = 1828;
+            faceTop[168] = 1918;
+            faceTop[167] = 1940;
+            faceTop[174] = 1992;
+            faceTop[171] = 2032;
+            faceTop[176] = 2038;
+            faceTop[165] = 2072;
+            faceTop[164] = 2363;
+            faceTop[173] = 2373;
+            faceTop[162] = 2387;
+            faceTop[166] = 2585;
+            faceTop[159] = 2978;
+            faceTop[160] = 3002;
+            faceTop[163] = 3026;
+            faceTop[161] = 3168;
+            faceTop[158] = 3333;
+            faceTop[156] = 3422;
+            faceTop[155] = 3583;
+            faceTop[154] = 3724;
+            faceTop[157] = 3768;
+            faceTop[153] = 3876;
+            faceTop[149] = 4430;
+            faceTop[151] = 4451;
+            faceTop[152] = 4825;
+            faceTop[147] = 5112;
+            faceTop[145] = 5418;
+            faceTop[148] = 5545;
+            faceTop[146] = 5607;
+            faceTop[150] = 5947;
+            faceTop[143] = 7744;
+            faceTop[144] = 7956;
+            faceTop[142] = 8418;
+            faceTop[141] = 9113;
+            faceTop[140] = 9142;
+            faceTop[139] = 10101;
+            faceTop[138] = 12324;
+            faceTop[133] = 12596;
+            faceTop[131] = 13067;
+            faceTop[136] = 14112;
+            faceTop[134] = 14433;
+            faceTop[137] = 14566;
+            faceTop[135] = 14569;
+            faceTop[121] = 14892;
+            faceTop[130] = 15943;
+            faceTop[128] = 16381;
+            faceTop[132] = 16830;
+            faceTop[120] = 17324;
+            faceTop[122] = 19344;
+            faceTop[112] = 19914;
+            faceTop[127] = 20002;
+            faceTop[125] = 21033;
+            faceTop[118] = 21108;
+            faceTop[110] = 21157;
+            faceTop[124] = 21549;
+            faceTop[117] = 21636;
+            faceTop[119] = 22422;
+            faceTop[2] = 23218;
+            faceTop[123] = 23655;
+            faceTop[129] = 24249;
+            faceTop[107] = 24661;
+            faceTop[126] = 25604;
+            faceTop[97] = 26308;
+            faceTop[103] = 29023;
+            faceTop[116] = 29169;
+            faceTop[113] = 29210;
+            faceTop[8] = 30337;
+            faceTop[115] = 31741;
+            faceTop[114] = 34490;
+            faceTop[102] = 34965;
+            faceTop[109] = 35103;
+            faceTop[95] = 36238;
+            faceTop[111] = 38155;
+            faceTop[108] = 38619;
+            faceTop[101] = 38693;
+            faceTop[13] = 39242;
+            faceTop[90] = 40564;
+            faceTop[93] = 40932;
+            faceTop[99] = 41817;
+            faceTop[105] = 43863;
+            faceTop[104] = 46225;
+            faceTop[92] = 46662;
+            faceTop[106] = 46937;
+            faceTop[100] = 49013;
+            faceTop[89] = 52277;
+            faceTop[86] = 54870;
+            faceTop[9] = 55879;
+            faceTop[94] = 56112;
+            faceTop[87] = 57909;
+            faceTop[81] = 58263;
+            faceTop[96] = 58304;
+            faceTop[66] = 60747;
+            faceTop[88] = 62724;
+            faceTop[91] = 64156;
+            faceTop[7] = 64898;
+            faceTop[26] = 65676;
+            faceTop[76] = 67597;
+            faceTop[83] = 68455;
+            faceTop[1] = 68830;
+            faceTop[67] = 73523;
+            faceTop[98] = 75157;
+            faceTop[4] = 76214;
+            faceTop[82] = 77232;
+            faceTop[74] = 77774;
+            faceTop[80] = 78687;
+            faceTop[5] = 81364;
+            faceTop[41] = 81584;
+            faceTop[85] = 83679;
+            faceTop[84] = 84044;
+            faceTop[73] = 85933;
+            faceTop[78] = 87545;
+            faceTop[52] = 87607;
+            faceTop[11] = 87648;
+            faceTop[71] = 92051;
+            faceTop[68] = 92989;
+            faceTop[72] = 98017;
+            faceTop[40] = 99558;
+            faceTop[6] = 103571;
+            faceTop[14] = 107427;
+            faceTop[75] = 108084;
+            faceTop[77] = 114349;
+            faceTop[79] = 114611;
+            faceTop[17] = 116552;
+            faceTop[32] = 117147;
+            faceTop[69] = 119280;
+            faceTop[61] = 121490;
+            faceTop[57] = 122254;
+            faceTop[70] = 122972;
+            faceTop[34] = 123137;
+            faceTop[65] = 128929;
+            faceTop[43] = 129250;
+            faceTop[10] = 131145;
+            faceTop[59] = 131561;
+            faceTop[62] = 134041;
+            faceTop[46] = 134459;
+            faceTop[15] = 134920;
+            faceTop[3] = 146454;
+            faceTop[60] = 151163;
+            faceTop[48] = 151395;
+            faceTop[58] = 155634;
+            faceTop[64] = 166765;
+            faceTop[20] = 168225;
+            faceTop[44] = 174864;
+            faceTop[24] = 176230;
+            faceTop[55] = 180197;
+            faceTop[63] = 182166;
+            faceTop[50] = 183840;
+            faceTop[56] = 189222;
+            faceTop[53] = 199894;
+            faceTop[54] = 200940;
+            faceTop[28] = 219183;
+            faceTop[47] = 228054;
+            faceTop[38] = 228915;
+            faceTop[51] = 232850;
+            faceTop[16] = 241117;
+            faceTop[45] = 260597;
+            faceTop[22] = 268469;
+            faceTop[18] = 268619;
+            faceTop[36] = 272648;
+            faceTop[39] = 277162;
+            faceTop[30] = 278799;
+            faceTop[35] = 280174;
+            faceTop[49] = 285846;
+            faceTop[23] = 342557;
+            faceTop[31] = 345546;
+            faceTop[37] = 366070;
+            faceTop[21] = 392474;
+            faceTop[12] = 401432;
+            faceTop[42] = 402107;
+            faceTop[19] = 448138;
+            faceTop[27] = 474367;
+            faceTop[29] = 482598;
+            faceTop[33] = 516017;
+            faceTop[25] = 559611;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
+
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[1] = 27;
+            faceBottom[2] = 64;
+            faceBottom[228] = 257;
+            faceBottom[227] = 271;
+            faceBottom[226] = 285;
+            faceBottom[225] = 470;
+            faceBottom[224] = 611;
+            faceBottom[223] = 666;
+            faceBottom[222] = 705;
+            faceBottom[221] = 735;
+            faceBottom[219] = 988;
+            faceBottom[215] = 991;
+            faceBottom[220] = 1037;
+            faceBottom[217] = 1083;
+            faceBottom[218] = 1100;
+            faceBottom[210] = 1153;
+            faceBottom[216] = 1177;
+            faceBottom[213] = 1220;
+            faceBottom[214] = 1417;
+            faceBottom[206] = 1438;
+            faceBottom[208] = 1441;
+            faceBottom[240] = 1588;
+            faceBottom[212] = 1650;
+            faceBottom[204] = 1788;
+            faceBottom[211] = 1931;
+            faceBottom[229] = 1969;
+            faceBottom[207] = 1974;
+            faceBottom[209] = 2046;
+            faceBottom[205] = 2130;
+            faceBottom[203] = 2218;
+            faceBottom[202] = 2427;
+            faceBottom[199] = 2943;
+            faceBottom[201] = 2953;
+            faceBottom[200] = 3089;
+            faceBottom[197] = 3181;
+            faceBottom[198] = 3561;
+            faceBottom[230] = 3619;
+            faceBottom[196] = 4422;
+            faceBottom[195] = 4699;
+            faceBottom[193] = 5445;
+            faceBottom[194] = 6208;
+            faceBottom[192] = 6440;
+            faceBottom[189] = 6546;
+            faceBottom[186] = 6966;
+            faceBottom[190] = 7094;
+            faceBottom[185] = 7212;
+            faceBottom[191] = 7364;
+            faceBottom[184] = 7416;
+            faceBottom[188] = 7446;
+            faceBottom[187] = 7502;
+            faceBottom[183] = 8722;
+            faceBottom[182] = 9792;
+            faceBottom[180] = 11154;
+            faceBottom[177] = 11578;
+            faceBottom[181] = 11581;
+            faceBottom[176] = 11730;
+            faceBottom[174] = 11739;
+            faceBottom[175] = 11986;
+            faceBottom[179] = 12260;
+            faceBottom[173] = 12483;
+            faceBottom[172] = 12484;
+            faceBottom[171] = 12521;
+            faceBottom[178] = 12725;
+            faceBottom[167] = 12946;
+            faceBottom[3] = 13017;
+            faceBottom[169] = 13691;
+            faceBottom[165] = 14210;
+            faceBottom[168] = 14230;
+            faceBottom[166] = 14333;
+            faceBottom[170] = 14648;
+            faceBottom[164] = 14956;
+            faceBottom[163] = 15487;
+            faceBottom[162] = 15543;
+            faceBottom[161] = 16870;
+            faceBottom[159] = 17815;
+            faceBottom[158] = 18102;
+            faceBottom[160] = 18330;
+            faceBottom[157] = 19367;
+            faceBottom[156] = 19802;
+            faceBottom[155] = 21428;
+            faceBottom[154] = 21583;
+            faceBottom[152] = 22123;
+            faceBottom[153] = 22984;
+            faceBottom[150] = 24369;
+            faceBottom[151] = 24527;
+            faceBottom[149] = 24680;
+            faceBottom[147] = 26861;
+            faceBottom[132] = 27266;
+            faceBottom[144] = 28147;
+            faceBottom[103] = 28838;
+            faceBottom[141] = 28984;
+            faceBottom[148] = 28991;
+            faceBottom[138] = 29056;
+            faceBottom[143] = 29125;
+            faceBottom[146] = 29126;
+            faceBottom[117] = 29386;
+            faceBottom[145] = 29805;
+            faceBottom[126] = 30072;
+            faceBottom[130] = 30441;
+            faceBottom[106] = 30468;
+            faceBottom[127] = 32203;
+            faceBottom[136] = 32344;
+            faceBottom[135] = 32755;
+            faceBottom[119] = 32798;
+            faceBottom[139] = 33108;
+            faceBottom[128] = 34271;
+            faceBottom[140] = 34916;
+            faceBottom[113] = 35274;
+            faceBottom[134] = 35314;
+            faceBottom[142] = 35678;
+            faceBottom[125] = 36417;
+            faceBottom[129] = 36585;
+            faceBottom[114] = 36746;
+            faceBottom[122] = 37022;
+            faceBottom[110] = 37297;
+            faceBottom[4] = 37479;
+            faceBottom[123] = 37910;
+            faceBottom[133] = 38786;
+            faceBottom[137] = 38830;
+            faceBottom[131] = 39765;
+            faceBottom[116] = 41991;
+            faceBottom[124] = 42309;
+            faceBottom[109] = 43731;
+            faceBottom[120] = 44858;
+            faceBottom[97] = 46414;
+            faceBottom[100] = 50393;
+            faceBottom[13] = 52436;
+            faceBottom[107] = 53341;
+            faceBottom[121] = 56187;
+            faceBottom[86] = 56501;
+            faceBottom[101] = 57577;
+            faceBottom[118] = 57891;
+            faceBottom[94] = 59329;
+            faceBottom[111] = 60095;
+            faceBottom[115] = 60780;
+            faceBottom[6] = 61792;
+            faceBottom[99] = 63112;
+            faceBottom[112] = 63644;
+            faceBottom[9] = 64287;
+            faceBottom[7] = 65108;
+            faceBottom[11] = 65308;
+            faceBottom[91] = 67743;
+            faceBottom[102] = 67901;
+            faceBottom[95] = 68107;
+            faceBottom[104] = 68653;
+            faceBottom[105] = 68905;
+            faceBottom[98] = 70639;
+            faceBottom[108] = 70989;
+            faceBottom[8] = 72212;
+            faceBottom[89] = 72680;
+            faceBottom[83] = 74768;
+            faceBottom[96] = 76479;
+            faceBottom[76] = 80538;
+            faceBottom[92] = 80834;
+            faceBottom[93] = 89144;
+            faceBottom[5] = 90242;
+            faceBottom[70] = 90667;
+            faceBottom[82] = 91353;
+            faceBottom[79] = 93117;
+            faceBottom[81] = 93685;
+            faceBottom[72] = 94567;
+            faceBottom[88] = 97013;
+            faceBottom[10] = 98764;
+            faceBottom[78] = 100523;
+            faceBottom[75] = 100657;
+            faceBottom[87] = 100863;
+            faceBottom[85] = 101601;
+            faceBottom[73] = 104073;
+            faceBottom[67] = 104078;
+            faceBottom[74] = 105223;
+            faceBottom[71] = 106956;
+            faceBottom[12] = 108236;
+            faceBottom[80] = 108924;
+            faceBottom[61] = 112385;
+            faceBottom[77] = 112508;
+            faceBottom[65] = 115859;
+            faceBottom[69] = 116940;
+            faceBottom[90] = 118854;
+            faceBottom[66] = 119125;
+            faceBottom[14] = 119362;
+            faceBottom[64] = 120642;
+            faceBottom[15] = 123508;
+            faceBottom[84] = 126181;
+            faceBottom[60] = 130274;
+            faceBottom[17] = 131332;
+            faceBottom[62] = 132179;
+            faceBottom[68] = 134593;
+            faceBottom[16] = 135659;
+            faceBottom[51] = 138394;
+            faceBottom[56] = 138696;
+            faceBottom[63] = 139651;
+            faceBottom[57] = 149195;
+            faceBottom[58] = 153457;
+            faceBottom[20] = 155809;
+            faceBottom[55] = 156864;
+            faceBottom[19] = 161318;
+            faceBottom[54] = 163415;
+            faceBottom[50] = 164600;
+            faceBottom[22] = 164696;
+            faceBottom[44] = 165959;
+            faceBottom[53] = 174152;
+            faceBottom[24] = 174203;
+            faceBottom[59] = 174257;
+            faceBottom[21] = 174479;
+            faceBottom[48] = 174537;
+            faceBottom[49] = 175376;
+            faceBottom[45] = 177877;
+            faceBottom[52] = 179807;
+            faceBottom[18] = 188882;
+            faceBottom[46] = 194872;
+            faceBottom[47] = 195222;
+            faceBottom[27] = 210534;
+            faceBottom[31] = 212499;
+            faceBottom[30] = 213064;
+            faceBottom[37] = 233018;
+            faceBottom[43] = 247135;
+            faceBottom[39] = 252787;
+            faceBottom[40] = 260333;
+            faceBottom[38] = 263863;
+            faceBottom[29] = 264073;
+            faceBottom[23] = 267035;
+            faceBottom[28] = 267590;
+            faceBottom[41] = 267860;
+            faceBottom[26] = 271082;
+            faceBottom[35] = 272817;
+            faceBottom[36] = 284781;
+            faceBottom[34] = 284859;
+            faceBottom[25] = 286387;
+            faceBottom[33] = 296210;
+            faceBottom[42] = 307197;
+            faceBottom[32] = 312929;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
+
+            mapInfo.ProcessAllInfo();
+
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[ATA_07_UMBRIEL] = mapInfo;
+        }
+
+        private static void LoadArielOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
+
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[209] = 69;
+            faceFront[13] = 101;
+            faceFront[16] = 227;
+            faceFront[15] = 247;
+            faceFront[14] = 259;
+            faceFront[17] = 259;
+            faceFront[208] = 271;
+            faceFront[29] = 279;
+            faceFront[30] = 284;
+            faceFront[25] = 292;
+            faceFront[26] = 293;
+            faceFront[24] = 294;
+            faceFront[28] = 295;
+            faceFront[27] = 296;
+            faceFront[23] = 304;
+            faceFront[21] = 308;
+            faceFront[20] = 309;
+            faceFront[22] = 309;
+            faceFront[19] = 311;
+            faceFront[18] = 320;
+            faceFront[33] = 327;
+            faceFront[32] = 338;
+            faceFront[31] = 366;
+            faceFront[34] = 401;
+            faceFront[207] = 433;
+            faceFront[35] = 435;
+            faceFront[38] = 464;
+            faceFront[36] = 471;
+            faceFront[37] = 492;
+            faceFront[39] = 534;
+            faceFront[40] = 541;
+            faceFront[41] = 617;
+            faceFront[42] = 638;
+            faceFront[206] = 646;
+            faceFront[43] = 680;
+            faceFront[205] = 825;
+            faceFront[44] = 993;
+            faceFront[204] = 1506;
+            faceFront[46] = 1528;
+            faceFront[45] = 1606;
+            faceFront[202] = 1656;
+            faceFront[203] = 1713;
+            faceFront[201] = 2083;
+            faceFront[200] = 2311;
+            faceFront[198] = 2396;
+            faceFront[47] = 2460;
+            faceFront[197] = 2520;
+            faceFront[48] = 2534;
+            faceFront[196] = 2670;
+            faceFront[199] = 2692;
+            faceFront[195] = 3121;
+            faceFront[49] = 3184;
+            faceFront[194] = 3544;
+            faceFront[50] = 3808;
+            faceFront[53] = 3862;
+            faceFront[51] = 4221;
+            faceFront[52] = 4483;
+            faceFront[193] = 5135;
+            faceFront[54] = 5279;
+            faceFront[192] = 6446;
+            faceFront[55] = 7350;
+            faceFront[191] = 7809;
+            faceFront[190] = 9247;
+            faceFront[56] = 9390;
+            faceFront[59] = 9833;
+            faceFront[58] = 9855;
+            faceFront[189] = 10784;
+            faceFront[60] = 11147;
+            faceFront[57] = 11522;
+            faceFront[188] = 12451;
+            faceFront[66] = 12575;
+            faceFront[61] = 12824;
+            faceFront[62] = 12844;
+            faceFront[65] = 13292;
+            faceFront[67] = 13952;
+            faceFront[68] = 15322;
+            faceFront[187] = 15618;
+            faceFront[63] = 15625;
+            faceFront[64] = 16213;
+            faceFront[69] = 16517;
+            faceFront[70] = 18389;
+            faceFront[186] = 18838;
+            faceFront[72] = 19285;
+            faceFront[71] = 20053;
+            faceFront[73] = 20771;
+            faceFront[185] = 21011;
+            faceFront[76] = 21209;
+            faceFront[74] = 21258;
+            faceFront[75] = 21495;
+            faceFront[77] = 22326;
+            faceFront[78] = 23807;
+            faceFront[184] = 24959;
+            faceFront[79] = 26602;
+            faceFront[80] = 28984;
+            faceFront[183] = 29714;
+            faceFront[81] = 30264;
+            faceFront[182] = 31111;
+            faceFront[82] = 32792;
+            faceFront[181] = 34910;
+            faceFront[83] = 35056;
+            faceFront[180] = 35642;
+            faceFront[84] = 38236;
+            faceFront[179] = 39644;
+            faceFront[177] = 40855;
+            faceFront[85] = 41406;
+            faceFront[178] = 41579;
+            faceFront[176] = 41684;
+            faceFront[175] = 43111;
+            faceFront[86] = 44574;
+            faceFront[174] = 44874;
+            faceFront[173] = 48038;
+            faceFront[87] = 49483;
+            faceFront[88] = 52140;
+            faceFront[172] = 52141;
+            faceFront[89] = 54538;
+            faceFront[171] = 54672;
+            faceFront[170] = 55105;
+            faceFront[90] = 57111;
+            faceFront[91] = 58424;
+            faceFront[169] = 60179;
+            faceFront[92] = 61586;
+            faceFront[93] = 63611;
+            faceFront[94] = 68034;
+            faceFront[168] = 68422;
+            faceFront[167] = 70997;
+            faceFront[166] = 74296;
+            faceFront[95] = 74344;
+            faceFront[96] = 78418;
+            faceFront[165] = 81896;
+            faceFront[97] = 83968;
+            faceFront[164] = 88952;
+            faceFront[98] = 93155;
+            faceFront[163] = 94481;
+            faceFront[99] = 97300;
+            faceFront[162] = 98200;
+            faceFront[161] = 103988;
+            faceFront[100] = 108419;
+            faceFront[160] = 111385;
+            faceFront[159] = 114055;
+            faceFront[158] = 115540;
+            faceFront[157] = 117448;
+            faceFront[156] = 120272;
+            faceFront[101] = 120371;
+            faceFront[102] = 124136;
+            faceFront[155] = 124142;
+            faceFront[103] = 129996;
+            faceFront[154] = 134186;
+            faceFront[104] = 137236;
+            faceFront[153] = 143984;
+            faceFront[105] = 145529;
+            faceFront[106] = 153473;
+            faceFront[152] = 153916;
+            faceFront[107] = 164370;
+            faceFront[108] = 169105;
+            faceFront[151] = 169802;
+            faceFront[150] = 171619;
+            faceFront[149] = 175860;
+            faceFront[109] = 176625;
+            faceFront[148] = 181125;
+            faceFront[110] = 185177;
+            faceFront[111] = 192301;
+            faceFront[147] = 193184;
+            faceFront[112] = 195293;
+            faceFront[146] = 200810;
+            faceFront[113] = 206801;
+            faceFront[145] = 217465;
+            faceFront[114] = 217669;
+            faceFront[115] = 226843;
+            faceFront[144] = 240052;
+            faceFront[116] = 242396;
+            faceFront[143] = 253105;
+            faceFront[117] = 255071;
+            faceFront[118] = 262040;
+            faceFront[142] = 264465;
+            faceFront[119] = 268127;
+            faceFront[120] = 274405;
+            faceFront[141] = 274867;
+            faceFront[121] = 283069;
+            faceFront[140] = 287755;
+            faceFront[122] = 289345;
+            faceFront[123] = 296140;
+            faceFront[124] = 298405;
+            faceFront[139] = 298548;
+            faceFront[126] = 304815;
+            faceFront[125] = 305069;
+            faceFront[138] = 309906;
+            faceFront[137] = 310904;
+            faceFront[127] = 312623;
+            faceFront[136] = 316485;
+            faceFront[128] = 322808;
+            faceFront[129] = 326262;
+            faceFront[135] = 326475;
+            faceFront[130] = 330581;
+            faceFront[132] = 333399;
+            faceFront[131] = 333819;
+            faceFront[133] = 335170;
+            faceFront[134] = 335599;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
+
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[210] = 64;
+            faceBack[209] = 398;
+            faceBack[2] = 448;
+            faceBack[208] = 843;
+            faceBack[206] = 909;
+            faceBack[205] = 986;
+            faceBack[207] = 1022;
+            faceBack[203] = 1228;
+            faceBack[202] = 1231;
+            faceBack[204] = 1285;
+            faceBack[201] = 1591;
+            faceBack[199] = 2071;
+            faceBack[198] = 2094;
+            faceBack[200] = 2103;
+            faceBack[196] = 2233;
+            faceBack[197] = 2246;
+            faceBack[195] = 2258;
+            faceBack[3] = 2274;
+            faceBack[194] = 2713;
+            faceBack[193] = 2812;
+            faceBack[192] = 3115;
+            faceBack[191] = 3524;
+            faceBack[4] = 3891;
+            faceBack[190] = 4568;
+            faceBack[189] = 6718;
+            faceBack[5] = 7175;
+            faceBack[188] = 7611;
+            faceBack[6] = 8751;
+            faceBack[187] = 8906;
+            faceBack[186] = 9183;
+            faceBack[185] = 9264;
+            faceBack[184] = 9934;
+            faceBack[10] = 10193;
+            faceBack[183] = 10452;
+            faceBack[9] = 10543;
+            faceBack[22] = 10675;
+            faceBack[21] = 10694;
+            faceBack[11] = 10951;
+            faceBack[23] = 11132;
+            faceBack[20] = 11192;
+            faceBack[34] = 11358;
+            faceBack[7] = 11466;
+            faceBack[33] = 11524;
+            faceBack[35] = 11546;
+            faceBack[8] = 11582;
+            faceBack[16] = 11602;
+            faceBack[12] = 11603;
+            faceBack[19] = 11680;
+            faceBack[182] = 11747;
+            faceBack[18] = 11748;
+            faceBack[26] = 11790;
+            faceBack[15] = 11793;
+            faceBack[13] = 11851;
+            faceBack[32] = 11853;
+            faceBack[27] = 11856;
+            faceBack[14] = 12031;
+            faceBack[31] = 12054;
+            faceBack[17] = 12157;
+            faceBack[29] = 12223;
+            faceBack[28] = 12245;
+            faceBack[30] = 12285;
+            faceBack[25] = 12680;
+            faceBack[36] = 12965;
+            faceBack[181] = 13349;
+            faceBack[38] = 13472;
+            faceBack[24] = 13655;
+            faceBack[39] = 13655;
+            faceBack[37] = 14449;
+            faceBack[40] = 14539;
+            faceBack[180] = 15341;
+            faceBack[179] = 15418;
+            faceBack[41] = 16527;
+            faceBack[178] = 16726;
+            faceBack[43] = 19059;
+            faceBack[42] = 19147;
+            faceBack[177] = 19440;
+            faceBack[44] = 20894;
+            faceBack[176] = 21978;
+            faceBack[47] = 22153;
+            faceBack[46] = 22630;
+            faceBack[48] = 22657;
+            faceBack[175] = 22753;
+            faceBack[50] = 23204;
+            faceBack[45] = 23451;
+            faceBack[49] = 23451;
+            faceBack[174] = 23761;
+            faceBack[51] = 24065;
+            faceBack[54] = 24882;
+            faceBack[52] = 24947;
+            faceBack[55] = 25020;
+            faceBack[53] = 25271;
+            faceBack[56] = 25312;
+            faceBack[173] = 25892;
+            faceBack[61] = 25935;
+            faceBack[57] = 25986;
+            faceBack[60] = 26105;
+            faceBack[62] = 26722;
+            faceBack[58] = 26773;
+            faceBack[59] = 27040;
+            faceBack[172] = 28029;
+            faceBack[63] = 28602;
+            faceBack[64] = 29627;
+            faceBack[65] = 30092;
+            faceBack[171] = 30661;
+            faceBack[170] = 31943;
+            faceBack[66] = 33155;
+            faceBack[67] = 33958;
+            faceBack[169] = 34161;
+            faceBack[68] = 35704;
+            faceBack[69] = 35952;
+            faceBack[168] = 38974;
+            faceBack[70] = 40514;
+            faceBack[167] = 42599;
+            faceBack[72] = 43462;
+            faceBack[73] = 43604;
+            faceBack[74] = 43685;
+            faceBack[75] = 44887;
+            faceBack[166] = 45105;
+            faceBack[71] = 45323;
+            faceBack[165] = 47761;
+            faceBack[76] = 49186;
+            faceBack[77] = 51413;
+            faceBack[164] = 51466;
+            faceBack[78] = 54914;
+            faceBack[163] = 58274;
+            faceBack[80] = 58493;
+            faceBack[162] = 58972;
+            faceBack[79] = 59031;
+            faceBack[81] = 61074;
+            faceBack[161] = 61221;
+            faceBack[82] = 64755;
+            faceBack[160] = 67742;
+            faceBack[83] = 68309;
+            faceBack[84] = 71993;
+            faceBack[159] = 74047;
+            faceBack[85] = 75957;
+            faceBack[86] = 79370;
+            faceBack[158] = 79540;
+            faceBack[87] = 83107;
+            faceBack[88] = 84412;
+            faceBack[157] = 84808;
+            faceBack[89] = 90158;
+            faceBack[156] = 92126;
+            faceBack[90] = 94315;
+            faceBack[91] = 99382;
+            faceBack[155] = 101016;
+            faceBack[154] = 105674;
+            faceBack[92] = 106648;
+            faceBack[153] = 110572;
+            faceBack[93] = 111452;
+            faceBack[94] = 115953;
+            faceBack[152] = 118101;
+            faceBack[95] = 120816;
+            faceBack[151] = 123393;
+            faceBack[96] = 125914;
+            faceBack[150] = 128925;
+            faceBack[97] = 130160;
+            faceBack[149] = 136546;
+            faceBack[98] = 138376;
+            faceBack[148] = 144902;
+            faceBack[99] = 146261;
+            faceBack[100] = 151455;
+            faceBack[147] = 154655;
+            faceBack[101] = 155637;
+            faceBack[102] = 161612;
+            faceBack[146] = 162855;
+            faceBack[103] = 169986;
+            faceBack[145] = 171359;
+            faceBack[104] = 177122;
+            faceBack[144] = 177989;
+            faceBack[143] = 180187;
+            faceBack[142] = 186796;
+            faceBack[105] = 187869;
+            faceBack[141] = 191535;
+            faceBack[106] = 195319;
+            faceBack[140] = 206188;
+            faceBack[107] = 208164;
+            faceBack[139] = 219445;
+            faceBack[108] = 220928;
+            faceBack[114] = 224017;
+            faceBack[138] = 225831;
+            faceBack[115] = 226450;
+            faceBack[113] = 227791;
+            faceBack[109] = 227956;
+            faceBack[112] = 228003;
+            faceBack[137] = 228858;
+            faceBack[116] = 231238;
+            faceBack[110] = 235070;
+            faceBack[117] = 235481;
+            faceBack[111] = 235831;
+            faceBack[136] = 237055;
+            faceBack[118] = 240220;
+            faceBack[119] = 243715;
+            faceBack[135] = 248070;
+            faceBack[120] = 253767;
+            faceBack[134] = 254403;
+            faceBack[133] = 259655;
+            faceBack[121] = 267718;
+            faceBack[122] = 268829;
+            faceBack[123] = 274705;
+            faceBack[131] = 284474;
+            faceBack[132] = 284795;
+            faceBack[124] = 286252;
+            faceBack[130] = 292642;
+            faceBack[125] = 299635;
+            faceBack[129] = 300164;
+            faceBack[126] = 300637;
+            faceBack[127] = 301827;
+            faceBack[128] = 307875;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
+
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[22] = 11;
+            faceLeft[208] = 57;
+            faceLeft[207] = 192;
+            faceLeft[23] = 212;
+            faceLeft[24] = 247;
+            faceLeft[25] = 268;
+            faceLeft[26] = 310;
+            faceLeft[27] = 338;
+            faceLeft[205] = 416;
+            faceLeft[28] = 419;
+            faceLeft[204] = 438;
+            faceLeft[30] = 475;
+            faceLeft[29] = 476;
+            faceLeft[206] = 596;
+            faceLeft[203] = 669;
+            faceLeft[31] = 718;
+            faceLeft[32] = 1025;
+            faceLeft[37] = 1078;
+            faceLeft[33] = 1080;
+            faceLeft[36] = 1081;
+            faceLeft[202] = 1090;
+            faceLeft[35] = 1124;
+            faceLeft[34] = 1183;
+            faceLeft[201] = 1214;
+            faceLeft[200] = 1239;
+            faceLeft[38] = 1270;
+            faceLeft[39] = 1449;
+            faceLeft[40] = 1562;
+            faceLeft[199] = 1712;
+            faceLeft[41] = 1874;
+            faceLeft[198] = 2353;
+            faceLeft[42] = 2422;
+            faceLeft[43] = 2460;
+            faceLeft[44] = 2545;
+            faceLeft[45] = 2818;
+            faceLeft[46] = 3278;
+            faceLeft[47] = 3682;
+            faceLeft[197] = 3728;
+            faceLeft[49] = 4100;
+            faceLeft[48] = 4216;
+            faceLeft[50] = 4785;
+            faceLeft[51] = 5284;
+            faceLeft[196] = 5642;
+            faceLeft[52] = 5808;
+            faceLeft[53] = 6172;
+            faceLeft[54] = 6231;
+            faceLeft[195] = 6576;
+            faceLeft[55] = 7060;
+            faceLeft[56] = 7914;
+            faceLeft[194] = 8298;
+            faceLeft[57] = 8909;
+            faceLeft[58] = 9780;
+            faceLeft[59] = 9942;
+            faceLeft[193] = 10187;
+            faceLeft[60] = 10978;
+            faceLeft[61] = 12885;
+            faceLeft[192] = 13775;
+            faceLeft[62] = 14316;
+            faceLeft[63] = 15565;
+            faceLeft[191] = 16583;
+            faceLeft[64] = 17291;
+            faceLeft[65] = 19320;
+            faceLeft[190] = 20926;
+            faceLeft[66] = 22205;
+            faceLeft[189] = 24302;
+            faceLeft[188] = 26130;
+            faceLeft[67] = 26748;
+            faceLeft[187] = 28320;
+            faceLeft[68] = 29505;
+            faceLeft[186] = 31175;
+            faceLeft[185] = 32165;
+            faceLeft[69] = 32250;
+            faceLeft[184] = 32455;
+            faceLeft[183] = 34078;
+            faceLeft[70] = 35982;
+            faceLeft[182] = 36172;
+            faceLeft[181] = 38063;
+            faceLeft[71] = 39756;
+            faceLeft[180] = 40690;
+            faceLeft[72] = 43393;
+            faceLeft[179] = 43748;
+            faceLeft[178] = 43921;
+            faceLeft[177] = 46348;
+            faceLeft[176] = 47565;
+            faceLeft[73] = 47609;
+            faceLeft[175] = 47988;
+            faceLeft[74] = 51182;
+            faceLeft[174] = 53821;
+            faceLeft[75] = 53973;
+            faceLeft[76] = 56718;
+            faceLeft[173] = 57242;
+            faceLeft[172] = 61411;
+            faceLeft[77] = 61805;
+            faceLeft[171] = 63861;
+            faceLeft[170] = 65433;
+            faceLeft[78] = 66003;
+            faceLeft[79] = 67434;
+            faceLeft[169] = 68303;
+            faceLeft[80] = 69178;
+            faceLeft[168] = 71641;
+            faceLeft[81] = 73944;
+            faceLeft[166] = 74580;
+            faceLeft[167] = 75362;
+            faceLeft[165] = 76643;
+            faceLeft[82] = 79524;
+            faceLeft[164] = 79657;
+            faceLeft[83] = 85471;
+            faceLeft[163] = 85638;
+            faceLeft[162] = 87005;
+            faceLeft[161] = 89723;
+            faceLeft[160] = 94375;
+            faceLeft[84] = 96115;
+            faceLeft[159] = 99329;
+            faceLeft[85] = 102227;
+            faceLeft[158] = 107248;
+            faceLeft[157] = 109079;
+            faceLeft[86] = 109978;
+            faceLeft[156] = 110583;
+            faceLeft[155] = 114734;
+            faceLeft[87] = 115913;
+            faceLeft[154] = 120782;
+            faceLeft[88] = 123023;
+            faceLeft[145] = 123775;
+            faceLeft[153] = 123847;
+            faceLeft[151] = 126098;
+            faceLeft[144] = 126868;
+            faceLeft[147] = 127526;
+            faceLeft[150] = 127740;
+            faceLeft[152] = 128069;
+            faceLeft[146] = 128766;
+            faceLeft[149] = 129182;
+            faceLeft[148] = 129780;
+            faceLeft[89] = 132432;
+            faceLeft[143] = 138110;
+            faceLeft[90] = 140277;
+            faceLeft[142] = 145401;
+            faceLeft[91] = 148448;
+            faceLeft[92] = 152873;
+            faceLeft[141] = 154807;
+            faceLeft[93] = 159102;
+            faceLeft[140] = 165947;
+            faceLeft[94] = 167212;
+            faceLeft[95] = 168023;
+            faceLeft[96] = 169740;
+            faceLeft[97] = 174620;
+            faceLeft[139] = 175925;
+            faceLeft[98] = 181155;
+            faceLeft[99] = 186048;
+            faceLeft[138] = 189381;
+            faceLeft[100] = 195044;
+            faceLeft[114] = 197771;
+            faceLeft[115] = 198409;
+            faceLeft[119] = 199347;
+            faceLeft[113] = 199604;
+            faceLeft[122] = 201046;
+            faceLeft[137] = 201052;
+            faceLeft[116] = 201203;
+            faceLeft[117] = 201494;
+            faceLeft[118] = 203159;
+            faceLeft[112] = 203308;
+            faceLeft[121] = 204212;
+            faceLeft[123] = 204244;
+            faceLeft[120] = 204552;
+            faceLeft[111] = 205937;
+            faceLeft[101] = 205953;
+            faceLeft[124] = 206480;
+            faceLeft[110] = 208900;
+            faceLeft[136] = 212825;
+            faceLeft[125] = 212955;
+            faceLeft[109] = 213274;
+            faceLeft[102] = 214738;
+            faceLeft[103] = 219784;
+            faceLeft[126] = 220115;
+            faceLeft[105] = 221433;
+            faceLeft[104] = 221656;
+            faceLeft[108] = 222972;
+            faceLeft[106] = 223828;
+            faceLeft[107] = 226327;
+            faceLeft[127] = 237378;
+            faceLeft[135] = 248663;
+            faceLeft[128] = 250272;
+            faceLeft[129] = 276579;
+            faceLeft[134] = 288164;
+            faceLeft[130] = 306027;
+            faceLeft[133] = 324490;
+            faceLeft[131] = 327379;
+            faceLeft[132] = 336332;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
+
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[2] = 91;
+            faceRight[3] = 964;
+            faceRight[211] = 1128;
+            faceRight[215] = 1143;
+            faceRight[216] = 1158;
+            faceRight[210] = 1162;
+            faceRight[212] = 1180;
+            faceRight[217] = 1205;
+            faceRight[214] = 1208;
+            faceRight[224] = 1217;
+            faceRight[213] = 1223;
+            faceRight[209] = 1284;
+            faceRight[218] = 1433;
+            faceRight[4] = 1472;
+            faceRight[208] = 1561;
+            faceRight[219] = 1688;
+            faceRight[5] = 1961;
+            faceRight[221] = 2119;
+            faceRight[220] = 2124;
+            faceRight[207] = 2233;
+            faceRight[223] = 2311;
+            faceRight[205] = 2441;
+            faceRight[222] = 2509;
+            faceRight[206] = 2520;
+            faceRight[204] = 2666;
+            faceRight[196] = 2696;
+            faceRight[197] = 2750;
+            faceRight[202] = 2831;
+            faceRight[190] = 2842;
+            faceRight[203] = 2853;
+            faceRight[189] = 2959;
+            faceRight[195] = 2967;
+            faceRight[191] = 2980;
+            faceRight[201] = 3031;
+            faceRight[198] = 3038;
+            faceRight[192] = 3101;
+            faceRight[194] = 3139;
+            faceRight[193] = 3231;
+            faceRight[199] = 3371;
+            faceRight[188] = 3426;
+            faceRight[200] = 3431;
+            faceRight[187] = 3655;
+            faceRight[186] = 3689;
+            faceRight[6] = 4002;
+            faceRight[183] = 4003;
+            faceRight[184] = 4043;
+            faceRight[182] = 4050;
+            faceRight[185] = 4081;
+            faceRight[176] = 4104;
+            faceRight[177] = 4245;
+            faceRight[175] = 4403;
+            faceRight[180] = 4507;
+            faceRight[181] = 4563;
+            faceRight[178] = 4584;
+            faceRight[179] = 4686;
+            faceRight[7] = 5276;
+            faceRight[174] = 5679;
+            faceRight[8] = 5715;
+            faceRight[173] = 6786;
+            faceRight[9] = 7056;
+            faceRight[172] = 7179;
+            faceRight[171] = 7961;
+            faceRight[169] = 8001;
+            faceRight[168] = 8304;
+            faceRight[170] = 8397;
+            faceRight[10] = 8419;
+            faceRight[167] = 10099;
+            faceRight[11] = 10282;
+            faceRight[12] = 10534;
+            faceRight[13] = 11116;
+            faceRight[19] = 11635;
+            faceRight[20] = 11730;
+            faceRight[166] = 12125;
+            faceRight[17] = 12228;
+            faceRight[21] = 12252;
+            faceRight[14] = 12600;
+            faceRight[31] = 12601;
+            faceRight[27] = 12645;
+            faceRight[18] = 12661;
+            faceRight[30] = 12671;
+            faceRight[16] = 12718;
+            faceRight[26] = 12762;
+            faceRight[29] = 12767;
+            faceRight[33] = 12780;
+            faceRight[28] = 12975;
+            faceRight[32] = 13131;
+            faceRight[25] = 13190;
+            faceRight[15] = 13290;
+            faceRight[24] = 13464;
+            faceRight[165] = 13691;
+            faceRight[164] = 13931;
+            faceRight[22] = 13939;
+            faceRight[34] = 14336;
+            faceRight[23] = 14607;
+            faceRight[163] = 15885;
+            faceRight[162] = 17678;
+            faceRight[35] = 18088;
+            faceRight[44] = 18257;
+            faceRight[43] = 18291;
+            faceRight[37] = 18506;
+            faceRight[42] = 18521;
+            faceRight[45] = 18702;
+            faceRight[40] = 18801;
+            faceRight[41] = 18827;
+            faceRight[47] = 18865;
+            faceRight[39] = 18892;
+            faceRight[38] = 18897;
+            faceRight[46] = 18898;
+            faceRight[36] = 19022;
+            faceRight[48] = 19732;
+            faceRight[161] = 19995;
+            faceRight[160] = 20729;
+            faceRight[49] = 20733;
+            faceRight[159] = 21456;
+            faceRight[50] = 22612;
+            faceRight[158] = 22996;
+            faceRight[51] = 25037;
+            faceRight[157] = 25154;
+            faceRight[156] = 27478;
+            faceRight[53] = 28327;
+            faceRight[52] = 28950;
+            faceRight[54] = 29809;
+            faceRight[55] = 30051;
+            faceRight[155] = 30452;
+            faceRight[56] = 31500;
+            faceRight[59] = 33063;
+            faceRight[57] = 33122;
+            faceRight[58] = 33646;
+            faceRight[154] = 33903;
+            faceRight[153] = 37017;
+            faceRight[60] = 37296;
+            faceRight[61] = 39686;
+            faceRight[62] = 39937;
+            faceRight[152] = 41194;
+            faceRight[63] = 41780;
+            faceRight[64] = 42631;
+            faceRight[65] = 43991;
+            faceRight[151] = 46711;
+            faceRight[66] = 47038;
+            faceRight[67] = 50690;
+            faceRight[150] = 52813;
+            faceRight[68] = 53408;
+            faceRight[69] = 56393;
+            faceRight[149] = 60130;
+            faceRight[70] = 61454;
+            faceRight[148] = 62815;
+            faceRight[71] = 63057;
+            faceRight[72] = 64909;
+            faceRight[73] = 65895;
+            faceRight[147] = 67468;
+            faceRight[74] = 69913;
+            faceRight[146] = 71049;
+            faceRight[75] = 73121;
+            faceRight[145] = 75532;
+            faceRight[76] = 77396;
+            faceRight[77] = 82146;
+            faceRight[144] = 82927;
+            faceRight[78] = 84150;
+            faceRight[143] = 88225;
+            faceRight[79] = 88711;
+            faceRight[80] = 93371;
+            faceRight[142] = 94103;
+            faceRight[81] = 97818;
+            faceRight[141] = 101015;
+            faceRight[82] = 105601;
+            faceRight[140] = 105725;
+            faceRight[83] = 113561;
+            faceRight[139] = 113914;
+            faceRight[138] = 117066;
+            faceRight[84] = 123011;
+            faceRight[137] = 125739;
+            faceRight[85] = 131541;
+            faceRight[86] = 139378;
+            faceRight[87] = 142170;
+            faceRight[88] = 143144;
+            faceRight[136] = 145739;
+            faceRight[89] = 149956;
+            faceRight[90] = 151831;
+            faceRight[91] = 153533;
+            faceRight[92] = 156462;
+            faceRight[135] = 164651;
+            faceRight[93] = 167012;
+            faceRight[94] = 172390;
+            faceRight[95] = 178344;
+            faceRight[134] = 180257;
+            faceRight[96] = 180637;
+            faceRight[97] = 184154;
+            faceRight[98] = 193070;
+            faceRight[133] = 199973;
+            faceRight[99] = 201588;
+            faceRight[100] = 210157;
+            faceRight[101] = 218862;
+            faceRight[132] = 224701;
+            faceRight[102] = 226784;
+            faceRight[103] = 235212;
+            faceRight[104] = 242269;
+            faceRight[131] = 254601;
+            faceRight[105] = 255226;
+            faceRight[106] = 269089;
+            faceRight[130] = 275308;
+            faceRight[107] = 278905;
+            faceRight[129] = 281804;
+            faceRight[108] = 284907;
+            faceRight[113] = 285639;
+            faceRight[114] = 286122;
+            faceRight[111] = 286357;
+            faceRight[112] = 286675;
+            faceRight[128] = 287211;
+            faceRight[115] = 288206;
+            faceRight[127] = 290517;
+            faceRight[110] = 291020;
+            faceRight[116] = 291694;
+            faceRight[109] = 293040;
+            faceRight[117] = 293422;
+            faceRight[126] = 297932;
+            faceRight[118] = 298836;
+            faceRight[125] = 299536;
+            faceRight[124] = 305103;
+            faceRight[119] = 305404;
+            faceRight[123] = 308533;
+            faceRight[120] = 310049;
+            faceRight[122] = 310717;
+            faceRight[121] = 313471;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
+
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[181] = 10;
+            faceTop[180] = 82;
+            faceTop[179] = 202;
+            faceTop[173] = 255;
+            faceTop[174] = 290;
+            faceTop[175] = 314;
+            faceTop[176] = 353;
+            faceTop[178] = 384;
+            faceTop[2] = 397;
+            faceTop[177] = 399;
+            faceTop[3] = 435;
+            faceTop[170] = 506;
+            faceTop[172] = 518;
+            faceTop[171] = 571;
+            faceTop[169] = 589;
+            faceTop[1] = 720;
+            faceTop[168] = 761;
+            faceTop[167] = 889;
+            faceTop[4] = 959;
+            faceTop[166] = 1393;
+            faceTop[165] = 1568;
+            faceTop[5] = 1597;
+            faceTop[6] = 1655;
+            faceTop[164] = 1826;
+            faceTop[163] = 2144;
+            faceTop[7] = 2371;
+            faceTop[162] = 2702;
+            faceTop[8] = 3350;
+            faceTop[161] = 3751;
+            faceTop[160] = 3991;
+            faceTop[22] = 4128;
+            faceTop[21] = 4202;
+            faceTop[26] = 4215;
+            faceTop[25] = 4246;
+            faceTop[29] = 4513;
+            faceTop[30] = 4516;
+            faceTop[24] = 4521;
+            faceTop[18] = 4545;
+            faceTop[158] = 4635;
+            faceTop[23] = 4653;
+            faceTop[19] = 4684;
+            faceTop[9] = 4712;
+            faceTop[28] = 4729;
+            faceTop[31] = 4747;
+            faceTop[27] = 4781;
+            faceTop[159] = 4807;
+            faceTop[20] = 5034;
+            faceTop[32] = 5064;
+            faceTop[33] = 5108;
+            faceTop[17] = 5210;
+            faceTop[157] = 5243;
+            faceTop[40] = 5359;
+            faceTop[35] = 5401;
+            faceTop[41] = 5451;
+            faceTop[34] = 5483;
+            faceTop[38] = 5514;
+            faceTop[39] = 5551;
+            faceTop[12] = 5554;
+            faceTop[36] = 5678;
+            faceTop[37] = 5740;
+            faceTop[14] = 5748;
+            faceTop[11] = 5749;
+            faceTop[13] = 5804;
+            faceTop[43] = 5936;
+            faceTop[42] = 6008;
+            faceTop[155] = 6088;
+            faceTop[16] = 6099;
+            faceTop[156] = 6173;
+            faceTop[46] = 6349;
+            faceTop[47] = 6394;
+            faceTop[44] = 6397;
+            faceTop[45] = 6415;
+            faceTop[48] = 6466;
+            faceTop[10] = 6491;
+            faceTop[15] = 6544;
+            faceTop[49] = 6746;
+            faceTop[154] = 7114;
+            faceTop[50] = 7214;
+            faceTop[153] = 10173;
+            faceTop[51] = 10516;
+            faceTop[53] = 12433;
+            faceTop[52] = 13994;
+            faceTop[152] = 14036;
+            faceTop[58] = 14109;
+            faceTop[63] = 14355;
+            faceTop[59] = 14560;
+            faceTop[57] = 14745;
+            faceTop[64] = 14769;
+            faceTop[61] = 14784;
+            faceTop[62] = 14845;
+            faceTop[55] = 15035;
+            faceTop[56] = 15139;
+            faceTop[65] = 15728;
+            faceTop[54] = 15764;
+            faceTop[60] = 16100;
+            faceTop[151] = 16841;
+            faceTop[66] = 16925;
+            faceTop[67] = 18706;
+            faceTop[150] = 20340;
+            faceTop[68] = 20935;
+            faceTop[149] = 23070;
+            faceTop[69] = 23762;
+            faceTop[70] = 24676;
+            faceTop[71] = 27173;
+            faceTop[148] = 27777;
+            faceTop[72] = 28422;
+            faceTop[147] = 28610;
+            faceTop[73] = 30330;
+            faceTop[146] = 31348;
+            faceTop[74] = 32825;
+            faceTop[75] = 36266;
+            faceTop[145] = 38698;
+            faceTop[76] = 40010;
+            faceTop[77] = 42720;
+            faceTop[78] = 45163;
+            faceTop[144] = 46446;
+            faceTop[79] = 48832;
+            faceTop[80] = 52755;
+            faceTop[81] = 55061;
+            faceTop[82] = 58127;
+            faceTop[143] = 59725;
+            faceTop[83] = 62633;
+            faceTop[84] = 67079;
+            faceTop[142] = 71523;
+            faceTop[85] = 71664;
+            faceTop[86] = 74782;
+            faceTop[87] = 79303;
+            faceTop[88] = 83833;
+            faceTop[141] = 84429;
+            faceTop[89] = 89418;
+            faceTop[90] = 95990;
+            faceTop[140] = 100641;
+            faceTop[91] = 103003;
+            faceTop[92] = 109393;
+            faceTop[93] = 116342;
+            faceTop[139] = 123508;
+            faceTop[94] = 124891;
+            faceTop[95] = 134289;
+            faceTop[96] = 144551;
+            faceTop[138] = 150220;
+            faceTop[97] = 157473;
+            faceTop[98] = 169133;
+            faceTop[137] = 174707;
+            faceTop[99] = 182934;
+            faceTop[136] = 192648;
+            faceTop[100] = 196980;
+            faceTop[135] = 206270;
+            faceTop[101] = 211701;
+            faceTop[134] = 227232;
+            faceTop[102] = 232340;
+            faceTop[103] = 249241;
+            faceTop[133] = 256075;
+            faceTop[104] = 267998;
+            faceTop[132] = 282816;
+            faceTop[105] = 287959;
+            faceTop[106] = 299626;
+            faceTop[131] = 311315;
+            faceTop[107] = 311824;
+            faceTop[108] = 328886;
+            faceTop[130] = 342723;
+            faceTop[109] = 343319;
+            faceTop[110] = 356111;
+            faceTop[129] = 363560;
+            faceTop[111] = 369538;
+            faceTop[128] = 380023;
+            faceTop[112] = 380682;
+            faceTop[113] = 392955;
+            faceTop[127] = 395617;
+            faceTop[114] = 405711;
+            faceTop[126] = 414500;
+            faceTop[115] = 424103;
+            faceTop[122] = 425703;
+            faceTop[123] = 428219;
+            faceTop[125] = 428377;
+            faceTop[124] = 431755;
+            faceTop[121] = 432843;
+            faceTop[119] = 435505;
+            faceTop[116] = 438102;
+            faceTop[120] = 438121;
+            faceTop[118] = 439442;
+            faceTop[117] = 442160;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
+
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[22] = 7;
+            faceBottom[25] = 29;
+            faceBottom[26] = 30;
+            faceBottom[27] = 32;
+            faceBottom[28] = 34;
+            faceBottom[29] = 35;
+            faceBottom[24] = 37;
+            faceBottom[23] = 46;
+            faceBottom[30] = 123;
+            faceBottom[31] = 125;
+            faceBottom[203] = 247;
+            faceBottom[202] = 458;
+            faceBottom[32] = 1082;
+            faceBottom[201] = 1132;
+            faceBottom[199] = 1849;
+            faceBottom[200] = 1888;
+            faceBottom[198] = 1985;
+            faceBottom[34] = 2418;
+            faceBottom[197] = 2462;
+            faceBottom[35] = 2948;
+            faceBottom[196] = 3231;
+            faceBottom[195] = 3484;
+            faceBottom[33] = 3996;
+            faceBottom[194] = 4042;
+            faceBottom[36] = 4137;
+            faceBottom[39] = 4213;
+            faceBottom[38] = 4397;
+            faceBottom[37] = 4942;
+            faceBottom[42] = 5330;
+            faceBottom[40] = 5401;
+            faceBottom[41] = 5417;
+            faceBottom[43] = 5526;
+            faceBottom[193] = 6252;
+            faceBottom[44] = 7321;
+            faceBottom[192] = 7894;
+            faceBottom[46] = 8577;
+            faceBottom[190] = 8648;
+            faceBottom[189] = 8899;
+            faceBottom[191] = 9094;
+            faceBottom[47] = 9235;
+            faceBottom[45] = 9297;
+            faceBottom[188] = 9941;
+            faceBottom[186] = 10401;
+            faceBottom[187] = 10562;
+            faceBottom[48] = 11215;
+            faceBottom[49] = 12116;
+            faceBottom[185] = 12265;
+            faceBottom[50] = 13904;
+            faceBottom[51] = 15049;
+            faceBottom[184] = 15316;
+            faceBottom[52] = 16178;
+            faceBottom[53] = 17082;
+            faceBottom[56] = 17603;
+            faceBottom[55] = 17795;
+            faceBottom[54] = 17815;
+            faceBottom[57] = 18396;
+            faceBottom[183] = 18943;
+            faceBottom[58] = 19887;
+            faceBottom[182] = 20971;
+            faceBottom[59] = 21220;
+            faceBottom[60] = 21906;
+            faceBottom[61] = 23056;
+            faceBottom[180] = 24174;
+            faceBottom[62] = 24424;
+            faceBottom[63] = 24630;
+            faceBottom[64] = 25108;
+            faceBottom[181] = 25224;
+            faceBottom[65] = 25802;
+            faceBottom[179] = 27015;
+            faceBottom[66] = 27030;
+            faceBottom[178] = 27715;
+            faceBottom[67] = 28344;
+            faceBottom[68] = 29738;
+            faceBottom[177] = 29927;
+            faceBottom[69] = 30423;
+            faceBottom[70] = 30774;
+            faceBottom[71] = 32877;
+            faceBottom[176] = 32927;
+            faceBottom[72] = 33926;
+            faceBottom[73] = 35708;
+            faceBottom[74] = 36201;
+            faceBottom[175] = 37022;
+            faceBottom[174] = 38738;
+            faceBottom[75] = 39631;
+            faceBottom[173] = 42483;
+            faceBottom[76] = 43584;
+            faceBottom[77] = 46991;
+            faceBottom[78] = 49247;
+            faceBottom[172] = 49501;
+            faceBottom[83] = 51238;
+            faceBottom[81] = 51253;
+            faceBottom[79] = 51595;
+            faceBottom[82] = 51595;
+            faceBottom[84] = 51598;
+            faceBottom[80] = 52219;
+            faceBottom[85] = 53402;
+            faceBottom[86] = 54454;
+            faceBottom[171] = 54702;
+            faceBottom[87] = 56302;
+            faceBottom[170] = 57418;
+            faceBottom[89] = 60081;
+            faceBottom[88] = 60497;
+            faceBottom[90] = 61312;
+            faceBottom[169] = 62486;
+            faceBottom[91] = 62815;
+            faceBottom[93] = 63666;
+            faceBottom[92] = 63992;
+            faceBottom[94] = 65148;
+            faceBottom[95] = 66840;
+            faceBottom[168] = 67594;
+            faceBottom[96] = 70271;
+            faceBottom[97] = 71059;
+            faceBottom[167] = 71419;
+            faceBottom[98] = 73094;
+            faceBottom[166] = 75356;
+            faceBottom[99] = 75674;
+            faceBottom[100] = 79950;
+            faceBottom[101] = 83957;
+            faceBottom[165] = 86555;
+            faceBottom[102] = 86695;
+            faceBottom[103] = 89476;
+            faceBottom[104] = 93347;
+            faceBottom[105] = 98201;
+            faceBottom[164] = 100254;
+            faceBottom[106] = 101751;
+            faceBottom[107] = 106228;
+            faceBottom[108] = 108938;
+            faceBottom[109] = 112916;
+            faceBottom[163] = 117816;
+            faceBottom[110] = 118344;
+            faceBottom[111] = 124404;
+            faceBottom[112] = 131158;
+            faceBottom[113] = 135786;
+            faceBottom[162] = 139083;
+            faceBottom[114] = 145101;
+            faceBottom[161] = 152738;
+            faceBottom[115] = 155309;
+            faceBottom[160] = 157408;
+            faceBottom[159] = 157670;
+            faceBottom[116] = 160353;
+            faceBottom[117] = 160912;
+            faceBottom[118] = 167792;
+            faceBottom[158] = 167989;
+            faceBottom[119] = 176427;
+            faceBottom[157] = 181160;
+            faceBottom[120] = 186286;
+            faceBottom[156] = 188930;
+            faceBottom[155] = 193391;
+            faceBottom[154] = 200222;
+            faceBottom[121] = 203034;
+            faceBottom[153] = 210072;
+            faceBottom[145] = 210415;
+            faceBottom[146] = 210923;
+            faceBottom[144] = 212178;
+            faceBottom[147] = 213725;
+            faceBottom[148] = 213756;
+            faceBottom[149] = 214837;
+            faceBottom[152] = 216005;
+            faceBottom[143] = 218754;
+            faceBottom[150] = 221587;
+            faceBottom[122] = 221696;
+            faceBottom[142] = 224189;
+            faceBottom[151] = 225081;
+            faceBottom[123] = 241420;
+            faceBottom[141] = 243528;
+            faceBottom[124] = 263515;
+            faceBottom[140] = 267376;
+            faceBottom[125] = 277941;
+            faceBottom[139] = 287677;
+            faceBottom[126] = 290816;
+            faceBottom[138] = 303527;
+            faceBottom[127] = 303782;
+            faceBottom[128] = 320938;
+            faceBottom[137] = 332596;
+            faceBottom[129] = 344407;
+            faceBottom[136] = 345136;
+            faceBottom[135] = 368312;
+            faceBottom[130] = 370644;
+            faceBottom[134] = 406527;
+            faceBottom[131] = 412224;
+            faceBottom[133] = 422220;
+            faceBottom[132] = 447666;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
+
+            mapInfo.ProcessAllInfo();
+
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[ATA_07_ARIEL] = mapInfo;
+        }
+
+        private static void LoadMirandaOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
+
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[20] = 202466;
+            faceFront[60] = 290272;
+            faceFront[120] = 450810;
+            faceFront[80] = 536594;
+            faceFront[40] = 546415;
+            faceFront[100] = 600438;
+            faceFront[140] = 924898;
+            faceFront[240] = 1740713;
+            faceFront[160] = 2096092;
+            faceFront[220] = 3025482;
+            faceFront[180] = 3041580;
+            faceFront[200] = 3321456;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
+
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[180] = 129287;
+            faceBack[160] = 199455;
+            faceBack[140] = 665048;
+            faceBack[120] = 1280261;
+            faceBack[20] = 2231492;
+            faceBack[80] = 2911764;
+            faceBack[100] = 2921746;
+            faceBack[60] = 2984245;
+            faceBack[40] = 3453918;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
+
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[220] = 30286;
+            faceLeft[20] = 71063;
+            faceLeft[200] = 172159;
+            faceLeft[180] = 635510;
+            faceLeft[40] = 1221186;
+            faceLeft[160] = 1549045;
+            faceLeft[60] = 1882275;
+            faceLeft[80] = 2431079;
+            faceLeft[100] = 2841555;
+            faceLeft[140] = 2926929;
+            faceLeft[120] = 3016129;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
+
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[240] = 144708;
+            faceRight[220] = 525653;
+            faceRight[20] = 806903;
+            faceRight[120] = 1253986;
+            faceRight[200] = 1344100;
+            faceRight[60] = 1432298;
+            faceRight[140] = 1512972;
+            faceRight[80] = 1542141;
+            faceRight[100] = 1946092;
+            faceRight[160] = 1962567;
+            faceRight[180] = 2078767;
+            faceRight[40] = 2227029;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
+
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[20] = 269152;
+            faceTop[240] = 585260;
+            faceTop[40] = 953654;
+            faceTop[220] = 1130835;
+            faceTop[160] = 1142137;
+            faceTop[180] = 1188621;
+            faceTop[200] = 1266303;
+            faceTop[60] = 1459595;
+            faceTop[140] = 1656963;
+            faceTop[80] = 1843843;
+            faceTop[120] = 2242898;
+            faceTop[100] = 3037955;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
+
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[220] = 31870;
+            faceBottom[20] = 266145;
+            faceBottom[200] = 591129;
+            faceBottom[60] = 653452;
+            faceBottom[40] = 718252;
+            faceBottom[80] = 751178;
+            faceBottom[100] = 1640141;
+            faceBottom[180] = 2517593;
+            faceBottom[120] = 2805586;
+            faceBottom[160] = 3399224;
+            faceBottom[140] = 3402646;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
+
+            mapInfo.ProcessAllInfo();
+
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[ATA_07_MIRANDA] = mapInfo;
+        }
+
+        private static void LoadTritonOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
+
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[20] = 5217;
+            faceFront[240] = 20372;
+            faceFront[30] = 38341;
+            faceFront[40] = 42016;
+            faceFront[230] = 204251;
+            faceFront[50] = 290209;
+            faceFront[60] = 468893;
+            faceFront[120] = 718433;
+            faceFront[110] = 768396;
+            faceFront[90] = 770031;
+            faceFront[210] = 806317;
+            faceFront[70] = 938217;
+            faceFront[220] = 939321;
+            faceFront[100] = 977039;
+            faceFront[140] = 1006920;
+            faceFront[180] = 1034386;
+            faceFront[170] = 1040906;
+            faceFront[150] = 1111262;
+            faceFront[160] = 1139638;
+            faceFront[200] = 1142270;
+            faceFront[190] = 1520267;
+            faceFront[130] = 1794514;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
+
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[250] = 84;
+            faceBack[40] = 3245;
+            faceBack[240] = 10827;
+            faceBack[50] = 212270;
+            faceBack[230] = 279705;
+            faceBack[210] = 658349;
+            faceBack[180] = 739161;
+            faceBack[170] = 741993;
+            faceBack[60] = 781004;
+            faceBack[120] = 793326;
+            faceBack[110] = 849438;
+            faceBack[150] = 921135;
+            faceBack[200] = 934992;
+            faceBack[160] = 945079;
+            faceBack[220] = 963516;
+            faceBack[90] = 1015689;
+            faceBack[140] = 1045014;
+            faceBack[190] = 1203717;
+            faceBack[100] = 1285745;
+            faceBack[70] = 1379872;
+            faceBack[130] = 2013055;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
+
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[20] = 302;
+            faceLeft[40] = 316;
+            faceLeft[30] = 413;
+            faceLeft[250] = 515;
+            faceLeft[80] = 739;
+            faceLeft[10] = 921;
+            faceLeft[240] = 2467;
+            faceLeft[230] = 31301;
+            faceLeft[50] = 41460;
+            faceLeft[60] = 282775;
+            faceLeft[210] = 813338;
+            faceLeft[90] = 838932;
+            faceLeft[70] = 857582;
+            faceLeft[180] = 872328;
+            faceLeft[170] = 875831;
+            faceLeft[120] = 907296;
+            faceLeft[220] = 940070;
+            faceLeft[110] = 969444;
+            faceLeft[150] = 1037780;
+            faceLeft[160] = 1063963;
+            faceLeft[200] = 1065269;
+            faceLeft[140] = 1152757;
+            faceLeft[190] = 1330028;
+            faceLeft[100] = 1412895;
+            faceLeft[130] = 2276698;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
+
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[250] = 2941;
+            faceRight[20] = 13601;
+            faceRight[240] = 31415;
+            faceRight[30] = 41323;
+            faceRight[40] = 49340;
+            faceRight[50] = 280359;
+            faceRight[230] = 382913;
+            faceRight[120] = 664684;
+            faceRight[110] = 709762;
+            faceRight[210] = 790106;
+            faceRight[90] = 794373;
+            faceRight[60] = 820366;
+            faceRight[180] = 856388;
+            faceRight[140] = 858835;
+            faceRight[170] = 861804;
+            faceRight[150] = 900706;
+            faceRight[160] = 922822;
+            faceRight[70] = 1038252;
+            faceRight[200] = 1090142;
+            faceRight[100] = 1112772;
+            faceRight[190] = 1419560;
+            faceRight[220] = 1542055;
+            faceRight[130] = 1592697;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
+
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[80] = 724;
+            faceTop[10] = 1311;
+            faceTop[20] = 21515;
+            faceTop[250] = 51295;
+            faceTop[240] = 67853;
+            faceTop[30] = 139091;
+            faceTop[230] = 211253;
+            faceTop[40] = 235156;
+            faceTop[180] = 412318;
+            faceTop[170] = 414415;
+            faceTop[150] = 466950;
+            faceTop[160] = 478986;
+            faceTop[140] = 525722;
+            faceTop[120] = 546612;
+            faceTop[210] = 552113;
+            faceTop[110] = 584496;
+            faceTop[200] = 670911;
+            faceTop[190] = 775457;
+            faceTop[90] = 1048878;
+            faceTop[100] = 1090877;
+            faceTop[220] = 1135624;
+            faceTop[130] = 1141691;
+            faceTop[50] = 1587254;
+            faceTop[70] = 2107469;
+            faceTop[60] = 2501536;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
+
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[20] = 14666;
+            faceBottom[250] = 29659;
+            faceBottom[240] = 36820;
+            faceBottom[30] = 104299;
+            faceBottom[40] = 234548;
+            faceBottom[230] = 347948;
+            faceBottom[120] = 590500;
+            faceBottom[110] = 632148;
+            faceBottom[180] = 716064;
+            faceBottom[170] = 722025;
+            faceBottom[140] = 723538;
+            faceBottom[150] = 731261;
+            faceBottom[90] = 744065;
+            faceBottom[160] = 749960;
+            faceBottom[100] = 944123;
+            faceBottom[50] = 964751;
+            faceBottom[210] = 986455;
+            faceBottom[60] = 1127432;
+            faceBottom[200] = 1131583;
+            faceBottom[70] = 1152994;
+            faceBottom[190] = 1257344;
+            faceBottom[130] = 1385315;
+            faceBottom[220] = 1449540;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
+
+            mapInfo.ProcessAllInfo();
+
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[ATA_08_TRITON] = mapInfo;
+        }
+
+        private static void LoadPlutoOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
+
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[220] = 968;
+            faceFront[210] = 1581;
+            faceFront[200] = 2616;
+            faceFront[190] = 6101;
+            faceFront[180] = 10754;
+            faceFront[170] = 32182;
+            faceFront[160] = 63906;
+            faceFront[150] = 97965;
+            faceFront[140] = 158978;
+            faceFront[130] = 222467;
+            faceFront[120] = 300709;
+            faceFront[110] = 426403;
+            faceFront[100] = 605182;
+            faceFront[90] = 735035;
+            faceFront[80] = 894473;
+            faceFront[70] = 1046214;
+            faceFront[60] = 1230468;
+            faceFront[40] = 1305568;
+            faceFront[50] = 1311592;
+            faceFront[20] = 1869937;
+            faceFront[30] = 1911330;
+            faceFront[10] = 3633819;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
+
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[210] = 779;
+            faceBack[200] = 3398;
+            faceBack[190] = 24646;
+            faceBack[180] = 95881;
+            faceBack[170] = 210819;
+            faceBack[160] = 332065;
+            faceBack[150] = 432315;
+            faceBack[140] = 515940;
+            faceBack[130] = 607053;
+            faceBack[120] = 645695;
+            faceBack[80] = 677298;
+            faceBack[110] = 694559;
+            faceBack[70] = 707185;
+            faceBack[90] = 722166;
+            faceBack[100] = 723120;
+            faceBack[60] = 774067;
+            faceBack[50] = 1030795;
+            faceBack[40] = 1516626;
+            faceBack[10] = 1751699;
+            faceBack[30] = 2174072;
+            faceBack[20] = 2306904;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
+
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[230] = 104;
+            faceLeft[220] = 1461;
+            faceLeft[210] = 2269;
+            faceLeft[200] = 11524;
+            faceLeft[190] = 21622;
+            faceLeft[180] = 62929;
+            faceLeft[170] = 121730;
+            faceLeft[160] = 190702;
+            faceLeft[150] = 302158;
+            faceLeft[90] = 321568;
+            faceLeft[80] = 332758;
+            faceLeft[100] = 341444;
+            faceLeft[140] = 373645;
+            faceLeft[110] = 386721;
+            faceLeft[70] = 394619;
+            faceLeft[60] = 434297;
+            faceLeft[120] = 439093;
+            faceLeft[130] = 453481;
+            faceLeft[50] = 642866;
+            faceLeft[40] = 913858;
+            faceLeft[30] = 1032690;
+            faceLeft[20] = 1112739;
+            faceLeft[10] = 3589076;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
+
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[230] = 1018;
+            faceRight[210] = 7315;
+            faceRight[220] = 8253;
+            faceRight[200] = 14110;
+            faceRight[190] = 15777;
+            faceRight[180] = 17211;
+            faceRight[170] = 21296;
+            faceRight[160] = 46137;
+            faceRight[150] = 106129;
+            faceRight[140] = 210158;
+            faceRight[130] = 396262;
+            faceRight[120] = 684000;
+            faceRight[60] = 879743;
+            faceRight[70] = 914787;
+            faceRight[10] = 949437;
+            faceRight[110] = 958830;
+            faceRight[80] = 963299;
+            faceRight[90] = 1028828;
+            faceRight[50] = 1036932;
+            faceRight[100] = 1110006;
+            faceRight[40] = 1756942;
+            faceRight[20] = 2421634;
+            faceRight[30] = 2950303;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
+
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[10] = 26708;
+            faceTop[20] = 103954;
+            faceTop[250] = 120576;
+            faceTop[30] = 124542;
+            faceTop[40] = 162573;
+            faceTop[240] = 175164;
+            faceTop[50] = 234118;
+            faceTop[230] = 267777;
+            faceTop[220] = 328525;
+            faceTop[60] = 353507;
+            faceTop[210] = 365892;
+            faceTop[200] = 442290;
+            faceTop[70] = 553397;
+            faceTop[190] = 557141;
+            faceTop[180] = 722767;
+            faceTop[80] = 805818;
+            faceTop[170] = 929148;
+            faceTop[140] = 1155130;
+            faceTop[150] = 1157963;
+            faceTop[160] = 1162878;
+            faceTop[90] = 1177200;
+            faceTop[130] = 1241081;
+            faceTop[120] = 1329655;
+            faceTop[100] = 1541295;
+            faceTop[110] = 1576937;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
+
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[250] = 204;
+            faceBottom[240] = 1614;
+            faceBottom[230] = 6610;
+            faceBottom[220] = 13943;
+            faceBottom[210] = 27852;
+            faceBottom[200] = 70956;
+            faceBottom[190] = 121238;
+            faceBottom[180] = 159130;
+            faceBottom[170] = 165465;
+            faceBottom[160] = 222872;
+            faceBottom[150] = 341031;
+            faceBottom[140] = 538289;
+            faceBottom[90] = 623033;
+            faceBottom[100] = 634711;
+            faceBottom[110] = 658211;
+            faceBottom[130] = 684675;
+            faceBottom[80] = 687544;
+            faceBottom[70] = 690222;
+            faceBottom[120] = 694454;
+            faceBottom[60] = 735454;
+            faceBottom[50] = 1011093;
+            faceBottom[40] = 1246931;
+            faceBottom[10] = 1725646;
+            faceBottom[30] = 2306654;
+            faceBottom[20] = 2709411;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
+
+            mapInfo.ProcessAllInfo();
+
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[ATA_09_PLUTO] = mapInfo;
+        }
+
+        private static void LoadCharonOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
+
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[230] = 391;
+            faceFront[10] = 3130;
+            faceFront[220] = 3254;
+            faceFront[210] = 5561;
+            faceFront[200] = 10718;
+            faceFront[190] = 47354;
+            faceFront[50] = 76528;
+            faceFront[60] = 77206;
+            faceFront[70] = 83280;
+            faceFront[80] = 89346;
+            faceFront[40] = 97554;
+            faceFront[90] = 116363;
+            faceFront[20] = 120614;
+            faceFront[180] = 139410;
+            faceFront[30] = 158891;
+            faceFront[100] = 205573;
+            faceFront[170] = 422975;
+            faceFront[110] = 503151;
+            faceFront[160] = 1207898;
+            faceFront[120] = 1289890;
+            faceFront[150] = 2880905;
+            faceFront[130] = 3769571;
+            faceFront[140] = 5467653;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
+
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[230] = 255;
+            faceBack[220] = 2617;
+            faceBack[210] = 6966;
+            faceBack[200] = 12577;
+            faceBack[80] = 16739;
+            faceBack[60] = 16838;
+            faceBack[50] = 18134;
+            faceBack[70] = 21015;
+            faceBack[90] = 21202;
+            faceBack[190] = 21971;
+            faceBack[10] = 28368;
+            faceBack[40] = 31899;
+            faceBack[30] = 40798;
+            faceBack[180] = 52803;
+            faceBack[20] = 76116;
+            faceBack[100] = 91260;
+            faceBack[170] = 108053;
+            faceBack[160] = 324916;
+            faceBack[110] = 339854;
+            faceBack[120] = 1243951;
+            faceBack[150] = 1480728;
+            faceBack[130] = 6358904;
+            faceBack[140] = 6461252;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
+
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[250] = 28;
+            faceLeft[240] = 1614;
+            faceLeft[230] = 10138;
+            faceLeft[220] = 26788;
+            faceLeft[210] = 54050;
+            faceLeft[200] = 85947;
+            faceLeft[80] = 96128;
+            faceLeft[90] = 106535;
+            faceLeft[70] = 119554;
+            faceLeft[60] = 132352;
+            faceLeft[190] = 142960;
+            faceLeft[50] = 166973;
+            faceLeft[100] = 172897;
+            faceLeft[40] = 230299;
+            faceLeft[180] = 233053;
+            faceLeft[30] = 305740;
+            faceLeft[110] = 392576;
+            faceLeft[170] = 399423;
+            faceLeft[20] = 590297;
+            faceLeft[160] = 764184;
+            faceLeft[10] = 865462;
+            faceLeft[120] = 1006986;
+            faceLeft[150] = 1989924;
+            faceLeft[130] = 3379339;
+            faceLeft[140] = 5305093;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
+
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[240] = 26;
+            faceRight[10] = 247;
+            faceRight[230] = 4269;
+            faceRight[220] = 33153;
+            faceRight[210] = 104145;
+            faceRight[20] = 140661;
+            faceRight[90] = 179948;
+            faceRight[60] = 189682;
+            faceRight[80] = 195562;
+            faceRight[100] = 198695;
+            faceRight[200] = 210433;
+            faceRight[70] = 210489;
+            faceRight[50] = 225748;
+            faceRight[110] = 310811;
+            faceRight[190] = 343589;
+            faceRight[40] = 353296;
+            faceRight[30] = 422754;
+            faceRight[180] = 584183;
+            faceRight[120] = 619116;
+            faceRight[170] = 964907;
+            faceRight[160] = 1295444;
+            faceRight[150] = 2457691;
+            faceRight[130] = 2645376;
+            faceRight[140] = 5086991;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
+
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[230] = 468;
+            faceTop[220] = 2487;
+            faceTop[210] = 9820;
+            faceTop[200] = 30130;
+            faceTop[50] = 64059;
+            faceTop[190] = 69668;
+            faceTop[60] = 76066;
+            faceTop[70] = 79719;
+            faceTop[40] = 94039;
+            faceTop[80] = 102743;
+            faceTop[30] = 133322;
+            faceTop[90] = 135011;
+            faceTop[180] = 152385;
+            faceTop[20] = 218502;
+            faceTop[100] = 219292;
+            faceTop[170] = 458272;
+            faceTop[10] = 467118;
+            faceTop[110] = 826003;
+            faceTop[160] = 1280036;
+            faceTop[120] = 1433215;
+            faceTop[150] = 2382659;
+            faceTop[130] = 3616884;
+            faceTop[140] = 4911618;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
+
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[190] = 38;
+            faceBottom[180] = 10239;
+            faceBottom[170] = 75525;
+            faceBottom[160] = 235240;
+            faceBottom[50] = 406065;
+            faceBottom[70] = 408553;
+            faceBottom[80] = 418562;
+            faceBottom[60] = 424667;
+            faceBottom[90] = 492632;
+            faceBottom[40] = 544003;
+            faceBottom[150] = 615499;
+            faceBottom[100] = 736019;
+            faceBottom[30] = 788380;
+            faceBottom[20] = 1292538;
+            faceBottom[10] = 1434886;
+            faceBottom[110] = 1583701;
+            faceBottom[140] = 1726164;
+            faceBottom[120] = 2450499;
+            faceBottom[130] = 2864553;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
+
+            mapInfo.ProcessAllInfo();
+
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[ATA_09_CHARON] = mapInfo;
+        }
 
         // Stars
 
@@ -1099,7 +7485,7 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(25, 50),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            Ores = ATA_01_MERCURY_ORES,
+            Ores = VanilaMapProfile.PERTAM_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
@@ -1119,7 +7505,7 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(55, 75),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            Ores = ATA_02_VENUS_ORES,
+            Ores = VanilaMapProfile.PERTAM_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
@@ -1139,7 +7525,7 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(60, 80),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            Ores = ATA_03_EARTH_ORES,
+            Ores = VanilaMapProfile.EARTHLIKE_ORES,
             MeteorImpact = VanilaMapProfile.EARTHLIKE_METEOR,
             SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING
         };
@@ -1159,7 +7545,7 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(35, 45),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            Ores = ATA_03_MOON_ORES,
+            Ores = VanilaMapProfile.MOON_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
@@ -1179,7 +7565,7 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(50, 70),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            Ores = ATA_04_MARS_ORES,
+            Ores = VanilaMapProfile.MARS_ORES,
             MeteorImpact = VanilaMapProfile.MARS_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
@@ -1218,7 +7604,7 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(40, 50),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            Ores = ATA_05_CALLISTO_ORES,
+            Ores = VanilaMapProfile.MOON_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
@@ -1238,7 +7624,7 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(45, 55),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            Ores = ATA_05_GANYMEDE_ORES,
+            Ores = VanilaMapProfile.MOON_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
@@ -1258,7 +7644,7 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(30, 40),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            Ores = ATA_05_EUROPA_ORES,
+            Ores = VanilaMapProfile.MOON_ORES,
             MeteorImpact = VanilaMapProfile.EUROPA_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
@@ -1278,7 +7664,7 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(30, 40),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            Ores = ATA_05_IO_ORES,
+            Ores = VanilaMapProfile.MOON_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
@@ -1317,7 +7703,7 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(20, 30),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            Ores = ATA_06_IAPETUS_ORES,
+            Ores = VanilaMapProfile.MOON_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
@@ -1337,7 +7723,7 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             SizeRange = new Vector2(35, 55),
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            Ores = ATA_06_TITAN_ORES,
+            Ores = VanilaMapProfile.MOON_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
@@ -1357,7 +7743,7 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(20, 30),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            Ores = ATA_06_RHEA_ORES,
+            Ores = VanilaMapProfile.MOON_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
@@ -1377,7 +7763,7 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(20, 30),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            Ores = ATA_06_DIONE_ORES,
+            Ores = VanilaMapProfile.MOON_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
@@ -1397,7 +7783,7 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(20, 30),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            Ores = ATA_06_TETHYS_ORES,
+            Ores = VanilaMapProfile.MOON_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
@@ -1417,7 +7803,7 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(20, 30),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            Ores = ATA_06_ENCELADUS_ORES,
+            Ores = VanilaMapProfile.MOON_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
@@ -1437,7 +7823,7 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(20, 30),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            Ores = ATA_06_MIMAS_ORES,
+            Ores = VanilaMapProfile.MOON_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
@@ -1476,7 +7862,7 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(20, 30),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            Ores = ATA_07_OBREON_ORES,
+            Ores = VanilaMapProfile.MOON_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
@@ -1496,7 +7882,7 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(20, 30),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            Ores = ATA_07_TITANIA_ORES,
+            Ores = VanilaMapProfile.MOON_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
@@ -1516,7 +7902,7 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(20, 30),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            Ores = ATA_07_UMBRIEL_ORES,
+            Ores = VanilaMapProfile.MOON_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
@@ -1536,7 +7922,7 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(20, 30),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            Ores = ATA_07_ARIEL_ORES,
+            Ores = VanilaMapProfile.MOON_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
@@ -1556,7 +7942,7 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(20, 30),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            Ores = ATA_07_MIRANDA_ORES,
+            Ores = VanilaMapProfile.MOON_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
@@ -1594,7 +7980,7 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(35, 50),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            Ores = ATA_08_TRITON_ORES,
+            Ores = VanilaMapProfile.MOON_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
@@ -1613,7 +7999,7 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(25, 35),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            Ores = ATA_09_PLUTO_ORES,
+            Ores = VanilaMapProfile.TRITON_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
@@ -1632,7 +8018,7 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(15, 25),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            Ores = ATA_09_CHARON_ORES,
+            Ores = VanilaMapProfile.MOON_ORES,
             MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };

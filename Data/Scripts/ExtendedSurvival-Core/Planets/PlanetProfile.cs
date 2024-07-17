@@ -291,43 +291,113 @@ namespace ExtendedSurvival.Core
             return new SuperficialMiningSetting() { Enabled = false };
         }
 
-        private List<PlanetOreMapEntrySetting> BuildOresMappings(int seed, float deep, string[] addOres, string[] removeOres, 
+        private List<PlanetOreMapEntrySetting> BuildOresMappings(string id, int seed, float deep, string[] addOres, string[] removeOres, 
             bool clearOresBeforeAdd, string targetColor, Vector2I? colorInfluence, OreGroupType groupType = OreGroupType.LargeGroup)
+        {
+            var map = new List<PlanetOreMapEntrySetting>();
+
+            if (PlanetOreMapProfile.PLANET_OREMAP_INFO.ContainsKey(id.ToUpper()))
+            {
+
+                var oreInfo = PlanetOreMapProfile.PLANET_OREMAP_INFO[id.ToUpper()];
+
+                var removeAmount = 0; // Remove 0% 
+                var totalToUse = oreInfo.AllInfo.Count - removeAmount;
+
+                var ratioOre = new Vector4(0.5f, 0.15f, 0.1f, 0.05f); // 80%
+                var maxEntries = new Dictionary<OreRarity, int>();
+                maxEntries[OreRarity.Common] = (int)(totalToUse * ratioOre.X);
+                maxEntries[OreRarity.Uncommon] = (int)(totalToUse * ratioOre.Y);
+                maxEntries[OreRarity.Rare] = (int)(totalToUse * ratioOre.Z);
+                maxEntries[OreRarity.Epic] = (int)(totalToUse * ratioOre.W);
+
+                var rangeOre = new Vector4(0.6f, 0.2f, 0.15f, 0.05f); // 100%
+                var rangeEntriesLimits = new Dictionary<OreRarity, int>();
+                rangeEntriesLimits[OreRarity.Common] = (int)(totalToUse * rangeOre.X);
+                rangeEntriesLimits[OreRarity.Uncommon] = (int)(totalToUse * rangeOre.Y);
+                rangeEntriesLimits[OreRarity.Rare] = (int)(totalToUse * rangeOre.Z);
+                rangeEntriesLimits[OreRarity.Epic] = (int)(totalToUse * rangeOre.W);
+
+                var rangeEntries = new Dictionary<OreRarity, List<byte>>();
+                rangeEntries[OreRarity.Common] = oreInfo.AllInfo.OrderByDescending(x => x.Value)
+                    .Skip(removeAmount)
+                    .Take(rangeEntriesLimits[OreRarity.Common])
+                    .Select(x => x.Key).ToList();
+                rangeEntries[OreRarity.Uncommon] = oreInfo.AllInfo.OrderByDescending(x => x.Value)
+                    .Skip(removeAmount + rangeEntriesLimits[OreRarity.Common])
+                    .Take(rangeEntriesLimits[OreRarity.Uncommon])
+                    .Select(x => x.Key).ToList();
+                rangeEntries[OreRarity.Rare] = oreInfo.AllInfo.OrderByDescending(x => x.Value)
+                    .Skip(removeAmount + rangeEntriesLimits[OreRarity.Common] + rangeEntriesLimits[OreRarity.Uncommon])
+                    .Take(rangeEntriesLimits[OreRarity.Rare])
+                    .Select(x => x.Key).ToList();
+                rangeEntries[OreRarity.Epic] = oreInfo.AllInfo.OrderBy(x => x.Value)
+                    .Take(rangeEntriesLimits[OreRarity.Epic])
+                    .Select(x => x.Key).ToList();
+
+                List<OreMapInfo> calcOres = DoCalcOres(addOres, removeOres, clearOresBeforeAdd);
+                string colorToUse;
+                Vector2I influenceToUse;
+                DoCalcColorInfluence(targetColor, colorInfluence, out colorToUse, out influenceToUse);
+
+                var oresByRarity = calcOres.GroupBy(x => x.rarity).ToDictionary(x => x.Key, y => y.ToList());
+
+                var limits = new Dictionary<OreRarity, int>()
+                {
+                    { OreRarity.Common, 1 },
+                    { OreRarity.Uncommon, 2 },
+                    { OreRarity.Rare, 2 },
+                    { OreRarity.Epic, 3 }
+                };
+
+                foreach (var k in oresByRarity.Keys)
+                {
+                    var entriesPerOre = Math.Min(Math.Max(1, maxEntries[k] / oresByRarity[k].Count), limits[k]);
+                    foreach (var ore in oresByRarity[k])
+                    {
+                        for (int i = 0; i < entriesPerOre; i++)
+                        {
+                            if (rangeEntries[k].Any())
+                            {
+                                var v = rangeEntries[k].OrderBy(x => MyUtils.GetRandomFloat()).FirstOrDefault();
+                                rangeEntries[k].Remove(v);
+
+                                map.Add(new PlanetOreMapEntrySetting()
+                                {
+                                    Value = v,
+                                    Type = ore.type,
+                                    Start = new Vector2I(ore.start.X, ore.start.Y).GetRandom() * deep,
+                                    Depth = new Vector2I(ore.depth.X, ore.depth.Y).GetRandom() * deep,
+                                    ColorInfluence = influenceToUse.GetRandom(),
+                                    TargetColor = colorToUse
+                                });
+                            }
+                        }
+                    }
+                }
+
+            }
+            else
+            {
+                LegayOreMapGenerator(seed, deep, addOres, removeOres, clearOresBeforeAdd, targetColor, colorInfluence, groupType, map);
+            }
+
+            return map;
+        }
+
+        private void LegayOreMapGenerator(int seed, float deep, string[] addOres, string[] removeOres, bool clearOresBeforeAdd, string targetColor, Vector2I? colorInfluence, OreGroupType groupType, List<PlanetOreMapEntrySetting> map)
         {
             var maxEntries = 220;
             var maxFinalEntries = 30;
             var maxEntryId = 250;
 
             Random rand = new Random(seed);
-            var map = new List<PlanetOreMapEntrySetting>();
-            var calcOres = Ores.ToList();
-            if (clearOresBeforeAdd)
-            {
-                calcOres.Clear();
-            }
-            else if (removeOres != null && removeOres.Length > 0)
-            {
-                calcOres.RemoveAll(x => removeOres.Contains(x.type));
-            }
-            if (addOres != null && addOres.Length > 0)
-            {
-                foreach (var ore in addOres)
-                {
-                    calcOres.Add(PlanetMapProfile.GetOreMap(ore));
-                }
-            }
 
-            var colorToUse = TargetColor;
-            if (!string.IsNullOrWhiteSpace(targetColor))
-            {
-                if (targetColor == "NULL")
-                    colorToUse = "";
-                else
-                    colorToUse = targetColor;
-            }
+            List<OreMapInfo> calcOres = DoCalcOres(addOres, removeOres, clearOresBeforeAdd);
+            string colorToUse;
+            Vector2I influenceToUse;
+            DoCalcColorInfluence(targetColor, colorInfluence, out colorToUse, out influenceToUse);
 
-            var influenceToUse = colorInfluence.HasValue ? colorInfluence.Value : ColorInfluence;
-            
             if (calcOres.Any())
             {
 
@@ -797,51 +867,75 @@ namespace ExtendedSurvival.Core
                 }
 
             }
-            return map;
+        }
+
+        private void DoCalcColorInfluence(string targetColor, Vector2I? colorInfluence, out string colorToUse, out Vector2I influenceToUse)
+        {
+            colorToUse = TargetColor;
+            if (!string.IsNullOrWhiteSpace(targetColor))
+            {
+                if (targetColor == "NULL")
+                    colorToUse = "";
+                else
+                    colorToUse = targetColor;
+            }
+            influenceToUse = colorInfluence.HasValue ? colorInfluence.Value : ColorInfluence;
+        }
+
+        private List<OreMapInfo> DoCalcOres(string[] addOres, string[] removeOres, bool clearOresBeforeAdd)
+        {
+            var calcOres = Ores.ToList();
+            if (clearOresBeforeAdd)
+            {
+                calcOres.Clear();
+            }
+            else if (removeOres != null && removeOres.Length > 0)
+            {
+                calcOres.RemoveAll(x => removeOres.Contains(x.type));
+            }
+            if (addOres != null && addOres.Length > 0)
+            {
+                foreach (var ore in addOres)
+                {
+                    calcOres.Add(PlanetMapProfile.GetOreMap(ore));
+                }
+            }
+
+            return calcOres;
         }
 
         public PlanetSetting UpgradeSettings(PlanetSetting settings)
         {
             if (settings != null)
-            {                
+            {
                 if (settings.Version <= 8)
                 {
-                    settings = BuildSettings(settings.Id, settings.Seed, settings.DeepMultiplier, settings.AddedOres?.Split(','), 
+                    settings = BuildSettings(settings.Id, settings.Seed, settings.DeepMultiplier, settings.AddedOres?.Split(','),
                         settings.RemovedOres?.Split(','), settings.ClearOresBeforeAdd, settings.TargetColor,
                         settings.UseColorInfluence ? (Vector2I?)settings.ColorInfluence.ToVector2I() : null,
                         (OreGroupType)settings.OreGroupType);
                 }
-                else if (settings.Version <= 13)
+                else
                 {
-                    var tmpSettings = BuildSettings(settings.Id, settings.Seed, settings.DeepMultiplier, settings.AddedOres?.Split(','), 
-                        settings.RemovedOres?.Split(','), settings.ClearOresBeforeAdd, settings.TargetColor,
-                        settings.UseColorInfluence ? (Vector2I?)settings.ColorInfluence.ToVector2I() : null,
-                        (OreGroupType)settings.OreGroupType);
-                    settings.OreMap = tmpSettings.OreMap;
-                    settings.OreGroupType = tmpSettings.OreGroupType;
+                    if (settings.Version <= 12)
+                    {
+                        settings.MeteorImpact = BuildMeteorImpactSetting();
+                    }
+                    if (settings.Version <= 16)
+                    {
+                        settings.SuperficialMining = BuildSuperficialMiningSetting(settings.Id);
+                    }
+                    if (settings.Version <= 18)
+                    {
+                        var tmpSettings = BuildSettings(settings.Id, settings.Seed, settings.DeepMultiplier, settings.AddedOres?.Split(','),
+                            settings.RemovedOres?.Split(','), settings.ClearOresBeforeAdd, settings.TargetColor,
+                            settings.UseColorInfluence ? (Vector2I?)settings.ColorInfluence.ToVector2I() : null,
+                            GroupType);
+                        settings.OreMap = tmpSettings.OreMap;
+                        settings.OreGroupType = tmpSettings.OreGroupType;
+                    }
                 }
-                if (settings.Version <= 12)
-                {
-                    settings.MeteorImpact = BuildMeteorImpactSetting();
-                }
-                if (settings.Version <= 14)
-                {
-                    settings.SuperficialMining = BuildSuperficialMiningSetting(settings.Id);
-                }
-                if (settings.Version <= 15)
-                {
-                    var tmpSettings = BuildSettings(settings.Id, settings.Seed, settings.DeepMultiplier, settings.AddedOres?.Split(','), 
-                        settings.RemovedOres?.Split(','), settings.ClearOresBeforeAdd, settings.TargetColor,
-                        settings.UseColorInfluence ? (Vector2I?)settings.ColorInfluence.ToVector2I() : null,
-                        GroupType);
-                    settings.OreMap = tmpSettings.OreMap;
-                    settings.OreGroupType = tmpSettings.OreGroupType;
-                }
-                if (settings.Version <= 16)
-                {
-                    settings.SuperficialMining = BuildSuperficialMiningSetting(settings.Id);
-                }
-                settings.Version = Version;
+                settings.Version = Version; 
             }
             return settings;
         }
@@ -877,6 +971,7 @@ namespace ExtendedSurvival.Core
             {
                 Id = id,
                 UsingTechnology = ExtendedSurvivalCoreSession.IsUsingTechnology(),
+                UsingBetterStone = ExtendedSurvivalCoreSession.IsUsingBetterStone(),
                 RespawnEnabled = RespawnEnabled,
                 Seed = seed,
                 DeepMultiplier = deep,
@@ -900,6 +995,7 @@ namespace ExtendedSurvival.Core
                 SuperficialMining = BuildSuperficialMiningSetting(id),
                 OreGroupType = (int)(groupType.HasValue ? groupType.Value : GroupType),
                 OreMap = BuildOresMappings(
+                    id,
                     seed, 
                     deep, 
                     PlanetMapProfile.GetValidOreKeys(validOresToAdd), 

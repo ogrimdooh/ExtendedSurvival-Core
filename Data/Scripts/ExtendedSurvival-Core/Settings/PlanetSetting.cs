@@ -264,6 +264,9 @@ namespace ExtendedSurvival.Core
         public bool UsingTechnology { get; set; } = false;
 
         [XmlElement]
+        public bool UsingBetterStone { get; set; } = false;
+        
+        [XmlElement]
         public bool RespawnEnabled { get; set; } = false;
 
         [XmlElement]

@@ -14,6 +14,7 @@ using VRage.Game.ModAPI;
 using VRage.Game.ObjectBuilders;
 using VRage.Utils;
 using VRageMath;
+using static ExtendedSurvival.Core.PlanetMapProfile;
 
 namespace ExtendedSurvival.Core
 {
@@ -27,6 +28,7 @@ namespace ExtendedSurvival.Core
 
         public const ulong ES_TECHNOLOGY_MODID = 2842844421;
         public const ulong ES_STATS_EFFECTS_MODID = 2840924715;
+        public const ulong BETTERSTONE_MOD_ID = 406244471;
 
         private static bool? isLocalExecution = null;
         public static bool IsLocalExecution()
@@ -50,6 +52,31 @@ namespace ExtendedSurvival.Core
             if (!isUsingStatsAndEffects.HasValue)
                 isUsingStatsAndEffects = MyAPIGateway.Session.Mods.Any(x => x.PublishedFileId == ES_STATS_EFFECTS_MODID || x.Name == ES_STATS_LOCALNAME);
             return isUsingStatsAndEffects.Value;
+        }
+
+        private static bool? isUsingBetterStone = null;
+        public static bool IsUsingBetterStone()
+        {
+            if (!isUsingBetterStone.HasValue)
+                isUsingBetterStone = MyAPIGateway.Session.Mods.Any(x => x.PublishedFileId == BETTERSTONE_MOD_ID);
+            return isUsingBetterStone.Value;
+        }
+
+        private static PlanetMapProfile.OreMapType? _oreMapType = null;
+        public static PlanetMapProfile.OreMapType GetOreMapType()
+        {
+            if (_oreMapType == null)
+            {
+                if (IsUsingTechnology() && IsUsingBetterStone())
+                    _oreMapType = PlanetMapProfile.OreMapType.BetterStoneExtendedSurvival;
+                else if (IsUsingTechnology())
+                    _oreMapType = PlanetMapProfile.OreMapType.ExtendedSurvival;
+                else if (IsUsingBetterStone())
+                    _oreMapType = PlanetMapProfile.OreMapType.BetterStoneVanilla;
+                else
+                    _oreMapType = PlanetMapProfile.OreMapType.Vanilla;
+            }
+            return _oreMapType.Value;
         }
 
         public static ExtendedSurvivalCoreSession Static { get; private set; }

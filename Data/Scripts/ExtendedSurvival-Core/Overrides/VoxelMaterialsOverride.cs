@@ -41,6 +41,13 @@ namespace ExtendedSurvival.Core
                         var info = ExtendedSurvivalSettings.Instance.GetVoxelInfo(voxel);
                         if (info != null)
                         {
+                            if (ExtendedSurvivalCoreSession.IsUsingBetterStone())
+                            {
+                                if (BetterStoneIntegrationProfile.NewOreToVoxelMap.ContainsKey(voxel))
+                                {
+                                    definition.MinedOre = BetterStoneIntegrationProfile.NewOreToVoxelMap[voxel];
+                                }
+                            }
                             definition.MinedOreRatio = info.MinedOreRatio;
                             definition.SpawnsInAsteroids = info.SpawnsInAsteroids;
                             /* Force spawn in asteroids when respawn in space is enabled */

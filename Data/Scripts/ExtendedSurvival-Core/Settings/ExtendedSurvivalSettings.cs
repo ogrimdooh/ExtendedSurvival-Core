@@ -411,6 +411,11 @@ namespace ExtendedSurvival.Core
             return ExtendedSurvivalCoreSession.IsUsingTechnology() && Planets.Any(x => x.Id.ToUpper().Trim() == id.ToUpper().Trim() && !x.UsingTechnology);
         }
 
+        public bool PlanetUsingBetterStoneForFirstTime(string id)
+        {
+            return ExtendedSurvivalCoreSession.IsUsingBetterStone() && Planets.Any(x => x.Id.ToUpper().Trim() == id.ToUpper().Trim() && !x.UsingBetterStone);
+        }
+
         public bool VoxelUsingTecnologyForFirstTime(string id)
         {
             return ExtendedSurvivalCoreSession.IsUsingTechnology() && VoxelMaterials.Any(x => x.Id.ToUpper().Trim() == id.ToUpper().Trim() && !x.UsingTechnology);
@@ -473,7 +478,7 @@ namespace ExtendedSurvival.Core
 
         public PlanetSetting GetPlanetInfo(string id, bool generateWhenNotExists = true)
         {
-            if (HasPlanetInfo(id) && (!generateWhenNotExists || !PlanetUsingTecnologyForFirstTime(id)))
+            if (HasPlanetInfo(id) && (!generateWhenNotExists || !PlanetUsingTecnologyForFirstTime(id) || !PlanetUsingBetterStoneForFirstTime(id)))
             {
                 var settings = Planets.FirstOrDefault(x => x.Id.ToUpper().Trim() == id.ToUpper().Trim());
                 if (!IgnorePlanets.Split(';').Contains(id.ToUpper()))

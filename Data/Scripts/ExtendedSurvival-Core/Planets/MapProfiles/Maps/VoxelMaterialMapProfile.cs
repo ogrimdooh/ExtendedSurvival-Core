@@ -151,7 +151,25 @@ namespace ExtendedSurvival.Core
             Carbon_01,
             Potassium_01,
             Lithium_01,
-            Mercury_01
+            Mercury_01,
+            Iron_03,
+            Iron_04,
+            /* Better Stone */
+            BetterStoneIntegrationProfile.Hapkeite_01,
+            BetterStoneIntegrationProfile.Heazlewoodite_01,
+            BetterStoneIntegrationProfile.Porphyry_01,
+            BetterStoneIntegrationProfile.Cattierite_01,
+            BetterStoneIntegrationProfile.Glaucodot_01,
+            BetterStoneIntegrationProfile.Sinoite_01,
+            BetterStoneIntegrationProfile.Pyrite_01,
+            BetterStoneIntegrationProfile.Quartz_01,
+            BetterStoneIntegrationProfile.Galena_01,
+            BetterStoneIntegrationProfile.Chlorargyrite_01,
+            BetterStoneIntegrationProfile.Electrum_01,
+            BetterStoneIntegrationProfile.Taenite_01,
+            BetterStoneIntegrationProfile.Cohenite_01,
+            BetterStoneIntegrationProfile.Kamacite_01,
+            BetterStoneIntegrationProfile.Petzite_01
         };
 
         // ES Core
@@ -173,6 +191,9 @@ namespace ExtendedSurvival.Core
         public const string Tungsten_01 = "Tungsten_01";
         public const string Plutonium_01 = "Plutonium_01";
 
+        public const string Iron_03 = "Iron_03";
+        public const string Iron_04 = "Iron_04";
+
         public static readonly string[] ESTechnologyVoxels = new string[]
         {
             Aluminum_01,
@@ -188,7 +209,9 @@ namespace ExtendedSurvival.Core
             Mercury_01,
             Beryllium_01,
             Tungsten_01,
-            Plutonium_01
+            Plutonium_01,
+            Iron_03,
+            Iron_04
         };
 
         public const float VERYCOMMON_RATIO = 3;
@@ -517,7 +540,35 @@ namespace ExtendedSurvival.Core
             { Mercury_01.ToUpper(), MERCURY_VOXEL_MATERIAL },
             { Beryllium_01.ToUpper(), BERYLLIUM_VOXEL_MATERIAL },
             { Tungsten_01.ToUpper(), TUNGSTEN_VOXEL_MATERIAL },
-            { Plutonium_01.ToUpper(), PLUTONIUM_VOXEL_MATERIAL }
+            { Plutonium_01.ToUpper(), PLUTONIUM_VOXEL_MATERIAL },
+            { Iron_03.ToUpper(), IRON_VOXEL_MATERIAL },
+            { Iron_04.ToUpper(), IRON_VOXEL_MATERIAL },
+            // Better Stone
+            { BetterStoneIntegrationProfile.Hapkeite_01.ToUpper(), BetterStoneIntegrationProfile.HAPKEITE_VOXEL_MATERIAL },
+            { BetterStoneIntegrationProfile.Heazlewoodite_01.ToUpper(), BetterStoneIntegrationProfile.HEAZLEWOODITE_VOXEL_MATERIAL },
+            { BetterStoneIntegrationProfile.Porphyry_01.ToUpper(), BetterStoneIntegrationProfile.PORPHYRY_VOXEL_MATERIAL },
+            { BetterStoneIntegrationProfile.Dolomite_01.ToUpper(), BetterStoneIntegrationProfile.DOLOMITE_VOXEL_MATERIAL },
+            { BetterStoneIntegrationProfile.Cattierite_01.ToUpper(), BetterStoneIntegrationProfile.CATTIERITE_VOXEL_MATERIAL },
+            { BetterStoneIntegrationProfile.Niggliite_01.ToUpper(), BetterStoneIntegrationProfile.NIGGLIITE_VOXEL_MATERIAL },
+            { BetterStoneIntegrationProfile.Carnotite_01.ToUpper(), BetterStoneIntegrationProfile.CARNOTITE_VOXEL_MATERIAL },
+            { BetterStoneIntegrationProfile.Glaucodot_01.ToUpper(), BetterStoneIntegrationProfile.GLAUCODOT_VOXEL_MATERIAL },
+            { BetterStoneIntegrationProfile.Sinoite_01.ToUpper(), BetterStoneIntegrationProfile.SINOITE_VOXEL_MATERIAL },
+            { BetterStoneIntegrationProfile.Pyrite_01.ToUpper(), BetterStoneIntegrationProfile.PYRITE_VOXEL_MATERIAL },
+            { BetterStoneIntegrationProfile.Olivine_01.ToUpper(), BetterStoneIntegrationProfile.OLIVINE_VOXEL_MATERIAL },
+            { BetterStoneIntegrationProfile.Cooperite_01.ToUpper(), BetterStoneIntegrationProfile.COOPERITE_VOXEL_MATERIAL },
+            { BetterStoneIntegrationProfile.Quartz_01.ToUpper(), BetterStoneIntegrationProfile.QUARTZ_VOXEL_MATERIAL },
+            { BetterStoneIntegrationProfile.Galena_01.ToUpper(), BetterStoneIntegrationProfile.GALENA_VOXEL_MATERIAL },
+            { BetterStoneIntegrationProfile.Chlorargyrite_01.ToUpper(), BetterStoneIntegrationProfile.CHLORARGYRITE_VOXEL_MATERIAL },
+            { BetterStoneIntegrationProfile.Electrum_01.ToUpper(), BetterStoneIntegrationProfile.ELECTRUM_VOXEL_MATERIAL },
+            { BetterStoneIntegrationProfile.Sperrylite_01.ToUpper(), BetterStoneIntegrationProfile.SPERRYLITE_VOXEL_MATERIAL },
+            { BetterStoneIntegrationProfile.Autunite_01.ToUpper(), BetterStoneIntegrationProfile.AUTUNITE_VOXEL_MATERIAL },
+            { BetterStoneIntegrationProfile.Akimotoite_01.ToUpper(), BetterStoneIntegrationProfile.AKIMOTOITE_VOXEL_MATERIAL },
+            { BetterStoneIntegrationProfile.Wadsleyite_01.ToUpper(), BetterStoneIntegrationProfile.WADSLEYITE_VOXEL_MATERIAL },
+            { BetterStoneIntegrationProfile.Taenite_01.ToUpper(), BetterStoneIntegrationProfile.TAENITE_VOXEL_MATERIAL },
+            { BetterStoneIntegrationProfile.Cohenite_01.ToUpper(), BetterStoneIntegrationProfile.COHENITE_VOXEL_MATERIAL },
+            { BetterStoneIntegrationProfile.Kamacite_01.ToUpper(), BetterStoneIntegrationProfile.KAMACITE_VOXEL_MATERIAL },
+            { BetterStoneIntegrationProfile.Uraniaurite_01.ToUpper(), BetterStoneIntegrationProfile.URANIAURITE_VOXEL_MATERIAL },
+            { BetterStoneIntegrationProfile.Petzite_01.ToUpper(), BetterStoneIntegrationProfile.PETZITE_VOXEL_MATERIAL }
         };
 
         private static readonly List<string> ValidVoxels = new List<string>()
@@ -558,7 +609,35 @@ namespace ExtendedSurvival.Core
             Mercury_01,
             Beryllium_01,
             Tungsten_01,
-            Plutonium_01
+            Plutonium_01,
+            Iron_03,
+            Iron_04,
+            // Better Stone
+            BetterStoneIntegrationProfile.Hapkeite_01,
+            BetterStoneIntegrationProfile.Heazlewoodite_01,
+            BetterStoneIntegrationProfile.Porphyry_01,
+            BetterStoneIntegrationProfile.Dolomite_01,
+            BetterStoneIntegrationProfile.Cattierite_01,
+            BetterStoneIntegrationProfile.Niggliite_01,
+            BetterStoneIntegrationProfile.Carnotite_01,
+            BetterStoneIntegrationProfile.Glaucodot_01,
+            BetterStoneIntegrationProfile.Sinoite_01,
+            BetterStoneIntegrationProfile.Pyrite_01,
+            BetterStoneIntegrationProfile.Olivine_01,
+            BetterStoneIntegrationProfile.Cooperite_01,
+            BetterStoneIntegrationProfile.Quartz_01,
+            BetterStoneIntegrationProfile.Galena_01,
+            BetterStoneIntegrationProfile.Chlorargyrite_01,
+            BetterStoneIntegrationProfile.Electrum_01,
+            BetterStoneIntegrationProfile.Sperrylite_01,
+            BetterStoneIntegrationProfile.Autunite_01,
+            BetterStoneIntegrationProfile.Akimotoite_01,
+            BetterStoneIntegrationProfile.Wadsleyite_01,
+            BetterStoneIntegrationProfile.Taenite_01,
+            BetterStoneIntegrationProfile.Cohenite_01,
+            BetterStoneIntegrationProfile.Kamacite_01,
+            BetterStoneIntegrationProfile.Uraniaurite_01,
+            BetterStoneIntegrationProfile.Petzite_01
         };
 
         public static string[] GetNames()

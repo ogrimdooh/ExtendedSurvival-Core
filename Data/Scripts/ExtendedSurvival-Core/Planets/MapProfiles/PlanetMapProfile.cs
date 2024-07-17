@@ -8,6 +8,16 @@ namespace ExtendedSurvival.Core
     public static class PlanetMapProfile
     {
 
+        public enum OreMapType
+        {
+
+            Vanilla = 0,
+            ExtendedSurvival = 1,
+            BetterStoneVanilla = 2,
+            BetterStoneExtendedSurvival = 3
+
+        }
+
         public class OreType
         {
 
@@ -16,7 +26,7 @@ namespace ExtendedSurvival.Core
 
         }
 
-        public const int PROFILE_VERSION = 17;
+        public const int PROFILE_VERSION = 19;
 
         public const ulong EARTHLIKE_ANIMALS_MODID = 2170447225;
 
@@ -51,6 +61,8 @@ namespace ExtendedSurvival.Core
         public const string Beryllium_01 = "Beryllium_01";
         public const string Tungsten_01 = "Tungsten_01";
         public const string Plutonium_01 = "Plutonium_01";
+        public const string Iron_03 = "Iron_03";
+        public const string Iron_04 = "Iron_04";
 
         public const int COMMON_SPAWN = 9;
         public const int UNCOMMON_SPAWN = 6;
@@ -140,7 +152,36 @@ namespace ExtendedSurvival.Core
             { "MERCURY", Mercury_01 },
             { "BERYLLIUM", Beryllium_01 },
             { "TUNGSTEN", Tungsten_01 },
-            { "PLUTONIUM", Plutonium_01 }
+            { "PLUTONIUM", Plutonium_01 },
+            { "IRON1", Iron_01 },
+            { "IRON2", Iron_02 },
+            { "IRON3", Iron_03 },
+            { "IRON4", Iron_04 },
+            { "HAPKEITE", BetterStoneIntegrationProfile.Hapkeite_01 },
+            { "HEAZLEWOODITE", BetterStoneIntegrationProfile.Heazlewoodite_01 },
+            { "PORPHYRY", BetterStoneIntegrationProfile.Porphyry_01 },
+            { "DOLOMITE", BetterStoneIntegrationProfile.Dolomite_01 },
+            { "CATTIERITE", BetterStoneIntegrationProfile.Cattierite_01 },
+            { "NIGGLIITE", BetterStoneIntegrationProfile.Niggliite_01 },
+            { "CARNOTITE", BetterStoneIntegrationProfile.Carnotite_01 },
+            { "GLAUCODOT", BetterStoneIntegrationProfile.Glaucodot_01 },
+            { "SINOITE", BetterStoneIntegrationProfile.Sinoite_01 },
+            { "PYRITE", BetterStoneIntegrationProfile.Pyrite_01 },
+            { "OLIVINE", BetterStoneIntegrationProfile.Olivine_01 },
+            { "COOPERITE", BetterStoneIntegrationProfile.Cooperite_01 },
+            { "QUARTZ", BetterStoneIntegrationProfile.Quartz_01 },
+            { "GALENA", BetterStoneIntegrationProfile.Galena_01 },
+            { "CHLORARGYRITE", BetterStoneIntegrationProfile.Chlorargyrite_01 },
+            { "ELECTRUM", BetterStoneIntegrationProfile.Electrum_01 },
+            { "SPERRYLITE", BetterStoneIntegrationProfile.Sperrylite_01 },
+            { "AUTUNITE", BetterStoneIntegrationProfile.Autunite_01 },
+            { "AKIMOTOITE", BetterStoneIntegrationProfile.Akimotoite_01 },
+            { "WADSLEYITE", BetterStoneIntegrationProfile.Wadsleyite_01 },
+            { "TAENITE", BetterStoneIntegrationProfile.Taenite_01 },
+            { "COHENITE", BetterStoneIntegrationProfile.Cohenite_01 },
+            { "KAMACITE", BetterStoneIntegrationProfile.Kamacite_01 },
+            { "URANIAURITE", BetterStoneIntegrationProfile.Uraniaurite_01 },
+            { "PETZIT", BetterStoneIntegrationProfile.Petzite_01 }
         };
 
         public static string[] FilterValidOres(string[] keys)
@@ -193,7 +234,7 @@ namespace ExtendedSurvival.Core
                     }
                 }
             },
-           {
+            {
                 Nickel_01,
                 new OreType()
                 {
@@ -528,6 +569,385 @@ namespace ExtendedSurvival.Core
                         start = new Vector2I(50, 100),
                         depth = new Vector2I(15, 30),
                         rarity = PlanetProfile.OreRarity.Epic
+                    }
+                }
+            },
+            {
+                Iron_03,
+                new OreType()
+                {
+                    Name = Iron_03,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = Iron_03,
+                        start = new Vector2I(12, 36),
+                        depth = new Vector2I(8, 16),
+                        rarity = PlanetProfile.OreRarity.Common
+                    }
+                }
+            },
+            {
+                Iron_04,
+                new OreType()
+                {
+                    Name = Iron_04,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = Iron_04,
+                        start = new Vector2I(24, 48),
+                        depth = new Vector2I(16, 24),
+                        rarity = PlanetProfile.OreRarity.Common
+                    }
+                }
+            },
+            // Better Stone
+            {
+                BetterStoneIntegrationProfile.Hapkeite_01,
+                new OreType()
+                {
+                    Name = BetterStoneIntegrationProfile.Hapkeite_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = BetterStoneIntegrationProfile.Hapkeite_01,
+                        start = new Vector2I(6, 30),
+                        depth = new Vector2I(4, 10),
+                        rarity = PlanetProfile.OreRarity.Common
+                    }
+                }
+            },
+            {
+                BetterStoneIntegrationProfile.Heazlewoodite_01,
+                new OreType()
+                {
+                    Name = BetterStoneIntegrationProfile.Heazlewoodite_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = BetterStoneIntegrationProfile.Heazlewoodite_01,
+                        start = new Vector2I(6, 30),
+                        depth = new Vector2I(4, 10),
+                        rarity = PlanetProfile.OreRarity.Common
+                    }
+                }
+            },
+            {
+                BetterStoneIntegrationProfile.Porphyry_01,
+                new OreType()
+                {
+                    Name = BetterStoneIntegrationProfile.Porphyry_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = BetterStoneIntegrationProfile.Porphyry_01,
+                        start = new Vector2I(30, 60),
+                        depth = new Vector2I(10, 20),
+                        rarity = PlanetProfile.OreRarity.Rare
+                    }
+                }
+            },
+            {
+                BetterStoneIntegrationProfile.Dolomite_01,
+                new OreType()
+                {
+                    Name = BetterStoneIntegrationProfile.Dolomite_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = BetterStoneIntegrationProfile.Dolomite_01,
+                        start = new Vector2I(50, 100),
+                        depth = new Vector2I(15, 30),
+                        rarity = PlanetProfile.OreRarity.Rare
+                    }
+                }
+            },
+            {
+                BetterStoneIntegrationProfile.Cattierite_01,
+                new OreType()
+                {
+                    Name = BetterStoneIntegrationProfile.Cattierite_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = BetterStoneIntegrationProfile.Cattierite_01,
+                        start = new Vector2I(50, 100),
+                        depth = new Vector2I(15, 30),
+                        rarity = PlanetProfile.OreRarity.Rare
+                    }
+                }
+            },
+            {
+                BetterStoneIntegrationProfile.Niggliite_01,
+                new OreType()
+                {
+                    Name = BetterStoneIntegrationProfile.Niggliite_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = BetterStoneIntegrationProfile.Niggliite_01,
+                        start = new Vector2I(50, 100),
+                        depth = new Vector2I(15, 30),
+                        rarity = PlanetProfile.OreRarity.Rare
+                    }
+                }
+            },
+            {
+                BetterStoneIntegrationProfile.Carnotite_01,
+                new OreType()
+                {
+                    Name = BetterStoneIntegrationProfile.Carnotite_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = BetterStoneIntegrationProfile.Carnotite_01,
+                        start = new Vector2I(50, 100),
+                        depth = new Vector2I(15, 30),
+                        rarity = PlanetProfile.OreRarity.Rare
+                    }
+                }
+            },
+            {
+                BetterStoneIntegrationProfile.Glaucodot_01,
+                new OreType()
+                {
+                    Name = BetterStoneIntegrationProfile.Glaucodot_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = BetterStoneIntegrationProfile.Glaucodot_01,
+                        start = new Vector2I(50, 100),
+                        depth = new Vector2I(15, 30),
+                        rarity = PlanetProfile.OreRarity.Rare
+                    }
+                }
+            },
+            {
+                BetterStoneIntegrationProfile.Sinoite_01,
+                new OreType()
+                {
+                    Name = BetterStoneIntegrationProfile.Sinoite_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = BetterStoneIntegrationProfile.Sinoite_01,
+                        start = new Vector2I(6, 30),
+                        depth = new Vector2I(4, 10),
+                        rarity = PlanetProfile.OreRarity.Common
+                    }
+                }
+            },
+            {
+                BetterStoneIntegrationProfile.Pyrite_01,
+                new OreType()
+                {
+                    Name = BetterStoneIntegrationProfile.Pyrite_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = BetterStoneIntegrationProfile.Pyrite_01,
+                        start = new Vector2I(50, 100),
+                        depth = new Vector2I(15, 30),
+                        rarity = PlanetProfile.OreRarity.Rare
+                    }
+                }
+            },
+            {
+                BetterStoneIntegrationProfile.Olivine_01,
+                new OreType()
+                {
+                    Name = BetterStoneIntegrationProfile.Olivine_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = BetterStoneIntegrationProfile.Olivine_01,
+                        start = new Vector2I(50, 100),
+                        depth = new Vector2I(15, 30),
+                        rarity = PlanetProfile.OreRarity.Rare
+                    }
+                }
+            },
+            {
+                BetterStoneIntegrationProfile.Cooperite_01,
+                new OreType()
+                {
+                    Name = BetterStoneIntegrationProfile.Cooperite_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = BetterStoneIntegrationProfile.Cooperite_01,
+                        start = new Vector2I(50, 100),
+                        depth = new Vector2I(15, 30),
+                        rarity = PlanetProfile.OreRarity.Rare
+                    }
+                }
+            },
+            {
+                BetterStoneIntegrationProfile.Quartz_01,
+                new OreType()
+                {
+                    Name = BetterStoneIntegrationProfile.Quartz_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = BetterStoneIntegrationProfile.Quartz_01,
+                        start = new Vector2I(6, 30),
+                        depth = new Vector2I(4, 10),
+                        rarity = PlanetProfile.OreRarity.Common
+                    }
+                }
+            },
+            {
+                BetterStoneIntegrationProfile.Galena_01,
+                new OreType()
+                {
+                    Name = BetterStoneIntegrationProfile.Galena_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = BetterStoneIntegrationProfile.Galena_01,
+                        start = new Vector2I(50, 100),
+                        depth = new Vector2I(15, 30),
+                        rarity = PlanetProfile.OreRarity.Rare
+                    }
+                }
+            },
+            {
+                BetterStoneIntegrationProfile.Chlorargyrite_01,
+                new OreType()
+                {
+                    Name = BetterStoneIntegrationProfile.Chlorargyrite_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = BetterStoneIntegrationProfile.Chlorargyrite_01,
+                        start = new Vector2I(50, 100),
+                        depth = new Vector2I(15, 30),
+                        rarity = PlanetProfile.OreRarity.Rare
+                    }
+                }
+            },
+            {
+                BetterStoneIntegrationProfile.Electrum_01,
+                new OreType()
+                {
+                    Name = BetterStoneIntegrationProfile.Electrum_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = BetterStoneIntegrationProfile.Electrum_01,
+                        start = new Vector2I(50, 100),
+                        depth = new Vector2I(15, 30),
+                        rarity = PlanetProfile.OreRarity.Rare
+                    }
+                }
+            },
+            {
+                BetterStoneIntegrationProfile.Sperrylite_01,
+                new OreType()
+                {
+                    Name = BetterStoneIntegrationProfile.Sperrylite_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = BetterStoneIntegrationProfile.Sperrylite_01,
+                        start = new Vector2I(50, 100),
+                        depth = new Vector2I(15, 30),
+                        rarity = PlanetProfile.OreRarity.Rare
+                    }
+                }
+            },
+            {
+                BetterStoneIntegrationProfile.Autunite_01,
+                new OreType()
+                {
+                    Name = BetterStoneIntegrationProfile.Autunite_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = BetterStoneIntegrationProfile.Autunite_01,
+                        start = new Vector2I(50, 100),
+                        depth = new Vector2I(15, 30),
+                        rarity = PlanetProfile.OreRarity.Rare
+                    }
+                }
+            },
+            {
+                BetterStoneIntegrationProfile.Akimotoite_01,
+                new OreType()
+                {
+                    Name = BetterStoneIntegrationProfile.Akimotoite_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = BetterStoneIntegrationProfile.Akimotoite_01,
+                        start = new Vector2I(50, 100),
+                        depth = new Vector2I(15, 30),
+                        rarity = PlanetProfile.OreRarity.Rare
+                    }
+                }
+            },
+            {
+                BetterStoneIntegrationProfile.Wadsleyite_01,
+                new OreType()
+                {
+                    Name = BetterStoneIntegrationProfile.Wadsleyite_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = BetterStoneIntegrationProfile.Wadsleyite_01,
+                        start = new Vector2I(50, 100),
+                        depth = new Vector2I(15, 30),
+                        rarity = PlanetProfile.OreRarity.Rare
+                    }
+                }
+            },
+            {
+                BetterStoneIntegrationProfile.Taenite_01,
+                new OreType()
+                {
+                    Name = BetterStoneIntegrationProfile.Taenite_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = BetterStoneIntegrationProfile.Taenite_01,
+                        start = new Vector2I(6, 30),
+                        depth = new Vector2I(4, 10),
+                        rarity = PlanetProfile.OreRarity.Common
+                    }
+                }
+            },
+            {
+                BetterStoneIntegrationProfile.Cohenite_01,
+                new OreType()
+                {
+                    Name = BetterStoneIntegrationProfile.Cohenite_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = BetterStoneIntegrationProfile.Cohenite_01,
+                        start = new Vector2I(50, 100),
+                        depth = new Vector2I(15, 30),
+                        rarity = PlanetProfile.OreRarity.Rare
+                    }
+                }
+            },
+            {
+                BetterStoneIntegrationProfile.Kamacite_01,
+                new OreType()
+                {
+                    Name = BetterStoneIntegrationProfile.Kamacite_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = BetterStoneIntegrationProfile.Kamacite_01,
+                        start = new Vector2I(50, 100),
+                        depth = new Vector2I(15, 30),
+                        rarity = PlanetProfile.OreRarity.Rare
+                    }
+                }
+            },
+            {
+                BetterStoneIntegrationProfile.Uraniaurite_01,
+                new OreType()
+                {
+                    Name = BetterStoneIntegrationProfile.Uraniaurite_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = BetterStoneIntegrationProfile.Uraniaurite_01,
+                        start = new Vector2I(50, 100),
+                        depth = new Vector2I(15, 30),
+                        rarity = PlanetProfile.OreRarity.Rare
+                    }
+                }
+            },
+            {
+                BetterStoneIntegrationProfile.Petzite_01,
+                new OreType()
+                {
+                    Name = BetterStoneIntegrationProfile.Petzite_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = BetterStoneIntegrationProfile.Petzite_01,
+                        start = new Vector2I(50, 100),
+                        depth = new Vector2I(15, 30),
+                        rarity = PlanetProfile.OreRarity.Rare
                     }
                 }
             }
