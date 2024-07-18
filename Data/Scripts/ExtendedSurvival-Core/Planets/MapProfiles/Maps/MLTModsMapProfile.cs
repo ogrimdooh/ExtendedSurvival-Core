@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
+using VRage.Game;
 using VRageMath;
 
 namespace ExtendedSurvival.Core
@@ -12,6 +13,18 @@ namespace ExtendedSurvival.Core
 
         public const string DEFAULT_SEDONIA = "SEDONIA";
         public const string DEFAULT_IRENE1C = "IRENE1C";
+
+        // Irene1C
+
+        public const string IreneSoil = "IreneSoil";
+
+        // Sedonia
+
+        public const string SedoniaIce = "SedoniaIce";
+        public const string SedoniaRegolith = "SedoniaRegolith";
+
+        public const string REGOLITH_SUBTYPEID = "Regolith";
+        public static readonly UniqueEntityId REGOLITH_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), REGOLITH_SUBTYPEID);
 
         static MLTModsMapProfile()
         {

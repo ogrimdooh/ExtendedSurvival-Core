@@ -77,6 +77,9 @@ namespace ExtendedSurvival.Core
                 case VanilaMapProfile.DEFAULT_MARS:
                     ApplyMarsSettings(definition);
                     break;
+                case GHOSTXVMapProfile.DEFAULT_AVALAN:
+                    GHOSTXVMapProfile.ApplyAvalanSettings(definition);
+                    break;
             }
         }
 

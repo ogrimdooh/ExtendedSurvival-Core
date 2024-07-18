@@ -14,6 +14,16 @@ namespace ExtendedSurvival.Core
         public const string DEFAULT_HELIOSTERRAFORMED = "HELIOSTERRAFORMED";
         public const string DEFAULT_HELIOSTERRAFORMEDWM = "HELIOSTERRAFORMEDWM";
 
+        public const string Helios_Sand_02 = "Helios_Sand_02";
+
+        public const string HeliosTE_Ice = "HeliosTE_Ice";
+
+        public const string Helios_Grass = "Helios_Grass";
+        public const string Helios_Grass_old = "Helios_Grass_old";
+        public const string Helios_HighGrass = "Helios_HighGrass";
+
+        public const string Helios_Lava = "Helios_Lava";
+
         static SamMapProfile()
         { 
             LoadHeliosTerraformedOreMapInfo();

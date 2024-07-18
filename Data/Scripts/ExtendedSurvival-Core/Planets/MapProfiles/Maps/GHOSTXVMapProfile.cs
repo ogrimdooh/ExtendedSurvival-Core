@@ -1,5 +1,9 @@
-﻿using System.Collections.Concurrent;
+﻿using Sandbox.Definitions;
+using Sandbox.ModAPI;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
+using VRage.Game;
 using VRageMath;
 
 namespace ExtendedSurvival.Core
@@ -11,10 +15,45 @@ namespace ExtendedSurvival.Core
 
         public const string DEFAULT_AVALAN = "AVALAN";
 
+        public const string DesertStone = "DesertStone";
+        public const string AvalanSand = "AvalanSand";
+
+        public const string AvalanSoil = "AvalanSoil";
+        public const string AvalanGrass = "AvalanGrass";
+        public const string WoodForest = "WoodForest";
+        public const string DeadGrass2 = "DeadGrass2";
+        public const string DesertGrassX = "DesertGrassX";
+        public const string WoodsMountain = "WoodsMountain";
+
+        public const string FrozenIce = "FrozenIce";
+        public const string AvalanSnow = "AvalanSnow";
+
         static GHOSTXVMapProfile()
         {
             LoadAvalanOreMapInfo();
             AVALAN.Ores = VanilaMapProfile.EARTHLIKE_ORES;
+        }
+
+        public static void ApplyAvalanSettings(MyPlanetGeneratorDefinition definition)
+        {
+            string[] materialsToRemove = new string[]
+            {
+                VoxelMaterialMapProfile.Platinum_01,
+                VoxelMaterialMapProfile.Uraninite_01,
+                VoxelMaterialMapProfile.Gold_01
+            };
+            definition.SurfaceMaterialTable = definition.SurfaceMaterialTable.Where(x => !materialsToRemove.Contains(x.Material)).ToArray();
+            foreach (var group in definition.MaterialGroups)
+            {
+                foreach (var rule in group.MaterialRules.Where(x => x.Layers.Any(y => materialsToRemove.Contains(y.Material))))
+                {
+                    rule.Layers = rule.Layers.Select(x => new MyPlanetMaterialLayer()
+                    {
+                        Material = materialsToRemove.Contains(x.Material) ? VoxelMaterialMapProfile.AlienSnow : x.Material,
+                        Depth = x.Depth
+                    }).ToArray();
+                }
+            }
         }
 
         private static void LoadAvalanOreMapInfo()

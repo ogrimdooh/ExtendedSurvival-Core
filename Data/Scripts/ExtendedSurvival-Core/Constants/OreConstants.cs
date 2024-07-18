@@ -23,6 +23,9 @@ namespace ExtendedSurvival.Core
         public const string DESERTSOIL_SUBTYPEID = "DesertSoil";
         public static readonly UniqueEntityId DESERTSOIL_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), DESERTSOIL_SUBTYPEID);
 
+        public const string VULCANICSOIL_SUBTYPEID = "VulcanicSoil";
+        public static readonly UniqueEntityId VULCANICSOIL_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), VULCANICSOIL_SUBTYPEID);
+
         public const string MOONSOIL_SUBTYPEID = "MoonSoil";
         public static readonly UniqueEntityId MOONSOIL_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), MOONSOIL_SUBTYPEID);
 

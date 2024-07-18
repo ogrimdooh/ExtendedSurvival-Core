@@ -11,6 +11,14 @@ namespace ExtendedSurvival.Core
 
         public const string DEFAULT_PYKE = "PYKE";
 
+        public const string PykeLava = "PykeLava";
+        public const string PykeLavaRock = "PykeLavaRock";
+
+        public const string PykeGravel = "PykeGravel";
+        public const string PykeSoil = "PykeSoil";
+
+        public const string PykeSand = "PykeSand";
+
         static ElindisMapProfile()
         {
             LoadPikeOreMapInfo();

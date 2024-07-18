@@ -12,6 +12,17 @@ namespace ExtendedSurvival.Core
         public const string DEFAULT_CHIMERA = "CHIMERA";
         public const string DEFAULT_ZIRA = "ZIRA";
 
+        public const string Zira_Ice = "Zira_Ice";
+        public const string Zira_Soil = "Zira_Soil";
+
+        public const string Chimera_Sand = "Chimera_Sand";
+        public const string Chimera_Sand2 = "Chimera_Sand2";
+        public const string Chimera_Grass = "Chimera_Grass";
+        public const string Chimera_Dirt_Grass = "Chimera_Dirt_Grass";
+        public const string Chimera_Light_Grass = "Chimera_Light_Grass";
+        public const string Chimera_Snow = "Chimera_Snow";
+        public const string Chimera_Ice = "Chimera_Ice";
+
         static FizzyMapProfile()
         {
             LoadChimeraOreMapInfo();

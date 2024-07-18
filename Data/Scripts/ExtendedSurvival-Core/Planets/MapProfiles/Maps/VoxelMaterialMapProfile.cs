@@ -129,14 +129,39 @@ namespace ExtendedSurvival.Core
             CaptainArthurMapProfile.PurpleGrass,
             CaptainArthurMapProfile.GrassDOC,
             CaptainArthurMapProfile.Grass_oldDOC,
-            CaptainArthurMapProfile.Woods_grassDOC
+            CaptainArthurMapProfile.Woods_grassDOC,
+            //Fizzy
+            FizzyMapProfile.Chimera_Grass,
+            FizzyMapProfile.Chimera_Dirt_Grass,
+            FizzyMapProfile.Chimera_Light_Grass,
+            // GHOSTXV
+            GHOSTXVMapProfile.AvalanGrass,
+            GHOSTXVMapProfile.WoodForest,
+            GHOSTXVMapProfile.DeadGrass2,
+            GHOSTXVMapProfile.DesertGrassX,
+            GHOSTXVMapProfile.WoodsMountain,
+            // Sam
+            SamMapProfile.Helios_Grass,
+            SamMapProfile.Helios_Grass_old,
+            SamMapProfile.Helios_HighGrass
         };
 
         public static readonly string[] MudVoxels = new string[]
         {
             // Captain Arthur
             CaptainArthurMapProfile.MEwoods,
-            CaptainArthurMapProfile.MEwoodsgrass
+            CaptainArthurMapProfile.MEwoodsgrass,
+            // GHOSTXV
+            GHOSTXVMapProfile.AvalanSoil
+        };
+
+        public static readonly string[] VulcanicSoilVoxels = new string[]
+        {
+            // Elindis
+            ElindisMapProfile.PykeLava,
+            ElindisMapProfile.PykeLavaRock,
+            // Sam
+            SamMapProfile.Helios_Lava
         };
 
         public static readonly string[] DesertSoilVoxels = new string[] 
@@ -158,7 +183,16 @@ namespace ExtendedSurvival.Core
             // Captain Arthur
             CaptainArthurMapProfile.Saltflat,
             CaptainArthurMapProfile.Redsand,
-            CaptainArthurMapProfile.DOCSand_02
+            CaptainArthurMapProfile.DOCSand_02,
+            // Elindis
+            ElindisMapProfile.PykeSand,
+            // Fizzy
+            FizzyMapProfile.Chimera_Sand,
+            FizzyMapProfile.Chimera_Sand2,
+            // GHOSTXV
+            GHOSTXVMapProfile.AvalanSand,
+            // Sam
+            SamMapProfile.Helios_Sand_02
         };
 
         public static readonly string[] MoomSoilVoxels = new string[] 
@@ -167,7 +201,14 @@ namespace ExtendedSurvival.Core
             SmallMoonRocks,
             // Captain Arthur
             CaptainArthurMapProfile.MoonAlien,
-            CaptainArthurMapProfile.MoonAlienBare
+            CaptainArthurMapProfile.MoonAlienBare,
+            // Elindis
+            ElindisMapProfile.PykeSoil,
+            ElindisMapProfile.PykeGravel,
+            //Fizzy
+            FizzyMapProfile.Zira_Soil,
+            // MLT
+            MLTModsMapProfile.IreneSoil
         };
 
         public static readonly string[] ESStoneIce = new string[]
@@ -183,7 +224,15 @@ namespace ExtendedSurvival.Core
             CaptainArthurMapProfile.Mediumice,
             CaptainArthurMapProfile.Ice_03,
             CaptainArthurMapProfile.DarinusIce,
-            CaptainArthurMapProfile.Ice_02DOC
+            CaptainArthurMapProfile.Ice_02DOC,
+            //Fizzy
+            FizzyMapProfile.Chimera_Ice,
+            //Fizzy
+            GHOSTXVMapProfile.FrozenIce,
+            // MLT
+            MLTModsMapProfile.SedoniaIce,
+            // Sam
+            SamMapProfile.HeliosTE_Ice
         };
 
         public static readonly string[] ESToxicIce = new string[] 
@@ -200,7 +249,13 @@ namespace ExtendedSurvival.Core
             InfiniteMapProfile.HalcyonIce,
             // Captain Arthur
             CaptainArthurMapProfile.CraitIce,
-            CaptainArthurMapProfile.AlienSnowSpider
+            CaptainArthurMapProfile.AlienSnowSpider,
+            //Fizzy
+            FizzyMapProfile.Zira_Ice,
+            //Fizzy
+            FizzyMapProfile.Chimera_Snow,
+            //Fizzy
+            GHOSTXVMapProfile.AvalanSnow
         };
 
         public static readonly string[] SpaceNeeded = new string[] 
@@ -286,6 +341,19 @@ namespace ExtendedSurvival.Core
                 TargetVoxels = MudVoxels,
                 OreToMine = OreConstants.MUD_SUBTYPEID,
                 MineRatio = VERYCOMMON_RATIO
+            },
+            new VoxelOreReplace()
+            {
+                TargetVoxels = VulcanicSoilVoxels,
+                OreToMine = OreConstants.VULCANICSOIL_SUBTYPEID,
+                MineRatio = VERYCOMMON_RATIO
+            },
+            // MTL
+            new VoxelOreReplace()
+            {
+                TargetVoxels = new string[] { MLTModsMapProfile.SedoniaRegolith },
+                OreToMine = MLTModsMapProfile.REGOLITH_SUBTYPEID,
+                MineRatio = COMMON_RATIO
             }
         };
         
