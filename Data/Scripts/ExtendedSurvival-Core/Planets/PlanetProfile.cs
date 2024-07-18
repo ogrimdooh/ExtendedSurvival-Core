@@ -925,7 +925,7 @@ namespace ExtendedSurvival.Core
                     {
                         settings.SuperficialMining = BuildSuperficialMiningSetting(settings.Id);
                     }
-                    if (settings.Version <= 18)
+                    if (settings.Version <= 19)
                     {
                         var tmpSettings = BuildSettings(settings.Id, settings.Seed, settings.DeepMultiplier, settings.AddedOres?.Split(','),
                             settings.RemovedOres?.Split(','), settings.ClearOresBeforeAdd, settings.TargetColor,
