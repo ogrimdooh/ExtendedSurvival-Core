@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <PhysicalItems>
+
+    <PhysicalItem>
+      <Id>
+        <TypeId>Ore</TypeId>
+        <SubtypeId>ChromeMoonSoil</SubtypeId>
+      </Id>
+      <DisplayName>Chrome Moon Soil</DisplayName>
+      <Icon>Textures\GUI\Icons\Integrations\ore_chrome_moon_soil.dds</Icon>
+      <Size>
+        <X>0.07</X>
+        <Y>0.07</Y>
+        <Z>0.07</Z>
+      </Size>
+      <Mass>1</Mass>
+      <Volume>0.4</Volume>
+      <Model>Models\Components\Sphere.mwm</Model>
+      <PhysicalMaterial>Stone</PhysicalMaterial>
+      <IconSymbol>Soil</IconSymbol>
+    </PhysicalItem>
+
+  </PhysicalItems>
+  <Blueprints>
+
+    <Blueprint>
+      <Id>
+        <TypeId>BlueprintDefinition</TypeId>
+        <SubtypeId>ChromeMoonSoil_Deconstruction</SubtypeId>
+      </Id>
+      <DisplayName>Chrome Moon Soil</DisplayName>
+      <Icon>Textures\GUI\Icons\Integrations\ore_chrome_moon_soil.dds</Icon>
+      <Prerequisites>
+        <Item Amount="1" TypeId="Ore" SubtypeId="ChromeMoonSoil" />
+      </Prerequisites>
+      <Results>
+        <Item Amount="0.095" TypeId="Ingot" SubtypeId="Stone" />
+        <Item Amount="0.15" TypeId="Ingot" SubtypeId="Sand" />
+        <Item Amount="0.005" TypeId="Ingot" SubtypeId="Nickel" />
+      </Results>
+      <BaseProductionTimeInSeconds>0.24</BaseProductionTimeInSeconds>
+    </Blueprint>
+
+  </Blueprints>
+  <BlueprintClassEntries>
+
+    <Entry Class="SmallBasicRefinery_CommonMetals" BlueprintSubtypeId="ChromeMoonSoil_Deconstruction" />
+    <Entry Class="BasicRefinery_CommonMetals" BlueprintSubtypeId="ChromeMoonSoil_Deconstruction" />
+    <Entry Class="CommonMetals" BlueprintSubtypeId="ChromeMoonSoil_Deconstruction" />
+    
+    <Entry Class="Refinery_CommonMetals" BlueprintSubtypeId="ChromeMoonSoil_Deconstruction" />
+    <Entry Class="Ingots" BlueprintSubtypeId="ChromeMoonSoil_Deconstruction" />
+
+  </BlueprintClassEntries>
+  <TransparentMaterials>
+
+    <TransparentMaterial>
+      <Id>
+        <TypeId>TransparentMaterialDefinition</TypeId>
+        <SubtypeId>OreChromeMoonSoil</SubtypeId>
+      </Id>
+      <AlphaMistingEnable>false</AlphaMistingEnable>
+      <AlphaSaturation>1</AlphaSaturation>
+      <CanBeAffectedByOtherLights>false</CanBeAffectedByOtherLights>
+      <IgnoreDepth>false</IgnoreDepth>
+      <SoftParticleDistanceScale>0.1</SoftParticleDistanceScale>
+      <Texture>Textures\GUI\Icons\Integrations\ore_chrome_moon_soil.dds</Texture>
+      <UseAtlas>false</UseAtlas>
+      <UVOffset>
+        <X>0</X>
+        <Y>0</Y>
+      </UVOffset>
+      <UVSize>
+        <X>1</X>
+        <Y>1</Y>
+      </UVSize>
+    </TransparentMaterial>
+
+  </TransparentMaterials>
+</Definitions>

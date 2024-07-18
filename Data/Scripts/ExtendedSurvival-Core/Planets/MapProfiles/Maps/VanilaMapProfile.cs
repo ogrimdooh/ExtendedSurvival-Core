@@ -3435,7 +3435,8 @@ namespace ExtendedSurvival.Core
                     PlanetMapProfile.Lithium_01,
                     BetterStoneIntegrationProfile.Chlorargyrite_01,
                     BetterStoneIntegrationProfile.Galena_01,
-                    BetterStoneIntegrationProfile.Porphyry_01
+                    BetterStoneIntegrationProfile.Porphyry_01,
+                    BetterStoneIntegrationProfile.Pyrite_01
                 },
                 new string[]
                 {
@@ -3474,7 +3475,8 @@ namespace ExtendedSurvival.Core
                     PlanetMapProfile.Lithium_01,
                     BetterStoneIntegrationProfile.Chlorargyrite_01,
                     BetterStoneIntegrationProfile.Galena_01,
-                    BetterStoneIntegrationProfile.Porphyry_01
+                    BetterStoneIntegrationProfile.Porphyry_01,
+                    BetterStoneIntegrationProfile.Pyrite_01
                 },
                 new string[]
                 {
@@ -3513,7 +3515,8 @@ namespace ExtendedSurvival.Core
                     PlanetMapProfile.Lithium_01,
                     BetterStoneIntegrationProfile.Chlorargyrite_01,
                     BetterStoneIntegrationProfile.Galena_01,
-                    BetterStoneIntegrationProfile.Porphyry_01
+                    BetterStoneIntegrationProfile.Porphyry_01,
+                    BetterStoneIntegrationProfile.Pyrite_01
                 },
                 new string[]
                 {

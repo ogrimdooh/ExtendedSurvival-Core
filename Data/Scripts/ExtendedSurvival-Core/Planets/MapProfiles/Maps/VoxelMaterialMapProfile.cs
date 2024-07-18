@@ -220,6 +220,13 @@ namespace ExtendedSurvival.Core
             ShardMapProfile.SafinaLakebed
         };
 
+        public static readonly string[] AsteroidSoilVoxels = new string[]
+        {
+            MajorJonMapProfile.MoonRock_grey_qun,
+            MajorJonMapProfile.MoonRock_grey2_qun,
+            MajorJonMapProfile.MoonRock_black2_qun
+        };
+
         public static readonly string[] MoomSoilVoxels = new string[] 
         {
             MoonSoil,
@@ -236,6 +243,10 @@ namespace ExtendedSurvival.Core
             MLTModsMapProfile.IreneSoil,
             // Major John
             MajorJonMapProfile.DustyRocks3_Satreus,
+            MajorJonMapProfile.MoonSoil_grey_qun,
+            MajorJonMapProfile.MoonSoil_grey2_qun,
+            MajorJonMapProfile.MoonSoil_red2_qun,
+            MajorJonMapProfile.MoonSoil_black2_qun,
             // Shard
             ShardMapProfile.ThanianSoil,
             ShardMapProfile.RishaSoil
@@ -383,12 +394,43 @@ namespace ExtendedSurvival.Core
                 OreToMine = OreConstants.VULCANICSOIL_SUBTYPEID,
                 MineRatio = VERYCOMMON_RATIO
             },
+            new VoxelOreReplace()
+            {
+                TargetVoxels = AsteroidSoilVoxels,
+                OreToMine = OreConstants.ASTEROIDSOIL_SUBTYPEID,
+                MineRatio = VERYCOMMON_RATIO
+            },
             // MTL
             new VoxelOreReplace()
             {
                 TargetVoxels = new string[] { MLTModsMapProfile.SedoniaRegolith },
                 OreToMine = MLTModsMapProfile.REGOLITH_SUBTYPEID,
                 MineRatio = COMMON_RATIO
+            },
+            // Major Jon
+            new VoxelOreReplace()
+            {
+                TargetVoxels = new string[] { MajorJonMapProfile.MoonRock_grey2_kimi },
+                OreToMine = OreConstants.FERROUSMOONSOIL_SUBTYPEID,
+                MineRatio = COMMON_RATIO
+            },
+            new VoxelOreReplace()
+            {
+                TargetVoxels = new string[] { MajorJonMapProfile.MoonRock_black2_kimi, MajorJonMapProfile.MoonSoil_red2_qun },
+                OreToMine = OreConstants.FERROUSMOONSOIL_SUBTYPEID,
+                MineRatio = UNCOMMON_RATIO
+            },
+            new VoxelOreReplace()
+            {
+                TargetVoxels = new string[] { MajorJonMapProfile.MoonRock_green2_kimi },
+                OreToMine = OreConstants.CHROMEMOONSOIL_SUBTYPEID,
+                MineRatio = UNCOMMON_RATIO
+            },
+            new VoxelOreReplace()
+            {
+                TargetVoxels = new string[] { MajorJonMapProfile.Low_Dens_Iron_Kimi },
+                OreToMine = OreConstants.IRON_SUBTYPEID,
+                MineRatio = EPIC_RATIO
             }
         };
         

@@ -56,6 +56,17 @@ namespace ExtendedSurvival.Core
         public const string BRANCH_SUBTYPEID = "Branch";
         public static readonly UniqueEntityId BRANCH_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), BRANCH_SUBTYPEID);
 
+        // Integrations
+
+        public const string IRON_SUBTYPEID = "Iron";
+        public static readonly UniqueEntityId IRON_ORE_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), IRON_SUBTYPEID);
+
+        public const string FERROUSMOONSOIL_SUBTYPEID = "FerrousMoonSoil";
+        public static readonly UniqueEntityId FERROUSMOONSOIL_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), FERROUSMOONSOIL_SUBTYPEID);
+
+        public const string CHROMEMOONSOIL_SUBTYPEID = "ChromeMoonSoil";
+        public static readonly UniqueEntityId CHROMEMOONSOIL_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), CHROMEMOONSOIL_SUBTYPEID);
+
         public static readonly OreDefinition SAWDUST_DEFINITION = new OreDefinition()
         {
             Id = SAWDUST_ID,

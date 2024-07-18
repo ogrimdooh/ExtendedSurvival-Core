@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using VRageMath;
+using static ExtendedSurvival.Core.PlanetProfile;
 
 namespace ExtendedSurvival.Core
 {
@@ -1162,12 +1163,17 @@ namespace ExtendedSurvival.Core
             };
         }
 
-        public static List<PlanetProfile.OreMapInfo> CopyAndAdd(List<PlanetProfile.OreMapInfo> source, string[] common = null, string[] uncommon = null, string[] rare = null, string[] epic = null)
+        public static List<PlanetProfile.OreMapInfo> CopyAndAdd(List<PlanetProfile.OreMapInfo> source, string[] common = null, string[] uncommon = null, string[] rare = null, string[] epic = null, string[] ignore = null, OreRarity[] ignoreRariry = null)
         {
             var retorno = new List<PlanetProfile.OreMapInfo>();
             if (source != null && source.Any())
             {
-                retorno.AddRange(source);
+                retorno.AddRange(
+                    source.Where(x => 
+                        (ignore == null || !ignore.Any(y => y == x.type)) &&
+                        (ignoreRariry == null || !ignoreRariry.Any(y => y == x.rarity))
+                    )
+                );
             }
             if (common != null && common.Any())
             {
@@ -1604,6 +1610,14 @@ namespace ExtendedSurvival.Core
             {
                 MajorJonMapProfile.DEFAULT_SATREUS,
                 MajorJonMapProfile.SATREUS
+            },
+            {
+                MajorJonMapProfile.DEFAULT_KIMI,
+                MajorJonMapProfile.KIMI
+            },
+            {
+                MajorJonMapProfile.DEFAULT_QUN,
+                MajorJonMapProfile.QUN
             },
             // Shard
             {
