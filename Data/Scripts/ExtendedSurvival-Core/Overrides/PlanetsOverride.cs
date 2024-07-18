@@ -80,6 +80,12 @@ namespace ExtendedSurvival.Core
                 case GHOSTXVMapProfile.DEFAULT_AVALAN:
                     GHOSTXVMapProfile.ApplyAvalanSettings(definition);
                     break;
+                case GHOSTXVMapProfile.DEFAULT_NYOTA:
+                    GHOSTXVMapProfile.ApplyNyotaSettings(definition);
+                    break;
+                case AlmiranteOrlocProfile.DEFAULT_OBJECT85:
+                    AlmiranteOrlocProfile.ApplyObject85Settings(definition);
+                    break;
             }
         }
 

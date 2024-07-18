@@ -1521,6 +1521,14 @@ namespace ExtendedSurvival.Core
                 ElindisMapProfile.DEFAULT_PYKE,
                 ElindisMapProfile.PYKE
             },
+            {
+                ElindisMapProfile.DEFAULT_SILONA,
+                ElindisMapProfile.SILONA
+            },
+            {
+                ElindisMapProfile.DEFAULT_SAPRIMENTAS,
+                ElindisMapProfile.IsUsingSaprimentasReimagined() ? ElindisMapProfile.SAPRIMENTAS_REIMAGINED : ElindisMapProfile.SAPRIMENTAS
+            },
             // CaptainArthur
             {
                 CaptainArthurMapProfile.DEFAULT_CRAIT,
@@ -1566,10 +1574,18 @@ namespace ExtendedSurvival.Core
                 InfiniteMapProfile.DEFAULT_VALKOR,
                 InfiniteMapProfile.VALKOR
             },
+            {
+                InfiniteMapProfile.DEFAULT_ORCUS,
+                InfiniteMapProfile.ORCUS
+            },
             // GHOSTXV
             {
                 GHOSTXVMapProfile.DEFAULT_AVALAN,
                 GHOSTXVMapProfile.AVALAN
+            },
+            {
+                GHOSTXVMapProfile.DEFAULT_NYOTA,
+                GHOSTXVMapProfile.NYOTA
             },
             // FIZZY
             {
@@ -1579,6 +1595,33 @@ namespace ExtendedSurvival.Core
             {
                 FizzyMapProfile.DEFAULT_ZIRA,
                 FizzyMapProfile.ZIRA
+            },
+            // Major Jon
+            {
+                MajorJonMapProfile.DEFAULT_TRELAN,
+                MajorJonMapProfile.TRELAN
+            },
+            {
+                MajorJonMapProfile.DEFAULT_SATREUS,
+                MajorJonMapProfile.SATREUS
+            },
+            // Shard
+            {
+                ShardMapProfile.DEFAULT_SAFINA,
+                ShardMapProfile.SAFINA
+            },
+            {
+                ShardMapProfile.DEFAULT_THANIAN,
+                ShardMapProfile.THANIAN
+            },
+            {
+                ShardMapProfile.DEFAULT_RISHA,
+                ShardMapProfile.RISHA
+            },
+            // Almirante Orloc
+            {
+                AlmiranteOrlocProfile.DEFAULT_OBJECT85,
+                AlmiranteOrlocProfile.OBJECT85
             }
         };
 

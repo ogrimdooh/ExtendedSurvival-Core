@@ -119,6 +119,9 @@ namespace ExtendedSurvival.Core
             InfiniteMapProfile.ValkorTundra,
             InfiniteMapProfile.ValkorGrass2,
             InfiniteMapProfile.ValkorGrass3,
+            InfiniteMapProfile.OrcusGrass,
+            InfiniteMapProfile.OrcusGrass2,
+            InfiniteMapProfile.TundraSoil,
             // Captain Arthur
             CaptainArthurMapProfile.MESoil,
             CaptainArthurMapProfile.SoilDOC,
@@ -130,7 +133,7 @@ namespace ExtendedSurvival.Core
             CaptainArthurMapProfile.GrassDOC,
             CaptainArthurMapProfile.Grass_oldDOC,
             CaptainArthurMapProfile.Woods_grassDOC,
-            //Fizzy
+            // Fizzy
             FizzyMapProfile.Chimera_Grass,
             FizzyMapProfile.Chimera_Dirt_Grass,
             FizzyMapProfile.Chimera_Light_Grass,
@@ -143,7 +146,15 @@ namespace ExtendedSurvival.Core
             // Sam
             SamMapProfile.Helios_Grass,
             SamMapProfile.Helios_Grass_old,
-            SamMapProfile.Helios_HighGrass
+            SamMapProfile.Helios_HighGrass,
+            // Major John
+            MajorJonMapProfile.Soil_Trelan,
+            MajorJonMapProfile.Grass_Trelan,
+            MajorJonMapProfile.Grass_Trelan_bare,
+            MajorJonMapProfile.Grass_old_Satreus,
+            // Elindis
+            ElindisMapProfile.SaprimentasWetFlowers,
+            ElindisMapProfile.SaprimentasDryFlowers
         };
 
         public static readonly string[] MudVoxels = new string[]
@@ -152,7 +163,11 @@ namespace ExtendedSurvival.Core
             CaptainArthurMapProfile.MEwoods,
             CaptainArthurMapProfile.MEwoodsgrass,
             // GHOSTXV
-            GHOSTXVMapProfile.AvalanSoil
+            GHOSTXVMapProfile.AvalanSoil,
+            // Infinite
+            InfiniteMapProfile.AquaticGrass1,
+            InfiniteMapProfile.aquatic2,
+            InfiniteMapProfile.aquatic3
         };
 
         public static readonly string[] VulcanicSoilVoxels = new string[]
@@ -180,6 +195,7 @@ namespace ExtendedSurvival.Core
             InfiniteMapProfile.ValkorSand,
             InfiniteMapProfile.ValkorDesert,
             InfiniteMapProfile.ValkorSandstone,
+            InfiniteMapProfile.AquaticSand,            
             // Captain Arthur
             CaptainArthurMapProfile.Saltflat,
             CaptainArthurMapProfile.Redsand,
@@ -192,7 +208,16 @@ namespace ExtendedSurvival.Core
             // GHOSTXV
             GHOSTXVMapProfile.AvalanSand,
             // Sam
-            SamMapProfile.Helios_Sand_02
+            SamMapProfile.Helios_Sand_02,
+            // Major John
+            MajorJonMapProfile.Desert_01_Satreus,
+            MajorJonMapProfile.Desert_01_Satreus_soil,
+            MajorJonMapProfile.Desert_01_red_Satreus,
+            MajorJonMapProfile.Ground_red_Satreus,
+            // Shard
+            ShardMapProfile.SafinaSand,
+            ShardMapProfile.SafinaRedSand,
+            ShardMapProfile.SafinaLakebed
         };
 
         public static readonly string[] MoomSoilVoxels = new string[] 
@@ -208,7 +233,12 @@ namespace ExtendedSurvival.Core
             //Fizzy
             FizzyMapProfile.Zira_Soil,
             // MLT
-            MLTModsMapProfile.IreneSoil
+            MLTModsMapProfile.IreneSoil,
+            // Major John
+            MajorJonMapProfile.DustyRocks3_Satreus,
+            // Shard
+            ShardMapProfile.ThanianSoil,
+            ShardMapProfile.RishaSoil
         };
 
         public static readonly string[] ESStoneIce = new string[]
@@ -232,7 +262,11 @@ namespace ExtendedSurvival.Core
             // MLT
             MLTModsMapProfile.SedoniaIce,
             // Sam
-            SamMapProfile.HeliosTE_Ice
+            SamMapProfile.HeliosTE_Ice,
+            // Major John
+            MajorJonMapProfile.Ice02_Satreus,
+            // Shard
+            ShardMapProfile.SafinaWater
         };
 
         public static readonly string[] ESToxicIce = new string[] 
@@ -255,7 +289,8 @@ namespace ExtendedSurvival.Core
             //Fizzy
             FizzyMapProfile.Chimera_Snow,
             //Fizzy
-            GHOSTXVMapProfile.AvalanSnow
+            GHOSTXVMapProfile.AvalanSnow,
+            GHOSTXVMapProfile.GhostSnow
         };
 
         public static readonly string[] SpaceNeeded = new string[] 
