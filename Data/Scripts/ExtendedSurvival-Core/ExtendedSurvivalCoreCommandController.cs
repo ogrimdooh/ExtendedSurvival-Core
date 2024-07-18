@@ -317,6 +317,7 @@ namespace ExtendedSurvival.Core
         private const string SETTINGS_COMMAND_DEFINITIONS_TURRETS = "turrets";
         private const string SETTINGS_COMMAND_DEFINITIONS_COMPONENTS = "components";
         private const string SETTINGS_COMMAND_DEFINITIONS_BLOCKS = "blocks";
+        private const string SETTINGS_COMMAND_DEFINITIONS_PLANETS = "planets";
 
         private const string SETTINGS_COMMAND_GRIDS_RENAMEALL = "renameall";
 
@@ -553,6 +554,10 @@ namespace ExtendedSurvival.Core
                                     case SETTINGS_COMMAND_DEFINITIONS_BLOCKS:
                                         var dataBlocks = ExtendedSurvivalEntityManager.Instance.GetBlocksDefinitions();
                                         SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_DEFINITIONS} {SETTINGS_COMMAND_DEFINITIONS_BLOCKS} executed.", MyFontEnum.White, extraInfo: dataBlocks);
+                                        break;
+                                    case SETTINGS_COMMAND_DEFINITIONS_PLANETS:
+                                        var dataPlanets = PlanetMapProfile.GetMappedProfiles();
+                                        SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_DEFINITIONS} {SETTINGS_COMMAND_DEFINITIONS_PLANETS} executed.", MyFontEnum.White, extraInfo: dataPlanets);
                                         break;
                                 }
                                 break;

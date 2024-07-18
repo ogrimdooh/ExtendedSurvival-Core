@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using VRageMath;
 
 namespace ExtendedSurvival.Core
@@ -1586,6 +1587,31 @@ namespace ExtendedSurvival.Core
             if (PROFILES.ContainsKey(key))
                 return PROFILES[key];
             return PROFILES[DEFAULT_PROFILE];
+        }
+
+        public static string GetMappedProfiles()
+        {
+            var sb = new StringBuilder();
+
+            var groups = PROFILES.GroupBy(x => x.Value.Origin).ToDictionary(k => k.Key, v => v.AsEnumerable());
+
+            foreach (var g in groups.Keys)
+            {
+                sb.AppendLine($"Group: {g}");
+                foreach (var item in groups[g].OrderBy(x => x.Value.OriginId))
+                {
+                    if (item.Value.OriginId != 0)
+                    {
+                        sb.AppendLine($"- {item.Key} : https://steamcommunity.com/sharedfiles/filedetails/?id={item.Value.OriginId}");
+                    }
+                    else
+                    {
+                        sb.AppendLine($"- {item.Key}");
+                    }
+                }
+                sb.AppendLine("");
+            }
+            return sb.ToString();
         }
 
     }
