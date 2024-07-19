@@ -925,7 +925,7 @@ namespace ExtendedSurvival.Core
                     {
                         settings.SuperficialMining = BuildSuperficialMiningSetting(settings.Id);
                     }
-                    if (settings.Version <= 19)
+                    if (settings.Version <= 20)
                     {
                         var tmpSettings = BuildSettings(settings.Id, settings.Seed, settings.DeepMultiplier, settings.AddedOres?.Split(','),
                             settings.RemovedOres?.Split(','), settings.ClearOresBeforeAdd, settings.TargetColor,
@@ -933,6 +933,12 @@ namespace ExtendedSurvival.Core
                             GroupType);
                         settings.OreMap = tmpSettings.OreMap;
                         settings.OreGroupType = tmpSettings.OreGroupType;
+                        settings.Type = tmpSettings.Type;
+                        settings.DeepMultiplier = tmpSettings.DeepMultiplier;
+                        settings.Seed = tmpSettings.Seed;
+                        settings.AddedOres = tmpSettings.AddedOres;
+                        settings.RemovedOres = tmpSettings.RemovedOres;
+                        settings.ClearOresBeforeAdd = tmpSettings.ClearOresBeforeAdd;
                     }
                 }
                 settings.Version = Version; 

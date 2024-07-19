@@ -66,6 +66,7 @@ namespace ExtendedSurvival.Core
         public float DefaultDensity { get; set; } = 0.75f;
         public float DistanceMultiplier { get; set; } = 1f;
         public bool WithStar { get; set; } = false;
+        public bool FirstMemberAtCenter { get; set; } = false;
         public bool AllowDuplicate { get; set; } = false;
         public bool VanillaAsteroids { get; set; } = false;
         public int Version { get; set; }
@@ -121,6 +122,7 @@ namespace ExtendedSurvival.Core
                 DefaultDensity = DefaultDensity,
                 DistanceMultiplier = DistanceMultiplier,
                 WithStar = WithStar,
+                FirstMemberAtCenter = FirstMemberAtCenter,
                 AllowDuplicate = AllowDuplicate,
                 VanillaAsteroids = VanillaAsteroids,
                 Version = Version,

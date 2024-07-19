@@ -14,7 +14,7 @@ namespace ExtendedSurvival.Core
         public const string EXTENDEDSURVIVAL_COMPLETE_PROFILE = "VANILLAES";
         public const string ATA_PROFILE = "ATA";
         public const string ESSERVER_PROFILE = "ESSERVER";
-        public const string ESSERVERV2_PROFILE = "ESSERVER-V2";
+        public const string ALKURAH_PROFILE = "ALKURAH";
 
         public static readonly Dictionary<string, StarSystemProfile> SYSTEMS_PROFILES = new Dictionary<string, StarSystemProfile>()
         {
@@ -520,43 +520,61 @@ namespace ExtendedSurvival.Core
                 }
             },
             {
-                ESSERVERV2_PROFILE,
+                ALKURAH_PROFILE,
                 new StarSystemProfile()
                 {
-                    Name = ESSERVERV2_PROFILE,
+                    Name = ALKURAH_PROFILE,
                     Version = PROFILES_VERSION,
                     Type = StarSystemProfile.ProfileType.Mapped,
                     WithStar = false,
-                    VanillaAsteroids = false,
-                    DefaultDensity = 0.75f,
-                    DistanceMultiplier = 1.0f,
+                    VanillaAsteroids = true,
+                    DefaultDensity = 0.15f,
+                    DistanceMultiplier = 1.25f,
                     AllowDuplicate = false,
+                    FirstMemberAtCenter = true,
                     PlanetProfile = StarSystemProfile.ValidPlanetProfile.None,
                     Members = new List<StarSystemProfile.SystemMember>()
                     {
                         new StarSystemProfile.SystemMember()
                         {
                             MemberType = StarSystemProfile.MemberType.Planet,
-                            DefinitionSubtype = SamMapProfile.DEFAULT_HELIOSTERRAFORMED,
-                            Name = SamMapProfile.DEFAULT_HELIOSTERRAFORMED,
-                            HasRing = true,
+                            DefinitionSubtype = MajorJonMapProfile.DEFAULT_LUMA,
+                            Name = MajorJonMapProfile.DEFAULT_LUMA,
                             Order = 0,
-                            SizeMultiplier = 1.75f,
                             MoonCount = new Vector2(3, 3),
-                            MoonSizeMultiplier = new Vector2(0.4f, 0.6f),
                             ValidMoons = new string[]
                             {
-                                MLTModsMapProfile.DEFAULT_SEDONIA, /* Ag + Au + Hg + Li */
-                                MLTModsMapProfile.DEFAULT_IRENE1C, /* Au + Pt + Mg + Be */
-                                InfiniteMapProfile.DEFAULT_HALCYON /* Pt + Tg + Ti + Ir */
+                                MajorJonMapProfile.DEFAULT_KIMI,
+                                MajorJonMapProfile.DEFAULT_QUN,
+                                MajorJonMapProfile.DEFAULT_TOHIL
                             }
                         },
                         new StarSystemProfile.SystemMember()
                         {
                             MemberType = StarSystemProfile.MemberType.AsteroidBelt,
-                            Name = "Catapulis Belt",
+                            Name = "Alkurah Belt",
                             Order = 1,
                             Density = 0.85f
+                        },
+                        new StarSystemProfile.SystemMember()
+                        {
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = MajorJonMapProfile.DEFAULT_TEALWM,
+                            Name = MajorJonMapProfile.DEFAULT_TEAL,
+                            Order = 2,
+                            MoonCount = new Vector2(1, 1),
+                            ValidMoons = new string[]
+                            {
+                                MajorJonMapProfile.DEFAULT_TRELAN
+                            }
+                        },
+                        new StarSystemProfile.SystemMember()
+                        {
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = MajorJonMapProfile.DEFAULT_SATREUS,
+                            Name = MajorJonMapProfile.DEFAULT_SATREUS,
+                            Order = 3,
+                            HasRing = true
                         }
                     }
                 }

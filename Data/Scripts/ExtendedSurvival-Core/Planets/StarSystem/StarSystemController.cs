@@ -613,6 +613,10 @@ namespace ExtendedSurvival.Core
                                 }
                             }
                             float currentSystemSize = (createdPlanets + DEFAULT_PLANETARY_DISTANCE.GetRandom()) * profile.DistanceMultiplier;
+                            if (!sunCreated && profile.FirstMemberAtCenter)
+                            {
+                                currentSystemSize = 0;
+                            }
                             List<SystemMemberSetting> members = new List<SystemMemberSetting>();
                             switch (generationType)
                             {

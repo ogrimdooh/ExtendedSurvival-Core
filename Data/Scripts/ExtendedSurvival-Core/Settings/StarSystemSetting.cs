@@ -203,6 +203,9 @@ namespace ExtendedSurvival.Core
         public bool WithStar { get; set; } = false;
 
         [XmlElement]
+        public bool FirstMemberAtCenter { get; set; } = false;
+
+        [XmlElement]
         public bool AllowDuplicate { get; set; } = false;
 
         [XmlElement]

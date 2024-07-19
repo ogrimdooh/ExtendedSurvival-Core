@@ -28,7 +28,7 @@ namespace ExtendedSurvival.Core
 
         }
 
-        public const int PROFILE_VERSION = 20;
+        public const int PROFILE_VERSION = 21;
 
         public const ulong EARTHLIKE_ANIMALS_MODID = 2170447225;
 
@@ -1618,6 +1618,26 @@ namespace ExtendedSurvival.Core
             {
                 MajorJonMapProfile.DEFAULT_QUN,
                 MajorJonMapProfile.QUN
+            },
+            {
+                MajorJonMapProfile.DEFAULT_LUMA,
+                MajorJonMapProfile.LUMA
+            },
+            {
+                MajorJonMapProfile.DEFAULT_TOHIL,
+                MajorJonMapProfile.TOHIL
+            },
+            {
+                MajorJonMapProfile.DEFAULT_TEAL,
+                MajorJonMapProfile.TEAL
+            },
+            {
+                MajorJonMapProfile.DEFAULT_TEALWM,
+                MajorJonMapProfile.TEAL
+            },
+            {
+                MajorJonMapProfile.DEFAULT_ORLUNDA,
+                MajorJonMapProfile.ORLUNDA
             },
             // Shard
             {

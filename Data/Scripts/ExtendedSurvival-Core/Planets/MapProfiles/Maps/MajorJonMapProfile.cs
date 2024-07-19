@@ -12,11 +12,24 @@ namespace ExtendedSurvival.Core
         public const ulong TRELAN_MODID = 2636128625;
         public const ulong SATREUS_MODID = 2266665708;
         public const ulong KIMI_QUN_MODID = 2459246911;
+        public const ulong LUMA_MODID = 2286318683;
+        public const ulong TOHIL_MODID = 2296726670;
+        public const ulong TEAL_MODID = 2603627657;
+        public const ulong TEALWM_MODID = 2644430625;
+        public const ulong ORLUNDA_MODID = 2873186053;
 
+        public const string DEFAULT_TEAL = "TEAL";
+        public const string DEFAULT_TEALWM = "TEAL-WATERMOD";
         public const string DEFAULT_TRELAN = "TRELAN";
+
         public const string DEFAULT_SATREUS = "SATREUS";
+
+        public const string DEFAULT_ORLUNDA = "ORLUNDA";
+
+        public const string DEFAULT_LUMA = "LUMA";
         public const string DEFAULT_KIMI = "KIMI";
         public const string DEFAULT_QUN = "QUN";
+        public const string DEFAULT_TOHIL = "TOHIL";
 
         // Trelan
 
@@ -56,13 +69,61 @@ namespace ExtendedSurvival.Core
 
         public const string MoonSoil_red2_qun = "MoonSoil_red2_qun";
 
+        // Tohil
+
+        public const string TohilSnow01 = "TohilSnow01";
+        public const string TohilSnow02 = "TohilSnow02";
+
+        public const string TohilIce01 = "TohilIce01";
+        public const string TohilIce02 = "TohilIce02";
+        public const string TohilIce03 = "TohilIce03";
+
+        // Teal
+
+        public const string TealSea = "TealSea";
+        public const string TealShore1 = "TealShore1";
+        public const string TealShore2 = "TealShore2";
+        public const string TealShore3 = "TealShore3";
+        public const string TealShore4 = "TealShore4";
+        public const string TealShore5 = "TealShore5";
+        public const string TealShore6 = "TealShore6";
+        public const string TealRiver = "TealRiver";
+        public const string TealIce = "TealIce";
+
+        public const string TealBlueGrass = "TealBlueGrass";
+        public const string TealRocksGrass = "TealRocksGrass";
+        public const string TealSnowGrass = "TealSnowGrass";
+
+        public const string TealBlack_Soil = "TealBlack_Soil";
+        public const string TealBlack_Soil_bare = "TealBlack_Soil_bare";
+
+        // Orlunda
+
+        public const string OrlundaRedSoil_1 = "OrlundaRedSoil_1";
+        public const string OrlundaRedSoil_2 = "OrlundaRedSoil_2";
+        public const string OrlundaRedSoil_3 = "OrlundaRedSoil_3";
+        public const string Woods_grass_long = "Woods_grass_long";
+
+        public const string OrlundaBeach = "OrlundaBeach";
+
+        public const string OrlundaSnow = "OrlundaSnow";
+
+        public const string OrlundaIce = "OrlundaIce";
+        public const string OrlundaLake = "OrlundaLake";
+
         static MajorJonMapProfile()
         {
             LoadTrelanOreMapInfo();
             LoadSatreusOreMapInfo();
             LoaKimiOreMapInfo();
             LoadQunOreMapInfo();
-            TRELAN.Ores = VanilaMapProfile.EARTHLIKE_ORES;
+            LoadTohilOreMapInfo();
+            LoadTealOreMapInfo();
+            LoadTealWMOreMapInfo();
+            LoadOrlundaOreMapInfo();
+            TEAL.Ores = VanilaMapProfile.EARTHLIKE_ORES;
+            TRELAN.Ores = VanilaMapProfile.MOON_ORES;
+            ORLUNDA.Ores = VanilaMapProfile.MARS_ORES;
             SATREUS.Ores = VanilaMapProfile.PERTAM_ORES;
             KIMI.Ores = PlanetMapProfile.CopyAndAdd(
                 VanilaMapProfile.MOON_ORES, 
@@ -72,7 +133,733 @@ namespace ExtendedSurvival.Core
                     PlanetProfile.OreRarity.Epic 
                 }
             );
-            QUN.Ores = VanilaMapProfile.MOON_ORES;
+            QUN.Ores = VanilaMapProfile.ALIEN_ORES;
+            TOHIL.Ores = VanilaMapProfile.TRITON_ORES;
+        }
+
+        private static void LoadOrlundaOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
+
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[240] = 246;
+            faceFront[242] = 389;
+            faceFront[244] = 397;
+            faceFront[243] = 452;
+            faceFront[241] = 491;
+            faceFront[10] = 1389;
+            faceFront[50] = 1499;
+            faceFront[20] = 1503;
+            faceFront[40] = 1587;
+            faceFront[100] = 1616;
+            faceFront[60] = 1671;
+            faceFront[30] = 1718;
+            faceFront[120] = 1825;
+            faceFront[160] = 1844;
+            faceFront[70] = 1858;
+            faceFront[90] = 1858;
+            faceFront[110] = 1892;
+            faceFront[80] = 1938;
+            faceFront[200] = 1996;
+            faceFront[180] = 2003;
+            faceFront[130] = 2006;
+            faceFront[150] = 2064;
+            faceFront[170] = 2076;
+            faceFront[22] = 2089;
+            faceFront[140] = 2099;
+            faceFront[190] = 2214;
+            faceFront[82] = 2242;
+            faceFront[52] = 2260;
+            faceFront[102] = 2327;
+            faceFront[32] = 2332;
+            faceFront[42] = 2414;
+            faceFront[92] = 2457;
+            faceFront[12] = 2459;
+            faceFront[132] = 2462;
+            faceFront[162] = 2473;
+            faceFront[62] = 2487;
+            faceFront[152] = 2542;
+            faceFront[72] = 2566;
+            faceFront[122] = 2575;
+            faceFront[142] = 2622;
+            faceFront[172] = 2622;
+            faceFront[112] = 2731;
+            faceFront[202] = 2841;
+            faceFront[182] = 2891;
+            faceFront[192] = 2945;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
+
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[240] = 201;
+            faceBack[244] = 342;
+            faceBack[241] = 440;
+            faceBack[242] = 584;
+            faceBack[243] = 638;
+            faceBack[20] = 1467;
+            faceBack[50] = 1596;
+            faceBack[10] = 1654;
+            faceBack[60] = 1671;
+            faceBack[100] = 1712;
+            faceBack[90] = 1730;
+            faceBack[40] = 1750;
+            faceBack[30] = 1860;
+            faceBack[70] = 1994;
+            faceBack[80] = 1997;
+            faceBack[120] = 2002;
+            faceBack[22] = 2004;
+            faceBack[110] = 2020;
+            faceBack[150] = 2021;
+            faceBack[160] = 2039;
+            faceBack[180] = 2062;
+            faceBack[140] = 2072;
+            faceBack[130] = 2148;
+            faceBack[170] = 2162;
+            faceBack[42] = 2178;
+            faceBack[200] = 2190;
+            faceBack[52] = 2216;
+            faceBack[102] = 2235;
+            faceBack[32] = 2260;
+            faceBack[82] = 2266;
+            faceBack[12] = 2295;
+            faceBack[122] = 2315;
+            faceBack[132] = 2321;
+            faceBack[162] = 2339;
+            faceBack[72] = 2410;
+            faceBack[62] = 2430;
+            faceBack[92] = 2465;
+            faceBack[112] = 2469;
+            faceBack[190] = 2470;
+            faceBack[172] = 2536;
+            faceBack[152] = 2547;
+            faceBack[142] = 2625;
+            faceBack[202] = 2734;
+            faceBack[192] = 2820;
+            faceBack[182] = 2924;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
+
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[240] = 179;
+            faceLeft[244] = 411;
+            faceLeft[241] = 646;
+            faceLeft[242] = 660;
+            faceLeft[243] = 684;
+            faceLeft[20] = 1357;
+            faceLeft[50] = 1521;
+            faceLeft[10] = 1537;
+            faceLeft[60] = 1592;
+            faceLeft[30] = 1719;
+            faceLeft[180] = 1734;
+            faceLeft[140] = 1748;
+            faceLeft[40] = 1769;
+            faceLeft[100] = 1815;
+            faceLeft[160] = 1833;
+            faceLeft[120] = 1854;
+            faceLeft[80] = 1903;
+            faceLeft[130] = 1921;
+            faceLeft[150] = 1975;
+            faceLeft[110] = 1994;
+            faceLeft[70] = 1995;
+            faceLeft[90] = 2001;
+            faceLeft[170] = 2128;
+            faceLeft[200] = 2151;
+            faceLeft[102] = 2208;
+            faceLeft[82] = 2218;
+            faceLeft[42] = 2226;
+            faceLeft[190] = 2248;
+            faceLeft[92] = 2272;
+            faceLeft[32] = 2280;
+            faceLeft[52] = 2291;
+            faceLeft[22] = 2302;
+            faceLeft[72] = 2344;
+            faceLeft[12] = 2361;
+            faceLeft[62] = 2405;
+            faceLeft[132] = 2452;
+            faceLeft[162] = 2515;
+            faceLeft[122] = 2539;
+            faceLeft[112] = 2543;
+            faceLeft[172] = 2574;
+            faceLeft[152] = 2637;
+            faceLeft[202] = 2872;
+            faceLeft[142] = 2872;
+            faceLeft[192] = 2987;
+            faceLeft[182] = 3109;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
+
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[240] = 260;
+            faceRight[244] = 348;
+            faceRight[242] = 548;
+            faceRight[243] = 644;
+            faceRight[241] = 689;
+            faceRight[20] = 1349;
+            faceRight[10] = 1490;
+            faceRight[50] = 1584;
+            faceRight[100] = 1693;
+            faceRight[40] = 1699;
+            faceRight[90] = 1705;
+            faceRight[30] = 1738;
+            faceRight[60] = 1743;
+            faceRight[160] = 1766;
+            faceRight[180] = 1819;
+            faceRight[80] = 1833;
+            faceRight[120] = 1833;
+            faceRight[110] = 1868;
+            faceRight[130] = 1899;
+            faceRight[140] = 1965;
+            faceRight[70] = 2000;
+            faceRight[170] = 2050;
+            faceRight[150] = 2094;
+            faceRight[200] = 2104;
+            faceRight[22] = 2112;
+            faceRight[52] = 2193;
+            faceRight[42] = 2239;
+            faceRight[190] = 2251;
+            faceRight[62] = 2255;
+            faceRight[32] = 2265;
+            faceRight[102] = 2289;
+            faceRight[72] = 2352;
+            faceRight[82] = 2352;
+            faceRight[12] = 2391;
+            faceRight[132] = 2447;
+            faceRight[152] = 2468;
+            faceRight[92] = 2477;
+            faceRight[122] = 2551;
+            faceRight[162] = 2596;
+            faceRight[112] = 2656;
+            faceRight[172] = 2743;
+            faceRight[202] = 2776;
+            faceRight[142] = 2792;
+            faceRight[192] = 2959;
+            faceRight[182] = 3054;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
+
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[240] = 496;
+            faceTop[244] = 975;
+            faceTop[241] = 1218;
+            faceTop[242] = 1304;
+            faceTop[243] = 1444;
+            faceTop[22] = 3448;
+            faceTop[52] = 3775;
+            faceTop[12] = 3808;
+            faceTop[102] = 3812;
+            faceTop[42] = 3866;
+            faceTop[32] = 3884;
+            faceTop[62] = 3955;
+            faceTop[82] = 3973;
+            faceTop[92] = 4156;
+            faceTop[72] = 4164;
+            faceTop[162] = 4193;
+            faceTop[122] = 4215;
+            faceTop[132] = 4315;
+            faceTop[112] = 4365;
+            faceTop[152] = 4443;
+            faceTop[172] = 4487;
+            faceTop[142] = 4537;
+            faceTop[202] = 4715;
+            faceTop[182] = 4722;
+            faceTop[192] = 4973;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
+
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[152] = 6;
+            faceBottom[202] = 9;
+            faceBottom[72] = 9;
+            faceBottom[132] = 9;
+            faceBottom[162] = 9;
+            faceBottom[62] = 14;
+            faceBottom[112] = 18;
+            faceBottom[230] = 328;
+            faceBottom[234] = 731;
+            faceBottom[231] = 811;
+            faceBottom[232] = 901;
+            faceBottom[28] = 1235;
+            faceBottom[88] = 1247;
+            faceBottom[18] = 1267;
+            faceBottom[98] = 1303;
+            faceBottom[233] = 1323;
+            faceBottom[8] = 1386;
+            faceBottom[58] = 1429;
+            faceBottom[38] = 1466;
+            faceBottom[48] = 1471;
+            faceBottom[78] = 1491;
+            faceBottom[118] = 1513;
+            faceBottom[198] = 1541;
+            faceBottom[128] = 1598;
+            faceBottom[158] = 1632;
+            faceBottom[68] = 1665;
+            faceBottom[148] = 1690;
+            faceBottom[168] = 1696;
+            faceBottom[138] = 1698;
+            faceBottom[178] = 1708;
+            faceBottom[108] = 1724;
+            faceBottom[188] = 1857;
+            faceBottom[20] = 2228;
+            faceBottom[50] = 2354;
+            faceBottom[10] = 2384;
+            faceBottom[40] = 2402;
+            faceBottom[100] = 2536;
+            faceBottom[60] = 2562;
+            faceBottom[70] = 2591;
+            faceBottom[160] = 2662;
+            faceBottom[80] = 2675;
+            faceBottom[30] = 2722;
+            faceBottom[110] = 2746;
+            faceBottom[120] = 2807;
+            faceBottom[130] = 2807;
+            faceBottom[140] = 2858;
+            faceBottom[150] = 2896;
+            faceBottom[170] = 2928;
+            faceBottom[90] = 3006;
+            faceBottom[180] = 3103;
+            faceBottom[190] = 3244;
+            faceBottom[200] = 3409;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
+
+            mapInfo.ProcessAllInfo();
+
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[DEFAULT_ORLUNDA] = mapInfo;
+        }
+
+        private static void LoadTealWMOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
+
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[100] = 4081;
+            faceFront[160] = 4089;
+            faceFront[20] = 4124;
+            faceFront[50] = 4306;
+            faceFront[80] = 4383;
+            faceFront[130] = 4390;
+            faceFront[150] = 4417;
+            faceFront[120] = 4418;
+            faceFront[60] = 4425;
+            faceFront[40] = 4433;
+            faceFront[170] = 4465;
+            faceFront[200] = 4482;
+            faceFront[110] = 4541;
+            faceFront[140] = 4553;
+            faceFront[90] = 4554;
+            faceFront[180] = 4555;
+            faceFront[30] = 4628;
+            faceFront[10] = 4635;
+            faceFront[70] = 4685;
+            faceFront[190] = 4789;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
+
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[100] = 4081;
+            faceBack[160] = 4089;
+            faceBack[20] = 4124;
+            faceBack[50] = 4306;
+            faceBack[80] = 4383;
+            faceBack[130] = 4390;
+            faceBack[150] = 4417;
+            faceBack[120] = 4418;
+            faceBack[60] = 4425;
+            faceBack[40] = 4433;
+            faceBack[170] = 4465;
+            faceBack[200] = 4482;
+            faceBack[110] = 4541;
+            faceBack[140] = 4553;
+            faceBack[90] = 4554;
+            faceBack[180] = 4555;
+            faceBack[30] = 4628;
+            faceBack[10] = 4635;
+            faceBack[70] = 4685;
+            faceBack[190] = 4789;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
+
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[100] = 4081;
+            faceLeft[160] = 4089;
+            faceLeft[20] = 4124;
+            faceLeft[50] = 4306;
+            faceLeft[80] = 4383;
+            faceLeft[130] = 4390;
+            faceLeft[150] = 4417;
+            faceLeft[120] = 4418;
+            faceLeft[60] = 4425;
+            faceLeft[40] = 4433;
+            faceLeft[170] = 4465;
+            faceLeft[200] = 4482;
+            faceLeft[110] = 4541;
+            faceLeft[140] = 4553;
+            faceLeft[90] = 4554;
+            faceLeft[180] = 4555;
+            faceLeft[30] = 4628;
+            faceLeft[10] = 4635;
+            faceLeft[70] = 4685;
+            faceLeft[190] = 4789;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
+
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[100] = 4081;
+            faceRight[160] = 4089;
+            faceRight[20] = 4124;
+            faceRight[50] = 4306;
+            faceRight[80] = 4383;
+            faceRight[130] = 4390;
+            faceRight[150] = 4417;
+            faceRight[120] = 4418;
+            faceRight[60] = 4425;
+            faceRight[40] = 4433;
+            faceRight[170] = 4465;
+            faceRight[200] = 4482;
+            faceRight[110] = 4541;
+            faceRight[140] = 4553;
+            faceRight[90] = 4554;
+            faceRight[180] = 4555;
+            faceRight[30] = 4628;
+            faceRight[10] = 4635;
+            faceRight[70] = 4685;
+            faceRight[190] = 4789;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
+
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[100] = 4081;
+            faceTop[160] = 4089;
+            faceTop[20] = 4124;
+            faceTop[50] = 4306;
+            faceTop[80] = 4383;
+            faceTop[130] = 4390;
+            faceTop[150] = 4417;
+            faceTop[120] = 4418;
+            faceTop[60] = 4425;
+            faceTop[40] = 4433;
+            faceTop[170] = 4465;
+            faceTop[200] = 4482;
+            faceTop[110] = 4541;
+            faceTop[140] = 4553;
+            faceTop[90] = 4554;
+            faceTop[180] = 4555;
+            faceTop[30] = 4628;
+            faceTop[10] = 4635;
+            faceTop[70] = 4685;
+            faceTop[190] = 4789;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
+
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[100] = 4081;
+            faceBottom[160] = 4089;
+            faceBottom[20] = 4124;
+            faceBottom[50] = 4306;
+            faceBottom[80] = 4383;
+            faceBottom[130] = 4390;
+            faceBottom[150] = 4417;
+            faceBottom[120] = 4418;
+            faceBottom[60] = 4425;
+            faceBottom[40] = 4433;
+            faceBottom[170] = 4465;
+            faceBottom[200] = 4482;
+            faceBottom[110] = 4541;
+            faceBottom[140] = 4553;
+            faceBottom[90] = 4554;
+            faceBottom[180] = 4555;
+            faceBottom[30] = 4628;
+            faceBottom[10] = 4635;
+            faceBottom[70] = 4685;
+            faceBottom[190] = 4789;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
+
+            mapInfo.ProcessAllInfo();
+
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[DEFAULT_TEALWM] = mapInfo;
+        }
+
+        private static void LoadTealOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
+
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[140] = 3813;
+            faceFront[20] = 3839;
+            faceFront[90] = 4109;
+            faceFront[160] = 4279;
+            faceFront[60] = 4304;
+            faceFront[10] = 4357;
+            faceFront[150] = 4476;
+            faceFront[30] = 4514;
+            faceFront[70] = 4650;
+            faceFront[130] = 4795;
+            faceFront[100] = 4814;
+            faceFront[50] = 4972;
+            faceFront[180] = 5072;
+            faceFront[40] = 5103;
+            faceFront[170] = 5321;
+            faceFront[200] = 5325;
+            faceFront[80] = 5337;
+            faceFront[120] = 5397;
+            faceFront[190] = 5579;
+            faceFront[110] = 6074;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
+
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[140] = 2963;
+            faceBack[120] = 3244;
+            faceBack[100] = 3266;
+            faceBack[90] = 3267;
+            faceBack[170] = 3468;
+            faceBack[180] = 3683;
+            faceBack[60] = 3687;
+            faceBack[50] = 3696;
+            faceBack[70] = 3761;
+            faceBack[30] = 3894;
+            faceBack[10] = 4030;
+            faceBack[20] = 4264;
+            faceBack[150] = 4305;
+            faceBack[200] = 4477;
+            faceBack[80] = 4696;
+            faceBack[130] = 4739;
+            faceBack[160] = 4771;
+            faceBack[190] = 4792;
+            faceBack[40] = 5240;
+            faceBack[110] = 5371;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
+
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[140] = 2526;
+            faceLeft[170] = 2956;
+            faceLeft[160] = 3453;
+            faceLeft[60] = 3697;
+            faceLeft[30] = 3761;
+            faceLeft[20] = 3812;
+            faceLeft[70] = 3879;
+            faceLeft[150] = 3922;
+            faceLeft[180] = 3988;
+            faceLeft[100] = 4053;
+            faceLeft[130] = 4104;
+            faceLeft[40] = 4111;
+            faceLeft[10] = 4142;
+            faceLeft[50] = 4151;
+            faceLeft[90] = 4244;
+            faceLeft[120] = 4321;
+            faceLeft[200] = 4364;
+            faceLeft[190] = 4366;
+            faceLeft[110] = 4720;
+            faceLeft[80] = 5154;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
+
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[60] = 3644;
+            faceRight[30] = 3721;
+            faceRight[200] = 3773;
+            faceRight[150] = 3969;
+            faceRight[140] = 3995;
+            faceRight[120] = 4012;
+            faceRight[20] = 4040;
+            faceRight[170] = 4175;
+            faceRight[70] = 4437;
+            faceRight[190] = 4451;
+            faceRight[130] = 4467;
+            faceRight[90] = 4611;
+            faceRight[50] = 4667;
+            faceRight[160] = 4784;
+            faceRight[40] = 4875;
+            faceRight[100] = 4899;
+            faceRight[110] = 4999;
+            faceRight[180] = 5174;
+            faceRight[80] = 5465;
+            faceRight[10] = 5570;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
+
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[120] = 3342;
+            faceTop[160] = 3730;
+            faceTop[140] = 3850;
+            faceTop[70] = 3969;
+            faceTop[10] = 3984;
+            faceTop[60] = 4083;
+            faceTop[30] = 4109;
+            faceTop[180] = 4147;
+            faceTop[50] = 4147;
+            faceTop[200] = 4178;
+            faceTop[90] = 4200;
+            faceTop[100] = 4468;
+            faceTop[80] = 4470;
+            faceTop[20] = 4501;
+            faceTop[170] = 4653;
+            faceTop[40] = 4771;
+            faceTop[150] = 4875;
+            faceTop[130] = 5140;
+            faceTop[110] = 5314;
+            faceTop[190] = 5982;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
+
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[140] = 5571;
+            faceBottom[90] = 5715;
+            faceBottom[70] = 6105;
+            faceBottom[150] = 6171;
+            faceBottom[30] = 6222;
+            faceBottom[180] = 6244;
+            faceBottom[60] = 6302;
+            faceBottom[160] = 6340;
+            faceBottom[190] = 6438;
+            faceBottom[200] = 6481;
+            faceBottom[170] = 6542;
+            faceBottom[20] = 6591;
+            faceBottom[50] = 6602;
+            faceBottom[100] = 6744;
+            faceBottom[80] = 6813;
+            faceBottom[10] = 6894;
+            faceBottom[40] = 7147;
+            faceBottom[120] = 7217;
+            faceBottom[130] = 7228;
+            faceBottom[110] = 7826;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
+
+            mapInfo.ProcessAllInfo();
+
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[DEFAULT_TEAL] = mapInfo;
+        }
+
+        private static void LoadTohilOreMapInfo()
+        {
+            var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
+
+            var faceFront = new ConcurrentDictionary<byte, long>();
+            faceFront[40] = 3718;
+            faceFront[100] = 3775;
+            faceFront[170] = 3962;
+            faceFront[120] = 3988;
+            faceFront[180] = 3998;
+            faceFront[80] = 4001;
+            faceFront[20] = 4150;
+            faceFront[160] = 4620;
+            faceFront[30] = 4880;
+            faceFront[10] = 5017;
+            faceFront[90] = 5140;
+            faceFront[140] = 5233;
+            faceFront[200] = 5331;
+            faceFront[110] = 5490;
+            faceFront[70] = 5517;
+            faceFront[130] = 5668;
+            faceFront[190] = 5877;
+            faceFront[150] = 5929;
+            faceFront[60] = 5995;
+            faceFront[50] = 6157;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
+
+            var faceBack = new ConcurrentDictionary<byte, long>();
+            faceBack[40] = 3718;
+            faceBack[100] = 3775;
+            faceBack[170] = 3962;
+            faceBack[120] = 3988;
+            faceBack[180] = 3998;
+            faceBack[80] = 4001;
+            faceBack[20] = 4150;
+            faceBack[160] = 4620;
+            faceBack[30] = 4880;
+            faceBack[10] = 5017;
+            faceBack[90] = 5140;
+            faceBack[140] = 5233;
+            faceBack[200] = 5331;
+            faceBack[110] = 5490;
+            faceBack[70] = 5517;
+            faceBack[130] = 5668;
+            faceBack[190] = 5877;
+            faceBack[150] = 5929;
+            faceBack[60] = 5995;
+            faceBack[50] = 6157;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
+
+            var faceLeft = new ConcurrentDictionary<byte, long>();
+            faceLeft[40] = 3718;
+            faceLeft[100] = 3775;
+            faceLeft[170] = 3962;
+            faceLeft[120] = 3988;
+            faceLeft[180] = 3998;
+            faceLeft[80] = 4001;
+            faceLeft[20] = 4150;
+            faceLeft[160] = 4620;
+            faceLeft[30] = 4880;
+            faceLeft[10] = 5017;
+            faceLeft[90] = 5140;
+            faceLeft[140] = 5233;
+            faceLeft[200] = 5331;
+            faceLeft[110] = 5490;
+            faceLeft[70] = 5517;
+            faceLeft[130] = 5668;
+            faceLeft[190] = 5877;
+            faceLeft[150] = 5929;
+            faceLeft[60] = 5995;
+            faceLeft[50] = 6157;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
+
+            var faceRight = new ConcurrentDictionary<byte, long>();
+            faceRight[40] = 3718;
+            faceRight[100] = 3775;
+            faceRight[170] = 3962;
+            faceRight[120] = 3988;
+            faceRight[180] = 3998;
+            faceRight[80] = 4001;
+            faceRight[20] = 4150;
+            faceRight[160] = 4620;
+            faceRight[30] = 4880;
+            faceRight[10] = 5017;
+            faceRight[90] = 5140;
+            faceRight[140] = 5233;
+            faceRight[200] = 5331;
+            faceRight[110] = 5490;
+            faceRight[70] = 5517;
+            faceRight[130] = 5668;
+            faceRight[190] = 5877;
+            faceRight[150] = 5929;
+            faceRight[60] = 5995;
+            faceRight[50] = 6157;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
+
+            var faceTop = new ConcurrentDictionary<byte, long>();
+            faceTop[40] = 3718;
+            faceTop[100] = 3775;
+            faceTop[170] = 3962;
+            faceTop[120] = 3988;
+            faceTop[180] = 3998;
+            faceTop[80] = 4001;
+            faceTop[20] = 4150;
+            faceTop[160] = 4620;
+            faceTop[30] = 4880;
+            faceTop[10] = 5017;
+            faceTop[90] = 5140;
+            faceTop[140] = 5233;
+            faceTop[200] = 5331;
+            faceTop[110] = 5490;
+            faceTop[70] = 5517;
+            faceTop[130] = 5668;
+            faceTop[190] = 5877;
+            faceTop[150] = 5929;
+            faceTop[60] = 5995;
+            faceTop[50] = 6157;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
+
+            var faceBottom = new ConcurrentDictionary<byte, long>();
+            faceBottom[40] = 3718;
+            faceBottom[100] = 3775;
+            faceBottom[170] = 3962;
+            faceBottom[120] = 3988;
+            faceBottom[180] = 3998;
+            faceBottom[80] = 4001;
+            faceBottom[20] = 4150;
+            faceBottom[160] = 4620;
+            faceBottom[30] = 4880;
+            faceBottom[10] = 5017;
+            faceBottom[90] = 5140;
+            faceBottom[140] = 5233;
+            faceBottom[200] = 5331;
+            faceBottom[110] = 5490;
+            faceBottom[70] = 5517;
+            faceBottom[130] = 5668;
+            faceBottom[190] = 5877;
+            faceBottom[150] = 5929;
+            faceBottom[60] = 5995;
+            faceBottom[50] = 6157;
+            mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Bottom] = faceBottom;
+
+            mapInfo.ProcessAllInfo();
+
+            PlanetOreMapProfile.PLANET_OREMAP_INFO[DEFAULT_TOHIL] = mapInfo;
         }
 
         private static void LoadQunOreMapInfo()
@@ -711,17 +1498,17 @@ namespace ExtendedSurvival.Core
             RespawnEnabled = true,
             TargetColor = "#616c83",
             ColorInfluence = new Vector2I(15, 15),
-            Animal = PlanetMapAnimalsProfile.DEFAULT_EARTH,
+            Animal = PlanetMapAnimalsProfile.DEFAULT_SPIDERS_01,
             Geothermal = PlanetMapProfile.GetGeothermal(true),
-            Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 1, 1f, 80, 1.2f, 0, 0),
+            Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 1, 1f, 80, 1.2f, 0.05f, 0.0f),
             Gravity = PlanetMapProfile.GetGravity(0.92f, 7.0f),
             Temperature = PlanetMapProfile.GetTemperature(VRage.Game.MyTemperatureLevel.Hot, 8, 53),
             Water = PlanetMapProfile.GetWater(true, 1.015f, -0.6f, 0, 0),
             SizeRange = new Vector2(20, 30),
-            Type = PlanetProfile.PlanetType.Planet,
+            Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            MeteorImpact = VanilaMapProfile.EARTHLIKE_METEOR,
-            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING
+            MeteorImpact = VanilaMapProfile.ALIEN_METEOR,
+            SuperficialMining = PlanetMapProfile.ALIEN_SUPERFICIAL_MINING
         };
 
         public static readonly PlanetProfile SATREUS = new PlanetProfile()
@@ -782,6 +1569,84 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             MeteorImpact = VanilaMapProfile.MOON_METEOR,
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+        };
+
+        public static readonly PlanetProfile LUMA = new PlanetProfile()
+        {
+            Origin = PlanetProfile.PlanetOrigin.OtherMod,
+            OriginId = LUMA_MODID,
+            Version = PlanetMapProfile.PROFILE_VERSION,
+            RespawnEnabled = false,
+            Animal = PlanetMapAnimalsProfile.DEFAULT_NO_ANIMALS,
+            Geothermal = PlanetMapProfile.GetGeothermal(false),
+            Atmosphere = PlanetMapProfile.GetAtmosphere(true, false, 1.5f, 0.05f, 250, 1.2f, 0.5f, 0.75f),
+            Gravity = PlanetMapProfile.GetGravity(1.86f, 4.5f),
+            Temperature = PlanetMapProfile.GetTemperature(VRage.Game.MyTemperatureLevel.ExtremeFreeze, -50, 0),
+            Water = PlanetMapProfile.GetWater(false),
+            SizeRange = new Vector2(950, 1050),
+            Type = PlanetProfile.PlanetType.GiantGas,
+            GroupType = PlanetProfile.OreGroupType.Concentrated,
+            MeteorImpact = new PlanetProfile.MeteorImpactInfo() { enabled = false },
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+        };
+
+        public static readonly PlanetProfile TOHIL = new PlanetProfile()
+        {
+            Origin = PlanetProfile.PlanetOrigin.OtherMod,
+            OriginId = TOHIL_MODID,
+            Version = PlanetMapProfile.PROFILE_VERSION,
+            RespawnEnabled = false,
+            Animal = PlanetMapAnimalsProfile.DEFAULT_NO_ANIMALS,
+            Geothermal = PlanetMapProfile.GetGeothermal(true, depthMultiplier: 2, rowSizeMultiplier: 2, powerMultiplier: 0.75f),
+            Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 0.5f, 0.1f, 8, 1.0f, 0.05f, 0),
+            Gravity = PlanetMapProfile.GetGravity(0.328f, 7.0f),
+            Temperature = PlanetMapProfile.GetTemperature(VRage.Game.MyTemperatureLevel.ExtremeFreeze, -50, 0),
+            Water = PlanetMapProfile.GetWater(false),
+            SizeRange = new Vector2(15, 25),
+            Type = PlanetProfile.PlanetType.Moon,
+            GroupType = PlanetProfile.OreGroupType.Concentrated,
+            MeteorImpact = VanilaMapProfile.TRITON_METEOR,
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+        };
+
+        public static readonly PlanetProfile TEAL = new PlanetProfile()
+        {
+            Origin = PlanetProfile.PlanetOrigin.OtherMod,
+            OriginId = TEAL_MODID,
+            Version = PlanetMapProfile.PROFILE_VERSION,
+            RespawnEnabled = true,
+            Animal = PlanetMapAnimalsProfile.DEFAULT_EARTH,
+            Geothermal = PlanetMapProfile.GetGeothermal(true),
+            Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 1.0f, 1.0f, 120, 2.0f, 0, 0),
+            Gravity = PlanetMapProfile.GetGravity(1f, 7f),
+            Temperature = PlanetMapProfile.GetTemperature(VRage.Game.MyTemperatureLevel.Cozy, 0, 45),
+            Water = PlanetMapProfile.GetWater(true, 1.0038f, -0.4f, 0, 0),
+            SizeRange = new Vector2(115, 125),
+            Type = PlanetProfile.PlanetType.Planet,
+            GroupType = PlanetProfile.OreGroupType.Concentrated,
+            MeteorImpact = VanilaMapProfile.EARTHLIKE_METEOR,
+            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING
+        };
+
+        public static readonly PlanetProfile ORLUNDA = new PlanetProfile()
+        {
+            Origin = PlanetProfile.PlanetOrigin.OtherMod,
+            OriginId = ORLUNDA_MODID,
+            Version = PlanetMapProfile.PROFILE_VERSION,
+            RespawnEnabled = false,
+            TargetColor = "#616c83",
+            ColorInfluence = new Vector2I(15, 15),
+            Animal = PlanetMapAnimalsProfile.DEFAULT_SPIDERS_02,
+            Geothermal = PlanetMapProfile.GetGeothermal(true, depthMultiplier: 1.5f, rowSizeMultiplier: 1.25f, powerMultiplier: 0.5f),
+            Atmosphere = PlanetMapProfile.GetAtmosphere(true, false, 0.89f, 0.25f, 80, 6.0f, 0.25f, 0f),
+            Gravity = PlanetMapProfile.GetGravity(1.12f, 7.0f),
+            Temperature = PlanetMapProfile.GetTemperature(VRage.Game.MyTemperatureLevel.Hot, 10, 50),
+            Water = PlanetMapProfile.GetWater(false),
+            SizeRange = new Vector2(115, 125),
+            Type = PlanetProfile.PlanetType.Planet,
+            GroupType = PlanetProfile.OreGroupType.Concentrated,
+            MeteorImpact = VanilaMapProfile.MARS_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 

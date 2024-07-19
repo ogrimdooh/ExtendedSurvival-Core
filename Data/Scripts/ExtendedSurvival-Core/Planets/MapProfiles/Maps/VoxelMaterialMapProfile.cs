@@ -97,7 +97,11 @@ namespace ExtendedSurvival.Core
             AlienYellowGrassBare,
             AlienSoil,
             // Captain Arthur
-            CaptainArthurMapProfile.Redsoil
+            CaptainArthurMapProfile.Redsoil,            
+            // Major John
+            MajorJonMapProfile.Soil_Trelan,
+            MajorJonMapProfile.Grass_Trelan,
+            MajorJonMapProfile.Grass_Trelan_bare
         };
 
         public static readonly string[] SoilVoxels = new string[] 
@@ -148,10 +152,14 @@ namespace ExtendedSurvival.Core
             SamMapProfile.Helios_Grass_old,
             SamMapProfile.Helios_HighGrass,
             // Major John
-            MajorJonMapProfile.Soil_Trelan,
-            MajorJonMapProfile.Grass_Trelan,
-            MajorJonMapProfile.Grass_Trelan_bare,
             MajorJonMapProfile.Grass_old_Satreus,
+            MajorJonMapProfile.TealBlueGrass,
+            MajorJonMapProfile.TealRocksGrass,
+            MajorJonMapProfile.TealSnowGrass,
+            MajorJonMapProfile.OrlundaRedSoil_1,
+            MajorJonMapProfile.OrlundaRedSoil_2,
+            MajorJonMapProfile.OrlundaRedSoil_3,
+            MajorJonMapProfile.Woods_grass_long,
             // Elindis
             ElindisMapProfile.SaprimentasWetFlowers,
             ElindisMapProfile.SaprimentasDryFlowers
@@ -167,7 +175,10 @@ namespace ExtendedSurvival.Core
             // Infinite
             InfiniteMapProfile.AquaticGrass1,
             InfiniteMapProfile.aquatic2,
-            InfiniteMapProfile.aquatic3
+            InfiniteMapProfile.aquatic3,
+            // Major John
+            MajorJonMapProfile.TealBlack_Soil,
+            MajorJonMapProfile.TealBlack_Soil_bare
         };
 
         public static readonly string[] VulcanicSoilVoxels = new string[]
@@ -214,6 +225,7 @@ namespace ExtendedSurvival.Core
             MajorJonMapProfile.Desert_01_Satreus_soil,
             MajorJonMapProfile.Desert_01_red_Satreus,
             MajorJonMapProfile.Ground_red_Satreus,
+            MajorJonMapProfile.OrlundaBeach,
             // Shard
             ShardMapProfile.SafinaSand,
             ShardMapProfile.SafinaRedSand,
@@ -249,7 +261,9 @@ namespace ExtendedSurvival.Core
             MajorJonMapProfile.MoonSoil_black2_qun,
             // Shard
             ShardMapProfile.ThanianSoil,
-            ShardMapProfile.RishaSoil
+            ShardMapProfile.RishaSoil,
+            // Major John
+            MajorJonMapProfile.OrlundaSnow
         };
 
         public static readonly string[] ESStoneIce = new string[]
@@ -276,8 +290,23 @@ namespace ExtendedSurvival.Core
             SamMapProfile.HeliosTE_Ice,
             // Major John
             MajorJonMapProfile.Ice02_Satreus,
+            MajorJonMapProfile.TohilIce01,
+            MajorJonMapProfile.TohilIce02,
+            MajorJonMapProfile.TohilIce03,
             // Shard
-            ShardMapProfile.SafinaWater
+            ShardMapProfile.SafinaWater,
+            // Major John
+            MajorJonMapProfile.TealSea,
+            MajorJonMapProfile.TealIce,
+            MajorJonMapProfile.TealRiver,
+            MajorJonMapProfile.TealShore1,
+            MajorJonMapProfile.TealShore2,
+            MajorJonMapProfile.TealShore3,
+            MajorJonMapProfile.TealShore4,
+            MajorJonMapProfile.TealShore5,
+            MajorJonMapProfile.TealShore6,
+            MajorJonMapProfile.OrlundaIce,
+            MajorJonMapProfile.OrlundaLake
         };
 
         public static readonly string[] ESToxicIce = new string[] 
@@ -299,9 +328,12 @@ namespace ExtendedSurvival.Core
             FizzyMapProfile.Zira_Ice,
             //Fizzy
             FizzyMapProfile.Chimera_Snow,
-            //Fizzy
+            //GHOSTXV
             GHOSTXVMapProfile.AvalanSnow,
-            GHOSTXVMapProfile.GhostSnow
+            GHOSTXVMapProfile.GhostSnow,
+            // Major John
+            MajorJonMapProfile.TohilSnow01,
+            MajorJonMapProfile.TohilSnow02
         };
 
         public static readonly string[] SpaceNeeded = new string[] 
