@@ -11,26 +11,33 @@
       <MinedOre>Iron</MinedOre>
       <MinedOreRatio>5</MinedOreRatio>
       <CanBeHarvested>true</CanBeHarvested>
-      <IsRare>true</IsRare>
+      <SpawnsFromMeteorites>true</SpawnsFromMeteorites>
       <SpawnsInAsteroids>true</SpawnsInAsteroids>
-      <AsteroidGeneratorSpawnProbabilityMultiplier>3</AsteroidGeneratorSpawnProbabilityMultiplier>
+      <AsteroidGeneratorSpawnProbabilityMultiplier>1</AsteroidGeneratorSpawnProbabilityMultiplier>
+      <IsRare>true</IsRare>
+      <IsIndestructible>false</IsIndestructible>
+      <ParticleEffect>Collision_Meteor</ParticleEffect>
 
-      <SpecularPower>8</SpecularPower>
-      <SpecularShininess>0.23</SpecularShininess>
+      <SpecularPower>24</SpecularPower>
+      <SpecularShininess>0.364</SpecularShininess>
 
-      <VoxelHandPreview>Textures\Voxels\Iron_02_Thumbnail.dds</VoxelHandPreview>
-      <ColorMetalXZnY>Textures\Voxels\Iron_02_ForAxisXZ_cm.dds</ColorMetalXZnY>
-      <NormalGlossXZnY>Textures\Voxels\Iron_02_ForAxisXZ_ng.dds</NormalGlossXZnY>
-      <ExtXZnY>Textures\Voxels\Iron_02_ForAxisXZ_add.dds</ExtXZnY>
+      <ColorMetalXZnY>Textures\Voxels\Ores\Iron_03_cm.dds</ColorMetalXZnY>
+      <NormalGlossXZnY>Textures\Voxels\Silver_01_ForAxisXZ_ng.dds</NormalGlossXZnY>
+      <ExtXZnY>Textures\Voxels\Silver_01_ForAxisXZ_add.dds</ExtXZnY>
 
-      <Far3Distance>10000</Far3Distance>
+      <InitialScale>2</InitialScale>
+
+      <Far3Distance>2000</Far3Distance>
       <Far3Color>
-        <X>0.08</X>
-        <Y>0.01</Y>
-        <Z>0</Z>
+        <X>0.65</X>
+        <Y>0.0</Y>
+        <Z>0.0</Z>
         <W>1.0</W>
       </Far3Color>
+      <ColorKey Hex="#A60000"/>
+
       <LandingEffect>Landing_Jet_Ground_Dust</LandingEffect>
+
     </VoxelMaterial>
     
   </VoxelMaterials>

@@ -1,22 +1,245 @@
-﻿using System.Collections.Generic;
+﻿using Medieval.ObjectBuilders.Definitions;
+using Sandbox.Definitions;
+using Sandbox.ModAPI;
+using System.Collections.Generic;
+using System.Linq;
+using VRage;
+using VRage.Collections;
 using VRage.Game;
+using VRage.Trace;
+using VRage.Utils;
 
 namespace ExtendedSurvival.Core
 {
     public class BetterStoneIntegrationProfile
     {
 
-        public const string CM_IRON = "Iron";
-        public const string CM_IRON_SUBTYPEID = "[CM] Iron (Fe)";
-        public const string CM_DENSE_IRON_SUBTYPEID = "[CM] Dense Iron (Fe+)";
+        public class VoxelTextureReplace
+        {
+
+            public string ColorMetalXZnY { get; set; }
+            public float InitialScale { get; set; }
+            public VRageMath.Vector4 Far3Color { get; set; }
+            public ColorDefinitionRGBA ColorKey { get; set; }
+
+        }
 
         public static readonly Dictionary<string, string> NewOreToVoxelMap = new Dictionary<string, string>()
         {
-            { VoxelMaterialMapProfile.Iron_01, CM_IRON },
-            { VoxelMaterialMapProfile.Iron_02, CM_IRON },
-            { VoxelMaterialMapProfile.Iron_03, CM_IRON_SUBTYPEID },
-            { VoxelMaterialMapProfile.Iron_04, CM_DENSE_IRON_SUBTYPEID }
+            { VoxelMaterialMapProfile.Iron_01, OreConstants.IRON_SUBTYPEID },
+            { VoxelMaterialMapProfile.Iron_02, OreConstants.IRON_SUBTYPEID },
+            { VoxelMaterialMapProfile.Iron_03, OreConstants.CM_IRON_FE_SUBTYPEID },
+            { VoxelMaterialMapProfile.Iron_04, OreConstants.CM_DENSE_IRON_FE_SUBTYPEID }
         };
+
+        public static readonly Dictionary<UniqueEntityId, BaseIntegrationModRecipesOverride.ExternalModCustomIcon> OresNewIcons = new Dictionary<UniqueEntityId, BaseIntegrationModRecipesOverride.ExternalModCustomIcon>()
+        {
+            {
+                OreConstants.CM_IRON_FE_ID,
+                new BaseIntegrationModRecipesOverride.ExternalModCustomIcon(
+                    "Textures\\GUI\\Icons\\Integrations\\ore_icy_iron.dds",
+                    false
+                )
+            },
+            {
+                OreConstants.CM_DENSE_IRON_FE_ID,
+                new BaseIntegrationModRecipesOverride.ExternalModCustomIcon(
+                    "Textures\\GUI\\Icons\\Integrations\\ore_dense_iron.dds",
+                    false
+                )
+            },
+            {
+                OreConstants.S_HAPKEITE_FESI_ID,
+                new BaseIntegrationModRecipesOverride.ExternalModCustomIcon(
+                    "Textures\\GUI\\Icons\\Integrations\\ore_hapkeite.dds",
+                    false
+                )
+            },
+            {
+                OreConstants.CM_HEAZLEWOODITE_NI_ID,
+                new BaseIntegrationModRecipesOverride.ExternalModCustomIcon(
+                    "Textures\\GUI\\Icons\\Integrations\\ore_heazlewoodite.dds",
+                    false
+                )
+            },
+            {
+                OreConstants.PM_PORPHYRY_AU_ID,
+                new BaseIntegrationModRecipesOverride.ExternalModCustomIcon(
+                    "Textures\\GUI\\Icons\\Integrations\\ore_porphyry.dds",
+                    false
+                )
+            },
+            {
+                OreConstants.S_DOLOMITE_MG_ID,
+                new BaseIntegrationModRecipesOverride.ExternalModCustomIcon(
+                    "Textures\\GUI\\Icons\\Integrations\\ore_dolomite.dds",
+                    false
+                )
+            },
+            {
+                OreConstants.CM_CATTIERITE_CO_ID,
+                new BaseIntegrationModRecipesOverride.ExternalModCustomIcon(
+                    "Textures\\GUI\\Icons\\Integrations\\ore_cattierite.dds",
+                    false
+                )
+            },
+            {
+                OreConstants.PM_NIGGLIITE_PT_ID,
+                new BaseIntegrationModRecipesOverride.ExternalModCustomIcon(
+                    "Textures\\GUI\\Icons\\Integrations\\ore_niggliite.dds",
+                    false
+                )
+            },
+            {
+                OreConstants.EI_CARNOTITE_U_ID,
+                new BaseIntegrationModRecipesOverride.ExternalModCustomIcon(
+                    "Textures\\GUI\\Icons\\Integrations\\ore_carnotite.dds",
+                    false
+                )
+            },
+            {
+                OreConstants.CM_GLAUCODOT_FECO_ID,
+                new BaseIntegrationModRecipesOverride.ExternalModCustomIcon(
+                    "Textures\\GUI\\Icons\\Integrations\\ore_glaucodot.dds",
+                    false
+                )
+            },
+            {
+                OreConstants.S_SINOITE_SI_ID,
+                new BaseIntegrationModRecipesOverride.ExternalModCustomIcon(
+                    "Textures\\GUI\\Icons\\Integrations\\ore_sinoite.dds",
+                    false
+                )
+            },
+            {
+                OreConstants.CM_PYRITE_FEAU_ID,
+                new BaseIntegrationModRecipesOverride.ExternalModCustomIcon(
+                    "Textures\\GUI\\Icons\\Integrations\\ore_pyrite.dds",
+                    false
+                )
+            },
+            {
+                OreConstants.S_OLIVINE_SIMG_ID,
+                new BaseIntegrationModRecipesOverride.ExternalModCustomIcon(
+                    "Textures\\GUI\\Icons\\Integrations\\ore_olivine.dds",
+                    false
+                )
+            },
+            {
+                OreConstants.PM_COOPERITE_NIPT_ID,
+                new BaseIntegrationModRecipesOverride.ExternalModCustomIcon(
+                    "Textures\\GUI\\Icons\\Integrations\\ore_cooperite.dds",
+                    false
+                )
+            },
+            {
+                OreConstants.S_QUARTZ_SI_ID,
+                new BaseIntegrationModRecipesOverride.ExternalModCustomIcon(
+                    "Textures\\GUI\\Icons\\Integrations\\ore_quartz.dds",
+                    false
+                )
+            },
+            {
+                OreConstants.PM_GALENA_AG_ID,
+                new BaseIntegrationModRecipesOverride.ExternalModCustomIcon(
+                    "Textures\\GUI\\Icons\\Integrations\\ore_galena.dds",
+                    false
+                )
+            },
+            {
+                OreConstants.PM_CHLORARGYRITE_AG_ID,
+                new BaseIntegrationModRecipesOverride.ExternalModCustomIcon(
+                    "Textures\\GUI\\Icons\\Integrations\\ore_chlorargyrite.dds",
+                    false
+                )
+            },
+            {
+                OreConstants.PM_ELECTRUM_AUAG_ID,
+                new BaseIntegrationModRecipesOverride.ExternalModCustomIcon(
+                    "Textures\\GUI\\Icons\\Integrations\\ore_electrum.dds",
+                    false
+                )
+            },
+            {
+                OreConstants.PM_SPERRYLITE_PT_ID,
+                new BaseIntegrationModRecipesOverride.ExternalModCustomIcon(
+                    "Textures\\GUI\\Icons\\Integrations\\ore_sperrylite.dds",
+                    false
+                )
+            },
+            {
+                OreConstants.EI_AUTUNITE_U_ID,
+                new BaseIntegrationModRecipesOverride.ExternalModCustomIcon(
+                    "Textures\\GUI\\Icons\\Integrations\\ore_autunite.dds",
+                    false
+                )
+            },
+            {
+                OreConstants.S_AKIMOTOITE_SIMG_ID,
+                new BaseIntegrationModRecipesOverride.ExternalModCustomIcon(
+                    "Textures\\GUI\\Icons\\Integrations\\ore_akimotoite.dds",
+                    false
+                )
+            },
+            {
+                OreConstants.S_WADSLEYITE_SIMG_ID,
+                new BaseIntegrationModRecipesOverride.ExternalModCustomIcon(
+                    "Textures\\GUI\\Icons\\Integrations\\ore_wadsleyite.dds",
+                    false
+                )
+            },
+            {
+                OreConstants.CM_TAENITE_FENI_ID,
+                new BaseIntegrationModRecipesOverride.ExternalModCustomIcon(
+                    "Textures\\GUI\\Icons\\Integrations\\ore_taenite.dds",
+                    false
+                )
+            },
+            {
+                OreConstants.CM_COHENITE_NICO_ID,
+                new BaseIntegrationModRecipesOverride.ExternalModCustomIcon(
+                    "Textures\\GUI\\Icons\\Integrations\\ore_cohenite.dds",
+                    false
+                )
+            },
+            {
+                OreConstants.CM_KAMACITE_FENICO_ID,
+                new BaseIntegrationModRecipesOverride.ExternalModCustomIcon(
+                    "Textures\\GUI\\Icons\\Integrations\\ore_kamacite.dds",
+                    false
+                )
+            },
+            {
+                OreConstants.EI_URANIAURITE_UAU_ID,
+                new BaseIntegrationModRecipesOverride.ExternalModCustomIcon(
+                    "Textures\\GUI\\Icons\\Integrations\\ore_uraniaurite.dds",
+                    false
+                )
+            },
+            {
+                OreConstants.PM_PETZITE_AGAU_ID,
+                new BaseIntegrationModRecipesOverride.ExternalModCustomIcon(
+                    "Textures\\GUI\\Icons\\Integrations\\ore_petzite.dds",
+                    false
+                )
+            }
+        };
+
+        public static void DoOnSettingsOverride()
+        {
+            if (ExtendedSurvivalCoreSession.IsUsingBetterStone())
+            {
+                foreach (var item in OresNewIcons.Keys)
+                {
+                    var itemDef = MyDefinitionManager.Static.GetPhysicalItemDefinition(item.DefinitionId);
+                    if (itemDef != null)
+                    {
+                        itemDef.Icons = new string[] { BaseIntegrationModRecipesOverride.GetCustomIcon(itemDef.Context, OresNewIcons[item]) };
+                        itemDef.Postprocess();
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Fe + Si

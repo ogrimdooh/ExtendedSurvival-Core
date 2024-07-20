@@ -1,5 +1,6 @@
 ﻿using Sandbox.Definitions;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using VRage.Game;
 using VRageMath;
 
@@ -66,6 +67,92 @@ namespace ExtendedSurvival.Core
 
         public const string CHROMEMOONSOIL_SUBTYPEID = "ChromeMoonSoil";
         public static readonly UniqueEntityId CHROMEMOONSOIL_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), CHROMEMOONSOIL_SUBTYPEID);
+
+
+
+        // Better Stone
+
+        public const string CM_IRON_FE_SUBTYPEID = "[CM] Iron (Fe)";
+        public static readonly UniqueEntityId CM_IRON_FE_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), CM_IRON_FE_SUBTYPEID);
+
+        public const string CM_DENSE_IRON_FE_SUBTYPEID = "[CM] Dense Iron (Fe+)";
+        public static readonly UniqueEntityId CM_DENSE_IRON_FE_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), CM_DENSE_IRON_FE_SUBTYPEID);
+
+        public const string S_HAPKEITE_FESI_SUBTYPEID = "[S] Hapkeite (Fe,Si)";
+        public static readonly UniqueEntityId S_HAPKEITE_FESI_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), S_HAPKEITE_FESI_SUBTYPEID);
+
+        public const string CM_HEAZLEWOODITE_NI_SUBTYPEID = "[CM] Heazlewoodite (Ni)";
+        public static readonly UniqueEntityId CM_HEAZLEWOODITE_NI_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), CM_HEAZLEWOODITE_NI_SUBTYPEID);
+
+        public const string PM_PORPHYRY_AU_SUBTYPEID = "[PM] Porphyry (Au)";
+        public static readonly UniqueEntityId PM_PORPHYRY_AU_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), PM_PORPHYRY_AU_SUBTYPEID);
+
+        public const string S_DOLOMITE_MG_SUBTYPEID = "[S] Dolomite (Mg)";
+        public static readonly UniqueEntityId S_DOLOMITE_MG_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), S_DOLOMITE_MG_SUBTYPEID);
+
+        public const string CM_CATTIERITE_CO_SUBTYPEID = "[CM] Cattierite (Co)";
+        public static readonly UniqueEntityId CM_CATTIERITE_CO_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), CM_CATTIERITE_CO_SUBTYPEID);
+
+        public const string PM_NIGGLIITE_PT_SUBTYPEID = "[PM] Niggliite (Pt)";
+        public static readonly UniqueEntityId PM_NIGGLIITE_PT_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), PM_NIGGLIITE_PT_SUBTYPEID);
+
+        public const string EI_CARNOTITE_U_SUBTYPEID = "[EI] Carnotite (U)";
+        public static readonly UniqueEntityId EI_CARNOTITE_U_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), EI_CARNOTITE_U_SUBTYPEID);
+
+        public const string CM_GLAUCODOT_FECO_SUBTYPEID = "[CM] Glaucodot (Fe,Co)";
+        public static readonly UniqueEntityId CM_GLAUCODOT_FECO_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), CM_GLAUCODOT_FECO_SUBTYPEID);
+
+        public const string S_SINOITE_SI_SUBTYPEID = "[S] Sinoite (Si)";
+        public static readonly UniqueEntityId S_SINOITE_SI_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), S_SINOITE_SI_SUBTYPEID);
+
+        public const string CM_PYRITE_FEAU_SUBTYPEID = "[CM] Pyrite (Fe,Au)";
+        public static readonly UniqueEntityId CM_PYRITE_FEAU_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), CM_PYRITE_FEAU_SUBTYPEID);
+
+        public const string S_OLIVINE_SIMG_SUBTYPEID = "[S] Olivine (Si,Mg)";
+        public static readonly UniqueEntityId S_OLIVINE_SIMG_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), S_OLIVINE_SIMG_SUBTYPEID);
+
+        public const string PM_COOPERITE_NIPT_SUBTYPEID = "[PM] Cooperite (Ni,Pt)";
+        public static readonly UniqueEntityId PM_COOPERITE_NIPT_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), PM_COOPERITE_NIPT_SUBTYPEID);
+
+        public const string S_QUARTZ_SI_SUBTYPEID = "[S] Quartz (Si)";
+        public static readonly UniqueEntityId S_QUARTZ_SI_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), S_QUARTZ_SI_SUBTYPEID);
+
+        public const string PM_GALENA_AG_SUBTYPEID = "[PM] Galena (Ag)";
+        public static readonly UniqueEntityId PM_GALENA_AG_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), PM_GALENA_AG_SUBTYPEID);
+
+        public const string PM_CHLORARGYRITE_AG_SUBTYPEID = "[PM] Chlorargyrite (Ag)";
+        public static readonly UniqueEntityId PM_CHLORARGYRITE_AG_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), PM_CHLORARGYRITE_AG_SUBTYPEID);
+
+        public const string PM_ELECTRUM_AUAG_SUBTYPEID = "[PM] Electrum (Au,Ag)";
+        public static readonly UniqueEntityId PM_ELECTRUM_AUAG_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), PM_ELECTRUM_AUAG_SUBTYPEID);
+
+        public const string PM_SPERRYLITE_PT_SUBTYPEID = "[PM] Sperrylite (Pt)";
+        public static readonly UniqueEntityId PM_SPERRYLITE_PT_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), PM_SPERRYLITE_PT_SUBTYPEID);
+
+        public const string EI_AUTUNITE_U_SUBTYPEID = "[EI] Autunite (U)";
+        public static readonly UniqueEntityId EI_AUTUNITE_U_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), EI_AUTUNITE_U_SUBTYPEID);
+
+        public const string S_AKIMOTOITE_SIMG_SUBTYPEID = "[S] Akimotoite (Si,Mg)";
+        public static readonly UniqueEntityId S_AKIMOTOITE_SIMG_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), S_AKIMOTOITE_SIMG_SUBTYPEID);
+
+        public const string S_WADSLEYITE_SIMG_SUBTYPEID = "[S] Wadsleyite (Si,Mg)";
+        public static readonly UniqueEntityId S_WADSLEYITE_SIMG_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), S_WADSLEYITE_SIMG_SUBTYPEID);
+
+        public const string CM_TAENITE_FENI_SUBTYPEID = "[CM] Taenite (Fe,Ni)";
+        public static readonly UniqueEntityId CM_TAENITE_FENI_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), CM_TAENITE_FENI_SUBTYPEID);
+
+        public const string CM_COHENITE_NICO_SUBTYPEID = "[CM] Cohenite (Ni,Co)";
+        public static readonly UniqueEntityId CM_COHENITE_NICO_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), CM_COHENITE_NICO_SUBTYPEID);
+
+        public const string CM_KAMACITE_FENICO_SUBTYPEID = "[CM] Kamacite (Fe,Ni,Co)";
+        public static readonly UniqueEntityId CM_KAMACITE_FENICO_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), CM_KAMACITE_FENICO_SUBTYPEID);
+
+        public const string EI_URANIAURITE_UAU_SUBTYPEID = "[EI] Uraniaurite (U,Au)";
+        public static readonly UniqueEntityId EI_URANIAURITE_UAU_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), EI_URANIAURITE_UAU_SUBTYPEID);
+
+        public const string PM_PETZITE_AGAU_SUBTYPEID = "[PM] Petzite (Ag,Au)";
+        public static readonly UniqueEntityId PM_PETZITE_AGAU_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), PM_PETZITE_AGAU_SUBTYPEID);
+
 
         public static readonly OreDefinition SAWDUST_DEFINITION = new OreDefinition()
         {

@@ -340,6 +340,12 @@ namespace ExtendedSurvival.Core
                 Vector2I influenceToUse;
                 DoCalcColorInfluence(targetColor, colorInfluence, out colorToUse, out influenceToUse);
 
+                while (totalToUse < calcOres.Count && calcOres.Any(x => BetterStoneIntegrationProfile.BetterStoneVoxels.Contains(x.type)))
+                {
+                    var oreToRemove = calcOres.Where(x => BetterStoneIntegrationProfile.BetterStoneVoxels.Contains(x.type)).OrderBy(x => MyUtils.GetRandomFloat()).FirstOrDefault();
+                    calcOres.Remove(oreToRemove);
+                }
+
                 var oresByRarity = calcOres.GroupBy(x => x.rarity).ToDictionary(x => x.Key, y => y.ToList());
 
                 var limits = new Dictionary<OreRarity, int>()
@@ -371,6 +377,29 @@ namespace ExtendedSurvival.Core
                                     ColorInfluence = influenceToUse.GetRandom(),
                                     TargetColor = colorToUse
                                 });
+                            }
+                            else
+                            {
+                                foreach (var k2 in oresByRarity.Keys.Where(x => x != k))
+                                {
+                                    if (rangeEntries[k2].Any())
+                                    {
+                                        var v = rangeEntries[k2].OrderBy(x => MyUtils.GetRandomFloat()).FirstOrDefault();
+                                        rangeEntries[k2].Remove(v);
+
+                                        map.Add(new PlanetOreMapEntrySetting()
+                                        {
+                                            Value = v,
+                                            Type = ore.type,
+                                            Start = new Vector2I(ore.start.X, ore.start.Y).GetRandom() * deep,
+                                            Depth = new Vector2I(ore.depth.X, ore.depth.Y).GetRandom() * deep,
+                                            ColorInfluence = influenceToUse.GetRandom(),
+                                            TargetColor = colorToUse
+                                        });
+
+                                        break;
+                                    }
+                                }
                             }
                         }
                     }
@@ -925,7 +954,7 @@ namespace ExtendedSurvival.Core
                     {
                         settings.SuperficialMining = BuildSuperficialMiningSetting(settings.Id);
                     }
-                    if (settings.Version <= 20)
+                    if (settings.Version <= 21)
                     {
                         var tmpSettings = BuildSettings(settings.Id, settings.Seed, settings.DeepMultiplier, settings.AddedOres?.Split(','),
                             settings.RemovedOres?.Split(','), settings.ClearOresBeforeAdd, settings.TargetColor,

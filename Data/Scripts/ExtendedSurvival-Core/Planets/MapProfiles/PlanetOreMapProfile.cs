@@ -43,18 +43,31 @@ namespace ExtendedSurvival.Core
                 {
                     AllInfo[k] /= FaceInfo.Count(x => x.Value.ContainsKey(k));
                 }
-                var fivePercent = (int)(AllInfo.Count * 0.05f);
-                var firstToRemove = AllInfo.OrderBy(x => x.Value).Select(x => x.Key).Take(fivePercent).ToArray();
-                foreach (var k in firstToRemove)
+                if (AllInfo.Count > 25)
                 {
-                    if (AllInfo.ContainsKey(k))
-                        AllInfo.Remove(k);
-                }
-                var lastToRemove = AllInfo.OrderBy(x => x.Value).Select(x => x.Key).Take(fivePercent).ToArray();
-                foreach (var k in lastToRemove)
-                {
-                    if (AllInfo.ContainsKey(k))
-                        AllInfo.Remove(k);
+                    var fivePercent = AllInfo.Count > 40 ? (int)(AllInfo.Count * 0.05f) : 1;
+                    var firstToRemove = AllInfo.OrderBy(x => x.Value).Select(x => x.Key).Take(fivePercent).ToArray();
+                    foreach (var k in firstToRemove)
+                    {
+                        if (AllInfo.ContainsKey(k))
+                            AllInfo.Remove(k);
+                    }
+                    var lastToRemove = AllInfo.OrderByDescending(x => x.Value).Select(x => x.Key).Take(fivePercent).ToArray();
+                    foreach (var k in lastToRemove)
+                    {
+                        if (AllInfo.ContainsKey(k))
+                            AllInfo.Remove(k);
+                    }
+                    if (AllInfo.Count > 40)
+                    {
+                        var lastCount = AllInfo.Count;
+                        var itensToRemove = AllInfo.OrderByDescending(x => x.Value).Select(x => x.Key).Take(lastCount - 40).ToArray();
+                        foreach (var k in itensToRemove)
+                        {
+                            if (AllInfo.ContainsKey(k))
+                                AllInfo.Remove(k);
+                        }
+                    }
                 }
             }
 

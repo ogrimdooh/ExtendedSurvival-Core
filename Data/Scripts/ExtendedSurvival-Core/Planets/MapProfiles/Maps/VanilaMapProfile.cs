@@ -48,10 +48,6 @@ namespace ExtendedSurvival.Core
             var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
 
             var faceFront = new ConcurrentDictionary<byte, long>();
-            faceFront[111] = 1;
-            faceFront[171] = 1;
-            faceFront[175] = 2;
-            faceFront[200] = 6;
             faceFront[220] = 6;
             faceFront[240] = 6;
             faceFront[98] = 512;
@@ -545,7 +541,6 @@ namespace ExtendedSurvival.Core
             mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
 
             var faceTop = new ConcurrentDictionary<byte, long>();
-            faceTop[254] = 1;
             faceTop[200] = 6;
             faceTop[220] = 6;
             faceTop[240] = 6;
@@ -850,7 +845,6 @@ namespace ExtendedSurvival.Core
             mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
 
             var faceTop = new ConcurrentDictionary<byte, long>();
-            faceTop[254] = 1;
             faceTop[200] = 6;
             faceTop[220] = 6;
             faceTop[240] = 6;
@@ -958,19 +952,6 @@ namespace ExtendedSurvival.Core
             var mapInfo = new PlanetOreMapProfile.PlanetOreMapInfo();
 
             var faceFront = new ConcurrentDictionary<byte, long>();
-            faceFront[199] = 1;
-            faceFront[241] = 1;
-            faceFront[247] = 1;
-            faceFront[249] = 1;
-            faceFront[55] = 1;
-            faceFront[77] = 1;
-            faceFront[96] = 1;
-            faceFront[114] = 1;
-            faceFront[119] = 1;
-            faceFront[135] = 1;
-            faceFront[181] = 1;
-            faceFront[253] = 2;
-            faceFront[220] = 4;
             faceFront[203] = 6;
             faceFront[236] = 6;
             faceFront[168] = 38;
@@ -999,16 +980,6 @@ namespace ExtendedSurvival.Core
             mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Front] = faceFront;
 
             var faceBack = new ConcurrentDictionary<byte, long>();
-            faceBack[246] = 1;
-            faceBack[150] = 1;
-            faceBack[152] = 1;
-            faceBack[155] = 1;
-            faceBack[157] = 1;
-            faceBack[181] = 1;
-            faceBack[196] = 2;
-            faceBack[236] = 3;
-            faceBack[253] = 3;
-            faceBack[203] = 4;
             faceBack[220] = 6;
             faceBack[180] = 48;
             faceBack[60] = 52;
@@ -1036,18 +1007,6 @@ namespace ExtendedSurvival.Core
             mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Back] = faceBack;
 
             var faceLeft = new ConcurrentDictionary<byte, long>();
-            faceLeft[248] = 1;
-            faceLeft[249] = 1;
-            faceLeft[93] = 1;
-            faceLeft[96] = 1;
-            faceLeft[107] = 1;
-            faceLeft[129] = 1;
-            faceLeft[136] = 1;
-            faceLeft[144] = 1;
-            faceLeft[157] = 1;
-            faceLeft[159] = 1;
-            faceLeft[164] = 1;
-            faceLeft[203] = 5;
             faceLeft[220] = 5;
             faceLeft[253] = 5;
             faceLeft[236] = 7;
@@ -1077,16 +1036,6 @@ namespace ExtendedSurvival.Core
             mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Left] = faceLeft;
 
             var faceRight = new ConcurrentDictionary<byte, long>();
-            faceRight[228] = 1;
-            faceRight[233] = 1;
-            faceRight[58] = 1;
-            faceRight[109] = 1;
-            faceRight[113] = 1;
-            faceRight[122] = 1;
-            faceRight[141] = 1;
-            faceRight[159] = 1;
-            faceRight[211] = 2;
-            faceRight[245] = 5;
             faceRight[116] = 57;
             faceRight[60] = 59;
             faceRight[176] = 59;
@@ -1113,17 +1062,6 @@ namespace ExtendedSurvival.Core
             mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Right] = faceRight;
 
             var faceTop = new ConcurrentDictionary<byte, long>();
-            faceTop[218] = 1;
-            faceTop[224] = 1;
-            faceTop[32] = 1;
-            faceTop[246] = 1;
-            faceTop[247] = 1;
-            faceTop[77] = 1;
-            faceTop[145] = 1;
-            faceTop[248] = 2;
-            faceTop[153] = 2;
-            faceTop[249] = 4;
-            faceTop[203] = 5;
             faceTop[228] = 9;
             faceTop[253] = 11;
             faceTop[120] = 45;
@@ -1152,13 +1090,6 @@ namespace ExtendedSurvival.Core
             mapInfo.FaceInfo[PlanetOreMapProfile.PlanetOreMapFace.Top] = faceTop;
 
             var faceBottom = new ConcurrentDictionary<byte, long>();
-            faceBottom[96] = 1;
-            faceBottom[196] = 1;
-            faceBottom[119] = 1;
-            faceBottom[142] = 1;
-            faceBottom[220] = 2;
-            faceBottom[247] = 2;
-            faceBottom[236] = 7;
             faceBottom[253] = 7;
             faceBottom[120] = 30;
             faceBottom[176] = 58;
@@ -3325,7 +3256,7 @@ namespace ExtendedSurvival.Core
                 },
                 new string[]
                 {
-                    PlanetMapProfile.Potassium_01,
+                    PlanetMapProfile.Lead_01,
                     PlanetMapProfile.Platinum_01,
                     BetterStoneIntegrationProfile.Sperrylite_01,
                     BetterStoneIntegrationProfile.Niggliite_01
@@ -3394,7 +3325,7 @@ namespace ExtendedSurvival.Core
                 },
                 new string[]
                 {
-                    PlanetMapProfile.Potassium_01,
+                    PlanetMapProfile.Lead_01,
                     PlanetMapProfile.Magnesium_01,
                     BetterStoneIntegrationProfile.Akimotoite_01,
                     BetterStoneIntegrationProfile.Olivine_01,

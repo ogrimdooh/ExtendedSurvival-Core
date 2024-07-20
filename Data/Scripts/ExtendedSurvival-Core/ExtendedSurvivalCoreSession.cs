@@ -538,6 +538,8 @@ namespace ExtendedSurvival.Core
 
                 InfiniteMapProfile.DoAfterPlanetOverride();
 
+                BetterStoneIntegrationProfile.DoOnSettingsOverride();
+
             }
         }
 
