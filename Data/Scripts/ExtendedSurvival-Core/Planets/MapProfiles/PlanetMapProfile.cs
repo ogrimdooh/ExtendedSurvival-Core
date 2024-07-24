@@ -1520,7 +1520,7 @@ namespace ExtendedSurvival.Core
             },
             {
                 SamMapProfile.DEFAULT_HELIOSTERRAFORMEDWM,
-                SamMapProfile.HELIOSTERRAFORMED
+                SamMapProfile.HELIOSTERRAFORMEDWM
             },
             // Elindis
             {

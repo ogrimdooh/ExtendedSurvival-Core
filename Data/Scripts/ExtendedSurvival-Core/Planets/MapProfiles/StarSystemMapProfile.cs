@@ -13,8 +13,9 @@ namespace ExtendedSurvival.Core
         public const string EXTENDEDSURVIVAL_PROFILE = "ES";
         public const string EXTENDEDSURVIVAL_COMPLETE_PROFILE = "VANILLAES";
         public const string ATA_PROFILE = "ATA";
-        public const string ESSERVER_PROFILE = "ESSERVER";
         public const string ALKURAH_PROFILE = "ALKURAH";
+        public const string ALKURAH_PROFILEV2 = "ALKURAHV2";
+        public const string ESSERVER_PROFILE = "ESSERVER";
 
         public static readonly Dictionary<string, StarSystemProfile> SYSTEMS_PROFILES = new Dictionary<string, StarSystemProfile>()
         {
@@ -575,6 +576,81 @@ namespace ExtendedSurvival.Core
                             Name = MajorJonMapProfile.DEFAULT_SATREUS,
                             Order = 3,
                             HasRing = true
+                        }
+                    }
+                }
+            },
+            {
+                ALKURAH_PROFILEV2,
+                new StarSystemProfile()
+                {
+                    Name = ALKURAH_PROFILEV2,
+                    Version = PROFILES_VERSION,
+                    Type = StarSystemProfile.ProfileType.Mapped,
+                    WithStar = false,
+                    VanillaAsteroids = true,
+                    DefaultDensity = 0.15f,
+                    DistanceMultiplier = 1.25f,
+                    AllowDuplicate = false,
+                    FirstMemberAtCenter = true,
+                    PlanetProfile = StarSystemProfile.ValidPlanetProfile.None,
+                    Members = new List<StarSystemProfile.SystemMember>()
+                    {
+                        new StarSystemProfile.SystemMember()
+                        {
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = MajorJonMapProfile.DEFAULT_LUMA,
+                            Name = "LUMA",
+                            Order = 0,
+                            SizeMultiplier = 1.5f,
+                            MoonCount = new Vector2(4, 4),
+                            ValidMoons = new string[]
+                            {
+                                MajorJonMapProfile.DEFAULT_KIMI,
+                                MajorJonMapProfile.DEFAULT_QUN,
+                                InfiniteMapProfile.DEFAULT_PENUMBRA,
+                                ExtendedSurvivalMapProfile.DEFAULT_OI
+                            }
+                        },
+                        new StarSystemProfile.SystemMember()
+                        {
+                            MemberType = StarSystemProfile.MemberType.AsteroidBelt,
+                            Name = "ALKURAH BELT",
+                            Order = 1,
+                            Density = 0.85f
+                        },
+                        new StarSystemProfile.SystemMember()
+                        {
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = SamMapProfile.DEFAULT_HELIOSTERRAFORMEDWM,
+                            Name = "HELIOS",
+                            Order = 2,
+                            HasRing = true,
+                            Density = 0.85f,
+                            MoonCount = new Vector2(1, 1),
+                            ValidMoons = new string[]
+                            {
+                                ExtendedSurvivalMapProfile.DEFAULT_SPATAT
+                            }
+                        },
+                        new StarSystemProfile.SystemMember()
+                        {
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = VanilaMapProfile.DEFAULT_TRITON,
+                            Name = VanilaMapProfile.DEFAULT_TRITON,
+                            Order = 3,
+                            MoonCount = new Vector2(1, 1),
+                            ValidMoons = new string[]
+                            {
+                                VanilaMapProfile.DEFAULT_MOON
+                            }
+                        },
+                        new StarSystemProfile.SystemMember()
+                        {
+                            MemberType = StarSystemProfile.MemberType.Planet,
+                            DefinitionSubtype = VanilaMapProfile.DEFAULT_PERTAM,
+                            Name = VanilaMapProfile.DEFAULT_PERTAM,
+                            Order = 4
                         }
                     }
                 }

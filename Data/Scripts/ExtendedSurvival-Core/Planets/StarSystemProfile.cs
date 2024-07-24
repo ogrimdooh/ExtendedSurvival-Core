@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Serialization;
 using VRageMath;
 
 namespace ExtendedSurvival.Core
@@ -69,6 +70,7 @@ namespace ExtendedSurvival.Core
         public bool FirstMemberAtCenter { get; set; } = false;
         public bool AllowDuplicate { get; set; } = false;
         public bool VanillaAsteroids { get; set; } = false;
+        public bool VanillaEconomyEnabled { get; set; } = false;
         public int Version { get; set; }
 
         public StarSystemSetting UpgradeSettings(StarSystemSetting settings)
@@ -125,6 +127,7 @@ namespace ExtendedSurvival.Core
                 FirstMemberAtCenter = FirstMemberAtCenter,
                 AllowDuplicate = AllowDuplicate,
                 VanillaAsteroids = VanillaAsteroids,
+                VanillaEconomyEnabled = VanillaEconomyEnabled,
                 Version = Version,
                 StarName = StarName,
                 Members = BuildMembersSettings()

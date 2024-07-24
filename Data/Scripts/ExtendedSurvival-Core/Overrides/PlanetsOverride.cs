@@ -1,7 +1,10 @@
 ﻿using Sandbox.Definitions;
+using Sandbox.Game.WorldEnvironment.Definitions;
+using Sandbox.Game.WorldEnvironment.ObjectBuilders;
 using Sandbox.ModAPI;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using VRage.Game;
 using VRage.Utils;
@@ -64,6 +67,113 @@ namespace ExtendedSurvival.Core
             }
         }
 
+        private static void CheckGeothermalDefinitions(PlanetSetting info, MyPlanetGeneratorDefinition definition)
+        {
+            // Create a surface layer
+            if (!definition.DefaultSurfaceMaterial.HasLayers)
+            {
+                definition.DefaultSurfaceMaterial.Layers = new MyPlanetMaterialLayer[]
+                {
+                    new MyPlanetMaterialLayer()
+                    {
+                        Material = definition.DefaultSurfaceMaterial.Material,
+                        Depth = definition.DefaultSurfaceMaterial.MaxDepth
+                    }
+                };
+            }
+            // Create a stone layer
+            if (definition.DefaultSubSurfaceMaterial == null)
+                definition.DefaultSubSurfaceMaterial = new MyPlanetMaterialDefinition()
+                {
+                    Material = VoxelMaterialMapProfile.Stone
+                };
+            definition.DefaultSurfaceMaterial.MaxDepth = info.Geothermal.Start;
+            var maxDepth = definition.DefaultSurfaceMaterial.Layers.Sum(x => x.Depth);
+            definition.DefaultSurfaceMaterial.Layers = definition.DefaultSurfaceMaterial.Layers.Append(new MyPlanetMaterialLayer()
+            {
+                Material = definition.DefaultSubSurfaceMaterial.Material,
+                Depth = definition.DefaultSurfaceMaterial.MaxDepth - maxDepth
+            }).ToArray();
+            foreach (var group in definition.MaterialGroups)
+            {
+                foreach (var rule in group.MaterialRules)
+                {
+                    maxDepth = rule.Layers.Sum(x => x.Depth);
+                    rule.Layers = rule.Layers.Append(new MyPlanetMaterialLayer()
+                    {
+                        Material = definition.DefaultSubSurfaceMaterial.Material,
+                        Depth = definition.DefaultSurfaceMaterial.MaxDepth - maxDepth
+                    }).ToArray();
+                }
+            }
+            // Create a lava layer
+            definition.DefaultSubSurfaceMaterial.Material = VoxelMaterialMapProfile.LavaSoil_01;
+        }
+
+        public static void DoApplyPlanetDefinitionChanges(MyPlanetGeneratorDefinition definition,
+            Dictionary<string, string> materialsToRemove, Dictionary<string, string> materialsToRemoveIfOver128, 
+            Dictionary<string, float> materialsToChangeDepth, Dictionary<string, float> materialsToAddDirty)
+        {
+            // Check over 128
+            foreach (var k in materialsToRemoveIfOver128.Keys)
+            {
+                MyVoxelMaterialDefinition voxel;
+                if (MyDefinitionManager.Static.TryGetVoxelMaterialDefinition(k, out voxel))
+                {
+                    if (voxel.Index >= 128)
+                    {
+                        materialsToRemove.Add(k, materialsToRemoveIfOver128[k]);
+                    }
+                }
+            }
+            // Set Groups
+            foreach (var group in definition.MaterialGroups)
+            {
+                if (materialsToChangeDepth != null && materialsToChangeDepth.Any())
+                {
+                    foreach (var rule in group.MaterialRules.Where(x => x.Layers.Any(y => materialsToChangeDepth.ContainsKey(y.Material))))
+                    {
+                        rule.Layers = rule.Layers.Select(x => new MyPlanetMaterialLayer()
+                        {
+                            Material = x.Material,
+                            Depth = materialsToChangeDepth.ContainsKey(x.Material) ? materialsToChangeDepth[x.Material] : x.Depth
+                        }).ToArray();
+                    }
+                }
+                if (materialsToAddDirty != null && materialsToAddDirty.Any())
+                {
+                    foreach (var rule in group.MaterialRules.Where(x => x.Layers.Any(y => materialsToAddDirty.ContainsKey(y.Material))))
+                    {
+                        var material = rule.Layers.FirstOrDefault(y => materialsToAddDirty.ContainsKey(y.Material)).Material;
+                        rule.Layers = rule.Layers.Append(new MyPlanetMaterialLayer()
+                        {
+                            Material = VoxelMaterialMapProfile.DirtySoil_01,
+                            Depth = materialsToAddDirty[material]
+                        }).ToArray();
+                    }
+                }
+                if (materialsToRemove != null && materialsToRemove.Any())
+                {
+                    foreach (var rule in group.MaterialRules.Where(x => x.Layers.Any(y => materialsToRemove.ContainsKey(y.Material))))
+                    {
+                        rule.Layers = rule.Layers.Select(x => new MyPlanetMaterialLayer()
+                        {
+                            Material = materialsToRemove.ContainsKey(x.Material) ? materialsToRemove[x.Material] : x.Material,
+                            Depth = x.Depth
+                        }).ToArray();
+                    }
+                }
+            }
+            if (materialsToRemove != null && materialsToRemove.Any())
+            {
+                // Weather
+                foreach (var weather in definition.WeatherGenerators.Where(x => materialsToRemove.ContainsKey(x.Voxel)))
+                {
+                    weather.Voxel = materialsToRemove[weather.Voxel];
+                }
+            }
+        }
+
         private static void CheckCustomPlanetsDefinitions(MyPlanetGeneratorDefinition definition)
         {
             switch (definition.Id.SubtypeName.ToUpper())
@@ -85,6 +195,10 @@ namespace ExtendedSurvival.Core
                     break;
                 case AlmiranteOrlocProfile.DEFAULT_OBJECT85:
                     AlmiranteOrlocProfile.ApplyObject85Settings(definition);
+                    break;
+                case SamMapProfile.DEFAULT_HELIOSTERRAFORMED:
+                case SamMapProfile.DEFAULT_HELIOSTERRAFORMEDWM:
+                    SamMapProfile.ApplyHeliosTerraformedSettings(definition);
                     break;
             }
         }
@@ -141,6 +255,10 @@ namespace ExtendedSurvival.Core
                         definition.GravityFalloffPower = info.Gravity.GravityFalloffPower;
                         definition.SurfaceGravity = info.Gravity.SurfaceGravity;                        
                         CheckCustomPlanetsDefinitions(definition);
+                        if (info.Geothermal.Enabled)
+                        {
+                            CheckGeothermalDefinitions(info, definition);
+                        }
                         definition.Postprocess();
                         ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(PlanetsOverride), $"Override planet definition : {definition.Id.SubtypeName}");
                     }

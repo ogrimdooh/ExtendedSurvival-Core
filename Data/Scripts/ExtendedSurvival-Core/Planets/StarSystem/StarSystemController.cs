@@ -458,7 +458,7 @@ namespace ExtendedSurvival.Core
             var ringDef = new SystemMemberSetting()
             {
                 MemberType = (int)StarSystemProfile.MemberType.AsteroidBelt,
-                Density = profile.DefaultDensity
+                Density = member.Density > 0 ? member.Density : profile.DefaultDensity,
             };
             Dictionary<int, Vector3D> asteroids = new Dictionary<int, Vector3D>();
             var ringPosition = CreateAsteroidBelt(ringDef, position, incrementDistance, out asteroids);
@@ -580,9 +580,10 @@ namespace ExtendedSurvival.Core
                         if (planets.Any())
                         {
                             if (!flags.IsFlagSet(GenerationFlags.NoAsteroids) && (profile.VanillaAsteroids || flags.IsFlagSet(GenerationFlags.WithAsteroids)))
-                                MyAPIGateway.Session.SessionSettings.ProceduralDensity = 0.35f;
+                                MyAPIGateway.Session.SessionSettings.ProceduralDensity = profile.DefaultDensity;
                             else
                                 MyAPIGateway.Session.SessionSettings.ProceduralDensity = 0;
+                            MyAPIGateway.Session.SessionSettings.EnableEconomy = profile.VanillaEconomyEnabled;
                             ExtendedSurvivalStorage.Instance.StarSystem.Name = profile.Name;
                             ExtendedSurvivalStorage.Instance.StarSystem.Generated = true;
                             float createdPlanets = 0;

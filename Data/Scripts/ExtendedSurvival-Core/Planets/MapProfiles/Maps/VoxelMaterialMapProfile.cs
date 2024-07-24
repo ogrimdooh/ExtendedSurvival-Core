@@ -47,6 +47,8 @@ namespace ExtendedSurvival.Core
         public const string AlienSnow = "AlienSnow";
         public const string TritonIce = "TritonIce";
 
+        public const string Stone = "Stone";
+
         public const string Grass = "Grass";
         public const string GrassBare = "Grass bare";
         public const string RocksGrass = "Rocks_grass";
@@ -77,12 +79,8 @@ namespace ExtendedSurvival.Core
         public const string DustyRocks3 = "DustyRocks3";
         public const string PertamSand = "PertamSand";
 
-        // Helios Planets
-        public const string Helios_Sand_02 = "Helios_Sand_02";
-        public const string Helios_Grass = "Helios_Grass";
-        public const string Helios_Grass_old = "Helios_Grass_old";
-        public const string Helios_HighGrass = "Helios_HighGrass";
-        public const string Helios_Lava = "Helios_Lava";
+        public const string DirtySoil_01 = "DirtySoil_01";
+        public const string LavaSoil_01 = "LavaSoil_01";        
 
         public static readonly string[] AlienSoilVoxels = new string[]
         {
@@ -115,9 +113,6 @@ namespace ExtendedSurvival.Core
             WoodsGrass,
             WoodsGrassBare,
             Soil,
-            Helios_Grass,
-            Helios_Grass_old,
-            Helios_HighGrass,
             // Infinite
             InfiniteMapProfile.ValkorGrass,
             InfiniteMapProfile.ValkorTundra,
@@ -200,8 +195,6 @@ namespace ExtendedSurvival.Core
             DustyRocks2,
             DustyRocks3,
             PertamSand,
-            Helios_Sand_02,
-            Helios_Lava,
             // Infinite
             InfiniteMapProfile.ValkorSand,
             InfiniteMapProfile.ValkorDesert,
@@ -220,6 +213,7 @@ namespace ExtendedSurvival.Core
             GHOSTXVMapProfile.AvalanSand,
             // Sam
             SamMapProfile.Helios_Sand_02,
+            SamMapProfile.Helios_DesertRocks,
             // Major John
             MajorJonMapProfile.Desert_01_Satreus,
             MajorJonMapProfile.Desert_01_Satreus_soil,
@@ -288,6 +282,7 @@ namespace ExtendedSurvival.Core
             MLTModsMapProfile.SedoniaIce,
             // Sam
             SamMapProfile.HeliosTE_Ice,
+            SamMapProfile.HeliosWM_Ice,
             // Major John
             MajorJonMapProfile.Ice02_Satreus,
             MajorJonMapProfile.TohilIce01,

@@ -212,6 +212,9 @@ namespace ExtendedSurvival.Core
         public bool VanillaAsteroids { get; set; } = false;
 
         [XmlElement]
+        public bool VanillaEconomyEnabled { get; set; } = false;
+
+        [XmlElement]
         public int Version { get; set; } = 0;
 
     }

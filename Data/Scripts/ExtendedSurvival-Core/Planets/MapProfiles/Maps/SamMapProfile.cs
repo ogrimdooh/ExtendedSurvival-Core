@@ -1,5 +1,8 @@
-﻿using System.Collections.Concurrent;
+﻿using Sandbox.Definitions;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
+using VRage.Game;
 using VRageMath;
 
 namespace ExtendedSurvival.Core
@@ -15,14 +18,73 @@ namespace ExtendedSurvival.Core
         public const string DEFAULT_HELIOSTERRAFORMEDWM = "HELIOSTERRAFORMEDWM";
 
         public const string Helios_Sand_02 = "Helios_Sand_02";
+        public const string Helios_DesertRocks = "Helios_DesertRocks";
 
         public const string HeliosTE_Ice = "HeliosTE_Ice";
+        public const string HeliosWM_Ice = "HeliosWM_Ice";
 
         public const string Helios_Grass = "Helios_Grass";
         public const string Helios_Grass_old = "Helios_Grass_old";
         public const string Helios_HighGrass = "Helios_HighGrass";
 
         public const string Helios_Lava = "Helios_Lava";
+
+        public const string Helios_Gravel = "Helios_Gravel";
+
+        public static void ApplyHeliosTerraformedSettings(MyPlanetGeneratorDefinition definition)
+        {
+            // Constants
+            var grassLayerSize = 1;
+            var dirtyLayerSize = 9;
+            var materialsToRemove = new Dictionary<string, string>()
+            {
+                { Helios_Gravel, VoxelMaterialMapProfile.Sand_02 },
+                { HeliosWM_Ice, VoxelMaterialMapProfile.StoneIce_01 },
+                { HeliosTE_Ice, VoxelMaterialMapProfile.StoneIce_01 },
+                { VoxelMaterialMapProfile.Ice, VoxelMaterialMapProfile.StoneIce_01 },
+                { Helios_Lava, VoxelMaterialMapProfile.LavaSoil_01 }
+            };
+            var materialsToRemoveIfOver128 = new Dictionary<string, string>()
+            {
+                { Helios_Grass, VoxelMaterialMapProfile.Grass },
+                { Helios_Grass_old, VoxelMaterialMapProfile.GrassOld },
+                { Helios_HighGrass, VoxelMaterialMapProfile.Grass_02 },
+                { Helios_DesertRocks, VoxelMaterialMapProfile.DustyRocks },
+                { Helios_Sand_02, VoxelMaterialMapProfile.PertamSand }
+            };
+            var materialsToChangeDepth = new Dictionary<string, float>()
+            {
+                { Helios_Grass, grassLayerSize },
+                { Helios_Grass_old, grassLayerSize },
+                { Helios_HighGrass, grassLayerSize },
+                { VoxelMaterialMapProfile.Grass, grassLayerSize },
+            };
+            var materialsToAddDirty = new Dictionary<string, float>()
+            {
+                { Helios_HighGrass, dirtyLayerSize },
+                { Helios_Grass, dirtyLayerSize },
+                { Helios_Grass_old, dirtyLayerSize },
+                { VoxelMaterialMapProfile.Grass, dirtyLayerSize }
+            };
+            // Set default material
+            definition.DefaultSurfaceMaterial.Material = VoxelMaterialMapProfile.Grass;
+            definition.DefaultSurfaceMaterial.MaxDepth = grassLayerSize + dirtyLayerSize;
+            definition.DefaultSurfaceMaterial.Layers = new MyPlanetMaterialLayer[] 
+            { 
+                new MyPlanetMaterialLayer()
+                {
+                    Material = VoxelMaterialMapProfile.Grass,
+                    Depth = grassLayerSize
+                },
+                new MyPlanetMaterialLayer()
+                {
+                    Material = VoxelMaterialMapProfile.DirtySoil_01,
+                    Depth = dirtyLayerSize
+                }
+            };
+            // Set replaces
+            PlanetsOverride.DoApplyPlanetDefinitionChanges(definition, materialsToRemove, materialsToRemoveIfOver128, materialsToChangeDepth, materialsToAddDirty);
+        }
 
         static SamMapProfile()
         { 
@@ -663,6 +725,25 @@ namespace ExtendedSurvival.Core
             Gravity = PlanetMapProfile.GetGravity(1, 4),
             Temperature = PlanetMapProfile.GetTemperature(VRage.Game.MyTemperatureLevel.Cozy, 0, 45),
             Water = PlanetMapProfile.GetWater(true, 1.0005f, -0.4f, 0, 0),
+            SizeRange = new Vector2(60, 75),
+            Type = PlanetProfile.PlanetType.Planet,
+            GroupType = PlanetProfile.OreGroupType.Concentrated,
+            MeteorImpact = VanilaMapProfile.EARTHLIKE_METEOR,
+            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING
+        };
+
+        public static readonly PlanetProfile HELIOSTERRAFORMEDWM = new PlanetProfile()
+        {
+            Origin = PlanetProfile.PlanetOrigin.OtherMod,
+            OriginId = HELIOSTERRAFORMED_MODID,
+            Version = PlanetMapProfile.PROFILE_VERSION,
+            RespawnEnabled = true,
+            Animal = PlanetMapAnimalsProfile.DEFAULT_EARTH,
+            Geothermal = PlanetMapProfile.GetGeothermal(true),
+            Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 1, 0.9f, 180, 0.5f, 0, 0),
+            Gravity = PlanetMapProfile.GetGravity(1, 4),
+            Temperature = PlanetMapProfile.GetTemperature(VRage.Game.MyTemperatureLevel.Cozy, 0, 45),
+            Water = PlanetMapProfile.GetWater(true, 1.0316f, -0.4f, 0, 0),
             SizeRange = new Vector2(60, 75),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
