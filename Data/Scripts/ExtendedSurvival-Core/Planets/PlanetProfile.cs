@@ -292,7 +292,8 @@ namespace ExtendedSurvival.Core
         }
 
         private List<PlanetOreMapEntrySetting> BuildOresMappings(string id, int seed, float deep, string[] addOres, string[] removeOres, 
-            bool clearOresBeforeAdd, string targetColor, Vector2I? colorInfluence, OreGroupType groupType = OreGroupType.LargeGroup)
+            bool clearOresBeforeAdd, string targetColor, Vector2I? colorInfluence, OreGroupType groupType = OreGroupType.LargeGroup, 
+            bool scarceenabled = false)
         {
             var map = new List<PlanetOreMapEntrySetting>();
 
@@ -319,21 +320,33 @@ namespace ExtendedSurvival.Core
                 rangeEntriesLimits[OreRarity.Epic] = (int)(totalToUse * rangeOre.W);
 
                 var rangeEntries = new Dictionary<OreRarity, List<byte>>();
-                rangeEntries[OreRarity.Common] = oreInfo.AllInfo.OrderByDescending(x => x.Value)
-                    .Skip(removeAmount)
-                    .Take(rangeEntriesLimits[OreRarity.Common])
-                    .Select(x => x.Key).ToList();
-                rangeEntries[OreRarity.Uncommon] = oreInfo.AllInfo.OrderByDescending(x => x.Value)
-                    .Skip(removeAmount + rangeEntriesLimits[OreRarity.Common])
-                    .Take(rangeEntriesLimits[OreRarity.Uncommon])
-                    .Select(x => x.Key).ToList();
-                rangeEntries[OreRarity.Rare] = oreInfo.AllInfo.OrderByDescending(x => x.Value)
-                    .Skip(removeAmount + rangeEntriesLimits[OreRarity.Common] + rangeEntriesLimits[OreRarity.Uncommon])
-                    .Take(rangeEntriesLimits[OreRarity.Rare])
-                    .Select(x => x.Key).ToList();
-                rangeEntries[OreRarity.Epic] = oreInfo.AllInfo.OrderBy(x => x.Value)
-                    .Take(rangeEntriesLimits[OreRarity.Epic])
-                    .Select(x => x.Key).ToList();
+                if (scarceenabled)
+                {
+                    rangeEntries[OreRarity.Common] = new List<byte>();
+                    rangeEntries[OreRarity.Uncommon] = new List<byte>();
+                    rangeEntries[OreRarity.Rare] = new List<byte>();
+                    rangeEntries[OreRarity.Epic] = oreInfo.AllInfo.OrderBy(x => x.Value)
+                        .Take(totalToUse)
+                        .Select(x => x.Key).ToList();
+                }
+                else
+                {
+                    rangeEntries[OreRarity.Common] = oreInfo.AllInfo.OrderByDescending(x => x.Value)
+                        .Skip(removeAmount)
+                        .Take(rangeEntriesLimits[OreRarity.Common])
+                        .Select(x => x.Key).ToList();
+                    rangeEntries[OreRarity.Uncommon] = oreInfo.AllInfo.OrderByDescending(x => x.Value)
+                        .Skip(removeAmount + rangeEntriesLimits[OreRarity.Common])
+                        .Take(rangeEntriesLimits[OreRarity.Uncommon])
+                        .Select(x => x.Key).ToList();
+                    rangeEntries[OreRarity.Rare] = oreInfo.AllInfo.OrderByDescending(x => x.Value)
+                        .Skip(removeAmount + rangeEntriesLimits[OreRarity.Common] + rangeEntriesLimits[OreRarity.Uncommon])
+                        .Take(rangeEntriesLimits[OreRarity.Rare])
+                        .Select(x => x.Key).ToList();
+                    rangeEntries[OreRarity.Epic] = oreInfo.AllInfo.OrderBy(x => x.Value)
+                        .Take(rangeEntriesLimits[OreRarity.Epic])
+                        .Select(x => x.Key).ToList();
+                }
 
                 List<OreMapInfo> calcOres = DoCalcOres(addOres, removeOres, clearOresBeforeAdd);
                 string colorToUse;
@@ -356,7 +369,8 @@ namespace ExtendedSurvival.Core
                     { OreRarity.Epic, 3 }
                 };
 
-                foreach (var k in oresByRarity.Keys)
+                var keys = scarceenabled ? oresByRarity.Keys.OrderByDescending(x => x) : oresByRarity.Keys.OrderBy(x => x);
+                foreach (var k in keys)
                 {
                     var entriesPerOre = Math.Min(Math.Max(1, maxEntries[k] / oresByRarity[k].Count), limits[k]);
                     foreach (var ore in oresByRarity[k])
@@ -365,7 +379,7 @@ namespace ExtendedSurvival.Core
                         {
                             if (rangeEntries[k].Any())
                             {
-                                var v = rangeEntries[k].OrderBy(x => MyUtils.GetRandomFloat()).FirstOrDefault();
+                                var v = scarceenabled ? rangeEntries[k].FirstOrDefault() : rangeEntries[k].OrderBy(x => MyUtils.GetRandomFloat()).FirstOrDefault();
                                 rangeEntries[k].Remove(v);
 
                                 map.Add(new PlanetOreMapEntrySetting()
@@ -384,7 +398,7 @@ namespace ExtendedSurvival.Core
                                 {
                                     if (rangeEntries[k2].Any())
                                     {
-                                        var v = rangeEntries[k2].OrderBy(x => MyUtils.GetRandomFloat()).FirstOrDefault();
+                                        var v = scarceenabled ? rangeEntries[k2].FirstOrDefault() : rangeEntries[k2].OrderBy(x => MyUtils.GetRandomFloat()).FirstOrDefault();
                                         rangeEntries[k2].Remove(v);
 
                                         map.Add(new PlanetOreMapEntrySetting()
@@ -942,7 +956,7 @@ namespace ExtendedSurvival.Core
                     settings = BuildSettings(settings.Id, settings.Seed, settings.DeepMultiplier, settings.AddedOres?.Split(','),
                         settings.RemovedOres?.Split(','), settings.ClearOresBeforeAdd, settings.TargetColor,
                         settings.UseColorInfluence ? (Vector2I?)settings.ColorInfluence.ToVector2I() : null,
-                        (OreGroupType)settings.OreGroupType);
+                        (OreGroupType)settings.OreGroupType, settings.ScarceEnabled);
                 }
                 else
                 {
@@ -959,7 +973,7 @@ namespace ExtendedSurvival.Core
                         var tmpSettings = BuildSettings(settings.Id, settings.Seed, settings.DeepMultiplier, settings.AddedOres?.Split(','),
                             settings.RemovedOres?.Split(','), settings.ClearOresBeforeAdd, settings.TargetColor,
                             settings.UseColorInfluence ? (Vector2I?)settings.ColorInfluence.ToVector2I() : null,
-                            GroupType);
+                            GroupType, settings.ScarceEnabled);
                         settings.OreMap = tmpSettings.OreMap;
                         settings.OreGroupType = tmpSettings.OreGroupType;
                         settings.Type = tmpSettings.Type;
@@ -998,7 +1012,7 @@ namespace ExtendedSurvival.Core
         }
 
         public PlanetSetting BuildSettings(string id, int seed, float deep, string[] addOres, string[] removeOres, bool clearOresBeforeAdd, 
-            string targetColor, Vector2I? colorInfluence, OreGroupType? groupType)
+            string targetColor, Vector2I? colorInfluence, OreGroupType? groupType, bool scarceenabled)
         {
             var validOresToAdd = PlanetMapProfile.FilterValidOres(addOres);
             var validOresToRemove = PlanetMapProfile.FilterValidOres(removeOres);
@@ -1038,7 +1052,8 @@ namespace ExtendedSurvival.Core
                     clearOresBeforeAdd, 
                     targetColor, 
                     colorInfluence,
-                    groupType.HasValue ? groupType.Value : GroupType
+                    groupType.HasValue ? groupType.Value : GroupType,
+                    scarceenabled
                 )
             };
         }

@@ -496,7 +496,7 @@ namespace ExtendedSurvival.Core
                 {
                     Modified = true;
                     return GeneratePlanetInfo(id, MyUtils.GetRandomInt(10000000, int.MaxValue), 1.0f, id.ToUpper(), true, GenerateFlags.All,
-                        null, null, false, null, null, null);
+                        null, null, false, null, null, null, false);
                 }
             }
             return null;
@@ -519,12 +519,12 @@ namespace ExtendedSurvival.Core
 
         public PlanetSetting GeneratePlanetInfo(string id, int seed, float deep, string profile, bool force, 
             GenerateFlags replaceFlag, string[] addOres, string[] removeOres,  bool clearOresBeforeAdd, string targetColor, 
-            Vector2I? colorInfluence, PlanetProfile.OreGroupType? groupType)
+            Vector2I? colorInfluence, PlanetProfile.OreGroupType? groupType, bool scarceenabled)
         {
             if (!HasPlanetInfo(id) || force)
             {
                 var settings = PlanetMapProfile.Get(profile).BuildSettings(id, seed, deep, addOres, removeOres, clearOresBeforeAdd, 
-                    targetColor, colorInfluence, groupType);
+                    targetColor, colorInfluence, groupType, scarceenabled);
                 if (HasPlanetInfo(id))
                 {
                     var atSet = Planets.FirstOrDefault(x => x.Id.ToUpper().Trim() == id.ToUpper().Trim());
@@ -1355,6 +1355,7 @@ namespace ExtendedSurvival.Core
                         string[] addOres = new string[0];
                         string[] removeOres = new string[0];
                         bool clearOresBeforeAdd = false;
+                        bool scarceenabled = false;
                         string targetColor = null;
                         Vector2I? colorInfluence = null;
                         PlanetProfile.OreGroupType? groupType = null;
@@ -1456,10 +1457,13 @@ namespace ExtendedSurvival.Core
                                         }
                                     }
                                     break;
+                                case "scarceenabled":
+                                    scarceenabled = true;
+                                    break;
                             }
                         }
                         GeneratePlanetInfo(info.Id, seed, deep, profile, true, GenerateFlags.OreMap, addOres, removeOres, 
-                            clearOresBeforeAdd, targetColor, colorInfluence, groupType);
+                            clearOresBeforeAdd, targetColor, colorInfluence, groupType, scarceenabled);
                         return true;
                 }
             }

@@ -288,6 +288,9 @@ namespace ExtendedSurvival.Core
         public string RemovedOres { get; set; }
 
         [XmlElement]
+        public bool ScarceEnabled { get; set; }
+
+        [XmlElement]
         public bool ClearOresBeforeAdd { get; set; }
 
         [XmlElement]
