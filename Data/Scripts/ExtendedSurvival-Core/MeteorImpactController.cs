@@ -51,7 +51,7 @@ namespace ExtendedSurvival.Core
                 List<IMyPlayer> players = new List<IMyPlayer>();
                 MyAPIGateway.Players.GetPlayers(
                     players, 
-                    player => Vector3D.DistanceSquared(player.GetPosition(), meteor.GetPosition()) < Math.Pow(ExtendedSurvivalSettings.Instance.MeteorImpact.DistanceToSpawn, 2)
+                    player => !player.IsBot && Vector3D.DistanceSquared(player.GetPosition(), meteor.GetPosition()) < Math.Pow(ExtendedSurvivalSettings.Instance.MeteorImpact.DistanceToSpawn, 2)
                 );
                 if (players.Count == 0) 
                     return;

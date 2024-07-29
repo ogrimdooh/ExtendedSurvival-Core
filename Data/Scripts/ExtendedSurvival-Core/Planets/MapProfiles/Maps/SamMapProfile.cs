@@ -91,6 +91,7 @@ namespace ExtendedSurvival.Core
             LoadHeliosTerraformedOreMapInfo();
             LoadHeliosTerraformedWmOreMapInfo();
             HELIOSTERRAFORMED.Ores = VanilaMapProfile.EARTHLIKE_ORES;
+            HELIOSTERRAFORMEDWM.Ores = VanilaMapProfile.EARTHLIKE_ORES;
         }
 
         private static void LoadHeliosTerraformedOreMapInfo()
@@ -735,7 +736,7 @@ namespace ExtendedSurvival.Core
         public static readonly PlanetProfile HELIOSTERRAFORMEDWM = new PlanetProfile()
         {
             Origin = PlanetProfile.PlanetOrigin.OtherMod,
-            OriginId = HELIOSTERRAFORMED_MODID,
+            OriginId = HELIOSTERRAFORMEDWM_MODID,
             Version = PlanetMapProfile.PROFILE_VERSION,
             RespawnEnabled = true,
             Animal = PlanetMapAnimalsProfile.DEFAULT_EARTH,
