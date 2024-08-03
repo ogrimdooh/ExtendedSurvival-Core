@@ -1575,172 +1575,208 @@ namespace ExtendedSurvival.Core
         }
 
         private static bool WeaponsDefsLoaded = false;
-        public static readonly List<WeaponBlockInfo> WEAPONS_BLOCKS = new List<WeaponBlockInfo>();
-        public static readonly ConcurrentDictionary<MyDefinitionId, WeaponInfo> WEAPONS = new ConcurrentDictionary<MyDefinitionId, WeaponInfo>();
-        public static readonly ConcurrentDictionary<MyDefinitionId, AmmoMagazineInfo> MAGAZINES = new ConcurrentDictionary<MyDefinitionId, AmmoMagazineInfo>();
-        public static readonly ConcurrentDictionary<MyDefinitionId, AmmoInfo> KINECT_AMMOS = new ConcurrentDictionary<MyDefinitionId, AmmoInfo>();
-        public static readonly ConcurrentDictionary<MyDefinitionId, MissileAmmoInfo> MISSILE_AMMOS = new ConcurrentDictionary<MyDefinitionId, MissileAmmoInfo>();
+        public static List<WeaponBlockInfo> WEAPONS_BLOCKS = new List<WeaponBlockInfo>();
+        public static ConcurrentDictionary<MyDefinitionId, WeaponInfo> WEAPONS = new ConcurrentDictionary<MyDefinitionId, WeaponInfo>();
+        public static ConcurrentDictionary<MyDefinitionId, AmmoMagazineInfo> MAGAZINES = new ConcurrentDictionary<MyDefinitionId, AmmoMagazineInfo>();
+        public static ConcurrentDictionary<MyDefinitionId, AmmoInfo> KINECT_AMMOS = new ConcurrentDictionary<MyDefinitionId, AmmoInfo>();
+        public static ConcurrentDictionary<MyDefinitionId, MissileAmmoInfo> MISSILE_AMMOS = new ConcurrentDictionary<MyDefinitionId, MissileAmmoInfo>();
 
         private static void LoadAmmoDef(MyDefinitionId ammoDefinitionId)
         {
-            if (!KINECT_AMMOS.ContainsKey(ammoDefinitionId) && !MISSILE_AMMOS.ContainsKey(ammoDefinitionId))
+            try
             {
-                var aDef = MyDefinitionManager.Static.GetAmmoDefinition(ammoDefinitionId);
-                if (aDef != null)
+                if (!KINECT_AMMOS.ContainsKey(ammoDefinitionId) && !MISSILE_AMMOS.ContainsKey(ammoDefinitionId))
                 {
-                    var pAmmoDef = aDef as MyProjectileAmmoDefinition;
-                    if (pAmmoDef != null)
+                    var aDef = MyDefinitionManager.Static.GetAmmoDefinition(ammoDefinitionId);
+                    if (aDef != null)
                     {
-                        KINECT_AMMOS[pAmmoDef.Id] = new AmmoInfo()
+                        var pAmmoDef = aDef as MyProjectileAmmoDefinition;
+                        if (pAmmoDef != null)
                         {
-                            BasicData = new AmmoBasicData()
-                            {
-                                BackkickForce = pAmmoDef.BackkickForce,
-                                DesiredSpeed = pAmmoDef.DesiredSpeed,
-                                ExplosiveDamageMultiplier = pAmmoDef.ExplosiveDamageMultiplier,
-                                IsExplosive = pAmmoDef.IsExplosive,
-                                MaxTrajectory = pAmmoDef.MaxTrajectory
-                            },
-                            Data = new AmmoData()
-                            { 
-                                ProjectileMassDamage = pAmmoDef.ProjectileMassDamage,
-                                ProjectileHitImpulse = pAmmoDef.ProjectileHitImpulse,
-                                ProjectileHealthDamage = pAmmoDef.ProjectileHealthDamage,
-                                ProjectileHeadShotDamage = pAmmoDef.ProjectileHeadShotDamage
-                            }
-                        };
-                    }
-                    else
-                    {
-                        var mAmmoDef = aDef as MyMissileAmmoDefinition;
-                        if (mAmmoDef != null)
-                        {
-                            MISSILE_AMMOS[mAmmoDef.Id] = new MissileAmmoInfo()
+                            KINECT_AMMOS[pAmmoDef.Id] = new AmmoInfo()
                             {
                                 BasicData = new AmmoBasicData()
                                 {
-                                    BackkickForce = mAmmoDef.BackkickForce,
-                                    DesiredSpeed = mAmmoDef.DesiredSpeed,
-                                    ExplosiveDamageMultiplier = mAmmoDef.ExplosiveDamageMultiplier,
-                                    IsExplosive = mAmmoDef.IsExplosive,
-                                    MaxTrajectory = mAmmoDef.MaxTrajectory
+                                    BackkickForce = pAmmoDef.BackkickForce,
+                                    DesiredSpeed = pAmmoDef.DesiredSpeed,
+                                    ExplosiveDamageMultiplier = pAmmoDef.ExplosiveDamageMultiplier,
+                                    IsExplosive = pAmmoDef.IsExplosive,
+                                    MaxTrajectory = pAmmoDef.MaxTrajectory
                                 },
-                                Data = new MissileAmmoData()
+                                Data = new AmmoData()
                                 {
-                                    MissileAcceleration = mAmmoDef.MissileAcceleration,
-                                    MissileExplosionDamage = mAmmoDef.MissileExplosionDamage,
-                                    MissileExplosionRadius = mAmmoDef.MissileExplosionRadius,
-                                    MissileGravityEnabled = mAmmoDef.MissileGravityEnabled,
-                                    MissileHealthPool = mAmmoDef.MissileHealthPool,
-                                    MissileInitialSpeed = mAmmoDef.MissileInitialSpeed,
-                                    MissileMass = mAmmoDef.MissileMass,
-                                    MissileRicochetAngle = new Vector2(mAmmoDef.MissileMinRicochetAngle, mAmmoDef.MissileMaxRicochetAngle),
-                                    MissileRicochetChance = new Vector2(mAmmoDef.MissileMinRicochetProbability, mAmmoDef.MissileMaxRicochetProbability),
-                                    MissileRicochetDamage = mAmmoDef.MissileRicochetDamage,
-                                    MissileSkipAcceleration = mAmmoDef.MissileSkipAcceleration
+                                    ProjectileMassDamage = pAmmoDef.ProjectileMassDamage,
+                                    ProjectileHitImpulse = pAmmoDef.ProjectileHitImpulse,
+                                    ProjectileHealthDamage = pAmmoDef.ProjectileHealthDamage,
+                                    ProjectileHeadShotDamage = pAmmoDef.ProjectileHeadShotDamage
                                 }
                             };
                         }
+                        else
+                        {
+                            var mAmmoDef = aDef as MyMissileAmmoDefinition;
+                            if (mAmmoDef != null)
+                            {
+                                MISSILE_AMMOS[mAmmoDef.Id] = new MissileAmmoInfo()
+                                {
+                                    BasicData = new AmmoBasicData()
+                                    {
+                                        BackkickForce = mAmmoDef.BackkickForce,
+                                        DesiredSpeed = mAmmoDef.DesiredSpeed,
+                                        ExplosiveDamageMultiplier = mAmmoDef.ExplosiveDamageMultiplier,
+                                        IsExplosive = mAmmoDef.IsExplosive,
+                                        MaxTrajectory = mAmmoDef.MaxTrajectory
+                                    },
+                                    Data = new MissileAmmoData()
+                                    {
+                                        MissileAcceleration = mAmmoDef.MissileAcceleration,
+                                        MissileExplosionDamage = mAmmoDef.MissileExplosionDamage,
+                                        MissileExplosionRadius = mAmmoDef.MissileExplosionRadius,
+                                        MissileGravityEnabled = mAmmoDef.MissileGravityEnabled,
+                                        MissileHealthPool = mAmmoDef.MissileHealthPool,
+                                        MissileInitialSpeed = mAmmoDef.MissileInitialSpeed,
+                                        MissileMass = mAmmoDef.MissileMass,
+                                        MissileRicochetAngle = new Vector2(mAmmoDef.MissileMinRicochetAngle, mAmmoDef.MissileMaxRicochetAngle),
+                                        MissileRicochetChance = new Vector2(mAmmoDef.MissileMinRicochetProbability, mAmmoDef.MissileMaxRicochetProbability),
+                                        MissileRicochetDamage = mAmmoDef.MissileRicochetDamage,
+                                        MissileSkipAcceleration = mAmmoDef.MissileSkipAcceleration
+                                    }
+                                };
+                            }
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
 
         private static void LoadMagazineDef(MyDefinitionId magazineDefinitionId)
         {
-            if (!MAGAZINES.ContainsKey(magazineDefinitionId))
+            try
             {
-                var aDef = MyDefinitionManager.Static.GetAmmoMagazineDefinition(magazineDefinitionId);
-                if (aDef != null)
+                if (!MAGAZINES.ContainsKey(magazineDefinitionId))
                 {
-                    MAGAZINES[aDef.Id] = new AmmoMagazineInfo()
+                    var aDef = MyDefinitionManager.Static.GetAmmoMagazineDefinition(magazineDefinitionId);
+                    if (aDef != null)
                     {
-                        DisplayName = aDef.DisplayNameText,
-                        Capacity = aDef.Capacity,
-                        Mass = aDef.Mass,
-                        Volume = aDef.Volume,
-                        AmmoDefinitionId = aDef.AmmoDefinitionId
-                    };
-                    LoadAmmoDef(aDef.AmmoDefinitionId);
+                        MAGAZINES[aDef.Id] = new AmmoMagazineInfo()
+                        {
+                            DisplayName = aDef.DisplayNameText,
+                            Capacity = aDef.Capacity,
+                            Mass = aDef.Mass,
+                            Volume = aDef.Volume,
+                            AmmoDefinitionId = aDef.AmmoDefinitionId
+                        };
+                        LoadAmmoDef(aDef.AmmoDefinitionId);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
 
         private static void LoadWeaponDef(MyDefinitionId weaponDefinitionId)
         {
-            if (!WEAPONS.ContainsKey(weaponDefinitionId))
+            try
             {
-                var wDef = MyDefinitionManager.Static.GetWeaponDefinition(weaponDefinitionId);
-                if (wDef != null)
+                if (!WEAPONS.ContainsKey(weaponDefinitionId))
                 {
-                    int rateOfFire = 0;
-                    int shotsInBurst = 0;
-                    if (wDef.WeaponAmmoDatas.Length >= 2)
+                    MyWeaponDefinition wDef = null;
+                    if (MyDefinitionManager.Static.TryGetWeaponDefinition(weaponDefinitionId, out wDef))
                     {
-                        if (wDef.WeaponAmmoDatas[0] != null)
+                        if (wDef != null)
                         {
-                            rateOfFire = wDef.WeaponAmmoDatas[0].RateOfFire;
-                            shotsInBurst = wDef.WeaponAmmoDatas[0].ShotsInBurst;
+                            int rateOfFire = 0;
+                            int shotsInBurst = 0;
+                            if (wDef.WeaponAmmoDatas.Length >= 2)
+                            {
+                                if (wDef.WeaponAmmoDatas[0] != null)
+                                {
+                                    rateOfFire = wDef.WeaponAmmoDatas[0].RateOfFire;
+                                    shotsInBurst = wDef.WeaponAmmoDatas[0].ShotsInBurst;
+                                }
+                                if (wDef.WeaponAmmoDatas[1] != null)
+                                {
+                                    rateOfFire = wDef.WeaponAmmoDatas[1].RateOfFire;
+                                    shotsInBurst = wDef.WeaponAmmoDatas[1].ShotsInBurst;
+                                }
+                            }
+                            WEAPONS[weaponDefinitionId] = new WeaponInfo()
+                            {
+                                BasicData = new WeaponBasicData()
+                                {
+                                    DeviateShotAngle = wDef.DeviateShotAngle,
+                                    DeviateShotAngleAiming = wDef.DeviateShotAngleAiming,
+                                    ReloadTime = wDef.ReloadTime,
+                                    ShotDelay = wDef.ShotDelay,
+                                    ReleaseTimeAfterFire = wDef.ReleaseTimeAfterFire,
+                                    DamageMultiplier = wDef.DamageMultiplier,
+                                    RangeMultiplier = wDef.RangeMultiplier,
+                                    RateOfFire = rateOfFire,
+                                    ShotsInBurst = shotsInBurst
+                                },
+                                ValidAmmos = wDef.AmmoMagazinesId
+                            };
+                            foreach (var ammoId in wDef.AmmoMagazinesId)
+                            {
+                                LoadMagazineDef(ammoId);
+                            }
                         }
-                        if (wDef.WeaponAmmoDatas[1] != null)
-                        {
-                            rateOfFire = wDef.WeaponAmmoDatas[1].RateOfFire;
-                            shotsInBurst = wDef.WeaponAmmoDatas[1].ShotsInBurst;
-                        }
-                    }
-                    WEAPONS[wDef.Id] = new WeaponInfo()
-                    {
-                        BasicData = new WeaponBasicData()
-                        {
-                            DeviateShotAngle = wDef.DeviateShotAngle,
-                            DeviateShotAngleAiming = wDef.DeviateShotAngleAiming,
-                            ReloadTime = wDef.ReloadTime,
-                            ShotDelay = wDef.ShotDelay,
-                            ReleaseTimeAfterFire = wDef.ReleaseTimeAfterFire,
-                            DamageMultiplier = wDef.DamageMultiplier,
-                            RangeMultiplier = wDef.RangeMultiplier,
-                            RateOfFire = rateOfFire,
-                            ShotsInBurst = shotsInBurst
-                        },
-                        ValidAmmos = wDef.AmmoMagazinesId
-                    };
-                    foreach (var ammoId in wDef.AmmoMagazinesId)
-                    {
-                        LoadMagazineDef(ammoId);
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
 
         private static void LoadWeaponsDefs()
         {
-            var weaponBlocks = MyDefinitionManager.Static.GetAllDefinitions().Where(x => x.Public && (x as MyWeaponBlockDefinition) != null).Select(x => x as MyWeaponBlockDefinition);
-            foreach (var weaponBlock in weaponBlocks)
+            try
             {
-                LoadWeaponDef(weaponBlock.WeaponDefinitionId);
-                if (WEAPONS.ContainsKey(weaponBlock.WeaponDefinitionId))
+                WEAPONS_BLOCKS = new List<WeaponBlockInfo>();
+                WEAPONS = new ConcurrentDictionary<MyDefinitionId, WeaponInfo>();
+                MAGAZINES = new ConcurrentDictionary<MyDefinitionId, AmmoMagazineInfo>();
+                KINECT_AMMOS = new ConcurrentDictionary<MyDefinitionId, AmmoInfo>();
+                MISSILE_AMMOS = new ConcurrentDictionary<MyDefinitionId, MissileAmmoInfo>();
+                var weaponBlocks = MyDefinitionManager.Static.GetAllDefinitions().Where(x => x.Public && (x as MyWeaponBlockDefinition) != null).Select(x => x as MyWeaponBlockDefinition);
+                foreach (var weaponBlock in weaponBlocks)
                 {
-                    foreach (var ammoId in WEAPONS[weaponBlock.WeaponDefinitionId].ValidAmmos)
+                    LoadWeaponDef(weaponBlock.WeaponDefinitionId);
+                    if (WEAPONS.ContainsKey(weaponBlock.WeaponDefinitionId))
                     {
-                        var item = new WeaponBlockInfo()
+                        foreach (var ammoId in WEAPONS[weaponBlock.WeaponDefinitionId].ValidAmmos)
                         {
-                            BlockId = weaponBlock.Id,
-                            DisplayName = weaponBlock.DisplayNameText,
-                            AmmoId = ammoId,
-                            WeaponDefinitionId = weaponBlock.WeaponDefinitionId,
-                            CubeSize = weaponBlock.CubeSize
-                        };
-                        var turretDef = weaponBlock as MyLargeTurretBaseDefinition;
-                        if (turretDef != null)
-                        {
-                            item.IsTurret = true;
-                            item.MaxRangeMeters = turretDef.MaxRangeMeters;
+                            var item = new WeaponBlockInfo()
+                            {
+                                BlockId = weaponBlock.Id,
+                                DisplayName = weaponBlock.DisplayNameText,
+                                AmmoId = ammoId,
+                                WeaponDefinitionId = weaponBlock.WeaponDefinitionId,
+                                CubeSize = weaponBlock.CubeSize
+                            };
+                            var turretDef = weaponBlock as MyLargeTurretBaseDefinition;
+                            if (turretDef != null)
+                            {
+                                item.IsTurret = true;
+                                item.MaxRangeMeters = turretDef.MaxRangeMeters;
+                            }
+                            WEAPONS_BLOCKS.Add(item);
                         }
-                        WEAPONS_BLOCKS.Add(item);
                     }
                 }
+                WeaponsDefsLoaded = true;
             }
-            WeaponsDefsLoaded = true;
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public string GetBlocksDefinitions()
