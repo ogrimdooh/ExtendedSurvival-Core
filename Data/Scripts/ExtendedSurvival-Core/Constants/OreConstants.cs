@@ -9,6 +9,9 @@ namespace ExtendedSurvival.Core
     public static class OreConstants
     {
 
+        public const string STONE_SUBTYPEID = "Stone";
+        public static readonly UniqueEntityId STONE_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), STONE_SUBTYPEID);
+
         public const string SOIL_SUBTYPEID = "Soil";
         public static readonly UniqueEntityId SOIL_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), SOIL_SUBTYPEID);
 

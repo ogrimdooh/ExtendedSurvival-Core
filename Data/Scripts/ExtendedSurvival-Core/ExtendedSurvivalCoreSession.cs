@@ -540,6 +540,9 @@ namespace ExtendedSurvival.Core
 
                 BetterStoneIntegrationProfile.DoOnSettingsOverride();
 
+                if (IsServer)
+                    ExtendedSurvivalSettings.Instance.CheckLoadedValues();
+
             }
         }
 

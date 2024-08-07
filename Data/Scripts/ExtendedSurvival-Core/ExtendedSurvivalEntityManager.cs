@@ -81,6 +81,7 @@ namespace ExtendedSurvival.Core
         protected ParallelTasks.Task taskLogDamage;
         protected ParallelTasks.Task taskGpsPlayers;
         protected ParallelTasks.Task taskDecaySystem;
+        protected ParallelTasks.Task taskCleanSystem;
         protected override void DoInit(MyObjectBuilder_SessionComponent sessionComponent)
         {
             Instance = this;
@@ -274,7 +275,31 @@ namespace ExtendedSurvival.Core
                         }
                     }
                 });
-            }
+                taskCleanSystem = MyAPIGateway.Parallel.StartBackground(() =>
+                {
+                    ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), "StartBackground [CleanSystemController START]");
+                    while (canRun)
+                    {
+                        if (TimedToLiveEntities.Values.Any(x=> x.ExpireAt <= DateTime.UtcNow))
+                        {
+                            var ids = TimedToLiveEntities.Where(x => x.Value.ExpireAt <= DateTime.UtcNow).Select(x => x.Key).ToArray();
+                            foreach (var id in ids)
+                            {
+                                if (TimedToLiveEntities.ContainsKey(id))
+                                {
+                                    var entity = TimedToLiveEntities[id].Entity;
+                                    TimedToLiveEntities.Remove(id);
+                                    entity.Close();
+                                }
+                            }
+                        }
+                        if (MyAPIGateway.Parallel != null)
+                            MyAPIGateway.Parallel.Sleep((int)Math.Max(ExtendedSurvivalSettings.Instance.Cleaning.CleaningCycleTime, 5000));
+                        else
+                            break;
+                    }
+                });
+        }
         }
 
         public bool FactionsLocked { get; set; } = false;
@@ -492,6 +517,9 @@ namespace ExtendedSurvival.Core
 
         private void Entities_OnEntityRemove(MyEntity entity)
         {
+            if (TimedToLiveEntities.ContainsKey(entity.EntityId))
+                TimedToLiveEntities.Remove(entity.EntityId);
+
             var safeZone = entity as MySafeZone;
             if (safeZone != null && SafeZones.Any(x => x.EntityId == safeZone.EntityId))
             {
@@ -535,6 +563,13 @@ namespace ExtendedSurvival.Core
             }
         }
 
+        private class TimedToLiveEntity
+        {
+            public IMyEntity Entity { get; set; }
+            public DateTime ExpireAt { get; set; }
+        }
+        private static ConcurrentDictionary<long, TimedToLiveEntity> TimedToLiveEntities = new ConcurrentDictionary<long, TimedToLiveEntity>();
+
         private void Entities_OnEntityAdd(MyEntity entity)
         {
             try
@@ -544,10 +579,23 @@ namespace ExtendedSurvival.Core
                     string entityName = entity.ToString();
                     if (WoodChopController.CheckEntityIsATree(entityName, entity))
                         return;
-                    var floatingObj = entity as MyFloatingObject;
-                    if (floatingObj != null)
-                    {
+                }
+                var floatingObj = entity as MyFloatingObject;
+                if (floatingObj != null)
+                {
+                    if (InicialLoadComplete)
                         SuperficialMiningController.CheckEntityIsAFloatingObject(floatingObj);
+                    if (ExtendedSurvivalSettings.Instance.Cleaning.FloatingObjects.Any(x => x.ItemId.GetId() == floatingObj.Item.GetDefinitionId()))
+                    {
+                        var config = ExtendedSurvivalSettings.Instance.Cleaning.FloatingObjects.FirstOrDefault(x => x.ItemId.GetId() == floatingObj.Item.GetDefinitionId());
+                        if (config != null)
+                        {
+                            TimedToLiveEntities[floatingObj.EntityId] = new TimedToLiveEntity()
+                            {
+                                Entity = floatingObj,
+                                ExpireAt = DateTime.UtcNow.AddMilliseconds(config.RemoveAfter)
+                            };
+                        }
                     }
                 }
                 var meteor = entity as IMyMeteor;

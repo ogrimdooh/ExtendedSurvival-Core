@@ -301,6 +301,36 @@ namespace ExtendedSurvival.Core
         public const string FISH_NOBLE_BAIT_SUBTYPEID = "FishNobleBait";
         public static readonly UniqueEntityId FISH_NOBLE_BAIT_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ingot), FISH_NOBLE_BAIT_SUBTYPEID);
 
+        public const string MEAT_SUBTYPEID = "Meat";
+        public static readonly UniqueEntityId MEAT_ID = new UniqueEntityId(typeof(MyObjectBuilder_ConsumableItem), MEAT_SUBTYPEID);
+
+        public const string NOBLE_MEAT_SUBTYPEID = "NobleMeat";
+        public static readonly UniqueEntityId NOBLE_MEAT_ID = new UniqueEntityId(typeof(MyObjectBuilder_ConsumableItem), NOBLE_MEAT_SUBTYPEID);
+
+        public const string ALIEN_MEAT_SUBTYPEID = "AlienMeat";
+        public static readonly UniqueEntityId ALIEN_MEAT_ID = new UniqueEntityId(typeof(MyObjectBuilder_ConsumableItem), ALIEN_MEAT_SUBTYPEID);
+
+        public const string ALIEN_NOBLE_MEAT_SUBTYPEID = "AlienNobleMeat";
+        public static readonly UniqueEntityId ALIEN_NOBLE_MEAT_ID = new UniqueEntityId(typeof(MyObjectBuilder_ConsumableItem), ALIEN_NOBLE_MEAT_SUBTYPEID);
+
+        public const string BONES_SUBTYPEID = "Bones";
+        public static readonly UniqueEntityId BONES_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), BONES_SUBTYPEID);
+
+        public const string ALIEN_EGG_SUBTYPEID = "AlienEgg";
+        public static readonly UniqueEntityId ALIEN_EGG_ID = new UniqueEntityId(typeof(MyObjectBuilder_ConsumableItem), ALIEN_EGG_SUBTYPEID);
+
+        public const string SPOILED_MATERIAL_SUBTYPEID = "Organic";
+        public static readonly UniqueEntityId SPOILED_MATERIAL_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), SPOILED_MATERIAL_SUBTYPEID);
+
+        public const string CEREAL_SUBTYPEID = "Cereal";
+        public static readonly UniqueEntityId CEREAL_ID = new UniqueEntityId(typeof(MyObjectBuilder_Ore), CEREAL_SUBTYPEID);
+
+        public const string APPLE_SUBTYPEID = "Apple";
+        public static readonly UniqueEntityId APPLE_ID = new UniqueEntityId(typeof(MyObjectBuilder_ConsumableItem), APPLE_SUBTYPEID);
+
+        public const string APPLETREESEEDLING_SUBTYPEID = "AppleTreeSeedling";
+        public static readonly UniqueEntityId APPLETREESEEDLING_ID = new UniqueEntityId(typeof(MyObjectBuilder_GasContainerObject), APPLETREESEEDLING_SUBTYPEID);
+
         private static ConcurrentDictionary<UniqueEntityId, MyObjectBuilder_Base> BUILDERS_CACHE = new ConcurrentDictionary<UniqueEntityId, MyObjectBuilder_Base>();
 
         public static T GetBuilder<T>(UniqueEntityId id, bool cache = true) where T : MyObjectBuilder_Base

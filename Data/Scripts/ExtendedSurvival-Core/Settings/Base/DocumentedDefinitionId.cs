@@ -36,6 +36,11 @@ namespace ExtendedSurvival.Core
             return null;
         }
 
+        public override int GetHashCode()
+        {
+            return (Type + Subtype).GetHashCode();
+        }
+
     }
 
 }

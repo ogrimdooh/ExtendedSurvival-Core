@@ -319,6 +319,9 @@ namespace ExtendedSurvival.Core
         [XmlElement]
         public DecaySettings Decay { get; set; } = new DecaySettings();
 
+        [XmlElement]
+        public CleaningSettings Cleaning { get; set; } = new CleaningSettings();
+
         [XmlArray("Planets"), XmlArrayItem("Planet", typeof(PlanetSetting))]
         public List<PlanetSetting> Planets { get; set; } = new List<PlanetSetting>();
 
@@ -353,11 +356,79 @@ namespace ExtendedSurvival.Core
             return settings;
         }
 
+        private static ExtendedSurvivalSettings CreateNew()
+        {
+            return new ExtendedSurvivalSettings();
+        }
+
+        private const long DEFAULT_FLOATING_OBJECT_LIVETIME = (long)(2.5f * 60 * 1000);
+        public void LoadDefaultCleaningSettings()
+        {
+            Cleaning.FloatingObjects.Clear();
+            var drops = new HashSet<UniqueEntityId>();
+            // Animals
+            drops.Add(ItensConstants.MEAT_ID);
+            drops.Add(ItensConstants.NOBLE_MEAT_ID);
+            drops.Add(ItensConstants.ALIEN_MEAT_ID);
+            drops.Add(ItensConstants.ALIEN_NOBLE_MEAT_ID);
+            drops.Add(ItensConstants.ALIEN_EGG_ID);
+            drops.Add(ItensConstants.BONES_ID);
+            drops.Add(OreConstants.ORGANIC_ID);
+            // Woods
+            drops.Add(ItensConstants.LEAF_ID);
+            drops.Add(ItensConstants.TWIG_ID);
+            drops.Add(ItensConstants.BRANCH_ID);
+            drops.Add(ItensConstants.WOODLOG_ID);
+            drops.Add(ItensConstants.CEREAL_ID);
+            drops.Add(ItensConstants.APPLE_ID);
+            drops.Add(ItensConstants.APPLETREESEEDLING_ID);
+            // Stones
+            drops.Add(OreConstants.STONE_ID);
+            drops.Add(OreConstants.SOIL_ID);
+            drops.Add(OreConstants.ALIENSOIL_ID);
+            drops.Add(OreConstants.DESERTSOIL_ID);
+            drops.Add(OreConstants.MOONSOIL_ID);
+            drops.Add(OreConstants.ASTEROIDSOIL_ID);
+            drops.Add(OreConstants.VULCANICSOIL_ID);
+            drops.Add(OreConstants.MUD_ID);
+            drops.Add(OreConstants.STONEICE_ID);
+            drops.Add(OreConstants.TOXICICE_ID);
+            drops.Add(OreConstants.FERROUSMOONSOIL_ID);
+            drops.Add(OreConstants.CHROMEMOONSOIL_ID);
+            // Superficial Mining
+            foreach (var planet in Planets)
+            {
+                foreach (var item in planet.SuperficialMining.Drops.Where(x => x.ItemId.GetId().HasValue))
+                {
+                    var id = new UniqueEntityId(item.ItemId.GetId().Value);
+                    if (!drops.Contains(id))
+                        drops.Add(id);
+                }
+            }
+            // Set clean targets
+            foreach (var item in drops)
+            {
+                Cleaning.FloatingObjects.Add(new FloatingObjectSettings()
+                {
+                    ItemId = new DocumentedDefinitionId(item.DefinitionId),
+                    RemoveAfter = DEFAULT_FLOATING_OBJECT_LIVETIME
+                });
+            }
+            // Mark as loaded
+            Cleaning.FloatingObjectsLoaded = true;
+        }
+
+        public void CheckLoadedValues()
+        {
+            if (!Cleaning.FloatingObjectsLoaded)
+                LoadDefaultCleaningSettings();
+        }
+
         public static ExtendedSurvivalSettings Load()
         {
-            _instance = Load(JSON_FILE_NAME, CURRENT_VERSION, Validate, () => { return new ExtendedSurvivalSettings(); }, Upgrade, true, false);
+            _instance = Load(JSON_FILE_NAME, CURRENT_VERSION, Validate, CreateNew, Upgrade, true, false);
             if (_instance == null)
-                _instance = Load(FILE_NAME, CURRENT_VERSION, Validate, () => { return new ExtendedSurvivalSettings(); }, Upgrade);
+                _instance = Load(FILE_NAME, CURRENT_VERSION, Validate, CreateNew, Upgrade);
             if (_instance != null)
                 _instance.CheckModified = true;
             return _instance;
