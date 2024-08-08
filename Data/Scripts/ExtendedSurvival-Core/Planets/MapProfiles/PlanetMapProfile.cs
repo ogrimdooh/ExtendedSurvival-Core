@@ -47,6 +47,7 @@ namespace ExtendedSurvival.Core
 
         // ES Core
         public const string StoneIce_01 = "StoneIce_01";
+        public const string DirtySoil_01 = "DirtySoil_01";        
 
         // ES Technology
         public const string Aluminum_01 = "Aluminum_01";
@@ -159,6 +160,7 @@ namespace ExtendedSurvival.Core
             { "IRON2", Iron_02 },
             { "IRON3", Iron_03 },
             { "IRON4", Iron_04 },
+            { "DIRTYSOIL", DirtySoil_01 },
             { "HAPKEITE", BetterStoneIntegrationProfile.Hapkeite_01 },
             { "HEAZLEWOODITE", BetterStoneIntegrationProfile.Heazlewoodite_01 },
             { "PORPHYRY", BetterStoneIntegrationProfile.Porphyry_01 },
@@ -572,6 +574,20 @@ namespace ExtendedSurvival.Core
                         start = new Vector2I(50, 100),
                         depth = new Vector2I(15, 30),
                         rarity = PlanetProfile.OreRarity.Epic
+                    }
+                }
+            },
+            {
+                Iron_01,
+                new OreType()
+                {
+                    Name = Iron_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = Iron_01,
+                        start = new Vector2I(12, 36),
+                        depth = new Vector2I(8, 16),
+                        rarity = PlanetProfile.OreRarity.Common
                     }
                 }
             },

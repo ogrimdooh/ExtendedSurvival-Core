@@ -53,7 +53,8 @@ namespace ExtendedSurvival.Core
                 int c = 0;
                 foreach (var validDrop in validDrops.OrderBy(x => MyUtils.GetRandomFloat()))
                 {
-                    if (rnd.Next(1, 101) <= validDrop.Chance)
+                    var chanceValue = MyUtils.GetRandomFloat(0, 1) * 100f;
+                    if (chanceValue <= validDrop.Chance)
                     {
                         var value = validDrop.Ammount.ToVector2().GetRandom();
                         if (!validDrop.AlowFrac)

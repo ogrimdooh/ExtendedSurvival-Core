@@ -631,6 +631,7 @@ namespace ExtendedSurvival.Core
                         atSet.RemovedOres = settings.RemovedOres;
                         atSet.OreMap = settings.OreMap;
                         atSet.OreGroupType = settings.OreGroupType;
+                        atSet.ScarceEnabled = settings.ScarceEnabled;
                     }
                 }
                 else

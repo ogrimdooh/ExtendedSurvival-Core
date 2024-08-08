@@ -21,6 +21,7 @@ namespace ExtendedSurvival.Core
         // Sedonia
 
         public const string SedoniaIce = "SedoniaIce";
+        public const string SedoniaRock = "SedoniaRock";
         public const string SedoniaRegolith = "SedoniaRegolith";
 
         public const string REGOLITH_SUBTYPEID = "Regolith";
@@ -689,12 +690,12 @@ namespace ExtendedSurvival.Core
             Version = PlanetMapProfile.PROFILE_VERSION,
             RespawnEnabled = false,
             Animal = PlanetMapAnimalsProfile.DEFAULT_NO_ANIMALS,
-            Geothermal = PlanetMapProfile.GetGeothermal(true, 1.5f, 1.25f, 0.75f),
+            Geothermal = PlanetMapProfile.GetGeothermal(true, 0.05f, 2.5f, 0.25f),
             Atmosphere = PlanetMapProfile.GetAtmosphere(true, false, 0.3f, 0.0f, 90, 1.0f, 0.25f, 0.075f),
             Gravity = PlanetMapProfile.GetGravity(0.56f, 2.75f),
-            Temperature = PlanetMapProfile.GetTemperature(VRage.Game.MyTemperatureLevel.Cozy, -77, 47),
+            Temperature = PlanetMapProfile.GetTemperature(VRage.Game.MyTemperatureLevel.Hot, -77, 47),
             Water = PlanetMapProfile.GetWater(false),
-            SizeRange = new Vector2(18, 22),
+            SizeRange = new Vector2(28, 32),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             MeteorImpact = VanilaMapProfile.ALIEN_METEOR,

@@ -1043,6 +1043,7 @@ namespace ExtendedSurvival.Core
                 MeteorImpact = BuildMeteorImpactSetting(),
                 SuperficialMining = BuildSuperficialMiningSetting(id),
                 OreGroupType = (int)(groupType.HasValue ? groupType.Value : GroupType),
+                ScarceEnabled = scarceenabled,
                 OreMap = BuildOresMappings(
                     id,
                     seed, 

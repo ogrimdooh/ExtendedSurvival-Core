@@ -122,6 +122,8 @@ namespace ExtendedSurvival.Core
             InfiniteMapProfile.OrcusGrass2,
             InfiniteMapProfile.TundraSoil,
             // Captain Arthur
+            CaptainArthurMapProfile.MoonAlien,
+            CaptainArthurMapProfile.MoonAlienBare,
             CaptainArthurMapProfile.MESoil,
             CaptainArthurMapProfile.SoilDOC,
             CaptainArthurMapProfile.MESteppe,
@@ -237,9 +239,6 @@ namespace ExtendedSurvival.Core
         {
             MoonSoil,
             SmallMoonRocks,
-            // Captain Arthur
-            CaptainArthurMapProfile.MoonAlien,
-            CaptainArthurMapProfile.MoonAlienBare,
             // Elindis
             ElindisMapProfile.PykeSoil,
             ElindisMapProfile.PykeGravel,
@@ -278,8 +277,6 @@ namespace ExtendedSurvival.Core
             FizzyMapProfile.Chimera_Ice,
             //Fizzy
             GHOSTXVMapProfile.FrozenIce,
-            // MLT
-            MLTModsMapProfile.SedoniaIce,
             // Sam
             SamMapProfile.HeliosTE_Ice,
             SamMapProfile.HeliosWM_Ice,
@@ -316,6 +313,8 @@ namespace ExtendedSurvival.Core
             InfiniteMapProfile.SnowNew,
             InfiniteMapProfile.TritonIceNew,
             InfiniteMapProfile.HalcyonIce,
+            // MLT
+            MLTModsMapProfile.SedoniaIce,
             // Captain Arthur
             CaptainArthurMapProfile.CraitIce,
             CaptainArthurMapProfile.AlienSnowSpider,
@@ -437,7 +436,7 @@ namespace ExtendedSurvival.Core
             // Major Jon
             new VoxelOreReplace()
             {
-                TargetVoxels = new string[] { MajorJonMapProfile.MoonRock_grey2_kimi },
+                TargetVoxels = new string[] {  MLTModsMapProfile.SedoniaRock, MajorJonMapProfile.MoonRock_grey2_kimi },
                 OreToMine = OreConstants.FERROUSMOONSOIL_SUBTYPEID,
                 MineRatio = COMMON_RATIO
             },
