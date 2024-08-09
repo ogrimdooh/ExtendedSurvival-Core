@@ -108,17 +108,22 @@ namespace ExtendedSurvival.Core
                             }
                         }
                         // Create stone
-                        string storageName = string.Format("{0}_{1}_{2}", item.GroupId, meteor.EntityId, MyUtils.GetRandomInt(int.MaxValue));
-                        var stone = voxelMaps.CreateVoxelMap(storageName, voxelMap, meteor.GetPosition(), MyUtils.GetRandomLong());
-                        stone.Save = true;
-                        var matrix = transform.GetMatrix();
-                        stone.PositionComp.SetWorldMatrix(ref matrix);
-                        
-                        ExtendedSurvivalStorage.Instance.MeteorImpact.Stones.Add(new MeteorStoneStorage()
+                        MyAPIGateway.Utilities.InvokeOnGameThread(() =>
                         {
-                            EntityId = stone.EntityId,
-                            Life = ExtendedSurvivalSettings.Instance.MeteorImpact.StoneLifeTime * 1000
-                        }); 
+                            string storageName = string.Format("{0}_{1}_{2}", item.GroupId, meteor.EntityId, MyUtils.GetRandomInt(int.MaxValue));
+                            var stone = voxelMaps.CreateVoxelMap(storageName, voxelMap, meteor.GetPosition(), MyUtils.GetRandomLong());
+                            stone.Save = true;
+                            var matrix = transform.GetMatrix();
+                            stone.PositionComp.SetWorldMatrix(ref matrix);
+
+                            MyAPIGateway.Entities.AddEntity(stone);
+
+                            ExtendedSurvivalStorage.Instance.MeteorImpact.Stones.Add(new MeteorStoneStorage()
+                            {
+                                EntityId = stone.EntityId,
+                                Life = ExtendedSurvivalSettings.Instance.MeteorImpact.StoneLifeTime * 1000
+                            });
+                        });
                     }
                 }
             }
