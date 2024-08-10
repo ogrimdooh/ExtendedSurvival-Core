@@ -6,6 +6,7 @@ using Sandbox.ModAPI.Weapons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Serialization;
 using VRage;
 using VRage.Game;
 using VRage.Game.Components;
@@ -135,6 +136,63 @@ namespace ExtendedSurvival.Core
     }
 
     [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
+    public class PlanetWaterInfo
+    {
+
+        [ProtoMember(1)]
+        public bool Enabled { get; set; }
+
+        [ProtoMember(2)]
+        public float Size { get; set; }
+
+        [ProtoMember(3)]
+        public float TemperatureFactor { get; set; } = 0;
+
+        [ProtoMember(4)]
+        public float ToxicLevel { get; set; } = 0;
+
+        [ProtoMember(5)]
+        public float RadiationLevel { get; set; } = 0;
+
+    }
+
+    [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
+    public class PlanetAtmosphereInfo
+    {
+
+        [ProtoMember(1)]
+        public bool Enabled { get; set; }
+
+        [ProtoMember(2)]
+        public bool Breathable { get; set; }
+
+        [ProtoMember(3)]
+        public float OxygenDensity { get; set; }
+
+        [ProtoMember(4)]
+        public float Density { get; set; }
+
+        [ProtoMember(5)]
+        public float LimitAltitude { get; set; }
+
+        [ProtoMember(6)]
+        public float MaxWindSpeed { get; set; }
+
+        [ProtoMember(7)]
+        public int TemperatureLevel { get; set; }
+
+        [ProtoMember(8)]
+        public Vector2 TemperatureRange { get; set; }
+
+        [ProtoMember(9)]
+        public float ToxicLevel { get; set; }
+
+        [ProtoMember(10)]
+        public float RadiationLevel { get; set; }
+
+    }
+
+    [ProtoContract(SkipConstructor = true, UseProtoMembersOnly = true)]
     public class PlanetInfo
     {
 
@@ -155,6 +213,12 @@ namespace ExtendedSurvival.Core
 
         [ProtoMember(6)]
         public bool HasWater { get; set; }
+
+        [ProtoMember(7)]
+        public PlanetAtmosphereInfo Atmosphere { get; set; } = new PlanetAtmosphereInfo();
+
+        [ProtoMember(8)]
+        public PlanetWaterInfo Water { get; set; } = new PlanetWaterInfo();
 
         private MyPlanet entity;
         public MyPlanet Entity

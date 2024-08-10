@@ -315,8 +315,38 @@ namespace ExtendedSurvival.Core
                     HasSubtypeName = planet.HasSubtypeName,
                     SubtypeName = planet.SubtypeName,
                     HasWater = planet.HasWater(),
-                    SettingId = planet.Setting?.Id
+                    SettingId = planet.Setting?.Id,
                 };
+                if (planet.Setting != null)
+                {
+                    if (planet.Setting.Atmosphere != null)
+                    {
+                        planetData.Atmosphere = new PlanetAtmosphereInfo()
+                        {
+                            Enabled = planet.Setting.Atmosphere.Enabled,
+                            Breathable = planet.Setting.Atmosphere.Breathable,
+                            OxygenDensity = planet.Setting.Atmosphere.OxygenDensity,
+                            Density = planet.Setting.Atmosphere.Density,
+                            LimitAltitude = planet.Setting.Atmosphere.LimitAltitude,
+                            MaxWindSpeed = planet.Setting.Atmosphere.MaxWindSpeed,
+                            TemperatureLevel = planet.Setting.Atmosphere.TemperatureLevel,
+                            TemperatureRange = planet.Setting.Atmosphere.TemperatureRange.ToVector2(),
+                            ToxicLevel = planet.Setting.Atmosphere.ToxicLevel,
+                            RadiationLevel = planet.Setting.Atmosphere.RadiationLevel
+                        };
+                    }
+                    if (planet.Setting.Water != null)
+                    {
+                        planetData.Water = new PlanetWaterInfo()
+                        {
+                            Enabled = planet.Setting.Water.Enabled,
+                            Size = planet.Setting.Water.Size,
+                            TemperatureFactor = planet.Setting.Water.TemperatureFactor,
+                            RadiationLevel = planet.Setting.Water.RadiationLevel,
+                            ToxicLevel = planet.Setting.Water.ToxicLevel
+                        };
+                    }
+                }
                 string messageToSend = MyAPIGateway.Utilities.SerializeToXML<PlanetInfo>(planetData);
                 return messageToSend;
             }

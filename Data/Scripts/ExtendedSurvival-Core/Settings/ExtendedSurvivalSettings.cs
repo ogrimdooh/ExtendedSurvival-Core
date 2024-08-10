@@ -494,7 +494,7 @@ namespace ExtendedSurvival.Core
 
         public bool HasStarSystem(string id)
         {
-            return StarSystems.Any(x => x.Name.ToUpper().Trim() == id.ToUpper().Trim());
+            return StarSystems.Any(x => x.Name?.ToUpper().Trim() == id?.ToUpper().Trim());
         }
 
         public VoxelMaterialModifierSetting GetMaterialModifierInfo(string id, bool generateWhenNotExists = true)
