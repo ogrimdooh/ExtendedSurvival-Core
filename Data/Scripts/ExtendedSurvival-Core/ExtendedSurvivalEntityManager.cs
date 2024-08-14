@@ -71,6 +71,13 @@ namespace ExtendedSurvival.Core
             return Grids.FirstOrDefault(x => x.Entity.EntityId == uuid);
         }
 
+        public IMySlimBlock FindGridBlockById(long blockId)
+        {
+            if (Grids.Any(x => x.HasBlockById(blockId)))
+                return Grids.FirstOrDefault(x => x.HasBlockById(blockId)).GetBlockById(blockId);
+            return null;
+        }
+
         protected bool canRun;
         protected ParallelTasks.Task task;
         protected ParallelTasks.Task taskStations;

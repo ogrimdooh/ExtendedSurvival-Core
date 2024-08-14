@@ -15,6 +15,7 @@ using VRage.Utils;
 using VRage.Game.ModAPI;
 using VRage.Game.Entity;
 using Sandbox.ModAPI.Weapons;
+using System.Reflection.Metadata.Ecma335;
 
 namespace ExtendedSurvival.Core
 {
@@ -52,6 +53,7 @@ namespace ExtendedSurvival.Core
             ["GetOffwaterCollectors"] = new Func<long, IMySlimBlock[]>(GetOffwaterCollectors),
             ["GetWaterSolidificators"] = new Func<long, List<IMySlimBlock>>(GetWaterSolidificators),
             ["GetGridBlocks"] = new Func<long, MyObjectBuilderType, string, List<IMySlimBlock>>(GetGridBlocks),
+            ["FindGridBlockById"] = new Func<long, IMySlimBlock>(FindGridBlockById),
             ["RegisterInventoryObserverUpdateCallback"] = new Action<Guid, Action<Guid, MyInventory, IMyEntity, TimeSpan>>(RegisterInventoryObserverUpdateCallback),
             ["RegisterInventoryObserverAfterContentsAddedCallback"] = new Action<Guid, Action<Guid, MyInventory, MyPhysicalInventoryItem, MyFixedPoint>>(RegisterInventoryObserverAfterContentsAddedCallback),
             ["RegisterInventoryObserverAfterContentsRemovedCallback"] = new Action<Guid, Action<Guid, MyInventory, MyPhysicalInventoryItem, MyFixedPoint>>(RegisterInventoryObserverAfterContentsRemovedCallback),
@@ -494,6 +496,11 @@ namespace ExtendedSurvival.Core
             if (grid != null)
                 return grid.WaterSolidificators;
             return null;
+        }
+
+        public static IMySlimBlock FindGridBlockById(long blockId)
+        {
+            return ExtendedSurvivalEntityManager.Instance.FindGridBlockById(blockId);
         }
 
         public static List<IMySlimBlock> GetGridBlocks(long gridId, MyObjectBuilderType type, string subType)

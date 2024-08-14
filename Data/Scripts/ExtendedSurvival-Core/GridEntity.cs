@@ -562,6 +562,16 @@ namespace ExtendedSurvival.Core
             CheckThermalConnections();
         }
 
+        public bool HasBlockById(long id)
+        {
+            return _allBlocks.Any(x => x.FatBlock?.EntityId == id);
+        }
+
+        public IMySlimBlock GetBlockById(long id)
+        {
+            return _allBlocks.FirstOrDefault(x => x.FatBlock?.EntityId == id);
+        }
+
         private MyEntityComponentBase GetGameLogic(IMySlimBlock block, string name)
         {
             var blockLogic = block.FatBlock?.GameLogic;
