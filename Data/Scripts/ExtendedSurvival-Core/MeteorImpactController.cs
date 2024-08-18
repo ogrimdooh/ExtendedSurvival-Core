@@ -112,11 +112,14 @@ namespace ExtendedSurvival.Core
                         {
                             string storageName = string.Format("{0}_{1}_{2}", item.GroupId, meteor.EntityId, MyUtils.GetRandomInt(int.MaxValue));
                             var stone = voxelMaps.CreateVoxelMap(storageName, voxelMap, meteor.GetPosition(), MyUtils.GetRandomLong());
+                            stone.Synchronized = true;
                             stone.Save = true;
                             var matrix = transform.GetMatrix();
                             stone.PositionComp.SetWorldMatrix(ref matrix);
 
-                            MyAPIGateway.Entities.AddEntity(stone);
+                            MyEntities.RaiseEntityCreated((MyEntity)stone);
+
+                            ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(MeteorImpactController), $"Boulder has been created at a meteor impact!");
 
                             ExtendedSurvivalStorage.Instance.MeteorImpact.Stones.Add(new MeteorStoneStorage()
                             {

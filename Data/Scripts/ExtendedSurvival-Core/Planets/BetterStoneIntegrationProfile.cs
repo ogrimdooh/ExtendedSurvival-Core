@@ -32,6 +32,11 @@ namespace ExtendedSurvival.Core
             { VoxelMaterialMapProfile.Iron_04, OreConstants.CM_DENSE_IRON_FE_SUBTYPEID }
         };
 
+        public static readonly Dictionary<UniqueEntityId, string> OresNewSymbols = new Dictionary<UniqueEntityId, string>()
+        {
+            { OreConstants.CM_KAMACITE_FENICO_ID, "Fe,Ni,Co" }
+        };
+
         public static readonly Dictionary<UniqueEntityId, BaseIntegrationModRecipesOverride.ExternalModCustomIcon> OresNewIcons = new Dictionary<UniqueEntityId, BaseIntegrationModRecipesOverride.ExternalModCustomIcon>()
         {
             {
@@ -234,6 +239,10 @@ namespace ExtendedSurvival.Core
                     var itemDef = MyDefinitionManager.Static.GetPhysicalItemDefinition(item.DefinitionId);
                     if (itemDef != null)
                     {
+                        if (OresNewSymbols.ContainsKey(item))
+                        {
+                            itemDef.IconSymbol = MyStringId.GetOrCompute(OresNewSymbols[item]);
+                        }
                         itemDef.Icons = new string[] { BaseIntegrationModRecipesOverride.GetCustomIcon(itemDef.Context, OresNewIcons[item]) };
                         itemDef.Postprocess();
                     }

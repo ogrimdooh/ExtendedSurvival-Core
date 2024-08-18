@@ -270,6 +270,7 @@ namespace ExtendedSurvival.Core
             VALID_COMMANDS[SETTINGS_COMMAND_GRIDS] = new ValidCommand(SETTINGS_COMMAND_GRIDS, 1, true);
             VALID_COMMANDS[SETTINGS_COMMAND_SESSION] = new ValidCommand(SETTINGS_COMMAND_SESSION, 2, true);
             VALID_COMMANDS[SETTINGS_COMMAND_DEFINITIONS] = new ValidCommand(SETTINGS_COMMAND_DEFINITIONS, 1, true);
+            VALID_COMMANDS[SETTINGS_COMMAND_RESETVOXELS] = new ValidCommand(SETTINGS_COMMAND_RESETVOXELS, 1, true);            
         }
 
         protected override void UnloadData()
@@ -312,12 +313,17 @@ namespace ExtendedSurvival.Core
         private const string SETTINGS_COMMAND_GRIDS = "grids";
         private const string SETTINGS_COMMAND_SESSION = "sessionsettings";
         private const string SETTINGS_COMMAND_DEFINITIONS = "definitions";
+        private const string SETTINGS_COMMAND_RESETVOXELS = "resetvoxels";
 
         private const string SETTINGS_COMMAND_DEFINITIONS_WEAPONS = "weapons";
         private const string SETTINGS_COMMAND_DEFINITIONS_TURRETS = "turrets";
         private const string SETTINGS_COMMAND_DEFINITIONS_COMPONENTS = "components";
         private const string SETTINGS_COMMAND_DEFINITIONS_BLOCKS = "blocks";
         private const string SETTINGS_COMMAND_DEFINITIONS_PLANETS = "planets";
+
+        private const string SETTINGS_COMMAND_RESETVOXELS_PLANETS = "planet";
+        private const string SETTINGS_COMMAND_RESETVOXELS_ALL = "all";
+        private const string SETTINGS_COMMAND_RESETVOXELS_AREA = "area";
 
         private const string SETTINGS_COMMAND_GRIDS_RENAMEALL = "renameall";
 
@@ -558,6 +564,51 @@ namespace ExtendedSurvival.Core
                                     case SETTINGS_COMMAND_DEFINITIONS_PLANETS:
                                         var dataPlanets = PlanetMapProfile.GetMappedProfiles();
                                         SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_DEFINITIONS} {SETTINGS_COMMAND_DEFINITIONS_PLANETS} executed.", MyFontEnum.White, extraInfo: dataPlanets);
+                                        break;
+                                }
+                                break;
+                            case SETTINGS_COMMAND_RESETVOXELS:
+                                string msg = "";
+                                switch (mCommandData.content[1])
+                                {
+                                    case SETTINGS_COMMAND_RESETVOXELS_ALL:
+                                        var delete = mCommandData.content.Length > 2 && mCommandData.content[2] == "delete=true";
+                                        if (ExtendedSurvivalEntityManager.Instance.ResetAllVoxels(delete))
+                                        {
+                                            SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_RESETVOXELS} {SETTINGS_COMMAND_RESETVOXELS_ALL} executed. Result: {msg}", MyFontEnum.White);
+                                        }
+                                        break;
+                                    case SETTINGS_COMMAND_RESETVOXELS_AREA:
+                                        float radius = 0;
+                                        if (mCommandData.content.Length > 2)
+                                        {
+                                            if (float.TryParse(mCommandData.content[2], out radius))
+                                            {
+                                                var delete2 = mCommandData.content.Length > 3 && mCommandData.content[3] == "delete=true";
+                                                ExtendedSurvivalEntityManager.Instance.ResetVoxelArea(radius, steamId, delete2, out msg);
+                                                SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_RESETVOXELS} {SETTINGS_COMMAND_RESETVOXELS_AREA} executed. Result: {msg}", MyFontEnum.White);
+                                            }
+                                        }
+                                        break;
+                                    case SETTINGS_COMMAND_RESETVOXELS_PLANETS:
+                                        if (mCommandData.content.Length > 2)
+                                        {
+                                            bool ok = false;
+                                            if (mCommandData.content[2] == SETTINGS_COMMAND_RESETVOXELS_ALL)
+                                            {
+                                                ok = ExtendedSurvivalEntityManager.Instance.ResetAllPlanetVoxels();
+                                                msg = ok ? "All planets reseted!" : "Failed to reset planets!";
+                                            }
+                                            else
+                                            {
+                                                if (mCommandData.content[2] == "$")
+                                                {
+                                                    mCommandData.content[2] = TryToGetNearPlanet(steamId, mCommandData.content[2], out planetId);
+                                                }
+                                                ok = ExtendedSurvivalEntityManager.Instance.ResetPlanetVoxels(mCommandData.content[2], out msg);
+                                            }
+                                            SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_RESETVOXELS} {SETTINGS_COMMAND_RESETVOXELS_PLANETS} executed. Result: {msg}", MyFontEnum.White);
+                                        }
                                         break;
                                 }
                                 break;

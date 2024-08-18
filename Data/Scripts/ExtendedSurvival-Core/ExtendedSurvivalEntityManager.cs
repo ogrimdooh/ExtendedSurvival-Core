@@ -18,6 +18,10 @@ using Sandbox.Common.ObjectBuilders;
 using Sandbox.Game.World;
 using VRage.Utils;
 using Sandbox.Definitions;
+using VRage.Voxels;
+using Sandbox.Game.World.Generator;
+using Sandbox.Engine.Voxels;
+using Sandbox;
 
 namespace ExtendedSurvival.Core
 {
@@ -2073,6 +2077,169 @@ namespace ExtendedSurvival.Core
                 ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
             }
             return null;
+        }
+
+        private bool ResetVoxelInArea(Vector3D Center, float Radius, bool deleteStorage)
+        {
+
+            try
+            {
+                BoundingSphereD Sphere = new BoundingSphereD(Center, Radius);
+                List<MyVoxelBase> Maps = MyEntities.GetEntitiesInSphere(ref Sphere).OfType<MyVoxelBase>().ToList();
+                if (Maps.Count == 0)
+                    return true;
+                var resetIds = new List<long>();
+
+                foreach (var voxelMap in Maps)
+                {
+                    long id = voxelMap.EntityId;
+
+                    if (deleteStorage && voxelMap is MyVoxelMap)
+                    {
+                        voxelMap.Close();
+                    }
+                    else
+                    {
+                        voxelMap.Storage.Reset(MyStorageDataTypeFlags.All);
+                        resetIds.Add(id);
+                    }
+                }
+
+                ExtendedSurvivalCoreSession.VoxelResetBrodcast(resetIds);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
+                return false;
+            }
+        }
+
+        public bool ResetVoxelArea(float Radius, ulong caller, bool deleteStorage, out string msg)
+        {
+            var playerId = MyAPIGateway.Players.TryGetIdentityId(caller);
+
+            var player = Players.ContainsKey(playerId) ? Players[playerId] : null;
+
+            if (player == null)
+            {
+                msg = "Invalid command input! Must be ingame!";
+                return false;
+            }
+
+            if (Radius <= 0)
+            {
+                msg = "Inavlid radius!";
+                return false;
+            }
+
+            if (ResetVoxelInArea(player.GetPosition(), Radius, deleteStorage))
+            {
+                msg = "Voxel reset complete!";
+                return true;
+            }
+            else
+            {
+                msg = "Couldnt reset voxels! Check log for more information!";
+                return false;
+            }
+        }
+
+        public bool ResetAllVoxels(bool deleteStorage = false)
+        {
+            var voxelMaps = MyEntities.GetEntities().OfType<MyVoxelBase>();
+
+            int count = 0;
+
+            var resetIds = new List<long>();
+
+            foreach (var map in voxelMaps)
+            {
+                try
+                {
+                    if (map.StorageName == null)
+                        continue;
+
+                    count++;
+
+                    long id = map.EntityId;
+
+                    if (deleteStorage && map is MyVoxelMap)
+                    {
+                        map.Close();
+                    }
+                    else
+                    {
+                        map.Storage.Reset(MyStorageDataTypeFlags.All);
+                        resetIds.Add(id);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
+                }
+            }
+
+            ExtendedSurvivalCoreSession.VoxelResetBrodcast(resetIds);
+
+            return true;
+        }
+
+        public bool ResetAllPlanetVoxels()
+        {
+            var voxelMaps = MyEntities.GetEntities().OfType<MyPlanet>();
+
+            var resetIds = new List<long>();
+
+            foreach (var map in voxelMaps)
+            {
+                try
+                {
+                    if (map.StorageName == null)
+                        continue;
+
+                    long id = map.EntityId;
+
+                    map.Storage.Reset(MyStorageDataTypeFlags.All);
+                    resetIds.Add(id);
+                }
+                catch (Exception ex)
+                {
+                    ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
+                }
+            }
+
+            ExtendedSurvivalCoreSession.VoxelResetBrodcast(resetIds);
+
+            return true;
+        }
+
+        public bool ResetPlanetVoxels(string planetName, out string msg)
+        {
+            var maps = new List<MyPlanet>(2);
+            foreach (MyPlanet map in MyEntities.GetEntities().OfType<MyPlanet>())
+            {
+                if (map.StorageName.ToLower().Contains(planetName.ToLower()))
+                    maps.Add(map);
+            }
+
+            switch (maps.Count)
+            {
+                case 0:
+                    msg = $"Couldn't find planet with name {planetName}";
+                    return false;
+                case 1:
+                    var map = maps[0];
+                    map.Storage.Reset(MyStorageDataTypeFlags.All);
+                    msg = $"Reset planet {map.Name}";
+                    var resetIds = new List<long>() { map.EntityId };
+                    ExtendedSurvivalCoreSession.VoxelResetBrodcast(resetIds);
+                    return true;
+                default:
+                    msg = $"Found {maps.Count} planets matching '{planetName}'.";
+                    return false;
+            }
         }
 
     }

@@ -5,6 +5,7 @@ using Sandbox.Game.GameSystems;
 using Sandbox.Game.World;
 using Sandbox.ModAPI;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using VRage.Game;
@@ -12,9 +13,10 @@ using VRage.Game.Components;
 using VRage.Game.Entity;
 using VRage.Game.ModAPI;
 using VRage.Game.ObjectBuilders;
+using VRage.ModAPI;
 using VRage.Utils;
+using VRage.Voxels;
 using VRageMath;
-using static ExtendedSurvival.Core.PlanetMapProfile;
 
 namespace ExtendedSurvival.Core
 {
@@ -90,6 +92,7 @@ namespace ExtendedSurvival.Core
         public const ushort NETWORK_ID_ENTITYCALLS = 40425;
         public const string CALL_FOR_DEFS = "NEEDDEFS";
         public const string CALL_FOR_WATER = "NEEDWATER";
+        public const string BRODCAST_VOXELRESET = "BRODCAST_VOXELRESET";
 
         public AdvancedPlayerUICoreAPI APUCoreAPI;
         public NanobotAPI NanobotAPI;
@@ -383,7 +386,6 @@ namespace ExtendedSurvival.Core
                     switch (mCommandData.content[0])
                     {
                         case CALL_FOR_WATER:
-
                             if (WaterModAPI.Registered)
                             {
                                 if (!IsDedicated)
@@ -402,7 +404,21 @@ namespace ExtendedSurvival.Core
                                     }
                                 }
                             }
-
+                            break;
+                        case BRODCAST_VOXELRESET:
+                            var voxels = mCommandData.content[1].Split(';');
+                            foreach (var voxel in voxels)
+                            {
+                                long entityId = 0;
+                                if (long.TryParse(voxel, out entityId))
+                                {
+                                    IMyEntity entity = null;
+                                    if (MyAPIGateway.Entities.TryGetEntityById(entityId, out entity))
+                                    {
+                                        (entity as IMyVoxelBase)?.Storage.Reset(MyStorageDataTypeFlags.ContentAndMaterial);
+                                    }
+                                }
+                            }
                             break;
                     }
 
@@ -601,6 +617,19 @@ namespace ExtendedSurvival.Core
                         );
                     }
                 }
+            }
+        }
+
+        public static void VoxelResetBrodcast(List<long> idsToReset)
+        {
+            if (idsToReset != null && idsToReset.Any())
+            {
+                Command cmd = new Command(0, BRODCAST_VOXELRESET, string.Join(";", idsToReset));
+                string messageToSend = MyAPIGateway.Utilities.SerializeToXML<Command>(cmd);
+                MyAPIGateway.Multiplayer.SendMessageToOthers(
+                    NETWORK_ID_CALLCLIENTSYSTEM,
+                    Encoding.Unicode.GetBytes(messageToSend)
+                );
             }
         }
 
