@@ -535,6 +535,20 @@ namespace ExtendedSurvival.Core
             CheckGridStartIsStatic();
         }
 
+        public void ChargeAllBateries()
+        {
+            var bType = typeof(MyObjectBuilder_BatteryBlock);
+            if (_blocksByType.ContainsKey(bType))
+            {
+                foreach (var item in _blocksByType[bType])
+                {
+                    var battery = item.FatBlock as MyBatteryBlock;
+                    battery.CurrentStoredPower = battery.MaxStoredPower;
+                    battery.ChargeMode = Sandbox.ModAPI.Ingame.ChargeMode.Auto;
+                }
+            }
+        }
+
         public void ReloadThermalBlocks()
         {
             _thermalSources.Clear();

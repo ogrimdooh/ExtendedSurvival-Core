@@ -636,6 +636,11 @@ namespace ExtendedSurvival.Core
                     {
                         if (cubeGrid.IsRespawnGrid)
                         {
+                            MyAPIGateway.Parallel.Start(() => {
+                                MyAPIGateway.Parallel.Sleep(500);
+                                cubeGrid.Physics.SetSpeeds(Vector3.Zero, Vector3.Zero);
+                            });
+                            gridEntity.ChargeAllBateries();
                             var playerId = cubeGrid.BigOwners.FirstOrDefault();
                             // Teleport Grid to Belt if Vanila Asteroid Disabled
                             if (MyAPIGateway.Session.SessionSettings.ProceduralDensity == 0 &&

@@ -299,6 +299,9 @@ namespace ExtendedSurvival.Core
         public bool RespawnLargePodEnabled { get; set; } = false;
 
         [XmlElement]
+        public bool RespawnHeavyPodEnabled { get; set; } = false;
+
+        [XmlElement]
         public int PlanetDeployAltitude { get; set; } = 6;
 
         [XmlElement]
@@ -1748,6 +1751,15 @@ namespace ExtendedSurvival.Core
                     if (bool.TryParse(value, out respawnlargepodenabled))
                     {
                         RespawnLargePodEnabled = respawnlargepodenabled;
+                        Modified = true;
+                        return true;
+                    }
+                    break;
+                case "respawnheavypodenabled":
+                    bool respawnheavypodenabled;
+                    if (bool.TryParse(value, out respawnheavypodenabled))
+                    {
+                        RespawnHeavyPodEnabled = respawnheavypodenabled;
                         Modified = true;
                         return true;
                     }
