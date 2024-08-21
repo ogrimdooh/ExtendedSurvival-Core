@@ -11,9 +11,9 @@
       <Description></Description>
       <Icon>Textures\GUI\Icons\water_big.dds</Icon>
       <Size>
-        <X>0.14</X>
-        <Y>0.43</Y>
-        <Z>0.14</Z>
+        <X>0.001</X>
+        <Y>0.001</Y>
+        <Z>0.001</Z>
       </Size>
       <Mass>4.5</Mass>
       <Volume>1.5</Volume>

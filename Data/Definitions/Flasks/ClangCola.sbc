@@ -11,9 +11,9 @@
       <Icon>Textures\GUI\Icons\clang_cola.dds</Icon>
       <Description>Description_ClangKola</Description>
       <Size>
-        <X>0.14</X>
-        <Y>0.43</Y>
-        <Z>0.14</Z>
+        <X>0.001</X>
+        <Y>0.001</Y>
+        <Z>0.001</Z>
       </Size>
       <Mass>1</Mass>
       <Volume>1</Volume>
