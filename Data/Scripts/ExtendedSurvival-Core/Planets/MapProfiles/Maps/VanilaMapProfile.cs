@@ -3469,148 +3469,6 @@ namespace ExtendedSurvival.Core
         public static List<PlanetProfile.OreMapInfo> EUROPA_ORES;
         public static List<PlanetProfile.OreMapInfo> TITAN_ORES;
 
-        public static readonly PlanetProfile.MeteorImpactInfo EARTHLIKE_METEOR = new PlanetProfile.MeteorImpactInfo()
-        {
-            enabled = true,
-            chanceToSpawn = 0.15f,
-            stones = new PlanetProfile.MeteorStonesInfo[] { 
-                new PlanetProfile.MeteorStonesInfo()
-                {
-                    groupId = "SnowCoverageIronCore",
-                    modifierId = "EarthSnowArea",
-                    chanceToSpawn = 0.25f
-                },
-                new PlanetProfile.MeteorStonesInfo()
-                {
-                    groupId = "StoneCoverageIronCore",
-                    modifierId = "EarthForestArea",
-                    chanceToSpawn = 0.5f
-                },
-                new PlanetProfile.MeteorStonesInfo()
-                {
-                    groupId = "StoneCoverageIronCore",
-                    modifierId = "EarthDesertArea",
-                    chanceToSpawn = 0.25f
-                }
-            }
-        };
-
-        public static readonly PlanetProfile.MeteorImpactInfo ALIEN_METEOR = new PlanetProfile.MeteorImpactInfo()
-        {
-            enabled = true,
-            chanceToSpawn = 0.15f,
-            stones = new PlanetProfile.MeteorStonesInfo[] {
-                new PlanetProfile.MeteorStonesInfo()
-                {
-                    groupId = "SnowCoverageIronCore",
-                    modifierId = "AlienIcelandArea",
-                    chanceToSpawn = 0.25f
-                },
-                new PlanetProfile.MeteorStonesInfo()
-                {
-                    groupId = "StoneCoverageIronCore",
-                    modifierId = "AlienForestArea",
-                    chanceToSpawn = 0.5f
-                },
-                new PlanetProfile.MeteorStonesInfo()
-                {
-                    groupId = "StoneCoverageIronCore",
-                    modifierId = "AlienDesertArea",
-                    chanceToSpawn = 0.25f
-                }
-            }
-        };
-
-        public static readonly PlanetProfile.MeteorImpactInfo MARS_METEOR = new PlanetProfile.MeteorImpactInfo()
-        {
-            enabled = true,
-            chanceToSpawn = 0.15f,
-            stones = new PlanetProfile.MeteorStonesInfo[] {
-                new PlanetProfile.MeteorStonesInfo()
-                {
-                    groupId = "StoneCoverageIronCore",
-                    modifierId = "Mars",
-                    chanceToSpawn = 1f
-                }
-            }
-        };
-
-        public static readonly PlanetProfile.MeteorImpactInfo PERTAN_METEOR = new PlanetProfile.MeteorImpactInfo()
-        {
-            enabled = true,
-            chanceToSpawn = 0.15f,
-            stones = new PlanetProfile.MeteorStonesInfo[] {
-                new PlanetProfile.MeteorStonesInfo()
-                {
-                    groupId = "StoneCoverageIronCore",
-                    modifierId = "EarthDesertArea",
-                    chanceToSpawn = 1f
-                }
-            }
-        };
-
-        public static readonly PlanetProfile.MeteorImpactInfo TRITON_METEOR = new PlanetProfile.MeteorImpactInfo()
-        {
-            enabled = true,
-            chanceToSpawn = 0.15f,
-            stones = new PlanetProfile.MeteorStonesInfo[] {
-                new PlanetProfile.MeteorStonesInfo()
-                {
-                    groupId = "SnowCoverageIronCore",
-                    modifierId = "EarthSnowArea",
-                    chanceToSpawn = 1f
-                }
-            }
-        };
-
-        public static readonly PlanetProfile.MeteorImpactInfo MOON_METEOR = new PlanetProfile.MeteorImpactInfo()
-        {
-            enabled = true,
-            chanceToSpawn = 0.15f,
-            stones = new PlanetProfile.MeteorStonesInfo[] {
-                new PlanetProfile.MeteorStonesInfo()
-                {
-                    groupId = "StoneCoverageIronCore",
-                    modifierId = "Moon",
-                    chanceToSpawn = 0.75f
-                },
-                new PlanetProfile.MeteorStonesInfo()
-                {
-                    groupId = "SnowCoverageIronCore",
-                    modifierId = "Moon",
-                    chanceToSpawn = 0.25f
-                }
-            }
-        };
-
-        public static readonly PlanetProfile.MeteorImpactInfo EUROPA_METEOR = new PlanetProfile.MeteorImpactInfo()
-        {
-            enabled = true,
-            chanceToSpawn = 0.15f,
-            stones = new PlanetProfile.MeteorStonesInfo[] {
-                new PlanetProfile.MeteorStonesInfo()
-                {
-                    groupId = "SnowCoverageIronCore",
-                    modifierId = "Europa",
-                    chanceToSpawn = 1f
-                }
-            }
-        };
-
-        public static readonly PlanetProfile.MeteorImpactInfo TITAN_METEOR = new PlanetProfile.MeteorImpactInfo()
-        {
-            enabled = true,
-            chanceToSpawn = 0.15f,
-            stones = new PlanetProfile.MeteorStonesInfo[] {
-                new PlanetProfile.MeteorStonesInfo()
-                {
-                    groupId = "StoneCoverageIronCore",
-                    modifierId = "Mars",
-                    chanceToSpawn = 1f
-                }
-            }
-        };
-
         // Planets
 
         public static readonly PlanetProfile EARTHLIKE = new PlanetProfile()
@@ -3629,7 +3487,6 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(55, 75),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            MeteorImpact = EARTHLIKE_METEOR,
             SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING
         };
 
@@ -3649,7 +3506,6 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(50, 70),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            MeteorImpact = ALIEN_METEOR,
             SuperficialMining = PlanetMapProfile.ALIEN_SUPERFICIAL_MINING            
         };
 
@@ -3669,7 +3525,6 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(45, 55),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            MeteorImpact = MARS_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -3689,7 +3544,6 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(65, 85),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.LargeGroup,
-            MeteorImpact = PERTAN_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -3707,7 +3561,6 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(55, 65),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            MeteorImpact = TRITON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -3729,7 +3582,6 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(30, 50),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            MeteorImpact = MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -3749,7 +3601,6 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(25, 45),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            MeteorImpact = EUROPA_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -3769,7 +3620,6 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(30, 40),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            MeteorImpact = TITAN_METEOR,
             SuperficialMining = PlanetMapProfile.ALIEN_SUPERFICIAL_MINING
         };
 

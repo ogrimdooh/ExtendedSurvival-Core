@@ -7448,7 +7448,6 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(120, 120),
             Type = PlanetProfile.PlanetType.Star,
-            MeteorImpact = new PlanetProfile.MeteorImpactInfo() { enabled = false },
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -7466,7 +7465,6 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(40, 40),
             Type = PlanetProfile.PlanetType.Star,
-            MeteorImpact = new PlanetProfile.MeteorImpactInfo() { enabled = false },
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -7486,7 +7484,6 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.PERTAM_ORES,
-            MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -7506,7 +7503,6 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.PERTAM_ORES,
-            MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -7526,7 +7522,6 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.EARTHLIKE_ORES,
-            MeteorImpact = VanilaMapProfile.EARTHLIKE_METEOR,
             SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING
         };
 
@@ -7546,7 +7541,6 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -7566,7 +7560,6 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MARS_ORES,
-            MeteorImpact = VanilaMapProfile.MARS_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -7585,7 +7578,6 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(120, 120),
             Type = PlanetProfile.PlanetType.GiantGas,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            MeteorImpact = new PlanetProfile.MeteorImpactInfo() { enabled = false },
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -7605,7 +7597,6 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -7625,7 +7616,6 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -7645,7 +7635,6 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            MeteorImpact = VanilaMapProfile.EUROPA_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -7665,7 +7654,6 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -7684,7 +7672,6 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(120, 120),
             Type = PlanetProfile.PlanetType.GiantGas,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            MeteorImpact = new PlanetProfile.MeteorImpactInfo() { enabled = false },
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -7704,7 +7691,6 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -7724,7 +7710,6 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(35, 55),
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -7744,7 +7729,6 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -7764,7 +7748,6 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -7784,7 +7767,6 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -7804,7 +7786,6 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -7824,7 +7805,6 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -7843,7 +7823,6 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(120, 120),
             Type = PlanetProfile.PlanetType.GiantGas,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            MeteorImpact = new PlanetProfile.MeteorImpactInfo() { enabled = false },
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -7863,7 +7842,6 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -7883,7 +7861,6 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -7903,7 +7880,6 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -7923,7 +7899,6 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -7943,7 +7918,6 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 
@@ -7962,7 +7936,6 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(120, 120),
             Type = PlanetProfile.PlanetType.GiantGas,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            MeteorImpact = new PlanetProfile.MeteorImpactInfo() { enabled = false },
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
         public static readonly PlanetProfile ATA_08_TRITON_PROFILE = new PlanetProfile() 
@@ -7981,7 +7954,6 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
         public static readonly PlanetProfile ATA_09_PLUTO_PROFILE = new PlanetProfile() 
@@ -8000,7 +7972,6 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.TRITON_ORES,
-            MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
         public static readonly PlanetProfile ATA_09_CHARON_PROFILE = new PlanetProfile() 
@@ -8019,7 +7990,6 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            MeteorImpact = VanilaMapProfile.MOON_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 

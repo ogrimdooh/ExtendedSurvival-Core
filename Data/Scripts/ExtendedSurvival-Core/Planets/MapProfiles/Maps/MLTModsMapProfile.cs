@@ -698,7 +698,6 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(28, 32),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            MeteorImpact = VanilaMapProfile.ALIEN_METEOR,
             SuperficialMining = PlanetMapProfile.ALIEN_SUPERFICIAL_MINING
         };
 
@@ -717,7 +716,6 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(50, 55),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            MeteorImpact = VanilaMapProfile.ALIEN_METEOR,
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 

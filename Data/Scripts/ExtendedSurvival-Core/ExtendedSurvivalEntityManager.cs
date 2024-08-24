@@ -85,7 +85,6 @@ namespace ExtendedSurvival.Core
         protected bool canRun;
         protected ParallelTasks.Task task;
         protected ParallelTasks.Task taskStations;
-        protected ParallelTasks.Task taskStones;
         protected ParallelTasks.Task taskFactions;
         protected ParallelTasks.Task taskGuns;
         protected ParallelTasks.Task taskAsteroids;
@@ -145,24 +144,6 @@ namespace ExtendedSurvival.Core
                         }
                         if (MyAPIGateway.Parallel != null)
                             MyAPIGateway.Parallel.Sleep(2500);
-                        else
-                            break;
-                    }
-                });
-                taskStones = MyAPIGateway.Parallel.StartBackground(() =>
-                {
-                    ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), "StartBackground [MeteorStonesController START]");
-                    while (MyExtendedSurvivalTimeManager.Instance == null)
-                    {
-                        MyAPIGateway.Parallel.Sleep(100);
-                    }
-                    _lastCheckMeteorStones = MyExtendedSurvivalTimeManager.Instance.GameTime;
-                    // Loop CheckMeteorStones
-                    while (canRun)
-                    {
-                        CheckMeteorStones();
-                        if (MyAPIGateway.Parallel != null)
-                            MyAPIGateway.Parallel.Sleep(10000);
                         else
                             break;
                     }
@@ -385,7 +366,6 @@ namespace ExtendedSurvival.Core
                 taskFactions.Wait();
                 taskStations.Wait();
                 taskAsteroids.Wait();
-                taskStones.Wait();
                 Players?.Clear();
                 Players = null;
                 MyVisualScriptLogicProvider.PlayerConnected -= Players_PlayerConnected;
@@ -608,12 +588,6 @@ namespace ExtendedSurvival.Core
                             };
                         }
                     }
-                }
-                var meteor = entity as IMyMeteor;
-                if (meteor != null)
-                {
-                    MeteorImpactController.CheckEntityCanGenerateStone(meteor);
-                    return;
                 }
                 var safeZone = entity as MySafeZone;
                 if (safeZone != null)
@@ -1042,50 +1016,6 @@ namespace ExtendedSurvival.Core
                     if (reputation != targetReputation)
                         MyAPIGateway.Session.Factions.SetReputationBetweenPlayerAndFaction(identities[j].IdentityId, SprtFaction.FactionId, targetReputation);
                 }
-            }
-        }
-
-        private long _lastCheckMeteorStones;
-        private void CheckMeteorStones()
-        {
-            try
-            {
-                var timePass = MyExtendedSurvivalTimeManager.Instance.GameTime - _lastCheckMeteorStones;
-                _lastCheckMeteorStones = MyExtendedSurvivalTimeManager.Instance.GameTime;
-                if (ExtendedSurvivalStorage.Instance != null && ExtendedSurvivalStorage.Instance.StarSystem.Generated)
-                {
-                    foreach (var stone in ExtendedSurvivalStorage.Instance.MeteorImpact.Stones)
-                    {
-                        stone.Life -= timePass;
-                    }
-                    if (ExtendedSurvivalStorage.Instance.MeteorImpact.Stones.Any(x => x.Life <= 0))
-                    {
-                        var lista = ExtendedSurvivalStorage.Instance.MeteorImpact.Stones.Where(x => x.Life <= 0).ToList();
-                        foreach (var stone in lista)
-                        {
-                            var remove = true;
-                            var stoneEntity = VoxelMaps.ContainsKey(stone.EntityId) ? VoxelMaps[stone.EntityId] : null;
-                            if (stoneEntity != null)
-                            {
-                                if (AnyInRange(stoneEntity.PositionComp.GetPosition(), SpaceStationController.SPAWN_DISTANCE))
-                                {
-                                    remove = false;
-                                    stone.Life = ExtendedSurvivalSettings.Instance.MeteorImpact.StoneLifeTime * 1000;
-                                }
-                            }
-                            if (remove)
-                            {
-                                ExtendedSurvivalStorage.Instance.MeteorImpact.Stones.Remove(stone);
-                                if (stoneEntity != null)
-                                    stoneEntity.Close();
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
             }
         }
 

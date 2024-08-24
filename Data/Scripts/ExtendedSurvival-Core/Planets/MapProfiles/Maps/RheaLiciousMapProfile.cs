@@ -25,7 +25,6 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(950, 1050),
             Type = PlanetProfile.PlanetType.GiantGas,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            MeteorImpact = new PlanetProfile.MeteorImpactInfo() { enabled = false },
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 

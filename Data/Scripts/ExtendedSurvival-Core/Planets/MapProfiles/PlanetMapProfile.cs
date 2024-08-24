@@ -1275,7 +1275,6 @@ namespace ExtendedSurvival.Core
                     SizeRange = new Vector2(50, 70),
                     Type = PlanetProfile.PlanetType.Planet,
                     GroupType = PlanetProfile.OreGroupType.LargeGroup,
-                    MeteorImpact = VanilaMapProfile.EARTHLIKE_METEOR,
                     Ores =
                     ExtendedSurvivalCoreSession.IsUsingTechnology() ?
                     new List<PlanetProfile.OreMapInfo>()

@@ -144,15 +144,6 @@ namespace ExtendedSurvival.Core
 
         }
 
-        public struct MeteorImpactInfo
-        {
-
-            public bool enabled;
-            public float chanceToSpawn;
-            public MeteorStonesInfo[] stones;
-
-        }
-
         public struct SuperficialMiningDropInfo
         {
 
@@ -181,7 +172,6 @@ namespace ExtendedSurvival.Core
         public TemperatureInfo Temperature { get; set; }
         public GravityInfo Gravity { get; set; }
         public WaterInfo Water { get; set; }
-        public MeteorImpactInfo MeteorImpact { get; set; }
         public SuperficialMiningInfo SuperficialMining { get; set; }
         public List<OreMapInfo> Ores { get; set; } = new List<OreMapInfo>();
         public string TargetColor { get; set; }
@@ -246,21 +236,6 @@ namespace ExtendedSurvival.Core
             }
             else
                 return new GeothermalSetting() { Enabled = false };
-        }
-
-        public PlanetMeteorImpactSetting BuildMeteorImpactSetting()
-        {
-            return new PlanetMeteorImpactSetting()
-            {
-                Enabled = MeteorImpact.enabled,
-                ChanceToSpawn = MeteorImpact.chanceToSpawn,
-                Stones = MeteorImpact.stones?.Select(x => new MeteorImpactStoneSetting()
-                {
-                    GroupId = x.groupId,
-                    ModifierId = x.modifierId,
-                    ChanceToSpawn = x.chanceToSpawn
-                }).ToList() ?? new List<MeteorImpactStoneSetting>()
-            };
         }
 
         public SuperficialMiningSetting BuildSuperficialMiningSetting(string name)
@@ -960,10 +935,6 @@ namespace ExtendedSurvival.Core
                 }
                 else
                 {
-                    if (settings.Version <= 12)
-                    {
-                        settings.MeteorImpact = BuildMeteorImpactSetting();
-                    }
                     if (settings.Version <= 16)
                     {
                         settings.SuperficialMining = BuildSuperficialMiningSetting(settings.Id);
@@ -1040,7 +1011,6 @@ namespace ExtendedSurvival.Core
                 Water = BuildWaterSetting(),
                 Gravity = BuildGravitySetting(),
                 Animal = BuildAnimalsSetting(),
-                MeteorImpact = BuildMeteorImpactSetting(),
                 SuperficialMining = BuildSuperficialMiningSetting(id),
                 OreGroupType = (int)(groupType.HasValue ? groupType.Value : GroupType),
                 ScarceEnabled = scarceenabled,

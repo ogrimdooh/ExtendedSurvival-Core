@@ -62,9 +62,6 @@ namespace ExtendedSurvival.Core
         }
         
         [XmlElement]
-        public MeteorImpactStorage MeteorImpact { get; set; } = new MeteorImpactStorage();
-
-        [XmlElement]
         public DecayStorage Decay { get; set; } = new DecayStorage();
 
         [XmlElement]

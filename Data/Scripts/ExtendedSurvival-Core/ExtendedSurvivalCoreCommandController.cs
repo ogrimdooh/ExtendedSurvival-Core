@@ -263,7 +263,6 @@ namespace ExtendedSurvival.Core
             VALID_COMMANDS[SETTINGS_COMMAND_GRAVITY] = new ValidCommand(SETTINGS_COMMAND_GRAVITY, 3, true);
             VALID_COMMANDS[SETTINGS_COMMAND_WATER] = new ValidCommand(SETTINGS_COMMAND_WATER, 3, true);
             VALID_COMMANDS[SETTINGS_COMMAND_ANIMALS] = new ValidCommand(SETTINGS_COMMAND_ANIMALS, 3, true);
-            VALID_COMMANDS[SETTINGS_COMMAND_METEORIMPACT] = new ValidCommand(SETTINGS_COMMAND_METEORIMPACT, 3, true);
             VALID_COMMANDS[SETTINGS_COMMAND_SUPERFICIALMINING] = new ValidCommand(SETTINGS_COMMAND_SUPERFICIALMINING, 3, true);
             VALID_COMMANDS[SETTINGS_COMMAND_STARSYSTEM] = new ValidCommand(SETTINGS_COMMAND_STARSYSTEM, 1, true);
             VALID_COMMANDS[SETTINGS_COMMAND_METEORWAVE] = new ValidCommand(SETTINGS_COMMAND_METEORWAVE, 0, true);
@@ -306,7 +305,6 @@ namespace ExtendedSurvival.Core
         private const string SETTINGS_COMMAND_GRAVITY = "planet.gravity";
         private const string SETTINGS_COMMAND_WATER = "planet.water";
         private const string SETTINGS_COMMAND_ANIMALS = "planet.animals";
-        private const string SETTINGS_COMMAND_METEORIMPACT = "planet.meteorimpact";
         private const string SETTINGS_COMMAND_SUPERFICIALMINING = "planet.superficialmining";
         private const string SETTINGS_COMMAND_STARSYSTEM = "starsystem";
         private const string SETTINGS_COMMAND_METEORWAVE = "meteorwave";
@@ -511,21 +509,6 @@ namespace ExtendedSurvival.Core
                                 if (ExtendedSurvivalSettings.Instance.ProcessPlanetAnimalsInfo(mCommandData.content[1], mCommandData.content[2], optionsAnm.ToArray()))
                                 {
                                     SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_ANIMALS} executed.", MyFontEnum.White);
-                                }
-                                break;
-                            case SETTINGS_COMMAND_METEORIMPACT:
-                                var optionsMip = new List<string>();
-                                for (int i = 3; i < mCommandData.content.Length; i++)
-                                {
-                                    optionsMip.Add(mCommandData.content[i]);
-                                }
-                                if (mCommandData.content[1] == "$")
-                                {
-                                    mCommandData.content[1] = TryToGetNearPlanet(steamId, mCommandData.content[1], out planetId);
-                                }
-                                if (ExtendedSurvivalSettings.Instance.ProcessPlanetMeteorImpactInfo(mCommandData.content[1], mCommandData.content[2], optionsMip.ToArray()))
-                                {
-                                    SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_METEORIMPACT} executed.", MyFontEnum.White);
                                 }
                                 break;
                             case SETTINGS_COMMAND_SUPERFICIALMINING:

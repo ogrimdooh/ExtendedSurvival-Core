@@ -25,7 +25,6 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(1500, 2000),
             Type = PlanetProfile.PlanetType.Star,
-            MeteorImpact = new PlanetProfile.MeteorImpactInfo() { enabled = false },
             SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
         };
 

@@ -220,16 +220,6 @@ namespace ExtendedSurvival.Core
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
-                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, PlanetMeteorImpactSetting.HELP_TOPIC_SUBTYPE),
-                Title = "MeteorImpact",
-                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_METEORIMPACT_DESCRIPTION),
-                DefaultValue = "",
-                CanUseSettingsCommand = false,
-                NeedRestart = false,
-                Entries = PlanetMeteorImpactSetting.HELP_INFO
-            },
-            new HelpController.ConfigurationEntryHelpInfo()
-            {
                 EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, SuperficialMiningSetting.HELP_TOPIC_SUBTYPE),
                 Title = "SuperficialMining",
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_PLANETS_SUPERFICIALMINING_DESCRIPTION),
@@ -322,9 +312,6 @@ namespace ExtendedSurvival.Core
 
         [XmlElement]
         public PlanetAnimalSetting Animal { get; set; } = new PlanetAnimalSetting();
-
-        [XmlElement]
-        public PlanetMeteorImpactSetting MeteorImpact { get; set; } = new PlanetMeteorImpactSetting();
 
         [XmlElement]
         public SuperficialMiningSetting SuperficialMining { get; set; } = new SuperficialMiningSetting();

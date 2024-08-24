@@ -166,16 +166,6 @@ namespace ExtendedSurvival.Core
             },
             new HelpController.ConfigurationEntryHelpInfo()
             {
-                EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, MeteorImpactSetting.HELP_TOPIC_SUBTYPE),
-                Title = "MeteorImpact",
-                Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_METEORIMPACT_DESCRIPTION),
-                DefaultValue = "",
-                CanUseSettingsCommand = false,
-                NeedRestart = false,
-                Entries = MeteorImpactSetting.HELP_INFO
-            },
-            new HelpController.ConfigurationEntryHelpInfo()
-            {
                 EntryId = new UniqueNameId(HelpController.BASE_TOPIC_TYPE, CombatSetting.HELP_TOPIC_SUBTYPE),
                 Title = "Combat",
                 Description = LanguageProvider.GetEntry(LanguageEntries.HELP_SETTINGS_COMBATSETTING_DESCRIPTION),
@@ -312,9 +302,6 @@ namespace ExtendedSurvival.Core
 
         [XmlElement]
         public TradeStationSetting TradeStations { get; set; } = new TradeStationSetting();
-
-        [XmlElement]
-        public MeteorImpactSetting MeteorImpact { get; set; } = new MeteorImpactSetting();
 
         [XmlElement]
         public CombatSetting Combat { get; set; } = new CombatSetting();
@@ -750,81 +737,6 @@ namespace ExtendedSurvival.Core
                                     if (bool.TryParse(options[1], out enabled))
                                     {
                                         info.SuperficialMining.Enabled = enabled;
-                                        Modified = true;
-                                        return true;
-                                    }
-                                    break;
-                            }
-                        }
-                        break;
-                }
-            }
-            return false;
-        }
-
-        public bool ProcessPlanetMeteorImpactInfo(string planet, string name, params string[] options)
-        {
-            var info = GetPlanetInfo(planet, false);
-            if (info != null)
-            {
-                switch (name)
-                {
-                    case "copy":
-                        if (options.Any())
-                        {
-                            string profile = options[0].ToUpper();
-                            var copyProfile = PlanetMapProfile.Get(profile);
-                            if (copyProfile != null)
-                            {
-                                info.MeteorImpact = copyProfile.BuildMeteorImpactSetting();
-                                Modified = true;
-                                return true;
-                            }
-                        }
-                        break;
-                    case "add":
-                        if (options.Any())
-                        {
-                            var values = options[0].Split(':');
-                            if (values.Length == 3)
-                            {
-                                float chance = 0;
-                                if (float.TryParse(values[2], out chance))
-                                {
-                                    info.MeteorImpact.Stones.Add(new MeteorImpactStoneSetting() 
-                                    { 
-                                        GroupId = values[0],
-                                        ModifierId = values[1],
-                                        ChanceToSpawn = chance
-                                    });
-                                    Modified = true;
-                                    return true;
-                                }
-                            }
-                        }
-                        break;
-                    case "clear":
-                        info.MeteorImpact.Stones.Clear();
-                        return true;
-                    case "set":
-                        if (options.Count() == 2)
-                        {
-                            switch (options[0].ToLower())
-                            {
-                                case "enabled":
-                                    bool enabled = false;
-                                    if (bool.TryParse(options[1], out enabled))
-                                    {
-                                        info.MeteorImpact.Enabled = enabled;
-                                        Modified = true;
-                                        return true;
-                                    }
-                                    break;
-                                case "chancetospawn":
-                                    float chancetospawn = 0;
-                                    if (float.TryParse(options[1], out chancetospawn))
-                                    {
-                                        info.MeteorImpact.ChanceToSpawn = chancetospawn;
                                         Modified = true;
                                         return true;
                                     }
@@ -1915,33 +1827,6 @@ namespace ExtendedSurvival.Core
                             Modified = true;
                             return true;
                         }
-                    }
-                    break;
-                case "meteorimpact.enabled":
-                    bool meteorimpact_enabled;
-                    if (bool.TryParse(value, out meteorimpact_enabled))
-                    {
-                        MeteorImpact.Enabled = meteorimpact_enabled;
-                        Modified = true;
-                        return true;
-                    }
-                    break;
-                case "meteorimpact.distancetospawn":
-                    float meteorimpact_distancetospawn;
-                    if (float.TryParse(value, out meteorimpact_distancetospawn))
-                    {
-                        MeteorImpact.DistanceToSpawn = meteorimpact_distancetospawn;
-                        Modified = true;
-                        return true;
-                    }
-                    break;
-                case "meteorimpact.stonelifetime":
-                    long meteorimpact_stonelifetime;
-                    if (long.TryParse(value, out meteorimpact_stonelifetime))
-                    {
-                        MeteorImpact.StoneLifeTime = meteorimpact_stonelifetime;
-                        Modified = true;
-                        return true;
                     }
                     break;
                 case "decay.enabled":

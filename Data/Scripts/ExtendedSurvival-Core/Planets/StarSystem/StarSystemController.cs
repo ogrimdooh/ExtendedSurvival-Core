@@ -273,12 +273,6 @@ namespace ExtendedSurvival.Core
             ExtendedSurvivalStorage.Instance.StarSystem.ComercialTick = 0;
             ExtendedSurvivalStorage.Instance.StarSystem.ComercialCountdown = 0;
             RemoveAllFactions();
-            foreach (var item in ExtendedSurvivalStorage.Instance.MeteorImpact.Stones)
-            {
-                if (ExtendedSurvivalEntityManager.Instance.VoxelMaps.ContainsKey(item.EntityId))
-                    ExtendedSurvivalEntityManager.Instance.VoxelMaps[item.EntityId].Close();
-            }
-            ExtendedSurvivalStorage.Instance.MeteorImpact.Stones.Clear();
         }
 
         public static void ClearStarSystem()
@@ -944,14 +938,6 @@ namespace ExtendedSurvival.Core
                                 sb.AppendLine(string.Format("Temperature Factor: {0}", planet.Setting.Water.TemperatureFactor));
                                 sb.AppendLine(string.Format("Toxicity: {0}", planet.Setting.Water.ToxicLevel.ToString("P2")));
                                 sb.AppendLine(string.Format("Radiation: {0}", planet.Setting.Water.RadiationLevel.ToString("P2")));
-                            }
-                            sb.AppendLine("");
-                            sb.AppendLine("Meteor Impact Data:");
-                            sb.AppendLine("");
-                            sb.AppendLine(string.Format("Enabled: {0}", planet.Setting.MeteorImpact.Enabled ? "Yes" : "No"));
-                            if (planet.Setting.MeteorImpact.Enabled)
-                            {
-                                sb.AppendLine(string.Format("Chance To Spawn: {0}", planet.Setting.MeteorImpact.ChanceToSpawn.ToString("P2")));
                             }
                             sb.AppendLine("");
                             sb.AppendLine("Superficial Mining Data:");
