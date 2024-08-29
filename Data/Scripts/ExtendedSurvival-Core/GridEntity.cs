@@ -15,12 +15,31 @@ using System;
 using Sandbox.Game.GameSystems;
 using SpaceEngineers.Game.Entities.Blocks;
 using SpaceEngineers.Game.ModAPI;
+using VRage.Game.ObjectBuilders.Definitions;
 
 namespace ExtendedSurvival.Core
 {
-
     public class GridEntity : EntityBase<IMyCubeGrid>
     {
+
+        public class StoreItemInterationInfo
+        {
+
+            public UniqueEntityId ItemId { get; set; }
+            public IMyStoreItem StoreItem { get; set; }
+
+            public void Item_OnTransaction(int sold, int remain, long price, long ownerId, long playerId)
+            {
+                if (StarShipKeyConstants.IsValidStarShipKey(ItemId))
+                {
+                    var info = StarShipKeyConstants.GetStarShipKey(ItemId);
+                    info.CubeGrid.Close();
+                    StarShipKeyConstants.FreeKeySlot(ItemId);
+                }
+            }
+
+        }
+
         private readonly string[] TURBINEMODULES_SUBTYPES = new string[] { "TurbinePowerOutputModule", "EnhancedTurbinePowerOutputModule", "EliteTurbinePowerOutputModule" };
 
         private readonly string[] TREADMILL_SUBTYPES = new string[] { "Eikester_Treadmill_SB", "Eikester_Treadmill" };
@@ -41,6 +60,21 @@ namespace ExtendedSurvival.Core
 
         private List<IMySlimBlock> _notInitilizedCollectorsBlocks;
         private List<IMySlimBlock> _notInitilizedTreadmillBlocks;
+
+        private int price = 0;
+        private bool priceDirty = true;
+
+        public int Price
+        {
+            get
+            {
+                if (priceDirty)
+                    CalcPrice();
+                return price;
+            }
+        }
+
+        private List<StoreItemInterationInfo> _storeItens = new List<StoreItemInterationInfo>();
 
         public PlanetEntity PlanetAtRange
         {
@@ -168,6 +202,26 @@ namespace ExtendedSurvival.Core
                 if (_blocksByType.ContainsKey(typeof(MyObjectBuilder_SmallGatlingGun)))
                     return _blocksByType[typeof(MyObjectBuilder_SmallGatlingGun)];
                 return new List<IMySlimBlock>();
+            }
+        }
+
+        public List<IMySlimBlock> StoreBlocks
+        {
+            get
+            {
+                if (_blocksByType.ContainsKey(typeof(MyObjectBuilder_StoreBlock)))
+                    return _blocksByType[typeof(MyObjectBuilder_StoreBlock)];
+                return new List<IMySlimBlock>();
+            }
+        }
+
+        public IMyStoreBlock StoreBlock
+        {
+            get
+            {
+                if (StoreBlocks.Any())
+                    return StoreBlocks[0].FatBlock as IMyStoreBlock;
+                return null;
             }
         }
 
@@ -533,6 +587,88 @@ namespace ExtendedSurvival.Core
             Entity.OnBlockRemoved += Entity_OnBlockRemoved;
             Entity.OnIsStaticChanged += Entity_OnIsStaticChanged;
             CheckGridStartIsStatic();
+            CheckIfIsStation();
+        }
+
+        public void CheckIfIsStation()
+        {
+            if (ExtendedSurvivalStorage.Instance.StarSystem.Generated && StoreBlocks.Any())
+            {
+                var tag = StoreBlock.GetOwnerFactionTag();
+                if (!string.IsNullOrWhiteSpace(tag))
+                {
+                    var faction = MyAPIGateway.Session.Factions.TryGetFactionByTag(tag);
+                    if (faction != null && faction.IsEveryoneNpc())
+                    {
+                        var factionDef = ExtendedSurvivalStorage.Instance.Factions.FirstOrDefault(x => x.Tag == tag);
+                        if (factionDef.FactionType == (int)FactionType.Shipyard)
+                        {
+                            (Entity as MyCubeGrid).OnConnectionChangeCompleted += GridEntity_OnConnectionChangeCompleted;
+                            // Remove any saved ship to sell
+                            List<IMyStoreItem> items = new List<IMyStoreItem>();
+                            StoreBlock.GetStoreItems(items);
+                            foreach (var item in items)
+                            {
+                                var id = new UniqueEntityId((MyDefinitionId)item.Item);
+                                if (StarShipKeyConstants.IsStarShipKey(id))
+                                {
+                                    StoreBlock.RemoveStoreItem(item);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void GridEntity_OnConnectionChangeCompleted(MyCubeGrid cubegrid, GridLinkTypeEnum linkEnum)
+        {
+            var lista = (Entity as MyCubeGrid).GetConnectedGrids(GridLinkTypeEnum.Physical);
+            var listaToRemove = new List<UniqueEntityId>();
+            foreach (var item in _storeItens)
+            {
+                var key = StarShipKeyConstants.GetStarShipKey(item.ItemId);
+                if (key != null)
+                {
+                    if (!lista.Any(x => x.EntityId == key.EntityId))
+                    {
+                        listaToRemove.Add(item.ItemId);
+                    }
+                }
+                else
+                {
+                    listaToRemove.Add(item.ItemId);
+                }
+            }
+            foreach (var item in listaToRemove)
+            {
+                StoreBlock.RemoveStoreItem(_storeItens.FirstOrDefault(x => x.ItemId == item).StoreItem);
+                StarShipKeyConstants.FreeKeySlot(item);
+            }
+            if (lista != null && lista.Any(x => x.BigOwners.Any(y => MyAPIGateway.Players.TryGetSteamId(y) != 0)))
+            {
+                foreach (var grid in lista.Where(x => x.BigOwners.Any(y => MyAPIGateway.Players.TryGetSteamId(y) != 0)))
+                {
+                    if (!_storeItens.Any(x => StarShipKeyConstants.GetStarShipKey(x.ItemId)?.EntityId == grid.EntityId))
+                    {
+                        var keyToCreate = StarShipKeyConstants.GetEmptyShipKey(grid);
+                        {
+                            if (keyToCreate != null)
+                            {
+                                var item = StoreBlock.CreateStoreItem(keyToCreate.ItemId.DefinitionId, 1, (int)keyToCreate.Price, StoreItemTypes.Order);
+                                var sotoreItem = new StoreItemInterationInfo()
+                                {
+                                    ItemId = keyToCreate.ItemId,
+                                    StoreItem = item
+                                };
+                                item.OnTransaction += sotoreItem.Item_OnTransaction;
+                                _storeItens.Add(sotoreItem);
+                                StoreBlock.InsertStoreItem(item);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         public void ChargeAllBateries()
@@ -794,6 +930,7 @@ namespace ExtendedSurvival.Core
 
         private void Entity_OnBlockRemoved(IMySlimBlock obj)
         {
+            priceDirty = true;
             /* SKIN GROUPS */
             if (_woodBlocks.Contains(obj))
                 _woodBlocks.Remove(obj);
@@ -830,6 +967,7 @@ namespace ExtendedSurvival.Core
 
         private void Entity_OnBlockAdded(IMySlimBlock obj)
         {
+            priceDirty = true;
             /* SKIN GROUPS */
             if (obj.BlockDefinition.Id.SubtypeId.ToString().Contains("WoodPlank"))
             {
@@ -1028,6 +1166,17 @@ namespace ExtendedSurvival.Core
         {
             if (_thermalOutputs.ContainsKey(entityId))
                 _thermalOutputs.Remove(entityId);
+        }
+
+        private void CalcPrice()
+        {
+            price = 0;
+            foreach (var blockId in _blocksById.Keys)
+            {
+                var blockprice = SpaceStationController.GetCubeBlockBaseValue(blockId.DefinitionId);
+                price += (int)(_blocksById[blockId].Count * blockprice);
+            }
+            priceDirty = false;
         }
 
     }

@@ -86,6 +86,7 @@ namespace ExtendedSurvival.Core
         public HudAPIv2 TextAPI;
         public EasyInventoryAPI EasyInventoryAPI;
 
+        public const ushort NETWORK_ID_CALLSERVERSYSTEM = 40426;
         public const ushort NETWORK_ID_CALLCLIENTSYSTEM = 40422;
         public const ushort NETWORK_ID_COMMANDS = 40423;
         public const ushort NETWORK_ID_DEFINITIONS = 40424;
@@ -93,6 +94,11 @@ namespace ExtendedSurvival.Core
         public const string CALL_FOR_DEFS = "NEEDDEFS";
         public const string CALL_FOR_WATER = "NEEDWATER";
         public const string BRODCAST_VOXELRESET = "BRODCAST_VOXELRESET";
+        public const string STARSHIPKEY_DEF = "STARSHIPKEY_DEF";
+        public const string PLAYEROPENSTOREGUI = "PLAYEROPENSTOREGUI";
+        public const string PLAYERCLOSESTOREGUI = "PLAYERCLOSESTOREGUI";
+        public const string CALLSTARSHIPKEY = "CALLSTARSHIPKEY";
+        public const string SENDSTARSHIPKEY = "SENDSTARSHIPKEY";
 
         public AdvancedPlayerUICoreAPI APUCoreAPI;
         public NanobotAPI NanobotAPI;
@@ -133,14 +139,20 @@ namespace ExtendedSurvival.Core
 
             Static = this;
 
+            StarShipKeyConstants.LoadBaseKeys();
+
             if (!IsDedicated)
             {
                 MyAPIGateway.Multiplayer.RegisterSecureMessageHandler(NETWORK_ID_CALLCLIENTSYSTEM, ClientUpdateMsgHandler);
+                MyAPIGateway.Gui.GuiControlCreated += Gui_GuiControlCreated;
+                MyAPIGateway.Gui.GuiControlRemoved += Gui_GuiControlRemoved;
             }
-
+            
             if (IsServer)
             {
 
+                MyAPIGateway.Multiplayer.RegisterSecureMessageHandler(NETWORK_ID_CALLSERVERSYSTEM, ServerUpdateMsgHandler);
+                
                 // Need this because of the recipes need balance
                 MyAPIGateway.Session.SessionSettings.AssemblerEfficiencyMultiplier = 1f;
 
@@ -280,6 +292,24 @@ namespace ExtendedSurvival.Core
 
         }
 
+        private void Gui_GuiControlCreated(object obj)
+        {
+            var guiName = obj.GetType().Name;
+            if (guiName == "MyGuiScreenStoreBlock")
+            {
+                StarShipKeyConstants.PlayerOpenStoreGui();
+            }
+        }
+
+        private void Gui_GuiControlRemoved(object obj)
+        {
+            var guiName = obj.GetType().Name;
+            if (guiName == "MyGuiScreenStoreBlock")
+            {
+                StarShipKeyConstants.PlayerCloseStoreGui();
+            }
+        }
+
         public bool IsPveZone(Vector3D pos)
         {
             float naturalGravityInterference;
@@ -368,6 +398,50 @@ namespace ExtendedSurvival.Core
             }
         }
 
+        private void ServerUpdateMsgHandler(ushort netId, byte[] data, ulong steamId, bool fromServer)
+        {
+            try
+            {
+                if (netId != NETWORK_ID_CALLSERVERSYSTEM || !IsServer)
+                    return;
+
+                var message = Encoding.Unicode.GetString(data);
+                var mCommandData = MyAPIGateway.Utilities.SerializeFromXML<Command>(message);
+                if (mCommandData.content.Length > 0)
+                {
+                    long playerId = 0;
+                    switch (mCommandData.content[0])
+                    {
+                        case PLAYEROPENSTOREGUI:
+                            if (long.TryParse(mCommandData.content[1], out playerId))
+                            {
+                                if (ExtendedSurvivalEntityManager.Instance.Players.ContainsKey(playerId))
+                                {
+                                    StarShipKeyConstants.DoPlayerOpenStoreGui(ExtendedSurvivalEntityManager.Instance.Players[playerId]);
+                                }
+                            }
+                            break;
+                        case PLAYERCLOSESTOREGUI:
+                            if (long.TryParse(mCommandData.content[1], out playerId))
+                            {
+                                if (ExtendedSurvivalEntityManager.Instance.Players.ContainsKey(playerId))
+                                {
+                                    StarShipKeyConstants.DoPlayerCloseStoreGui(ExtendedSurvivalEntityManager.Instance.Players[playerId]);
+                                }
+                            }
+                            break;
+                        case CALLSTARSHIPKEY:
+                            StarShipKeyConstants.SendKeysToClient(steamId);
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
+            }
+        }
+
         public const char COMMAND_PREFIX = '/';
         private DateTime lastCallWaterApi = DateTime.Now;
         private void ClientUpdateMsgHandler(ushort netId, byte[] data, ulong steamId, bool fromServer)
@@ -418,6 +492,23 @@ namespace ExtendedSurvival.Core
                                         (entity as IMyVoxelBase)?.Storage.Reset(MyStorageDataTypeFlags.ContentAndMaterial);
                                     }
                                 }
+                            }
+                            break;
+                        case STARSHIPKEY_DEF:
+                            if (mCommandData.content.Length == 3)
+                            {
+                                UniqueEntityId starshipid = null;
+                                if (UniqueEntityId.TryParse(mCommandData.content[1], out starshipid))
+                                {
+                                    StarShipKeyConstants.DoUpdateStarShipKeyDesc(starshipid, mCommandData.content[2]);
+                                }
+                            }
+                            break;
+                        case SENDSTARSHIPKEY:
+                            var keys = mCommandData.content.Skip(2).ToList();
+                            if (keys.Any())
+                            {
+                                StarShipKeyConstants.LoadKeysIntoClient(keys);
                             }
                             break;
                     }
@@ -558,6 +649,8 @@ namespace ExtendedSurvival.Core
 
                 if (IsServer)
                     ExtendedSurvivalSettings.Instance.CheckLoadedValues();
+                else
+                    StarShipKeyConstants.CallForServerKeys();
 
             }
         }
@@ -572,10 +665,13 @@ namespace ExtendedSurvival.Core
                 if (!IsDedicated)
                 {
                     MyAPIGateway.Multiplayer.UnregisterSecureMessageHandler(NETWORK_ID_CALLCLIENTSYSTEM, ClientUpdateMsgHandler);
+                    MyAPIGateway.Gui.GuiControlCreated -= Gui_GuiControlCreated;
+                    MyAPIGateway.Gui.GuiControlRemoved -= Gui_GuiControlRemoved;
                 }
 
                 if (IsServer)
                 {
+                    MyAPIGateway.Multiplayer.UnregisterSecureMessageHandler(NETWORK_ID_CALLSERVERSYSTEM, ServerUpdateMsgHandler);
                     MyAPIGateway.Multiplayer.UnregisterSecureMessageHandler(NETWORK_ID_DEFINITIONS, ClientDefinitionsUpdateServerMsgHandler);
                 }
                 else

@@ -1,6 +1,7 @@
 ﻿using Sandbox.Definitions;
 using Sandbox.Game;
 using Sandbox.Game.Entities;
+using Sandbox.Game.Multiplayer;
 using Sandbox.ModAPI;
 using System;
 using System.Collections.Generic;
@@ -1144,7 +1145,7 @@ namespace ExtendedSurvival.Core
                 {
                     foreach (var item in faction.Members)
                     {
-                        MyAPIGateway.Players.RequestChangeBalance(item.Key, long.MaxValue / 2);
+                        MyAPIGateway.Players.RequestChangeBalance(item.Value.PlayerId, long.MaxValue / 2);
                     }
                 }
             });

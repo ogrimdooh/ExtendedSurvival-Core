@@ -255,14 +255,14 @@ namespace ExtendedSurvival.Core
         public static readonly ConcurrentDictionary<UniqueEntityId, StationShopItem> SHOP_ITENS = new ConcurrentDictionary<UniqueEntityId, StationShopItem>();
         public static readonly ConcurrentDictionary<UniqueEntityId, BaseMaterialItem> BASE_ITENS = new ConcurrentDictionary<UniqueEntityId, BaseMaterialItem>();
 
-        // PG = 25.15 * 1.95 (5-1)
+        // 150 * 1.25 (6 - 1)
         public static readonly Dictionary<PlanetProfile.OreRarity, float> BASE_ORE_VALUE = new Dictionary<PlanetProfile.OreRarity, float>()
         {
-            { PlanetProfile.OreRarity.None, 5.75f },
-            { PlanetProfile.OreRarity.Common, 12.94f },
-            { PlanetProfile.OreRarity.Uncommon, 29.11f },
-            { PlanetProfile.OreRarity.Rare, 65.50f },
-            { PlanetProfile.OreRarity.Epic, 147.37f }
+            { PlanetProfile.OreRarity.None, 150f },
+            { PlanetProfile.OreRarity.Common, 187.5f },
+            { PlanetProfile.OreRarity.Uncommon, 234.37f },
+            { PlanetProfile.OreRarity.Rare, 292.96f },
+            { PlanetProfile.OreRarity.Epic, 366.21f }
         };
 
         public static readonly Dictionary<ItemRarity, Vector2> ITEM_RARITY_AMOUNT = new Dictionary<ItemRarity, Vector2>()
@@ -462,6 +462,81 @@ namespace ExtendedSurvival.Core
                     new StationPrefabInfo("Economy_SpaceStation_3"),
                     new StationPrefabInfo("Economy_SpaceStation_4"),
                     new StationPrefabInfo("Economy_SpaceStation_5")
+                }
+            }
+        };
+
+        public static readonly Dictionary<ulong, string[]> CONDITIONAL_PREFABS_TO_SELL = new Dictionary<ulong, string[]>()
+        {
+            {
+                3317449166 /* Previously Owned Economy Ships */,
+                new string[]
+                {
+                    "Acela-RT",
+                    "Albatros",
+                    "Alsvidr",
+                    "Angurvadal",
+                    "Antilia",
+                    "Badger",
+                    "Bolt",
+                    "Brokkr-Multi",
+                    "Brokkr-Salvage",
+                    "Brokkr-Welder",
+                    "Carack",
+                    "Clipper",
+                    "Crossland",
+                    "Eitri",
+                    "Fenrir",
+                    "Heracles",
+                    "Laevateinn",
+                    "M85-Miner",
+                    "Mago",
+                    "Raliket",
+                    "Scorpio",
+                    "Scylla",
+                    "Sindri",
+                    "Smidr-Atmo",
+                    "Smidr-Space",
+                    "Spadi-Atmo",
+                    "Spadi-Space",
+                    "Swordfish",
+                    "Tugboat",
+                    "Valkyrie",
+                    "Vulture",
+                    "Butterball",
+                    "CombatCroissant",
+                    "RockLobster",
+                    "TheAbsconder",
+                    "TheTick",
+                    "TrainingWheels",
+                    "Wasabi",
+                    "Gaius",
+                    "Gallardo",
+                    "Gally",
+                    "Groundhog",
+                    "Idris",
+                    "Marathon",
+                    "Nagamaki",
+                    "Naginata",
+                    "Speedy",
+                    "Tanto",
+                    "Wakizashi",
+                    "Yari",
+                    "AtmoCarrier",
+                    "Platypus",
+                    "TaskmasterHeavy",
+                    "TaskmasterUtility",
+                    "WHI-24Drill",
+                    "WHI-AntiAir",
+                    "WHI-Cruiser",
+                    "WHI-Gunship",
+                    "WHI-Miner5",
+                    "WHI-MTransport",
+                    "MarmExcavator",
+                    "MarmCrane",
+                    "MarmWeldingArm",
+                    "MarmTHI",
+                    "MarmWUV"
                 }
             }
         };
@@ -793,6 +868,15 @@ namespace ExtendedSurvival.Core
             foreach (var item in PREFABS_TO_SELL)
             {
                 AddPrefabToShop(item);
+            }
+            foreach (var key in CONDITIONAL_PREFABS_TO_SELL.Keys)
+            {
+                if (!MyAPIGateway.Session.Mods.Any(x => x.PublishedFileId == key))
+                    continue;
+                foreach (var item in CONDITIONAL_PREFABS_TO_SELL[key])
+                {
+                    AddPrefabToShop(item);
+                }
             }
             SelfLoaded = true;
             MarkAsAllItensLoaded(0);
@@ -1191,7 +1275,7 @@ namespace ExtendedSurvival.Core
 
         private static readonly ConcurrentDictionary<MyDefinitionId, float> _blockMaxStoredPower = new ConcurrentDictionary<MyDefinitionId, float>();
         private static readonly ConcurrentDictionary<MyDefinitionId, float> _blockValues = new ConcurrentDictionary<MyDefinitionId, float>();
-        private static float GetCubeBlockBaseValue(MyDefinitionId blockId)
+        public static float GetCubeBlockBaseValue(MyDefinitionId blockId)
         {
             if (_blockValues.ContainsKey(blockId))
                 return _blockValues[blockId];
@@ -1257,6 +1341,7 @@ namespace ExtendedSurvival.Core
         }
 
         private static readonly List<MyDefinitionId> ValueCalcLock = new List<MyDefinitionId>();
+        private static List<MyDefinitionId> MappedIngots = new List<MyDefinitionId>();
         private static float GetBluePrintValue(MyBlueprintDefinitionBase bluePrint, MyPhysicalItemDefinition baseDef, ref ConcurrentDictionary<string, float> composition)
         {
             float baseValue = 0;
@@ -1270,18 +1355,29 @@ namespace ExtendedSurvival.Core
                     if (bluePrint != null)
                     {
                         var resultaAmount = (float)bluePrint.Results.FirstOrDefault(x => x.Id == baseDef.Id).Amount;
-                        foreach (var prerequisite in bluePrint.Prerequisites)
+                        if (MappedIngots.Contains(baseDef.Id) && bluePrint.Prerequisites.Length == 1 && bluePrint.Prerequisites.Any(x => x.Id.TypeId == typeof(MyObjectBuilder_Ore)))
                         {
-                            if (!prerequisite.Id.TypeId.IsNull && !string.IsNullOrWhiteSpace(prerequisite.Id.SubtypeId.String))
+                            var prerequisite = bluePrint.Prerequisites[0];
+                            var targetId = new UniqueEntityId(prerequisite.Id);
+                            var prerequisiteShopItem = GetAndCalcItemInfo(targetId);
+                            if (prerequisiteShopItem != null)
                             {
-                                var targetId = new UniqueEntityId(prerequisite.Id);
-                                if (ExtendedSurvivalSettings.Instance.Debug)
-                                    ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(SpaceStationController), $"GetBluePrintValue: {baseDef.Id} : {bluePrint.Id} get prerequisite {prerequisite.Id}");
-                                var prerequisiteShopItem = GetAndCalcItemInfo(targetId);
-                                if (prerequisiteShopItem != null)
+                                baseValue = prerequisiteShopItem.BaseValue;
+                                foreach (var c in prerequisiteShopItem.Composition)
                                 {
-                                    baseValue += prerequisiteShopItem.BaseValue * (float)prerequisite.Amount;
-                                    foreach (var c in prerequisiteShopItem.Composition)
+                                    if (composition.ContainsKey(c.Key))
+                                        composition[c.Key] += c.Value * (float)prerequisite.Amount;
+                                    else
+                                        composition[c.Key] = c.Value * (float)prerequisite.Amount;
+                                }
+                            }
+                            else
+                            {
+                                var prerequisiteBaseItem = GetAndCalcBaseItemInfo(targetId);
+                                if (prerequisiteBaseItem != null)
+                                {
+                                    baseValue = prerequisiteBaseItem.BaseValue;
+                                    foreach (var c in prerequisiteBaseItem.Composition)
                                     {
                                         if (composition.ContainsKey(c.Key))
                                             composition[c.Key] += c.Value * (float)prerequisite.Amount;
@@ -1289,13 +1385,24 @@ namespace ExtendedSurvival.Core
                                             composition[c.Key] = c.Value * (float)prerequisite.Amount;
                                     }
                                 }
-                                else
+                            }
+                            baseValue *= 1 + (bluePrint.BaseProductionTimeInSeconds / 60);
+                            baseValue /= resultaAmount;
+                        }
+                        else
+                        {
+                            foreach (var prerequisite in bluePrint.Prerequisites)
+                            {
+                                if (!prerequisite.Id.TypeId.IsNull && !string.IsNullOrWhiteSpace(prerequisite.Id.SubtypeId.String))
                                 {
-                                    var prerequisiteBaseItem = GetAndCalcBaseItemInfo(targetId);
-                                    if (prerequisiteBaseItem != null)
+                                    var targetId = new UniqueEntityId(prerequisite.Id);
+                                    if (ExtendedSurvivalSettings.Instance.Debug)
+                                        ExtendedSurvivalCoreLogging.Instance.LogInfo(typeof(SpaceStationController), $"GetBluePrintValue: {baseDef.Id} : {bluePrint.Id} get prerequisite {prerequisite.Id}");
+                                    var prerequisiteShopItem = GetAndCalcItemInfo(targetId);
+                                    if (prerequisiteShopItem != null)
                                     {
-                                        baseValue += prerequisiteBaseItem.BaseValue * (float)prerequisite.Amount;
-                                        foreach (var c in prerequisiteBaseItem.Composition)
+                                        baseValue += prerequisiteShopItem.BaseValue * (float)prerequisite.Amount;
+                                        foreach (var c in prerequisiteShopItem.Composition)
                                         {
                                             if (composition.ContainsKey(c.Key))
                                                 composition[c.Key] += c.Value * (float)prerequisite.Amount;
@@ -1303,18 +1410,33 @@ namespace ExtendedSurvival.Core
                                                 composition[c.Key] = c.Value * (float)prerequisite.Amount;
                                         }
                                     }
+                                    else
+                                    {
+                                        var prerequisiteBaseItem = GetAndCalcBaseItemInfo(targetId);
+                                        if (prerequisiteBaseItem != null)
+                                        {
+                                            baseValue += prerequisiteBaseItem.BaseValue * (float)prerequisite.Amount;
+                                            foreach (var c in prerequisiteBaseItem.Composition)
+                                            {
+                                                if (composition.ContainsKey(c.Key))
+                                                    composition[c.Key] += c.Value * (float)prerequisite.Amount;
+                                                else
+                                                    composition[c.Key] = c.Value * (float)prerequisite.Amount;
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    ExtendedSurvivalCoreLogging.Instance.LogWarning(typeof(SpaceStationController), $"GetBluePrintValue: {bluePrint.Id} had invalid prerequisite!");
                                 }
                             }
-                            else
-                            {
-                                ExtendedSurvivalCoreLogging.Instance.LogWarning(typeof(SpaceStationController), $"GetBluePrintValue: {bluePrint.Id} had invalid prerequisite!");
-                            }
+                            baseValue *= 1 + (bluePrint.BaseProductionTimeInSeconds / 60);
+                            if (resultaAmount >= 1)
+                                baseValue /= resultaAmount;
+                            else if (resultaAmount < 1 && resultaAmount > 0)
+                                baseValue *= 1 + ((1 - resultaAmount) / 2);
                         }
-                        baseValue *= 1 + (bluePrint.BaseProductionTimeInSeconds / 60);
-                        if (resultaAmount >= 1)
-                            baseValue /= resultaAmount;
-                        else if (resultaAmount < 1 && resultaAmount > 0)
-                            baseValue *= 1 + ((1 - resultaAmount) / 2);
                         var totalMax = composition.Values.Sum();
                         foreach (var k in composition.Keys)
                         {
@@ -1338,17 +1460,34 @@ namespace ExtendedSurvival.Core
                                     rarity = (PlanetProfile.OreRarity)voxelQuery.Max(x => (int)PlanetMapProfile.GetOreMap(x.Id.SubtypeName).rarity);
                                 }
                                 // Get time to refine
-                                float lostFactor = 1;
-                                float baseRefineTime = 1;
+                                float lostFactor = 0;
+                                float baseRefineTime = 0;
                                 float baseSourceAmount = 0;
                                 float baseEndAmount = 0;
-                                var refineQuery = bluePrints.Where(x => x.Prerequisites.Any(y => y.Id == baseDef.Id) && x.Prerequisites.Length == 1 && x.Results.Length == 1);
+                                var refineQuery = bluePrints.Where(x => 
+                                    x.Prerequisites.Any(y => y.Id == baseDef.Id) && 
+                                    x.Prerequisites.Length == 1 && 
+                                    x.Results.Length == 1 &&
+                                    x.Results[0].Id.TypeId == typeof(MyObjectBuilder_Ingot) &&
+                                    !x.Results[0].Id.SubtypeName.Contains("Compressed")
+                                );
                                 if (refineQuery.Any())
                                 {
                                     var count = refineQuery.Count();
                                     baseRefineTime += refineQuery.Sum(x => x.BaseProductionTimeInSeconds) / count;
                                     baseSourceAmount = refineQuery.Sum(x => x.Prerequisites.Where(y => y.Id == baseDef.Id).Sum(y => (float)y.Amount)) / count;
                                     baseEndAmount = refineQuery.Sum(x => x.Results.Sum(y => (float)y.Amount) / x.Results.Count()) / count;
+                                    foreach (var item in refineQuery)
+                                    {
+                                        if (!MappedIngots.Contains(item.Results[0].Id))
+                                        {
+                                            MappedIngots.Add(item.Results[0].Id);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    baseRefineTime = 1;
                                 }
                                 if (baseSourceAmount > 0)
                                 {
@@ -1357,7 +1496,7 @@ namespace ExtendedSurvival.Core
                                 // Calculate value
                                 baseValue = BASE_ORE_VALUE[rarity];
                                 baseValue /= baseRatio;
-                                baseValue *= lostFactor;
+                                baseValue *= 1 - lostFactor;
                                 baseValue *= baseRefineTime;
                                 composition[baseDef.Id.SubtypeName.ToUpper()] = 1f;
                             }

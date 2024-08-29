@@ -2,6 +2,7 @@
 using Sandbox.Definitions;
 using System;
 using VRage.Game;
+using VRage.Game.ModAPI.Ingame;
 using VRage.ObjectBuilders;
 using VRage.Utils;
 
@@ -51,6 +52,14 @@ namespace ExtendedSurvival.Core
                 subtypeId = null;
             definitionId = new UniqueEntityId(MyObjectBuilderType.Parse(typeId), MyStringHash.Get(subtypeId));
             return true;
+        }
+
+        public MyItemType ItemType
+        {
+            get
+            {
+                return GetItemType();
+            }
         }
 
         public MyDefinitionId DefinitionId
@@ -103,6 +112,11 @@ namespace ExtendedSurvival.Core
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public MyItemType GetItemType()
+        {
+            return new MyItemType(typeId, subtypeId);
         }
 
         public MyDefinitionId GetDefinitionId()

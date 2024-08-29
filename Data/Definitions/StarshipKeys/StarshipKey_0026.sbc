@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <PhysicalItems>
+
+    <PhysicalItem xsi:type="MyObjectBuilder_PhysicalItemDefinition">
+      <Id>
+        <TypeId>PhysicalObject</TypeId>
+        <SubtypeId>StarshipKey_0026</SubtypeId>
+      </Id>
+      <DisplayName>Starship Key 0026</DisplayName>
+      <Description></Description>
+      <Icon>Textures\GUI\Icons\starship_key.dds</Icon>
+      <Size>
+        <X>0.2</X>
+        <Y>0.1</Y>
+        <Z>0.2</Z>
+      </Size>
+      <Mass>0.2</Mass>
+      <Volume>0.4</Volume>
+      <Model>Models\Items\Datapad_Item.mwm</Model>
+      <PhysicalMaterial>Metal</PhysicalMaterial>
+      <MinimumOfferAmount>5</MinimumOfferAmount>
+      <MaximumOfferAmount>20</MaximumOfferAmount>
+      <CanPlayerOrder>false</CanPlayerOrder>
+      <CanSpawnFromScreen>false</CanSpawnFromScreen>
+    </PhysicalItem>
+
+  </PhysicalItems>
+</Definitions>

@@ -384,15 +384,35 @@ namespace ExtendedSurvival.Core
 
         public void Players_PlayerConnected(long playerId)
         {
-            UpdatePlayerList();
-            StarSystemController.CreateGpsToPlayer(playerId);
-            DecaySystemController.RegisterPlayerAction(playerId);
+            MyAPIGateway.Parallel.Start(() => {
+                MyAPIGateway.Parallel.Sleep(1000);
+
+                var tempPlayers = new List<IMyPlayer>();
+                MyAPIGateway.Players.GetPlayers(tempPlayers, (x) => x.Identity.IdentityId == playerId);
+                if (tempPlayers.Count > 0)
+                {
+                    DoProcessPlayerList(tempPlayers);
+                }
+            });
+        }
+
+        private void DoProcessPlayerList(List<IMyPlayer> tempPlayers)
+        {
+            foreach (var p in tempPlayers)
+            {
+                if (p.IsValidPlayer())
+                {
+                    Players[p.IdentityId] = p;
+                    StarSystemController.CreateGpsToPlayer(p.IdentityId);
+                    DecaySystemController.RegisterPlayerAction(p.IdentityId);
+                }
+            }
         }
 
         public void Players_PlayerDisconnected(long playerId)
         {
-            UpdatePlayerList();
-            DecaySystemController.RegisterPlayerAction(playerId);
+            if (Players.ContainsKey(playerId))
+                Players.Remove(playerId);
         }
 
         public void UpdatePlayerList()
@@ -400,14 +420,7 @@ namespace ExtendedSurvival.Core
             Players.Clear();
             var tempPlayers = new List<IMyPlayer>();
             MyAPIGateway.Players.GetPlayers(tempPlayers);
-
-            foreach (var p in tempPlayers)
-            {
-                if (p.IsValidPlayer())
-                {
-                    Players[p.IdentityId] = p;
-                }
-            }
+            DoProcessPlayerList(tempPlayers);
         }
 
         public void RegisterWatcher()
@@ -431,6 +444,7 @@ namespace ExtendedSurvival.Core
             foreach (var playerId in Players.Keys)
             {
                 DecaySystemController.RegisterPlayerAction(playerId);
+                StarShipKeyConstants.ClearPlayerInventory(Players[playerId]);
             }
             lock (Grids)
             {
