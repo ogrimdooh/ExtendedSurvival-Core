@@ -1119,6 +1119,7 @@ namespace ExtendedSurvival.Core
                         }
                     }
                     DoResetAnyNpcBalance();
+
                 }
             }
             catch (Exception ex)

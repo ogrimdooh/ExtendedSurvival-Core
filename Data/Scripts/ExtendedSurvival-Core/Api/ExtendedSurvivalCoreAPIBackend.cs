@@ -67,7 +67,8 @@ namespace ExtendedSurvival.Core
             ["MarkAsAllItensLoaded"] = new Action<ulong>(MarkAsAllItensLoaded),
             ["IsMarkAsAllItensLoaded"] = new Func<bool>(IsMarkAsAllItensLoaded),
             ["AddCallBackWhenMarkAsAllItensLoaded"] = new Action<Action>(AddCallBackWhenMarkAsAllItensLoaded),
-            ["GetDisableAssemblerDysasemble"] = new Func<bool>(GetDisableAssemblerDysasemble)
+            ["GetDisableAssemblerDysasemble"] = new Func<bool>(GetDisableAssemblerDysasemble),
+            ["IsTradeFaction"] = new Func<string, bool>(IsTradeFaction)
         };
 
         public static void BeforeStart()
@@ -152,6 +153,13 @@ namespace ExtendedSurvival.Core
         public static bool IsMarkAsAllItensLoaded()
         {
             return SpaceStationController.IsAllLoaded;
+        }
+
+        public static bool IsTradeFaction(string faction)
+        {
+            if (ExtendedSurvivalStorage.Instance.StarSystem.Generated && ExtendedSurvivalStorage.Instance.Factions.Any())
+                return ExtendedSurvivalStorage.Instance.Factions.Any(x => x.Tag == faction);
+            return false;
         }
 
         public static bool GetDisableAssemblerDysasemble()

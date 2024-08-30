@@ -352,6 +352,7 @@ namespace ExtendedSurvival.Core
         private static Func<bool> _IsMarkAsAllItensLoaded;
         private static Action<Action> _AddCallBackWhenMarkAsAllItensLoaded;
         private static Func<bool> _GetDisableAssemblerDysasemble;
+        private static Func<string, bool> _IsTradeFaction;
 
         /// <summary>
         /// Returns true if the version is compatibile with the API Backend, this is automatically called
@@ -700,6 +701,14 @@ namespace ExtendedSurvival.Core
         }
 
         /// <summary>
+        /// return if the tag faction is a trade npc
+        /// </summary>
+        public static bool IsTradeFaction(string faction)
+        {
+            return _IsTradeFaction?.Invoke(faction) ?? false;
+        }
+
+        /// <summary>
         /// return true if grid has Disassembly Computer
         /// </summary>
         public static bool HasDisassemblyComputer(long gridId)
@@ -871,6 +880,7 @@ namespace ExtendedSurvival.Core
                         _IsMarkAsAllItensLoaded = (Func<bool>)ModAPIMethods["IsMarkAsAllItensLoaded"];
                         _AddCallBackWhenMarkAsAllItensLoaded = (Action<Action>)ModAPIMethods["AddCallBackWhenMarkAsAllItensLoaded"];
                         _GetDisableAssemblerDysasemble = (Func<bool>)ModAPIMethods["GetDisableAssemblerDysasemble"];
+                        _IsTradeFaction = (Func<string, bool>)ModAPIMethods["IsTradeFaction"];
 
                         if (m_onRegisteredAction != null)
                             m_onRegisteredAction();

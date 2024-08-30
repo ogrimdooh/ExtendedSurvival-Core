@@ -538,6 +538,59 @@ namespace ExtendedSurvival.Core
                     "MarmTHI",
                     "MarmWUV"
                 }
+            },
+            {
+                420119159 /* OKI NPC Expansion Mod */,
+                new string[]
+                {
+                    "SV Grasshopper Jetbike",
+                    "SV OKI-112-H2 Hauler",
+                    "SV TT-16-H2 Armed Freighter",
+                    "SV TT-18-H2 Advanced Freighter",
+                    "RV Moon Runner",
+                    "NRB Sparrow Recon Ship",
+                    "NRB Vertigo Exploration Corvette",
+                    "NRB Chrysalis Freighter",
+                    "NRB Sunflower Mobile Station",
+                    "NRB Vigil Support Frigate",
+                    "NRB F-028 Rocket Frigate",
+                    "HullTech C107-S Freighter",
+                    "HullTech C220-P Heavy Freighter",
+                    "HullTech C300-P UCU Freighter",
+                    "HullTech CT160-S Super Freighter",
+                    "GEMINI Aero-Space Shuttle",
+                    "ICARUS Bulk Freighter",
+                    "PILLAR Cargo Hauler",
+                    "SNOWMAN Ice Processor",
+                    "DISCOVERY Exploration Ship",
+                    "HUNCHBACK Armed Transporter",
+                    "GARGOYLE Survey Ship",
+                    "FATBOY Mobile Refinery",
+                    "GASBAG Hydrogen Tanker",
+                    "SPEARHEAD Pocket Fighter",
+                    "MAOKI Light Fighter",
+                    "BANELORD Heavy Fighter",
+                    "BOROV Aero-Space Fighter",
+                    "TRCN Dynasty Destroyer",
+                    "TRCN Monarch Battlecruiser",
+                    "VIGIL Aero-Space Fighter",
+                    "AEGIS Aero-Space Shuttle",
+                    "RCSP Koviri Heavy Freighter",
+                    "RCSP Dauntless Heavy FAC",
+                    "RCSP Phoenix Assault Cruiser",
+                    "RCSP Cerberus BattleCruiser",
+                    "RCSP Exile Battlecruiser",
+                    "ARROWHEAD Aero-Fighter",
+                    "RAVEN Hovercopter",
+                    "MAKO Aero-Space Fighter",
+                    "PREDATOR Aero-Space Bomber",
+                    "WMI Severn Attack Corvette",
+                    "KITE-1 Multirole Fighter",
+                    "KITE-2 Strike Fighter",
+                    "KITE-3 Interceptor",
+                    "WIDOW Heavy Fighter",
+                    "SHORTBOW Bomber"
+                }
             }
         };
 
@@ -1184,7 +1237,7 @@ namespace ExtendedSurvival.Core
                                     break;
                             }
                             prefabToCheck.BlockCount += grid.CubeBlocks.Count;
-                            prefabToCheck.TotalPCU += grid.CubeBlocks.Sum(x => MyDefinitionManager.Static.GetCubeBlockDefinition(x.GetId()).PCU);
+                            prefabToCheck.TotalPCU += grid.CubeBlocks.Sum(x => MyDefinitionManager.Static.GetCubeBlockDefinition(x.GetId())?.PCU ?? 0);
                             if (grid.CubeBlocks.Any(x => x.TypeId == typeof(MyObjectBuilder_Reactor)))
                                 prefabToCheck.Flags |= StationPrefabFlag.Reactor;
                             if (grid.CubeBlocks.Any(x => x.TypeId == typeof(MyObjectBuilder_JumpDrive)))
@@ -1231,34 +1284,31 @@ namespace ExtendedSurvival.Core
                             prefabToCheck.Flags.IsFlagSet(StationPrefabFlag.AtmThruster) ||
                             prefabToCheck.Flags.IsFlagSet(StationPrefabFlag.H2Thruster) ||
                             prefabToCheck.Flags.IsFlagSet(StationPrefabFlag.IonThruster);
-                        if (prefabToCheck.IsValid)
+                        foreach (var grid in prefabToCheck.Definition.CubeGrids)
                         {
-                            foreach (var grid in prefabToCheck.Definition.CubeGrids)
+                            foreach (var block in grid.CubeBlocks)
                             {
-                                foreach (var block in grid.CubeBlocks)
+                                if (block.TypeId == typeof(MyObjectBuilder_BatteryBlock))
                                 {
-                                    if (block.TypeId == typeof(MyObjectBuilder_BatteryBlock))
+                                    var blockDef = block as MyObjectBuilder_BatteryBlock;
+                                    if (blockDef != null)
                                     {
-                                        var blockDef = block as MyObjectBuilder_BatteryBlock;
-                                        if (blockDef != null)
+                                        if (_blockMaxStoredPower.ContainsKey(block.GetId()))
                                         {
-                                            if (_blockMaxStoredPower.ContainsKey(block.GetId()))
+                                            blockDef.CurrentStoredPower = _blockMaxStoredPower[block.GetId()];
+                                        }
+                                        else
+                                        {
+                                            var def = MyDefinitionManager.Static.GetCubeBlockDefinition(block.GetId()) as MyBatteryBlockDefinition;
+                                            if (def != null)
                                             {
+                                                _blockMaxStoredPower[block.GetId()] = def.MaxStoredPower;
                                                 blockDef.CurrentStoredPower = _blockMaxStoredPower[block.GetId()];
-                                            }
-                                            else
-                                            {
-                                                var def = MyDefinitionManager.Static.GetCubeBlockDefinition(block.GetId()) as MyBatteryBlockDefinition;
-                                                if (def != null)
-                                                {
-                                                    _blockMaxStoredPower[block.GetId()] = def.MaxStoredPower;
-                                                    blockDef.CurrentStoredPower = _blockMaxStoredPower[block.GetId()];
-                                                }
                                             }
                                         }
                                     }
-                                    prefabToCheck.BaseValue += GetCubeBlockBaseValue(block.GetId());
                                 }
+                                prefabToCheck.BaseValue += GetCubeBlockBaseValue(block.GetId());
                             }
                         }
                         prefabToCheck.IsLoaded = true;
@@ -1859,6 +1909,21 @@ namespace ExtendedSurvival.Core
             }
         }
 
+        public static void DoBuildShopItensToAll(bool force = false)
+        {
+            var stations = ExtendedSurvivalStorage.Instance.StarSystem.GetStations();
+            if (stations.Any())
+            {
+                for (int i = 0; i < stations.Length; i++)
+                {
+                    if (stations[i].ComercialTick != ExtendedSurvivalStorage.Instance.StarSystem.ComercialTick || force)
+                    {
+                        DoBuildShopItens(stations[i]);
+                    }
+                }
+            }
+        }
+
         public static ConcurrentDictionary<long, bool> _lockStationGeneration = new ConcurrentDictionary<long, bool>();
         public static void DoBuildShopItens(StarSystemMemberStationStorage station)
         {
@@ -1871,6 +1936,7 @@ namespace ExtendedSurvival.Core
                     if (faction != null)
                     {
                         station.ShopItems.Clear();
+                        station.ShopPrefabs.Clear();
                         var factionType = (FactionType)faction.FactionType;
                         var stationLevel = (StationLevel)station.StationLevel;
                         var countToBuy = STATION_ITENS_PROFILE[stationLevel].BuyItensCount.GetRandomInt();
@@ -2256,8 +2322,11 @@ namespace ExtendedSurvival.Core
                                         if (LOADED_PREFABS_TO_SELL.ContainsKey(prefab.PrefabName))
                                         {
                                             var def = LOADED_PREFABS_TO_SELL[prefab.PrefabName];
-                                            var item = storeBlock.CreateStoreItem(prefab.PrefabName, 1, (int)def.BaseValue, (int)def.TotalPCU);
-                                            storeBlock.InsertStoreItem(item);
+                                            if (def.BaseValue > 0)
+                                            {
+                                                var item = storeBlock.CreateStoreItem(prefab.PrefabName, 1, (int)prefab.Price, (int)def.TotalPCU);
+                                                storeBlock.InsertStoreItem(item);
+                                            }
                                         }
                                     }
                                 }

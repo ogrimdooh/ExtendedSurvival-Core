@@ -16,6 +16,9 @@ using Sandbox.Game.GameSystems;
 using SpaceEngineers.Game.Entities.Blocks;
 using SpaceEngineers.Game.ModAPI;
 using VRage.Game.ObjectBuilders.Definitions;
+using ParallelTasks;
+using VRage.Noise.Combiners;
+using VRage.Game.Entity;
 
 namespace ExtendedSurvival.Core
 {
@@ -63,6 +66,19 @@ namespace ExtendedSurvival.Core
 
         private int price = 0;
         private bool priceDirty = true;
+
+        private float threatLevel = 0;
+        private bool threatLevelDirty = true;
+
+        public float ThreatLevel
+        {
+            get
+            {
+                if (threatLevelDirty)
+                    DoCalcThreatLevel();
+                return threatLevel;
+            }
+        }
 
         public int Price
         {
@@ -202,6 +218,236 @@ namespace ExtendedSurvival.Core
                 if (_blocksByType.ContainsKey(typeof(MyObjectBuilder_SmallGatlingGun)))
                     return _blocksByType[typeof(MyObjectBuilder_SmallGatlingGun)];
                 return new List<IMySlimBlock>();
+            }
+        }
+
+        public IEnumerable<IMySlimBlock> Antennas
+        {
+            get
+            {
+                return GetBlocksByType(typeof(MyObjectBuilder_RadioAntenna)).Concat(
+                        GetBlocksByType(typeof(MyObjectBuilder_LaserAntenna))
+                    );
+            }
+        }
+
+        public IEnumerable<IMySlimBlock> Beacons
+        {
+            get
+            {
+                return GetBlocksByType(typeof(MyObjectBuilder_Beacon));
+            }
+        }
+
+        public IEnumerable<IMySlimBlock> Containers
+        {
+            get
+            {
+                return GetBlocksByType(typeof(MyObjectBuilder_CargoContainer));
+            }
+        }
+
+        public IEnumerable<IMySlimBlock> Controllers
+        {
+            get
+            {
+                return GetBlocksByType(typeof(MyObjectBuilder_Cockpit)).Concat(
+                        GetBlocksByType(typeof(MyObjectBuilder_RemoteControl))
+                    );
+            }
+        }
+
+        public IEnumerable<IMySlimBlock> Gravity
+        {
+            get
+            {
+                return GetBlocksByType(typeof(MyObjectBuilder_GravityGenerator));
+            }
+        }
+
+        public IEnumerable<IMySlimBlock> Guns
+        {
+            get
+            {
+                return GetBlocksByType(typeof(MyObjectBuilder_SmallGatlingGun)).Concat(
+                        GetBlocksByType(typeof(MyObjectBuilder_SmallMissileLauncher))
+                    ).Concat(
+                        GetBlocksByType(typeof(MyObjectBuilder_SmallMissileLauncherReload))
+                    );
+            }
+        }
+
+        public IEnumerable<IMySlimBlock> Gyros
+        {
+            get
+            {
+                return GetBlocksByType(typeof(MyObjectBuilder_Gyro));
+            }
+        }
+
+        public IEnumerable<IMySlimBlock> JumpDrives
+        {
+            get
+            {
+                return GetBlocksByType(typeof(MyObjectBuilder_JumpDrive));
+            }
+        }
+
+        public IEnumerable<IMySlimBlock> Medical
+        {
+            get
+            {
+                return GetBlocksByType(typeof(MyObjectBuilder_MedicalRoom)).Concat(
+                        GetBlocksByType(typeof(MyObjectBuilder_SurvivalKit))
+                    );
+            }
+        }
+
+        public IEnumerable<IMySlimBlock> Parachutes
+        {
+            get
+            {
+                return GetBlocksByType(typeof(MyObjectBuilder_Parachute));
+            }
+        }
+
+        public IEnumerable<IMySlimBlock> Production
+        {
+            get
+            {
+                return GetBlocksByType(typeof(MyObjectBuilder_Assembler)).Concat(
+                        GetBlocksByType(typeof(MyObjectBuilder_OxygenGenerator))
+                    );
+            }
+        }
+
+        public IEnumerable<IMySlimBlock> Projectors
+        {
+            get
+            {
+                return GetBlocksByType(typeof(MyObjectBuilder_Projector));
+            }
+        }
+
+        public IEnumerable<IMySlimBlock> Power
+        {
+            get
+            {
+                return GetBlocksByType(typeof(MyObjectBuilder_Reactor)).Concat(
+                        GetBlocksByType(typeof(MyObjectBuilder_BatteryBlock))
+                    ).Concat(
+                        GetBlocksByType(typeof(MyObjectBuilder_HydrogenEngine))
+                    ).Concat(
+                        GetBlocksByType(typeof(MyObjectBuilder_SolarPanel))
+                    ).Concat(
+                        GetBlocksByType(typeof(MyObjectBuilder_WindTurbine))
+                    );
+            }
+        }
+
+        public IEnumerable<IMySlimBlock> Seats
+        {
+            get
+            {
+                return GetBlocksByType(typeof(MyObjectBuilder_Cockpit));
+            }
+        }
+
+        public IEnumerable<IMySlimBlock> Stores
+        {
+            get
+            {
+                return GetBlocksByType(typeof(MyObjectBuilder_VendingMachine));
+            }
+        }
+
+        public IEnumerable<IMySlimBlock> Thrusters
+        {
+            get
+            {
+                return GetBlocksByType(typeof(MyObjectBuilder_Thrust));
+            }
+        }
+
+        public IEnumerable<IMySlimBlock> Tools
+        {
+            get
+            {
+                return GetBlocksByType(typeof(MyObjectBuilder_Drill)).Concat(
+                        GetBlocksByType(typeof(MyObjectBuilder_ShipWelder))
+                    ).Concat(
+                        GetBlocksByType(typeof(MyObjectBuilder_ShipGrinder))
+                    );
+            }
+        }
+
+        public IEnumerable<IMySlimBlock> Turrets
+        {
+            get
+            {
+                return GetBlocksByType(typeof(MyObjectBuilder_InteriorTurret)).Concat(
+                        GetBlocksByType(typeof(MyObjectBuilder_LargeGatlingTurret))
+                    ).Concat(
+                        GetBlocksByType(typeof(MyObjectBuilder_LargeMissileTurret))
+                    );
+            }
+        }
+
+        public IEnumerable<IMySlimBlock> TurretControllers
+        {
+            get
+            {
+                return GetBlocksByType(typeof(MyObjectBuilder_TurretControlBlock));
+            }
+        }
+
+        public IEnumerable<IMySlimBlock> Mechanical
+        {
+            get
+            {
+                return GetBlocksByType(typeof(MyObjectBuilder_MotorAdvancedRotor)).Concat(
+                        GetBlocksByType(typeof(MyObjectBuilder_MotorRotor))
+                    ).Concat(
+                        GetBlocksByType(typeof(MyObjectBuilder_PistonBase))
+                    ).Concat(
+                        GetBlocksByType(typeof(MyObjectBuilder_MotorAdvancedStator))
+                    );
+            }
+        }
+
+        public IEnumerable<IMySlimBlock> NanoBots
+        {
+            get
+            {
+                var validSubTypes = new string[] {
+                    "SELtdSmallNanobotBuildAndRepairSystem",
+                    "SELtdLargeNanobotBuildAndRepairSystem"
+                };
+                return GetBlocksByType(typeof(MyObjectBuilder_ShipWelder)).Where(x => validSubTypes.Contains(x.BlockDefinition.Id.SubtypeName));
+            }
+        }
+
+        public const string LargeShipSmallShieldGeneratorBase = "LargeShipSmallShieldGeneratorBase";
+        public const string LargeShipLargeShieldGeneratorBase = "LargeShipLargeShieldGeneratorBase";
+        public const string SmallShipSmallShieldGeneratorBase = "SmallShipSmallShieldGeneratorBase";
+        public const string SmallShipMicroShieldGeneratorBase = "SmallShipMicroShieldGeneratorBase";
+
+        public static readonly string[] ShieldsSubTypes = new string[]
+        {
+            LargeShipSmallShieldGeneratorBase,
+            LargeShipLargeShieldGeneratorBase,
+            SmallShipSmallShieldGeneratorBase,
+            SmallShipMicroShieldGeneratorBase
+        };
+
+        public IEnumerable<IMySlimBlock> Shields
+        {
+            get
+            {
+                var refineryType = typeof(MyObjectBuilder_Refinery);
+                if (_blocksByType.ContainsKey(refineryType))
+                    return _blocksByType[refineryType].Where(x => ShieldsSubTypes.Contains(x.BlockDefinition.Id.SubtypeName));
+                return Enumerable.Empty<IMySlimBlock>();
             }
         }
 
@@ -576,6 +822,13 @@ namespace ExtendedSurvival.Core
             }
         }
 
+        public IEnumerable<IMySlimBlock> GetBlocksByType(MyObjectBuilderType type)
+        {
+            if (_blocksByType.ContainsKey(type))
+                return _blocksByType[type];
+            return Enumerable.Empty<IMySlimBlock>();
+        }
+
         public GridEntity(IMyCubeGrid entity) : base(entity)
         {
             if (Closed)
@@ -609,6 +862,8 @@ namespace ExtendedSurvival.Core
                             StoreBlock.GetStoreItems(items);
                             foreach (var item in items)
                             {
+                                if (!item.Item.HasValue)
+                                    continue;
                                 var id = new UniqueEntityId((MyDefinitionId)item.Item);
                                 if (StarShipKeyConstants.IsStarShipKey(id))
                                 {
@@ -1177,6 +1432,113 @@ namespace ExtendedSurvival.Core
                 price += (int)(_blocksById[blockId].Count * blockprice);
             }
             priceDirty = false;
+        }
+
+        public Vector2 GridPowerOutput()
+        {
+
+            var result = Vector2.Zero;
+
+            if (Closed)
+                return result;
+
+            foreach (var block in _allBlocks)
+            {
+
+                if (block.FatBlock == null || block.FatBlock.Closed || !block.FatBlock.IsWorking || !block.FatBlock.IsFunctional)
+                    continue;
+
+                var powerBlock = block.FatBlock as IMyPowerProducer;
+
+                if (powerBlock == null)
+                    continue;
+
+                result.X += powerBlock.CurrentOutput;
+                result.Y += powerBlock.MaxOutput;
+
+            }
+
+            return result;
+
+        }
+
+        public static float GetTargetValueFromBlockList(IEnumerable<IMySlimBlock> blockList, float threatValue, float modMultiplier = 2, bool scanInventory = false)
+        {
+
+            float result = 0;
+
+            foreach (var block in blockList)
+            {
+
+                if (block.FatBlock == null || block.FatBlock.Closed || !block.FatBlock.IsFunctional)
+                    continue;
+
+                var value = threatValue * (!block.BlockDefinition.Context.IsBaseGame ? modMultiplier : 1);
+
+                if (scanInventory)
+                {
+
+                    if (block.FatBlock.HasInventory && block.FatBlock.GetInventory().MaxVolume > 0)
+                    {
+
+                        var inventoryModifier = ((float)block.FatBlock.GetInventory().CurrentVolume / (float)block.FatBlock.GetInventory().MaxVolume) + 1;
+
+                        if (inventoryModifier != float.NaN)
+                            value *= inventoryModifier;
+
+                    }
+
+                }
+
+                result += value;
+
+            }
+
+            return result;
+
+        }
+
+        private void DoCalcThreatLevel()
+        {
+            threatLevel = 0;
+            threatLevel += GetTargetValueFromBlockList(Antennas, 4, 2);
+            threatLevel += GetTargetValueFromBlockList(Beacons, 3, 2);
+            threatLevel += GetTargetValueFromBlockList(Containers, 0.5f, 2, true);
+            threatLevel += GetTargetValueFromBlockList(Controllers, 0.5f, 2);
+            threatLevel += GetTargetValueFromBlockList(Gravity, 2, 4, true);
+            threatLevel += GetTargetValueFromBlockList(Guns, 5, 4, true);
+            threatLevel += GetTargetValueFromBlockList(JumpDrives, 10, 2);
+            threatLevel += GetTargetValueFromBlockList(Mechanical, 1, 2);
+            threatLevel += GetTargetValueFromBlockList(Medical, 10, 2);
+            threatLevel += GetTargetValueFromBlockList(NanoBots, 15, 2);
+            threatLevel += GetTargetValueFromBlockList(Production, 2, 2, true);
+            threatLevel += GetTargetValueFromBlockList(Power, 0.5f, 2, true);
+            threatLevel += GetTargetValueFromBlockList(Shields, 15, 2);
+            threatLevel += GetTargetValueFromBlockList(Thrusters, 1, 2);
+            threatLevel += GetTargetValueFromBlockList(Tools, 2, 2, true);
+            threatLevel += GetTargetValueFromBlockList(Turrets, 7.5f, 4, true);
+
+            //Factor Power
+            var powerOutput = GridPowerOutput();
+            threatLevel += powerOutput.X > 0 ? powerOutput.Y / 10 : 0;
+
+            //Factor Total Block Count
+            threatLevel += _allBlocks.Count / 100;
+
+            //Factor Grid Box Size
+            threatLevel += (float)Vector3D.Distance(Entity.WorldAABB.Min, Entity.WorldAABB.Max) / 4;
+
+            //Factor Static/Dynamic
+            if (Entity.IsStatic)
+                threatLevel *= 0.75f;
+
+            //Factor Cube Size
+            if (Entity.GridSizeEnum == MyCubeSize.Large)
+                threatLevel *= 2.5f;
+            else
+                threatLevel *= 0.5f;
+
+            threatLevel *= 0.70f;
         }
 
     }

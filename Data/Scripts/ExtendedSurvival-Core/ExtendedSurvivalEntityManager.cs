@@ -13,15 +13,10 @@ using System.Collections.Concurrent;
 using Sandbox.ModAPI.Weapons;
 using Sandbox.Game;
 using System.Text;
-using Sandbox.Game.GameSystems;
 using Sandbox.Common.ObjectBuilders;
-using Sandbox.Game.World;
 using VRage.Utils;
 using Sandbox.Definitions;
 using VRage.Voxels;
-using Sandbox.Game.World.Generator;
-using Sandbox.Engine.Voxels;
-using Sandbox;
 
 namespace ExtendedSurvival.Core
 {
@@ -1039,17 +1034,7 @@ namespace ExtendedSurvival.Core
             {
                 if (ExtendedSurvivalStorage.Instance != null && ExtendedSurvivalStorage.Instance.StarSystem.Generated)
                 {
-                    var stations = ExtendedSurvivalStorage.Instance.StarSystem.GetStations();
-                    if (stations.Any())
-                    {
-                        for (int i = 0; i < stations.Length; i++)
-                        {
-                            if (stations[i].ComercialTick != ExtendedSurvivalStorage.Instance.StarSystem.ComercialTick)
-                            {
-                                SpaceStationController.DoBuildShopItens(stations[i]);
-                            }
-                        }
-                    }
+                    SpaceStationController.DoBuildShopItensToAll();
                 }
             }
             catch (Exception ex)
@@ -2189,6 +2174,168 @@ namespace ExtendedSurvival.Core
                     msg = $"Found {maps.Count} planets matching '{planetName}'.";
                     return false;
             }
+        }
+
+        public bool SpawnPrefab(string name, ulong caller, float distance = 250)
+        {
+            var prefabs = MyDefinitionManager.Static.GetPrefabDefinitions();
+            if (prefabs.Any(x => x.Key.ToLower() == name))
+            {
+                var prefab = prefabs.FirstOrDefault(x => x.Key.ToLower() == name).Value;
+                var playerId = MyAPIGateway.Players.TryGetIdentityId(caller);
+                if (Players.ContainsKey(playerId))
+                {
+                    var c = Players[playerId].Character;
+                    if (c != null)
+                    {
+                        var pos = c.GetPosition();
+                        var head = c.GetHeadMatrix(true);
+                        var look = head.Forward;
+                        var up = head.Up;
+                        var gpos = pos + (look * distance);
+                        var gridListDummy = new List<IMyCubeGrid>();
+                        var options = SpawningOptions.UseOnlyWorldMatrix | SpawningOptions.SetAuthorship;
+                        MyAPIGateway.PrefabManager.SpawnPrefab(
+                            gridListDummy,
+                            prefab.Id.SubtypeName,
+                            gpos,
+                            (Vector3)look,
+                            (Vector3)up,
+                            Vector3.Zero,
+                            Vector3.Zero,
+                            prefab.Id.SubtypeName,
+                            options,
+                            playerId,
+                            true,
+                            () =>
+                            {
+
+                            }
+                        );
+                    }
+                }
+            }
+            return false;
+        }
+
+        private void WritePrefabs(StringBuilder sb, IEnumerable<KeyValuePair<string, MyPrefabDefinition>> prefabs)
+        {
+            Dictionary<string, PrefabConstants.PrefabInfo> threatLevel = new Dictionary<string, PrefabConstants.PrefabInfo>();
+            foreach (var item in prefabs)
+            {
+                threatLevel.Add(item.Key, PrefabConstants.GetPrefabInfo(item.Value));
+            }
+            var maxTagsLenght = "[SELLING]".Length;
+            var maxNameLenght = prefabs.Max(x => x.Key.Length);
+            var maxThreatLevelLenght = threatLevel.Values.Max(x => x.ThreatLevel.ToString("#0.00").Length);
+            var maxTotalPowerBlocksLenght = threatLevel.Values.Max(x => x.TotalPowerBlocks.ToString().Length);
+            var maxTotalTurretsBlocksLenght = threatLevel.Values.Max(x => x.TotalTurretsBlocks.ToString().Length);
+            var maxTotalGunBlocksLenght = threatLevel.Values.Max(x => x.TotalGunBlocks.ToString().Length);
+            var maxTotalShieldBlocksLenght = threatLevel.Values.Max(x => x.TotalShieldBlocks.ToString().Length);
+            var maxTotalThrustersBlocksLenght = threatLevel.Values.Max(x => x.TotalThrustersBlocks.ToString().Length);
+            var maxTotalCargoBlocksLenght = threatLevel.Values.Max(x => x.TotalCargoBlocks.ToString().Length);
+            var maxTotalProductionBlocksLenght = threatLevel.Values.Max(x => x.TotalProductionBlocks.ToString().Length);
+            var maxTotalJumpDrivesBlocksLenght = threatLevel.Values.Max(x => x.TotalJumpDrivesBlocks.ToString().Length);
+            var maxTotalGravityBlocksLenght = threatLevel.Values.Max(x => x.TotalGravityBlocks.ToString().Length);
+            var maxTotalMecanicalBlocksLenght = threatLevel.Values.Max(x => x.TotalMecanicalBlocks.ToString().Length);
+            var maxTotalToolsBlocksLenght = threatLevel.Values.Max(x => x.TotalToolsBlocks.ToString().Length);
+            var maxTotalMedicalBlocksLenght = threatLevel.Values.Max(x => x.TotalMedicalBlocks.ToString().Length);
+            var maxTotalNanoBotsBlocksLenght = threatLevel.Values.Max(x => x.TotalNanoBotsBlocks.ToString().Length);
+            var maxTotalAntennasBlocksLenght = threatLevel.Values.Max(x => x.TotalAntennasBlocks.ToString().Length);
+            var maxTotalBeaconsBlocksLenght = threatLevel.Values.Max(x => x.TotalBeaconsBlocks.ToString().Length);
+            var maxTotalControllersBlocksLenght = threatLevel.Values.Max(x => x.TotalControllersBlocks.ToString().Length);
+            var maxBlocksCountLenght = threatLevel.Values.Max(x => x.BlocksCount.ToString().Length);
+            var maxPCULenght = threatLevel.Values.Max(x => x.PCU.ToString().Length);
+            var maxMaxRangeLenght = threatLevel.Values.Max(x => x.MaxRange.ToString().Length);
+            var maxMaxBulletTragetoryLenght = threatLevel.Values.Max(x => x.MaxBulletTragetory.ToString().Length);
+            var cols = new string[]
+            {
+                "Tags".PadRight(maxTagsLenght),
+                "Name".PadRight(maxNameLenght),
+                "Threat".PadRight(maxThreatLevelLenght),
+                "Power".PadRight(maxTotalPowerBlocksLenght),
+                "Turrets".PadRight(maxTotalTurretsBlocksLenght),
+                "Guns".PadRight(maxTotalGunBlocksLenght),
+                "Shields".PadRight(maxTotalShieldBlocksLenght),
+                "Thrusters".PadRight(maxTotalThrustersBlocksLenght),
+                "Cargos".PadRight(maxTotalCargoBlocksLenght),
+                "Production".PadRight(maxTotalProductionBlocksLenght),
+                "JumpDrives".PadRight(maxTotalJumpDrivesBlocksLenght),
+                "Gravity".PadRight(maxTotalGravityBlocksLenght),
+                "Mecanical".PadRight(maxTotalMecanicalBlocksLenght),
+                "Tools".PadRight(maxTotalToolsBlocksLenght),
+                "Medical".PadRight(maxTotalMedicalBlocksLenght),
+                "NanoBots".PadRight(maxTotalNanoBotsBlocksLenght),
+                "Antennas".PadRight(maxTotalAntennasBlocksLenght),
+                "Beacons".PadRight(maxTotalBeaconsBlocksLenght),
+                "Controllers".PadRight(maxTotalControllersBlocksLenght),
+                "Blocks Count".PadRight(maxBlocksCountLenght),
+                "PCU".PadRight(maxPCULenght),
+                "Max Range".PadRight(maxMaxRangeLenght),
+                "Bullet Tragetory".PadRight(maxMaxBulletTragetoryLenght),
+                "Static",
+                "Large"
+            };
+            sb.AppendLine(string.Join(" | ", cols));
+            foreach (var item in prefabs)
+            {
+                bool tradePrefab = SpaceStationController.LOADED_PREFABS_TO_SELL.ContainsKey(item.Key);
+                var prefix = tradePrefab ? "[SELLING]" : "-";
+                var values = new string[]
+                {
+                    $"{prefix}",
+                    $"{item.Key}",
+                    $"{threatLevel[item.Key].ThreatLevel.ToString("#0.00")}",
+                    $"{threatLevel[item.Key].TotalPowerBlocks}",
+                    $"{threatLevel[item.Key].TotalTurretsBlocks}",
+                    $"{threatLevel[item.Key].TotalGunBlocks}",
+                    $"{threatLevel[item.Key].TotalShieldBlocks}",
+                    $"{threatLevel[item.Key].TotalThrustersBlocks}",
+                    $"{threatLevel[item.Key].TotalCargoBlocks}",
+                    $"{threatLevel[item.Key].TotalProductionBlocks}",
+                    $"{threatLevel[item.Key].TotalJumpDrivesBlocks}",
+                    $"{threatLevel[item.Key].TotalGravityBlocks}",
+                    $"{threatLevel[item.Key].TotalMecanicalBlocks}",
+                    $"{threatLevel[item.Key].TotalToolsBlocks}",
+                    $"{threatLevel[item.Key].TotalMedicalBlocks}",
+                    $"{threatLevel[item.Key].TotalNanoBotsBlocks}",
+                    $"{threatLevel[item.Key].TotalAntennasBlocks}",
+                    $"{threatLevel[item.Key].TotalBeaconsBlocks}",
+                    $"{threatLevel[item.Key].TotalControllersBlocks}",
+                    $"{threatLevel[item.Key].BlocksCount}",
+                    $"{threatLevel[item.Key].PCU}",
+                    $"{threatLevel[item.Key].MaxRange}",
+                    $"{threatLevel[item.Key].MaxBulletTragetory}",
+                    $"{(threatLevel[item.Key].IsStatic?"Yes":"No")}",
+                    $"{(threatLevel[item.Key].LargeGrid?"Yes":"No")}"
+                };
+                for (int i = 0; i < values.Length; i++)
+                {
+                    values[i] = values[i].PadRight(cols[i].Length);
+                }
+                sb.AppendLine(string.Join(" | ", values));
+            }
+        }
+
+        public string GetValidPrefabs()
+        {
+            var sb = new StringBuilder();
+            var prefabs = MyDefinitionManager.Static.GetPrefabDefinitions();
+            sb.AppendLine($"Base Game Prefabs: ");
+            WritePrefabs(sb, prefabs.Where(x => x.Value.Context.IsBaseGame));
+            sb.AppendLine("");
+            var mods = prefabs.Where(x => !x.Value.Context.IsBaseGame).Select(x => new { x.Value.Context.ModName, x.Value.Context.ModId }).Distinct().ToArray();
+            foreach (var mod in mods)
+            {
+                long modId = 0;
+                if (long.TryParse(mod.ModId.Replace(".sbm", ""), out modId))
+                    sb.AppendLine($"{mod.ModName} Prefabs: [https://steamcommunity.com/sharedfiles/filedetails/?id={modId}]");
+                else
+                    sb.AppendLine($"{mod.ModName} Prefabs: [LOCAL]");
+                WritePrefabs(sb, prefabs.Where(x => x.Value.Context.ModId == mod.ModId));
+                sb.AppendLine("");
+            }
+            return sb.ToString();
         }
 
     }

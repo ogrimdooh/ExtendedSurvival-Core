@@ -269,7 +269,8 @@ namespace ExtendedSurvival.Core
             VALID_COMMANDS[SETTINGS_COMMAND_GRIDS] = new ValidCommand(SETTINGS_COMMAND_GRIDS, 1, true);
             VALID_COMMANDS[SETTINGS_COMMAND_SESSION] = new ValidCommand(SETTINGS_COMMAND_SESSION, 2, true);
             VALID_COMMANDS[SETTINGS_COMMAND_DEFINITIONS] = new ValidCommand(SETTINGS_COMMAND_DEFINITIONS, 1, true);
-            VALID_COMMANDS[SETTINGS_COMMAND_RESETVOXELS] = new ValidCommand(SETTINGS_COMMAND_RESETVOXELS, 1, true);            
+            VALID_COMMANDS[SETTINGS_COMMAND_RESETVOXELS] = new ValidCommand(SETTINGS_COMMAND_RESETVOXELS, 1, true);
+            VALID_COMMANDS[SETTINGS_COMMAND_SPAWNPREFAB] = new ValidCommand(SETTINGS_COMMAND_SPAWNPREFAB, 1, true);
         }
 
         protected override void UnloadData()
@@ -312,12 +313,14 @@ namespace ExtendedSurvival.Core
         private const string SETTINGS_COMMAND_SESSION = "sessionsettings";
         private const string SETTINGS_COMMAND_DEFINITIONS = "definitions";
         private const string SETTINGS_COMMAND_RESETVOXELS = "resetvoxels";
+        private const string SETTINGS_COMMAND_SPAWNPREFAB = "spawnprefab";
 
         private const string SETTINGS_COMMAND_DEFINITIONS_WEAPONS = "weapons";
         private const string SETTINGS_COMMAND_DEFINITIONS_TURRETS = "turrets";
         private const string SETTINGS_COMMAND_DEFINITIONS_COMPONENTS = "components";
         private const string SETTINGS_COMMAND_DEFINITIONS_BLOCKS = "blocks";
         private const string SETTINGS_COMMAND_DEFINITIONS_PLANETS = "planets";
+        private const string SETTINGS_COMMAND_DEFINITIONS_PREFABS = "prefabs";
 
         private const string SETTINGS_COMMAND_RESETVOXELS_PLANETS = "planet";
         private const string SETTINGS_COMMAND_RESETVOXELS_ALL = "all";
@@ -386,6 +389,8 @@ namespace ExtendedSurvival.Core
                 }
             }
         }
+
+        private static ConcurrentDictionary<string, bool> COMMAND_LOCK = new ConcurrentDictionary<string, bool>();
 
         private void HandlerMsgCommand(ulong steamId, Command mCommandData)
         {
@@ -548,6 +553,27 @@ namespace ExtendedSurvival.Core
                                         var dataPlanets = PlanetMapProfile.GetMappedProfiles();
                                         SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_DEFINITIONS} {SETTINGS_COMMAND_DEFINITIONS_PLANETS} executed.", MyFontEnum.White, extraInfo: dataPlanets);
                                         break;
+                                    case SETTINGS_COMMAND_DEFINITIONS_PREFABS:
+                                        if (COMMAND_LOCK.ContainsKey(SETTINGS_COMMAND_DEFINITIONS_PREFABS) && COMMAND_LOCK[SETTINGS_COMMAND_DEFINITIONS_PREFABS])
+                                            SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_DEFINITIONS} {SETTINGS_COMMAND_DEFINITIONS_PREFABS} in lock state, try again later.", MyFontEnum.White);
+                                        else
+                                        {
+                                            COMMAND_LOCK[SETTINGS_COMMAND_DEFINITIONS_PREFABS] = true;
+                                            MyAPIGateway.Parallel.Start(() =>
+                                            {
+                                                var dataPrefabs = ExtendedSurvivalEntityManager.Instance.GetValidPrefabs();
+                                                SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_DEFINITIONS} {SETTINGS_COMMAND_DEFINITIONS_PREFABS} executed.", MyFontEnum.White, extraInfo: dataPrefabs);
+                                                COMMAND_LOCK[SETTINGS_COMMAND_DEFINITIONS_PREFABS] = false;
+                                            });
+                                            SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_DEFINITIONS} {SETTINGS_COMMAND_DEFINITIONS_PREFABS} runing in background, wait for response.", MyFontEnum.White);
+                                        }
+                                        break;
+                                }
+                                break;
+                            case SETTINGS_COMMAND_SPAWNPREFAB:
+                                if (ExtendedSurvivalEntityManager.Instance.SpawnPrefab(string.Join(" ", mCommandData.content.Skip(1)), steamId))
+                                {
+                                    SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_SPAWNPREFAB} {mCommandData.content[1]} executed.", MyFontEnum.White);
                                 }
                                 break;
                             case SETTINGS_COMMAND_RESETVOXELS:
@@ -649,6 +675,7 @@ namespace ExtendedSurvival.Core
                                         break;
                                     case SETTINGS_COMMAND_STARSYSTEM_RESETECONOMY:
                                         StarSystemController.DoResetAllFactionBalance();
+                                        SpaceStationController.DoBuildShopItensToAll(true);
                                         SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_STARSYSTEM} {SETTINGS_COMMAND_STARSYSTEM_RESETECONOMY} executed.", MyFontEnum.White);
                                         break;
                                     case SETTINGS_COMMAND_STARSYSTEM_CLEANMETADA:
