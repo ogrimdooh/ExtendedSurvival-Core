@@ -64,6 +64,25 @@ namespace ExtendedSurvival.Core
             return isUsingBetterStone.Value;
         }
 
+        public const ulong MES_ALIENANIMALS_MODID = 2582239623;
+        public const ulong ALIENANIMALS_MODID = 2075243878;
+
+        private static bool? isUsingAlienAnimals = null;
+        public static bool IsUsingAlienAnimals()
+        {
+            if (!isUsingAlienAnimals.HasValue)
+                isUsingAlienAnimals = MyAPIGateway.Session.Mods.Any(x => x.PublishedFileId == MES_ALIENANIMALS_MODID || x.PublishedFileId == ALIENANIMALS_MODID);
+            return isUsingAlienAnimals.Value;
+        }
+
+        private static bool? isUsingEarthLikeAnimals = null;
+        public static bool IsUsingEarthLikeAnimals()
+        {
+            if (!isUsingEarthLikeAnimals.HasValue)
+                isUsingEarthLikeAnimals = MyAPIGateway.Session.Mods.Any(x => x.PublishedFileId == PlanetMapProfile.EARTHLIKE_ANIMALS_MODID);
+            return isUsingEarthLikeAnimals.Value;
+        }
+
         private static PlanetMapProfile.OreMapType? _oreMapType = null;
         public static PlanetMapProfile.OreMapType GetOreMapType()
         {

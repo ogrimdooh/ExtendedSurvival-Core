@@ -954,6 +954,10 @@ namespace ExtendedSurvival.Core
                         settings.RemovedOres = tmpSettings.RemovedOres;
                         settings.ClearOresBeforeAdd = tmpSettings.ClearOresBeforeAdd;
                     }
+                    if (settings.Version <= 22)
+                    {
+                        settings.Animal = BuildAnimalsSetting();
+                    }
                 }
                 settings.Version = Version; 
             }
