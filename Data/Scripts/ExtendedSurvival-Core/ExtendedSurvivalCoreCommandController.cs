@@ -271,6 +271,7 @@ namespace ExtendedSurvival.Core
             VALID_COMMANDS[SETTINGS_COMMAND_DEFINITIONS] = new ValidCommand(SETTINGS_COMMAND_DEFINITIONS, 1, true);
             VALID_COMMANDS[SETTINGS_COMMAND_RESETVOXELS] = new ValidCommand(SETTINGS_COMMAND_RESETVOXELS, 1, true);
             VALID_COMMANDS[SETTINGS_COMMAND_SPAWNPREFAB] = new ValidCommand(SETTINGS_COMMAND_SPAWNPREFAB, 1, true);
+            VALID_COMMANDS[SETTINGS_COMMAND_SPAWNBOT] = new ValidCommand(SETTINGS_COMMAND_SPAWNBOT, 2, true);
         }
 
         protected override void UnloadData()
@@ -314,6 +315,7 @@ namespace ExtendedSurvival.Core
         private const string SETTINGS_COMMAND_DEFINITIONS = "definitions";
         private const string SETTINGS_COMMAND_RESETVOXELS = "resetvoxels";
         private const string SETTINGS_COMMAND_SPAWNPREFAB = "spawnprefab";
+        private const string SETTINGS_COMMAND_SPAWNBOT = "spawnbot";
 
         private const string SETTINGS_COMMAND_DEFINITIONS_WEAPONS = "weapons";
         private const string SETTINGS_COMMAND_DEFINITIONS_TURRETS = "turrets";
@@ -574,6 +576,16 @@ namespace ExtendedSurvival.Core
                                 if (ExtendedSurvivalEntityManager.Instance.SpawnPrefab(string.Join(" ", mCommandData.content.Skip(1)), steamId))
                                 {
                                     SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_SPAWNPREFAB} {mCommandData.content[1]} executed.", MyFontEnum.White);
+                                }
+                                break;
+                            case SETTINGS_COMMAND_SPAWNBOT:
+                                int botCount = 0;
+                                if (int.TryParse(mCommandData.content[2], out botCount))
+                                {
+                                    if (ExtendedSurvivalEntityManager.Instance.SpawnBot(mCommandData.content[1], botCount, steamId))
+                                    {
+                                        SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_SPAWNBOT} {mCommandData.content[1]} {mCommandData.content[2]} executed.", MyFontEnum.White);
+                                    }
                                 }
                                 break;
                             case SETTINGS_COMMAND_RESETVOXELS:

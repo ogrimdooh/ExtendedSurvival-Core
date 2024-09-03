@@ -715,7 +715,15 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(240, 280),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Forest, "AvalanGrass", "WoodForest"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Savanna, "DesertGrassX", "DeadGrass2"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "AvalanSand", "DesertStone"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Tundra, "AvalanSnow"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "AvalanRocks", "WoodsMountain"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "FrozenIce", "StoneIce_01")
+            )
         };
 
         public static readonly PlanetProfile NYOTA = new PlanetProfile()
@@ -735,7 +743,11 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(20, 25),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "Stone_05"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "GhostSnow", "Ice_02", "StoneIce_01")
+            )
         };
 
     }

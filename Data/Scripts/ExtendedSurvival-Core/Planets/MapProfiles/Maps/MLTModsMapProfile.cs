@@ -698,7 +698,11 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(28, 32),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.ALIEN_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.ALIEN_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "SedoniaRegolith", "SedoniaRock"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "SedoniaIce")
+            )
         };
 
         public static readonly PlanetProfile IRENE1C = new PlanetProfile()
@@ -716,7 +720,11 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(50, 55),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "IreneSoil", "IreneRock"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "BlackIce")
+            )
         };
 
     }

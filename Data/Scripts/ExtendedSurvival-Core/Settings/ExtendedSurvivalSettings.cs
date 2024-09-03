@@ -246,7 +246,7 @@ namespace ExtendedSurvival.Core
             }
         };
 
-        private const int CURRENT_VERSION = 2;
+        private const int CURRENT_VERSION = 3;
         private const string FILE_NAME = "ExtendedSurvival.Core.Settings.xml";
         private const string JSON_FILE_NAME = "ExtendedSurvival.Core.Settings.cfg";
 
@@ -301,6 +301,9 @@ namespace ExtendedSurvival.Core
         public int DropContainerDeployHeight { get; set; } = 1000;
 
         [XmlElement]
+        public HuntingSetting Hunting { get; set; } = new HuntingSetting();
+
+        [XmlElement]
         public TradeStationSetting TradeStations { get; set; } = new TradeStationSetting();
 
         [XmlElement]
@@ -336,6 +339,37 @@ namespace ExtendedSurvival.Core
             return res;
         }
 
+        private void CheckCreatureList()
+        {
+            foreach(var k in PlanetMapAnimalsProfile.ValidAnimals.Keys)
+            {
+                var info = PlanetMapAnimalsProfile.ValidAnimals[k];
+                if (!Hunting.Animals.Any(x => x.Id == info.Id))
+                {
+                    Hunting.Animals.Add(new ValidHuntAnimalSetting()
+                    {
+                        Id = info.Id,
+                        IsAgressive = info.IsAgressive
+                    });
+                }
+            }
+            Hunting.Animals.RemoveAll(x => !PlanetMapAnimalsProfile.ValidAnimals.Values.Any(y => y.Id == x.Id));
+        }
+
+        private static void LoadCreatures(ExtendedSurvivalSettings settings)
+        {
+            settings.Hunting.Animals.Clear();
+            foreach (var k in PlanetMapAnimalsProfile.ValidAnimals.Keys)
+            {
+                var info = PlanetMapAnimalsProfile.ValidAnimals[k];
+                settings.Hunting.Animals.Add(new ValidHuntAnimalSetting() 
+                { 
+                    Id = info.Id,
+                    IsAgressive = info.IsAgressive
+                });
+            }
+        }
+
         private static ExtendedSurvivalSettings Upgrade(ExtendedSurvivalSettings settings)
         {
             if (settings.Version < 2)
@@ -343,12 +377,18 @@ namespace ExtendedSurvival.Core
                 var keys = StarSystemMapProfile.SYSTEMS_PROFILES.Keys.Select(x => x.ToUpper()).ToArray();
                 settings.StarSystems.RemoveAll(x => keys.Contains(x.Name.ToUpper()));
             }
+            if (settings.Version < 3)
+            {
+                LoadCreatures(settings);
+            }
             return settings;
         }
 
         private static ExtendedSurvivalSettings CreateNew()
         {
-            return new ExtendedSurvivalSettings();
+            var settings = new ExtendedSurvivalSettings();
+            LoadCreatures(settings);
+            return settings;
         }
 
         private const long DEFAULT_FLOATING_OBJECT_LIVETIME = (long)(2.5f * 60 * 1000);
@@ -454,7 +494,7 @@ namespace ExtendedSurvival.Core
         protected override void OnAfterLoad()
         {
             base.OnAfterLoad();
-
+            CheckCreatureList();
         }
 
         public bool HasPlanetInfo(string id)
@@ -958,9 +998,9 @@ namespace ExtendedSurvival.Core
                         if (PlanetMapAnimalsProfile.ValidAnimals.ContainsKey(options[0]))
                         {
                             var targetBodToAdd = PlanetMapAnimalsProfile.ValidAnimals[options[0]];
-                            if (!info.Animal.Animals.Any(x => x.Id == targetBodToAdd))
+                            if (!info.Animal.Animals.Any(x => x.Id == targetBodToAdd.Id))
                             {
-                                info.Animal.Animals.Add(new PlanetAnimalEntrySetting() { Id = targetBodToAdd });
+                                info.Animal.Animals.Add(new PlanetAnimalEntrySetting() { Id = targetBodToAdd.Id, TimeToSpawn = (int)targetBodToAdd.TimeToSpawn });
                                 Modified = true;
                                 return true;
                             }
@@ -970,9 +1010,9 @@ namespace ExtendedSurvival.Core
                         if (PlanetMapAnimalsProfile.ValidAnimals.ContainsKey(options[0]))
                         {
                             var targetBodToRemove = PlanetMapAnimalsProfile.ValidAnimals[options[0]];
-                            if (info.Animal.Animals.Any(x => x.Id == targetBodToRemove))
+                            if (info.Animal.Animals.Any(x => x.Id == targetBodToRemove.Id))
                             {
-                                info.Animal.Animals.RemoveAll(x => x.Id == targetBodToRemove);
+                                info.Animal.Animals.RemoveAll(x => x.Id == targetBodToRemove.Id);
                                 Modified = true;
                                 return true;
                             }
@@ -995,57 +1035,39 @@ namespace ExtendedSurvival.Core
                                         return true;
                                     }
                                     break;
-                                case "dayspawn.spawndelay":
-                                    var dayspawnspawndelay = options[1].Split(':');
-                                    if (dayspawnspawndelay.Length >= 2)
+                                case "dayspawn.huntcyclecountdownmultiplier":
+                                    float huntcyclecountdownmultiplier = 0;
+                                    if (float.TryParse(options[1], out huntcyclecountdownmultiplier))
                                     {
-                                        int dayspawnspawndelay_from = 0;
-                                        int dayspawnspawndelay_to = 0;
-                                        if (int.TryParse(dayspawnspawndelay[0], out dayspawnspawndelay_from) &&
-                                            int.TryParse(dayspawnspawndelay[1], out dayspawnspawndelay_to))
+                                        if (huntcyclecountdownmultiplier >= 0 && huntcyclecountdownmultiplier <= 10)
                                         {
-                                            if (dayspawnspawndelay_from <= dayspawnspawndelay_to)
-                                            {
-                                                info.Animal.DaySpawn.SpawnDelay = new Vector2I(dayspawnspawndelay_from, dayspawnspawndelay_to);
-                                                Modified = true;
-                                                return true;
-                                            }
+                                            info.Animal.DaySpawn.HuntCycleCountDownMultiplier = huntcyclecountdownmultiplier;
+                                            Modified = true;
+                                            return true;
                                         }
                                     }
                                     break;
-                                case "dayspawn.spawndist":
-                                    var dayspawnspawndist = options[1].Split(':');
-                                    if (dayspawnspawndist.Length >= 2)
+                                case "dayspawn.spawncreatureamountmultiplier":
+                                    float spawncreatureamountmultiplier = 0;
+                                    if (float.TryParse(options[1], out spawncreatureamountmultiplier))
                                     {
-                                        int dayspawnspawndist_from = 0;
-                                        int dayspawnspawndist_to = 0;
-                                        if (int.TryParse(dayspawnspawndist[0], out dayspawnspawndist_from) &&
-                                            int.TryParse(dayspawnspawndist[1], out dayspawnspawndist_to))
+                                        if (spawncreatureamountmultiplier >= 0 && spawncreatureamountmultiplier <= 10)
                                         {
-                                            if (dayspawnspawndist_from <= dayspawnspawndist_to)
-                                            {
-                                                info.Animal.DaySpawn.SpawnDist = new Vector2I(dayspawnspawndist_from, dayspawnspawndist_to);
-                                                Modified = true;
-                                                return true;
-                                            }
+                                            info.Animal.DaySpawn.SpawnCreatureAmountMultiplier = spawncreatureamountmultiplier;
+                                            Modified = true;
+                                            return true;
                                         }
                                     }
                                     break;
-                                case "dayspawn.wavecount":
-                                    var dayspawnwavecount = options[1].Split(':');
-                                    if (dayspawnwavecount.Length >= 2)
+                                case "dayspawn.spawncreaturedistancemultiplier":
+                                    float spawncreaturedistancemultiplier = 0;
+                                    if (float.TryParse(options[1], out spawncreaturedistancemultiplier))
                                     {
-                                        int dayspawnwavecount_from = 0;
-                                        int dayspawnwavecount_to = 0;
-                                        if (int.TryParse(dayspawnwavecount[0], out dayspawnwavecount_from) &&
-                                            int.TryParse(dayspawnwavecount[1], out dayspawnwavecount_to))
+                                        if (spawncreaturedistancemultiplier >= 0 && spawncreaturedistancemultiplier <= 10)
                                         {
-                                            if (dayspawnwavecount_from <= dayspawnwavecount_to)
-                                            {
-                                                info.Animal.DaySpawn.WaveCount = new Vector2I(dayspawnwavecount_from, dayspawnwavecount_to);
-                                                Modified = true;
-                                                return true;
-                                            }
+                                            info.Animal.DaySpawn.SpawnCreatureDistanceMultiplier = spawncreaturedistancemultiplier;
+                                            Modified = true;
+                                            return true;
                                         }
                                     }
                                     break;
@@ -1058,57 +1080,39 @@ namespace ExtendedSurvival.Core
                                         return true;
                                     }
                                     break;
-                                case "nightspawn.spawndelay":
-                                    var nightspawnspawndelay = options[1].Split(':');
-                                    if (nightspawnspawndelay.Length >= 2)
+                                case "nightspawn.huntcyclecountdownmultiplier":
+                                    float nightspawnhuntcyclecountdownmultiplier = 0;
+                                    if (float.TryParse(options[1], out nightspawnhuntcyclecountdownmultiplier))
                                     {
-                                        int nightspawnspawndelay_from = 0;
-                                        int nightspawnspawndelay_to = 0;
-                                        if (int.TryParse(nightspawnspawndelay[0], out nightspawnspawndelay_from) &&
-                                            int.TryParse(nightspawnspawndelay[1], out nightspawnspawndelay_to))
+                                        if (nightspawnhuntcyclecountdownmultiplier >= 0 && nightspawnhuntcyclecountdownmultiplier <= 10)
                                         {
-                                            if (nightspawnspawndelay_from <= nightspawnspawndelay_to)
-                                            {
-                                                info.Animal.NightSpawn.SpawnDelay = new Vector2I(nightspawnspawndelay_from, nightspawnspawndelay_to);
-                                                Modified = true;
-                                                return true;
-                                            }
+                                            info.Animal.NightSpawn.HuntCycleCountDownMultiplier = nightspawnhuntcyclecountdownmultiplier;
+                                            Modified = true;
+                                            return true;
                                         }
                                     }
                                     break;
-                                case "nightspawn.spawndist":
-                                    var nightspawnspawndist = options[1].Split(':');
-                                    if (nightspawnspawndist.Length >= 2)
+                                case "nightspawn.spawncreatureamountmultiplier":
+                                    float nightspawnspawncreatureamountmultiplier = 0;
+                                    if (float.TryParse(options[1], out nightspawnspawncreatureamountmultiplier))
                                     {
-                                        int nightspawnspawndist_from = 0;
-                                        int nightspawnspawndist_to = 0;
-                                        if (int.TryParse(nightspawnspawndist[0], out nightspawnspawndist_from) &&
-                                            int.TryParse(nightspawnspawndist[1], out nightspawnspawndist_to))
+                                        if (nightspawnspawncreatureamountmultiplier >= 0 && nightspawnspawncreatureamountmultiplier <= 10)
                                         {
-                                            if (nightspawnspawndist_from <= nightspawnspawndist_to)
-                                            {
-                                                info.Animal.NightSpawn.SpawnDist = new Vector2I(nightspawnspawndist_from, nightspawnspawndist_to);
-                                                Modified = true;
-                                                return true;
-                                            }
+                                            info.Animal.NightSpawn.SpawnCreatureAmountMultiplier = nightspawnspawncreatureamountmultiplier;
+                                            Modified = true;
+                                            return true;
                                         }
                                     }
                                     break;
-                                case "nightspawn.wavecount":
-                                    var nightspawnwavecount = options[1].Split(':');
-                                    if (nightspawnwavecount.Length >= 2)
+                                case "nightspawn.spawncreaturedistancemultiplier":
+                                    float nightspawnspawncreaturedistancemultiplier = 0;
+                                    if (float.TryParse(options[1], out nightspawnspawncreaturedistancemultiplier))
                                     {
-                                        int nightspawnwavecount_from = 0;
-                                        int nightspawnwavecount_to = 0;
-                                        if (int.TryParse(nightspawnwavecount[0], out nightspawnwavecount_from) &&
-                                            int.TryParse(nightspawnwavecount[1], out nightspawnwavecount_to))
+                                        if (nightspawnspawncreaturedistancemultiplier >= 0 && nightspawnspawncreaturedistancemultiplier <= 10)
                                         {
-                                            if (nightspawnwavecount_from <= nightspawnwavecount_to)
-                                            {
-                                                info.Animal.NightSpawn.WaveCount = new Vector2I(nightspawnwavecount_from, nightspawnwavecount_to);
-                                                Modified = true;
-                                                return true;
-                                            }
+                                            info.Animal.NightSpawn.SpawnCreatureDistanceMultiplier = nightspawnspawncreaturedistancemultiplier;
+                                            Modified = true;
+                                            return true;
                                         }
                                     }
                                     break;

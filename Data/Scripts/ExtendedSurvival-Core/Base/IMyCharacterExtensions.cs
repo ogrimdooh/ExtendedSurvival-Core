@@ -1,9 +1,12 @@
-﻿using Sandbox.ModAPI;
+﻿using Sandbox.Game.Entities;
+using Sandbox.ModAPI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using VRage.Game;
 using VRage.Game.ModAPI;
+using VRage.Utils;
+using VRageMath;
 
 namespace ExtendedSurvival.Core
 {
@@ -65,6 +68,66 @@ namespace ExtendedSurvival.Core
                 }
             }
             return -1;
+        }
+
+        public static Vector3D? GetRandomPosition(this IMyCharacter character)
+        {
+            if (character == null)
+                return null;
+
+            float num;
+            var charPosition = character.WorldAABB.Center;
+            Vector3D gravity = MyAPIGateway.Physics.CalculateNaturalGravityAt(charPosition, out num);
+
+            MatrixD matrix;
+            if (gravity.LengthSquared() > 0)
+            {
+                gravity.Normalize();
+                matrix = MatrixD.CreateWorld(charPosition, Vector3D.CalculatePerpendicularVector(gravity), -gravity);
+            }
+            else
+                matrix = character.WorldMatrix;
+
+            var random = MyUtils.GetRandomInt(1, 9);
+
+            Vector3D direction;
+            switch (random)
+            {
+                case 1:
+                    direction = matrix.Forward;
+                    break;
+                case 2:
+                    direction = matrix.Forward + matrix.Right;
+                    break;
+                case 3:
+                    direction = matrix.Right;
+                    break;
+                case 4:
+                    direction = matrix.Right + matrix.Backward;
+                    break;
+                case 5:
+                    direction = matrix.Backward;
+                    break;
+                case 6:
+                    direction = matrix.Backward + matrix.Left;
+                    break;
+                case 7:
+                    direction = matrix.Left;
+                    break;
+                case 8:
+                    direction = matrix.Left + matrix.Forward;
+                    break;
+                default:
+                    return null;
+            }
+
+            var position = charPosition + direction * 200;
+            var planet = MyGamePruningStructure.GetClosestPlanet(position);
+            if (planet == null)
+                return position;
+
+            var surfacePoint = planet.GetClosestSurfacePointGlobal(ref position);
+            return surfacePoint - (gravity * 5);
         }
 
     }

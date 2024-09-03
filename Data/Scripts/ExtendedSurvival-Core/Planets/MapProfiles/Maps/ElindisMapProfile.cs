@@ -1596,7 +1596,11 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(115, 125),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "PykeGravel", "PykeSand", "PykeSoil"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Volcanic, "PykeLava", "PykeLavaRock")
+            )
         };
 
         public static readonly PlanetProfile SILONA = new PlanetProfile()
@@ -1616,7 +1620,14 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(20, 40),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Forest, "Woods_grass"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Savanna, "Grass"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "TritonStone", "Rocks_grass"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Tundra, "Snow"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "TritonIce", "Ice_03")
+            )
         };
 
         public static readonly PlanetProfile SAPRIMENTAS = new PlanetProfile()
@@ -1627,7 +1638,7 @@ namespace ExtendedSurvival.Core
             RespawnEnabled = false,
             TargetColor = "#616c83",
             ColorInfluence = new Vector2I(15, 15),
-            Animal = PlanetMapAnimalsProfile.DEFAULT_SPIDERS_01,
+            Animal = PlanetMapAnimalsProfile.DEFAULT_ALIEN.CopyAndRemove(PlanetProfile.BiomeTypes.Tundra),
             Geothermal = PlanetMapProfile.GetGeothermal(true, powerMultiplier: 0.75f),
             Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 1.8f, 1.0f, 100, 3.5f, 0.05f, 0),
             Gravity = PlanetMapProfile.GetGravity(1.32f, 7.0f),
@@ -1636,7 +1647,13 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(70, 120),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.LargeGroup,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Forest, "Woods_grass"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Savanna, "Grass_old"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "CrackedSoil", "PertamSand", "DesertRocks"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "DustyRocks3")
+            )
         };
 
         public static readonly PlanetProfile SAPRIMENTAS_REIMAGINED = new PlanetProfile()
@@ -1647,7 +1664,7 @@ namespace ExtendedSurvival.Core
             RespawnEnabled = false,
             TargetColor = "#616c83",
             ColorInfluence = new Vector2I(15, 15),
-            Animal = PlanetMapAnimalsProfile.DEFAULT_SPIDERS_01,
+            Animal = PlanetMapAnimalsProfile.DEFAULT_ALIEN.CopyAndRemove(PlanetProfile.BiomeTypes.Tundra, PlanetProfile.BiomeTypes.Forest),
             Geothermal = PlanetMapProfile.GetGeothermal(true, powerMultiplier: 0.75f),
             Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 1.5f, 0.1f, 60, 2.0f, 0.5f, 0),
             Gravity = PlanetMapProfile.GetGravity(0.96f, 7.0f),
@@ -1656,7 +1673,12 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(55, 65),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.LargeGroup,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Savanna, "Grass_old", "SaprimentasDryFlowers", "Soil"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "CrackedSoil", "PertamSand", "DesertRocks", "CrackedSoil"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "DustyRocks3", "DustyRocks2", "DustyRocks")
+            )
         };
 
     }

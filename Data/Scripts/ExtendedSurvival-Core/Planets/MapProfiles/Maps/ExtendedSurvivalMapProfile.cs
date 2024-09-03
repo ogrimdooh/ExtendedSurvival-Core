@@ -3407,7 +3407,7 @@ namespace ExtendedSurvival.Core
             RespawnEnabled = false,
             ColorInfluence = new Vector2I(100, 100),
             TargetColor = "#abab9a",
-            Animal = PlanetMapAnimalsProfile.DEFAULT_SPIDERS_01,
+            Animal = PlanetMapAnimalsProfile.DEFAULT_OI,
             Geothermal = PlanetMapProfile.GetGeothermal(true, depthMultiplier: 1.5f, rowSizeMultiplier: 1.25f, powerMultiplier: 0.5f),
             Atmosphere = PlanetMapProfile.GetAtmosphere(true, false, 1, 0, 0, 2, 0.25f, 0.15f),
             Gravity = PlanetMapProfile.GetGravity(0.4f, 2),
@@ -3416,7 +3416,14 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(55, 75),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.SmallGroup,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "MarsRocks", "AlienSand", "Sand_02"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "RedRockMountains"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Tundra, "AlienSnow"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "AlienIce_03"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Volcanic, "LavaSoil_01")
+            )
         };
 
         public static readonly PlanetProfile SPATAT = new PlanetProfile()
@@ -3435,7 +3442,11 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(25, 35),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "MoonSoil", "MoonRocks", "AlienSand"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "StoneIce_01")
+            )
         };
 
         public static readonly PlanetProfile ENITOR = new PlanetProfile()
@@ -3443,7 +3454,7 @@ namespace ExtendedSurvival.Core
             Origin = PlanetProfile.PlanetOrigin.ExtendedSurvival,
             Version = PlanetMapProfile.PROFILE_VERSION,
             RespawnEnabled = false,
-            Animal = PlanetMapAnimalsProfile.DEFAULT_WOLF,
+            Animal = PlanetMapAnimalsProfile.DEFAULT_ENITOR,
             Geothermal = PlanetMapProfile.GetGeothermal(true),
             Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 1, 0.85f, 80, 3, 0.15f, 0.05f),
             Gravity = PlanetMapProfile.GetGravity(1.05f, 4),
@@ -3452,7 +3463,15 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(50, 70),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Forest, "Grass", "Grass_02", "DirtySoil_01", "Rocks_grass"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Savanna, "Grass_old"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "AlienSand", "Sand_02"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Tundra, "AlienSnow"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "Stone_01", "Stone_03"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "StoneIce_01")
+            )
         };
 
         public static readonly PlanetProfile EREMUS_NUBIS = new PlanetProfile()
@@ -3460,7 +3479,7 @@ namespace ExtendedSurvival.Core
             Origin = PlanetProfile.PlanetOrigin.ExtendedSurvival,
             Version = PlanetMapProfile.PROFILE_VERSION,
             RespawnEnabled = false,
-            Animal = PlanetMapAnimalsProfile.DEFAULT_WOLF,
+            Animal = PlanetMapAnimalsProfile.DEFAULT_EREMUS_NUBIS,
             Geothermal = PlanetMapProfile.GetGeothermal(true),
             Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 0.6f, 0.35f, 50, 2, 0.15f, 0.05f),
             Gravity = PlanetMapProfile.GetGravity(1.15f, 4),
@@ -3469,7 +3488,12 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(60, 80),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Savanna, "Grass_old"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "Sand_02"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Tundra, "AlienSnow")
+            )
         };
 
         public static readonly PlanetProfile DOVER = new PlanetProfile()
@@ -3477,7 +3501,7 @@ namespace ExtendedSurvival.Core
             Origin = PlanetProfile.PlanetOrigin.ExtendedSurvival,
             Version = PlanetMapProfile.PROFILE_VERSION,
             RespawnEnabled = true,
-            Animal = PlanetMapAnimalsProfile.DEFAULT_EARTH,
+            Animal = PlanetMapAnimalsProfile.DEFAULT_DOVER,
             Geothermal = PlanetMapProfile.GetGeothermal(true),
             Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 1.5f, 0.9f, 120, 6, 0, 0),
             Gravity = PlanetMapProfile.GetGravity(1.1f, 4),
@@ -3486,7 +3510,14 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(55, 75),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Forest, "Grass", "Grass_02", "", "DirtySoil_01"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "AlienSand", "DesertRocks"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Tundra, "Snow"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "Stone_03"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "StoneIce_01")
+            )
         };
 
         public static readonly PlanetProfile TOTHT = new PlanetProfile()
@@ -3494,7 +3525,7 @@ namespace ExtendedSurvival.Core
             Origin = PlanetProfile.PlanetOrigin.ExtendedSurvival,
             Version = PlanetMapProfile.PROFILE_VERSION,
             RespawnEnabled = false,
-            Animal = PlanetMapAnimalsProfile.DEFAULT_SPIDERS_01,
+            Animal = PlanetMapAnimalsProfile.DEFAULT_TOTHT,
             Geothermal = PlanetMapProfile.GetGeothermal(true),
             Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 1.25f, 0.75f, 120, 6, 0.25f, 0.15f),
             Gravity = PlanetMapProfile.GetGravity(1.4f, 4),
@@ -3503,7 +3534,12 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(100, 120),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Savanna, "Grass_old", "Soil", "GrassOld2"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "PertamSand", "DesertRocks", "CrackedSoil"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "DustyRocks3", "DustyRocks", "DustyRocks2")
+            )
         };
 
         public static readonly PlanetProfile GLEDIUS_NUBIS = new PlanetProfile()
@@ -3520,7 +3556,10 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(25, 35),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "AlienSnow", "StoneIce_01")
+            )
         };
 
         public static readonly PlanetProfile CAPUTALIS_NUBIS = new PlanetProfile()
@@ -3528,7 +3567,7 @@ namespace ExtendedSurvival.Core
             Origin = PlanetProfile.PlanetOrigin.ExtendedSurvival,
             Version = PlanetMapProfile.PROFILE_VERSION,
             RespawnEnabled = false,
-            Animal = PlanetMapAnimalsProfile.DEFAULT_SPIDERS_02,
+            Animal = PlanetMapAnimalsProfile.DEFAULT_CAPUTALIS_NUBIS,
             Geothermal = PlanetMapProfile.GetGeothermal(true),
             Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 0.3f, 0, 40, 0.5f, 0.5f, 0.25f),
             Gravity = PlanetMapProfile.GetGravity(0.42f, 2),
@@ -3537,7 +3576,11 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(45, 55),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "MoonRocks", "MoonSoil"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "AlienSnow", "StoneIce_01")
+            )
         };
 
     }

@@ -1,6 +1,7 @@
 ﻿using Sandbox.Definitions;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using VRageMath;
 using static ExtendedSurvival.Core.PlanetProfile;
@@ -29,9 +30,7 @@ namespace ExtendedSurvival.Core
 
         }
 
-        public const int PROFILE_VERSION = 23;
-
-        public const ulong EARTHLIKE_ANIMALS_MODID = 2170447225;
+        public const int PROFILE_VERSION = 26;
 
         // Valina
         public const string Iron_01 = "Iron_01";
@@ -1151,6 +1150,20 @@ namespace ExtendedSurvival.Core
             };
         }
 
+        public static PlanetProfile.BiomeInfo GetBiome(string id, params string[] voxelMaterials)
+        {
+            return new PlanetProfile.BiomeInfo()
+            {
+                id = id,
+                voxelMaterials = voxelMaterials
+            };
+        }
+
+        public static List<PlanetProfile.BiomeInfo> BuildBiomes(params PlanetProfile.BiomeInfo[] biomes)
+        {
+            return biomes.ToList();
+        }
+
         public static PlanetProfile.GeothermalInfo GetGeothermal(bool enabled, float depthMultiplier = 1f, float rowSizeMultiplier = 1f, float powerMultiplier = 1f)
         {
             return new PlanetProfile.GeothermalInfo()
@@ -1267,7 +1280,7 @@ namespace ExtendedSurvival.Core
                     Origin = PlanetProfile.PlanetOrigin.NotDefined,
                     Version = PROFILE_VERSION,
                     RespawnEnabled = false,
-                    Animal = PlanetMapAnimalsProfile.DEFAULT_SPIDERS_01,
+                    Animal = PlanetMapAnimalsProfile.DEFAULT_NO_ANIMALS,
                     Geothermal = GetGeothermal(false),
                     Atmosphere = GetAtmosphere(false),
                     Gravity = GetGravity(1, 1),
@@ -1276,33 +1289,7 @@ namespace ExtendedSurvival.Core
                     SizeRange = new Vector2(50, 70),
                     Type = PlanetProfile.PlanetType.Planet,
                     GroupType = PlanetProfile.OreGroupType.LargeGroup,
-                    Ores =
-                    ExtendedSurvivalCoreSession.IsUsingTechnology() ?
-                    new List<PlanetProfile.OreMapInfo>()
-                    {
-                        GetOreMap(Iron_02),
-                        GetOreMap(Nickel_01),
-                        GetOreMap(Aluminum_01),
-                        GetOreMap(Copper_01),
-                        GetOreMap(Silicon_01),
-                        GetOreMap(Zinc_01),
-                        GetOreMap(Lead_01),
-                        GetOreMap(Sulfur_01),
-                        GetOreMap(Carbon_01),
-                        GetOreMap(Potassium_01),
-                        GetOreMap(Cobalt_01)
-                    }
-                    :
-                    new List<PlanetProfile.OreMapInfo>()
-                    {
-                        GetOreMap(Iron_02),
-                        GetOreMap(Nickel_01),
-                        GetOreMap(Silicon_01),
-                        GetOreMap(Magnesium_01),
-                        GetOreMap(Cobalt_01),
-                        GetOreMap(Gold_01),
-                        GetOreMap(Silver_01)
-                    }
+                    Ores = VanilaMapProfile.EARTHLIKE_ORES
                 }
             },
             // VANILA

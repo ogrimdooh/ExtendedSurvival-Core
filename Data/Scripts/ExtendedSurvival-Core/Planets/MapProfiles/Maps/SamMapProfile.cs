@@ -729,7 +729,16 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(60, 75),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Forest, "Helios_Grass", "Grass"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Savanna, "Helios_Grass_old", "Grass_old"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "Sand_02", "PertamSand"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Tundra, "Helios_HighGrass", "Grass_02", "Snow"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "DustyRocks", "Stone"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "StoneIce_01"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Volcanic, "LavaSoil_01")
+            )
         };
 
         public static readonly PlanetProfile HELIOSTERRAFORMEDWM = new PlanetProfile()
@@ -747,7 +756,16 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(60, 75),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Forest, "Helios_Grass", "Grass"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Savanna, "Helios_Grass_old", "Grass_old"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "Sand_02", "PertamSand"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Tundra, "Helios_HighGrass", "Grass_02", "Snow"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "DustyRocks", "Stone"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "StoneIce_01"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Volcanic, "LavaSoil_01")
+            )
         };
 
     }

@@ -991,7 +991,7 @@ namespace ExtendedSurvival.Core
             RespawnEnabled = false,
             TargetColor = "#616c83",
             ColorInfluence = new Vector2I(15, 15),
-            Animal = PlanetMapAnimalsProfile.DEFAULT_WOLF,
+            Animal = PlanetMapAnimalsProfile.DEFAULT_TOTHT,
             Geothermal = PlanetMapProfile.GetGeothermal(true, powerMultiplier: 0.75f),
             Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 1.1f, 0.9f, 100, 2.0f, 0.05f, 0),
             Gravity = PlanetMapProfile.GetGravity(0.92f, 7.0f),
@@ -1000,7 +1000,12 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(115, 125),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.LargeGroup,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Savanna, "Grass", "SafinaWater"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "SafinaLakebed", "SafinaSand", "SafinaRedSand"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "SafinaMountain", "SafinaRocks")
+            )
         };
 
         public static readonly PlanetProfile THANIAN = new PlanetProfile()
@@ -1020,7 +1025,10 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(25, 35),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "ThanianSoil", "TritonStone", "MoonRocks", "MoonSoil")
+            )
         };
 
         public static readonly PlanetProfile RISHA = new PlanetProfile()
@@ -1040,7 +1048,10 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(15, 25),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "TritonStone", "RishaSoil")
+            )
         };
 
     }

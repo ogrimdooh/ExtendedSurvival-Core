@@ -1,5 +1,6 @@
 ﻿using ProtoBuf;
 using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 using VRageMath;
 
@@ -65,13 +66,13 @@ namespace ExtendedSurvival.Core
         public bool Enabled { get; set; }
 
         [XmlElement]
-        public Vector2I SpawnDelay { get; set; }
+        public float HuntCycleCountDownMultiplier { get; set; } = 1f;
 
         [XmlElement]
-        public Vector2I SpawnDist { get; set; }
+        public float SpawnCreatureAmountMultiplier { get; set; } = 1f;
 
         [XmlElement]
-        public Vector2I WaveCount { get; set; }
+        public float SpawnCreatureDistanceMultiplier { get; set; } = 1f;
 
     }
 

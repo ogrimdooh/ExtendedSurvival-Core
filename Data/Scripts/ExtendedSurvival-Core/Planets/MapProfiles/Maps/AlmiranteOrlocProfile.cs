@@ -376,7 +376,11 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(20, 30),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "MoonRocks", "Stone"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "Ice_02", "StoneIce_01")
+            )
         };
 
     }

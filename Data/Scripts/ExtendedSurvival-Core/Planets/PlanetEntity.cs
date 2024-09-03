@@ -1,11 +1,15 @@
 ﻿using Sandbox.Definitions;
 using Sandbox.Game.Entities;
+using Sandbox.Game.Entities.Planet;
+using Sandbox.Game.WorldEnvironment;
 using Sandbox.ModAPI;
 using System;
 using System.Linq;
 using VRage.Game;
 using VRage.Game.Components;
+using VRage.Game.ModAPI;
 using VRage.Game.ObjectBuilders;
+using VRage.Utils;
 using VRageMath;
 
 namespace ExtendedSurvival.Core
@@ -118,6 +122,13 @@ namespace ExtendedSurvival.Core
             return sunDirection;
         }
         */
+
+        public bool IsThereNight(ref Vector3D position)
+        {
+            Vector3D vector3D = position - Entity.PositionComp.GetPosition();
+            return vector3D.Length() <= (double)Entity.MaximumRadius * 1.10000002384186 && (double)Vector3.Dot(ExtendedSurvivalCoreSession.Static.SunDirectionNormalized, Vector3.Normalize(vector3D)) < -0.100000001490116;
+        }
+
         public float GetTemperatureInPoint(Vector3D worldPoint, out float temperatureValue)
         {
             temperatureValue = 0;
@@ -250,6 +261,65 @@ namespace ExtendedSurvival.Core
                 ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
             }
             return 0;
+        }
+
+        public MyVoxelMaterialDefinition GetMaterialAt(Vector3D positionWorld)
+        {
+            var surfacePos = Entity.GetClosestSurfacePointGlobal(positionWorld);
+            return Entity.GetMaterialAt(ref surfacePos);
+        }
+
+        public Vector3D? GetRandomSurfacePosition(Vector3D pos, float distanceToSpawn)
+        {
+            float num;
+            Vector3D gravity = MyAPIGateway.Physics.CalculateNaturalGravityAt(pos, out num);
+
+            MatrixD matrix;
+            if (gravity.LengthSquared() > 0)
+            {
+                gravity.Normalize();
+                matrix = MatrixD.CreateWorld(pos, Vector3D.CalculatePerpendicularVector(gravity), -gravity);
+            }
+            else
+                return null;
+
+            var random = MyUtils.GetRandomInt(1, 9);
+
+            Vector3D direction;
+            switch (random)
+            {
+                case 1:
+                    direction = matrix.Forward;
+                    break;
+                case 2:
+                    direction = matrix.Forward + matrix.Right;
+                    break;
+                case 3:
+                    direction = matrix.Right;
+                    break;
+                case 4:
+                    direction = matrix.Right + matrix.Backward;
+                    break;
+                case 5:
+                    direction = matrix.Backward;
+                    break;
+                case 6:
+                    direction = matrix.Backward + matrix.Left;
+                    break;
+                case 7:
+                    direction = matrix.Left;
+                    break;
+                case 8:
+                    direction = matrix.Left + matrix.Forward;
+                    break;
+                default:
+                    return null;
+            }
+
+            var position = pos + direction * distanceToSpawn;
+
+            var surfacePoint = Entity.GetClosestSurfacePointGlobal(ref position);
+            return surfacePoint - (gravity * 5);
         }
 
     }

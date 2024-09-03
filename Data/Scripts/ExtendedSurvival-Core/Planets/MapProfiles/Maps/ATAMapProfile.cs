@@ -7448,7 +7448,8 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(120, 120),
             Type = PlanetProfile.PlanetType.Star,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes()
         };
 
         public static readonly PlanetProfile ATA_SUN_PROFILE = new PlanetProfile()
@@ -7465,7 +7466,8 @@ namespace ExtendedSurvival.Core
             Water = PlanetMapProfile.GetWater(false),
             SizeRange = new Vector2(40, 40),
             Type = PlanetProfile.PlanetType.Star,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes()
         };
 
         //Planets
@@ -7484,7 +7486,11 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.PERTAM_ORES,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "Mercury_01", "Mercury_01S", "Mercury_02", "Mercury_02S"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "Snow", "Ice")
+            )
         };
 
         public static readonly PlanetProfile ATA_02_VENUS_PROFILE = new PlanetProfile() 
@@ -7503,7 +7509,10 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.PERTAM_ORES,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "Venus_01", "Venus_01S", "Venus_02", "Venus_02S")
+            )
         };
 
         public static readonly PlanetProfile ATA_03_EARTH_PROFILE = new PlanetProfile() 
@@ -7522,7 +7531,15 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.EARTHLIKE_ORES,
-            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Forest, "Grass", "Woods_grass", "Rocks_grass", "Soil", "AlienRockGrass"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Savanna, "Grass_old"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "Sand_02", "DesertRocks", "AlienRockyMountain", "AlienRockyTerrain", "AlienRockGrass"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Tundra, "Snow"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "Stone_02", "Stone"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "Ice", "AlienIce", "Ice_03")
+            )
         };
 
         public static readonly PlanetProfile ATA_03_MOON_PROFILE = new PlanetProfile() 
@@ -7541,7 +7558,11 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "MoonRocks", "MoonSoil"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "Stone_01", "Stone_02")
+            )
         };
 
         public static readonly PlanetProfile ATA_04_MARS_PROFILE = new PlanetProfile() 
@@ -7550,7 +7571,7 @@ namespace ExtendedSurvival.Core
             OriginId = ATA_MODID,
             Version = PlanetMapProfile.PROFILE_VERSION,
             RespawnEnabled = false,
-            Animal = PlanetMapAnimalsProfile.DEFAULT_SPIDERS_02,
+            Animal = PlanetMapAnimalsProfile.DEFAULT_MARS,
             Geothermal = PlanetMapProfile.GetGeothermal(true, depthMultiplier: 1.5f, rowSizeMultiplier: 1.25f, powerMultiplier: 0.5f),
             Atmosphere = PlanetMapProfile.GetAtmosphere(true, false, 1f, 0f, 80, 2, 0.25f, 0f),
             Gravity = PlanetMapProfile.GetGravity(0.38f, 2),
@@ -7560,7 +7581,11 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MARS_ORES,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "Mars_01", "Mars_01A", "Mars_01S", "Mars_02", "Mars_02A", "Mars_02S", "Mars_03", "Mars_03A", "Mars_03S", "Mars_04", "Mars_04S", "Mars_04A"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Tundra, "Snow", "Ice")
+            )
         };
 
         public static readonly PlanetProfile ATA_05_JUPITER_PROFILE = new PlanetProfile() 
@@ -7578,7 +7603,8 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(120, 120),
             Type = PlanetProfile.PlanetType.GiantGas,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes()
         };
 
         public static readonly PlanetProfile ATA_05_CALLISTO_PROFILE = new PlanetProfile() 
@@ -7597,7 +7623,11 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "Callisto_01", "Callisto_01S", "Callisto_02", "Callisto_02S", "Callisto_03", "Callisto_03S"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "Snow", "Ice")
+            )
         };
 
         public static readonly PlanetProfile ATA_05_GANYMEDE_PROFILE = new PlanetProfile() 
@@ -7616,7 +7646,11 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "Ganymede_01", "Ganymede_01S", "Ganymede_02", "Ganymede_02S", "Ganymede_03", "Ganymede_03S"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "Snow", "Ice")
+            )
         };
 
         public static readonly PlanetProfile ATA_05_EUROPA_PROFILE = new PlanetProfile() 
@@ -7635,7 +7669,10 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "Europa_01", "Europa_01S", "Europa_02", "Europa_02S")
+            )
         };
 
         public static readonly PlanetProfile ATA_05_IO_PROFILE = new PlanetProfile() 
@@ -7654,7 +7691,11 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "Io_01", "Io_01S", "Io_02", "Io_02S", "Io_03", "Io_03S"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Volcanic, "Sun_01", "Sun_02", "Sun_03")
+            )
         };
 
         public static readonly PlanetProfile ATA_06_SATURN_PROFILE = new PlanetProfile() 
@@ -7672,7 +7713,8 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(120, 120),
             Type = PlanetProfile.PlanetType.GiantGas,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes()
         };
 
         public static readonly PlanetProfile ATA_06_IAPETUS_PROFILE = new PlanetProfile() 
@@ -7691,7 +7733,12 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "MoonSoil", "MoonRocks"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "Stone_02", "Stone_01", "TritonStone"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "Snow", "Ice", "TritonIce")
+            )
         };
 
         public static readonly PlanetProfile ATA_06_TITAN_PROFILE = new PlanetProfile() 
@@ -7710,7 +7757,12 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(35, 55),
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "MoonSoil", "MoonRocks"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "Stone_02", "Stone_01", "TritonStone", "Stone_05"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "Snow", "Ice", "TritonIce", "AlienSnow")
+            )
         };
 
         public static readonly PlanetProfile ATA_06_RHEA_PROFILE = new PlanetProfile() 
@@ -7729,7 +7781,12 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "MoonSoil", "MoonRocks", "Asteroid"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "Stone_02", "Stone_01", "TritonStone", "Stone_05"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "Snow", "Ice", "TritonIce", "AlienSnow")
+            )
         };
 
         public static readonly PlanetProfile ATA_06_DIONE_PROFILE = new PlanetProfile() 
@@ -7748,7 +7805,12 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "AlienSoil", "MoonRocks", "MoonSoil"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "Stone_02", "Stone_01"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "Snow", "Ice")
+            )
         };
 
         public static readonly PlanetProfile ATA_06_TETHYS_PROFILE = new PlanetProfile() 
@@ -7767,7 +7829,12 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "Mercury_02", "MoonRocks", "MoonSoil", "Asteroid", "Europa_01", "Europa_01S"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "Stone_02", "Stone_01"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Volcanic, "Sun_06")
+            )
         };
 
         public static readonly PlanetProfile ATA_06_ENCELADUS_PROFILE = new PlanetProfile() 
@@ -7786,7 +7853,10 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "Snow", "Ice", "AlienIce", "AlienSnow", "IceEuropa2")
+            )
         };
 
         public static readonly PlanetProfile ATA_06_MIMAS_PROFILE = new PlanetProfile() 
@@ -7805,7 +7875,11 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "Mercury_01", "Mercury_01S", "Mercury_02", "Mercury_02S", "Mercury_03", "Mercury_03S"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "Snow", "Ice")
+            )
         };
 
         public static readonly PlanetProfile ATA_07_URANUS_PROFILE = new PlanetProfile() 
@@ -7823,7 +7897,8 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(120, 120),
             Type = PlanetProfile.PlanetType.GiantGas,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes()
         };
 
         public static readonly PlanetProfile ATA_07_OBREON_PROFILE = new PlanetProfile() 
@@ -7842,7 +7917,12 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "MoonSoil", "MoonRocks"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "Stone_02", "Stone_01", "TritonStone"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "Snow", "TritonIce")
+            )
         };
 
         public static readonly PlanetProfile ATA_07_TITANIA_PROFILE = new PlanetProfile() 
@@ -7861,7 +7941,12 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "MoonSoil", "MoonRocks"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "Stone_02", "Stone_01", "TritonStone"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "Snow", "TritonIce")
+            )
         };
 
         public static readonly PlanetProfile ATA_07_UMBRIEL_PROFILE = new PlanetProfile() 
@@ -7880,7 +7965,12 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "MoonSoil", "MoonRocks"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "Stone_02", "Stone_01", "TritonStone"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "Snow", "TritonIce")
+            )
         };
 
         public static readonly PlanetProfile ATA_07_ARIEL_PROFILE = new PlanetProfile()
@@ -7899,7 +7989,12 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "MoonSoil", "MoonRocks"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "Stone_02", "Stone_01", "TritonStone"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "Snow", "TritonIce", "Ice")
+            )
         };
 
         public static readonly PlanetProfile ATA_07_MIRANDA_PROFILE = new PlanetProfile() 
@@ -7918,7 +8013,12 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "MoonSoil", "MoonRocks"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "Stone_02", "Stone_01", "TritonStone"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "Snow", "TritonIce", "Ice")
+            )
         };
 
         public static readonly PlanetProfile ATA_08_NEPTUNE_PROFILE = new PlanetProfile() 
@@ -7936,7 +8036,8 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(120, 120),
             Type = PlanetProfile.PlanetType.GiantGas,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes()
         };
         public static readonly PlanetProfile ATA_08_TRITON_PROFILE = new PlanetProfile() 
         {
@@ -7954,7 +8055,12 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "MoonSoil", "MoonRocks"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "Stone_02", "Stone_01", "TritonStone"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "Snow", "TritonIce")
+            )
         };
         public static readonly PlanetProfile ATA_09_PLUTO_PROFILE = new PlanetProfile() 
         {
@@ -7972,7 +8078,12 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.TRITON_ORES,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "MoonSoil", "MoonRocks"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "Stone_02", "Stone_01", "TritonStone"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "Snow", "TritonIce")
+            )
         };
         public static readonly PlanetProfile ATA_09_CHARON_PROFILE = new PlanetProfile() 
         {
@@ -7990,7 +8101,12 @@ namespace ExtendedSurvival.Core
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
             Ores = VanilaMapProfile.MOON_ORES,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "MoonSoil", "MoonRocks"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "Stone_02", "Stone_01", "TritonStone"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "Snow", "TritonIce")
+            )
         };
 
     }

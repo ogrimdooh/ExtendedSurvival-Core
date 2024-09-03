@@ -10,6 +10,11 @@ namespace ExtendedSurvival.Core
         {
             return player != null && !player.IsBot && !string.IsNullOrEmpty(player.DisplayName) && MyAPIGateway.Players.TryGetSteamId(player.IdentityId) != 0;
         }
+
+        public static bool IsValidBot(this IMyPlayer player)
+        {
+            return player != null && player.IsBot;
+        }
     }
 
 }

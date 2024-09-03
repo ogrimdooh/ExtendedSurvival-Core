@@ -1498,7 +1498,7 @@ namespace ExtendedSurvival.Core
             RespawnEnabled = true,
             TargetColor = "#616c83",
             ColorInfluence = new Vector2I(15, 15),
-            Animal = PlanetMapAnimalsProfile.DEFAULT_SPIDERS_01,
+            Animal = PlanetMapAnimalsProfile.DEFAULT_TOTHT,
             Geothermal = PlanetMapProfile.GetGeothermal(true),
             Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 1, 1f, 80, 1.2f, 0.05f, 0.0f),
             Gravity = PlanetMapProfile.GetGravity(0.92f, 7.0f),
@@ -1507,7 +1507,12 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(20, 30),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.ALIEN_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.ALIEN_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Savanna, "Grass_Trelan", "Grass_Trelan_bare", "Soil_Trelan"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "Mossy_Rock_2_Trelan", "AlienRockGrass", "AlienRockGrass bare"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "DustyRocks2", "DustyRocks3", "AlienRockyMountain", "Mossy_Rock_2_Trelan")
+            )
         };
 
         public static readonly PlanetProfile SATREUS = new PlanetProfile()
@@ -1518,7 +1523,7 @@ namespace ExtendedSurvival.Core
             RespawnEnabled = false,
             TargetColor = "#616c83",
             ColorInfluence = new Vector2I(15, 15),
-            Animal = PlanetMapAnimalsProfile.DEFAULT_SPIDERS_01,
+            Animal = PlanetMapAnimalsProfile.DEFAULT_TOTHT,
             Geothermal = PlanetMapProfile.GetGeothermal(true, powerMultiplier: 0.75f),
             Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 1.2f, 0.9f, 95, 1.5f, 0.05f, 0),
             Gravity = PlanetMapProfile.GetGravity(0.95f, 7.0f),
@@ -1527,7 +1532,14 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(55, 65),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.LargeGroup,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Savanna, "Ground_red_Satreus", "Soil", "AlienRockGrass", "Grass_old", "AlienRockGrass_Satreus"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "Desert_01_red_Satreus", "Desert_01_Satreus", "Desert_01_Satreus_soil"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "Stone", "DustyRocks3_Satreus", "AlienRockyMountain", ""),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Tundra, "AlienSnow", "Snow"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "IceEuropa2", "Ice02_Satreus")
+            )
         };
 
         public static readonly PlanetProfile KIMI = new PlanetProfile()
@@ -1545,7 +1557,10 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(5, 10),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "MoonRock_grey2_kimi", "MoonRock_black2_kimi", "MoonRock_green2_kimi", "Low_Dens_Iron_Kimi")
+            )
         };
 
         public static readonly PlanetProfile QUN = new PlanetProfile()
@@ -1565,7 +1580,10 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(20, 25),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "MoonSoil_grey_qun", "MoonRock_grey_qun", "MoonSoil_red2_qun", "MoonSoil_black2_qun", "MoonRock_black2_qun", "MoonSoil_grey2_qun", "MoonRock_grey2_qun")
+            )
         };
 
         public static readonly PlanetProfile LUMA = new PlanetProfile()
@@ -1583,7 +1601,8 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(950, 1050),
             Type = PlanetProfile.PlanetType.GiantGas,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes()
         };
 
         public static readonly PlanetProfile TOHIL = new PlanetProfile()
@@ -1601,7 +1620,10 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(15, 25),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "IceEuropa2", "TohilIce03", "TohilIce02", "TohilSnow01", "TohilSnow02")
+            )
         };
 
         public static readonly PlanetProfile TEAL = new PlanetProfile()
@@ -1619,7 +1641,15 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(115, 125),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Forest, "TealBlueGrass"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Savanna, "TealRocksGrass"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "TealShore1", "TealShore2", "TealShore3", "TealShore4", "TealShore5", "TealBlack_Soil"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Tundra, "Snow", "TealSnowGrass", "AlienSnow"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "Stone", "TealGravel"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "TealIce", "TealSea", "TealRiver")
+            )
         };
 
         public static readonly PlanetProfile ORLUNDA = new PlanetProfile()
@@ -1630,7 +1660,7 @@ namespace ExtendedSurvival.Core
             RespawnEnabled = false,
             TargetColor = "#616c83",
             ColorInfluence = new Vector2I(15, 15),
-            Animal = PlanetMapAnimalsProfile.DEFAULT_SPIDERS_02,
+            Animal = PlanetMapAnimalsProfile.DEFAULT_TOTHT,
             Geothermal = PlanetMapProfile.GetGeothermal(true, depthMultiplier: 1.5f, rowSizeMultiplier: 1.25f, powerMultiplier: 0.5f),
             Atmosphere = PlanetMapProfile.GetAtmosphere(true, false, 0.89f, 0.25f, 80, 6.0f, 0.25f, 0f),
             Gravity = PlanetMapProfile.GetGravity(1.12f, 7.0f),
@@ -1639,7 +1669,14 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(115, 125),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Savanna, "TealBlueGrass", "TealRocksGrass"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "TealBlack_Soil", "TealShore1", "TealShore2", "TealShore3", "TealShore4", "TealShore5", "TealShore6"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Tundra, "AlienSnow", "TealSnowGrass", "Snow"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "Stone", "TealGravel", "Stone_01"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "TealSea", "TealRiver", "TealIce")
+            )
         };
 
     }

@@ -681,7 +681,7 @@ namespace ExtendedSurvival.Core
             OriginId = CRAIT_MODID,
             Version = PlanetMapProfile.PROFILE_VERSION,
             RespawnEnabled = false,
-            Animal = PlanetMapAnimalsProfile.DEFAULT_SPIDERS_01,
+            Animal = PlanetMapAnimalsProfile.DEFAULT_TOTHT,
             Geothermal = PlanetMapProfile.GetGeothermal(true),
             Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 1.0f, 0.5f, 80, 2.0f, 0.15f, 0.05f),
             Gravity = PlanetMapProfile.GetGravity(1, 4.5f),
@@ -690,7 +690,14 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(115, 125),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.ALIEN_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.ALIEN_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Savanna, "MoonAlien"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "Redsoil", "Redsand", "Saltflat"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "RedRocks", "AlienRockyMountain", "MoonRocks", "TritonStone"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Tundra, "AlienSnowSpider", "AlienSnow"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "CraitIce")
+            )
         };
 
         public static readonly PlanetProfile PLANET26 = new PlanetProfile()
@@ -710,7 +717,16 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(110, 150),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Forest, "Woods_grass DOC", "P-Woods_grass", "MEwoods", "Grass", "Woods_grass", "DarinusGrass2", "Grass DOC", "DarinusGrass"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Savanna, "Rocks_grass", "Rocks_grass", "Grass_old", "purple Grass", "Rocks_grass", "Limestone", "MESteppe", "RavSoil"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "Sand_02", "DesertRocks", "MarsSoil", "MarsRocks", "DOC Sand_02"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Tundra, "Snow", "Grass_old DOC"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "Stone", "MarsRocks", "TritonStone", "AlienRockyMountain", "DarinusRock", "RavRock", "RavCrackedRock"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "Ice_03", "Beachsideice", "Mediumice", "Ice_02DOC", "TritonIce", "DarinusIce", "IceEuropa2"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Volcanic, "RavLava")
+            )
         };
 
     }

@@ -1138,7 +1138,7 @@ namespace ExtendedSurvival.Core
             RespawnEnabled = true,
             ColorInfluence = new Vector2I(15, 15),
             TargetColor = "#616c83",
-            Animal = PlanetMapAnimalsProfile.DEFAULT_WOLF,
+            Animal = PlanetMapAnimalsProfile.DEFAULT_EARTH,
             Geothermal = PlanetMapProfile.GetGeothermal(true),
             Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 1.22f, 0.95f, 88, 1.5f, 0.0f, 0.0f),
             Gravity = PlanetMapProfile.GetGravity(1, 7.0f),
@@ -1147,7 +1147,15 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(115, 125),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Forest, "Chimera_Grass", "Chimera_Dirt_Grass"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Savanna, "Chimera_Light_Grass"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "Chimera_Sand", "Chimera_Sand2"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Tundra, "Chimera_Snow"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "Chimera_Rock"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "Chimera_Ice")
+            )
         };
 
         public static readonly PlanetProfile ZIRA = new PlanetProfile()
@@ -1167,7 +1175,11 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(30, 50),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "Zira_Rock", "Zira_Soil"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "Zira_Ice")
+            )
         };
 
     }

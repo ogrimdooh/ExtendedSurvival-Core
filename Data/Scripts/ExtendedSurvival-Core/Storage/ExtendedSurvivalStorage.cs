@@ -67,6 +67,9 @@ namespace ExtendedSurvival.Core
         [XmlElement]
         public StarSystemStorage StarSystem { get; set; } = new StarSystemStorage();
 
+        [XmlElement]
+        public HuntSystemStorage HuntSystem { get; set; } = new HuntSystemStorage();
+
         [XmlArray("Factions"), XmlArrayItem("Faction", typeof(FactionStorage))]
         public List<FactionStorage> Factions { get; set; } = new List<FactionStorage>();
 

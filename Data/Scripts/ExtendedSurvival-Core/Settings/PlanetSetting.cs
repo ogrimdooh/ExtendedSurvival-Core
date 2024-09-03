@@ -313,6 +313,9 @@ namespace ExtendedSurvival.Core
         [XmlElement]
         public PlanetAnimalSetting Animal { get; set; } = new PlanetAnimalSetting();
 
+        [XmlArray("Biomes"), XmlArrayItem("Biome", typeof(PlanetBiomeSetting))]
+        public List<PlanetBiomeSetting> Biomes { get; set; } = new List<PlanetBiomeSetting>();
+
         [XmlElement]
         public SuperficialMiningSetting SuperficialMining { get; set; } = new SuperficialMiningSetting();
 

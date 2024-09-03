@@ -25,7 +25,8 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(950, 1050),
             Type = PlanetProfile.PlanetType.GiantGas,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes()
         };
 
     }

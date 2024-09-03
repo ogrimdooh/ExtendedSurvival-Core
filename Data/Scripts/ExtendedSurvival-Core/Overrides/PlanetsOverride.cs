@@ -251,8 +251,8 @@ namespace ExtendedSurvival.Core
                         if (info.RespawnEnabled)
                             respawnPlanets.Add(definition.Id.SubtypeName);
                         definition.OreMappings = info.GetOreMap();
-                        definition.AnimalSpawnInfo = info.Animal.GetDaySpawnDefinition();
-                        definition.NightAnimalSpawnInfo = info.Animal.GetNightSpawnDefinition();
+                        definition.AnimalSpawnInfo = new MyPlanetAnimalSpawnInfo();
+                        definition.NightAnimalSpawnInfo = new MyPlanetAnimalSpawnInfo();
                         definition.DefaultSurfaceTemperature = (MyTemperatureLevel)info.Atmosphere.TemperatureLevel;
                         definition.HasAtmosphere = info.Atmosphere.Enabled;
                         definition.Atmosphere = info.Atmosphere.GetAtmosphere();

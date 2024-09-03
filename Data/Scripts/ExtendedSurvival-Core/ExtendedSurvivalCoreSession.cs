@@ -1,6 +1,7 @@
 ﻿using Sandbox.Common.ObjectBuilders;
 using Sandbox.Engine.Physics;
 using Sandbox.Game.Entities;
+using Sandbox.Game.Entities.Planet;
 using Sandbox.Game.GameSystems;
 using Sandbox.Game.World;
 using Sandbox.ModAPI;
@@ -14,13 +15,11 @@ using VRage.Game.Entity;
 using VRage.Game.ModAPI;
 using VRage.Game.ObjectBuilders;
 using VRage.ModAPI;
-using VRage.Utils;
 using VRage.Voxels;
 using VRageMath;
 
 namespace ExtendedSurvival.Core
 {
-
     [MySessionComponentDescriptor(MyUpdateOrder.AfterSimulation)]
     public class ExtendedSurvivalCoreSession : BaseSessionComponent
     {
@@ -75,12 +74,65 @@ namespace ExtendedSurvival.Core
             return isUsingAlienAnimals.Value;
         }
 
+        public const ulong EARTHLIKE_ANIMALS_MODID = 2170447225;
+        public const ulong MES_EARTHLIKE_ANIMALS_MODID = 2555273537;
+
         private static bool? isUsingEarthLikeAnimals = null;
         public static bool IsUsingEarthLikeAnimals()
         {
             if (!isUsingEarthLikeAnimals.HasValue)
-                isUsingEarthLikeAnimals = MyAPIGateway.Session.Mods.Any(x => x.PublishedFileId == PlanetMapProfile.EARTHLIKE_ANIMALS_MODID);
+                isUsingEarthLikeAnimals = MyAPIGateway.Session.Mods.Any(x => x.PublishedFileId == EARTHLIKE_ANIMALS_MODID || x.PublishedFileId == MES_EARTHLIKE_ANIMALS_MODID);
             return isUsingEarthLikeAnimals.Value;
+        }
+
+        public const ulong MARTIN_THE_MONSTER_MODID = 2170121678;
+
+        private static bool? isUsingMartinTheMonster = null;
+        public static bool IsUsingMartinTheMonster()
+        {
+            if (!isUsingMartinTheMonster.HasValue)
+                isUsingMartinTheMonster = MyAPIGateway.Session.Mods.Any(x => x.PublishedFileId == MARTIN_THE_MONSTER_MODID);
+            return isUsingMartinTheMonster.Value;
+        }
+
+        public const ulong MARTIN_REVENGE_MODID = 2319867063;
+
+        private static bool? isUsingMartinRevenge = null;
+        public static bool IsUsingMartinRevenge()
+        {
+            if (!isUsingMartinRevenge.HasValue)
+                isUsingMartinRevenge = MyAPIGateway.Session.Mods.Any(x => x.PublishedFileId == MARTIN_REVENGE_MODID);
+            return isUsingMartinRevenge.Value;
+        }
+
+        public const ulong SANDWORM_MODID = 3105413080;
+
+        private static bool? isUsingSandWorm = null;
+        public static bool IsUsingSandWorm()
+        {
+            if (!isUsingSandWorm.HasValue)
+                isUsingSandWorm = MyAPIGateway.Session.Mods.Any(x => x.PublishedFileId == SANDWORM_MODID);
+            return isUsingSandWorm.Value;
+        }
+
+        public const ulong SMALLSPIDER_MODID = 2178783350;
+
+        private static bool? isUsingSmallSpider = null;
+        public static bool IsUsingSmallSpider()
+        {
+            if (!isUsingSmallSpider.HasValue)
+                isUsingSmallSpider = MyAPIGateway.Session.Mods.Any(x => x.PublishedFileId == SMALLSPIDER_MODID);
+            return isUsingSmallSpider.Value;
+        }
+
+        public const ulong DESERTWOLVES_MODID = 2623580289;
+
+        private static bool? isUsingDesertWolves = null;
+        public static bool IsUsingDesertWolves()
+        {
+            if (!isUsingDesertWolves.HasValue)
+                isUsingDesertWolves = MyAPIGateway.Session.Mods.Any(x => x.PublishedFileId == DESERTWOLVES_MODID);
+            return isUsingDesertWolves.Value;
         }
 
         private static PlanetMapProfile.OreMapType? _oreMapType = null;
@@ -764,6 +816,20 @@ namespace ExtendedSurvival.Core
             }
         }
 
+        private void ForceWolfAndSpiders()
+        {
+            try
+            {
+                /* Disable spawn to use a manual creature spawn */
+                MyAPIGateway.Session.SessionSettings.EnableSpiders = false;
+                MyAPIGateway.Session.SessionSettings.EnableWolfs = false;
+            }
+            catch (Exception ex)
+            {
+                ExtendedSurvivalCoreLogging.Instance.LogError(GetType(), ex);
+            }
+        }
+
         protected override void DoUpdate60()
         {
             base.DoUpdate60();
@@ -773,6 +839,7 @@ namespace ExtendedSurvival.Core
 
                 CheckPlanetWaters();
                 DoUpdateSunDir();
+                ForceWolfAndSpiders();
 
             }
         }

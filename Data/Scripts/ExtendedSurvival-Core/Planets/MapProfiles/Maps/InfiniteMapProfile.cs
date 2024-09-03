@@ -15,7 +15,7 @@ namespace ExtendedSurvival.Core
 
         public const ulong HALCYON_MODID = 3028355272;
         public const ulong PENUMBRA_MODID = 3077440417;
-        public const ulong VALKOR_MODID = 3077440417;
+        public const ulong VALKOR_MODID = 3112058236;
         public const ulong ORCUS_MODID = 2905443304;
 
         public const string DEFAULT_HALCYON = "HALCYON";
@@ -1963,7 +1963,7 @@ namespace ExtendedSurvival.Core
             OriginId = HALCYON_MODID,
             Version = PlanetMapProfile.PROFILE_VERSION,
             RespawnEnabled = false,
-            Animal = PlanetMapAnimalsProfile.DEFAULT_WOLF,
+            Animal = PlanetMapAnimalsProfile.DEFAULT_TRITON,
             Geothermal = PlanetMapProfile.GetGeothermal(true, depthMultiplier: 2, rowSizeMultiplier: 2, powerMultiplier: 0.75f),
             Atmosphere = PlanetMapProfile.GetAtmosphere(true, true, 0.7f, 0.4f, 70, 1.3f, 0.15f, 0.5f),
             Gravity = PlanetMapProfile.GetGravity(0.5f, 4),
@@ -1972,7 +1972,12 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(45, 55),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Tundra, "Snow"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "TritonBlend", "TritonStone"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "HalcyonIce")
+            )
         };
 
         public static readonly PlanetProfile PENUMBRA = new PlanetProfile()
@@ -1990,7 +1995,10 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(55, 65),
             Type = PlanetProfile.PlanetType.Moon,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.DISABLE_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "TritonIceNew", "Ice_02New", "AlienSnowNew", "RedIce", "SnowNew", "PenumbraTerrain")
+            )
         };
 
         public static readonly PlanetProfile VALKOR = new PlanetProfile()
@@ -2010,7 +2018,15 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(115, 125),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Forest, "Grass", "Woods_grass", "ValkorGrass3", "ValkorGrass2", "Soil"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Savanna, "Grass_old"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "MoonSoil", "ValkorAquaticShallow", "ValkorAquaticDeep", "AlienSand", "ValkorSand", "ValkorSandstone", "ValkorDesert"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Tundra, "Snow", "ValkorTundra"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "TritonBlend", "Stone", "ValkorStone", "DustyRocks3", "TritonStone"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Volcanic, "ValkorLava")
+            )
         };
 
         public static readonly PlanetProfile ORCUS = new PlanetProfile()
@@ -2030,7 +2046,15 @@ namespace ExtendedSurvival.Core
             SizeRange = new Vector2(115, 125),
             Type = PlanetProfile.PlanetType.Planet,
             GroupType = PlanetProfile.OreGroupType.Concentrated,
-            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING
+            SuperficialMining = PlanetMapProfile.EARTH_SUPERFICIAL_MINING,
+            Biome = PlanetMapProfile.BuildBiomes(
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Forest, "OrcusGrass", "Woods_grass", "Soil"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Savanna, "Rocks_grass", "OrcusGrass2"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Desert, "AquaticSand", "aquatic2", "aquatic3", "AlienSand", "Sand_02"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Tundra, "Snow", "TundraSoil"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Cliff, "TritonStone", "DustyRocks", "DustyRocks3", "Stone_05", "Stone"),
+                PlanetMapProfile.GetBiome(PlanetProfile.BiomeTypes.Frozen, "TritonIce")
+            )
         };
 
     }

@@ -17,6 +17,7 @@ using Sandbox.Common.ObjectBuilders;
 using VRage.Utils;
 using Sandbox.Definitions;
 using VRage.Voxels;
+using System.Collections.Immutable;
 
 namespace ExtendedSurvival.Core
 {
@@ -48,6 +49,7 @@ namespace ExtendedSurvival.Core
         public ConcurrentDictionary<long, PlanetEntity> Planets { get; private set; } = new ConcurrentDictionary<long, PlanetEntity>();
         public ConcurrentDictionary<long, HandheldGunEntity> HandheldGuns { get; private set; } = new ConcurrentDictionary<long, HandheldGunEntity>();
         public ConcurrentDictionary<long, IMyPlayer> Players { get; private set; } = new ConcurrentDictionary<long, IMyPlayer>();
+        public ConcurrentDictionary<long, IMyCharacter> Bots { get; private set; } = new ConcurrentDictionary<long, IMyCharacter>();
 
         public ConcurrentQueue<ExtendedSurvivalCoreDamageLogging.DamageToLogInfo> DamageToLog = new ConcurrentQueue<ExtendedSurvivalCoreDamageLogging.DamageToLogInfo>();
 
@@ -87,6 +89,8 @@ namespace ExtendedSurvival.Core
         protected ParallelTasks.Task taskGpsPlayers;
         protected ParallelTasks.Task taskDecaySystem;
         protected ParallelTasks.Task taskCleanSystem;
+        protected ParallelTasks.Task taskCreatureSpawn;
+        protected ParallelTasks.Task taskCreatureInhibitor;
         protected override void DoInit(MyObjectBuilder_SessionComponent sessionComponent)
         {
             Instance = this;
@@ -286,6 +290,36 @@ namespace ExtendedSurvival.Core
                             break;
                     }
                 });
+                taskCreatureSpawn = MyAPIGateway.Parallel.StartBackground(() =>
+                {
+                    ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), "StartBackground [CreateSpawnSystem START]");
+                    while (canRun)
+                    {
+                        if (Players.Any())
+                        {
+                            HuntingSystemController.DoCycle();
+                        }
+                        if (MyAPIGateway.Parallel != null)
+                            MyAPIGateway.Parallel.Sleep((int)Math.Max(ExtendedSurvivalSettings.Instance.Cleaning.CleaningCycleTime, 30000));
+                        else
+                            break;
+                    }
+                });
+                taskCreatureInhibitor = MyAPIGateway.Parallel.StartBackground(() =>
+                {
+                    ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), "StartBackground [CreateInhibitorSystem START]");
+                    while (canRun)
+                    {
+                        if (Players.Any())
+                        {
+                            HuntingSystemController.DoInhibitorCycle();
+                        }
+                        if (MyAPIGateway.Parallel != null)
+                            MyAPIGateway.Parallel.Sleep((int)Math.Max(ExtendedSurvivalSettings.Instance.Cleaning.CleaningCycleTime, 100));
+                        else
+                            break;
+                    }
+                });
         }
         }
 
@@ -299,6 +333,7 @@ namespace ExtendedSurvival.Core
                 {
                     RegisterWatcher();
                     SuperficialMiningController.InitShipDrillCollec();
+                    HuntingSystemController.Init();
                 }
                 ExtendedSurvivalCoreLogging.Instance.LogInfo(GetType(), $"RegisterSecureMessageHandler EntityCallsMsgHandler");
                 MyAPIGateway.Multiplayer.RegisterSecureMessageHandler(ExtendedSurvivalCoreSession.NETWORK_ID_ENTITYCALLS, EntityCallsMsgHandler);
@@ -352,6 +387,24 @@ namespace ExtendedSurvival.Core
             }
         }
 
+        public override void LoadData()
+        {
+            base.LoadData();
+            if (IsServer)
+            {
+                HuntingSystemController.LoadData();
+            }
+        }
+
+        public override void SaveData()
+        {
+            base.SaveData();
+            if (IsServer)
+            {
+                HuntingSystemController.SaveData();
+            }
+        }
+
         protected override void UnloadData()
         {
             if (MyAPIGateway.Session.IsServer)
@@ -372,6 +425,7 @@ namespace ExtendedSurvival.Core
                 MyVisualScriptLogicProvider.ContractFailed -= Contracts_ContractFailed;
                 MyVisualScriptLogicProvider.ContractFinished -= Contracts_ContractFinished;
                 SuperficialMiningController.ClearShipDrillCollec();
+                HuntingSystemController.Unload();
             }
             MyAPIGateway.Multiplayer.UnregisterSecureMessageHandler(ExtendedSurvivalCoreSession.NETWORK_ID_ENTITYCALLS, EntityCallsMsgHandler);
             base.UnloadData();
@@ -542,7 +596,8 @@ namespace ExtendedSurvival.Core
             {
                 lock (Planets)
                 {
-                    Planets.Remove(planet.EntityId);
+                    if (Planets.ContainsKey(planet.EntityId))
+                        Planets.Remove(planet.EntityId);
                 }
                 return;
             }
@@ -551,15 +606,30 @@ namespace ExtendedSurvival.Core
             {
                 lock (VoxelMaps)
                 {
-                    VoxelMaps.Remove(voxelMap.EntityId);
+                    if (VoxelMaps.ContainsKey(voxelMap.EntityId))
+                        VoxelMaps.Remove(voxelMap.EntityId);
                 }
                 return;
             }
             var handheldGunObj = entity as IMyAutomaticRifleGun;
             if (handheldGunObj != null)
             {
-                if (HandheldGuns.ContainsKey(handheldGunObj.EntityId))
-                    HandheldGuns.Remove(handheldGunObj.EntityId);
+                lock (HandheldGuns)
+                {
+                    if (HandheldGuns.ContainsKey(handheldGunObj.EntityId))
+                        HandheldGuns.Remove(handheldGunObj.EntityId);
+                }
+                return;
+            }
+            var character = entity as IMyCharacter;
+            if (character != null && (character.GetPlayer()?.IsValidBot() ?? false))
+            {
+                lock (Bots)
+                {
+                    if (Bots.ContainsKey(character.EntityId))
+                        Bots.Remove(character.EntityId);
+                }
+                return;                
             }
         }
 
@@ -822,6 +892,15 @@ namespace ExtendedSurvival.Core
                     }
                     return;
                 }
+                var character = entity as IMyCharacter;
+                if (character != null && (character.GetPlayer()?.IsValidBot() ?? false))
+                {
+                    lock (Bots)
+                    {
+                        Bots[character.EntityId] = character;
+                    }
+                    return;
+                }
             }
             catch (Exception ex)
             {
@@ -867,21 +946,35 @@ namespace ExtendedSurvival.Core
             return null;
         }
 
-        public GridEntity FirstGridInRange(Vector3D rPos, float maxDistance, params long[] ignoreList)
+        public GridEntity FirstGridInRange(Vector3D rPos, float maxDistance, Func<GridEntity, bool> filter, params long[] ignoreList)
         {
             lock (Grids)
             {
                 return Grids.FirstOrDefault(x =>
                     x.Entity != null &&
                     !ignoreList.Contains(x.Entity.EntityId) &&
+                    (filter == null || filter(x)) &&
                     Vector3D.Distance(x.Entity.GetPosition(), rPos) <= maxDistance
                 );
             }
         }
 
-        public bool AnyGridInRange(Vector3D rPos, float maxDistance, params long[] ignoreList)
+        public IReadOnlyList<GridEntity> AllGridsInRange(Vector3D rPos, float maxDistance, Func<GridEntity, bool> filter, params long[] ignoreList)
         {
-            return FirstGridInRange(rPos, maxDistance, ignoreList) != null;
+            lock (Grids)
+            {
+                return Grids.Where(x =>
+                    x.Entity != null &&
+                    !ignoreList.Contains(x.Entity.EntityId) &&
+                    (filter == null || filter(x)) &&
+                    Vector3D.Distance(x.Entity.GetPosition(), rPos) <= maxDistance
+                ).ToImmutableList();
+            }
+        }
+
+        public bool AnyGridInRange(Vector3D rPos, float maxDistance, Func<GridEntity, bool> filter, params long[] ignoreList)
+        {
+            return FirstGridInRange(rPos, maxDistance, filter, ignoreList) != null;
         }
 
         public IMyPlayer FirstPlayerInRange(Vector3D rPos, float maxDistance, params long[] ignoreList)
@@ -896,6 +989,18 @@ namespace ExtendedSurvival.Core
             }
         }
 
+        public IReadOnlyList<IMyPlayer> AllPlayerInRange(Vector3D rPos, float maxDistance, params long[] ignoreList)
+        {
+            lock (Players)
+            {
+                return Players.Values.Where(x =>
+                    x.Character != null &&
+                    !ignoreList.Contains(x.IdentityId) &&
+                    Vector3D.Distance(x.Character.GetPosition(), rPos) <= maxDistance
+                ).ToImmutableList();
+            }
+        }
+
         public bool AnyPlayerInRange(Vector3D rPos, float maxDistance, params long[] ignoreList)
         {
             return FirstPlayerInRange(rPos, maxDistance, ignoreList) != null;
@@ -903,7 +1008,38 @@ namespace ExtendedSurvival.Core
 
         public bool AnyInRange(Vector3D rPos, float maxDistance, params long[] ignoreList)
         {
-            return AnyPlayerInRange(rPos, maxDistance, ignoreList) || AnyGridInRange(rPos, maxDistance, ignoreList);
+            return AnyPlayerInRange(rPos, maxDistance, ignoreList) || AnyGridInRange(rPos, maxDistance, null, ignoreList);
+        }
+
+        public IMyCharacter FirstBotInRange(Vector3D rPos, float maxDistance, params long[] ignoreList)
+        {
+            lock (Bots)
+            {
+                return Bots.Values.FirstOrDefault(x =>
+                    x != null &&
+                    !x.IsDead &&
+                    !ignoreList.Contains(x.EntityId) &&
+                    Vector3D.Distance(x.GetPosition(), rPos) <= maxDistance
+                );
+            }
+        }
+
+        public IReadOnlyList<IMyCharacter> AllBotInRange(Vector3D rPos, float maxDistance, params long[] ignoreList)
+        {
+            lock (Players)
+            {
+                return Bots.Values.Where(x =>
+                    x != null &&
+                    !x.IsDead &&
+                    !ignoreList.Contains(x.EntityId) &&
+                    Vector3D.Distance(x.GetPosition(), rPos) <= maxDistance
+                ).ToImmutableList();
+            }
+        }
+
+        public bool AnyBotInRange(Vector3D rPos, float maxDistance, params long[] ignoreList)
+        {
+            return FirstBotInRange(rPos, maxDistance, ignoreList) != null;
         }
 
         public IMyPlayer GetClosestPlayer(Vector3D rPos, MyPromoteLevel level = MyPromoteLevel.None)
@@ -2174,6 +2310,33 @@ namespace ExtendedSurvival.Core
                     msg = $"Found {maps.Count} planets matching '{planetName}'.";
                     return false;
             }
+        }
+
+        public bool SpawnBot(string name, int count, ulong caller)
+        {
+            bool ok = false;
+            if (PlanetMapAnimalsProfile.ValidAnimals.ContainsKey(name.ToLower()))
+            {
+                var playerId = MyAPIGateway.Players.TryGetIdentityId(caller);
+                if (Players.ContainsKey(playerId))
+                {
+                    var c = Players[playerId].Character;
+                    if (c != null)
+                    {
+                        var bot = PlanetMapAnimalsProfile.ValidAnimals[name.ToLower()];
+                        for (int i = 0; i < count; i++)
+                        {
+                            var pos = c.GetRandomPosition();
+                            if (pos.HasValue)
+                            {
+                                MyVisualScriptLogicProvider.SpawnBot(bot.Id, pos.Value);
+                                ok = true;
+                            }
+                        }
+                    }
+                }
+            }
+            return ok;
         }
 
         public bool SpawnPrefab(string name, ulong caller, float distance = 250)

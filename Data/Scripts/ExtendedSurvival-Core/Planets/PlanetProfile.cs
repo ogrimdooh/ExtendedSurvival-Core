@@ -8,8 +8,36 @@ using VRageMath;
 namespace ExtendedSurvival.Core
 {
 
+    public static class PlanetProfileAnimalInfoExtension
+    {
+
+        public static PlanetProfile.AnimalInfo CopyAndRemove(this PlanetProfile.AnimalInfo self, params string[] biomes)
+        {
+            return new PlanetProfile.AnimalInfo()
+            {
+                day = self.day,
+                night = self.night,
+                types = self.types.Where(x => !x.biomes.Any(y => biomes.Contains(y))).ToArray()
+            };
+        }
+
+    }
+
     public class PlanetProfile
     {
+
+        public static class BiomeTypes
+        {
+
+            public const string Forest = "Forest";
+            public const string Savanna = "Savanna";
+            public const string Desert = "Desert";
+            public const string Tundra = "Tundra";
+            public const string Cliff = "Cliff";
+            public const string Frozen = "Frozen";
+            public const string Volcanic = "Volcanic";
+
+        }
 
         public enum OreGroupType
         {
@@ -63,10 +91,27 @@ namespace ExtendedSurvival.Core
 
         }
 
+        public struct BiomeInfo
+        {
+
+            public string id;
+            public string[] voxelMaterials;
+
+        }
+
+        public struct AnimalEntryInfo
+        {
+
+            public string id;
+            public PlanetMapAnimalsProfile.AnimalTimeToSpawn timeToSpawn;
+            public string[] biomes;
+
+        }
+
         public struct AnimalInfo
         {
 
-            public string[] types;
+            public AnimalEntryInfo[] types;
             public AnimalSpawnInfo day;
             public AnimalSpawnInfo night;
 
@@ -76,9 +121,9 @@ namespace ExtendedSurvival.Core
         {
 
             public bool enabled;
-            public Vector2I spawnDelay;
-            public Vector2I spawnDist;
-            public Vector2I waveCount;
+            public float huntCycleCountDownMultiplier;
+            public float spawnCreatureAmountMultiplier;
+            public float spawnCreatureDistanceMultiplier;
 
         }
 
@@ -172,6 +217,7 @@ namespace ExtendedSurvival.Core
         public TemperatureInfo Temperature { get; set; }
         public GravityInfo Gravity { get; set; }
         public WaterInfo Water { get; set; }
+        public List<BiomeInfo> Biome { get; set; }
         public SuperficialMiningInfo SuperficialMining { get; set; }
         public List<OreMapInfo> Ores { get; set; } = new List<OreMapInfo>();
         public string TargetColor { get; set; }
@@ -181,6 +227,15 @@ namespace ExtendedSurvival.Core
         public float OreMultiplier { get; set; } = 1.0f;
         public Vector2 SizeRange { get; set; } = new Vector2(30, 60);
         public PlanetType Type { get; set; } = PlanetType.Planet;
+
+        public List<PlanetBiomeSetting> BuildBiomeSetting()
+        {
+            return Biome.Select(b => new PlanetBiomeSetting()
+            {
+                Id = b.id,
+                VoxelMaterials = b.voxelMaterials.Select(x => new PlanetBiomeVoxelMaterialSetting() { Id = x }).ToList(),
+            }).ToList();
+        }
 
         public GravitySetting BuildGravitySetting()
         {
@@ -954,9 +1009,10 @@ namespace ExtendedSurvival.Core
                         settings.RemovedOres = tmpSettings.RemovedOres;
                         settings.ClearOresBeforeAdd = tmpSettings.ClearOresBeforeAdd;
                     }
-                    if (settings.Version <= 22)
+                    if (settings.Version <= 25)
                     {
                         settings.Animal = BuildAnimalsSetting();
+                        settings.Biomes = BuildBiomeSetting();
                     }
                 }
                 settings.Version = Version; 
@@ -968,20 +1024,24 @@ namespace ExtendedSurvival.Core
         {
             return new PlanetAnimalSetting()
             {
-                Animals = Animal.types.Select(x => new PlanetAnimalEntrySetting() { Id = x }).ToList(),
+                Animals = Animal.types.Select(x => new PlanetAnimalEntrySetting() { 
+                    Id = x.id,
+                    TimeToSpawn = (int)x.timeToSpawn,
+                    Biomes = x.biomes.Select(y=>new PlanetAnimalTargetBiomeSetting() { Id = y }).ToList()
+                }).ToList(),
                 DaySpawn = new PlanetAnimalSpawnSetting()
                 {
                     Enabled = Animal.day.enabled,
-                    SpawnDelay = Animal.day.spawnDelay,
-                    SpawnDist = Animal.day.spawnDist,
-                    WaveCount = Animal.day.waveCount
+                    HuntCycleCountDownMultiplier = Animal.day.huntCycleCountDownMultiplier,
+                    SpawnCreatureAmountMultiplier = Animal.day.spawnCreatureAmountMultiplier,
+                    SpawnCreatureDistanceMultiplier = Animal.day.spawnCreatureDistanceMultiplier
                 },
                 NightSpawn = new PlanetAnimalSpawnSetting()
                 {
                     Enabled = Animal.night.enabled,
-                    SpawnDelay = Animal.night.spawnDelay,
-                    SpawnDist = Animal.night.spawnDist,
-                    WaveCount = Animal.night.waveCount
+                    HuntCycleCountDownMultiplier = Animal.night.huntCycleCountDownMultiplier,
+                    SpawnCreatureAmountMultiplier = Animal.night.spawnCreatureAmountMultiplier,
+                    SpawnCreatureDistanceMultiplier = Animal.night.spawnCreatureDistanceMultiplier
                 }
             };
         }
@@ -1015,6 +1075,7 @@ namespace ExtendedSurvival.Core
                 Water = BuildWaterSetting(),
                 Gravity = BuildGravitySetting(),
                 Animal = BuildAnimalsSetting(),
+                Biomes = BuildBiomeSetting(),
                 SuperficialMining = BuildSuperficialMiningSetting(id),
                 OreGroupType = (int)(groupType.HasValue ? groupType.Value : GroupType),
                 ScarceEnabled = scarceenabled,
