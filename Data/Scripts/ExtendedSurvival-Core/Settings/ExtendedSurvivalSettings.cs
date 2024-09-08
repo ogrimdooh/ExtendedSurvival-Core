@@ -1788,6 +1788,15 @@ namespace ExtendedSurvival.Core
                         return true;
                     }
                     break;
+                case "combat.noselfownerdamage":
+                    bool combatsetting_noselfownerdamage;
+                    if (bool.TryParse(value, out combatsetting_noselfownerdamage))
+                    {
+                        Combat.NoSelfOwnerDamage = combatsetting_noselfownerdamage;
+                        Modified = true;
+                        return true;
+                    }
+                    break;
                 case "combat.logallpvpdamage":
                     bool combatsetting_logallpvpdamage;
                     if (bool.TryParse(value, out combatsetting_logallpvpdamage))

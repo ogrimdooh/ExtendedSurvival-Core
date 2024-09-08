@@ -62,6 +62,11 @@ namespace ExtendedSurvival.Core
             return DamageType.None;
         }
 
+        public static bool IsDeformation(this MyDamageInformation damage)
+        {
+            return damage.Type == MyDamageType.Deformation;
+        }
+
         public static IMyEntity GetAttacker(this MyDamageInformation damage, out long playerId, out DamageType damageType, out AttackerType attackerType)
         {
             playerId = 0;

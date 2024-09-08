@@ -233,7 +233,7 @@ namespace ExtendedSurvival.Core
                 {
                     try
                     {
-                        if (entity != null && damage.Amount > 0)
+                        if (entity != null && damage.Amount > 0 && !damage.IsDeformation())
                         {
                             var cubeBlock = entity as IMySlimBlock;
                             if (cubeBlock != null)
@@ -400,61 +400,71 @@ namespace ExtendedSurvival.Core
         {
             try
             {
-                if (ExtendedSurvivalSettings.Instance.Combat.NoGrindFunctionalGrids ||
-                    ExtendedSurvivalSettings.Instance.Combat.NoGridSelfDamage)
+                if (ExtendedSurvivalSettings.Instance.Combat.NoSelfOwnerDamage && 
+                    damageType != MyDamageInformationExtensions.DamageType.Tool && 
+                    ownerId == attackerPlayerId)
                 {
-                    var gridInfo = ExtendedSurvivalEntityManager.Instance.GetGridByUuid(cubeBlock.CubeGrid.EntityId);
-                    if (gridInfo != null)
+                    damage.Amount = 0;
+                    damage.IsDeformation = false;
+                }
+                else
+                {
+                    if (ExtendedSurvivalSettings.Instance.Combat.NoGrindFunctionalGrids ||
+                        ExtendedSurvivalSettings.Instance.Combat.NoGridSelfDamage)
                     {
-                        if (gridInfo.Entity.ResourceDistributor.ResourceState != VRage.MyResourceStateEnum.NoPower)
+                        var gridInfo = ExtendedSurvivalEntityManager.Instance.GetGridByUuid(cubeBlock.CubeGrid.EntityId);
+                        if (gridInfo != null)
                         {
-                            if (gridInfo.AnyWeaponIsFunctional)
+                            if (gridInfo.Entity.ResourceDistributor.ResourceState != VRage.MyResourceStateEnum.NoPower)
                             {
-                                if (damage.AttackerId != 0)
+                                if (gridInfo.AnyWeaponIsFunctional)
                                 {
-                                    if (MyAPIGateway.Players.TryGetSteamId(attackerPlayerId) != 0)
+                                    if (damage.AttackerId != 0)
                                     {
-                                        if (damageType == MyDamageInformationExtensions.DamageType.Tool &&
-                                            ExtendedSurvivalSettings.Instance.Combat.NoGrindFunctionalGrids)
+                                        if (MyAPIGateway.Players.TryGetSteamId(attackerPlayerId) != 0)
                                         {
-                                            var ownerFaction = MyAPIGateway.Session.Factions.TryGetPlayerFaction(ownerId);
-                                            var attackerFaction = MyAPIGateway.Session.Factions.TryGetPlayerFaction(attackerPlayerId);
-                                            if (ownerId != attackerPlayerId && ownerFaction?.FactionId != attackerFaction?.FactionId)
+                                            if (damageType == MyDamageInformationExtensions.DamageType.Tool &&
+                                                ExtendedSurvivalSettings.Instance.Combat.NoGrindFunctionalGrids)
                                             {
-                                                if (cubeBlock.BlockDefinition.Id.TypeId != typeof(MyObjectBuilder_Door) &&
-                                                    cubeBlock.BlockDefinition.Id.TypeId != typeof(MyObjectBuilder_AirtightSlideDoor) &&
-                                                    cubeBlock.BlockDefinition.Id.TypeId != typeof(MyObjectBuilder_AirtightHangarDoor))
+                                                var ownerFaction = MyAPIGateway.Session.Factions.TryGetPlayerFaction(ownerId);
+                                                var attackerFaction = MyAPIGateway.Session.Factions.TryGetPlayerFaction(attackerPlayerId);
+                                                if (ownerId != attackerPlayerId && ownerFaction?.FactionId != attackerFaction?.FactionId)
                                                 {
-                                                    damage.Amount = 0;
-                                                    damage.IsDeformation = false;
+                                                    if (cubeBlock.BlockDefinition.Id.TypeId != typeof(MyObjectBuilder_Door) &&
+                                                        cubeBlock.BlockDefinition.Id.TypeId != typeof(MyObjectBuilder_AirtightSlideDoor) &&
+                                                        cubeBlock.BlockDefinition.Id.TypeId != typeof(MyObjectBuilder_AirtightHangarDoor))
+                                                    {
+                                                        damage.Amount = 0;
+                                                        damage.IsDeformation = false;
+                                                    }
                                                 }
                                             }
                                         }
-                                    }
-                                    if (damage.Amount > 0 &&
-                                        attackerType == MyDamageInformationExtensions.AttackerType.CubeBlock &&
-                                        ExtendedSurvivalSettings.Instance.Combat.NoGridSelfDamage)
-                                    {
-                                        var attackerBlock = attackerEntity as IMyCubeBlock;
-                                        if (attackerBlock != null && attackerBlock.CubeGrid.EntityId == cubeBlock.CubeGrid.EntityId)
+                                        if (damage.Amount > 0 &&
+                                            attackerType == MyDamageInformationExtensions.AttackerType.CubeBlock &&
+                                            ExtendedSurvivalSettings.Instance.Combat.NoGridSelfDamage)
                                         {
-                                            damage.Amount = 0;
-                                            damage.IsDeformation = false;
+                                            var attackerBlock = attackerEntity as IMyCubeBlock;
+                                            if (attackerBlock != null && attackerBlock.CubeGrid.EntityId == cubeBlock.CubeGrid.EntityId)
+                                            {
+                                                damage.Amount = 0;
+                                                damage.IsDeformation = false;
+                                            }
                                         }
                                     }
-                                }
-                                else
-                                {
-                                    /* During a battle a many damages info is lack of attacker id, so better avoid tool damage */
-                                    if (damageType == MyDamageInformationExtensions.DamageType.Tool &&
-                                        ExtendedSurvivalSettings.Instance.Combat.NoGrindFunctionalGrids)
+                                    else
                                     {
-                                        if (cubeBlock.BlockDefinition.Id.TypeId != typeof(MyObjectBuilder_Door) &&
-                                            cubeBlock.BlockDefinition.Id.TypeId != typeof(MyObjectBuilder_AirtightSlideDoor) &&
-                                            cubeBlock.BlockDefinition.Id.TypeId != typeof(MyObjectBuilder_AirtightHangarDoor))
+                                        /* During a battle a many damages info is lack of attacker id, so better avoid tool damage */
+                                        if (damageType == MyDamageInformationExtensions.DamageType.Tool &&
+                                            ExtendedSurvivalSettings.Instance.Combat.NoGrindFunctionalGrids)
                                         {
-                                            damage.Amount = 0;
-                                            damage.IsDeformation = false;
+                                            if (cubeBlock.BlockDefinition.Id.TypeId != typeof(MyObjectBuilder_Door) &&
+                                                cubeBlock.BlockDefinition.Id.TypeId != typeof(MyObjectBuilder_AirtightSlideDoor) &&
+                                                cubeBlock.BlockDefinition.Id.TypeId != typeof(MyObjectBuilder_AirtightHangarDoor))
+                                            {
+                                                damage.Amount = 0;
+                                                damage.IsDeformation = false;
+                                            }
                                         }
                                     }
                                 }

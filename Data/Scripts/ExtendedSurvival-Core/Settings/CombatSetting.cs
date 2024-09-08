@@ -74,6 +74,9 @@ namespace ExtendedSurvival.Core
         public bool NoGridSelfDamage { get; set; } = false;
 
         [XmlElement]
+        public bool NoSelfOwnerDamage { get; set; } = false;
+
+        [XmlElement]
         public bool LogAllPvPDamage { get; set; } = false;
 
         [XmlElement]
