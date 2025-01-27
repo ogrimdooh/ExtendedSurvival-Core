@@ -322,6 +322,8 @@ namespace ExtendedSurvival.Core
         private const string SETTINGS_COMMAND_DEFINITIONS_COMPONENTS = "components";
         private const string SETTINGS_COMMAND_DEFINITIONS_BLOCKS = "blocks";
         private const string SETTINGS_COMMAND_DEFINITIONS_PLANETS = "planets";
+        private const string SETTINGS_COMMAND_DEFINITIONS_PLANET = "planet";
+        private const string SETTINGS_COMMAND_DEFINITIONS_PLANETSETTING = "planetsetting";
         private const string SETTINGS_COMMAND_DEFINITIONS_PREFABS = "prefabs";
 
         private const string SETTINGS_COMMAND_RESETVOXELS_PLANETS = "planet";
@@ -554,6 +556,26 @@ namespace ExtendedSurvival.Core
                                     case SETTINGS_COMMAND_DEFINITIONS_PLANETS:
                                         var dataPlanets = PlanetMapProfile.GetMappedProfiles();
                                         SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_DEFINITIONS} {SETTINGS_COMMAND_DEFINITIONS_PLANETS} executed.", MyFontEnum.White, extraInfo: dataPlanets);
+                                        break;
+                                    case SETTINGS_COMMAND_DEFINITIONS_PLANET:
+                                        if (mCommandData.content.Length > 2)
+                                        {
+                                            var pId = mCommandData.content[2];
+                                            var dataPlanet = PlanetMapProfile.GetMappedProfileDetail(pId, false);
+                                            if (string.IsNullOrWhiteSpace(dataPlanet))
+                                                dataPlanet = "NOT FOUND";
+                                            SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_DEFINITIONS} {SETTINGS_COMMAND_DEFINITIONS_PLANET} {pId} executed.", MyFontEnum.White, extraInfo: dataPlanet);
+                                        }
+                                        break;
+                                    case SETTINGS_COMMAND_DEFINITIONS_PLANETSETTING:
+                                        if (mCommandData.content.Length > 2)
+                                        {
+                                            var pId = mCommandData.content[2];
+                                            var dataPlanet = PlanetMapProfile.GetMappedProfileDetail(pId, true);
+                                            if (string.IsNullOrWhiteSpace(dataPlanet))
+                                                dataPlanet = "NOT FOUND";
+                                            SendMessage(steamId, $"[ExtendedSurvivalCore] Command {SETTINGS_COMMAND_DEFINITIONS} {SETTINGS_COMMAND_DEFINITIONS_PLANETSETTING} {pId} executed.", MyFontEnum.White, extraInfo: dataPlanet);
+                                        }
                                         break;
                                     case SETTINGS_COMMAND_DEFINITIONS_PREFABS:
                                         if (COMMAND_LOCK.ContainsKey(SETTINGS_COMMAND_DEFINITIONS_PREFABS) && COMMAND_LOCK[SETTINGS_COMMAND_DEFINITIONS_PREFABS])

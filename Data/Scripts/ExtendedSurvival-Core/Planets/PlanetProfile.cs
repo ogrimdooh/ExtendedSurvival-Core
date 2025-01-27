@@ -230,11 +230,11 @@ namespace ExtendedSurvival.Core
 
         public List<PlanetBiomeSetting> BuildBiomeSetting()
         {
-            return Biome.Select(b => new PlanetBiomeSetting()
+            return Biome?.Select(b => new PlanetBiomeSetting()
             {
                 Id = b.id,
                 VoxelMaterials = b.voxelMaterials.Select(x => new PlanetBiomeVoxelMaterialSetting() { Id = x }).ToList(),
-            }).ToList();
+            }).ToList() ?? new List<PlanetBiomeSetting>();
         }
 
         public GravitySetting BuildGravitySetting()

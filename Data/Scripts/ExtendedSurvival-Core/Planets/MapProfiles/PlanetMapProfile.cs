@@ -1,4 +1,5 @@
 ﻿using Sandbox.Definitions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
@@ -1692,6 +1693,195 @@ namespace ExtendedSurvival.Core
                 sb.AppendLine("");
             }
             return sb.ToString();
+        }
+
+        public static string GetMappedProfileDetail(string key, bool useConfig)
+        {
+            key = key.ToUpper();
+            if (PROFILES.ContainsKey(key))
+            {
+                var profile = PROFILES[key];
+                var settings = ExtendedSurvivalSettings.Instance.GetPlanetInfo(key, false);
+                var sb = new StringBuilder();
+                if (settings != null && useConfig)
+                {
+                    sb.AppendLine("Basic Data:");
+                    sb.AppendLine("");
+                    sb.AppendLine(string.Format("Respawn Enabled: {0}", settings.RespawnEnabled ? "Yes" : "No"));
+                    sb.AppendLine(string.Format("Type: {0}", ((PlanetProfile.PlanetType)settings.Type).ToString()));
+                    sb.AppendLine(string.Format("Size: {0}-{1}", settings.SizeRange.X.ToString("#0.00"), settings.SizeRange.Y.ToString("#0.00")));
+                    sb.AppendLine(string.Format("Gravity Force: {0}g", settings.Gravity.SurfaceGravity.ToString("#0.00")));
+                    sb.AppendLine(string.Format("Gravity Power: {0}x", settings.Gravity.GravityFalloffPower));
+                    sb.AppendLine(string.Format("Ores: {0}", string.Join(",", settings.OreMap.Select(x => x.Type.Split('_')[0]).Distinct())));
+                    sb.AppendLine("");
+                    sb.AppendLine("Atmosphere Data:");
+                    sb.AppendLine("");
+                    sb.AppendLine(string.Format("Enabled: {0}", settings.Atmosphere.Enabled ? "Yes" : "No"));
+                    if (settings.Atmosphere.Enabled)
+                    {
+                        sb.AppendLine(string.Format("Altitude: {0}", settings.Atmosphere.LimitAltitude.ToString("#0.00")));
+                        sb.AppendLine(string.Format("Max Wind Speed: {0}", settings.Atmosphere.MaxWindSpeed.ToString("#0.00")));
+                        sb.AppendLine(string.Format("Density: {0}", settings.Atmosphere.Density.ToString("P2")));
+                        sb.AppendLine(string.Format("Oxygen Density: {0}", settings.Atmosphere.OxygenDensity.ToString("P2")));
+                        sb.AppendLine(string.Format("Toxicity: {0}", settings.Atmosphere.ToxicLevel.ToString("P2")));
+                        sb.AppendLine(string.Format("Radiation: {0}", settings.Atmosphere.RadiationLevel.ToString("P2")));
+                        sb.AppendLine(string.Format("Temperature Range: {0}ºC - {1}ºC", settings.Atmosphere.TemperatureRange.X, settings.Atmosphere.TemperatureRange.Y));
+                    }
+                    sb.AppendLine("");
+                    sb.AppendLine("Geothermal Data:");
+                    sb.AppendLine("");
+                    sb.AppendLine(string.Format("Enabled: {0}", settings.Geothermal.Enabled ? "Yes" : "No"));
+                    if (settings.Geothermal.Enabled)
+                    {
+                        sb.AppendLine(string.Format("Start Depth: {0}", settings.Geothermal.Start.ToString("#0.00")));
+                        sb.AppendLine(string.Format("Increment Depth Size: {0}", settings.Geothermal.RowSize.ToString("#0.00")));
+                        sb.AppendLine(string.Format("Base Power: {0}", settings.Geothermal.Power.ToString("#0.00")));
+                        sb.AppendLine(string.Format("Increment Power: {0}", settings.Geothermal.Increment.ToString("#0.00")));
+                        sb.AppendLine(string.Format("Max Power: {0}", settings.Geothermal.MaxPower.ToString("#0.00")));
+                    }
+                    sb.AppendLine("");
+                    sb.AppendLine("Water Data:");
+                    sb.AppendLine("");
+                    sb.AppendLine(string.Format("Enabled: {0}", settings.Water.Enabled ? "Yes" : "No"));
+                    if (settings.Water.Enabled)
+                    {
+                        sb.AppendLine(string.Format("Default Size: {0}", settings.Water.Size));
+                        sb.AppendLine(string.Format("Temperature Factor: {0}", settings.Water.TemperatureFactor));
+                        sb.AppendLine(string.Format("Toxicity: {0}", settings.Water.ToxicLevel.ToString("P2")));
+                        sb.AppendLine(string.Format("Radiation: {0}", settings.Water.RadiationLevel.ToString("P2")));
+                    }
+                    sb.AppendLine("");
+                    sb.AppendLine("Superficial Mining Data:");
+                    sb.AppendLine("");
+                    sb.AppendLine(string.Format("Enabled: {0}", settings.SuperficialMining.Enabled ? "Yes" : "No"));
+                    if (settings.SuperficialMining.Enabled)
+                    {
+                        foreach (var item in settings.SuperficialMining.Drops)
+                        {
+                            var defId = item.ItemId.GetId();
+                            if (defId.HasValue)
+                            {
+                                var id = new UniqueEntityId(defId.Value);
+                                try
+                                {
+                                    var def = MyDefinitionManager.Static.GetPhysicalItemDefinition(id.DefinitionId);
+                                    if (def != null)
+                                    {
+                                        sb.AppendLine(string.Format(
+                                            "{0} chance to get {1}-{2} of {3}",
+                                            (item.Chance / 100).ToString("P2"),
+                                            item.Ammount.X,
+                                            item.Ammount.Y,
+                                            def.DisplayNameText
+                                        ));
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    ExtendedSurvivalCoreLogging.Instance.LogError(typeof(StarSystemController), ex);
+                                }
+                            }
+                        }
+                    }
+                    sb.AppendLine("");
+                    sb.AppendLine("Animal Data:");
+                    sb.AppendLine("");
+                    sb.AppendLine(string.Format("Day Spawn Enabled: {0}", settings.Animal.DaySpawn.Enabled ? "Yes" : "No"));
+                    sb.AppendLine(string.Format("Night Spawn Enabled: {0}", settings.Animal.NightSpawn.Enabled ? "Yes" : "No"));
+                    if (settings.Animal.DaySpawn.Enabled || settings.Animal.NightSpawn.Enabled)
+                    {
+                        sb.AppendLine(string.Format("Animals: {0}", string.Join(",", settings.Animal.Animals.Select(x => x.Id.Split('_')[0]))));
+                    }
+                }
+                else
+                {
+                    sb.AppendLine("Basic Data:");
+                    sb.AppendLine("");
+                    sb.AppendLine(string.Format("Respawn Enabled: {0}", profile.RespawnEnabled ? "Yes" : "No"));
+                    sb.AppendLine(string.Format("Type: {0}", ((PlanetProfile.PlanetType)profile.Type).ToString()));
+                    sb.AppendLine(string.Format("Size: {0}-{1}", profile.SizeRange.X.ToString("#0.00"), profile.SizeRange.Y.ToString("#0.00")));
+                    sb.AppendLine(string.Format("Gravity Force: {0}g", profile.Gravity.surfaceGravity.ToString("#0.00")));
+                    sb.AppendLine(string.Format("Gravity Power: {0}x", profile.Gravity.gravityFalloffPower));
+                    sb.AppendLine(string.Format("Ores: {0}", string.Join(",", profile.Ores.Select(x => x.type.Split('_')[0]).Distinct())));
+                    sb.AppendLine("");
+                    sb.AppendLine("Atmosphere Data:");
+                    sb.AppendLine("");
+                    sb.AppendLine(string.Format("Enabled: {0}", profile.Atmosphere.enabled ? "Yes" : "No"));
+                    if (profile.Atmosphere.enabled)
+                    {
+                        sb.AppendLine(string.Format("Altitude: {0}", profile.Atmosphere.limitAltitude.ToString("#0.00")));
+                        sb.AppendLine(string.Format("Max Wind Speed: {0}", profile.Atmosphere.maxWindSpeed.ToString("#0.00")));
+                        sb.AppendLine(string.Format("Density: {0}", profile.Atmosphere.density.ToString("P2")));
+                        sb.AppendLine(string.Format("Oxygen Density: {0}", profile.Atmosphere.oxygenDensity.ToString("P2")));
+                        sb.AppendLine(string.Format("Toxicity: {0}", profile.Atmosphere.toxicLevel.ToString("P2")));
+                        sb.AppendLine(string.Format("Radiation: {0}", profile.Atmosphere.radiationLevel.ToString("P2")));
+                        sb.AppendLine(string.Format("Temperature Range: {0}ºC - {1}ºC", profile.Temperature.temperatureRange.X, profile.Temperature.temperatureRange.Y));
+                    }
+                    sb.AppendLine("");
+                    sb.AppendLine("Geothermal Data:");
+                    sb.AppendLine("");
+                    sb.AppendLine(string.Format("Enabled: {0}", profile.Geothermal.enabled ? "Yes" : "No"));
+                    if (profile.Geothermal.enabled)
+                    {
+                        sb.AppendLine(string.Format("Start Depth: {0}-{1}", profile.Geothermal.start.X.ToString("#0.00"), profile.Geothermal.start.Y.ToString("#0.00")));
+                        sb.AppendLine(string.Format("Increment Depth Size: {0}-{1}", profile.Geothermal.rowSize.X.ToString("#0.00"), profile.Geothermal.rowSize.Y.ToString("#0.00")));
+                        sb.AppendLine(string.Format("Base Power: {0}-{1}", profile.Geothermal.power.X.ToString("#0.00"), profile.Geothermal.power.Y.ToString("#0.00")));
+                        sb.AppendLine(string.Format("Increment Power: {0}-{1}", profile.Geothermal.increment.X.ToString("#0.00"), profile.Geothermal.increment.Y.ToString("#0.00")));
+                        sb.AppendLine(string.Format("Max Power: {0}-{1}", profile.Geothermal.maxPower.X.ToString("#0.00"), profile.Geothermal.maxPower.Y.ToString("#0.00")));
+                    }
+                    sb.AppendLine("");
+                    sb.AppendLine("Water Data:");
+                    sb.AppendLine("");
+                    sb.AppendLine(string.Format("Enabled: {0}", profile.Water.enabled ? "Yes" : "No"));
+                    if (profile.Water.enabled)
+                    {
+                        sb.AppendLine(string.Format("Default Size: {0}", profile.Water.size));
+                        sb.AppendLine(string.Format("Temperature Factor: {0}", profile.Water.temperatureFactor));
+                        sb.AppendLine(string.Format("Toxicity: {0}", profile.Water.toxicLevel.ToString("P2")));
+                        sb.AppendLine(string.Format("Radiation: {0}", profile.Water.radiationLevel.ToString("P2")));
+                    }
+                    sb.AppendLine("");
+                    sb.AppendLine("Superficial Mining Data:");
+                    sb.AppendLine("");
+                    sb.AppendLine(string.Format("Enabled: {0}", profile.SuperficialMining.enabled ? "Yes" : "No"));
+                    if (profile.SuperficialMining.enabled)
+                    {
+                        foreach (var item in profile.SuperficialMining.drops)
+                        {
+                            var id = item.itemId;
+                            try
+                            {
+                                var def = MyDefinitionManager.Static.GetPhysicalItemDefinition(id.DefinitionId);
+                                if (def != null)
+                                {
+                                    sb.AppendLine(string.Format(
+                                        "{0} chance to get {1}-{2} of {3}",
+                                        (item.chance / 100).ToString("P2"),
+                                        item.ammount.X,
+                                        item.ammount.Y,
+                                        def.DisplayNameText
+                                    ));
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                ExtendedSurvivalCoreLogging.Instance.LogError(typeof(StarSystemController), ex);
+                            }
+                        }
+                    }
+                    sb.AppendLine("");
+                    sb.AppendLine("Animal Data:");
+                    sb.AppendLine("");
+                    sb.AppendLine(string.Format("Day Spawn Enabled: {0}", profile.Animal.day.enabled ? "Yes" : "No"));
+                    sb.AppendLine(string.Format("Night Spawn Enabled: {0}", profile.Animal.night.enabled ? "Yes" : "No"));
+                    if (profile.Animal.day.enabled || profile.Animal.night.enabled)
+                    {
+                        sb.AppendLine(string.Format("Animals: {0}", string.Join(",", profile.Animal.types.Select(x => x.id.Split('_')[0]))));
+                    }
+                }
+                return sb.ToString();
+            }
+            return null;
         }
 
     }
