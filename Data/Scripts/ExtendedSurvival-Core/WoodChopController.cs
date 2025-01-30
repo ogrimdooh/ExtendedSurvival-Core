@@ -25,6 +25,7 @@ namespace ExtendedSurvival.Core
         private static readonly Vector2 BASE_LEAF_DROP = new Vector2(40, 80);
         private static readonly Vector2 BASE_TWIG_DROP = new Vector2(30, 60);
         private static readonly Vector2 BASE_BRANCH_DROP = new Vector2(20, 40);
+        private static readonly Vector2 BASE_CARBON_DROP = new Vector2(10, 20);
 
         private static List<TreeDropLoot> TREE_DROPS = new List<TreeDropLoot>();
 
@@ -68,6 +69,7 @@ namespace ExtendedSurvival.Core
                 double leafamount = BASE_LEAF_DROP.GetRandom();
                 double twigamount = BASE_TWIG_DROP.GetRandom();
                 double branchamount = BASE_BRANCH_DROP.GetRandom();
+                double carbonamount = 0;
 
                 var keys = lootAmmount.Keys.ToArray();
                 if (treemodel.Contains("Medium"))
@@ -84,12 +86,27 @@ namespace ExtendedSurvival.Core
                             lootAmmount[i] = 0;
                     }
                 }
-                if (treemodel.Contains("Dead"))
+                if (treemodel.Contains("Dead") || treemodel.Contains("Burned"))
                 {
                     woodamount *= 0.5;
                     leafamount *= 0;
                     twigamount *= 1.5;
                     branchamount *= 1.25;
+                    foreach (var i in keys)
+                    {
+                        if (TREE_DROPS[i].AlowDead)
+                            lootAmmount[i] *= TREE_DROPS[i].DeadReduction;
+                        else
+                            lootAmmount[i] = 0;
+                    }
+                }
+                if (treemodel.Contains("Burned"))
+                {
+                    woodamount *= 0.25;
+                    leafamount *= 0;
+                    twigamount *= 0.75;
+                    branchamount *= 0.5;
+                    carbonamount = BASE_CARBON_DROP.GetRandom();
                     foreach (var i in keys)
                     {
                         if (TREE_DROPS[i].AlowDead)
@@ -147,6 +164,12 @@ namespace ExtendedSurvival.Core
                     {
                         MyFixedPoint finalbranchamount = (MyFixedPoint)(branchamount);
                         MyFloatingObjects.Spawn(new MyPhysicalInventoryItem(finalbranchamount, ItensConstants.GetPhysicalObjectBuilder(ItensConstants.BRANCH_ID)), pos + (upp * 14) + (fww * (0.33 * GetRandon(entityName))) + ((rtt * 0.33 * GetRandon(entityName))), fww, upp);
+                    }
+
+                    if (carbonamount > 0)
+                    {
+                        MyFixedPoint finalcarbonamount = (MyFixedPoint)(carbonamount);
+                        MyFloatingObjects.Spawn(new MyPhysicalInventoryItem(finalcarbonamount, ItensConstants.GetPhysicalObjectBuilder(ItensConstants.CARBON_POWDER_ID)), pos + (upp * 14) + (fww * (0.33 * GetRandon(entityName))) + ((rtt * 0.33 * GetRandon(entityName))), fww, upp);
                     }
 
                     MyFloatingObjects.Spawn(new MyPhysicalInventoryItem(amount, ItensConstants.GetPhysicalObjectBuilder(ItensConstants.WOODLOG_ID)), pos + (upp * 13) + (fww * (0.33 * GetRandon(entityName))) + ((rtt * 0.33 * GetRandon(entityName))), fww, upp);

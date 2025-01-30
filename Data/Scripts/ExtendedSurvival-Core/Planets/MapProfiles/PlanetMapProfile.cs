@@ -381,6 +381,20 @@ namespace ExtendedSurvival.Core
                     }
                 }
             },
+            {
+                DirtySoil_01,
+                new OreType()
+                {
+                    Name = DirtySoil_01,
+                    DefaultInfo = new PlanetProfile.OreMapInfo()
+                    {
+                        type = DirtySoil_01,
+                        start = new Vector2I(10, 50),
+                        depth = new Vector2I(8, 16),
+                        rarity = PlanetProfile.OreRarity.Common
+                    }
+                }
+            },
             // ES Technology            
             {
                 Aluminum_01,
@@ -1660,6 +1674,11 @@ namespace ExtendedSurvival.Core
             {
                 AlmiranteOrlocProfile.DEFAULT_OBJECT85,
                 AlmiranteOrlocProfile.OBJECT85
+            },
+            // Chili Creeper
+            {
+                ChiliCreeperMapProfile.DEFAULT_TAKAMA,
+                ChiliCreeperMapProfile.TAKAMA
             }
         };
 

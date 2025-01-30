@@ -184,7 +184,10 @@ namespace ExtendedSurvival.Core
             ElindisMapProfile.PykeLava,
             ElindisMapProfile.PykeLavaRock,
             // Sam
-            SamMapProfile.Helios_Lava
+            SamMapProfile.Helios_Lava,
+            // Chili Creeper
+            ChiliCreeperMapProfile.Magma,
+            ChiliCreeperMapProfile.BrokenBalcor
         };
 
         public static readonly string[] DesertSoilVoxels = new string[] 
@@ -225,7 +228,9 @@ namespace ExtendedSurvival.Core
             // Shard
             ShardMapProfile.SafinaSand,
             ShardMapProfile.SafinaRedSand,
-            ShardMapProfile.SafinaLakebed
+            ShardMapProfile.SafinaLakebed,
+            // Chili Creeper
+            ChiliCreeperMapProfile.Fabric
         };
 
         public static readonly string[] AsteroidSoilVoxels = new string[]
@@ -426,29 +431,54 @@ namespace ExtendedSurvival.Core
                 OreToMine = OreConstants.ASTEROIDSOIL_SUBTYPEID,
                 MineRatio = VERYCOMMON_RATIO
             },
-            // MTL
             new VoxelOreReplace()
             {
-                TargetVoxels = new string[] { MLTModsMapProfile.SedoniaRegolith },
+                TargetVoxels = new string[]
+                { 
+                    // MTL
+                    MLTModsMapProfile.SedoniaRegolith,
+                    // Chili Creeper
+                    ChiliCreeperMapProfile.BalcorGlass,
+                    ChiliCreeperMapProfile.Crystal
+                },
                 OreToMine = MLTModsMapProfile.REGOLITH_SUBTYPEID,
                 MineRatio = COMMON_RATIO
             },
-            // Major Jon
             new VoxelOreReplace()
             {
-                TargetVoxels = new string[] {  MLTModsMapProfile.SedoniaRock, MajorJonMapProfile.MoonRock_grey2_kimi },
+                TargetVoxels = new string[]
+                {  
+                    // Major Jon
+                    MLTModsMapProfile.SedoniaRock, 
+                    MajorJonMapProfile.MoonRock_grey2_kimi,
+                    // Chili Creeper
+                    ChiliCreeperMapProfile.Balcor
+                },
                 OreToMine = OreConstants.FERROUSMOONSOIL_SUBTYPEID,
                 MineRatio = COMMON_RATIO
             },
             new VoxelOreReplace()
             {
-                TargetVoxels = new string[] { MajorJonMapProfile.MoonRock_black2_kimi, MajorJonMapProfile.MoonSoil_red2_qun },
+                TargetVoxels = new string[] 
+                { 
+                    // Major Jon
+                    MajorJonMapProfile.MoonRock_black2_kimi, 
+                    MajorJonMapProfile.MoonSoil_red2_qun,
+                    // Chili Creeper
+                    ChiliCreeperMapProfile.DamagedBalcor
+                },
                 OreToMine = OreConstants.FERROUSMOONSOIL_SUBTYPEID,
                 MineRatio = UNCOMMON_RATIO
             },
             new VoxelOreReplace()
             {
-                TargetVoxels = new string[] { MajorJonMapProfile.MoonRock_green2_kimi },
+                TargetVoxels = new string[] 
+                { 
+                    // Major Jon
+                    MajorJonMapProfile.MoonRock_green2_kimi,
+                    // Chili Creeper
+                    ChiliCreeperMapProfile.Veil
+                },
                 OreToMine = OreConstants.CHROMEMOONSOIL_SUBTYPEID,
                 MineRatio = UNCOMMON_RATIO
             },
