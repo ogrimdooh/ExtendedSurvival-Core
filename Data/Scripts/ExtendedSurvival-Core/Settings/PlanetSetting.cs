@@ -291,7 +291,10 @@ namespace ExtendedSurvival.Core
 
         [XmlElement]
         public int OreGroupType { get; set; } = 0;
-        
+
+        [XmlElement]
+        public bool KeepOriginOreMap { get; set; } = false;
+
         [XmlElement]
         public DocumentedVector2 ColorInfluence { get; set; } = new DocumentedVector2(0, 0, INFLUENCERANGE_INFO);
 

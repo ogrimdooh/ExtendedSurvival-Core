@@ -1477,6 +1477,15 @@ namespace ExtendedSurvival.Core
                             return true;
                         }
                         break;
+                    case "keeporiginoremap":
+                        bool keeporiginoremap;
+                        if (bool.TryParse(value, out keeporiginoremap))
+                        {
+                            info.KeepOriginOreMap = keeporiginoremap;
+                            Modified = true;
+                            return true;
+                        }
+                        break;
                     case "type":
                         int type;
                         if (int.TryParse(value, out type))

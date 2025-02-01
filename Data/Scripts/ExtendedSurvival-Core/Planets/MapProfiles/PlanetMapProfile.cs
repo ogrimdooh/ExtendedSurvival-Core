@@ -1679,6 +1679,11 @@ namespace ExtendedSurvival.Core
                 AlmiranteOrlocProfile.DEFAULT_OBJECT85,
                 AlmiranteOrlocProfile.OBJECT85
             },
+            // Baciulis
+            {
+                BaciulisProfile.DEFAULT_ENDOR,
+                BaciulisProfile.ENDOR
+            },
             // Chili Creeper
             {
                 ChiliCreeperMapProfile.DEFAULT_TAKAMA,

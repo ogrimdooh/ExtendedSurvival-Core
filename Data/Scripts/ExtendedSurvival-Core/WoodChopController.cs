@@ -55,7 +55,7 @@ namespace ExtendedSurvival.Core
             if (entityName.StartsWith("MyDebrisTr"))
             {
 
-                string treemodel = (obj as IMyEntity).Model.AssetName;
+                string treemodel = (obj as IMyEntity).Model.AssetName.Replace(".mwm", "").Replace("_broken", "");
 
                 var lootAmmount = new Dictionary<int, double>();
 
@@ -86,7 +86,7 @@ namespace ExtendedSurvival.Core
                             lootAmmount[i] = 0;
                     }
                 }
-                if (treemodel.Contains("Dead") || treemodel.Contains("Burned"))
+                if (treemodel.Contains("Dead"))
                 {
                     woodamount *= 0.5;
                     leafamount *= 0;
@@ -128,6 +128,30 @@ namespace ExtendedSurvival.Core
                         else
                             lootAmmount[i] = 0;
                     }
+                }
+                // Planet Multiplier
+                if (treemodel.Contains(BaciulisProfile.ENDOR_MODID.ToString()))
+                {
+                    woodamount *= 2.5;
+                    leafamount *= 2.5;
+                    twigamount *= 2.5;
+                    branchamount *= 2.5;
+                }
+                // Size Multiplier
+                if (treemodel.EndsWith("XXL"))
+                {
+                    woodamount *= 2.5;
+                    leafamount *= 2.5;
+                    twigamount *= 2.5;
+                    branchamount *= 2.5;
+                }
+                else
+                if (treemodel.EndsWith("XL"))
+                {
+                    woodamount *= 1.25;
+                    leafamount *= 1.25;
+                    twigamount *= 1.25;
+                    branchamount *= 1.25;
                 }
 
                 MyFixedPoint amount = (MyFixedPoint)(woodamount / 5.0);

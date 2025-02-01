@@ -3,6 +3,7 @@ using Sandbox.Game.WorldEnvironment.Definitions;
 using Sandbox.Game.WorldEnvironment.ObjectBuilders;
 using Sandbox.ModAPI;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -236,6 +237,8 @@ namespace ExtendedSurvival.Core
 
         public const ulong ZLIFTEDWHEELSUSPENSION_MOD_ID = 2727185097;
 
+        public static ConcurrentDictionary<string, MyPlanetOreMapping[]> ORIGIN_OREMAP_CACHE = new ConcurrentDictionary<string, MyPlanetOreMapping[]>();
+
         public static void SetDefinitions()
         {
             // Override Planets
@@ -250,7 +253,11 @@ namespace ExtendedSurvival.Core
                     {
                         if (info.RespawnEnabled)
                             respawnPlanets.Add(definition.Id.SubtypeName);
-                        definition.OreMappings = info.GetOreMap();
+                        ORIGIN_OREMAP_CACHE[definition.Id.SubtypeName] = definition.OreMappings.ToArray();
+                        if (!info.KeepOriginOreMap)
+                        {
+                            definition.OreMappings = info.GetOreMap();
+                        }
                         definition.AnimalSpawnInfo = new MyPlanetAnimalSpawnInfo();
                         definition.NightAnimalSpawnInfo = new MyPlanetAnimalSpawnInfo();
                         definition.DefaultSurfaceTemperature = (MyTemperatureLevel)info.Atmosphere.TemperatureLevel;

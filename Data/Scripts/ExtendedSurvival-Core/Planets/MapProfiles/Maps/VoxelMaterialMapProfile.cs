@@ -177,6 +177,8 @@ namespace ExtendedSurvival.Core
             MajorJonMapProfile.Mold_01,
             MajorJonMapProfile.Mold_11,
             MajorJonMapProfile.Mold_11_alt,
+            // Baciulis
+            BaciulisProfile.Woods_grass_endor,
             // Elindis
             ElindisMapProfile.SaprimentasWetFlowers,
             ElindisMapProfile.SaprimentasDryFlowers
