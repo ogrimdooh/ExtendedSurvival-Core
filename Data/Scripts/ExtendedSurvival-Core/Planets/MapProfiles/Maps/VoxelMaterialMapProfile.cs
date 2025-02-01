@@ -157,6 +157,26 @@ namespace ExtendedSurvival.Core
             MajorJonMapProfile.OrlundaRedSoil_2,
             MajorJonMapProfile.OrlundaRedSoil_3,
             MajorJonMapProfile.Woods_grass_long,
+            MajorJonMapProfile.Grass_var,
+            MajorJonMapProfile.Green_02,
+            MajorJonMapProfile.Green_02_var,
+            MajorJonMapProfile.Green_02_bare,
+            MajorJonMapProfile.Green_04,
+            MajorJonMapProfile.Green_05,
+            MajorJonMapProfile.Green_06,
+            MajorJonMapProfile.Green_07,
+            MajorJonMapProfile.MossCarpet0 ,
+            MajorJonMapProfile.MossCarpet2,
+            MajorJonMapProfile.MossCarpet3,
+            MajorJonMapProfile.Fungi_01 ,
+            MajorJonMapProfile.Fungi_01_alt,
+            MajorJonMapProfile.Fungi_02,
+            MajorJonMapProfile.Fungi_11,
+            MajorJonMapProfile.Fungi_16,
+            MajorJonMapProfile.Fungi_17,
+            MajorJonMapProfile.Mold_01,
+            MajorJonMapProfile.Mold_11,
+            MajorJonMapProfile.Mold_11_alt,
             // Elindis
             ElindisMapProfile.SaprimentasWetFlowers,
             ElindisMapProfile.SaprimentasDryFlowers
@@ -187,7 +207,9 @@ namespace ExtendedSurvival.Core
             SamMapProfile.Helios_Lava,
             // Chili Creeper
             ChiliCreeperMapProfile.Magma,
-            ChiliCreeperMapProfile.BrokenBalcor
+            ChiliCreeperMapProfile.BrokenBalcor,
+            // Major Jon
+            MajorJonMapProfile.VolcanoRock
         };
 
         public static readonly string[] DesertSoilVoxels = new string[] 
@@ -225,6 +247,14 @@ namespace ExtendedSurvival.Core
             MajorJonMapProfile.Desert_01_red_Satreus,
             MajorJonMapProfile.Ground_red_Satreus,
             MajorJonMapProfile.OrlundaBeach,
+            MajorJonMapProfile.Desert_Rocks_01,
+            MajorJonMapProfile.Desert_Rocks_02,
+            MajorJonMapProfile.Desert_Soil_01,
+            MajorJonMapProfile.Desert_Soil_03,
+            MajorJonMapProfile.Desert_Dunes_01,
+            MajorJonMapProfile.Desert_Dunes_02,
+            MajorJonMapProfile.Salt_Flats_01,
+            MajorJonMapProfile.Salt_Flats_03,
             // Shard
             ShardMapProfile.SafinaSand,
             ShardMapProfile.SafinaRedSand,
@@ -293,6 +323,7 @@ namespace ExtendedSurvival.Core
             // Shard
             ShardMapProfile.SafinaWater,
             // Major John
+            MajorJonMapProfile.Underground_Ice,
             MajorJonMapProfile.TealSea,
             MajorJonMapProfile.TealIce,
             MajorJonMapProfile.TealRiver,
@@ -332,7 +363,11 @@ namespace ExtendedSurvival.Core
             GHOSTXVMapProfile.GhostSnow,
             // Major John
             MajorJonMapProfile.TohilSnow01,
-            MajorJonMapProfile.TohilSnow02
+            MajorJonMapProfile.TohilSnow02,
+            MajorJonMapProfile.AcidLake_01,
+            MajorJonMapProfile.AcidLake_02,
+            MajorJonMapProfile.AcidLake_03,
+            MajorJonMapProfile.AcidLake_04
         };
 
         public static readonly string[] SpaceNeeded = new string[] 

@@ -65,6 +65,16 @@ namespace ExtendedSurvival.Core
                     ExtendedSurvivalCoreLogging.Instance.LogError(typeof(VoxelMaterialsOverride), ex);
                 }
             }
+            var maxIdUsed = definitions.Max(x => x.Index);
+            if (maxIdUsed >= 128)
+            {
+                ExtendedSurvivalCoreLogging.Instance.LogWarning(typeof(VoxelMaterialsOverride), $"Voxels over the limit of 128, some materials will not render.");
+                var overLimitVoxels = definitions.ToList().Where(x => x.Index >= 128).OrderBy(x => x.Index).ToList();
+                foreach (var item in overLimitVoxels)
+                {
+                    ExtendedSurvivalCoreLogging.Instance.LogWarning(typeof(VoxelMaterialsOverride), $"Voxel Id={item.Index} Name={item.Id.SubtypeName} from modId={item.Context.ModId} modName={item.Context.ModName} will not render!");
+                }
+            }
             var asteroidVoxels = VoxelMap.Where(x => x.Value.IsRare && x.Value.SpawnsInAsteroids).Select(x => x.Key).ToArray();
             var tempVoxels = new List<KeyValuePair<string, float>>();
             foreach (var voxel in asteroidVoxels)

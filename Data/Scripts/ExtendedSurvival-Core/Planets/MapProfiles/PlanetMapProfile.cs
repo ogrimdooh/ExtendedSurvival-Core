@@ -1657,6 +1657,10 @@ namespace ExtendedSurvival.Core
                 MajorJonMapProfile.DEFAULT_ORLUNDA,
                 MajorJonMapProfile.ORLUNDA
             },
+            {
+                MajorJonMapProfile.DEFAULT_KOMOREBI,
+                MajorJonMapProfile.KOMOREBI
+            },
             // Shard
             {
                 ShardMapProfile.DEFAULT_SAFINA,
